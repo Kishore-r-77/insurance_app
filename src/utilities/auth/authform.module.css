@@ -1,0 +1,42 @@
+.background {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #faaca8;
+  background-image: linear-gradient(19deg, #faaca8 0%, #ddd6f3 100%);
+  animation: fade-in 0.5s forwards ease-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
+  width: 60vh;
+  height: 50vh;
+  margin: 0px auto;
+  padding: 1rem;
+  text-align: center;
+  transform: translateY(-40%);
+  animation: falling 1.5s forwards;
+}
+
+@keyframes falling {
+  0% {
+    transform: translateY(-2000%);
+  }
+  50% {
+    transform: translateY(30%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-40%);
+    opacity: 1;
+  }
+}

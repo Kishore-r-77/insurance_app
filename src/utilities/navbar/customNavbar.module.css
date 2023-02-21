@@ -1,0 +1,74 @@
+@font-face {
+  font-family: Great Vibe Regular;
+  src: url("../../fonts/Great_Vibes/GreatVibes-Regular.ttf");
+}
+
+@font-face {
+  font-family: Poppins Regular;
+  src: url("../../fonts/Poppins/Poppins-Regular.ttf");
+}
+
+.nav-header {
+  min-height: 10vh;
+  background-color: rgba(71, 11, 75, 1);
+  color: white;
+  font-size: 2rem;
+  font-family: Poppins Regular;
+  box-shadow: 0px 10px 10px rgb(0, 0, 0, 0.5);
+  position: sticky;
+  inset: 0 auto auto auto;
+  width: 100%;
+  z-index: 1;
+  animation: nav-animation 1s ease-out;
+}
+
+@keyframes nav-animation {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.nav-list {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  /* padding: 1rem 0rem; */
+  align-items: center;
+}
+
+#logo {
+  flex: 2 1 10rem;
+  font-family: Great Vibe Regular;
+  letter-spacing: 1rem;
+  font-weight: bolder;
+}
+
+.nav-list ul {
+  flex: 1 1 20rem;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+}
+
+nav ul li {
+  position: relative;
+}
+nav ul li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transform: scale(0);
+  transition: all 0.5s;
+}
+nav ul li:hover::after {
+  color: white;
+  transform: scale(1);
+}
