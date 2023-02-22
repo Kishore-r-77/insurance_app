@@ -1,74 +1,78 @@
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { AiTwotoneFileExclamation } from "react-icons/ai";
-import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import SidebarMenu from "./SidebarMenu";
 const routes = [
   {
     path: "/home",
     name: "Dashboard",
-    icon: <FaHome />,
+    icon: <HomeIcon />,
   },
 
   {
     path: "#",
     name: "Admin",
-    icon: <AiTwotoneFileExclamation />,
+    icon: <AdminPanelSettingsIcon />,
     subRoutes: [
       {
         path: "/usergroup",
         name: "User Group ",
-        icon: <FaUser />,
+        icon: <ArrowRightAltIcon />,
       },
       {
         path: "/permission",
         name: "Permissions",
-        icon: <FaLock />,
+        icon: <ArrowRightAltIcon />,
       },
       {
         path: "/users",
         name: "Users",
-        icon: <FaMoneyBill />,
+        icon: <ArrowRightAltIcon />,
       },
       {
         path: "/errors",
         name: "Errors",
-        icon: <FaMoneyBill />,
+        icon: <ArrowRightAltIcon />,
       },
       {
         path: "/companies",
         name: "Companies",
-        icon: <FaMoneyBill />,
+        icon: <ArrowRightAltIcon />,
       },
       {
         path: "/address",
         name: "Address",
-        icon: <FaMoneyBill />,
+        icon: <ArrowRightAltIcon />,
       },
     ],
   },
   {
     path: "#",
     name: "Clients",
-    icon: <AiTwotoneFileExclamation />,
+    icon: <PeopleAltIcon />,
     subRoutes: [
       {
         path: "/client",
         name: "Client",
-        icon: <FaMoneyBill />,
+        icon: <ArrowRightAltIcon />,
       },
     ],
   },
   {
     path: "#",
     name: "Bank",
-    icon: <AiTwotoneFileExclamation />,
+    icon: <AccountBalanceIcon />,
     subRoutes: [
       {
         path: "/bank",
         name: "Bank",
-        icon: <FaMoneyBill />,
+        icon: <ArrowRightAltIcon />,
       },
     ],
   },
@@ -116,7 +120,7 @@ const SideBar = ({ children }: any) => {
       <div className="main-container">
         <motion.div
           animate={{
-            width: isOpen ? "200px" : "45px",
+            width: isOpen ? "300px" : "45px",
 
             transition: {
               duration: 0.5,

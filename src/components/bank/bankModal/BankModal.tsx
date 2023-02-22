@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { FormControl, InputAdornment, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -185,48 +185,54 @@ function BankModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly={state.infoOpen}
-                      label="Start Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={state.addOpen ? state.StartDate : record.StartDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date.$d,
-                          fieldName: "StartDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Start Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen ? state.StartDate : record.StartDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date.$d,
+                            fieldName: "StartDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly={state.infoOpen}
-                      label="End Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={state.addOpen ? state.EndDate : record.EndDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date.$d,
-                          fieldName: "EndDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="End Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.addOpen ? state.EndDate : record.EndDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date.$d,
+                            fieldName: "EndDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
