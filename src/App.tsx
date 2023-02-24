@@ -12,8 +12,8 @@ import Companies from "./components/admin/companies/Companies";
 import Client from "./components/client/Client";
 import Address from "./components/admin/address/Address";
 import Bank from "./components/bank/Bank";
-import Params from "./components/admin/param/params/Params";
 import Hompage from "./components/homepage/Hompage";
+import Params from "./components/admin/params/Params";
 
 function App() {
   return (

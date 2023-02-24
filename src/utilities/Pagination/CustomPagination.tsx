@@ -9,6 +9,7 @@ function CustomPagination({
   totalPages,
   totalRecords,
   isLast,
+  pageSize,
   setpageSize,
   prevPage,
   nexPage,
@@ -25,6 +26,7 @@ function CustomPagination({
           name="pageSize"
           className={styles["form-select"]}
           onChange={(e: any) => setpageSize(parseInt(e.target.value))}
+          value={pageSize}
         >
           <option value="5">5</option>
           <option value="10">10</option>

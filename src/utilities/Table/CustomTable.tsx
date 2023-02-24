@@ -14,13 +14,15 @@ function CustomTable({
   columns,
   dispatch,
   ACTIONS,
+  sortParam,
   hardDelete,
   modalFunc,
 }: any) {
-  const [sort, setsort] = useState({
-    fieldIndex: 0,
-    order: "asc",
-  });
+  const [sort, setsort] = useState(
+    sortParam && sortParam.fieldName
+      ? sortParam
+      : { fieldName: columns[0].dbField, order: "asc" }
+  );
 
   return (
     <Paper className={styles.paperStyle}>
@@ -44,7 +46,7 @@ function CustomTable({
                       <IconButton
                         onClick={() => {
                           setsort({
-                            fieldIndex: index,
+                            fieldName: column.dbField,
                             order: "asc",
                           });
 
@@ -56,7 +58,8 @@ function CustomTable({
                       >
                         <ArrowUpwardIcon
                           className={
-                            sort.fieldIndex === index && sort.order === "asc"
+                            sort.fieldName === column.dbField &&
+                            sort.order === "asc"
                               ? styles.icon
                               : styles["icon-disabled"]
                           }
@@ -65,7 +68,7 @@ function CustomTable({
                       <IconButton
                         onClick={() => {
                           setsort({
-                            fieldIndex: index,
+                            fieldName: column.dbField,
                             order: "desc",
                           });
 
@@ -77,7 +80,8 @@ function CustomTable({
                       >
                         <ArrowDownwardIcon
                           className={
-                            sort.fieldIndex === index && sort.order === "desc"
+                            sort.fieldName === column.dbField &&
+                            sort.order === "desc"
                               ? styles.icon
                               : styles["icon-disabled"]
                           }
