@@ -13,6 +13,7 @@ import Client from "./components/client/Client";
 import Address from "./components/admin/address/Address";
 import Bank from "./components/bank/Bank";
 import Params from "./components/admin/param/params/Params";
+import Hompage from "./components/homepage/Hompage";
 
 function App() {
   return (
@@ -23,17 +24,7 @@ function App() {
       <Routes>
         <Route element={<CustomNavbar />}>
           <Route element={<SideBar />}>
-            <Route
-              path="/home"
-              element={
-                <>
-                  <h1>Welcome</h1>
-                  <button onClick={() => localStorage.clear()}>
-                    Clear Local Storage
-                  </button>
-                </>
-              }
-            />
+            <Route path="/home" element={<Hompage />} />
             <Route path="/usergroup" element={<UserGroup />} />
             <Route path="/permission" element={<Permission />} />
             <Route path="/users" element={<Users />} />

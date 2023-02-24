@@ -24,7 +24,7 @@ function ClientModal({
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {
@@ -77,6 +77,15 @@ function ClientModal({
                 value={companyData?.CompanyName}
                 placeholder="Company"
                 label="Company"
+                // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                //   dispatch({
+                //     type: state.addOpen
+                //       ? ACTIONS.ONCHANGE
+                //       : ACTIONS.EDITCHANGE,
+                //     payload: e.target.value,
+                //     fieldName: "CompanyID",
+                //   })
+                // }
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"

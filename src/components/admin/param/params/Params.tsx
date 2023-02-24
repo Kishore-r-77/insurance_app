@@ -120,10 +120,10 @@ function Params() {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Params"]);
+        setData(resp.data);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Params"]?.length === 0);
-        setfieldMap(resp.data["Field Map"]);
+        setisLast(resp.data?.length === 0);
+        // setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
   };

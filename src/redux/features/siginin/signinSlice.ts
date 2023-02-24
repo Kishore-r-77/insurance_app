@@ -38,6 +38,9 @@ const signinSlice = createSlice({
     onChangePassword: (state, action) => {
       state.password = action.payload;
     },
+    onChangeLogOut: (state) => {
+      state.isLogged = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserDetails.pending, (state) => {
@@ -64,4 +67,5 @@ const signinSlice = createSlice({
 });
 
 export default signinSlice.reducer;
-export const { onChangePhone, onChangePassword } = signinSlice.actions;
+export const { onChangePhone, onChangePassword, onChangeLogOut } =
+  signinSlice.actions;
