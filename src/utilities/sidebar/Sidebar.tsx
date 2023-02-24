@@ -50,11 +50,16 @@ const routes = [
         name: "Address",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/params",
+        name: "Params",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
     path: "#",
-    name: "Clients",
+    name: "Clients Details",
     icon: <PeopleAltIcon />,
     subRoutes: [
       {
@@ -62,13 +67,6 @@ const routes = [
         name: "Client",
         icon: <ArrowRightAltIcon />,
       },
-    ],
-  },
-  {
-    path: "#",
-    name: "Bank",
-    icon: <AccountBalanceIcon />,
-    subRoutes: [
       {
         path: "/bank",
         name: "Bank",

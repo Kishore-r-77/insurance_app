@@ -1,15 +1,12 @@
 import { TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import styles from "./paramssModal.module.css";
+import styles from "./paramsModal.module.css";
 
-import CustomModal from "../../../../../utilities/modal/CustomModal";
-import { useAppSelector } from "../../../../../redux/app/hooks";
-import { getApi } from "../../../companies/companiesApis/companiesApis";
 import { ParamsModalType } from "../../../../../reducerUtilities/types/admin/parameterTypes";
+import { useAppSelector } from "../../../../../redux/app/hooks";
+import CustomModal from "../../../../../utilities/modal/CustomModal";
+import { getApi } from "../../../companies/companiesApis/companiesApis";
 
 function ParamsModal({
   state,
