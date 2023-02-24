@@ -8,6 +8,7 @@ import {
   initialValues,
 } from "../../../reducerUtilities/actions/admin/userGroupActions";
 import { UserGroupStateType } from "../../../reducerUtilities/types/admin/userGroupTypes";
+import { useAppSelector } from "../../../redux/app/hooks";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./usergroup.module.css";
@@ -127,9 +128,13 @@ function UserGroup({ modalFunc }: any) {
       .catch((err) => console.log(err.message));
   };
 
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.CompanyId
+  );
+
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state)
+    return addApi(state, companyId)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });

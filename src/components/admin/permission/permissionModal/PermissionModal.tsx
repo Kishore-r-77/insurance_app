@@ -49,7 +49,7 @@ function PermissionModal({
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {

@@ -20,11 +20,11 @@ export const getAllApi = (
   });
 };
 
-export const addApi = (state: UserGroupStateType) => {
+export const addApi = (state: UserGroupStateType, companyId: number) => {
   return axios.post(
     `http://localhost:3000/api/v1/basicservices/usergroupcreate`,
     {
-      CompanyID: parseInt(state.CompanyID),
+      CompanyID: companyId,
       GroupName: state.GroupName,
       ValidFrom: moment(state.ValidFrom).format("YYYYMMDD"),
       ValidTo: moment(state.ValidTo).format("YYYYMMDD"),

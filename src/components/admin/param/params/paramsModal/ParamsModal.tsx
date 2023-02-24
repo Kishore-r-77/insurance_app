@@ -4,23 +4,23 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import styles from "./errorsModal.module.css";
+import styles from "./paramssModal.module.css";
 
-import { ErrorsModalType } from "../../../../reducerUtilities/types/admin/errorsTypes";
-import CustomModal from "../../../../utilities/modal/CustomModal";
-import { useAppSelector } from "../../../../redux/app/hooks";
-import { getApi } from "../../companies/companiesApis/companiesApis";
+import CustomModal from "../../../../../utilities/modal/CustomModal";
+import { useAppSelector } from "../../../../../redux/app/hooks";
+import { getApi } from "../../../companies/companiesApis/companiesApis";
+import { ParamsModalType } from "../../../../../reducerUtilities/types/admin/parameterTypes";
 
-function ErrorsModal({
+function ParamsModal({
   state,
   record,
   dispatch,
   ACTIONS,
   handleFormSubmit,
-}: ErrorsModalType) {
-  const addTitle: string = "Errors Add";
-  const editTitle: string = "Errors Edit";
-  const infoTitle: string = "Errors Info";
+}: ParamsModalType) {
+  const addTitle: string = "Params Add";
+  const editTitle: string = "Params Edit";
+  const infoTitle: string = "Params Info";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -85,16 +85,16 @@ function ErrorsModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                id="LanguageID"
-                name="LanguageID"
-                value={state.addOpen ? state.LanguageID : record.LanguageID}
+                id="languageId"
+                name="languageId"
+                value={state.addOpen ? state.languageId : record.languageId}
                 placeholder="Language Id"
                 label="Language Id"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
                     payload: e.target.value,
-                    fieldName: "LanguageID",
+                    fieldName: "languageId",
                   })
                 }
                 fullWidth
@@ -105,16 +105,16 @@ function ErrorsModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                id="Tranno"
-                name="Tranno"
-                value={state.addOpen ? state.Tranno : record.Tranno}
-                placeholder="Tran No"
-                label="Tran No"
+                id="longdesc"
+                name="longdesc"
+                value={state.addOpen ? state.longdesc : record.longdesc}
+                placeholder="Long Desc"
+                label="Long Desc"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
                     payload: e.target.value,
-                    fieldName: "Tranno",
+                    fieldName: "longdesc",
                   })
                 }
                 fullWidth
@@ -124,16 +124,16 @@ function ErrorsModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                id="ShortCode"
-                name="ShortCode"
-                value={state.addOpen ? state.ShortCode : record.ShortCode}
-                placeholder="Short Code"
-                label="Short Code"
+                id="name"
+                name="name"
+                value={state.addOpen ? state.name : record.name}
+                placeholder="Name"
+                label="Name"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
                     payload: e.target.value,
-                    fieldName: "ShortCode",
+                    fieldName: "name",
                   })
                 }
                 fullWidth
@@ -143,16 +143,16 @@ function ErrorsModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                id="LongCode"
-                name="LongCode"
-                value={state.addOpen ? state.LongCode : record.LongCode}
-                placeholder="Long Code"
-                label="Long Code"
+                id="type"
+                name="type"
+                value={state.addOpen ? state.type : record.type}
+                placeholder="Type"
+                label="Type"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
                     payload: e.target.value,
-                    fieldName: "LongCode",
+                    fieldName: "type",
                   })
                 }
                 fullWidth
@@ -167,4 +167,4 @@ function ErrorsModal({
   );
 }
 
-export default ErrorsModal;
+export default ParamsModal;

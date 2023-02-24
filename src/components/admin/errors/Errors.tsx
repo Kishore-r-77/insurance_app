@@ -8,6 +8,7 @@ import {
   initialValues,
 } from "../../../reducerUtilities/actions/admin/errorsActions";
 import { ErrorsStateType } from "../../../reducerUtilities/types/admin/errorsTypes";
+import { useAppSelector } from "../../../redux/app/hooks";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./errors.module.css";
@@ -122,9 +123,13 @@ function Errors({ userORGroupFunc }: any) {
       .catch((err) => console.log(err.message));
   };
 
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.CompanyId
+  );
+
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state)
+    return addApi(state, companyId)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });

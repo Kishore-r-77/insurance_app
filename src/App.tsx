@@ -12,6 +12,7 @@ import Companies from "./components/admin/companies/Companies";
 import Client from "./components/client/Client";
 import Address from "./components/admin/address/Address";
 import Bank from "./components/bank/Bank";
+import Params from "./components/admin/param/params/Params";
 
 function App() {
   return (
@@ -41,6 +42,9 @@ function App() {
             <Route path="/client" element={<Client />} />
             <Route path="/address" element={<Address />} />
             <Route path="/bank" element={<Bank />} />
+            <Route path="/params" element={<Params />} />
+            {/* <Route path="/paramItems"  element={<ParamItems />} />
+            <Route path="/paramData"  element={<ParamData />} /> */}
           </Route>
         </Route>
       </Routes>

@@ -29,55 +29,62 @@ function CustomTable({
           <tr>
             {columns?.map(
               (
-                column: { field: string; header: string; dbField: string },
+                column: {
+                  field: string;
+                  header: string;
+                  dbField: string;
+                  sortable: boolean;
+                },
                 index: number
               ) => (
                 <th key={column.dbField}>
                   {column.header}
-                  <span>
-                    <IconButton
-                      onClick={() => {
-                        setsort({
-                          fieldIndex: index,
-                          order: "asc",
-                        });
+                  {column?.sortable && (
+                    <span>
+                      <IconButton
+                        onClick={() => {
+                          setsort({
+                            fieldIndex: index,
+                            order: "asc",
+                          });
 
-                        return dispatch({
-                          type: ACTIONS.SORT_ASC,
-                          payload: column.dbField,
-                        });
-                      }}
-                    >
-                      <ArrowUpwardIcon
-                        className={
-                          sort.fieldIndex === index && sort.order === "asc"
-                            ? styles.icon
-                            : styles["icon-disabled"]
-                        }
-                      />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => {
-                        setsort({
-                          fieldIndex: index,
-                          order: "desc",
-                        });
+                          return dispatch({
+                            type: ACTIONS.SORT_ASC,
+                            payload: column.dbField,
+                          });
+                        }}
+                      >
+                        <ArrowUpwardIcon
+                          className={
+                            sort.fieldIndex === index && sort.order === "asc"
+                              ? styles.icon
+                              : styles["icon-disabled"]
+                          }
+                        />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => {
+                          setsort({
+                            fieldIndex: index,
+                            order: "desc",
+                          });
 
-                        dispatch({
-                          type: ACTIONS.SORT_DESC,
-                          payload: column.dbField,
-                        });
-                      }}
-                    >
-                      <ArrowDownwardIcon
-                        className={
-                          sort.fieldIndex === index && sort.order === "desc"
-                            ? styles.icon
-                            : styles["icon-disabled"]
-                        }
-                      />
-                    </IconButton>
-                  </span>
+                          dispatch({
+                            type: ACTIONS.SORT_DESC,
+                            payload: column.dbField,
+                          });
+                        }}
+                      >
+                        <ArrowDownwardIcon
+                          className={
+                            sort.fieldIndex === index && sort.order === "desc"
+                              ? styles.icon
+                              : styles["icon-disabled"]
+                          }
+                        />
+                      </IconButton>
+                    </span>
+                  )}
                 </th>
               )
             )}

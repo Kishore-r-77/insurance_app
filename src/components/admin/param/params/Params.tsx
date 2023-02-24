@@ -1,27 +1,26 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
-import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import PermissionModal from "./permissionModal/PermissionModal";
-import styles from "./permission.module.css";
 import {
   ACTIONS,
-  initialValues,
   columns,
-} from "../../../reducerUtilities/actions/admin/permissionActions";
-import { useAppSelector } from "../../../redux/app/hooks";
-import { PermissionStateType } from "../../../reducerUtilities/types/admin/permissionTypes";
+  initialValues,
+} from "../../../../reducerUtilities/actions/admin/paramsActions";
+import styles from "./params.module.css";
 import {
   addApi,
   deleteApi,
   editApi,
   getAllApi,
-} from "./permissionApis/permissionApis";
+} from "../paramsApis/ParamsApis";
+import { ParamsStateType } from "../../../../reducerUtilities/types/admin/parameterTypes";
+import { useAppSelector } from "../../../../redux/app/hooks";
+import CustomTable from "../../../../utilities/Table/CustomTable";
+import CustomPagination from "../../../../utilities/Pagination/CustomPagination";
+import ParamsModal from "./paramsModal/ParamsModal";
 
-function Permission() {
+function Params() {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -29,7 +28,7 @@ function Permission() {
   const [record, setRecord] = useState<any>({});
 
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: PermissionStateType, action: any) => {
+  const reducer = (state: ParamsStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -37,11 +36,12 @@ function Permission() {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
+        console.log(action.fieldName, "fieldName");
+        console.log(action.payload, "payload");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,
         }));
-
         return {
           ...state,
           editOpen: true,
@@ -101,26 +101,6 @@ function Permission() {
           sortDesc: desc,
           sortColumn: action.payload,
         };
-      case ACTIONS.USEROPEN:
-        return {
-          ...state,
-          userOpen: true,
-        };
-      case ACTIONS.USERCLOSE:
-        return {
-          ...state,
-          userOpen: false,
-        };
-      case ACTIONS.USERGROUPOPEN:
-        return {
-          ...state,
-          userGroupOpen: true,
-        };
-      case ACTIONS.USERGROUPCLOSE:
-        return {
-          ...state,
-          userGroupOpen: false,
-        };
       default:
         return initialValues;
     }
@@ -137,127 +117,41 @@ function Permission() {
 
   //Get all Api
   const getData = () => {
-    getAllApi(pageNum, pageSize, state)
+    return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Permissions"]);
+        setData(resp.data["All Params"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Permissions"].length === 0);
+        setisLast(resp.data["All Params"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
   };
 
   const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
+    (state) => state.users.user.message.CompanyId
   );
-
-  const userBody = {
-    CompanyID: companyId,
-    ModelName: state.ModelName,
-    Method: state.Method,
-    TransCode: state.TransCode,
-    UserID: {
-      Int64: state.UserID,
-      Valid: true,
-    },
-    UserGroupID: {
-      Int64: 0,
-      Valid: false,
-    },
-  };
-
-  const userGroupBody = {
-    CompanyID: companyId,
-    ModelName: state.ModelName,
-    Method: state.Method,
-    TransCode: state.TransCode,
-    UserID: {
-      Int64: 0,
-      Valid: false,
-    },
-    UserGroupID: {
-      Int64: state.UserGroupID,
-      Valid: true,
-    },
-    // Users: null,
-    // Permissions: null,
-  };
-
-  const userBodyEdit = {
-    ID: record.ID,
-    CompanyID: companyId,
-    ModelName: record.ModelName,
-    Method: record.Method,
-    TransCode: record.TransCode,
-    UserID: {
-      Int64: record.UserID?.Int64,
-      Valid: true,
-    },
-    UserGroupID: {
-      Int64: 0,
-      Valid: false,
-    },
-  };
-
-  const userGroupBodyEdit = {
-    ID: record.ID,
-    CompanyID: companyId,
-    ModelName: record.ModelName,
-    Method: record.Method,
-    TransCode: record.TransCode,
-    UserID: {
-      Int64: 0,
-      Valid: false,
-    },
-    UserGroupID: {
-      Int64: record.UserGroupID?.Int64,
-      Valid: true,
-    },
-    // Users: null,
-    // Permissions: null,
-  };
 
   //Add Api
   const handleFormSubmit = () => {
-    if (state.userOrGroup === "user") {
-      addApi(userBody)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.ADDCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    } else if (state.userOrGroup === "userGroup") {
-      addApi(userGroupBody)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.ADDCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    }
+    return addApi(state, companyId)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        getData();
+      })
+      .catch((err) => console.log(err.message));
   };
 
   //Edit Api
   const editFormSubmit = async () => {
-    if (state.userOrGroup === "user") {
-      editApi(userBodyEdit)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.EDITCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    } else if (state.userOrGroup === "userGroup") {
-      editApi(userGroupBodyEdit)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.EDITCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    }
+    editApi(record)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.EDITCLOSE });
+        getData();
+      })
+      .catch((err) => console.log(err.message));
   };
 
   //Hard Delete Api
@@ -347,7 +241,7 @@ function Permission() {
           </Button>
         </span>
 
-        <h1>Permissions</h1>
+        <h1>Params</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -381,7 +275,7 @@ function Permission() {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <PermissionModal
+      <ParamsModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -392,4 +286,4 @@ function Permission() {
   );
 }
 
-export default Permission;
+export default Params;

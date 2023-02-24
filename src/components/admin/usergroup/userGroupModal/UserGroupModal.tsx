@@ -3,11 +3,13 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./userGroupModal.module.css";
 
 import { UserGroupModalType } from "../../../../reducerUtilities/types/admin/userGroupTypes";
 import CustomModal from "../../../../utilities/modal/CustomModal";
+import { useAppSelector } from "../../../../redux/app/hooks";
+import { getApi } from "../../companies/companiesApis/companiesApis";
 
 function UserGroupModal({
   state,
@@ -19,6 +21,22 @@ function UserGroupModal({
   const addTitle: string = "User Group Add";
   const editTitle: string = "User Group Edit";
   const infoTitle: string = "User Group Info";
+
+  const [companyData, setCompanyData] = useState<any>({});
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+  const getCompanyData = (id: number) => {
+    getApi(id).then((resp) => {
+      setCompanyData(resp.data["Company"]);
+    });
+  };
+
+  useEffect(() => {
+    getCompanyData(companyId);
+
+    return () => {};
+  }, []);
 
   return (
     <div className={styles.modal}>
@@ -53,19 +71,12 @@ function UserGroupModal({
           <Grid2 container spacing={2}>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                type="number"
+                disabled
                 id="CompanyID"
                 name="CompanyID"
-                value={state.addOpen ? state.CompanyID : record.CompanyID}
+                value={companyData?.CompanyName}
                 placeholder="Company"
                 label="Company"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "CompanyID",
-                  })
-                }
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"

@@ -6,7 +6,7 @@ import styles from "./customNavbar.module.css";
 
 function CustomNavbar() {
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   const [companyData, setCompanyData] = useState<any>({});
   const getCompanyData = (id: number) => {

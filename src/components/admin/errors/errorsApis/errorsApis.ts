@@ -20,11 +20,11 @@ export const getAllApi = (
   });
 };
 
-export const addApi = (state: ErrorsStateType) => {
+export const addApi = (state: ErrorsStateType, companyId: number) => {
   return axios.post(
     `http://localhost:3000/api/v1/basicservices/errorcreate`,
     {
-      CompanyID: parseInt(state.CompanyID),
+      CompanyID: companyId,
       LanguageID: parseInt(state.LanguageID),
       Tranno: parseInt(state.Tranno),
       ShortCode: state.ShortCode,
