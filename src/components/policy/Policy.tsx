@@ -2,18 +2,18 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
-import styles from "./policy.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./policyApis/policyApis";
-import PolicyModal from "./policyModal/PolicyModal";
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/policy/policyActions";
+import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import styles from "./policy.module.css";
+import { addApi, deleteApi, editApi, getAllApi } from "./policyApis/policyApis";
+import PolicyModal from "./policyModal/PolicyModal";
 
 function Policy({ modalFunc }: any) {
   //data from getall api
@@ -277,6 +277,7 @@ function Policy({ modalFunc }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
+
       <PolicyModal
         state={state}
         record={record}

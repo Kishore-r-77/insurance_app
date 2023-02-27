@@ -1,25 +1,24 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
-import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import PermissionModal from "./permissionModal/PermissionModal";
-import styles from "./permission.module.css";
 import {
   ACTIONS,
-  initialValues,
   columns,
+  initialValues,
 } from "../../../reducerUtilities/actions/admin/permissionActions";
-import { useAppSelector } from "../../../redux/app/hooks";
 import { PermissionStateType } from "../../../reducerUtilities/types/admin/permissionTypes";
+import { useAppSelector } from "../../../redux/app/hooks";
+import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../../utilities/Table/CustomTable";
+import styles from "./permission.module.css";
 import {
   addApi,
   deleteApi,
   editApi,
   getAllApi,
 } from "./permissionApis/permissionApis";
+import PermissionModal from "./permissionModal/PermissionModal";
 
 function Permission() {
   //data from getall api

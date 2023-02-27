@@ -31,12 +31,6 @@ body {
   top: 0;
   z-index: 1;
 }
-/* main {
-  position: absolute;
-  min-width: 100vw;
-  top: 0;
-  z-index: -1;
-} */
 
 .title {
   font-size: 3rem;

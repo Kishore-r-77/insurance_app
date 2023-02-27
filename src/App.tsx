@@ -15,6 +15,7 @@ import Bank from "./components/bank/Bank";
 import Hompage from "./components/homepage/Hompage";
 import Params from "./components/admin/params/Params";
 import Policy from "./components/policy/Policy";
+import Footer from "./utilities/footer/Footer";
 
 function App() {
   return (
@@ -25,25 +26,24 @@ function App() {
       <Routes>
         <Route element={<CustomNavbar />}>
           <Route element={<SideBar />}>
-            <Route path="/home" element={<Hompage />} />
-            <Route path="/usergroup" element={<UserGroup />} />
-            <Route path="/permission" element={<Permission />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/errors" element={<Errors />} />
-            <Route path="/companies" element={<Companies />} />
-            <Route path="/client" element={<Client />} />
-            <Route path="/address" element={<Address />} />
-            <Route path="/bank" element={<Bank />} />
-            <Route path="/params" element={<Params />} />
-            <Route path="/policy" element={<Policy />} />
-            {/* <Route path="/paramItems"  element={<ParamItems />} />
+            <Route element={<Footer />}>
+              <Route path="/home" element={<Hompage />} />
+              <Route path="/usergroup" element={<UserGroup />} />
+              <Route path="/permission" element={<Permission />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/errors" element={<Errors />} />
+              <Route path="/companies" element={<Companies />} />
+              <Route path="/client" element={<Client />} />
+              <Route path="/address" element={<Address />} />
+              <Route path="/bank" element={<Bank />} />
+              <Route path="/params" element={<Params />} />
+              <Route path="/policy" element={<Policy />} />
+              {/* <Route path="/paramItems"  element={<ParamItems />} />
             <Route path="/paramData"  element={<ParamData />} /> */}
+            </Route>
           </Route>
         </Route>
       </Routes>
-      {/* <footer className="footer">
-        FuturaInstech @{moment().format("YYYY")}
-      </footer> */}
     </div>
   );
 }
