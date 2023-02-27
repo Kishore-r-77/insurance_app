@@ -16,9 +16,9 @@ function CompaniesModal({
   ACTIONS,
   handleFormSubmit,
 }: CompaniesModalType) {
-  const addTitle: string = "User Group Add";
-  const editTitle: string = "User Group Edit";
-  const infoTitle: string = "User Group Info";
+  const addTitle: string = "Company Add";
+  const editTitle: string = "Company Edit";
+  const infoTitle: string = "Company Info";
 
   return (
     <div className={styles.modal}>

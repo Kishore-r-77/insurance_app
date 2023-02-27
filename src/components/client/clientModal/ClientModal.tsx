@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { FormControl, InputAdornment, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -18,9 +18,9 @@ function ClientModal({
   ACTIONS,
   handleFormSubmit,
 }: ClientModalType) {
-  const addTitle: string = "User Group Add";
-  const editTitle: string = "User Group Edit";
-  const infoTitle: string = "User Group Info";
+  const addTitle: string = "Client Add";
+  const editTitle: string = "Client Edit";
+  const infoTitle: string = "Client Info";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -276,45 +276,53 @@ function ClientModal({
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  readOnly={state.infoOpen}
-                  label="Client Dob"
-                  inputFormat="DD/MM/YYYY"
-                  value={state.addOpen ? state.ClientDob : record.ClientDob}
-                  onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    dispatch({
-                      type: state.addOpen
-                        ? ACTIONS.ONCHANGE
-                        : ACTIONS.EDITCHANGE,
-                      payload: date.$d,
-                      fieldName: "ClientDob",
-                    })
-                  }
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
+              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    readOnly={state.infoOpen}
+                    label="Client Dob"
+                    inputFormat="DD/MM/YYYY"
+                    value={state.addOpen ? state.ClientDob : record.ClientDob}
+                    onChange={(
+                      date: React.ChangeEvent<HTMLInputElement> | any
+                    ) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: date.$d,
+                        fieldName: "ClientDob",
+                      })
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </FormControl>
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  readOnly={state.infoOpen}
-                  label="Client Dod"
-                  inputFormat="DD/MM/YYYY"
-                  value={state.addOpen ? state.ClientDod : record.ClientDod}
-                  onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    dispatch({
-                      type: state.addOpen
-                        ? ACTIONS.ONCHANGE
-                        : ACTIONS.EDITCHANGE,
-                      payload: date.$d,
-                      fieldName: "ClientDod",
-                    })
-                  }
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
+              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    readOnly={state.infoOpen}
+                    label="Client Dod"
+                    inputFormat="DD/MM/YYYY"
+                    value={state.addOpen ? state.ClientDod : record.ClientDod}
+                    onChange={(
+                      date: React.ChangeEvent<HTMLInputElement> | any
+                    ) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: date.$d,
+                        fieldName: "ClientDod",
+                      })
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </FormControl>
             </Grid2>
           </Grid2>
         </form>

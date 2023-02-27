@@ -14,6 +14,7 @@ import Address from "./components/admin/address/Address";
 import Bank from "./components/bank/Bank";
 import Hompage from "./components/homepage/Hompage";
 import Params from "./components/admin/params/Params";
+import Policy from "./components/policy/Policy";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/address" element={<Address />} />
             <Route path="/bank" element={<Bank />} />
             <Route path="/params" element={<Params />} />
+            <Route path="/policy" element={<Policy />} />
             {/* <Route path="/paramItems"  element={<ParamItems />} />
             <Route path="/paramData"  element={<ParamData />} /> */}
           </Route>

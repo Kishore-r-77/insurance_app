@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { FormControl, InputAdornment, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -306,56 +306,60 @@ function AddressModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly={state.infoOpen}
-                      label="Address Start Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={
-                        state.addOpen
-                          ? state.AddressStartDate
-                          : record.AddressStartDate
-                      }
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date.$d,
-                          fieldName: "AddressStartDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Address Start Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen
+                            ? state.AddressStartDate
+                            : record.AddressStartDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date.$d,
+                            fieldName: "AddressStartDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly={state.infoOpen}
-                      label="Address End Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={
-                        state.addOpen
-                          ? state.AddressEndDate
-                          : record.AddressEndDate
-                      }
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date.$d,
-                          fieldName: "AddressEndDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Address End Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen
+                            ? state.AddressEndDate
+                            : record.AddressEndDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date.$d,
+                            fieldName: "AddressEndDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField

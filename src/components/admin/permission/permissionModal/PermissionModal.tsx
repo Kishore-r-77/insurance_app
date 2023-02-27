@@ -40,11 +40,22 @@ function PermissionModal({
   };
 
   const [userOrGroup, setUserOrGroup] = useState(
-    record.UserID?.Valid === "true"
-      ? "user"
-      : record.UserGroupID?.Valid === "true"
-      ? "userGroup"
-      : ""
+    record.UserID?.Valid ? "user" : record.UserGroupID?.Valid ? "userGroup" : ""
+  );
+
+  useEffect(() => {
+    setUserOrGroup(
+      record.UserID?.Valid
+        ? "user"
+        : record.UserGroupID?.Valid
+        ? "userGroup"
+        : ""
+    );
+    return () => {};
+  }, [state.editOpen, state.infoOpen]);
+
+  console.log(
+    record.UserID?.Valid ? "user" : record.UserGroupID?.Valid ? "userGroup" : ""
   );
 
   const [companyData, setCompanyData] = useState<any>({});
@@ -192,30 +203,32 @@ function PermissionModal({
                   margin="dense"
                 />
               </Grid2>
-              <Grid2 xs={8} md={6} lg={4}>
-                <TextField
-                  select
-                  label="User (or) UserGroup"
-                  id="userOrGroup"
-                  value={userOrGroup}
-                  placeholder="User (or) UserGroup"
-                  name="userOrGroup"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setUserOrGroup(e.target.value);
-                    dispatch({
-                      type: ACTIONS.ONCHANGE,
-                      payload: e.target.value,
-                      fieldName: "userOrGroup",
-                    });
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  margin="dense"
-                >
-                  <MenuItem value="user">User</MenuItem>
-                  <MenuItem value="userGroup">UserGroup</MenuItem>
-                </TextField>
-              </Grid2>
+              {state.infoOpen ? null : (
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    label="User (or) UserGroup"
+                    id="userOrGroup"
+                    value={userOrGroup}
+                    placeholder="User (or) UserGroup"
+                    name="userOrGroup"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setUserOrGroup(e.target.value);
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "userOrGroup",
+                      });
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    margin="dense"
+                  >
+                    <MenuItem value="user">User</MenuItem>
+                    <MenuItem value="userGroup">UserGroup</MenuItem>
+                  </TextField>
+                </Grid2>
+              )}
               {userOrGroup === "user" ? (
                 <>
                   <Grid2 xs={8} md={6} lg={4}>

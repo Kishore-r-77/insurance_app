@@ -74,6 +74,18 @@ const routes = [
       },
     ],
   },
+  {
+    path: "#",
+    name: "Policy Details",
+    icon: <PeopleAltIcon />,
+    subRoutes: [
+      {
+        path: "/policy",
+        name: "Policy",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
 ];
 
 const SideBar = ({ children }: any) => {

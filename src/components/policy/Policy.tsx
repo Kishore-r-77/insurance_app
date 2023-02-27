@@ -2,25 +2,20 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import styles from "./policy.module.css";
+import { addApi, deleteApi, editApi, getAllApi } from "./policyApis/policyApis";
+import PolicyModal from "./policyModal/PolicyModal";
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/userGroupActions";
-import { UserGroupStateType } from "../../../reducerUtilities/types/admin/userGroupTypes";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import styles from "./usergroup.module.css";
-import {
-  addApi,
-  deleteApi,
-  editApi,
-  getAllApi,
-} from "./userGroupApis/userGroupApis";
-import UserGroupModal from "./userGroupModal/UserGroupModal";
+} from "../../reducerUtilities/actions/policy/policyActions";
+import { useAppSelector } from "../../redux/app/hooks";
 
-function UserGroup({ modalFunc }: any) {
+function Policy({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -28,7 +23,7 @@ function UserGroup({ modalFunc }: any) {
   const [record, setRecord] = useState<any>({});
 
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: UserGroupStateType, action: any) => {
+  const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -79,6 +74,16 @@ function UserGroup({ modalFunc }: any) {
           ...state,
           infoOpen: false,
         };
+      case ACTIONS.CLIENTOPEN:
+        return {
+          ...state,
+          clientOpen: true,
+        };
+      case ACTIONS.CLIENTCLOSE:
+        return {
+          ...state,
+          clientOpen: false,
+        };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -118,18 +123,16 @@ function UserGroup({ modalFunc }: any) {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All UserGroups"]);
+        setData(resp.data["All Policys"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All UserGroups"]?.length === 0);
+        setisLast(resp.data["All Policys"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
   };
-
   const companyId = useAppSelector(
     (state) => state.users.user.message.CompanyId
   );
-
   //Add Api
   const handleFormSubmit = () => {
     return addApi(state, companyId)
@@ -239,7 +242,7 @@ function UserGroup({ modalFunc }: any) {
           </Button>
         </span>
 
-        <h1>User Group</h1>
+        <h1>Policys</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -274,7 +277,7 @@ function UserGroup({ modalFunc }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <UserGroupModal
+      <PolicyModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -285,4 +288,4 @@ function UserGroup({ modalFunc }: any) {
   );
 }
 
-export default UserGroup;
+export default Policy;

@@ -103,24 +103,28 @@ function UserGroupModal({
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  readOnly={state.infoOpen}
-                  label="Valid From"
-                  inputFormat="DD/MM/YYYY"
-                  value={state.addOpen ? state.ValidFrom : record.ValidFrom}
-                  onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    dispatch({
-                      type: state.addOpen
-                        ? ACTIONS.ONCHANGE
-                        : ACTIONS.EDITCHANGE,
-                      payload: date.$d,
-                      fieldName: "ValidFrom",
-                    })
-                  }
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
+              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    readOnly={state.infoOpen}
+                    label="Valid From"
+                    inputFormat="DD/MM/YYYY"
+                    value={state.addOpen ? state.ValidFrom : record.ValidFrom}
+                    onChange={(
+                      date: React.ChangeEvent<HTMLInputElement> | any
+                    ) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: date.$d,
+                        fieldName: "ValidFrom",
+                      })
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </FormControl>
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
