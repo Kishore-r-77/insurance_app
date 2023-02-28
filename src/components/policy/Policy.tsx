@@ -242,7 +242,7 @@ function Policy({ modalFunc }: any) {
           </Button>
         </span>
 
-        <h1>Policys</h1>
+        <h1>Policy Enquiry</h1>
         <Button
           id={styles["add-btn"]}
           style={{

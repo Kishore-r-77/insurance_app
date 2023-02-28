@@ -8,6 +8,7 @@ import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import SidebarMenu from "./SidebarMenu";
+import PolicyIcon from "@mui/icons-material/Policy";
 const routes = [
   {
     path: "/home",
@@ -45,11 +46,7 @@ const routes = [
         name: "Companies",
         icon: <ArrowRightAltIcon />,
       },
-      {
-        path: "/address",
-        name: "Address",
-        icon: <ArrowRightAltIcon />,
-      },
+
       {
         path: "/params",
         name: "Params",
@@ -72,12 +69,17 @@ const routes = [
         name: "Bank",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/address",
+        name: "Address",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
     path: "#",
     name: "Policy Details",
-    icon: <PeopleAltIcon />,
+    icon: <PolicyIcon />,
     subRoutes: [
       {
         path: "/policy",
