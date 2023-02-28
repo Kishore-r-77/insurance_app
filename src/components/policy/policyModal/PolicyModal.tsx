@@ -331,13 +331,6 @@ function PolicyModal({
                   </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
-                  {/* <select name="PolStatus" id="" defaultValue="PA">
-                    {p0024Data.map((val: any) => (
-                      <option key={val.item} value={val.item}>
-                        {val.longdesc}
-                      </option>
-                    ))}
-                  </select> */}
                   <TextField
                     select
                     disabled

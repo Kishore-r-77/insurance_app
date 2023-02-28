@@ -88,6 +88,18 @@ const routes = [
       },
     ],
   },
+  {
+    path: "#",
+    name: "Agency Details",
+    icon: <PolicyIcon />,
+    subRoutes: [
+      {
+        path: "/agency",
+        name: "Agency",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
 ];
 
 const SideBar = ({ children }: any) => {

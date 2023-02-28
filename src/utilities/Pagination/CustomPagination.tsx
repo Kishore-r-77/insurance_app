@@ -12,6 +12,7 @@ function CustomPagination({
   pageSize,
   setpageSize,
   prevPage,
+  hidePageSizeChange,
   nexPage,
 }: any) {
   return (
@@ -21,19 +22,20 @@ function CustomPagination({
         <h4>Total Pages: {totalPages}</h4>
         <h4>Total Elements: {totalRecords}</h4>
         <h4>Last Page: {isLast ? "True" : "False"}</h4>
+        {  !hidePageSizeChange &&
         <Form.Select
           size="sm"
           name="pageSize"
+          value = {pageSize}
           className={styles["form-select"]}
           onChange={(e: any) => setpageSize(parseInt(e.target.value))}
-          value={pageSize}
         >
           <option value="5">5</option>
           <option value="10">10</option>
           <option value="15">15</option>
           <option value="25">25</option>
         </Form.Select>
-
+}
         <span>
           <IconButton onClick={prevPage} disabled={pageNum < 1 ? true : false}>
             <ArrowBackIosIcon

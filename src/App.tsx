@@ -16,6 +16,9 @@ import Hompage from "./components/homepage/Hompage";
 import Params from "./components/admin/params/Params";
 import Policy from "./components/policy/Policy";
 import Footer from "./utilities/footer/Footer";
+import ParamItems from "./components/admin/paramItems/ParamItems";
+import ParamData from "./components/admin/paramData/paramData";
+import Agency from "./components/agency/Agency";
 
 function App() {
   return (
@@ -38,8 +41,9 @@ function App() {
               <Route path="/bank" element={<Bank />} />
               <Route path="/params" element={<Params />} />
               <Route path="/policy" element={<Policy />} />
-              {/* <Route path="/paramItems"  element={<ParamItems />} />
-            <Route path="/paramData"  element={<ParamData />} /> */}
+              <Route path="/paramItems" element={<ParamItems />} />
+              <Route path="/paramData" element={<ParamData />} />
+              <Route path="/agency" element={<Agency />} />
             </Route>
           </Route>
         </Route>
