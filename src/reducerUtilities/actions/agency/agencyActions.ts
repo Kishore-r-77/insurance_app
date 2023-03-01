@@ -85,6 +85,7 @@ export const columns = [
     field: "LicenseEndDate",
     header: "License EndDate",
     dbField: "license_end_date",
+    type: "date",
   },
   {
     field: "TerminationReason",
