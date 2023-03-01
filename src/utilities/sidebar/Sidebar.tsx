@@ -1,14 +1,14 @@
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import PolicyIcon from "@mui/icons-material/Policy";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import SidebarMenu from "./SidebarMenu";
-import PolicyIcon from "@mui/icons-material/Policy";
+import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 const routes = [
   {
     path: "/home",
@@ -91,7 +91,7 @@ const routes = [
   {
     path: "#",
     name: "Agency Details",
-    icon: <PolicyIcon />,
+    icon: <ReduceCapacityIcon />,
     subRoutes: [
       {
         path: "/agency",
