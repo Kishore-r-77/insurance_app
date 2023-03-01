@@ -17,6 +17,8 @@ import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import { useAppSelector } from "../../../redux/app/hooks";
 import Client from "../../client/Client";
 import { p0018, p0023, p0024, q0005, q0009 } from "../policyApis/policyApis";
+import Address from "../../admin/address/Address";
+import Agency from "../../agency/Agency";
 
 function PolicyModal({
   state,
@@ -25,9 +27,9 @@ function PolicyModal({
   ACTIONS,
   handleFormSubmit,
 }: PolicyModalType) {
-  const addTitle: string = "Policy Add";
-  const editTitle: string = "Policy Edit";
-  const infoTitle: string = "Policy Info";
+  const addTitle: string = "Proposal Create";
+  const editTitle: string = "Proposal Edit";
+  const infoTitle: string = "Proposal Info";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -106,6 +108,18 @@ function PolicyModal({
     } else record.ClientID = item.ID;
     dispatch({ type: ACTIONS.CLIENTCLOSE });
   };
+  const addressOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.AddressID = item.ID;
+    } else record.AddressID = item.ID;
+    dispatch({ type: ACTIONS.ADDRESSCLOSE });
+  };
+  const agencyOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.AgencyID = item.ID;
+    } else record.AgencyID = item.ID;
+    dispatch({ type: ACTIONS.AGENCYCLOSE });
+  };
 
   return (
     <div className={styles.modal}>
@@ -139,6 +153,10 @@ function PolicyModal({
         <form>
           {state.clientOpen ? (
             <Client modalFunc={clientOpenFunc} />
+          ) : state.addressOpen ? (
+            <Address modalFunc={addressOpenFunc} />
+          ) : state.agencyOpen ? (
+            <Agency modalFunc={agencyOpenFunc} />
           ) : (
             <>
               <Grid2 container spacing={2}>
@@ -404,6 +422,52 @@ function PolicyModal({
                           : ACTIONS.EDITCHANGE,
                         payload: e.target.value,
                         fieldName: "ClientID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    disabled
+                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
+                    id="AddressID"
+                    name="AddressID"
+                    value={state.addOpen ? state.AddressID : record.AddressID}
+                    placeholder="Address Id"
+                    label="Address Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "AddressID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    disabled
+                    onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
+                    id="AgencyID"
+                    name="AgencyID"
+                    value={state.addOpen ? state.AgencyID : record.AgencyID}
+                    placeholder="Agency Id"
+                    label="Agency Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "AgencyID",
                       })
                     }
                     fullWidth

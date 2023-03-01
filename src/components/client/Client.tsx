@@ -121,7 +121,7 @@ function Client({ modalFunc }: any) {
       .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = () => {

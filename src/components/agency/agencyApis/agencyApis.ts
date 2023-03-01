@@ -21,6 +21,7 @@ export const getAllApi = (
 };
 
 export const addApi = (state: AgencyStateType, companyId: number) => {
+  console.log(companyId, "wwwwwwww");
   return axios.post(
     `http://localhost:3000/api/v1/pacificservices/agencycreate`,
     {

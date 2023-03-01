@@ -11,10 +11,13 @@ export type PolicyStateType = {
   PUWDate: string;
   ClientID: string;
   AgencyID: string;
+  AddressID: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
   clientOpen: boolean;
+  addressOpen: boolean;
+  agencyOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -33,6 +36,10 @@ export type ActionConstantsType = {
   INFOCLOSE: string;
   CLIENTOPEN: string;
   CLIENTCLOSE: string;
+  ADDRESSOPEN: string;
+  ADDRESSCLOSE: string;
+  AGENCYOPEN: string;
+  AGENCYCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
 };

@@ -12,6 +12,10 @@ export const ACTIONS = {
   INFOCLOSE: "INFOCLOSE",
   CLIENTOPEN: "CLIENTOPEN",
   CLIENTCLOSE: "CLIENTCLOSE",
+  ADDRESSOPEN: "ADDRESSOPEN",
+  ADDRESSCLOSE: "ADDRESSCLOSE",
+  AGENCYOPEN: "AGENCYOPEN",
+  AGENCYCLOSE: "AGENCYCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
 };
@@ -30,10 +34,13 @@ export const initialValues: PolicyStateType = {
   PUWDate: "",
   ClientID: "",
   AgencyID: "",
+  AddressID: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
   clientOpen: false,
+  addressOpen: false,
+  agencyOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",
@@ -58,12 +65,6 @@ export const columns = [
   },
 
   {
-    field: "Gender",
-    header: "Gender",
-    dbField: "gender",
-  },
-
-  {
     field: "PFreq",
     header: "Frequency",
     dbField: "pfreq",
@@ -77,12 +78,6 @@ export const columns = [
     field: "PolStatus",
     header: "Policy Status",
     dbField: "pol_status",
-  },
-  {
-    field: "PUWDate",
-    header: "PUW Date",
-    dbField: "puw_date",
-    type: "date",
   },
   {
     field: "BTDate",

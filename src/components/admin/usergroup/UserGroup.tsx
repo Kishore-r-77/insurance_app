@@ -127,7 +127,7 @@ function UserGroup({ modalFunc }: any) {
   };
 
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
 
   //Add Api

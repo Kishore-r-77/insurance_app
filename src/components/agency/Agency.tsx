@@ -151,10 +151,11 @@ function Agency({ modalFunc }: any) {
       .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = () => {
+    console.log(companyId, "yyyyyyy");
     return addApi(state, companyId)
       .then((resp) => {
         console.log(resp);

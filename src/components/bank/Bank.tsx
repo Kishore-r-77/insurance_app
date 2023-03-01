@@ -15,7 +15,7 @@ import {
 } from "../../reducerUtilities/actions/bank/bankActions";
 import { useAppSelector } from "../../redux/app/hooks";
 
-function Bank({ userORGroupFunc }: any) {
+function Bank({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -132,7 +132,7 @@ function Bank({ userORGroupFunc }: any) {
       .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = () => {
@@ -262,7 +262,7 @@ function Bank({ userORGroupFunc }: any) {
       </header>
       <CustomTable
         data={data}
-        userORGroupFunc={userORGroupFunc}
+        modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}

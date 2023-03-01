@@ -20,7 +20,7 @@ import {
 } from "../../../reducerUtilities/actions/admin/addressActions";
 import { useAppSelector } from "../../../redux/app/hooks";
 
-function Address({ userORGroupFunc }: any) {
+function Address({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -137,7 +137,7 @@ function Address({ userORGroupFunc }: any) {
       .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = () => {
@@ -267,7 +267,7 @@ function Address({ userORGroupFunc }: any) {
       </header>
       <CustomTable
         data={data}
-        userORGroupFunc={userORGroupFunc}
+        modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}

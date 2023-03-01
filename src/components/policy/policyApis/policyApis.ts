@@ -34,9 +34,10 @@ export const addApi = (state: PolicyStateType, companyId: number) => {
       PolStatus: state.PolStatus,
 
       PReceivedDate: moment(state.PReceivedDate).format("YYYYMMDD").toString(),
-      PUWDate: moment(state.PUWDate).format("YYYYMMDD").toString(),
+      //PUWDate: moment(state.PUWDate).format("YYYYMMDD").toString(),
       ClientID: parseInt(state.ClientID),
       AgencyID: parseInt(state.AgencyID),
+      AddressID: parseInt(state.AddressID),
     },
     {
       withCredentials: true,
@@ -60,9 +61,9 @@ export const editApi = (record: any) => {
       PolStatus: record.PolStatus,
 
       PReceivedDate: moment(record.PReceivedDate).format("YYYYMMDD").toString(),
-      PUWDate: moment(record.PUWDate).format("YYYYMMDD").toString(),
       ClientID: parseInt(record.ClientID),
       AgencyID: parseInt(record.AgencyID),
+      AddressID: parseInt(record.AddressID),
     },
     {
       withCredentials: true,

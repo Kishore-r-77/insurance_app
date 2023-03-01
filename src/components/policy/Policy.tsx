@@ -84,6 +84,26 @@ function Policy({ modalFunc }: any) {
           ...state,
           clientOpen: false,
         };
+      case ACTIONS.ADDRESSOPEN:
+        return {
+          ...state,
+          addressOpen: true,
+        };
+      case ACTIONS.ADDRESSCLOSE:
+        return {
+          ...state,
+          addressOpen: false,
+        };
+      case ACTIONS.AGENCYOPEN:
+        return {
+          ...state,
+          agencyOpen: true,
+        };
+      case ACTIONS.AGENCYCLOSE:
+        return {
+          ...state,
+          agencyOpen: false,
+        };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -131,7 +151,7 @@ function Policy({ modalFunc }: any) {
       .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
-    (state) => state.users.user.message.CompanyId
+    (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = () => {
