@@ -30,8 +30,10 @@
   .paperStyle {
     width: 90%;
     margin: 20px auto;
+    overflow-y: scroll;
+
   
-    max-height: 350px;
+    max-height: 900px;
     font-family: Poppins Medium;
   }
   

@@ -23,6 +23,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import Q0011 from "../paramDataPages/Q0011/q0011";
+import Q0005 from "../paramDataPages/Q0005/q0005";
 const ParamData = () => {
   const {
     sendRequest: sendGetDataRequest,
@@ -227,6 +229,23 @@ const ParamData = () => {
             mode={mode}
           />
         );
+        case "1-Q0011":
+          return (
+            <Q0011
+              ref={extraDataRef}
+              data={getDataResponse.param.data}
+              mode={mode}
+            />
+          );
+
+          case "1-Q0005":
+            return (
+              <Q0005
+                ref={extraDataRef}
+                data={getDataResponse.param.data}
+                mode={mode}
+              />
+            );
 
       default:
         return (
@@ -358,10 +377,10 @@ const ParamData = () => {
           <>
             {" "}
             <div className={styles.paperStyle}>
-              <Grid2 container spacing={2}>
+              <Grid2 container spacing={2} style = {{marginTop : ".5em" , marginRight : ".5em"}}>
                 {getDataResponse.param.type === "D" && (
                   <>
-                    <Grid2 xs={12} md={6} lg={6} sm={6}>
+                    <Grid2 xs={12} md={6} lg={4}  sm= {6}  xl={4}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
                           readOnly={mode === "display" || mode === "delete"}
@@ -376,7 +395,7 @@ const ParamData = () => {
                       </LocalizationProvider>
                     </Grid2>
 
-                    <Grid2 xs={12} md={6} lg={6} sm={6}>
+                    <Grid2 xs={12} md={6} lg={4}  sm= {6}  xl={4}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
                           readOnly={mode === "display" || mode === "delete"}
@@ -389,6 +408,10 @@ const ParamData = () => {
                           renderInput={(params) => <TextField {...params} />}
                         />
                       </LocalizationProvider>
+                    </Grid2>
+                    <Grid2 xs={12} md={6} lg={4}  sm= {6}  xl={4}>
+
+
                     </Grid2>
                   </>
                 )}
