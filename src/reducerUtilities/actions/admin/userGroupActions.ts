@@ -34,9 +34,14 @@ export const initialValues: UserGroupStateType = {
 
 //Columns Defined to Pass into the Custom Table
 export const columns = [
-  { field: "ID", header: "ID", dbField: "id" },
+  { field: "ID", header: "ID", dbField: "id", sortable: true },
   { field: "CompanyID", header: "Company ID", dbField: "company_id" },
-  { field: "GroupName", header: "Group Name", dbField: "group_name" },
+  {
+    field: "GroupName",
+    header: "Group Name",
+    dbField: "group_name",
+    sortable: true,
+  },
   {
     field: "ValidFrom",
     header: "Valid From",
