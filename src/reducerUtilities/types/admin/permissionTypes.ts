@@ -5,12 +5,14 @@ export type PermissionStateType = {
   UserID: any;
   UserGroupID: any;
   userOrGroup: "user" | "userGroup" | "";
+  TransactionID: any;
   userOpen: boolean;
   userGroupOpen: boolean;
   TransCode: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
+  transactionOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -31,6 +33,8 @@ type ActionConstantsType = {
   USERGROUPOPEN: string;
   USERCLOSE: string;
   USERGROUPCLOSE: string;
+  TRANSACTIONOPEN: string;
+  TRANSACTIONCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
 };
