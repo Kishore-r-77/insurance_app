@@ -299,27 +299,28 @@ const ParamData = () => {
                   <AddBoxIcon />
                 </Button>
               </CustomTooltip>
-
-              <CustomTooltip text="Delete">
-                <Button
-                  id={styles["add-btn"]}
-                  style={{
-                    marginTop: "1rem",
-                    maxWidth: "40px",
-                    maxHeight: "40px",
-                    minWidth: "40px",
-                    minHeight: "40px",
-                    backgroundColor: "#dc3545",
-                  }}
-                  variant="contained"
-                  onClick={() => {
-                    resetModDataRequestStatus();
-                    setMode("delete");
-                  }}
-                >
-                  <DeleteIcon />
-                </Button>
-              </CustomTooltip>
+              {pagination.pageNum > 1 && (
+                <CustomTooltip text="Delete">
+                  <Button
+                    id={styles["add-btn"]}
+                    style={{
+                      marginTop: "1rem",
+                      maxWidth: "40px",
+                      maxHeight: "40px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      backgroundColor: "#dc3545",
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      resetModDataRequestStatus();
+                      setMode("delete");
+                    }}
+                  >
+                    <DeleteIcon />
+                  </Button>
+                </CustomTooltip>
+              )}
             </>
           )}
 

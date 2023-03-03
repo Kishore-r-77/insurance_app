@@ -1,4 +1,4 @@
-export type PolicyStateType = {
+export type BenefitStateType = {
   CompanyID: string;
   PRCD: string;
   PProduct: string;
@@ -10,8 +10,7 @@ export type PolicyStateType = {
   PReceivedDate: string;
   PUWDate: string;
   ClientID: string;
-  AgencyID: string;
-  AddressID: string;
+  PolicyID: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
@@ -47,8 +46,8 @@ export type ActionConstantsType = {
   SORT_DESC: string;
 };
 
-export type PolicyModalType = {
-  state: PolicyStateType;
+export type BenefitModalType = {
+  state: BenefitStateType;
   record: any;
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;
