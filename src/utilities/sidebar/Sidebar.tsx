@@ -9,6 +9,7 @@ import { FaBars } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import SidebarMenu from "./SidebarMenu";
 import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 const routes = [
   {
     path: "/home",
@@ -96,6 +97,18 @@ const routes = [
       {
         path: "/agency",
         name: "Agency",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Transaction Details",
+    icon: <ReceiptIcon />,
+    subRoutes: [
+      {
+        path: "/transaction",
+        name: "Transaction",
         icon: <ArrowRightAltIcon />,
       },
     ],

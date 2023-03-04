@@ -1,24 +1,26 @@
-import {
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState } from "react";
-import styles from "./policyModal.module.css";
+import React, { useEffect, useReducer, useState } from "react";
 import { PolicyModalType } from "../../../reducerUtilities/types/policy/policyTypes";
-
-import CustomModal from "../../../utilities/modal/CustomModal";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import { useAppSelector } from "../../../redux/app/hooks";
+import CustomFullModal from "../../../utilities/modal/CustomFullModal";
+import Address from "../../admin/address/Address";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
+import Agency from "../../agency/Agency";
 import Client from "../../client/Client";
 import { p0018, p0023, p0024, q0005, q0009 } from "../policyApis/policyApis";
-import Address from "../../admin/address/Address";
-import Agency from "../../agency/Agency";
+import "./policyModal.css";
+import TreeView from "@mui/lab/TreeView";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TreeItem from "@mui/lab/TreeItem";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import Benefit from "./benefit/Benefit";
+import axios from "axios";
+import moment from "moment";
 
 function PolicyModal({
   state,
@@ -91,6 +93,61 @@ function PolicyModal({
       .catch((err) => console.log(err.message));
   };
 
+  const [coverage, setcoverage] = useState([]);
+
+  const getCoverage = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0011&date=20220101&item=END&company_id=1`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setcoverage(resp.data["AllowedCoverages"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    getCoverage();
+    return () => {};
+  }, []);
+
+  var initialBenefitValues = {
+    BStartDate: "",
+    BTerm: "",
+    BPTerm: "",
+    BCoverage: "",
+    BSumAssured: "",
+  };
+
+  const [benefitData, setBenefitData] = useState(initialBenefitValues);
+
+  const handleBenefitFormSubmit = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/nbservices/benefitcreate`,
+        {
+          CompanyID: companyId,
+          PolicyID: "",
+          ClientID: state.ClientID,
+          BStartDate: moment(benefitData.BStartDate).format("YYYYMMDD"),
+          BTerm: benefitData.BTerm,
+          BPTerm: benefitData.BPTerm,
+          BCoverage: benefitData.BCoverage,
+          BSumAssured: benefitData.BSumAssured,
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getCompanyData(companyId);
     getQ0005();
@@ -101,6 +158,12 @@ function PolicyModal({
 
     return () => {};
   }, []);
+
+  const policyAndModalAddSubmit = () => {
+    handleFormSubmit();
+    handleBenefitFormSubmit();
+    dispatch({ type: ACTIONS.ADDCLOSE });
+  };
 
   const clientOpenFunc = (item: any) => {
     if (state.addOpen) {
@@ -122,8 +185,8 @@ function PolicyModal({
   };
 
   return (
-    <div className={styles.modal}>
-      <CustomModal
+    <div>
+      <CustomFullModal
         open={
           state.addOpen
             ? state.addOpen
@@ -148,19 +211,43 @@ function PolicyModal({
             : null
         }
         ACTIONS={ACTIONS}
-        handleFormSubmit={() => handleFormSubmit()}
+        handleFormSubmit={() => policyAndModalAddSubmit()}
       >
         <form>
-          {state.clientOpen ? (
-            <Client modalFunc={clientOpenFunc} />
-          ) : state.addressOpen ? (
-            <Address modalFunc={addressOpenFunc} />
-          ) : state.agencyOpen ? (
-            <Agency modalFunc={agencyOpenFunc} />
-          ) : (
-            <>
-              <Grid2 container spacing={2}>
-                <Grid2 xs={8} md={6} lg={4}>
+          <TreeView
+            aria-label="file system navigator"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+          >
+            {state.clientOpen ? (
+              <CustomModal
+                open={state.clientOpen}
+                handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
+              >
+                <Client modalFunc={clientOpenFunc} />
+              </CustomModal>
+            ) : state.addressOpen ? (
+              <CustomModal
+                open={state.addressOpen}
+                handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
+              >
+                <Address modalFunc={addressOpenFunc} />
+              </CustomModal>
+            ) : state.agencyOpen ? (
+              <CustomModal
+                open={state.agencyOpen}
+                handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
+              >
+                <Agency modalFunc={agencyOpenFunc} />
+              </CustomModal>
+            ) : null}
+            <TreeItem nodeId="1" label="Policy Form">
+              <Grid2
+                container
+                spacing={2}
+                style={{ width: "95%", margin: "10px auto" }}
+              >
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     disabled
                     id="CompanyID"
@@ -182,7 +269,7 @@ function PolicyModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
@@ -206,7 +293,7 @@ function PolicyModal({
                     </LocalizationProvider>
                   </FormControl>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
                     id="PProduct"
@@ -234,7 +321,7 @@ function PolicyModal({
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
                     id="PFreq"
@@ -262,7 +349,7 @@ function PolicyModal({
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
                     id="PContractCurr"
@@ -292,7 +379,7 @@ function PolicyModal({
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
                     id="PBillCurr"
@@ -320,7 +407,7 @@ function PolicyModal({
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
                     id="POffice"
@@ -348,7 +435,7 @@ function PolicyModal({
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
                     disabled
@@ -377,7 +464,7 @@ function PolicyModal({
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
@@ -406,7 +493,7 @@ function PolicyModal({
                   </FormControl>
                 </Grid2>
 
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     disabled
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
@@ -429,7 +516,7 @@ function PolicyModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     disabled
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
@@ -452,7 +539,7 @@ function PolicyModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     disabled
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
@@ -476,10 +563,14 @@ function PolicyModal({
                   />
                 </Grid2>
               </Grid2>
-            </>
-          )}
+            </TreeItem>
+            <TreeItem nodeId="5" label="Benefit Table">
+              <Benefit coverage={coverage} />
+            </TreeItem>
+          </TreeView>
         </form>
-      </CustomModal>
+      </CustomFullModal>
+      {/* <BenefitModal /> */}
     </div>
   );
 }

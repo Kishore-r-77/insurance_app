@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { PermissionModalType } from "../../../../reducerUtilities/types/admin/permissionTypes";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import CustomModal from "../../../../utilities/modal/CustomModal";
+import Transaction from "../../../transaction/Transaction";
 import { getApi } from "../../companies/companiesApis/companiesApis";
 import UserGroup from "../../usergroup/UserGroup";
 import Users from "../../users/Users";
@@ -37,6 +38,13 @@ function PermissionModal({
       state.UserID = item.Id;
     } else record.UserID.Int64 = item.Id;
     dispatch({ type: ACTIONS.USERCLOSE });
+  };
+
+  const transactionOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.TransactionID = item.ID;
+    } else record.TransactionID = item.ID;
+    dispatch({ type: ACTIONS.TRANSACTIONCLOSE });
   };
 
   const [userOrGroup, setUserOrGroup] = useState(
@@ -116,6 +124,8 @@ function PermissionModal({
             <Users modalFunc={userDataFunc} />
           ) : state.userGroupOpen ? (
             <UserGroup modalFunc={userGroupDataFunc} />
+          ) : state.transactionOpen ? (
+            <Transaction modalFunc={transactionOpenFunc} />
           ) : (
             <Grid2 container spacing={2}>
               <Grid2 xs={8} md={6} lg={4}>
@@ -196,6 +206,31 @@ function PermissionModal({
                         : ACTIONS.EDITCHANGE,
                       payload: e.target.value,
                       fieldName: "TransCode",
+                    })
+                  }
+                  fullWidth
+                  inputProps={{ readOnly: state.infoOpen }}
+                  margin="dense"
+                />
+              </Grid2>
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  disabled
+                  onClick={() => dispatch({ type: ACTIONS.TRANSACTIONOPEN })}
+                  id="TransactionID"
+                  name="TransactionID"
+                  value={
+                    state.addOpen ? state.TransactionID : record.TransactionID
+                  }
+                  placeholder="Transaction Id"
+                  label="Transaction Id"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: state.addOpen
+                        ? ACTIONS.ONCHANGE
+                        : ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "TransactionID",
                     })
                   }
                   fullWidth

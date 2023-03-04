@@ -104,6 +104,16 @@ function Policy({ modalFunc }: any) {
           ...state,
           agencyOpen: false,
         };
+      case ACTIONS.BENEFITOPEN:
+        return {
+          ...state,
+          benefitOpen: true,
+        };
+      case ACTIONS.BENEFITCLOSE:
+        return {
+          ...state,
+          benefitOpen: false,
+        };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -158,7 +168,7 @@ function Policy({ modalFunc }: any) {
     return addApi(state, companyId)
       .then((resp) => {
         console.log(resp);
-        dispatch({ type: ACTIONS.ADDCLOSE });
+
         getData();
       })
       .catch((err) => console.log(err.message));

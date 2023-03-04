@@ -19,6 +19,7 @@ import Footer from "./utilities/footer/Footer";
 import ParamItems from "./components/admin/paramItems/ParamItems";
 import ParamData from "./components/admin/paramData/paramData";
 import Agency from "./components/agency/Agency";
+import Transaction from "./components/transaction/Transaction";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
               <Route path="/paramItems" element={<ParamItems />} />
               <Route path="/paramData" element={<ParamData />} />
               <Route path="/agency" element={<Agency />} />
+              <Route path="/transaction" element={<Transaction />} />
             </Route>
           </Route>
         </Route>
