@@ -31,6 +31,8 @@ import P0030 from "../paramDataPages/P0030/p0030";
 import P0033 from "../paramDataPages/P0033/p0033";
 import P0040 from "../paramDataPages/P0040/p0040";
 import Q0006 from "../paramDataPages/Q0006/q0006";
+import P0027 from "../paramDataPages/P0027/p0027";
+
 const ParamData = () => {
   const {
     sendRequest: sendGetDataRequest,
@@ -299,6 +301,14 @@ const ParamData = () => {
       case "1-P0040":
         return (
           <P0040
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0027":
+        return (
+          <P0027
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}
