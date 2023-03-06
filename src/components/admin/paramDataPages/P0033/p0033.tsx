@@ -35,7 +35,7 @@ const P0033 = forwardRef((props: any, ref) => {
       return inputdata;
     },
   }));
-  console.log(inputdata, "Kishore %%%%%%%%%%%%%%%%%%%%%");
+  console.log(props.data, "Kishore %%%%%%%%%%%%%%%%%%%%%");
 
   return (
     <>

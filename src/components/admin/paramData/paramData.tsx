@@ -30,6 +30,7 @@ import P0003 from "../paramDataPages/P0003/p0003";
 import P0030 from "../paramDataPages/P0030/p0030";
 import P0033 from "../paramDataPages/P0033/p0033";
 import P0040 from "../paramDataPages/P0040/p0040";
+import Q0006 from "../paramDataPages/Q0006/q0006";
 const ParamData = () => {
   const {
     sendRequest: sendGetDataRequest,
@@ -286,6 +287,15 @@ const ParamData = () => {
             mode={mode}
           />
         );
+
+      case "1-Q0006":
+        return (
+          <Q0006
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
       case "1-P0040":
         return (
           <P0040
@@ -429,7 +439,10 @@ const ParamData = () => {
               <Grid2
                 container
                 spacing={2}
-                style={{ marginTop: ".5em", marginRight: ".5em" }}
+                style={{
+                  marginTop: ".5em",
+                  marginRight: ".5em",
+                }}
               >
                 {getDataResponse.param.type === "D" && (
                   <>

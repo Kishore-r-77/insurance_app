@@ -16,40 +16,40 @@ const Q0006 = forwardRef((props: any, ref) => {
   const maxAgeRef: any = useRef();
   const maxPptRef: any = useRef();
   const maxSARef: any = useRef();
-const maxTermRef: any = useRef();
-const minAgeRef: any = useRef();
-const minPptRef: any = useRef();
-const minSARef: any = useRef();
-const minTermRef: any = useRef();
-const nfoMethodRef:any = useRef();
-const partSurrMethodRef: any = useRef();
-const premIncRef: any = useRef();
-const premIncYrsRef: any = useRef();
-const premiumMethodRef: any = useRef();
-const revBonusRef: any = useRef();
-const sbMethodRef: any = useRef();
-const surrMethodRef: any = useRef();
-const tBonusRef: any = useRef();
-const alMethodRef: any = useRef();
-const gsvMethodRef: any = useRef();
-const ssvMethodRef: any = useRef();
-const bsvMethodRef: any = useRef();
-const divMethodRef: any = useRef();
-const divlMethodRef: any = useRef();
-const sbTypeRef: any = useRef();
-const disTypRef: any = useRef();
-const disMethodRef: any = useRef();
-const frqMethodRef: any = useRef();
-const waivMethodRef: any = useRef();
-const ulAlMethodRef: any = useRef();
-const ulMortFreqRef: any = useRef();
-const ulMortCalcTypeRef: any = useRef();
-const ulMortDeductMethodRef: any = useRef();
-const ulFeeFreqRef: any = useRef();
-const ulFeeTypeRef: any = useRef();
-const ulFeeMethodRef: any = useRef();
-const ulFundRulesRef: any = useRef();
-const premCalcTypeRef: any = useRef();
+  const maxTermRef: any = useRef();
+  const minAgeRef: any = useRef();
+  const minPptRef: any = useRef();
+  const minSARef: any = useRef();
+  const minTermRef: any = useRef();
+  const nfoMethodRef: any = useRef();
+  const partSurrMethodRef: any = useRef();
+  const premIncRef: any = useRef();
+  const premIncYrsRef: any = useRef();
+  const premiumMethodRef: any = useRef();
+  const revBonusRef: any = useRef();
+  const sbMethodRef: any = useRef();
+  const surrMethodRef: any = useRef();
+  const tBonusRef: any = useRef();
+  const alMethodRef: any = useRef();
+  const gsvMethodRef: any = useRef();
+  const ssvMethodRef: any = useRef();
+  const bsvMethodRef: any = useRef();
+  const divMethodRef: any = useRef();
+  const divlMethodRef: any = useRef();
+  const sbTypeRef: any = useRef();
+  const disTypRef: any = useRef();
+  const disMethodRef: any = useRef();
+  const frqMethodRef: any = useRef();
+  const waivMethodRef: any = useRef();
+  const ulAlMethodRef: any = useRef();
+  const ulMortFreqRef: any = useRef();
+  const ulMortCalcTypeRef: any = useRef();
+  const ulMortDeductMethodRef: any = useRef();
+  const ulFeeFreqRef: any = useRef();
+  const ulFeeTypeRef: any = useRef();
+  const ulFeeMethodRef: any = useRef();
+  const ulFundRulesRef: any = useRef();
+  const premCalcTypeRef: any = useRef();
 
   let inputdata: any = {};
   const currencyCodes = ["INR", "USD", "AUD", "SGD", "GBP", "EUR"];
@@ -131,7 +131,6 @@ const premCalcTypeRef: any = useRef();
           label="Age Calculation Method"
           defaultValue={inputdata.ageCalcMethod}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
@@ -148,7 +147,6 @@ const premCalcTypeRef: any = useRef();
           label="Ann Method"
           defaultValue={inputdata.annMethod}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
@@ -165,7 +163,6 @@ const premCalcTypeRef: any = useRef();
           label="Annuity Method"
           defaultValue={inputdata.annuityMethod}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
@@ -182,7 +179,6 @@ const premCalcTypeRef: any = useRef();
           label="Comm Method"
           defaultValue={inputdata.commMethod}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
@@ -289,7 +285,7 @@ const premCalcTypeRef: any = useRef();
           label="Maximum Age"
           defaultValue={inputdata.maxAge}
           fullWidth
-          type="number" 
+          type="number"
           margin="dense"
         />
       </Grid2>
