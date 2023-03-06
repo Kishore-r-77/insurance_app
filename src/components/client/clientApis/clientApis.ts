@@ -19,6 +19,20 @@ export const getAllApi = (
     },
   });
 };
+export const paramItem = (
+  companyId: number,
+  name: string,
+  languageId: number
+) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name,
+      languageId,
+    },
+  });
+};
 
 export const addApi = (state: ClientStateType, companyId: number) => {
   return axios.post(
@@ -37,7 +51,7 @@ export const addApi = (state: ClientStateType, companyId: number) => {
           : moment(state.ClientDob).format("YYYYMMDD").toString(),
 
       ClientEmail: state.ClientEmail,
-      ClientMobile: state.ClientMobile,
+      ClientMobile: `+91${state.ClientMobile}`,
       ClientStatus: state.ClientStatus,
       ClientDod:
         state.ClientDod?.length === 0
@@ -69,7 +83,7 @@ export const editApi = (record: any) => {
           : moment(record.ClientDob).format("YYYYMMDD").toString(),
 
       ClientEmail: record.ClientEmail,
-      ClientMobile: record.ClientMobile,
+      ClientMobile: `+91${record.ClientMobile}`,
       ClientStatus: record.ClientStatus,
       ClientDod:
         record.ClientDod?.length === 0

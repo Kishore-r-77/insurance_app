@@ -11,7 +11,13 @@ import Address from "../../admin/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Client from "../../client/Client";
-import { p0018, p0023, p0024, q0005, q0009 } from "../policyApis/policyApis";
+import {
+  p0018,
+  p0023,
+  p0024,
+  q0005,
+  frequency,
+} from "../policyApis/policyApis";
 import "./policyModal.css";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -55,12 +61,12 @@ function PolicyModal({
       })
       .catch((err) => console.log(err.message));
   };
-  const [q0009Data, setq0009Data] = useState([]);
+  const [freq, setfreq] = useState([]);
 
-  const getQ0009 = () => {
-    return q0009(companyId, languageId)
+  const getFreq = () => {
+    return frequency(companyId, languageId)
       .then((resp) => {
-        setq0009Data(resp.data.data);
+        setfreq(resp.data.AllowedFrequencies);
       })
       .catch((err) => console.log(err.message));
   };
@@ -73,12 +79,20 @@ function PolicyModal({
       })
       .catch((err) => console.log(err.message));
   };
-  const [p0023Data, setp0023Data] = useState([]);
+  const [cCurData, setcCurData] = useState([]);
+  const [bCurData, setbCurData] = useState([]);
 
-  const getQ0023 = () => {
-    return p0023(companyId, languageId)
+  const getQ0023Ccur = (Ccur: string) => {
+    return p0023(companyId, languageId, Ccur)
       .then((resp) => {
-        setp0023Data(resp.data.data);
+        setcCurData(resp.data.AllowedContractCurriencies);
+      })
+      .catch((err) => console.log(err.message));
+  };
+  const getQ0023Bcur = (Bcur: string) => {
+    return p0023(companyId, languageId, Bcur)
+      .then((resp) => {
+        setbCurData(resp.data.AllowedBillingCurriencies);
       })
       .catch((err) => console.log(err.message));
   };
@@ -181,9 +195,10 @@ function PolicyModal({
   useEffect(() => {
     getCompanyData(companyId);
     getQ0005();
-    getQ0009();
+    getFreq();
     getQ0018();
-    getQ0023();
+    getQ0023Ccur("Ccur");
+    getQ0023Bcur("Bcur");
     getQ0024();
 
     return () => {};
@@ -377,9 +392,9 @@ function PolicyModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {q0009Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
+                    {freq.map((val: any) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -407,9 +422,9 @@ function PolicyModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {p0023Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
+                    {cCurData.map((val: any) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -435,9 +450,9 @@ function PolicyModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {p0023Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
+                    {bCurData.map((val: any) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
                       </MenuItem>
                     ))}
                   </TextField>
