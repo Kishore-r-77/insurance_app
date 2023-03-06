@@ -51,6 +51,6 @@ export type PolicyModalType = {
   state: PolicyStateType;
   record: any;
   dispatch: React.Dispatch<any>;
-  handleFormSubmit: () => Promise<void>;
+  handleFormSubmit: () => any;
   ACTIONS: ActionConstantsType;
 };

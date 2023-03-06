@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import styles from "./benefit.module.css";
 
-function Benefit({ coverage, ACTIONS }: any) {
+function Benefit({ coverage, ACTIONS, benefitData, dispatchBenefit }: any) {
   return (
     <div>
       <Paper className={styles.paperStyle}>
@@ -33,6 +33,13 @@ function Benefit({ coverage, ACTIONS }: any) {
                     className={styles["input-form"]}
                     type="text"
                     value={val.Coverage}
+                    onChange={(e) =>
+                      dispatchBenefit({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "Coverage",
+                      })
+                    }
                     disabled
                   />
                 </td>
@@ -41,16 +48,44 @@ function Benefit({ coverage, ACTIONS }: any) {
                     className={styles["input-form"]}
                     type="text"
                     value={val.CoverageLongName}
+                    onChange={(e) =>
+                      dispatchBenefit({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "CoverageLongName",
+                      })
+                    }
                     disabled
                   />
                 </td>
                 <td>
-                  <input className={styles["input-form"]} type="date" />
+                  <input
+                    className={styles["input-form"]}
+                    type="date"
+                    value={benefitData[index]?.BStartDate}
+                    onChange={(e) =>
+                      dispatchBenefit({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BStartDate",
+                        index,
+                      })
+                    }
+                  />
                 </td>
                 <td>
                   <input
                     className={styles["input-form"]}
                     type="number"
+                    value={benefitData[index]?.BTerm}
+                    onChange={(e) =>
+                      dispatchBenefit({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BTerm",
+                        index,
+                      })
+                    }
                     placeholder="BTerm"
                   />
                 </td>
@@ -59,6 +94,15 @@ function Benefit({ coverage, ACTIONS }: any) {
                     className={styles["input-form"]}
                     type="number"
                     placeholder="BPTerm"
+                    value={benefitData[index]?.BPTerm}
+                    onChange={(e) =>
+                      dispatchBenefit({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BPTerm",
+                        index,
+                      })
+                    }
                   />
                 </td>
                 <td>
@@ -66,6 +110,14 @@ function Benefit({ coverage, ACTIONS }: any) {
                     className={styles["input-form"]}
                     type="number"
                     placeholder="BSumAssured"
+                    value={benefitData[index]?.BSumAssured}
+                    onChange={(e) =>
+                      dispatchBenefit({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BSumAssured",
+                      })
+                    }
                   />
                 </td>
               </tr>

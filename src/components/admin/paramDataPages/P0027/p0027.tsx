@@ -9,8 +9,6 @@ const P0027 = forwardRef((props: any, ref) => {
   const glSignRef: any = useRef();
   let inputdata: any = {};
 
-  console.log(props.data.glMovements, "Kishore %%%%%%%%%%%%%%%%%%%%%");
-
   if (props.data) {
     inputdata = props.data;
   }
@@ -24,7 +22,6 @@ const P0027 = forwardRef((props: any, ref) => {
       return inputdata;
     },
   }));
-  console.log(inputdata, "Kishore %%%%%%%%%%%%%%%%%%%%%");
 
   return (
     <>
@@ -36,67 +33,83 @@ const P0027 = forwardRef((props: any, ref) => {
           glSign: unknown;
         }) => {
           return (
-            <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-              <TextField
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="accountCode"
-                name="accountCode"
-                inputRef={accountCodeRef}
-                placeholder="accountCode Proportionate"
-                label="accountCode Proportionate"
-                defaultValue={data1.accountCode}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="accountAmt"
-                name="accountAmt"
-                inputRef={accountAmtRef}
-                placeholder="accountAmt"
-                label="accountAmt"
-                defaultValue={data1.accountAmt}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="seqNo"
-                name="seqNo"
-                inputRef={seqNoRef}
-                placeholder="seqNo Proportionate"
-                label="seqNo Proportionate"
-                defaultValue={data1.seqNo}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="glSign"
-                name="glSign"
-                inputRef={glSignRef}
-                placeholder="glSign"
-                label="glSign"
-                defaultValue={data1.glSign}
-                fullWidth
-                margin="dense"
-              />
+            <Grid2
+              container
+              spacing={2}
+              style={{ width: "95%", margin: "10px auto" }}
+            >
+              <Grid2 xs={8} md={6} lg={3}>
+                <TextField
+                  inputProps={{
+                    readOnly:
+                      props.mode === "display" || props.mode === "delete",
+                  }}
+                  id="accountCode"
+                  name="accountCode"
+                  inputRef={accountCodeRef}
+                  placeholder="accountCode Proportionate"
+                  label="accountCode Proportionate"
+                  defaultValue={data1.accountCode}
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid2>
+              <Grid2 xs={8} md={6} lg={3}>
+                <TextField
+                  inputProps={{
+                    readOnly:
+                      props.mode === "display" || props.mode === "delete",
+                  }}
+                  id="accountAmt"
+                  name="accountAmt"
+                  inputRef={accountAmtRef}
+                  placeholder="accountAmt"
+                  label="accountAmt"
+                  defaultValue={data1.accountAmt}
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid2>
+              <Grid2 xs={8} md={6} lg={3}>
+                <TextField
+                  inputProps={{
+                    readOnly:
+                      props.mode === "display" || props.mode === "delete",
+                  }}
+                  id="seqNo"
+                  name="seqNo"
+                  inputRef={seqNoRef}
+                  placeholder="seqNo Proportionate"
+                  label="seqNo Proportionate"
+                  defaultValue={data1.seqNo}
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid2>
+              <Grid2 xs={8} md={6} lg={3}>
+                <TextField
+                  inputProps={{
+                    readOnly:
+                      props.mode === "display" || props.mode === "delete",
+                  }}
+                  id="glSign"
+                  name="glSign"
+                  inputRef={glSignRef}
+                  placeholder="glSign"
+                  label="glSign"
+                  defaultValue={data1.glSign}
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid2>
 
-              <hr
+              {/* <hr
                 style={{
                   color: "rgb(33, 70, 199)",
                   width: "100%",
                   borderBottom: "5px solid rgb(33, 70, 199)",
                 }}
-              />
+              /> */}
             </Grid2>
           );
         }

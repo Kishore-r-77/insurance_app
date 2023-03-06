@@ -118,9 +118,9 @@ function Transaction({ modalFunc }: any) {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Transactiones"]);
+        setData(resp.data["All Transactions"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Transactiones"]?.length === 0);
+        setisLast(resp.data["All Transactions"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

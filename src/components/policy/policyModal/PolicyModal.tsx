@@ -114,17 +114,47 @@ function PolicyModal({
     return () => {};
   }, []);
 
-  var initialBenefitValues = {
+  var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
     BTerm: "",
     BPTerm: "",
     BCoverage: "",
     BSumAssured: "",
+  }));
+
+  console.log(initialBenefitValues, "initial Benefit Values");
+
+  // BStartDate: "",
+  // BTerm: "",
+  // BPTerm: "",
+  // BCoverage: "",
+  // BSumAssured: "",
+
+  const benefitReducer = (state: any, action: any) => {
+    switch (action.type) {
+      case ACTIONS.ONCHANGE:
+        console.log(action.index, "index");
+
+        return state.map((value: any, index: any) => {
+          if (index === action.index) {
+            let newValue = value;
+            newValue[action.fieldName] = action.payload;
+            return newValue;
+          } else {
+            return value;
+          }
+        });
+      default:
+        return initialBenefitValues;
+    }
   };
 
-  const [benefitData, setBenefitData] = useState(initialBenefitValues);
+  const [benefitData, dispatchBenefit] = useReducer(
+    benefitReducer,
+    initialBenefitValues
+  );
 
-  const handleBenefitFormSubmit = () => {
+  const handleBenefitFormSubmit = (index: number) => {
     axios
       .post(
         `http://localhost:3000/api/v1/nbservices/benefitcreate`,
@@ -132,11 +162,11 @@ function PolicyModal({
           CompanyID: companyId,
           PolicyID: "",
           ClientID: state.ClientID,
-          BStartDate: moment(benefitData.BStartDate).format("YYYYMMDD"),
-          BTerm: benefitData.BTerm,
-          BPTerm: benefitData.BPTerm,
-          BCoverage: benefitData.BCoverage,
-          BSumAssured: benefitData.BSumAssured,
+          BStartDate: moment(benefitData[index]?.BStartDate).format("YYYYMMDD"),
+          BTerm: benefitData[index]?.BTerm,
+          BPTerm: benefitData[index]?.BPTerm,
+          BCoverage: benefitData[index]?.BCoverage,
+          BSumAssured: benefitData[index]?.BSumAssured,
         },
         { withCredentials: true }
       )
@@ -159,10 +189,15 @@ function PolicyModal({
     return () => {};
   }, []);
 
-  const policyAndModalAddSubmit = () => {
-    handleFormSubmit();
-    handleBenefitFormSubmit();
-    dispatch({ type: ACTIONS.ADDCLOSE });
+  const policyAndModalAddSubmit = async () => {
+    const response = await handleFormSubmit();
+    console.log(response, "Response");
+    if (response.status === 200) {
+      for (let i = 0; i < coverage.length; i++) {
+        handleBenefitFormSubmit(i);
+      }
+      dispatch({ type: ACTIONS.ADDCLOSE });
+    }
   };
 
   const clientOpenFunc = (item: any) => {
@@ -565,7 +600,12 @@ function PolicyModal({
               </Grid2>
             </TreeItem>
             <TreeItem nodeId="5" label="Benefit Table">
-              <Benefit coverage={coverage} />
+              <Benefit
+                coverage={coverage}
+                benefitData={benefitData}
+                dispatchBenefit={dispatchBenefit}
+                ACTIONS={ACTIONS}
+              />
             </TreeItem>
           </TreeView>
         </form>
