@@ -11,7 +11,13 @@ import Address from "../../admin/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Client from "../../client/Client";
-import { p0018, p0023, p0024, q0005, q0009 } from "../policyApis/policyApis";
+import {
+  p0018,
+  p0023,
+  p0024,
+  q0005,
+  frequency,
+} from "../policyApis/policyApis";
 import "./policyModal.css";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -55,12 +61,12 @@ function PolicyModal({
       })
       .catch((err) => console.log(err.message));
   };
-  const [q0009Data, setq0009Data] = useState([]);
+  const [freq, setfreq] = useState([]);
 
-  const getQ0009 = () => {
-    return q0009(companyId, languageId)
+  const getFreq = () => {
+    return frequency(companyId, languageId)
       .then((resp) => {
-        setq0009Data(resp.data.data);
+        setfreq(resp.data.AllowedFrequencies);
       })
       .catch((err) => console.log(err.message));
   };
@@ -73,12 +79,20 @@ function PolicyModal({
       })
       .catch((err) => console.log(err.message));
   };
-  const [p0023Data, setp0023Data] = useState([]);
+  const [cCurData, setcCurData] = useState([]);
+  const [bCurData, setbCurData] = useState([]);
 
-  const getQ0023 = () => {
-    return p0023(companyId, languageId)
+  const getQ0023Ccur = (Ccur: string) => {
+    return p0023(companyId, languageId, Ccur)
       .then((resp) => {
-        setp0023Data(resp.data.data);
+        setcCurData(resp.data.AllowedContractCurriencies);
+      })
+      .catch((err) => console.log(err.message));
+  };
+  const getQ0023Bcur = (Bcur: string) => {
+    return p0023(companyId, languageId, Bcur)
+      .then((resp) => {
+        setbCurData(resp.data.AllowedBillingCurriencies);
       })
       .catch((err) => console.log(err.message));
   };
@@ -114,29 +128,52 @@ function PolicyModal({
     return () => {};
   }, []);
 
-  var initialBenefitValues = {
+  var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
     BTerm: "",
     BPTerm: "",
     BCoverage: "",
     BSumAssured: "",
+  }));
+
+  const benefitReducer = (state: any, action: any) => {
+    switch (action.type) {
+      case ACTIONS.ONCHANGE:
+        console.log(moment(action.payload).format("YYYYMMDD"));
+        return state.map((value: any, index: any) => {
+          if (index === action.index) {
+            let newValue = value;
+            newValue[action.fieldName] = action.payload;
+            return newValue;
+          } else {
+            return value;
+          }
+        });
+      default:
+        return initialBenefitValues;
+    }
   };
 
-  const [benefitData, setBenefitData] = useState(initialBenefitValues);
+  const [benefitData, dispatchBenefit] = useReducer(
+    benefitReducer,
+    initialBenefitValues
+  );
 
-  const handleBenefitFormSubmit = () => {
+  const handleBenefitFormSubmit = (index: number, policyId: string) => {
     axios
       .post(
         `http://localhost:3000/api/v1/nbservices/benefitcreate`,
         {
           CompanyID: companyId,
-          PolicyID: "",
+          PolicyID: parseInt(policyId),
           ClientID: state.ClientID,
-          BStartDate: moment(benefitData.BStartDate).format("YYYYMMDD"),
-          BTerm: benefitData.BTerm,
-          BPTerm: benefitData.BPTerm,
-          BCoverage: benefitData.BCoverage,
-          BSumAssured: benefitData.BSumAssured,
+          BStartDate: moment(benefitData[index]?.BStartDate)
+            .format("YYYYMMDD")
+            .toString(),
+          BTerm: benefitData[index]?.BTerm,
+          BPTerm: benefitData[index]?.BPTerm,
+          BCoverage: benefitData[index]?.BCoverage,
+          BSumAssured: benefitData[index]?.BSumAssured,
         },
         { withCredentials: true }
       )
@@ -151,18 +188,24 @@ function PolicyModal({
   useEffect(() => {
     getCompanyData(companyId);
     getQ0005();
-    getQ0009();
+    getFreq();
     getQ0018();
-    getQ0023();
+    getQ0023Ccur("Ccur");
+    getQ0023Bcur("Bcur");
     getQ0024();
 
     return () => {};
   }, []);
 
-  const policyAndModalAddSubmit = () => {
-    handleFormSubmit();
-    handleBenefitFormSubmit();
-    dispatch({ type: ACTIONS.ADDCLOSE });
+  const policyAndModalAddSubmit = async () => {
+    const response = await handleFormSubmit();
+    console.log(response, "Response");
+    if (response.status === 200) {
+      for (let i = 0; i < coverage.length; i++) {
+        handleBenefitFormSubmit(i, response.response.data.Created);
+      }
+      dispatch({ type: ACTIONS.ADDCLOSE });
+    }
   };
 
   const clientOpenFunc = (item: any) => {
@@ -218,6 +261,7 @@ function PolicyModal({
             aria-label="file system navigator"
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpandIcon={<ChevronRightIcon />}
+            defaultExpanded={["1"]}
           >
             {state.clientOpen ? (
               <CustomModal
@@ -249,7 +293,7 @@ function PolicyModal({
               >
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
@@ -342,9 +386,9 @@ function PolicyModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {q0009Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
+                    {freq.map((val: any) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -372,9 +416,9 @@ function PolicyModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {p0023Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
+                    {cCurData.map((val: any) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -400,9 +444,9 @@ function PolicyModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {p0023Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
+                    {bCurData.map((val: any) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -438,7 +482,7 @@ function PolicyModal({
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
-                    disabled
+                    InputProps={{ readOnly: true }}
                     id="PolStatus"
                     name="PolStatus"
                     value={state.addOpen ? state.PolStatus : record.PolStatus}
@@ -495,7 +539,7 @@ function PolicyModal({
 
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     id="ClientID"
                     name="ClientID"
@@ -518,7 +562,7 @@ function PolicyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     id="AddressID"
                     name="AddressID"
@@ -541,7 +585,7 @@ function PolicyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     id="AgencyID"
                     name="AgencyID"
@@ -565,7 +609,12 @@ function PolicyModal({
               </Grid2>
             </TreeItem>
             <TreeItem nodeId="5" label="Benefit Table">
-              <Benefit coverage={coverage} />
+              <Benefit
+                coverage={coverage}
+                benefitData={benefitData}
+                dispatchBenefit={dispatchBenefit}
+                ACTIONS={ACTIONS}
+              />
             </TreeItem>
           </TreeView>
         </form>

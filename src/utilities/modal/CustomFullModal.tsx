@@ -12,10 +12,7 @@ function CustomFullModal({
     <div>
       <Modal show={open} fullscreen={true} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {true}
-            {title}
-          </Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>

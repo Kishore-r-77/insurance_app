@@ -11,7 +11,7 @@ import styles from "./paramdata.module.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, TextField } from "@mui/material";
 import JsonView from "../paramDataPages/jsonView/jsonView";
 import CustomTooltip from "../../../utilities/cutomToolTip/customTooltip";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
@@ -23,6 +23,16 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import Q0011 from "../paramDataPages/Q0011/q0011";
+import Q0005 from "../paramDataPages/Q0005/q0005";
+import P0035 from "../paramDataPages/P0035/p0035";
+import P0003 from "../paramDataPages/P0003/p0003";
+import P0030 from "../paramDataPages/P0030/p0030";
+import P0033 from "../paramDataPages/P0033/p0033";
+import P0040 from "../paramDataPages/P0040/p0040";
+import Q0006 from "../paramDataPages/Q0006/q0006";
+import P0027 from "../paramDataPages/P0027/p0027";
+
 const ParamData = () => {
   const {
     sendRequest: sendGetDataRequest,
@@ -227,6 +237,83 @@ const ParamData = () => {
             mode={mode}
           />
         );
+      case "1-Q0011":
+        return (
+          <Q0011
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+
+      case "1-Q0005":
+        return (
+          <Q0005
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0035":
+        return (
+          <P0035
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+
+      case "1-P0003":
+        return (
+          <P0003
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+
+      case "1-P0030":
+        return (
+          <P0030
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+
+      case "1-P0033":
+        return (
+          <P0033
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+
+      case "1-Q0006":
+        return (
+          <Q0006
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0040":
+        return (
+          <P0040
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0027":
+        return (
+          <P0027
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
 
       default:
         return (
@@ -359,39 +446,54 @@ const ParamData = () => {
           <>
             {" "}
             <div className={styles.paperStyle}>
-              <Grid2 container spacing={2}>
+              <Grid2
+                container
+                spacing={2}
+                style={{
+                  marginTop: ".5em",
+                  marginRight: ".5em",
+                }}
+              >
                 {getDataResponse.param.type === "D" && (
-                  <>
-                    <Grid2 xs={12} md={6} lg={6} sm={6}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DesktopDatePicker
-                          readOnly={mode === "display" || mode === "delete"}
-                          label="Start Date"
-                          inputFormat="DD/MM/YYYY"
-                          value={startDate}
-                          onChange={(
-                            date: React.ChangeEvent<HTMLInputElement> | any
-                          ) => setStartDate(date)}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </LocalizationProvider>
+                  <Grid2
+                    container
+                    spacing={2}
+                    style={{ width: "95%", margin: "10px auto" }}
+                  >
+                    <Grid2 xs={8} md={6} lg={3}>
+                      <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                            readOnly={mode === "display" || mode === "delete"}
+                            label="Start Date"
+                            inputFormat="DD/MM/YYYY"
+                            value={startDate}
+                            onChange={(
+                              date: React.ChangeEvent<HTMLInputElement> | any
+                            ) => setStartDate(date)}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </FormControl>
                     </Grid2>
 
-                    <Grid2 xs={12} md={6} lg={6} sm={6}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DesktopDatePicker
-                          readOnly={mode === "display" || mode === "delete"}
-                          label="End Date"
-                          inputFormat="DD/MM/YYYY"
-                          value={endDate}
-                          onChange={(
-                            date: React.ChangeEvent<HTMLInputElement> | any
-                          ) => setEndDate(date)}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </LocalizationProvider>
+                    <Grid2 xs={8} md={6} lg={3}>
+                      <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                            readOnly={mode === "display" || mode === "delete"}
+                            label="End Date"
+                            inputFormat="DD/MM/YYYY"
+                            value={endDate}
+                            onChange={(
+                              date: React.ChangeEvent<HTMLInputElement> | any
+                            ) => setEndDate(date)}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </FormControl>
                     </Grid2>
-                  </>
+                  </Grid2>
                 )}
 
                 {getExtraDataComponent(

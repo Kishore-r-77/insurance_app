@@ -130,7 +130,7 @@ function PermissionModal({
             <Grid2 container spacing={2}>
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
-                  disabled
+                  InputProps={{ readOnly: true }}
                   id="CompanyID"
                   name="CompanyID"
                   value={companyData?.CompanyName}
@@ -192,30 +192,10 @@ function PermissionModal({
                   margin="dense"
                 />
               </Grid2>
+
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
-                  id="TransCode"
-                  name="TransCode"
-                  value={state.addOpen ? state.TransCode : record.TransCode}
-                  placeholder="Trans Code"
-                  label="TransCode"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    dispatch({
-                      type: state.addOpen
-                        ? ACTIONS.ONCHANGE
-                        : ACTIONS.EDITCHANGE,
-                      payload: e.target.value,
-                      fieldName: "TransCode",
-                    })
-                  }
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                />
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={4}>
-                <TextField
-                  disabled
+                  InputProps={{ readOnly: true }}
                   onClick={() => dispatch({ type: ACTIONS.TRANSACTIONOPEN })}
                   id="TransactionID"
                   name="TransactionID"
@@ -268,7 +248,7 @@ function PermissionModal({
                 <>
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
-                      disabled
+                      InputProps={{ readOnly: true }}
                       onClick={() => dispatch({ type: ACTIONS.USEROPEN })}
                       label="User ID"
                       className="formtext"
@@ -298,7 +278,7 @@ function PermissionModal({
               {userOrGroup === "userGroup" ? (
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.USERGROUPOPEN })}
                     label="User Group ID"
                     className="formtext"

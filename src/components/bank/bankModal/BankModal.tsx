@@ -82,7 +82,7 @@ function BankModal({
               <>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
@@ -236,7 +236,7 @@ function BankModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     id="ClientID"
                     name="ClientID"

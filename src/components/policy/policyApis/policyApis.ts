@@ -92,25 +92,30 @@ export const q0005 = (companyId: number, languageId: number) => {
     },
   });
 };
-export const q0009 = (companyId: number, languageId: number) => {
-  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
-    withCredentials: true,
-    params: {
-      companyId,
-      name: "Q0009",
-      languageId,
-    },
-  });
+export const frequency = (companyId: number, languageId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0005&date=20220101&item=END&company_id=1&function=Freq`,
+    {
+      withCredentials: true,
+    }
+  );
 };
-export const p0023 = (companyId: number, languageId: number) => {
-  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
-    withCredentials: true,
-    params: {
-      companyId,
-      name: "P0023",
-      languageId,
-    },
-  });
+export const p0023 = (
+  companyId: number,
+  languageId: number,
+  currency: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0005&date=20220101&item=END&company_id=1&function=${currency}`,
+    {
+      withCredentials: true,
+      params: {
+        companyId,
+        name: "P0023",
+        languageId,
+      },
+    }
+  );
 };
 export const p0018 = (companyId: number, languageId: number) => {
   return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {

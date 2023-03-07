@@ -17,7 +17,7 @@ function BenefitModal({
       <Grid2 container spacing={2}>
         <Grid2 xs={8} md={6} lg={4}>
           <TextField
-            disabled
+            InputProps={{ readOnly: true }}
             id="CompanyID"
             name="CompanyID"
             value={companyData?.CompanyName}
@@ -137,7 +137,7 @@ function BenefitModal({
 
         <Grid2 xs={8} md={6} lg={4}>
           <TextField
-            disabled
+            InputProps={{ readOnly: true }}
             onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
             id="ClientID"
             name="ClientID"
@@ -158,7 +158,7 @@ function BenefitModal({
         </Grid2>
         <Grid2 xs={8} md={6} lg={4}>
           <TextField
-            disabled
+            InputProps={{ readOnly: true }}
             onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
             id="PolicyID"
             name="PolicyID"

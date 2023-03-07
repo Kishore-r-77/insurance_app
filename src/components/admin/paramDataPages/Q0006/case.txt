@@ -1,0 +1,17 @@
+import Q0006 from "../paramDataPages/Q0006/q0006";
+
+
+
+
+
+
+
+
+case "1-Q0006":
+        return (
+          <Q0006
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );

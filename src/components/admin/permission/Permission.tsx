@@ -165,7 +165,6 @@ function Permission() {
     CompanyID: companyId,
     ModelName: state.ModelName,
     Method: state.Method,
-    TransCode: state.TransCode,
     TransactionID: state.TransactionID,
     UserID: {
       Int64: state.UserID,
@@ -181,7 +180,6 @@ function Permission() {
     CompanyID: companyId,
     ModelName: state.ModelName,
     Method: state.Method,
-    TransCode: state.TransCode,
     TransactionID: state.TransactionID,
     UserID: {
       Int64: 0,
@@ -200,7 +198,6 @@ function Permission() {
     CompanyID: companyId,
     ModelName: record.ModelName,
     Method: record.Method,
-    TransCode: record.TransCode,
     TransactionID: record.TransactionID,
     UserID: {
       Int64: record.UserID?.Int64,
@@ -217,7 +214,6 @@ function Permission() {
     CompanyID: companyId,
     ModelName: record.ModelName,
     Method: record.Method,
-    TransCode: record.TransCode,
     TransactionID: record.TransactionID,
     UserID: {
       Int64: 0,

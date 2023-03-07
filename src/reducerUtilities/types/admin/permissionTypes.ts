@@ -8,7 +8,6 @@ export type PermissionStateType = {
   TransactionID: any;
   userOpen: boolean;
   userGroupOpen: boolean;
-  TransCode: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;

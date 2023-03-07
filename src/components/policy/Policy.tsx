@@ -164,14 +164,26 @@ function Policy({ modalFunc }: any) {
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = () => {
-    return addApi(state, companyId)
-      .then((resp) => {
-        console.log(resp);
-
-        getData();
-      })
-      .catch((err) => console.log(err.message));
+  const handleFormSubmit = async () => {
+    // .then((resp) => {
+    //   console.log(resp);
+    //   getData();
+    // })
+    // .catch((err) => console.log(err.message));
+    try {
+      const response = await addApi(state, companyId);
+      getData();
+      return {
+        response,
+        status: response.status,
+      };
+    } catch (err: any) {
+      console.log(err);
+      return {
+        response: err,
+        status: err.response.status,
+      };
+    }
   };
 
   //Edit Api
