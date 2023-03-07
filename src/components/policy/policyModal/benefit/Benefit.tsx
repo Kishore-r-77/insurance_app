@@ -3,9 +3,17 @@ import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
+import CustomModal from "../../../../utilities/modal/CustomModal";
+import Client from "../../../client/Client";
 import styles from "./benefit.module.css";
 
-function Benefit({ coverage, ACTIONS, benefitData, dispatchBenefit }: any) {
+function Benefit({
+  coverage,
+  ACTIONS,
+  benefitData,
+  dispatchBenefit,
+  clientOpenFunc,
+}: any) {
   return (
     <div>
       <Paper className={styles.paperStyle}>
@@ -15,6 +23,7 @@ function Benefit({ coverage, ACTIONS, benefitData, dispatchBenefit }: any) {
               <th>Select Coverage</th>
               <th>BCoverage</th>
               <th>BCoverage Long Name</th>
+              <th>Client Id</th>
               <th>BStartDate</th>
               <th>BTerm</th>
               <th>BPTerm</th>
@@ -39,11 +48,13 @@ function Benefit({ coverage, ACTIONS, benefitData, dispatchBenefit }: any) {
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
                         fieldName: "Coverage",
+                        index,
                       })
                     }
                     disabled
                   />
                 </td>
+
                 <td>
                   <input
                     className={styles["input-form"]}
@@ -54,9 +65,31 @@ function Benefit({ coverage, ACTIONS, benefitData, dispatchBenefit }: any) {
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
                         fieldName: "CoverageLongName",
+                        index,
                       })
                     }
                     disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    className={styles["input-form"]}
+                    type="text"
+                    onClick={() =>
+                      dispatchBenefit({ type: ACTIONS.CLIENTOPEN })
+                    }
+                    id="ClientID"
+                    name="ClientID"
+                    value={benefitData[index]?.ClientID}
+                    placeholder="Client Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatchBenefit({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientID",
+                        index,
+                      })
+                    }
                   />
                 </td>
                 <td>
@@ -118,10 +151,19 @@ function Benefit({ coverage, ACTIONS, benefitData, dispatchBenefit }: any) {
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
                         fieldName: "BSumAssured",
+                        index,
                       })
                     }
                   />
                 </td>
+                <CustomModal
+                  open={benefitData[index]?.clientOpen}
+                  handleClose={() =>
+                    dispatchBenefit({ type: ACTIONS.CLIENTCLOSE, index })
+                  }
+                >
+                  <Client modalFunc={clientOpenFunc} />
+                </CustomModal>
               </tr>
             ))}
           </tbody>

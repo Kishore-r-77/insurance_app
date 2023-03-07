@@ -131,6 +131,8 @@ function PolicyModal({
   var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
     BTerm: "",
+    ClientID: "",
+    clientOpen: false,
     BPTerm: "",
     BCoverage: "",
     BSumAssured: "",
@@ -139,14 +141,32 @@ function PolicyModal({
   const benefitReducer = (state: any, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
-        console.log(moment(action.payload).format("YYYYMMDD"));
-        return state.map((value: any, index: any) => {
+        return state.map((value: any, index: number) => {
           if (index === action.index) {
             let newValue = value;
             newValue[action.fieldName] = action.payload;
             return newValue;
           } else {
             return value;
+          }
+        });
+      case ACTIONS.CLIENTOPEN:
+        console.log(state);
+        return state.map((value: any, index: number) => {
+          if ((index = action.index)) {
+            return {
+              ...value,
+              clientOpen: true,
+            };
+          }
+        });
+      case ACTIONS.CLIENTCLOSE:
+        return state.map((value: any, index: number) => {
+          if ((index = action.index)) {
+            return {
+              ...value,
+              clientOpen: false,
+            };
           }
         });
       default:
@@ -166,7 +186,7 @@ function PolicyModal({
         {
           CompanyID: companyId,
           PolicyID: parseInt(policyId),
-          ClientID: state.ClientID,
+          ClientID: benefitData[index].ClientID,
           BStartDate: moment(benefitData[index]?.BStartDate)
             .format("YYYYMMDD")
             .toString(),
@@ -482,7 +502,7 @@ function PolicyModal({
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
-                    InputProps={{ readOnly: true }}
+                    disabled
                     id="PolStatus"
                     name="PolStatus"
                     value={state.addOpen ? state.PolStatus : record.PolStatus}
@@ -612,6 +632,7 @@ function PolicyModal({
               <Benefit
                 coverage={coverage}
                 benefitData={benefitData}
+                clientOpenFunc={clientOpenFunc}
                 dispatchBenefit={dispatchBenefit}
                 ACTIONS={ACTIONS}
               />

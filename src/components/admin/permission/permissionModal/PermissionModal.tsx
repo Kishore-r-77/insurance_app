@@ -62,10 +62,6 @@ function PermissionModal({
     return () => {};
   }, [state.editOpen, state.infoOpen]);
 
-  console.log(
-    record.UserID?.Valid ? "user" : record.UserGroupID?.Valid ? "userGroup" : ""
-  );
-
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
