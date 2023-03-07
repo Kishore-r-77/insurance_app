@@ -136,19 +136,10 @@ function PolicyModal({
     BSumAssured: "",
   }));
 
-  console.log(initialBenefitValues, "initial Benefit Values");
-
-  // BStartDate: "",
-  // BTerm: "",
-  // BPTerm: "",
-  // BCoverage: "",
-  // BSumAssured: "",
-
   const benefitReducer = (state: any, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
-        console.log(action.index, "index");
-
+        console.log(moment(action.payload).format("YYYYMMDD"));
         return state.map((value: any, index: any) => {
           if (index === action.index) {
             let newValue = value;
@@ -168,15 +159,17 @@ function PolicyModal({
     initialBenefitValues
   );
 
-  const handleBenefitFormSubmit = (index: number) => {
+  const handleBenefitFormSubmit = (index: number, policyId: string) => {
     axios
       .post(
         `http://localhost:3000/api/v1/nbservices/benefitcreate`,
         {
           CompanyID: companyId,
-          PolicyID: "",
+          PolicyID: parseInt(policyId),
           ClientID: state.ClientID,
-          BStartDate: moment(benefitData[index]?.BStartDate).format("YYYYMMDD"),
+          BStartDate: moment(benefitData[index]?.BStartDate)
+            .format("YYYYMMDD")
+            .toString(),
           BTerm: benefitData[index]?.BTerm,
           BPTerm: benefitData[index]?.BPTerm,
           BCoverage: benefitData[index]?.BCoverage,
@@ -209,7 +202,7 @@ function PolicyModal({
     console.log(response, "Response");
     if (response.status === 200) {
       for (let i = 0; i < coverage.length; i++) {
-        handleBenefitFormSubmit(i);
+        handleBenefitFormSubmit(i, response.response.data.Created);
       }
       dispatch({ type: ACTIONS.ADDCLOSE });
     }
@@ -268,6 +261,7 @@ function PolicyModal({
             aria-label="file system navigator"
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpandIcon={<ChevronRightIcon />}
+            defaultExpanded={["1"]}
           >
             {state.clientOpen ? (
               <CustomModal
@@ -299,7 +293,7 @@ function PolicyModal({
               >
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
@@ -488,7 +482,7 @@ function PolicyModal({
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
-                    disabled
+                    InputProps={{ readOnly: true }}
                     id="PolStatus"
                     name="PolStatus"
                     value={state.addOpen ? state.PolStatus : record.PolStatus}
@@ -545,7 +539,7 @@ function PolicyModal({
 
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     id="ClientID"
                     name="ClientID"
@@ -568,7 +562,7 @@ function PolicyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     id="AddressID"
                     name="AddressID"
@@ -591,7 +585,7 @@ function PolicyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     id="AgencyID"
                     name="AgencyID"

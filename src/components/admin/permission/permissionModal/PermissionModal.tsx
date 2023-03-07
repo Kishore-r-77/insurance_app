@@ -130,7 +130,7 @@ function PermissionModal({
             <Grid2 container spacing={2}>
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
-                  disabled
+                  InputProps={{ readOnly: true }}
                   id="CompanyID"
                   name="CompanyID"
                   value={companyData?.CompanyName}
@@ -215,7 +215,7 @@ function PermissionModal({
               </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
-                  disabled
+                  InputProps={{ readOnly: true }}
                   onClick={() => dispatch({ type: ACTIONS.TRANSACTIONOPEN })}
                   id="TransactionID"
                   name="TransactionID"
@@ -268,7 +268,7 @@ function PermissionModal({
                 <>
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
-                      disabled
+                      InputProps={{ readOnly: true }}
                       onClick={() => dispatch({ type: ACTIONS.USEROPEN })}
                       label="User ID"
                       className="formtext"
@@ -298,7 +298,7 @@ function PermissionModal({
               {userOrGroup === "userGroup" ? (
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.USERGROUPOPEN })}
                     label="User Group ID"
                     className="formtext"

@@ -101,7 +101,7 @@ function AgencyModal({
               <Grid2 container spacing={2}>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
@@ -386,7 +386,7 @@ function AgencyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     id="ClientID"
                     name="ClientID"
@@ -409,7 +409,7 @@ function AgencyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     id="AddressID"
                     name="AddressID"
@@ -432,7 +432,7 @@ function AgencyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    disabled
+                    InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
                     id="BankID"
                     name="BankID"

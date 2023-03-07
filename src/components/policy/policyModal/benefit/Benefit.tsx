@@ -1,5 +1,6 @@
 import { Paper } from "@mui/material";
 import axios from "axios";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import styles from "./benefit.module.css";
@@ -60,6 +61,7 @@ function Benefit({ coverage, ACTIONS, benefitData, dispatchBenefit }: any) {
                 </td>
                 <td>
                   <input
+                    defaultValue={moment().format("YYYY-MM-DD").toString()}
                     className={styles["input-form"]}
                     type="date"
                     value={benefitData[index]?.BStartDate}
