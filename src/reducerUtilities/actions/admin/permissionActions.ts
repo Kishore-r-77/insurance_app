@@ -35,7 +35,6 @@ export const initialValues: PermissionStateType = {
   UserID: "",
   UserGroupID: "",
   TransactionID: "",
-  TransCode: "",
   userOrGroup: "",
   userOpen: false,
   userGroupOpen: false,
