@@ -3,22 +3,22 @@ import { MenuItem, TextField } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./p0027.css";
+import "./p0032.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
-const P0027 = forwardRef((props: any, ref) => {
+const P0032 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
 
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.glMovements = retData.glMovements.filter(
-        (value: any) => value.accountCode !== ""
+      retData.uwRules = retData.uwRules.filter(
+        (value: any) => value.noOfMonths !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        glMovements: inputdata.glMovements.filter(
-          (value: any) => value.accountCode !== ""
+        uwRules: inputdata.uwRules.filter(
+          (value: any) => value.noOfMonths !== ""
         ),
       }));
 
@@ -29,16 +29,14 @@ const P0027 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      glMovements: inputdata.glMovements.filter(
-        (_: any, ind: number) => ind !== index
-      ),
+      uwRules: inputdata.uwRules.filter((_: any, ind: number) => ind !== index),
     }));
   };
 
   const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      glMovements: inputdata.glMovements.map((val: any, ind: number) => {
+      uwRules: inputdata.uwRules.map((val: any, ind: number) => {
         if (index === ind) {
           val[fieldname] = value;
           return val;
@@ -51,6 +49,10 @@ const P0027 = forwardRef((props: any, ref) => {
 
   return (
     <Table striped bordered hover>
+      <h1>
+        {" "}
+        <center>SUM UNDER CONSIDERATION FOR UNDERWRITING </center>
+      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -60,32 +62,28 @@ const P0027 = forwardRef((props: any, ref) => {
         }}
       >
         <tr>
-          <th>Account Code</th>
+          <th>No. of Months (RCD to Paid To Date) </th>
 
-          <th>Account Amount</th>
-
-          <th>Seq Number</th>
-
-          <th>GL Sign</th>
+          <th>Applicable Factor </th>
 
           {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
+            <th>noOfMonthss</th>
           )}
         </tr>
       </thead>
       <tbody>
-        {inputdata.glMovements?.map((value: any, index: number) => (
+        {inputdata.uwRules?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                   readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="Accountcode"
-                name="Accountcode"
-                value={value.accountCode}
+                id="noOfMonths"
+                name="noOfMonths"
+                value={value.noOfMonths}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "accountCode", e.target.value)
+                  fieldChangeHandler(index, "noOfMonths", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -98,56 +96,17 @@ const P0027 = forwardRef((props: any, ref) => {
                 inputProps={{
                   readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="AccountAmount"
-                name="AccountAmount"
-                value={value.accountAmt}
+                id="factor"
+                name="factor"
+                value={value.factor}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "accountAmt", e.target.value)
-                }
-                fullWidth
-                size="small"
-                type="number"
-                margin="dense"
-              />
-            </td>
-            <td>
-              <TextField
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="seqNo"
-                name="seqNo"
-                size="small"
-                value={value.seqNo}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "seqNo", e.target.value)
-                }
-                fullWidth
-                type="number"
-                margin="dense"
-              />
-            </td>
-
-            <td>
-              <TextField
-                select
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="glSign"
-                name="glSign"
-                value={value.glSign}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "glSign", e.target.value)
+                  fieldChangeHandler(index, "factor", e.target.value)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
-              >
-                <MenuItem value="+">+</MenuItem>
-                <MenuItem value="-">-</MenuItem>
-              </TextField>
+              />
             </td>
 
             {(props.mode === "update" || props.mode === "create") && (
@@ -167,17 +126,17 @@ const P0027 = forwardRef((props: any, ref) => {
                       }}
                     />
                   </CustomTooltip>
-                  {index === inputdata.glMovements.length - 1 && (
+                  {index === inputdata.uwRules.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            glMovements: [
-                              ...inputdata.glMovements,
+                            uwRules: [
+                              ...inputdata.uwRules,
                               {
-                                accountCode: "",
-                                accountAmt: 0,
+                                noOfMonths: "",
+                                factor: 0,
                                 seqNo: 0,
                                 glSign: "+",
                               },
@@ -197,4 +156,4 @@ const P0027 = forwardRef((props: any, ref) => {
   );
 });
 
-export default P0027;
+export default P0032;

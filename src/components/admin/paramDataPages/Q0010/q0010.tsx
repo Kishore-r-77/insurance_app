@@ -3,23 +3,19 @@ import { MenuItem, TextField } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./p0027.css";
+import "./q0010.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
-const P0027 = forwardRef((props: any, ref) => {
+const Q0010 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
 
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.glMovements = retData.glMovements.filter(
-        (value: any) => value.accountCode !== ""
-      );
+      retData.rates = retData.rates.filter((value: any) => value.age !== "");
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        glMovements: inputdata.glMovements.filter(
-          (value: any) => value.accountCode !== ""
-        ),
+        rates: inputdata.rates.filter((value: any) => value.age !== ""),
       }));
 
       return retData;
@@ -29,16 +25,14 @@ const P0027 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      glMovements: inputdata.glMovements.filter(
-        (_: any, ind: number) => ind !== index
-      ),
+      rates: inputdata.rates.filter((_: any, ind: number) => ind !== index),
     }));
   };
 
   const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      glMovements: inputdata.glMovements.map((val: any, ind: number) => {
+      rates: inputdata.rates.map((val: any, ind: number) => {
         if (index === ind) {
           val[fieldname] = value;
           return val;
@@ -51,6 +45,10 @@ const P0027 = forwardRef((props: any, ref) => {
 
   return (
     <Table striped bordered hover>
+      <h1>
+        {" "}
+        <center>Premium Rates </center>
+      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -60,32 +58,28 @@ const P0027 = forwardRef((props: any, ref) => {
         }}
       >
         <tr>
-          <th>Account Code</th>
+          <th>Age </th>
 
-          <th>Account Amount</th>
-
-          <th>Seq Number</th>
-
-          <th>GL Sign</th>
+          <th>Rates</th>
 
           {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
+            <th>ages</th>
           )}
         </tr>
       </thead>
       <tbody>
-        {inputdata.glMovements?.map((value: any, index: number) => (
+        {inputdata.rates?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                   readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="Accountcode"
-                name="Accountcode"
-                value={value.accountCode}
+                id="age"
+                name="age"
+                value={value.age}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "accountCode", e.target.value)
+                  fieldChangeHandler(index, "age", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -98,56 +92,17 @@ const P0027 = forwardRef((props: any, ref) => {
                 inputProps={{
                   readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="AccountAmount"
-                name="AccountAmount"
-                value={value.accountAmt}
+                id="rate"
+                name="rate"
+                value={value.rate}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "accountAmt", e.target.value)
-                }
-                fullWidth
-                size="small"
-                type="number"
-                margin="dense"
-              />
-            </td>
-            <td>
-              <TextField
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="seqNo"
-                name="seqNo"
-                size="small"
-                value={value.seqNo}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "seqNo", e.target.value)
-                }
-                fullWidth
-                type="number"
-                margin="dense"
-              />
-            </td>
-
-            <td>
-              <TextField
-                select
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="glSign"
-                name="glSign"
-                value={value.glSign}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "glSign", e.target.value)
+                  fieldChangeHandler(index, "rate", e.target.value)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
-              >
-                <MenuItem value="+">+</MenuItem>
-                <MenuItem value="-">-</MenuItem>
-              </TextField>
+              />
             </td>
 
             {(props.mode === "update" || props.mode === "create") && (
@@ -167,17 +122,17 @@ const P0027 = forwardRef((props: any, ref) => {
                       }}
                     />
                   </CustomTooltip>
-                  {index === inputdata.glMovements.length - 1 && (
+                  {index === inputdata.rates.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            glMovements: [
-                              ...inputdata.glMovements,
+                            rates: [
+                              ...inputdata.rates,
                               {
-                                accountCode: "",
-                                accountAmt: 0,
+                                age: "",
+                                rate: 0,
                                 seqNo: 0,
                                 glSign: "+",
                               },
@@ -197,4 +152,4 @@ const P0027 = forwardRef((props: any, ref) => {
   );
 });
 
-export default P0027;
+export default Q0010;
