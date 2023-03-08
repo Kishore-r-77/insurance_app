@@ -640,7 +640,6 @@ function PolicyModal({
           </TreeView>
         </form>
       </CustomFullModal>
-      {/* <BenefitModal /> */}
     </div>
   );
 }

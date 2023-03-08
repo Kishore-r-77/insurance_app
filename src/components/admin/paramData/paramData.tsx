@@ -32,6 +32,24 @@ import P0033 from "../paramDataPages/P0033/p0033";
 import P0040 from "../paramDataPages/P0040/p0040";
 import Q0006 from "../paramDataPages/Q0006/q0006";
 import P0027 from "../paramDataPages/P0027/p0027";
+import P0029 from "../paramDataPages/P0029/p0029";
+import P0031 from "../paramDataPages/P0031/p0031";
+import P0032 from "../paramDataPages/P0032/p0032";
+import P0034 from "../paramDataPages/P0034/p0034";
+import Q0010 from "../paramDataPages/Q0010/q0010";
+import Q0012 from "../paramDataPages/Q0012/q0012";
+import Q0013 from "../paramDataPages/Q0013/q0013";
+import Q0014 from "../paramDataPages/Q0014/q0014";
+import Q0015 from "../paramDataPages/Q0015/q0015";
+import Q0016 from "../paramDataPages/Q0016/q0016";
+import Q0017 from "../paramDataPages/Q0017/q0017";
+import Q0018 from "../paramDataPages/Q0018/q0018";
+import Q0019 from "../paramDataPages/Q0019/q0019";
+import Q0020 from "../paramDataPages/Q0020/q0020";
+import Q0021 from "../paramDataPages/Q0021/q0021";
+import Q0022 from "../paramDataPages/Q0022/q0022";
+import Q0023 from "../paramDataPages/Q0023/q0023";
+import Q0024 from "../paramDataPages/Q0024/q0024";
 
 const ParamData = () => {
   const {
@@ -309,6 +327,150 @@ const ParamData = () => {
       case "1-P0027":
         return (
           <P0027
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0029":
+        return (
+          <P0029
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0031":
+        return (
+          <P0031
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0032":
+        return (
+          <P0032
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0034":
+        return (
+          <P0034
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0010":
+        return (
+          <Q0010
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0012":
+        return (
+          <Q0012
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0013":
+        return (
+          <Q0013
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0014":
+        return (
+          <Q0014
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0015":
+        return (
+          <Q0015
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0016":
+        return (
+          <Q0016
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0017":
+        return (
+          <Q0017
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0018":
+        return (
+          <Q0018
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0019":
+        return (
+          <Q0019
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0020":
+        return (
+          <Q0020
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0021":
+        return (
+          <Q0021
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0022":
+        return (
+          <Q0022
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0023":
+        return (
+          <Q0023
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-Q0024":
+        return (
+          <Q0024
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}
