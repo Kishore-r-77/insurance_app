@@ -75,9 +75,9 @@ function Benefit({
                   <input
                     className={styles["input-form"]}
                     type="text"
-                    onClick={() =>
-                      dispatchBenefit({ type: ACTIONS.CLIENTOPEN })
-                    }
+                    // onClick={() =>
+                    //   dispatchBenefit({ type: ACTIONS.CLIENTOPEN })
+                    // }
                     id="ClientID"
                     name="ClientID"
                     value={benefitData[index]?.ClientID}

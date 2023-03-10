@@ -119,14 +119,13 @@ function PolicyModal({
       )
       .then((resp) => {
         setcoverage(resp.data["AllowedCoverages"]);
+        dispatchBenefit({
+          type: "INITIALIZE_STATE",
+          payload: [...resp.data["AllowedCoverages"]],
+        });
       })
       .catch((err) => console.log(err.message));
   };
-
-  useEffect(() => {
-    getCoverage();
-    return () => {};
-  }, []);
 
   var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
@@ -169,6 +168,8 @@ function PolicyModal({
             };
           }
         });
+      case "INITIALIZE_STATE":
+        return action.payload;
       default:
         return initialBenefitValues;
     }
@@ -186,14 +187,14 @@ function PolicyModal({
         {
           CompanyID: companyId,
           PolicyID: parseInt(policyId),
-          ClientID: benefitData[index].ClientID,
+          ClientID: parseInt(benefitData[index]?.ClientID),
           BStartDate: moment(benefitData[index]?.BStartDate)
             .format("YYYYMMDD")
             .toString(),
-          BTerm: benefitData[index]?.BTerm,
-          BPTerm: benefitData[index]?.BPTerm,
-          BCoverage: benefitData[index]?.BCoverage,
-          BSumAssured: benefitData[index]?.BSumAssured,
+          BTerm: parseInt(benefitData[index]?.BTerm),
+          BPTerm: parseInt(benefitData[index]?.BPTerm),
+          BCoverage: parseInt(benefitData[index]?.BCoverage),
+          BSumAssured: parseInt(benefitData[index]?.BSumAssured),
         },
         { withCredentials: true }
       )
@@ -217,12 +218,18 @@ function PolicyModal({
     return () => {};
   }, []);
 
+  useEffect(() => {
+    getCoverage();
+    return () => {};
+  }, []);
+
   const policyAndModalAddSubmit = async () => {
     const response = await handleFormSubmit();
-    console.log(response, "Response");
+    console.log(response?.response?.data?.Created, "Response");
+    console.log(response?.status, "Status");
     if (response.status === 200) {
       for (let i = 0; i < coverage.length; i++) {
-        handleBenefitFormSubmit(i, response.response.data.Created);
+        handleBenefitFormSubmit(i, response?.response?.data?.Created);
       }
       dispatch({ type: ACTIONS.ADDCLOSE });
     }
@@ -246,6 +253,9 @@ function PolicyModal({
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
+
+  console.log(benefitData, "Benefit Data");
+  console.log(initialBenefitValues, "initialBenefitValues");
 
   return (
     <div>

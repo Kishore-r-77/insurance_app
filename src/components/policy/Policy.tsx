@@ -165,11 +165,6 @@ function Policy({ modalFunc }: any) {
   );
   //Add Api
   const handleFormSubmit = async () => {
-    // .then((resp) => {
-    //   console.log(resp);
-    //   getData();
-    // })
-    // .catch((err) => console.log(err.message));
     try {
       const response = await addApi(state, companyId);
       getData();
