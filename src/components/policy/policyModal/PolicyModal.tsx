@@ -193,7 +193,7 @@ function PolicyModal({
             .toString(),
           BTerm: parseInt(benefitData[index]?.BTerm),
           BPTerm: parseInt(benefitData[index]?.BPTerm),
-          BCoverage: parseInt(benefitData[index]?.BCoverage),
+          BCoverage: benefitData[index]?.Coverage,
           BSumAssured: parseInt(benefitData[index]?.BSumAssured),
         },
         { withCredentials: true }
@@ -254,8 +254,7 @@ function PolicyModal({
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
 
-  console.log(benefitData, "Benefit Data");
-  console.log(initialBenefitValues, "initialBenefitValues");
+  console.log(benefitData, "benefitData");
 
   return (
     <div>

@@ -19,6 +19,16 @@ export const getAllApi = (
     },
   });
 };
+export const getAddressType = (companyId: number, languageId: number) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId: companyId,
+      name: "P0022",
+      languageId: languageId,
+    },
+  });
+};
 
 export const addApi = (state: AddressStateType, companyId: number) => {
   return axios.post(

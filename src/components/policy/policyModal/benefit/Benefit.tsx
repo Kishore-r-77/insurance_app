@@ -47,7 +47,7 @@ function Benefit({
                       dispatchBenefit({
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
-                        fieldName: "Coverage",
+                        fieldName: "BCoverage",
                         index,
                       })
                     }

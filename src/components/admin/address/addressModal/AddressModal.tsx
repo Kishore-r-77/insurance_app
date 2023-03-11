@@ -1,4 +1,9 @@
-import { FormControl, InputAdornment, TextField } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -9,6 +14,7 @@ import { useAppSelector } from "../../../../redux/app/hooks";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import Client from "../../../client/Client";
 import { getApi } from "../../companies/companiesApis/companiesApis";
+import { getAddressType } from "../addressApis/addressApis";
 import styles from "./addressModal.module.css";
 
 function AddressModal({
@@ -26,6 +32,20 @@ function AddressModal({
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+
+  const languageId = useAppSelector(
+    (state) => state.users.user.message.languageId
+  );
+
+  const [addressTypeData, setaddressTypeData] = useState([]);
+  const addressType = (companyId: number, languageId: number) => {
+    getAddressType(companyId, languageId)
+      .then((resp) => {
+        setaddressTypeData(resp.data.data);
+      })
+      .catch((err) => err.message);
+  };
+
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {
       setCompanyData(resp.data["Company"]);
@@ -34,6 +54,7 @@ function AddressModal({
 
   useEffect(() => {
     getCompanyData(companyId);
+    addressType(companyId, languageId);
 
     return () => {};
   }, []);
@@ -95,6 +116,7 @@ function AddressModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="AddressType"
                     name="AddressType"
                     value={
@@ -114,7 +136,11 @@ function AddressModal({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
+                  >
+                    {addressTypeData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.longdesc}</MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
