@@ -23,3 +23,8 @@
 .css-1g86id8-MuiTreeItem-content.Mui-selected {
   background: none !important;
 }
+
+.nav-tabs .nav-link.active {
+  color: white !important;
+  background-color: gray !important;
+}
