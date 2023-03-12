@@ -30,6 +30,7 @@
   width: 90%;
   margin: 20px auto;
   overflow-y: scroll;
-  max-height: 50vh;
+
+  max-height: 900px;
   font-family: Poppins Medium;
 }

@@ -42,7 +42,7 @@ body {
 .sidebar {
   background: rgba(71, 11, 75, 1);
   color: white;
-  height: 100vh;
+  min-height: 100vh;
   overflow-y: auto;
 }
 
