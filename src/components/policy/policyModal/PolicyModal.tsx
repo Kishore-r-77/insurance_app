@@ -765,7 +765,7 @@ function PolicyModal({
             {state.infoOpen ? (
               <>
                 <Tabs
-                  defaultActiveKey="Client"
+                  defaultActiveKey="Benefit"
                   id="justify-tab-example"
                   className="mb-3"
                   justify
