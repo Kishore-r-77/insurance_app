@@ -772,13 +772,6 @@ function PolicyModal({
                   style={{ width: "95%", margin: "10px auto" }}
                 >
                   <Tab
-                    eventKey="Client"
-                    title="Client"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <ClientEnquiry clientData={clientData} state={state} />
-                  </Tab>
-                  <Tab
                     eventKey="Benefit"
                     title="Benefit"
                     style={{ backgroundColor: "white" }}
@@ -788,6 +781,14 @@ function PolicyModal({
                       state={state}
                     />
                   </Tab>
+                  <Tab
+                    eventKey="Client"
+                    title="Client"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <ClientEnquiry clientData={clientData} state={state} />
+                  </Tab>
+
                   <Tab
                     eventKey="Address"
                     title="Address"
@@ -811,19 +812,18 @@ function PolicyModal({
                     <HistoryEnquiry historyData={historyData} state={state} />
                   </Tab>
                   <Tab
-                    eventKey="TDF"
-                    title="TDF"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <TDFEnquiry data={TDFData} state={state} />
-                  </Tab>
-
-                  <Tab
                     eventKey="Account Balance"
                     title="Account Balance"
                     style={{ backgroundColor: "white" }}
                   >
                     <BALEnquiry data={BALData} state={state} />
+                  </Tab>
+                  <Tab
+                    eventKey="TDF"
+                    title="TDF"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <TDFEnquiry data={TDFData} state={state} />
                   </Tab>
                 </Tabs>
               </>
