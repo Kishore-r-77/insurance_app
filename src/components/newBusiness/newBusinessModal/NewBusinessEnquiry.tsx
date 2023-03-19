@@ -24,7 +24,7 @@ import {
   p0023,
   p0024,
   q0005,
-} from "../policyApis/policyApis";
+} from "../newBusinessApis/newBusinessApis";
 import "./policyModal.css";
 
 function NewBusinessEnquiry({

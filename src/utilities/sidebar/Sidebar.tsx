@@ -98,6 +98,11 @@ const routes = [
         name: "New Business",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/nbmm",
+        name: "NBMM",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
@@ -120,18 +125,6 @@ const routes = [
       {
         path: "/receipts",
         name: "Receipts",
-        icon: <ArrowRightAltIcon />,
-      },
-    ],
-  },
-  {
-    path: "#",
-    name: "Afiscr",
-    icon: <ReduceCapacityIcon />,
-    subRoutes: [
-      {
-        path: "/afiscr",
-        name: "Afiscr",
         icon: <ArrowRightAltIcon />,
       },
     ],

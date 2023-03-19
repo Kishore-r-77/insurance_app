@@ -11,14 +11,8 @@ import Address from "../../admin/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Client from "../../client/Client";
-import {
-  p0018,
-  p0023,
-  p0024,
-  q0005,
-  frequency,
-} from "../newBusinessApis/newBusinessApis";
-import "./newBusinessModal.css";
+import { p0018, p0023, p0024, q0005, frequency } from "../nbmmApis/nbmmApis";
+import styles from "./nbmm.module.css";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";

@@ -1,28 +1,27 @@
-import CustomNavbar from "./utilities/navbar/CustomNavbar";
-import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import Signin from "./components/auth/signin/Signin";
-import UserGroup from "./components/admin/usergroup/UserGroup";
-import Permission from "./components/admin/permission/Permission";
-import SideBar from "./utilities/sidebar/Sidebar";
-import Users from "./components/admin/users/Users";
-import moment from "moment";
-import Errors from "./components/admin/errors/Errors";
-import Companies from "./components/admin/companies/Companies";
-import Client from "./components/client/Client";
+import "./App.css";
 import Address from "./components/admin/address/Address";
-import Bank from "./components/bank/Bank";
-import Hompage from "./components/homepage/Hompage";
-import Params from "./components/admin/params/Params";
-import Policy from "./components/policy/Policy";
-import Footer from "./utilities/footer/Footer";
-import ParamItems from "./components/admin/paramItems/ParamItems";
+import Companies from "./components/admin/companies/Companies";
+import Errors from "./components/admin/errors/Errors";
 import ParamData from "./components/admin/paramData/paramData";
+import ParamItems from "./components/admin/paramItems/ParamItems";
+import Params from "./components/admin/params/Params";
+import Permission from "./components/admin/permission/Permission";
+import UserGroup from "./components/admin/usergroup/UserGroup";
+import Users from "./components/admin/users/Users";
 import Agency from "./components/agency/Agency";
-import Transaction from "./components/transaction/Transaction";
+import Signin from "./components/auth/signin/Signin";
+import Bank from "./components/bank/Bank";
+import Client from "./components/client/Client";
+import Hompage from "./components/homepage/Hompage";
+import Nbmm from "./components/nbmm/Nbmm";
 import NewBusiness from "./components/newBusiness/NewBusiness";
+import Policy from "./components/policy/Policy";
 import Receipts from "./components/receipts/Receipts";
-import AfiScr from "./components/afiscr/AfiScr";
+import Transaction from "./components/transaction/Transaction";
+import Footer from "./utilities/footer/Footer";
+import CustomNavbar from "./utilities/navbar/CustomNavbar";
+import SideBar from "./utilities/sidebar/Sidebar";
 
 function App() {
   return (
@@ -51,7 +50,7 @@ function App() {
               <Route path="/transaction" element={<Transaction />} />
               <Route path="/newBusiness" element={<NewBusiness />} />
               <Route path="/receipts" element={<Receipts />} />
-              <Route path="/afiscr" element={<AfiScr />} />
+              <Route path="/nbmm" element={<Nbmm />} />
             </Route>
           </Route>
         </Route>

@@ -142,10 +142,10 @@ function Receipts({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All Receiptss"]);
+        setData(resp.data["All Receipts"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All Receiptss"]?.length === 0);
+        setisLast(resp.data["All Receipts"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

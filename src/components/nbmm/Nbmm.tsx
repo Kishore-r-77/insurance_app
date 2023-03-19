@@ -2,28 +2,28 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
-import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
-import { AfiScrStateType } from "../../reducerUtilities/types/afiscr/afiScrTypes";
-
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../reducerUtilities/actions/afiscr/afiScrActions";
-import styles from "./afiscr.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./afscrApis/afiScrApis";
-import AfiScrModal from "./afiscrModal/AfiScrModal";
+} from "../../reducerUtilities/actions/policy/policyActions";
+import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
+import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import styles from "./nbmm.module.css";
+import { addApi, deleteApi, editApi, getAllApi } from "./nbmmApis/nbmmApis";
+import PolicyModal from "./nbmmModal/NbmmModal";
 
-function AfiScr({ modalFunc }: any) {
+function Nbmm({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
+
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: AfiScrStateType, action: any) => {
+  const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -75,6 +75,46 @@ function AfiScr({ modalFunc }: any) {
           ...state,
           infoOpen: false,
         };
+      case ACTIONS.CLIENTOPEN:
+        return {
+          ...state,
+          clientOpen: true,
+        };
+      case ACTIONS.CLIENTCLOSE:
+        return {
+          ...state,
+          clientOpen: false,
+        };
+      case ACTIONS.ADDRESSOPEN:
+        return {
+          ...state,
+          addressOpen: true,
+        };
+      case ACTIONS.ADDRESSCLOSE:
+        return {
+          ...state,
+          addressOpen: false,
+        };
+      case ACTIONS.AGENCYOPEN:
+        return {
+          ...state,
+          agencyOpen: true,
+        };
+      case ACTIONS.AGENCYCLOSE:
+        return {
+          ...state,
+          agencyOpen: false,
+        };
+      case ACTIONS.BENEFITOPEN:
+        return {
+          ...state,
+          benefitOpen: true,
+        };
+      case ACTIONS.BENEFITCLOSE:
+        return {
+          ...state,
+          benefitOpen: false,
+        };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -90,30 +130,6 @@ function AfiScr({ modalFunc }: any) {
         if (state.sortAsc) {
           state.sortAsc = false;
         }
-
-      // *** Attention: Check the Lookup Open /close ***
-      case ACTIONS.POLICIESOPEN:
-        return {
-          ...state,
-          policiesOpen: true,
-        };
-      case ACTIONS.POLICIESCLOSE:
-        return {
-          ...state,
-          policiesOpen: false,
-        };
-
-      // *** Attention: Check the Lookup Open /close ***
-      case ACTIONS.UWREASONSOPEN:
-        return {
-          ...state,
-          uwreasonsOpen: true,
-        };
-      case ACTIONS.UWREASONSCLOSE:
-        return {
-          ...state,
-          uwreasonsOpen: false,
-        };
         return {
           ...state,
           sortDesc: desc,
@@ -126,21 +142,21 @@ function AfiScr({ modalFunc }: any) {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
+
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All AfiScrs"]);
+        setData(resp.data["All Policys"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All AfiScrs"]?.length === 0);
+        setisLast(resp.data["All Policys"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -149,14 +165,21 @@ function AfiScr({ modalFunc }: any) {
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = () => {
-    return addApi(state, companyId)
-      .then((resp) => {
-        console.log(resp);
-        dispatch({ type: ACTIONS.ADDCLOSE });
-        getData();
-      })
-      .catch((err) => console.log(err.message));
+  const handleFormSubmit = async () => {
+    try {
+      const response = await addApi(state, companyId);
+      getData();
+      return {
+        response,
+        status: response.status,
+      };
+    } catch (err: any) {
+      console.log(err);
+      return {
+        response: err,
+        status: err.response.status,
+      };
+    }
   };
 
   //Edit Api
@@ -256,7 +279,8 @@ function AfiScr({ modalFunc }: any) {
             <SearchIcon />
           </Button>
         </span>
-        <h1>AfiScrs</h1>
+
+        <h1>NBMM</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -291,7 +315,8 @@ function AfiScr({ modalFunc }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <AfiScrModal
+
+      <PolicyModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -301,4 +326,5 @@ function AfiScr({ modalFunc }: any) {
     </div>
   );
 }
-export default AfiScr;
+
+export default Nbmm;

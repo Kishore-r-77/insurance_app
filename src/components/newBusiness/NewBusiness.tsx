@@ -12,7 +12,12 @@ import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../utilities/Table/CustomTable";
 import styles from "./newBusiness.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./policyApis/policyApis";
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAllApi,
+} from "./newBusinessApis/newBusinessApis";
 import PolicyModal from "./newBusinessModal/NewBusinessModal";
 
 function NewBusiness({ modalFunc }: any) {

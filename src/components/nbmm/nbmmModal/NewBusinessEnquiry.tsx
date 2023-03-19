@@ -1,42 +1,27 @@
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TreeItem from "@mui/lab/TreeItem";
+import TreeView from "@mui/lab/TreeView";
+import { FormControl, MenuItem, Tabs, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useReducer, useState } from "react";
 import { PolicyModalType } from "../../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
+import CustomModal from "../../../utilities/modal/CustomModal";
 import Address from "../../admin/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Client from "../../client/Client";
-import {
-  p0018,
-  p0023,
-  p0024,
-  q0005,
-  frequency,
-} from "../newBusinessApis/newBusinessApis";
-import "./newBusinessModal.css";
-import TreeView from "@mui/lab/TreeView";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TreeItem from "@mui/lab/TreeItem";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import Benefit from "./benefit/Benefit";
-import axios from "axios";
-import moment from "moment";
-import { Tab, Tabs } from "react-bootstrap";
-import ClientEnquiry from "./enquiry/ClientEnquiry";
-import BankEnquiry from "./enquiry/BankEnquiry";
-import TDFEnquiry from "./enquiry/TDFEnquiry";
-import BenefitEnquiry from "./enquiry/BenefitEnquiry";
-import AddressEnquiry from "./enquiry/AddressEnquiry";
-import HistoryEnquiry from "./enquiry/HistoryEnquiry";
-import BALEnquiry from "./enquiry/BALEnquiry";
+import { frequency, p0018, p0023, p0024, q0005 } from "../nbmmApis/nbmmApis";
+import "./policyModal.css";
 
-function NewBusinessModal({
+function NewBusinessEnquiry({
   state,
   record,
   dispatch,
@@ -46,8 +31,6 @@ function NewBusinessModal({
   const addTitle: string = "Proposal Create";
   const editTitle: string = "Proposal Edit";
   const infoTitle: string = "Proposal Info";
-
-  console.log(record?.ID, "Record");
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -129,15 +112,11 @@ function NewBusinessModal({
       )
       .then((resp) => {
         setcoverage(resp.data["AllowedCoverages"]);
-        dispatchBenefit({
-          type: "INITIALIZE_STATE",
-          payload: [...resp.data["AllowedCoverages"]],
-        });
       })
       .catch((err) => console.log(err.message));
   };
 
-  const [clientData, setclientData] = useState([]);
+  const [clietData, setclietData] = useState([]);
   const getClientByPolicy = () => {
     axios
       .get(
@@ -147,129 +126,16 @@ function NewBusinessModal({
         }
       )
       .then((resp) => {
-        setclientData(resp.data?.Clients);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [bankData, setbankData] = useState([]);
-  const getbankByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/banksgetbypol/${record.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setbankData(resp.data?.Clients);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [TDFData, setTDFData] = useState([]);
-  const geTDFByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/policytdf/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setTDFData(resp.data["TDFPolicy"]);
-        console.log(resp.data["TDFPolicy"], "TDF Data");
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [BALData, setBALData] = useState([]);
-  const geBALByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/glbalget/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setBALData(resp.data?.History);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [benefitenquiryData, setbenefitenquiryData] = useState([]);
-  const getBenefitByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/benefitgetbypol/${record.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setbenefitenquiryData(resp.data?.Benefit);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [addressData, setaddressData] = useState([]);
-  const getAddressByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/addressgetbypol/${record.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setaddressData(resp.data?.Address);
-      })
-      .catch((err) => console.log(err.message));
-  };
-  const [addressClntData, setaddressClntData] = useState([]);
-  const getAddressByClient = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/basicservices/addressgetbyclient/${state.ClientID}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setaddressClntData(resp.data?.AddressByClientID);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [historyData, sethistoryData] = useState([]);
-  const getHistoryByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/historyget/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        sethistoryData(resp.data?.History);
+        setclietData(resp.data["AllowedCoverages"]);
       })
       .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {
     getCoverage();
-
+    getClientByPolicy();
     return () => {};
   }, []);
-
-  useEffect(() => {
-    getClientByPolicy();
-    getbankByPolicy();
-    geTDFByPolicy();
-    getBenefitByPolicy();
-    getAddressByPolicy();
-    getHistoryByPolicy();
-    geBALByPolicy();
-
-    return () => {};
-  }, [state.infoOpen]);
-
-  useEffect(() => {
-    getAddressByClient();
-    return () => {};
-  }, [state.ClientID]);
 
   var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
@@ -312,8 +178,6 @@ function NewBusinessModal({
             };
           }
         });
-      case "INITIALIZE_STATE":
-        return action.payload;
       default:
         return initialBenefitValues;
     }
@@ -331,14 +195,14 @@ function NewBusinessModal({
         {
           CompanyID: companyId,
           PolicyID: parseInt(policyId),
-          ClientID: parseInt(benefitData[index]?.ClientID),
+          ClientID: benefitData[index].ClientID,
           BStartDate: moment(benefitData[index]?.BStartDate)
             .format("YYYYMMDD")
             .toString(),
-          BTerm: parseInt(benefitData[index]?.BTerm),
-          BPTerm: parseInt(benefitData[index]?.BPTerm),
-          BCoverage: benefitData[index]?.Coverage,
-          BSumAssured: parseInt(benefitData[index]?.BSumAssured),
+          BTerm: benefitData[index]?.BTerm,
+          BPTerm: benefitData[index]?.BPTerm,
+          BCoverage: benefitData[index]?.BCoverage,
+          BSumAssured: benefitData[index]?.BSumAssured,
         },
         { withCredentials: true }
       )
@@ -362,18 +226,12 @@ function NewBusinessModal({
     return () => {};
   }, []);
 
-  useEffect(() => {
-    getCoverage();
-    return () => {};
-  }, []);
-
   const policyAndModalAddSubmit = async () => {
     const response = await handleFormSubmit();
-    console.log(response?.response?.data?.Created, "Response");
-    console.log(response?.status, "Status");
+    console.log(response, "Response");
     if (response.status === 200) {
       for (let i = 0; i < coverage.length; i++) {
-        handleBenefitFormSubmit(i, response?.response?.data?.Created);
+        handleBenefitFormSubmit(i, response.response.data.Created);
       }
       dispatch({ type: ACTIONS.ADDCLOSE });
     }
@@ -397,8 +255,6 @@ function NewBusinessModal({
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
-
-  console.log(benefitData, "benefitData");
 
   return (
     <div>
@@ -448,11 +304,7 @@ function NewBusinessModal({
                 open={state.addressOpen}
                 handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
               >
-                <Address
-                  modalFunc={addressOpenFunc}
-                  addressClntData={addressClntData}
-                  lookup={state.addressOpen}
-                />
+                <Address modalFunc={addressOpenFunc} />
               </CustomModal>
             ) : state.agencyOpen ? (
               <CustomModal
@@ -785,82 +637,23 @@ function NewBusinessModal({
                 </Grid2>
               </Grid2>
             </TreeItem>
-            {state.infoOpen ? (
-              <>
-                <Tabs
-                  defaultActiveKey="Benefit"
-                  id="justify-tab-example"
-                  className="mb-3"
-                  justify
-                  style={{ width: "95%", margin: "10px auto" }}
-                >
-                  <Tab
-                    eventKey="Benefit"
-                    title="Benefit"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <BenefitEnquiry
-                      benefitenquiryData={benefitenquiryData}
-                      state={state}
-                    />
-                  </Tab>
-                  <Tab
-                    eventKey="Client"
-                    title="Client"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <ClientEnquiry clientData={clientData} state={state} />
-                  </Tab>
+            <Tabs>Client</Tabs>
 
-                  <Tab
-                    eventKey="Address"
-                    title="Address"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <AddressEnquiry addressData={addressData} state={state} />
-                  </Tab>
-
-                  <Tab
-                    eventKey="Bank"
-                    title="Bank"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <BankEnquiry bankData={bankData} state={state} />
-                  </Tab>
-                  <Tab
-                    eventKey="Policy History"
-                    title="Policy History"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <HistoryEnquiry historyData={historyData} state={state} />
-                  </Tab>
-                  <Tab
-                    eventKey="Account Balance"
-                    title="Account Balance"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <BALEnquiry data={BALData} state={state} />
-                  </Tab>
-                  <Tab
-                    eventKey="TDF"
-                    title="TDF"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <TDFEnquiry data={TDFData} state={state} />
-                  </Tab>
-                </Tabs>
-              </>
-            ) : (
-              <TreeItem nodeId="5" label="Benefit Table">
-                <Benefit
-                  coverage={coverage}
-                  benefitData={benefitData}
-                  clientOpenFunc={clientOpenFunc}
-                  dispatchBenefit={dispatchBenefit}
-                  ACTIONS={ACTIONS}
-                />
-              </TreeItem>
-            )}
+            {/* <Button
+              style={{
+                marginTop: "1rem",
+                maxWidth: "40px",
+                maxHeight: "40px",
+                minWidth: "40px",
+                minHeight: "40px",
+                backgroundColor: "#0a3161",
+              }}
+              variant="contained"
+              color="primary"
+              onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+            >
+              Client
+            </Button> */}
           </TreeView>
         </form>
       </CustomFullModal>
@@ -868,4 +661,4 @@ function NewBusinessModal({
   );
 }
 
-export default NewBusinessModal;
+export default NewBusinessEnquiry;
