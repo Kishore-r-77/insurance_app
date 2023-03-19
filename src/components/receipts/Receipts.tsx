@@ -2,33 +2,33 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import { AddressStateType } from "../../../reducerUtilities/types/admin/addressTypes";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import styles from "./address.module.css";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import { useAppSelector } from "../../redux/app/hooks";
+// ***  Attention : Check the import below and change it if required ***
+import { ReceiptsStateType } from "../../reducerUtilities/types/receipts/receiptsTypes";
+
+import {
+  ACTIONS,
+  columns,
+  initialValues,
+} from "../../reducerUtilities/actions/receipts/receiptsActions";
+import styles from "./receipts.module.css";
 import {
   addApi,
   deleteApi,
   editApi,
   getAllApi,
-} from "./addressApis/addressApis";
-import AddressModal from "./addressModal/AddressModal";
-import {
-  ACTIONS,
-  columns,
-  initialValues,
-} from "../../../reducerUtilities/actions/admin/addressActions";
-import { useAppSelector } from "../../../redux/app/hooks";
+} from "./receiptsApis/receiptsApis";
+import ReceiptsModal from "./receiptsModal/ReceiptsModal";
 
-function Address({ modalFunc, addressClntData, lookup }: any) {
+function Receipts({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
-
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
-
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: AddressStateType, action: any) => {
+  const reducer = (state: ReceiptsStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -36,7 +36,6 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.payload, action.fieldName, "kish");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,
@@ -80,17 +79,6 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
           ...state,
           infoOpen: false,
         };
-      case ACTIONS.CLIENTOPEN:
-        return {
-          ...state,
-          clientOpen: true,
-        };
-      case ACTIONS.CLIENTCLOSE:
-        return {
-          ...state,
-          clientOpen: false,
-        };
-
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -106,6 +94,30 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
         if (state.sortAsc) {
           state.sortAsc = false;
         }
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.CLIENTSOPEN:
+        return {
+          ...state,
+          clientsOpen: true,
+        };
+      case ACTIONS.CLIENTSCLOSE:
+        return {
+          ...state,
+          clientsOpen: false,
+        };
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.POLICIESOPEN:
+        return {
+          ...state,
+          policiesOpen: true,
+        };
+      case ACTIONS.POLICIESCLOSE:
+        return {
+          ...state,
+          policiesOpen: false,
+        };
         return {
           ...state,
           sortDesc: desc,
@@ -118,20 +130,21 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        setData(resp.data["All Addresses"]);
+        console.log(resp);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["All Receiptss"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Addresses"]?.length === 0);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All Receiptss"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -154,6 +167,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
+        console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -246,8 +260,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>Address</h1>
+        <h1>Receipts</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -266,7 +279,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
         </Button>
       </header>
       <CustomTable
-        data={lookup ? addressClntData : data}
+        data={data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -282,7 +295,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <AddressModal
+      <ReceiptsModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -292,5 +305,4 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
     </div>
   );
 }
-
-export default Address;
+export default Receipts;

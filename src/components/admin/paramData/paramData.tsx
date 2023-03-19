@@ -50,6 +50,7 @@ import Q0021 from "../paramDataPages/Q0021/q0021";
 import Q0022 from "../paramDataPages/Q0022/q0022";
 import Q0023 from "../paramDataPages/Q0023/q0023";
 import Q0024 from "../paramDataPages/Q0024/q0024";
+import P0043 from "../paramDataPages/P0043/P0043";
 
 const ParamData = () => {
   const {
@@ -471,6 +472,14 @@ const ParamData = () => {
       case "1-Q0024":
         return (
           <Q0024
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0043":
+        return (
+          <P0043
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}

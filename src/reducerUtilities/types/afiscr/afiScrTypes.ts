@@ -1,14 +1,14 @@
-export type ParamsStateType = {
-  companyId: string;
-  languageId: string;
-  longdesc: string;
-  name: string;
-  type: string;
 
+export type AfiScrStateType = {
+  PolicyID :string;
+  Reason :string;
+  RequestedDate :string;
+// *** Attention: Check the lookup table open below ***
+  policiesOpen: boolean;
+  uwreasonsOpen: boolean;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
-  deleteOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -22,17 +22,19 @@ export type ActionConstantsType = {
   ADDOPEN: string;
   EDITOPEN: string;
   INFOOPEN: string;
-  DELOPEN: string;
-  DELCLOSE: string;
   ADDCLOSE: string;
   EDITCLOSE: string;
   INFOCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
+  // *** Attention: Check the Lookup table Open/close below ***
+  POLICIESOPEN: string;
+  POLICIESCLOSE: string;
+  UWREASONSOPEN: string;
+  UWREASONSCLOSE: string;
 };
-
-export type ParamsModalType = {
-  state: ParamsStateType;
+export type AfiScrModalType = {
+  state: AfiScrStateType;
   record: any;
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;

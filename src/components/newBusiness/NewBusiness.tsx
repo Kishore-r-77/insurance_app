@@ -2,25 +2,20 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import { AddressStateType } from "../../../reducerUtilities/types/admin/addressTypes";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import styles from "./address.module.css";
-import {
-  addApi,
-  deleteApi,
-  editApi,
-  getAllApi,
-} from "./addressApis/addressApis";
-import AddressModal from "./addressModal/AddressModal";
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/addressActions";
-import { useAppSelector } from "../../../redux/app/hooks";
+} from "../../reducerUtilities/actions/policy/policyActions";
+import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
+import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import styles from "./newBusiness.module.css";
+import { addApi, deleteApi, editApi, getAllApi } from "./policyApis/policyApis";
+import PolicyModal from "./newBusinessModal/NewBusinessModal";
 
-function Address({ modalFunc, addressClntData, lookup }: any) {
+function NewBusiness({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -28,7 +23,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
   const [record, setRecord] = useState<any>({});
 
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: AddressStateType, action: any) => {
+  const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -36,7 +31,6 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.payload, action.fieldName, "kish");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,
@@ -90,7 +84,36 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
           ...state,
           clientOpen: false,
         };
-
+      case ACTIONS.ADDRESSOPEN:
+        return {
+          ...state,
+          addressOpen: true,
+        };
+      case ACTIONS.ADDRESSCLOSE:
+        return {
+          ...state,
+          addressOpen: false,
+        };
+      case ACTIONS.AGENCYOPEN:
+        return {
+          ...state,
+          agencyOpen: true,
+        };
+      case ACTIONS.AGENCYCLOSE:
+        return {
+          ...state,
+          agencyOpen: false,
+        };
+      case ACTIONS.BENEFITOPEN:
+        return {
+          ...state,
+          benefitOpen: true,
+        };
+      case ACTIONS.BENEFITCLOSE:
+        return {
+          ...state,
+          benefitOpen: false,
+        };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -129,9 +152,10 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        setData(resp.data["All Addresses"]);
+        console.log(resp);
+        setData(resp.data["All Policys"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Addresses"]?.length === 0);
+        setisLast(resp.data["All Policys"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -140,20 +164,28 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = () => {
-    return addApi(state, companyId)
-      .then((resp) => {
-        console.log(resp);
-        dispatch({ type: ACTIONS.ADDCLOSE });
-        getData();
-      })
-      .catch((err) => console.log(err.message));
+  const handleFormSubmit = async () => {
+    try {
+      const response = await addApi(state, companyId);
+      getData();
+      return {
+        response,
+        status: response.status,
+      };
+    } catch (err: any) {
+      console.log(err);
+      return {
+        response: err,
+        status: err.response.status,
+      };
+    }
   };
 
   //Edit Api
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
+        console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -247,7 +279,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
           </Button>
         </span>
 
-        <h1>Address</h1>
+        <h1>New Business Enquiry</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -266,7 +298,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
         </Button>
       </header>
       <CustomTable
-        data={lookup ? addressClntData : data}
+        data={data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -282,7 +314,8 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <AddressModal
+
+      <PolicyModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -293,4 +326,4 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
   );
 }
 
-export default Address;
+export default NewBusiness;

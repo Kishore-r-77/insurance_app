@@ -53,6 +53,11 @@ const routes = [
         name: "Params",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/transaction",
+        name: "Transaction",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
@@ -87,6 +92,11 @@ const routes = [
         name: "Policy",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/newBusiness",
+        name: "New Business",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
@@ -103,12 +113,24 @@ const routes = [
   },
   {
     path: "#",
-    name: "Transaction Details",
-    icon: <ReceiptIcon />,
+    name: "Receipts",
+    icon: <ReduceCapacityIcon />,
     subRoutes: [
       {
-        path: "/transaction",
-        name: "Transaction",
+        path: "/receipts",
+        name: "Receipts",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Afiscr",
+    icon: <ReduceCapacityIcon />,
+    subRoutes: [
+      {
+        path: "/afiscr",
+        name: "Afiscr",
         icon: <ArrowRightAltIcon />,
       },
     ],

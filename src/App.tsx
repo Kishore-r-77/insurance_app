@@ -20,6 +20,9 @@ import ParamItems from "./components/admin/paramItems/ParamItems";
 import ParamData from "./components/admin/paramData/paramData";
 import Agency from "./components/agency/Agency";
 import Transaction from "./components/transaction/Transaction";
+import NewBusiness from "./components/newBusiness/NewBusiness";
+import Receipts from "./components/receipts/Receipts";
+import AfiScr from "./components/afiscr/AfiScr";
 
 function App() {
   return (
@@ -46,6 +49,9 @@ function App() {
               <Route path="/paramData" element={<ParamData />} />
               <Route path="/agency" element={<Agency />} />
               <Route path="/transaction" element={<Transaction />} />
+              <Route path="/newBusiness" element={<NewBusiness />} />
+              <Route path="/receipts" element={<Receipts />} />
+              <Route path="/afiscr" element={<AfiScr />} />
             </Route>
           </Route>
         </Route>
