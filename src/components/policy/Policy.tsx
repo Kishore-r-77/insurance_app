@@ -10,9 +10,9 @@ import {
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
 import styles from "./policy.module.css";
 import { addApi, deleteApi, editApi, getAllApi } from "./policyApis/policyApis";
+import CustomPolicyTable from "./policyModal/customPolicyTable/CustomPolicyTable";
 import PolicyModal from "./policyModal/PolicyModal";
 
 function Policy({ modalFunc }: any) {
@@ -281,24 +281,8 @@ function Policy({ modalFunc }: any) {
         </span>
 
         <h1>Policy Enquiry</h1>
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
       </header>
-      <CustomTable
+      <CustomPolicyTable
         data={data}
         modalFunc={modalFunc}
         columns={columns}

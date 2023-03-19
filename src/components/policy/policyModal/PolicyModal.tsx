@@ -694,7 +694,6 @@ function PolicyModal({
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     id="ClientID"
                     name="ClientID"
                     value={state.addOpen ? state.ClientID : record.ClientID}
@@ -717,7 +716,6 @@ function PolicyModal({
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     id="AddressID"
                     name="AddressID"
                     value={state.addOpen ? state.AddressID : record.AddressID}
@@ -740,7 +738,6 @@ function PolicyModal({
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     id="AgencyID"
                     name="AgencyID"
                     value={state.addOpen ? state.AgencyID : record.AgencyID}

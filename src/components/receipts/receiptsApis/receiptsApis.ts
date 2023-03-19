@@ -43,8 +43,11 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
     {
       CompanyID: companyId,
       Branch: state.Branch,
-      CurrentDate: state.CurrentDate,
-      DateOfCollection: state.DateOfCollection,
+      CurrentDate: moment(state.CurrentDate).format("YYYYMMDD").toString(),
+      DateOfCollection: moment(state.DateOfCollection)
+        .format("YYYYMMDD")
+        .toString(),
+
       ClientID: parseInt(state.ClientID),
       TypeOfReceipt: state.TypeOfReceipt,
       BankReferenceNo: state.BankReferenceNo,
@@ -53,6 +56,7 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
       AccAmount: parseInt(state.AccAmount),
       PolicyID: parseInt(state.PolicyID),
       ReconciledDate: null,
+      // ReconciledDate: moment(state.ReconciledDate).format("YYYYMMDD").toString(),
     },
     {
       withCredentials: true,
@@ -69,8 +73,10 @@ export const editApi = (record: any) => {
 
       CompanyID: parseInt(record.CompanyID),
       Branch: record.Branch,
-      CurrentDate: record.CurrentDate,
-      DateOfCollection: record.DateOfCollection,
+      CurrentDate: moment(record.CurrentDate).format("YYYYMMDD").toString(),
+      DateOfCollection: moment(record.DateOfCollection)
+        .format("YYYYMMDD")
+        .toString(),
       ClientID: parseInt(record.ClientID),
       TypeOfReceipt: record.TypeOfReceipt,
       BankReferenceNo: record.BankReferenceNo,
@@ -78,7 +84,9 @@ export const editApi = (record: any) => {
       AccCurry: record.AccCurry,
       AccAmount: record.AccAmount,
       PolicyID: parseInt(record.PolicyID),
-      ReconciledDate: record.ReconciledDate,
+      ReconciledDate: moment(record.ReconciledDate)
+        .format("YYYYMMDD")
+        .toString(),
     },
     {
       withCredentials: true,

@@ -21,6 +21,7 @@ import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/rece
 import { paramItem } from "../receiptsApis/receiptsApis";
 import Client from "../../client/Client";
 import Policy from "../../policy/Policy";
+import { p0023 } from "../../policy/policyApis/policyApis";
 function ReceiptsModal({
   state,
   record,
@@ -84,11 +85,21 @@ function ReceiptsModal({
   //   });
   // };
 
+  const [aCur, setaCur] = useState([]);
+  const getACur = (Acur: string) => {
+    return p0023(companyId, languageId, Acur)
+      .then((resp) => {
+        setaCur(resp.data.AllowedContractCurriencies);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   useEffect(() => {
     getCompanyData(companyId);
     getBranch(companyId, "P0018", languageId);
     //getClientData(clientId);
     getTypeOfReceipt(companyId, "P0030", languageId);
+    getACur("Ccur");
     //getPolicyData(policyId);
 
     return () => {};
@@ -188,53 +199,59 @@ function ReceiptsModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    id="CurrentDate"
-                    name="CurrentDate"
-                    value={
-                      state.addOpen ? state.CurrentDate : record.CurrentDate
-                    }
-                    placeholder="Current Date"
-                    label="Current Date"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "CurrentDate",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Current Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen ? state.CurrentDate : record.CurrentDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date.$d,
+                            fieldName: "CurrentDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    id="DateOfCollection"
-                    name="DateOfCollection"
-                    value={
-                      state.addOpen
-                        ? state.DateOfCollection
-                        : record.DateOfCollection
-                    }
-                    placeholder="Collection Date"
-                    label="Collection Date"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "DateOfCollection",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Date Of Collection"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen
+                            ? state.DateOfCollection
+                            : record.DateOfCollection
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date.$d,
+                            fieldName: "DateOfCollection",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
@@ -343,6 +360,7 @@ function ReceiptsModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="AccCurry"
                     name="AccCurry"
                     value={state.addOpen ? state.AccCurry : record.AccCurry}
@@ -360,17 +378,18 @@ function ReceiptsModal({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
+                  >
+                    {aCur.map((val: string) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     type="number"
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
                     id="AccAmount"
                     name="AccAmount"
                     value={state.addOpen ? state.AccAmount : record.AccAmount}
@@ -417,29 +436,32 @@ function ReceiptsModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    id="ReconciledDate"
-                    name="ReconciledDate"
-                    value={
-                      state.addOpen
-                        ? state.ReconciledDate
-                        : record.ReconciledDate
-                    }
-                    placeholder="Reconcilied Date"
-                    label="Reconcilied Date"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ReconciledDate",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Reconciled Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen
+                            ? state.ReconciledDate
+                            : record.ReconciledDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date.$d,
+                            fieldName: "ReconciledDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
               </>
             )}
