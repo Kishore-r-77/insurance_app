@@ -65,6 +65,7 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
         };
 
       case ACTIONS.ADDCLOSE:
+        state = initialValues;
         return {
           ...state,
           addOpen: false,

@@ -10,6 +10,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import SidebarMenu from "./SidebarMenu";
 import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+
 const routes = [
   {
     path: "/home",
@@ -114,7 +115,7 @@ const routes = [
   {
     path: "#",
     name: "Receipts",
-    icon: <ReduceCapacityIcon />,
+    icon: <ReceiptIcon />,
     subRoutes: [
       {
         path: "/receipts",

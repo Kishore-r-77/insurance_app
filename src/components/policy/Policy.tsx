@@ -59,6 +59,7 @@ function Policy({ modalFunc }: any) {
         };
 
       case ACTIONS.ADDCLOSE:
+        state = initialValues;
         return {
           ...state,
           addOpen: false,
