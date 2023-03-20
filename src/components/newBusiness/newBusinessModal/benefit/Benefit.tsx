@@ -4,7 +4,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import CustomModal from "../../../../utilities/modal/CustomModal";
-import Client from "../../../client/Client";
+import Client from "../../../clientDetails/client/Client";
 import styles from "./benefit.module.css";
 
 function Benefit({
@@ -15,7 +15,7 @@ function Benefit({
   clientOpenFunc,
 }: any) {
   const [isChecked, setisChecked] = useState(false);
-  console.log("ischecked", isChecked);
+
   return (
     <div>
       <Paper className={styles.paperStyle}>

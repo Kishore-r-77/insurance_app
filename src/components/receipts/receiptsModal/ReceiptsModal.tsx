@@ -19,7 +19,7 @@ import styles from "./receiptsModal.module.css";
 //Attention: Check the path below
 import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
 import { paramItem } from "../receiptsApis/receiptsApis";
-import Client from "../../client/Client";
+import Client from "../../clientDetails/client/Client";
 import Policy from "../../policy/Policy";
 import { p0023 } from "../../policy/policyApis/policyApis";
 function ReceiptsModal({

@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { CompaniesStateType } from "../../../../reducerUtilities/types/admin/companiesTypes";
+import { CompaniesStateType } from "../../../../reducerUtilities/types/admin/companies/companiesTypes";
 import { useAppSelector } from "../../../../redux/app/hooks";
 
 export const getAllApi = (

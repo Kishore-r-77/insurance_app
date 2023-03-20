@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { ErrorsStateType } from "../../../../reducerUtilities/types/admin/errorsTypes";
+import { ErrorsStateType } from "../../../../reducerUtilities/types/admin/errors/errorsTypes";
 
 export const getAllApi = (
   pageNum: number,

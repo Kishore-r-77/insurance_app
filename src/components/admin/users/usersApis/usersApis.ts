@@ -1,5 +1,5 @@
 import axios from "axios";
-import { usersStateType } from "../../../../reducerUtilities/types/admin/usersTypes";
+import { usersStateType } from "../../../../reducerUtilities/types/admin/users/usersTypes";
 
 export const getAllApi = (
   pageNum: number,

@@ -6,8 +6,8 @@ import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/userGroupActions";
-import { UserGroupStateType } from "../../../reducerUtilities/types/admin/userGroupTypes";
+} from "../../../reducerUtilities/actions/admin/userGroup/userGroupActions";
+import { UserGroupStateType } from "../../../reducerUtilities/types/admin/userGroups/userGroupTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";

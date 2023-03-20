@@ -1,7 +1,7 @@
 import { MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import React, { useEffect, useState } from "react";
-import { PermissionModalType } from "../../../../reducerUtilities/types/admin/permissionTypes";
+import { PermissionModalType } from "../../../../reducerUtilities/types/admin/permissions/permissionTypes";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import Transaction from "../../../transaction/Transaction";

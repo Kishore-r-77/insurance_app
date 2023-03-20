@@ -7,8 +7,8 @@ import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/companiesActions";
-import { CompaniesStateType } from "../../../reducerUtilities/types/admin/companiesTypes";
+} from "../../../reducerUtilities/actions/admin/companies/companiesActions";
+import { CompaniesStateType } from "../../../reducerUtilities/types/admin/companies/companiesTypes";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./companies.module.css";

@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
 import styles from "./errorsModal.module.css";
 
-import { ErrorsModalType } from "../../../../reducerUtilities/types/admin/errorsTypes";
+import { ErrorsModalType } from "../../../../reducerUtilities/types/admin/errors/errorsTypes";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import { getApi } from "../../companies/companiesApis/companiesApis";

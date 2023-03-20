@@ -14,8 +14,8 @@ import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/paramItemsActions";
-import { ParamItemsStateType } from "../../../reducerUtilities/types/admin/paramItemsTypes";
+} from "../../../reducerUtilities/actions/admin/params/paramItemsActions";
+import { ParamItemsStateType } from "../../../reducerUtilities/types/admin/params/paramItemsTypes";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./paramitems.module.css";

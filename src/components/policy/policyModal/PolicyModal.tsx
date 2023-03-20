@@ -7,10 +7,10 @@ import React, { useEffect, useReducer, useState } from "react";
 import { PolicyModalType } from "../../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import Address from "../../admin/address/Address";
+import Address from "../../clientDetails/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
-import Client from "../../client/Client";
+import Client from "../../clientDetails/client/Client";
 import {
   p0018,
   p0023,

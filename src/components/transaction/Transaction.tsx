@@ -6,7 +6,7 @@ import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../reducerUtilities/actions/transaction/transactionAction";
+} from "../../reducerUtilities/actions/admin/transaction/transactionAction";
 import { TransactionStateType } from "../../reducerUtilities/types/transaction/transactionTypes";
 import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";

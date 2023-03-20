@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { PermissionStateType } from "../../../../reducerUtilities/types/admin/permissionTypes";
+import { PermissionStateType } from "../../../../reducerUtilities/types/admin/permissions/permissionTypes";
 
 export const getAllApi = (
   pageNum: number,

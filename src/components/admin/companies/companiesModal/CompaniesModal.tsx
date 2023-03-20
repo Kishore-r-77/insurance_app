@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import styles from "./companiesModal.module.css";
 
-import { CompaniesModalType } from "../../../../reducerUtilities/types/admin/companiesTypes";
+import { CompaniesModalType } from "../../../../reducerUtilities/types/admin/companies/companiesTypes";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 
 function CompaniesModal({

@@ -6,8 +6,8 @@ import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/errorsActions";
-import { ErrorsStateType } from "../../../reducerUtilities/types/admin/errorsTypes";
+} from "../../../reducerUtilities/actions/admin/errors/errorsActions";
+import { ErrorsStateType } from "../../../reducerUtilities/types/admin/errors/errorsTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";

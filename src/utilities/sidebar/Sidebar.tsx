@@ -129,6 +129,89 @@ const routes = [
       },
     ],
   },
+  {
+    path: "#",
+    name: "Campaigns",
+    icon: <ReceiptIcon />,
+    subRoutes: [
+      {
+        path: "/campaigns",
+        name: "Campaigns",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/campaignComps",
+        name: "Campaign Comps",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Lead",
+    icon: <ReceiptIcon />,
+    subRoutes: [
+      {
+        path: "/leadAllocation",
+        name: "Lead Allocation",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/leadChannel",
+        name: "Lead Channels",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/leadDetails",
+        name: "Lead Details",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/leadFollowups",
+        name: "Lead Followups",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Levels",
+    icon: <ReceiptIcon />,
+    subRoutes: [
+      {
+        path: "/levels",
+        name: "Levels",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Quotations",
+    icon: <ReceiptIcon />,
+    subRoutes: [
+      {
+        path: "/qBenIllValues",
+        name: "QBenIllValues",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/qDetails",
+        name: "QBenIllValues",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/qHeader",
+        name: "QHeader",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/quotations",
+        name: "Quotations",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
 ];
 
 const SideBar = ({ children }: any) => {

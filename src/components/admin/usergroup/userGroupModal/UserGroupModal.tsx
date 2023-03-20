@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
 import styles from "./userGroupModal.module.css";
 
-import { UserGroupModalType } from "../../../../reducerUtilities/types/admin/userGroupTypes";
+import { UserGroupModalType } from "../../../../reducerUtilities/types/admin/userGroups/userGroupTypes";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import { getApi } from "../../companies/companiesApis/companiesApis";

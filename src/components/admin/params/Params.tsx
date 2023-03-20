@@ -10,12 +10,12 @@ import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/paramsActions";
+} from "../../../reducerUtilities/actions/admin/params/paramsActions";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./params.module.css";
 import ParamModal from "./ParamModal";
-import { ParamsStateType } from "../../../reducerUtilities/types/admin/parameterTypes";
+import { ParamsStateType } from "../../../reducerUtilities/types/admin/params/parameterTypes";
 
 function Params() {
   //data from getall api

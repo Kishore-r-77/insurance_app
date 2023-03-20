@@ -10,9 +10,9 @@ import { AgencyModalType } from "../../../reducerUtilities/types/agency/agencyTy
 import CustomModal from "../../../utilities/modal/CustomModal";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import { useAppSelector } from "../../../redux/app/hooks";
-import Client from "../../client/Client";
-import Address from "../../admin/address/Address";
-import Bank from "../../bank/Bank";
+import Client from "../../clientDetails/client/Client";
+import Address from "../../clientDetails/address/Address";
+import Bank from "../../clientDetails/bank/Bank";
 
 function AgencyModal({
   state,

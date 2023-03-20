@@ -6,8 +6,8 @@ import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/permissionActions";
-import { PermissionStateType } from "../../../reducerUtilities/types/admin/permissionTypes";
+} from "../../../reducerUtilities/actions/admin/permissions/permissionActions";
+import { PermissionStateType } from "../../../reducerUtilities/types/admin/permissions/permissionTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";

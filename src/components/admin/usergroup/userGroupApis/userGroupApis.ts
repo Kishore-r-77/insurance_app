@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { UserGroupStateType } from "../../../../reducerUtilities/types/admin/userGroupTypes";
+import { UserGroupStateType } from "../../../../reducerUtilities/types/admin/userGroups/userGroupTypes";
 
 export const getAllApi = (
   pageNum: number,

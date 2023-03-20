@@ -4,7 +4,7 @@ import { Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useReducer, useState } from "react";
-import { usersStateType } from "../../../reducerUtilities/types/admin/usersTypes";
+import { usersStateType } from "../../../reducerUtilities/types/admin/users/usersTypes";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./users.module.css";
@@ -12,7 +12,7 @@ import {
   initialValues,
   columns,
   ACTIONS,
-} from "../../../reducerUtilities/actions/admin/usersActions";
+} from "../../../reducerUtilities/actions/admin/users/usersActions";
 import { getAllApi } from "./usersApis/usersApis";
 
 function Users({ modalFunc }: any) {
