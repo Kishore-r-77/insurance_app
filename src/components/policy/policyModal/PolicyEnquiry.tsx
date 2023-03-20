@@ -14,10 +14,10 @@ import { PolicyModalType } from "../../../reducerUtilities/types/policy/policyTy
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import CustomModal from "../../../utilities/modal/CustomModal";
-import Address from "../../admin/address/Address";
+import Address from "../../clientDetails/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
-import Client from "../../client/Client";
+import Client from "../../clientDetails/client/Client";
 import {
   frequency,
   p0018,
