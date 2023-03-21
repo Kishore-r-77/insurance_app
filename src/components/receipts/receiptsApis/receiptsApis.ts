@@ -43,7 +43,6 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
     {
       CompanyID: companyId,
       Branch: state.Branch,
-      CurrentDate: moment(state.CurrentDate).format("YYYYMMDD").toString(),
       DateOfCollection: moment(state.DateOfCollection)
         .format("YYYYMMDD")
         .toString(),
@@ -55,7 +54,7 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
       AccCurry: state.AccCurry,
       AccAmount: parseInt(state.AccAmount),
       PolicyID: parseInt(state.PolicyID),
-      ReconciledDate: null,
+
       // ReconciledDate: moment(state.ReconciledDate).format("YYYYMMDD").toString(),
     },
     {
@@ -73,7 +72,6 @@ export const editApi = (record: any) => {
 
       CompanyID: parseInt(record.CompanyID),
       Branch: record.Branch,
-      CurrentDate: moment(record.CurrentDate).format("YYYYMMDD").toString(),
       DateOfCollection: moment(record.DateOfCollection)
         .format("YYYYMMDD")
         .toString(),
@@ -84,9 +82,6 @@ export const editApi = (record: any) => {
       AccCurry: record.AccCurry,
       AccAmount: record.AccAmount,
       PolicyID: parseInt(record.PolicyID),
-      ReconciledDate: moment(record.ReconciledDate)
-        .format("YYYYMMDD")
-        .toString(),
     },
     {
       withCredentials: true,

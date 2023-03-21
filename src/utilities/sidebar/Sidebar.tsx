@@ -129,26 +129,10 @@ const routes = [
       },
     ],
   },
+
   {
     path: "#",
-    name: "Campaigns",
-    icon: <ReceiptIcon />,
-    subRoutes: [
-      {
-        path: "/campaigns",
-        name: "Campaigns",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
-        path: "/campaignComps",
-        name: "Campaign Comps",
-        icon: <ArrowRightAltIcon />,
-      },
-    ],
-  },
-  {
-    path: "#",
-    name: "Lead",
+    name: "Lead Management",
     icon: <ReceiptIcon />,
     subRoutes: [
       {
@@ -171,20 +155,24 @@ const routes = [
         name: "Lead Followups",
         icon: <ArrowRightAltIcon />,
       },
-    ],
-  },
-  {
-    path: "#",
-    name: "Levels",
-    icon: <ReceiptIcon />,
-    subRoutes: [
       {
         path: "/levels",
         name: "Levels",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/campaigns",
+        name: "Campaigns",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/campaignComps",
+        name: "Campaign Comps",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
+
   {
     path: "#",
     name: "Quotations",

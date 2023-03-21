@@ -199,30 +199,53 @@ function ReceiptsModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={state.infoOpen}
-                        label="Current Date"
-                        inputFormat="DD/MM/YYYY"
-                        value={
-                          state.addOpen ? state.CurrentDate : record.CurrentDate
-                        }
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
-                            fieldName: "CurrentDate",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="ClientID"
+                    name="ClientID"
+                    placeholder="Client ID"
+                    label="Client ID"
+                    // Attention: *** Check the value details  ***
+                    onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
+                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="PolicyID"
+                    name="PolicyID"
+                    placeholder="Policy Number"
+                    label="Policy Number"
+                    // Attention: *** Check the value details  ***
+                    onClick={() => dispatch({ type: ACTIONS.POLICIESOPEN })}
+                    value={state.addOpen ? state.PolicyID : record.PolicyID}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PolicyID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
@@ -253,24 +276,50 @@ function ReceiptsModal({
                     </LocalizationProvider>
                   </FormControl>
                 </Grid2>
-
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
-                    id="ClientID"
-                    name="ClientID"
-                    placeholder="Client ID"
-                    label="Client ID"
-                    // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
-                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    select
+                    id="AccCurry"
+                    name="AccCurry"
+                    value={state.addOpen ? state.AccCurry : record.AccCurry}
+                    placeholder="Acc.Currency"
+                    label="Acc.Currency"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
                         payload: e.target.value,
-                        fieldName: "ClientID",
+                        fieldName: "AccCurry",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {aCur.map((val: string) => (
+                      <MenuItem key={val} value={val}>
+                        {val}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    type="number"
+                    id="AccAmount"
+                    name="AccAmount"
+                    value={state.addOpen ? state.AccAmount : record.AccAmount}
+                    placeholder="Accounting Amount"
+                    label="Accounting Amount"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "AccAmount",
                       })
                     }
                     fullWidth
@@ -278,7 +327,6 @@ function ReceiptsModal({
                     margin="dense"
                   />
                 </Grid2>
-
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
@@ -356,112 +404,6 @@ function ReceiptsModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="AccCurry"
-                    name="AccCurry"
-                    value={state.addOpen ? state.AccCurry : record.AccCurry}
-                    placeholder="Acc.Currency"
-                    label="Acc.Currency"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AccCurry",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  >
-                    {aCur.map((val: string) => (
-                      <MenuItem key={val} value={val}>
-                        {val}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    id="AccAmount"
-                    name="AccAmount"
-                    value={state.addOpen ? state.AccAmount : record.AccAmount}
-                    placeholder="Accounting Amount"
-                    label="Accounting Amount"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AccAmount",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="PolicyID"
-                    name="PolicyID"
-                    placeholder="Policy Number"
-                    label="Policy Number"
-                    // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.POLICIESOPEN })}
-                    value={state.addOpen ? state.PolicyID : record.PolicyID}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PolicyID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={state.infoOpen}
-                        label="Reconciled Date"
-                        inputFormat="DD/MM/YYYY"
-                        value={
-                          state.addOpen
-                            ? state.ReconciledDate
-                            : record.ReconciledDate
-                        }
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
-                            fieldName: "ReconciledDate",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
                 </Grid2>
               </>
             )}
