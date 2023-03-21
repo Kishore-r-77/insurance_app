@@ -395,9 +395,8 @@ function NewBusinessModal({
       console.log(item.ID);
       coverage.map((val, index) => {
         console.log(index, "index son");
-        if (i === index) {
-          benefitData[index].ClientID = item.ID;
-        }
+
+        benefitData[index].ClientID = item.ID;
       });
     } else record.ClientID = item.ID;
 
@@ -415,8 +414,6 @@ function NewBusinessModal({
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
-
-  console.log(benefitData, "benefitData");
 
   return (
     <div>
@@ -874,6 +871,7 @@ function NewBusinessModal({
               <TreeItem nodeId="5" label="Benefit Table">
                 <Benefit
                   coverage={coverage}
+                  companyId={companyId}
                   benefitData={benefitData}
                   clientBenefitOpenFunc={clientBenefitOpenFunc}
                   dispatchBenefit={dispatchBenefit}

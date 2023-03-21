@@ -1,6 +1,7 @@
 import { Paper } from "@mui/material";
+import axios from "axios";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import Client from "../../../clientDetails/client/Client";
@@ -12,10 +13,49 @@ function Benefit({
   benefitData,
   dispatchBenefit,
   clientBenefitOpenFunc,
+  companyId,
   clientOpen,
   setclientOpen,
 }: any) {
   const [isChecked, setisChecked] = useState(false);
+
+  const [btermData, setbtermData] = useState([]);
+  const [bptermData, setbptermData] = useState([]);
+
+  const getbterm = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/basicservices/paramextradata`, {
+        withCredentials: true,
+        params: {
+          name: "Q0015",
+          date: "20220101",
+          item: "END1",
+          company_id: companyId,
+        },
+      })
+      .then((resp) => setbtermData(resp.data.ppt))
+      .catch((err) => err.message);
+  };
+  const getbpterm = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/basicservices/paramextradata`, {
+        withCredentials: true,
+        params: {
+          name: "Q0016",
+          date: "20220101",
+          item: "END1",
+          company_id: companyId,
+        },
+      })
+      .then((resp) => setbptermData(resp.data.ppt))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getbterm();
+    getbpterm();
+    return () => {};
+  }, []);
 
   return (
     <div>
@@ -115,9 +155,8 @@ function Benefit({
                   />
                 </td>
                 <td>
-                  <input
+                  <select
                     className={styles["input-form"]}
-                    type="number"
                     value={benefitData[index]?.BTerm}
                     disabled={val.Coverage === "WOPR" && isChecked === false}
                     onChange={(e) =>
@@ -129,12 +168,20 @@ function Benefit({
                       })
                     }
                     placeholder="BTerm"
-                  />
+                  >
+                    <option selected value="">
+                      None
+                    </option>
+                    {btermData.map((val) => (
+                      <option key={val} value={val}>
+                        {val}
+                      </option>
+                    ))}
+                  </select>
                 </td>
                 <td>
-                  <input
+                  <select
                     className={styles["input-form"]}
-                    type="number"
                     placeholder="BPTerm"
                     value={benefitData[index]?.BPTerm}
                     disabled={val.Coverage === "WOPR" && isChecked === false}
@@ -146,7 +193,16 @@ function Benefit({
                         index,
                       })
                     }
-                  />
+                  >
+                    <option selected value="">
+                      None
+                    </option>
+                    {bptermData.map((val) => (
+                      <option key={val} value={val}>
+                        {val}
+                      </option>
+                    ))}
+                  </select>
                 </td>
                 <td>
                   <input
