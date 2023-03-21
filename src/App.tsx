@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Companies from "./components/admin/companies/Companies";
 import Errors from "./components/admin/errors/Errors";
@@ -35,50 +35,53 @@ import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
 
 function App() {
+  const { pathname } = useLocation();
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Signin />} />
       </Routes>
-      <SideBar>
-        <Routes>
-          <Route element={<CustomNavbar />}>
-            {/* <Route element={<SideBar />}> */}
-            <Route element={<Footer />}>
-              <Route path="/home" element={<Hompage />} />
-              <Route path="/usergroup" element={<UserGroup />} />
-              <Route path="/permission" element={<Permission />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/errors" element={<Errors />} />
-              <Route path="/companies" element={<Companies />} />
-              <Route path="/client" element={<Client />} />
-              <Route path="/address" element={<Address />} />
-              <Route path="/bank" element={<Bank />} />
-              <Route path="/params" element={<Params />} />
-              <Route path="/policy" element={<Policy />} />
-              <Route path="/paramItems" element={<ParamItems />} />
-              <Route path="/paramData" element={<ParamData />} />
-              <Route path="/agency" element={<Agency />} />
-              <Route path="/transaction" element={<Transaction />} />
-              <Route path="/newBusiness" element={<NewBusiness />} />
-              <Route path="/receipts" element={<Receipts />} />
-              <Route path="/nbmm" element={<Nbmm />} />
-              <Route path="/campaigns" element={<Campaigns />} />
-              <Route path="/campaignComps" element={<CampaignComps />} />
-              <Route path="/leadAllocation" element={<LeadAllocations />} />
-              <Route path="/leadChannel" element={<LeadChannels />} />
-              <Route path="/leadDetails" element={<LeadDetails />} />
-              <Route path="/leadFollowups" element={<LeadFollowups />} />
-              <Route path="/levels" element={<Levels />} />
-              <Route path="/qBenIllValues" element={<QBenIllValues />} />
-              <Route path="/qDetails" element={<QDetails />} />
-              <Route path="/qHeader" element={<QHeaders />} />
-              <Route path="/quotations" element={<Quotation />} />
+      {pathname !== "/" && (
+        <SideBar>
+          <Routes>
+            <Route element={<CustomNavbar />}>
+              {/* <Route element={<SideBar />}> */}
+              <Route element={<Footer />}>
+                <Route path="/home" element={<Hompage />} />
+                <Route path="/usergroup" element={<UserGroup />} />
+                <Route path="/permission" element={<Permission />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/errors" element={<Errors />} />
+                <Route path="/companies" element={<Companies />} />
+                <Route path="/client" element={<Client />} />
+                <Route path="/address" element={<Address />} />
+                <Route path="/bank" element={<Bank />} />
+                <Route path="/params" element={<Params />} />
+                <Route path="/policy" element={<Policy />} />
+                <Route path="/paramItems" element={<ParamItems />} />
+                <Route path="/paramData" element={<ParamData />} />
+                <Route path="/agency" element={<Agency />} />
+                <Route path="/transaction" element={<Transaction />} />
+                <Route path="/newBusiness" element={<NewBusiness />} />
+                <Route path="/receipts" element={<Receipts />} />
+                <Route path="/nbmm" element={<Nbmm />} />
+                <Route path="/campaigns" element={<Campaigns />} />
+                <Route path="/campaignComps" element={<CampaignComps />} />
+                <Route path="/leadAllocation" element={<LeadAllocations />} />
+                <Route path="/leadChannel" element={<LeadChannels />} />
+                <Route path="/leadDetails" element={<LeadDetails />} />
+                <Route path="/leadFollowups" element={<LeadFollowups />} />
+                <Route path="/levels" element={<Levels />} />
+                <Route path="/qBenIllValues" element={<QBenIllValues />} />
+                <Route path="/qDetails" element={<QDetails />} />
+                <Route path="/qHeader" element={<QHeaders />} />
+                <Route path="/quotations" element={<Quotation />} />
+              </Route>
+              {/* </Route> */}
             </Route>
-            {/* </Route> */}
-          </Route>
-        </Routes>
-      </SideBar>
+          </Routes>
+        </SideBar>
+      )}
     </div>
   );
 }
