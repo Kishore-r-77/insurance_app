@@ -35,7 +35,13 @@ const menuItemAnimation = {
   }),
 };
 
-const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }: any) => {
+const SidebarMenu = ({
+  route,
+  showAnimation,
+  isOpen,
+  setIsOpen,
+  toggle,
+}: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -93,7 +99,9 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }: any) => {
               <motion.div variants={menuItemAnimation} key={i} custom={i}>
                 <NavLink to={subRoute.path} className="link">
                   <div className="icon">{subRoute.icon}</div>
-                  <motion.div className="link_text">{subRoute.name}</motion.div>
+                  <motion.div className="link_text" onClick={toggle}>
+                    {subRoute.name}
+                  </motion.div>
                 </NavLink>
               </motion.div>
             ))}

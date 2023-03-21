@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { IconButton, Paper } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import Table from "react-bootstrap/Table";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import Client from "../../../clientDetails/client/Client";
 import styles from "./benefit.module.css";
+import { IoIosOpen } from "react-icons/io";
 
 function Benefit({
   coverage,
@@ -117,11 +118,10 @@ function Benefit({
                     disabled
                   />
                 </td>
-                <td>
+                <td style={{ display: "flex" }}>
                   <input
                     className={styles["input-form"]}
                     type="text"
-                    onClick={() => setclientOpen(true)}
                     id="ClientID"
                     name="ClientID"
                     disabled={val.Coverage === "WOPR" && isChecked === false}
@@ -136,6 +136,15 @@ function Benefit({
                       })
                     }
                   />
+                  <span
+                    style={{
+                      padding: "4px",
+                      backgroundColor: "silver",
+                    }}
+                    onClick={() => setclientOpen(true)}
+                  >
+                    <IoIosOpen />
+                  </span>
                 </td>
                 <td>
                   <input
@@ -208,7 +217,7 @@ function Benefit({
                   <input
                     className={styles["input-form"]}
                     type="number"
-                    placeholder="BSumAssured"
+                    placeholder="Sum Assured"
                     value={benefitData[index]?.BSumAssured}
                     disabled={val.Coverage === "WOPR" && isChecked === false}
                     onChange={(e) =>

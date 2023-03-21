@@ -280,6 +280,7 @@ const SideBar = ({ children }: any) => {
                 return (
                   <SidebarMenu
                     key={route.path}
+                    toggle={toggle}
                     setIsOpen={setIsOpen}
                     route={route}
                     showAnimation={showAnimation}
@@ -315,7 +316,7 @@ const SideBar = ({ children }: any) => {
           </section>
         </motion.div>
 
-        <main></main>
+        <main>{children}</main>
       </div>
       <Outlet />
     </>

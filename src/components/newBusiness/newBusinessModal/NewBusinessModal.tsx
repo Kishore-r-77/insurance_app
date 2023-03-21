@@ -390,12 +390,11 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.CLIENTCLOSE });
   };
   const clientBenefitOpenFunc = (item: any, i: any) => {
-    console.log(i, "index i");
+    console.log(i, "i");
     if (state.addOpen) {
       console.log(item.ID);
       coverage.map((val, index) => {
-        console.log(index, "index son");
-
+        console.log(index, "index");
         benefitData[index].ClientID = item.ID;
       });
     } else record.ClientID = item.ID;

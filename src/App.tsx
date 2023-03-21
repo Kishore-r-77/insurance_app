@@ -40,9 +40,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Signin />} />
       </Routes>
-      <Routes>
-        <Route element={<CustomNavbar />}>
-          <Route element={<SideBar />}>
+      <SideBar>
+        <Routes>
+          <Route element={<CustomNavbar />}>
+            {/* <Route element={<SideBar />}> */}
             <Route element={<Footer />}>
               <Route path="/home" element={<Hompage />} />
               <Route path="/usergroup" element={<UserGroup />} />
@@ -74,9 +75,10 @@ function App() {
               <Route path="/qHeader" element={<QHeaders />} />
               <Route path="/quotations" element={<Quotation />} />
             </Route>
+            {/* </Route> */}
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </SideBar>
     </div>
   );
 }
