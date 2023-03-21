@@ -47,7 +47,11 @@ function NewBusinessModal({
   const editTitle: string = "Proposal Edit";
   const infoTitle: string = "Proposal Info";
 
-  console.log(record?.ID, "Record");
+  const [clientOpen, setclientOpen] = useState(false);
+
+  const handleClientClose = () => {
+    setclientOpen(false);
+  };
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -275,7 +279,6 @@ function NewBusinessModal({
     BStartDate: "",
     BTerm: "",
     ClientID: "",
-    clientOpen: false,
     BPTerm: "",
     BCoverage: "",
     BSumAssured: "",
@@ -383,7 +386,22 @@ function NewBusinessModal({
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;
+
     dispatch({ type: ACTIONS.CLIENTCLOSE });
+  };
+  const clientBenefitOpenFunc = (item: any, i: any) => {
+    console.log(i, "index i");
+    if (state.addOpen) {
+      console.log(item.ID);
+      coverage.map((val, index) => {
+        console.log(index, "index son");
+        if (i === index) {
+          benefitData[index].ClientID = item.ID;
+        }
+      });
+    } else record.ClientID = item.ID;
+
+    handleClientClose();
   };
   const addressOpenFunc = (item: any) => {
     if (state.addOpen) {
@@ -427,7 +445,9 @@ function NewBusinessModal({
             : null
         }
         ACTIONS={ACTIONS}
-        handleFormSubmit={() => policyAndModalAddSubmit()}
+        handleFormSubmit={
+          state.infoOpen ? null : () => policyAndModalAddSubmit()
+        }
       >
         <form>
           <TreeView
@@ -855,8 +875,10 @@ function NewBusinessModal({
                 <Benefit
                   coverage={coverage}
                   benefitData={benefitData}
-                  clientOpenFunc={clientOpenFunc}
+                  clientBenefitOpenFunc={clientBenefitOpenFunc}
                   dispatchBenefit={dispatchBenefit}
+                  clientOpen={clientOpen}
+                  setclientOpen={setclientOpen}
                   ACTIONS={ACTIONS}
                 />
               </TreeItem>

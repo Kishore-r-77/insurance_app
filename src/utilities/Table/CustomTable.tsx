@@ -96,9 +96,9 @@ function CustomTable({
           </tr>
         </thead>
         <tbody>
-          {data?.map((row: any) => (
+          {data?.map((row: any, index: any) => (
             <tr
-              onClick={() => modalFunc(row)}
+              onClick={() => modalFunc(row, index)}
               key={row.ID}
               className={styles["table-cell"]}
             >

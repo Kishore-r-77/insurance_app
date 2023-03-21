@@ -19,9 +19,11 @@ function CustomFullModal({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleFormSubmit()}>
-            Save Changes
-          </Button>
+          {!!handleFormSubmit && (
+            <Button variant="primary" onClick={() => handleFormSubmit()}>
+              Save Changes
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

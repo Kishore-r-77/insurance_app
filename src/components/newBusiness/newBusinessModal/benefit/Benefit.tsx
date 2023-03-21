@@ -1,7 +1,6 @@
 import { Paper } from "@mui/material";
-import axios from "axios";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Table from "react-bootstrap/Table";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import Client from "../../../clientDetails/client/Client";
@@ -12,7 +11,9 @@ function Benefit({
   ACTIONS,
   benefitData,
   dispatchBenefit,
-  clientOpenFunc,
+  clientBenefitOpenFunc,
+  clientOpen,
+  setclientOpen,
 }: any) {
   const [isChecked, setisChecked] = useState(false);
 
@@ -80,9 +81,7 @@ function Benefit({
                   <input
                     className={styles["input-form"]}
                     type="text"
-                    // onClick={() =>
-                    //   dispatchBenefit({ type: ACTIONS.CLIENTOPEN })
-                    // }
+                    onClick={() => setclientOpen(true)}
                     id="ClientID"
                     name="ClientID"
                     disabled={val.Coverage === "WOPR" && isChecked === false}
@@ -167,12 +166,10 @@ function Benefit({
                   />
                 </td>
                 <CustomModal
-                  open={benefitData[index]?.clientOpen}
-                  handleClose={() =>
-                    dispatchBenefit({ type: ACTIONS.CLIENTCLOSE, index })
-                  }
+                  open={clientOpen}
+                  handleClose={() => setclientOpen(false)}
                 >
-                  <Client modalFunc={clientOpenFunc} />
+                  <Client modalFunc={clientBenefitOpenFunc} />
                 </CustomModal>
               </tr>
             ))}

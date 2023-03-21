@@ -1,44 +1,39 @@
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TreeItem from "@mui/lab/TreeItem";
+import TreeView from "@mui/lab/TreeView";
 import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useReducer, useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
 import { PolicyModalType } from "../../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import Address from "../../clientDetails/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import Agency from "../../agency/Agency";
-import Client from "../../clientDetails/client/Client";
 import {
+  frequency,
   p0018,
   p0023,
   p0024,
   q0005,
-  frequency,
 } from "../policyApis/policyApis";
-import "./policyModal.css";
-import TreeView from "@mui/lab/TreeView";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TreeItem from "@mui/lab/TreeItem";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import Benefit from "./benefit/Benefit";
-import axios from "axios";
-import moment from "moment";
-import { Tab, Tabs } from "react-bootstrap";
-import ClientEnquiry from "./enquiry/ClientEnquiry";
-import BankEnquiry from "./enquiry/BankEnquiry";
-import TDFEnquiry from "./enquiry/TDFEnquiry";
-import BenefitEnquiry from "./enquiry/BenefitEnquiry";
 import AddressEnquiry from "./enquiry/AddressEnquiry";
-import HistoryEnquiry from "./enquiry/HistoryEnquiry";
 import BALEnquiry from "./enquiry/BALEnquiry";
-import UWEnquiry from "./enquiry/UWEnquiry";
+import BankEnquiry from "./enquiry/BankEnquiry";
+import BenefitEnquiry from "./enquiry/BenefitEnquiry";
+import ClientEnquiry from "./enquiry/ClientEnquiry";
 import CommunicationEnquiry from "./enquiry/CommunicationEnquiry";
-import SurvivalBenefitEnquiry from "./enquiry/SurvivalBenefitEnquiry";
 import ExtraEnquiry from "./enquiry/ExtraEnquiry";
+import HistoryEnquiry from "./enquiry/HistoryEnquiry";
+import SurvivalBenefitEnquiry from "./enquiry/SurvivalBenefitEnquiry";
+import TDFEnquiry from "./enquiry/TDFEnquiry";
+import UWEnquiry from "./enquiry/UWEnquiry";
+import "./policyModal.css";
 
 function PolicyModal({
   state,
@@ -47,11 +42,7 @@ function PolicyModal({
   ACTIONS,
   handleFormSubmit,
 }: PolicyModalType) {
-  const addTitle: string = "Proposal Create";
-  const editTitle: string = "Proposal Edit";
   const infoTitle: string = "Proposal Info";
-
-  console.log(record?.ID, "Record");
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -439,31 +430,10 @@ function PolicyModal({
   return (
     <div>
       <CustomFullModal
-        open={
-          state.addOpen
-            ? state.addOpen
-            : state.editOpen
-            ? state.editOpen
-            : state.infoOpen
-        }
-        handleClose={
-          state.addOpen
-            ? () => dispatch({ type: ACTIONS.ADDCLOSE })
-            : state.editOpen
-            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
-            : () => dispatch({ type: ACTIONS.INFOCLOSE })
-        }
-        title={
-          state.addOpen
-            ? addTitle
-            : state.editOpen
-            ? editTitle
-            : state.infoOpen
-            ? infoTitle
-            : null
-        }
+        open={state.infoOpen}
+        handleClose={() => dispatch({ type: ACTIONS.INFOCLOSE })}
+        title={infoTitle}
         ACTIONS={ACTIONS}
-        handleFormSubmit={() => policyAndModalAddSubmit()}
       >
         <form>
           <TreeView
@@ -472,29 +442,10 @@ function PolicyModal({
             defaultExpandIcon={<ChevronRightIcon />}
             defaultExpanded={["1"]}
           >
-            {state.clientOpen ? (
-              <CustomModal
-                open={state.clientOpen}
-                handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
-              >
-                <Client modalFunc={clientOpenFunc} />
-              </CustomModal>
-            ) : state.addressOpen ? (
-              <CustomModal
-                open={state.addressOpen}
-                handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
-              >
-                <Address modalFunc={addressOpenFunc} />
-              </CustomModal>
-            ) : state.agencyOpen ? (
-              <CustomModal
-                open={state.agencyOpen}
-                handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
-              >
-                <Agency modalFunc={agencyOpenFunc} />
-              </CustomModal>
-            ) : null}
-            <TreeItem nodeId="1" label="Policy Form">
+            <TreeItem
+              nodeId="1"
+              label={`Enquiry for Policy Number-${record.ID}`}
+            >
               <Grid2
                 container
                 spacing={2}
@@ -526,10 +477,10 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="Proposal Date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.addOpen ? state.PRCD : record.PRCD}
+                        value={record.PRCD}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -551,20 +502,11 @@ function PolicyModal({
                     select
                     id="PProduct"
                     name="PProduct"
-                    value={state.addOpen ? state.PProduct : record.PProduct}
+                    value={record.PProduct}
                     placeholder="Product"
                     label="Product"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PProduct",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
                     {q0005Data.map((val: any) => (
@@ -579,20 +521,11 @@ function PolicyModal({
                     select
                     id="PFreq"
                     name="PFreq"
-                    value={state.addOpen ? state.PFreq : record.PFreq}
+                    value={record.PFreq}
                     placeholder="Frequency"
                     label="Frequency"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PFreq",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
                     {freq.map((val: any) => (
@@ -607,22 +540,11 @@ function PolicyModal({
                     select
                     id="PContractCurr"
                     name="PContractCurr"
-                    value={
-                      state.addOpen ? state.PContractCurr : record.PContractCurr
-                    }
+                    value={record.PContractCurr}
                     placeholder="Contract Currency"
                     label="Contract Currency"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PContractCurr",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
                     {cCurData.map((val: any) => (
@@ -637,20 +559,11 @@ function PolicyModal({
                     select
                     id="PBillCurr"
                     name="PBillCurr"
-                    value={state.addOpen ? state.PBillCurr : record.PBillCurr}
+                    value={record.PBillCurr}
                     placeholder="Bill Currency"
                     label="Bill Currency"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PBillCurr",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
                     {bCurData.map((val: any) => (
@@ -665,20 +578,11 @@ function PolicyModal({
                     select
                     id="POffice"
                     name="POffice"
-                    value={state.addOpen ? state.POffice : record.POffice}
+                    value={record.POffice}
                     placeholder="Office"
                     label="Office"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "POffice",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
                     {p0018Data.map((val: any) => (
@@ -694,20 +598,11 @@ function PolicyModal({
                     disabled
                     id="PolStatus"
                     name="PolStatus"
-                    value={state.addOpen ? state.PolStatus : record.PolStatus}
+                    value={record.PolStatus}
                     placeholder="Policy Status"
                     label="Policy Status"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PolStatus",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
                     {p0024Data.map((val: any) => (
@@ -721,14 +616,10 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="Received Date"
                         inputFormat="DD/MM/YYYY"
-                        value={
-                          state.addOpen
-                            ? state.PReceivedDate
-                            : record.PReceivedDate
-                        }
+                        value={record.PReceivedDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -751,20 +642,10 @@ function PolicyModal({
                     InputProps={{ readOnly: true }}
                     id="ClientID"
                     name="ClientID"
-                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    value={record.ClientID}
                     placeholder="Owner Id"
                     label="Owner Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ClientID",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
                 </Grid2>
@@ -773,20 +654,10 @@ function PolicyModal({
                     InputProps={{ readOnly: true }}
                     id="AddressID"
                     name="AddressID"
-                    value={state.addOpen ? state.AddressID : record.AddressID}
+                    value={record.AddressID}
                     placeholder="Address Id"
                     label="Address Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AddressID",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
                 </Grid2>
@@ -795,140 +666,113 @@ function PolicyModal({
                     InputProps={{ readOnly: true }}
                     id="AgencyID"
                     name="AgencyID"
-                    value={state.addOpen ? state.AgencyID : record.AgencyID}
+                    value={record.AgencyID}
                     placeholder="Agency Id"
                     label="Agency Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AgencyID",
-                      })
-                    }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
                 </Grid2>
               </Grid2>
             </TreeItem>
-            {state.infoOpen ? (
-              <>
-                <Tabs
-                  defaultActiveKey="Benefit"
-                  id="justify-tab-example"
-                  className="mb-3"
-                  justify
-                  style={{ width: "95%", margin: "10px auto" }}
-                >
-                  <Tab
-                    eventKey="Benefit"
-                    title="Benefit"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <BenefitEnquiry
-                      benefitenquiryData={benefitenquiryData}
-                      state={state}
-                    />
-                  </Tab>
-                  <Tab
-                    eventKey="Client"
-                    title="Client"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <ClientEnquiry clientData={clientData} state={state} />
-                  </Tab>
 
-                  <Tab
-                    eventKey="Address"
-                    title="Address"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <AddressEnquiry addressData={addressData} state={state} />
-                  </Tab>
-
-                  <Tab
-                    eventKey="Bank"
-                    title="Bank"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <BankEnquiry bankData={bankData} state={state} />
-                  </Tab>
-                  <Tab
-                    eventKey="Policy History"
-                    title="Policy History"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <HistoryEnquiry historyData={historyData} state={state} />
-                  </Tab>
-                  <Tab
-                    eventKey="Account Balance"
-                    title="Account Balance"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <BALEnquiry
-                      data={BALData}
-                      state={state}
-                      policyNo={record.ID}
-                    />
-                  </Tab>
-                  <Tab
-                    eventKey="TDF"
-                    title="TDF"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <TDFEnquiry data={TDFData} state={state} />
-                  </Tab>
-                  <Tab
-                    eventKey="UW Enquiry"
-                    title="UW Enquiry"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <UWEnquiry uwData={uwData} state={state} />
-                  </Tab>
-                  <Tab
-                    eventKey="Communication"
-                    title="Communication"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <CommunicationEnquiry
-                      communicationData={communicationData}
-                      state={state}
-                    />
-                  </Tab>
-
-                  <Tab
-                    eventKey="Survival Benefit"
-                    title="Survival Benefit"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <SurvivalBenefitEnquiry
-                      survivalbenefitenquiryData={survivalbenefitenquiryData}
-                      state={state}
-                    />
-                  </Tab>
-                  <Tab
-                    eventKey="Extra"
-                    title="Extra"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <ExtraEnquiry data={extraData} state={state} />
-                  </Tab>
-                </Tabs>
-              </>
-            ) : (
-              <TreeItem nodeId="5" label="Benefit Table">
-                <Benefit
-                  coverage={coverage}
-                  benefitData={benefitData}
-                  clientOpenFunc={clientOpenFunc}
-                  dispatchBenefit={dispatchBenefit}
-                  ACTIONS={ACTIONS}
+            <Tabs
+              defaultActiveKey="Benefit"
+              id="justify-tab-example"
+              className="mb-3"
+              justify
+              style={{ width: "95%", margin: "10px auto" }}
+            >
+              <Tab
+                eventKey="Benefit"
+                title="Benefit"
+                style={{ backgroundColor: "white" }}
+              >
+                <BenefitEnquiry
+                  benefitenquiryData={benefitenquiryData}
+                  state={state}
                 />
-              </TreeItem>
-            )}
+              </Tab>
+              <Tab
+                eventKey="Client"
+                title="Client"
+                style={{ backgroundColor: "white" }}
+              >
+                <ClientEnquiry clientData={clientData} state={state} />
+              </Tab>
+
+              <Tab
+                eventKey="Address"
+                title="Address"
+                style={{ backgroundColor: "white" }}
+              >
+                <AddressEnquiry addressData={addressData} state={state} />
+              </Tab>
+
+              <Tab
+                eventKey="Bank"
+                title="Bank"
+                style={{ backgroundColor: "white" }}
+              >
+                <BankEnquiry bankData={bankData} state={state} />
+              </Tab>
+              <Tab
+                eventKey="Policy History"
+                title="Policy History"
+                style={{ backgroundColor: "white" }}
+              >
+                <HistoryEnquiry historyData={historyData} state={state} />
+              </Tab>
+              <Tab
+                eventKey="Account Balance"
+                title="Account Balance"
+                style={{ backgroundColor: "white" }}
+              >
+                <BALEnquiry data={BALData} state={state} policyNo={record.ID} />
+              </Tab>
+              <Tab
+                eventKey="TDF"
+                title="TDF"
+                style={{ backgroundColor: "white" }}
+              >
+                <TDFEnquiry data={TDFData} state={state} />
+              </Tab>
+              <Tab
+                eventKey="UW Enquiry"
+                title="UW Enquiry"
+                style={{ backgroundColor: "white" }}
+              >
+                <UWEnquiry uwData={uwData} state={state} />
+              </Tab>
+              <Tab
+                eventKey="Communication"
+                title="Communication"
+                style={{ backgroundColor: "white" }}
+              >
+                <CommunicationEnquiry
+                  communicationData={communicationData}
+                  state={state}
+                />
+              </Tab>
+
+              <Tab
+                eventKey="Survival Benefit"
+                title="Survival Benefit"
+                style={{ backgroundColor: "white" }}
+              >
+                <SurvivalBenefitEnquiry
+                  survivalbenefitenquiryData={survivalbenefitenquiryData}
+                  state={state}
+                />
+              </Tab>
+              <Tab
+                eventKey="Extra"
+                title="Extra"
+                style={{ backgroundColor: "white" }}
+              >
+                <ExtraEnquiry data={extraData} state={state} />
+              </Tab>
+            </Tabs>
           </TreeView>
         </form>
       </CustomFullModal>
