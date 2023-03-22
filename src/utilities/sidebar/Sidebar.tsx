@@ -136,11 +136,6 @@ const routes = [
     icon: <ReceiptIcon />,
     subRoutes: [
       {
-        path: "/leadAllocation",
-        name: "Lead Allocation",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
         path: "/leadChannel",
         name: "Lead Channels",
         icon: <ArrowRightAltIcon />,
@@ -151,15 +146,17 @@ const routes = [
         icon: <ArrowRightAltIcon />,
       },
       {
+        path: "/leadAllocation",
+        name: "Lead Allocation",
+        icon: <ArrowRightAltIcon />,
+      },
+
+      {
         path: "/leadFollowups",
         name: "Lead Followups",
         icon: <ArrowRightAltIcon />,
       },
-      {
-        path: "/levels",
-        name: "Levels",
-        icon: <ArrowRightAltIcon />,
-      },
+
       {
         path: "/campaigns",
         name: "Campaigns",
@@ -168,6 +165,11 @@ const routes = [
       {
         path: "/campaignComps",
         name: "Campaign Comps",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/levels",
+        name: "Levels",
         icon: <ArrowRightAltIcon />,
       },
     ],
