@@ -15,7 +15,7 @@ import {
 } from "../../../reducerUtilities/actions/clientDetails/client/clientActions";
 import { useAppSelector } from "../../../redux/app/hooks";
 
-function Client({ modalFunc }: any) {
+function Client({ modalFunc, dataIndex }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -253,6 +253,7 @@ function Client({ modalFunc }: any) {
       </header>
       <CustomTable
         data={data}
+        dataIndex={dataIndex}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}

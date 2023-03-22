@@ -16,6 +16,7 @@ function Benefit({
   clientBenefitOpenFunc,
   companyId,
   clientOpen,
+  handleClientOpen,
   setclientOpen,
 }: any) {
   const [isChecked, setisChecked] = useState(false);
@@ -57,6 +58,8 @@ function Benefit({
     getbpterm();
     return () => {};
   }, []);
+
+  console.log(clientOpen.index, "Index from Benefit");
 
   return (
     <div>
@@ -141,7 +144,7 @@ function Benefit({
                       padding: "4px",
                       backgroundColor: "silver",
                     }}
-                    onClick={() => setclientOpen(true)}
+                    onClick={() => handleClientOpen(true, index)}
                   >
                     <IoIosOpen />
                   </span>
@@ -231,10 +234,13 @@ function Benefit({
                   />
                 </td>
                 <CustomModal
-                  open={clientOpen}
-                  handleClose={() => setclientOpen(false)}
+                  open={clientOpen.open}
+                  handleClose={() => setclientOpen({ open: false, index: 0 })}
                 >
-                  <Client modalFunc={clientBenefitOpenFunc} />
+                  <Client
+                    dataIndex={clientOpen}
+                    modalFunc={clientBenefitOpenFunc}
+                  />
                 </CustomModal>
               </tr>
             ))}

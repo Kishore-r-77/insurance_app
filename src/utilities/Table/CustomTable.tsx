@@ -11,6 +11,7 @@ import { useState } from "react";
 
 function CustomTable({
   data,
+  dataIndex,
   columns,
   dispatch,
   ACTIONS,
@@ -23,6 +24,8 @@ function CustomTable({
       ? sortParam
       : { fieldName: columns[0].dbField, order: "asc" }
   );
+
+  console.log(dataIndex, "data-index");
 
   return (
     <Paper className={styles.paperStyle}>
@@ -96,9 +99,9 @@ function CustomTable({
           </tr>
         </thead>
         <tbody>
-          {data?.map((row: any, index: any) => (
+          {data?.map((row: any) => (
             <tr
-              onClick={() => modalFunc(row, index)}
+              onClick={() => modalFunc(row, dataIndex?.index)}
               key={row.ID}
               className={styles["table-cell"]}
             >

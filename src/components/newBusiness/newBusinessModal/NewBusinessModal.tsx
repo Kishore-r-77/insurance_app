@@ -47,10 +47,18 @@ function NewBusinessModal({
   const editTitle: string = "Proposal Edit";
   const infoTitle: string = "Proposal Info";
 
-  const [clientOpen, setclientOpen] = useState(false);
+  const [clientOpen, setclientOpen] = useState({
+    open: false,
+    index: 0,
+  });
 
+  console.log(clientOpen, "from New business modal");
+
+  const handleClientOpen = (isOpen: boolean, index: number) => {
+    setclientOpen({ open: isOpen, index });
+  };
   const handleClientClose = () => {
-    setclientOpen(false);
+    setclientOpen({ open: false, index: 0 });
   };
 
   const [companyData, setCompanyData] = useState<any>({});
@@ -395,7 +403,13 @@ function NewBusinessModal({
       console.log(item.ID);
       coverage.map((val, index) => {
         console.log(index, "index");
-        benefitData[index].ClientID = item.ID;
+        // benefitData[index].ClientID = item.ID;
+        dispatchBenefit({
+          type: ACTIONS.ONCHANGE,
+          payload: item.ID,
+          fieldName: "ClientID",
+          index: i,
+        });
       });
     } else record.ClientID = item.ID;
 
@@ -876,6 +890,7 @@ function NewBusinessModal({
                   dispatchBenefit={dispatchBenefit}
                   clientOpen={clientOpen}
                   setclientOpen={setclientOpen}
+                  handleClientOpen={handleClientOpen}
                   ACTIONS={ACTIONS}
                 />
               </TreeItem>
