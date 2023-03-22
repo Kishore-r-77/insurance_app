@@ -102,11 +102,6 @@ function Levels({ modalFunc }: any) {
           ...state,
           levelsOpen: false,
         };
-        return {
-          ...state,
-          sortDesc: desc,
-          sortColumn: action.payload,
-        };
       default:
         return initialValues;
     }
@@ -128,7 +123,7 @@ function Levels({ modalFunc }: any) {
         setData(resp.data["All Levelss"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All Levelss"]?.length === 0);
+        setisLast(resp.data["All Levels"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

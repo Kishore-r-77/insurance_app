@@ -10,7 +10,7 @@ export const getAllApi = (
 ) => {
   // Attention : Check and update the below API, if required
   return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallleadFollowupss`,
+    `http://localhost:3000/api/v1/pacificservices/leadfollowups`,
     {
       withCredentials: true,
       params: {
@@ -42,7 +42,7 @@ export const paramItem = (
 export const addApi = (state: LeadFollowupsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/leadFollowupscreate`,
+    `http://localhost:3000/api/v1/pacificservices/leadfollowupcreate`,
     {
       CompanyID: companyId,
       CountryCode: state.CountryCode,
@@ -66,7 +66,7 @@ export const addApi = (state: LeadFollowupsStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/leadFollowupsupdate`,
+    `http://localhost:3000/api/v1/pacificservices/leadfollowupupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -92,7 +92,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/leadFollowupsdelete/${id}`,
+    `http://localhost:3000/api/v1/pacificservices/leadfollowupdelete/${id}`,
     {
       withCredentials: true,
     }

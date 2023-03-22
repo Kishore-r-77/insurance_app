@@ -1,26 +1,26 @@
-
 export type QHeadersStateType = {
-  CompanyID :string;
-  QuoteDate :string;
-  QProduct :string;
-  ClientID :string;
-  QFirstName :string;
-  QLastName :string;
-  QMidName :string;
-  QDob :string;
-  QGender :string;
-  QNri :string;
-  QEmail :string;
-  QMobile :string;
-  QOccGroup :string;
-  QOccSect :string;
-  QOccupation :string;
-  QAnnualIncome :string;
-  QDeclaration :string;
-  AddressID :string;
+  CompanyID: string;
+  QuoteDate: string;
+  QProduct: string;
+  ClientID: string;
+  QFirstName: string;
+  QLastName: string;
+  QMidName: string;
+  QDob: string;
+  QGender: string;
+  QNri: string;
+  QEmail: string;
+  QMobile: string;
+  QOccGroup: string;
+  QOccSect: string;
+  QOccupation: string;
+  QAnnualIncome: string;
+  QDeclaration: string;
+  AddressID: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
+  clientOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -39,7 +39,9 @@ export type ActionConstantsType = {
   INFOCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
-  };
+  CLIENTOPEN: string;
+  CLIENTCLOSE: string;
+};
 export type QHeadersModalType = {
   state: QHeadersStateType;
   record: any;

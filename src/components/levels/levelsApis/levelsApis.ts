@@ -9,7 +9,7 @@ export const getAllApi = (
   state: LevelsStateType
 ) => {
   // Attention : Check and update the below API, if required
-  return axios.get(`http://localhost:3000/api/v1/basicservices/getalllevelss`, {
+  return axios.get(`http://localhost:3000/api/v1/pacificservices/levels`, {
     withCredentials: true,
     params: {
       pageNum: pageNum,
@@ -39,7 +39,7 @@ export const paramItem = (
 export const addApi = (state: LevelsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/levelscreate`,
+    `http://localhost:3000/api/v1/pacificservices/levelcreate`,
     {
       CompanyID: companyId,
       ShortCode: state.ShortCode,
@@ -56,7 +56,7 @@ export const addApi = (state: LevelsStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/levelsupdate`,
+    `http://localhost:3000/api/v1/pacificservices/levelupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -75,7 +75,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/levelsdelete/${id}`,
+    `http://localhost:3000/api/v1/pacificservices/leveldelete/${id}`,
     {
       withCredentials: true,
     }

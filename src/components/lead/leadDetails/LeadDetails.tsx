@@ -137,10 +137,10 @@ function LeadDetails({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All LeadDetailss"]);
+        setData(resp.data["All LeadDetails"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All LeadDetailss"]?.length === 0);
+        setisLast(resp.data["All LeadDetails"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

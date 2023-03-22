@@ -9,20 +9,17 @@ export const getAllApi = (
   state: QuotationStateType
 ) => {
   // Attention : Check and update the below API, if required
-  return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallquotations`,
-    {
-      withCredentials: true,
-      params: {
-        pageNum: pageNum,
-        pageSize: pageSize,
-        searchString: state.searchString,
-        searchCriteria: state.searchCriteria,
-        sortColumn: state.sortColumn,
-        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
-      },
-    }
-  );
+  return axios.get(`http://localhost:3000/api/v1/pacificservices/quotations`, {
+    withCredentials: true,
+    params: {
+      pageNum: pageNum,
+      pageSize: pageSize,
+      searchString: state.searchString,
+      searchCriteria: state.searchCriteria,
+      sortColumn: state.sortColumn,
+      sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+    },
+  });
 };
 export const paramItem = (
   companyId: number,
@@ -42,7 +39,7 @@ export const paramItem = (
 export const addApi = (state: QuotationStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/quotationcreate`,
+    `http://localhost:3000/api/v1/pacificservices/quotationcreate`,
     {
       CompanyID: companyId,
       QHeaderID: parseInt(state.QHeaderID),
@@ -115,7 +112,7 @@ export const addApi = (state: QuotationStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/quotationupdate`,
+    `http://localhost:3000/api/v1/pacificservices/quotationupdate`,
     {
       CompanyID: parseInt(record.CompanyID),
       QHeaderID: parseInt(record.QHeaderID),
@@ -188,7 +185,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/quotationdelete/${id}`,
+    `http://localhost:3000/api/v1/pacificservices/quotationdelete/${id}`,
     {
       withCredentials: true,
     }

@@ -9,20 +9,17 @@ export const getAllApi = (
   state: QDetailsStateType
 ) => {
   // Attention : Check and update the below API, if required
-  return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallqDetailss`,
-    {
-      withCredentials: true,
-      params: {
-        pageNum: pageNum,
-        pageSize: pageSize,
-        searchString: state.searchString,
-        searchCriteria: state.searchCriteria,
-        sortColumn: state.sortColumn,
-        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
-      },
-    }
-  );
+  return axios.get(`http://localhost:3000/api/v1/quotationservices/qdetails`, {
+    withCredentials: true,
+    params: {
+      pageNum: pageNum,
+      pageSize: pageSize,
+      searchString: state.searchString,
+      searchCriteria: state.searchCriteria,
+      sortColumn: state.sortColumn,
+      sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+    },
+  });
 };
 export const paramItem = (
   companyId: number,
@@ -42,7 +39,7 @@ export const paramItem = (
 export const addApi = (state: QDetailsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/qDetailscreate`,
+    `http://localhost:3000/api/v1/quotationservices/qdetailcreate`,
     {
       CompanyID: companyId,
       QHeaderID: parseInt(state.QHeaderID),
@@ -75,7 +72,7 @@ export const addApi = (state: QDetailsStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/qDetailsupdate`,
+    `http://localhost:3000/api/v1/quotationservices/qdetailupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -110,7 +107,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/qDetailsdelete/${id}`,
+    `http://localhost:3000/api/v1/quotationservices/qdetaildelete/${id}`,
     {
       withCredentials: true,
     }

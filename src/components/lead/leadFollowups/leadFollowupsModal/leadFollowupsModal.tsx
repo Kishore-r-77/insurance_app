@@ -175,7 +175,6 @@ function LeadFollowupsModal({
       >
         <form>
           <Grid2 container spacing={2}>
-            // *** Attention: Check the below Lookup modal function details ***
             {state.leadDetailsOpen ? (
               <LeadDetails modalFunc={leadDetailsOpenFunc} />
             ) : (

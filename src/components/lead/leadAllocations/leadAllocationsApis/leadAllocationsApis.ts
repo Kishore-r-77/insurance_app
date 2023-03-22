@@ -10,7 +10,7 @@ export const getAllApi = (
 ) => {
   // Attention : Check and update the below API, if required
   return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallleadAllocationss`,
+    `http://localhost:3000/api/v1/pacificservices/leadallocations`,
     {
       withCredentials: true,
       params: {
@@ -42,7 +42,7 @@ export const paramItem = (
 export const addApi = (state: LeadAllocationsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/leadAllocationscreate`,
+    `http://localhost:3000/api/v1/pacificservices/leadallocationcreate`,
     {
       CompanyID: companyId,
       Office: state.Office,
@@ -68,7 +68,7 @@ export const addApi = (state: LeadAllocationsStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/leadAllocationsupdate`,
+    `http://localhost:3000/api/v1/pacificservices/leadallocationupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -96,7 +96,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/leadAllocationsdelete/${id}`,
+    `http://localhost:3000/api/v1/pacificservices/leadallocationdelete/${id}`,
     {
       withCredentials: true,
     }

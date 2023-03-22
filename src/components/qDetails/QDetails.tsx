@@ -118,10 +118,10 @@ function QDetails({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All QDetailss"]);
+        setData(resp.data["All QDetails"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All QDetailss"]?.length === 0);
+        setisLast(resp.data["All QDetails"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

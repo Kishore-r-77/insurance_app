@@ -9,20 +9,17 @@ export const getAllApi = (
   state: LeadDetailsStateType
 ) => {
   // Attention : Check and update the below API, if required
-  return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallleadDetailss`,
-    {
-      withCredentials: true,
-      params: {
-        pageNum: pageNum,
-        pageSize: pageSize,
-        searchString: state.searchString,
-        searchCriteria: state.searchCriteria,
-        sortColumn: state.sortColumn,
-        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
-      },
-    }
-  );
+  return axios.get(`http://localhost:3000/api/v1/pacificservices/leaddetails`, {
+    withCredentials: true,
+    params: {
+      pageNum: pageNum,
+      pageSize: pageSize,
+      searchString: state.searchString,
+      searchCriteria: state.searchCriteria,
+      sortColumn: state.sortColumn,
+      sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+    },
+  });
 };
 export const paramItem = (
   companyId: number,
@@ -42,7 +39,7 @@ export const paramItem = (
 export const addApi = (state: LeadDetailsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/leadDetailscreate`,
+    `http://localhost:3000/api/v1/pacificservices/leaddetailcreate`,
     {
       CompanyID: companyId,
       LeadChannelID: parseInt(state.LeadChannelID),
@@ -63,7 +60,7 @@ export const addApi = (state: LeadDetailsStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/leadDetailsupdate`,
+    `http://localhost:3000/api/v1/pacificservices/leaddetailupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -86,7 +83,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/leadDetailsdelete/${id}`,
+    `http://localhost:3000/api/v1/pacificservices/leaddetaildelete/${id}`,
     {
       withCredentials: true,
     }

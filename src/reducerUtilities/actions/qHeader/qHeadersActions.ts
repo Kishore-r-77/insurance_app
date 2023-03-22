@@ -14,6 +14,8 @@ export const ACTIONS = {
   INFOCLOSE: "INFOCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
+  CLIENTOPEN: "CLIENTOPEN",
+  CLIENTCLOSE: "CLIENTCLOSE",
 };
 
 //Initial State defined
@@ -37,9 +39,11 @@ export const initialValues: QHeadersStateType = {
   QAnnualIncome: "",
   QDeclaration: "",
   AddressID: "",
+
   addOpen: false,
   editOpen: false,
   infoOpen: false,
+  clientOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",

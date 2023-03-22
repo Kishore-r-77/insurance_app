@@ -107,11 +107,6 @@ function LeadFollowups({ modalFunc }: any) {
           ...state,
           leadDetailsOpen: false,
         };
-        return {
-          ...state,
-          sortDesc: desc,
-          sortColumn: action.payload,
-        };
       default:
         return initialValues;
     }
@@ -130,10 +125,10 @@ function LeadFollowups({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All LeadFollowupss"]);
+        setData(resp.data["All LeadFollowups"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All LeadFollowupss"]?.length === 0);
+        setisLast(resp.data["All LeadFollowups"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

@@ -80,6 +80,16 @@ function QHeaders({ modalFunc }: any) {
           ...state,
           infoOpen: false,
         };
+      case ACTIONS.CLIENTOPEN:
+        return {
+          ...state,
+          clientOpen: true,
+        };
+      case ACTIONS.CLIENTCLOSE:
+        return {
+          ...state,
+          clientOpen: false,
+        };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -118,10 +128,10 @@ function QHeaders({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All QHeaderss"]);
+        setData(resp.data["All QHeaders"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All QHeaderss"]?.length === 0);
+        setisLast(resp.data["All QHeaders"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

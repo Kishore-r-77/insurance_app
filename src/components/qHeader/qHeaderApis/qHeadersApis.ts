@@ -9,20 +9,17 @@ export const getAllApi = (
   state: QHeadersStateType
 ) => {
   // Attention : Check and update the below API, if required
-  return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallqHeaderss`,
-    {
-      withCredentials: true,
-      params: {
-        pageNum: pageNum,
-        pageSize: pageSize,
-        searchString: state.searchString,
-        searchCriteria: state.searchCriteria,
-        sortColumn: state.sortColumn,
-        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
-      },
-    }
-  );
+  return axios.get(`http://localhost:3000/api/v1/quotationservices/qheaders`, {
+    withCredentials: true,
+    params: {
+      pageNum: pageNum,
+      pageSize: pageSize,
+      searchString: state.searchString,
+      searchCriteria: state.searchCriteria,
+      sortColumn: state.sortColumn,
+      sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+    },
+  });
 };
 export const paramItem = (
   companyId: number,
@@ -42,7 +39,7 @@ export const paramItem = (
 export const addApi = (state: QHeadersStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/qHeaderscreate`,
+    `http://localhost:3000/api/v1/quotationservices/qheadercreate`,
     {
       CompanyID: companyId,
       QuoteDate: moment(state.QuoteDate).format("YYYYMMDD"),
@@ -72,7 +69,7 @@ export const addApi = (state: QHeadersStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/qHeadersupdate`,
+    `http://localhost:3000/api/v1/quotationservices/qheaderupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -104,7 +101,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/qHeadersdelete/${id}`,
+    `http://localhost:3000/api/v1/quotationservices/qheaderdelete/${id}`,
     {
       withCredentials: true,
     }

@@ -10,7 +10,7 @@ export const getAllApi = (
 ) => {
   // Attention : Check and update the below API, if required
   return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallleadChannelss`,
+    `http://localhost:3000/api/v1/pacificservices/leadchannels`,
     {
       withCredentials: true,
       params: {
@@ -42,7 +42,7 @@ export const paramItem = (
 export const addApi = (state: LeadChannelsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/leadChannelscreate`,
+    `http://localhost:3000/api/v1/pacificservices/leadchannelcreate`,
     {
       CompanyID: companyId,
       ChannelCode: state.ChannelCode,
@@ -61,7 +61,7 @@ export const addApi = (state: LeadChannelsStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/leadChannelsupdate`,
+    `http://localhost:3000/api/v1/pacificservices/leadchannelupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -82,7 +82,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/leadChannelsdelete/${id}`,
+    `http://localhost:3000/api/v1/pacificservices/leadchanneldelete/${id}`,
     {
       withCredentials: true,
     }

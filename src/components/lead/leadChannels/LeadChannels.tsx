@@ -118,10 +118,10 @@ function LeadChannels({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All LeadChannelss"]);
+        setData(resp.data["All LeadChannels"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All LeadChannelss"]?.length === 0);
+        setisLast(resp.data["All LeadChannels"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -237,7 +237,7 @@ function LeadChannels({ modalFunc }: any) {
             <SearchIcon />
           </Button>
         </span>
-        <h1>LeadChannelss</h1>
+        <h1>Lead Channels</h1>
         <Button
           id={styles["add-btn"]}
           style={{

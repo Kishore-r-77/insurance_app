@@ -10,7 +10,7 @@ export const getAllApi = (
 ) => {
   // Attention : Check and update the below API, if required
   return axios.get(
-    `http://localhost:3000/api/v1/basicservices/getallqBenIllValuess`,
+    `http://localhost:3000/api/v1/quotationservices/qbenillvalues`,
     {
       withCredentials: true,
       params: {
@@ -42,7 +42,7 @@ export const paramItem = (
 export const addApi = (state: QBenIllValuesStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/qBenIllValuescreate`,
+    `http://localhost:3000/api/v1/quotationservices/qbenillvaluecreate`,
     {
       CompanyID: companyId,
       QDetailID: parseInt(state.QDetailID),
@@ -80,7 +80,7 @@ export const addApi = (state: QBenIllValuesStateType, companyId: number) => {
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/basicservices/qBenIllValuesupdate`,
+    `http://localhost:3000/api/v1/quotationservices/qbenillvalueupdate`,
     {
       ID: parseInt(record.ID),
 
@@ -120,7 +120,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/basicservices/qBenIllValuesdelete/${id}`,
+    `http://localhost:3000/api/v1/quotationservices/qbenillvaluedelete/${id}`,
     {
       withCredentials: true,
     }

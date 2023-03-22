@@ -247,7 +247,7 @@ function LeadAllocations({ modalFunc }: any) {
             <SearchIcon />
           </Button>
         </span>
-        <h1>LeadAllocationss</h1>
+        <h1>Lead Allocations</h1>
         <Button
           id={styles["add-btn"]}
           style={{

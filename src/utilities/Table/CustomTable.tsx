@@ -25,8 +25,6 @@ function CustomTable({
       : { fieldName: columns[0].dbField, order: "asc" }
   );
 
-  console.log(dataIndex, "data-index");
-
   return (
     <Paper className={styles.paperStyle}>
       <Table striped bordered hover>

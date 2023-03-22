@@ -187,7 +187,7 @@ const routes = [
       },
       {
         path: "/qDetails",
-        name: "QBenIllValues",
+        name: "QDetails",
         icon: <ArrowRightAltIcon />,
       },
       {

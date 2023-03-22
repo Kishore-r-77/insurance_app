@@ -192,7 +192,6 @@ function LeadAllocationsModal({
       >
         <form>
           <Grid2 container spacing={2}>
-            // *** Attention: Check the below Lookup modal function details ***
             {state.agenciesOpen ? (
               <Agency modalFunc={agenciesOpenFunc} />
             ) : (
