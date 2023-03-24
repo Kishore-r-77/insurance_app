@@ -117,7 +117,7 @@ function CompaniesModal({
                 id="CompanyAddress3"
                 name="CompanyAddress3"
                 value={
-                  state.addOpen ? state.CompanyAddress2 : record.CompanyAddress2
+                  state.addOpen ? state.CompanyAddress3 : record.CompanyAddress3
                 }
                 placeholder="Company Address 3"
                 label="Company Address 3"

@@ -20,7 +20,7 @@ function CustomModal({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          {!infoOpen && (
+          {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
               Save Changes
             </Button>
