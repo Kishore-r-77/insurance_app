@@ -20,7 +20,7 @@ import {
 } from "../../../reducerUtilities/actions/clientDetails/address/addressActions";
 import { useAppSelector } from "../../../redux/app/hooks";
 
-function Address({ modalFunc, addressClntData, lookup }: any) {
+function Address({ modalFunc, addressByClientData, lookup }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -191,83 +191,91 @@ function Address({ modalFunc, addressClntData, lookup }: any) {
   return (
     <div>
       <header className={styles.flexStyle}>
-        <span>
-          <TextField
-            select
-            value={state.searchCriteria}
-            placeholder="Search Criteria"
-            label="Search Criteria"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchCriteria",
-              })
-            }
-            style={{ width: "12rem" }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {fieldMap.map((value: any) => (
-              <MenuItem key={value.fieldName} value={value.fieldName}>
-                {value.displayName}
-              </MenuItem>
-            ))}
-          </TextField>
-        </span>
-        <span className={styles["text-fields"]}>
-          <TextField
-            value={state.searchString}
-            placeholder="Search String"
-            label="Search String"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchString",
-              })
-            }
-            style={{ width: "12rem" }}
-          />
-          <Button
-            variant="contained"
-            onClick={getData}
-            color="primary"
-            style={{
-              marginTop: "0.5rem",
-              maxWidth: "40px",
-              maxHeight: "40px",
-              minWidth: "40px",
-              minHeight: "40px",
-              backgroundColor: "#0a3161",
-              marginLeft: "10px",
-            }}
-          >
-            <SearchIcon />
-          </Button>
-        </span>
+        {lookup ? null : (
+          <>
+            <span>
+              <TextField
+                select
+                value={state.searchCriteria}
+                placeholder="Search Criteria"
+                label="Search Criteria"
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "searchCriteria",
+                  })
+                }
+                style={{ width: "12rem" }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {fieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </span>
+            <span className={styles["text-fields"]}>
+              <TextField
+                value={state.searchString}
+                placeholder="Search String"
+                label="Search String"
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "searchString",
+                  })
+                }
+                style={{ width: "12rem" }}
+              />
+              <Button
+                variant="contained"
+                onClick={getData}
+                color="primary"
+                style={{
+                  marginTop: "0.5rem",
+                  maxWidth: "40px",
+                  maxHeight: "40px",
+                  minWidth: "40px",
+                  minHeight: "40px",
+                  backgroundColor: "#0a3161",
+                  marginLeft: "10px",
+                }}
+              >
+                <SearchIcon />
+              </Button>
+            </span>
+          </>
+        )}
 
-        <h1>Address</h1>
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
+        <h1 style={lookup ? { textAlign: "center" } : {}}>Address</h1>
+        {lookup ? null : (
+          <>
+            <Button
+              id={styles["add-btn"]}
+              style={{
+                marginTop: "1rem",
+                maxWidth: "40px",
+                maxHeight: "40px",
+                minWidth: "40px",
+                minHeight: "40px",
+                backgroundColor: "#0a3161",
+              }}
+              variant="contained"
+              color="primary"
+              onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+            >
+              <AddBoxIcon />
+            </Button>
+          </>
+        )}
       </header>
       <CustomTable
-        data={lookup ? addressClntData : data}
+        data={lookup ? addressByClientData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}

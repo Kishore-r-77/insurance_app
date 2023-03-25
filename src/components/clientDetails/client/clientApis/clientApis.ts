@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { ClientStateType } from "../../../reducerUtilities/types/client/clientTypes";
+import { ClientStateType } from "../../../../reducerUtilities/types/client/clientTypes";
 
 export const getAllApi = (
   pageNum: number,
@@ -19,6 +19,15 @@ export const getAllApi = (
     },
   });
 };
+export const getAddressByClient = (clientId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/addressgetbyclient/${clientId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};
+
 export const paramItem = (
   companyId: number,
   name: string,

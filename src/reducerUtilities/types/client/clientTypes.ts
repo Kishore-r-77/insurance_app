@@ -14,6 +14,7 @@ export type ClientStateType = {
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
+  addressOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -30,6 +31,8 @@ export type ActionConstantsType = {
   ADDCLOSE: string;
   EDITCLOSE: string;
   INFOCLOSE: string;
+  ADDRESSOPEN: string;
+  ADDRESSCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
 };

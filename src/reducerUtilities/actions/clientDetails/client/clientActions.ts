@@ -10,6 +10,8 @@ export const ACTIONS = {
   ADDCLOSE: "ADDCLOSE",
   EDITCLOSE: "EDITCLOSE",
   INFOCLOSE: "INFOCLOSE",
+  ADDRESSOPEN: "ADDRESSOPEN",
+  ADDRESSCLOSE: "ADDRESSCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
 };
@@ -31,6 +33,7 @@ export const initialValues: ClientStateType = {
   addOpen: false,
   editOpen: false,
   infoOpen: false,
+  addressOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",

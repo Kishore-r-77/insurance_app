@@ -2,18 +2,26 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import { ClientStateType } from "../../../reducerUtilities/types/client/clientTypes";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import styles from "./client.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./clientApis/clientApis";
-import ClientModal from "./clientModal/ClientModal";
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../../reducerUtilities/actions/clientDetails/client/clientActions";
+import { ClientStateType } from "../../../reducerUtilities/types/client/clientTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import Address from "../address/Address";
+import styles from "./client.module.css";
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAddressByClient,
+  getAllApi,
+} from "./clientApis/clientApis";
+import ClientModal from "./clientModal/ClientModal";
+import ClientTable from "./clientTable/ClientTable";
 
 function Client({ modalFunc, dataIndex }: any) {
   //data from getall api
@@ -57,6 +65,12 @@ function Client({ modalFunc, dataIndex }: any) {
           ...state,
           infoOpen: true,
         };
+      case ACTIONS.ADDRESSOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          addressOpen: true,
+        };
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
@@ -74,6 +88,11 @@ function Client({ modalFunc, dataIndex }: any) {
         return {
           ...state,
           infoOpen: false,
+        };
+      case ACTIONS.ADDRESSCLOSE:
+        return {
+          ...state,
+          addressOpen: false,
         };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
@@ -155,6 +174,21 @@ function Client({ modalFunc, dataIndex }: any) {
       })
       .catch((err) => console.log(err.message));
   };
+
+  const [addressByClientData, setaddressByClientData] = useState([]);
+
+  const getAddressByClnt = (clientId: number) => {
+    getAddressByClient(clientId)
+      .then((resp) => {
+        setaddressByClientData(resp.data?.AddressByClientID);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getAddressByClnt(record.ID);
+    return () => {};
+  }, [state.addressOpen]);
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
@@ -251,7 +285,7 @@ function Client({ modalFunc, dataIndex }: any) {
           <AddBoxIcon />
         </Button>
       </header>
-      <CustomTable
+      <ClientTable
         data={data}
         dataIndex={dataIndex}
         modalFunc={modalFunc}
@@ -276,6 +310,15 @@ function Client({ modalFunc, dataIndex }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <CustomModal
+        open={state.addressOpen}
+        handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
+      >
+        <Address
+          addressByClientData={addressByClientData}
+          lookup={state.addressOpen}
+        />
+      </CustomModal>
     </div>
   );
 }
