@@ -65,6 +65,7 @@ function Permission() {
         };
 
       case ACTIONS.ADDCLOSE:
+        state = initialValues;
         return {
           ...state,
           addOpen: false,
