@@ -19,6 +19,11 @@ import {
   getAllApi,
 } from "./newBusinessApis/newBusinessApis";
 import PolicyModal from "./newBusinessModal/NewBusinessModal";
+import NewBussinessTable from "./NewBussinessTable";
+import axios from "axios";
+import NotificationModal from "../../utilities/modal/NotificationModal";
+import CustomModal from "../../utilities/modal/CustomModal";
+import PolicyValidate from "./policyValidate/PolicyValidate";
 
 function NewBusiness({ modalFunc }: any) {
   //data from getall api
@@ -153,6 +158,40 @@ function NewBusiness({ modalFunc }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+  const [isConfirm, setisConfirm] = useState(false);
+  const [policyId, setPolicyId] = useState(0);
+  const [validateData, setvalidateData] = useState([]);
+  const [summaryData, setsummaryData] = useState([]);
+  const [isPolicyValidate, setisPolicyValidate] = useState(false);
+  const [isIssue, setisIssue] = useState(false);
+  const [issueData, setissueData] = useState([]);
+
+  const policyvalidateOpen=()=>{
+    setisPolicyValidate(true)
+  }
+
+  const policyvalidateClose=()=>{
+    setisPolicyValidate(false)
+  }
+  
+
+ const confirmOpen=(id:number)=>{
+  setPolicyId(id);
+  setisConfirm(true);
+ } 
+
+ const confirmClose=()=>{
+  setisConfirm(false);
+ } 
+
+ const issueOpen=(id:number)=>{
+  setPolicyId(id)
+  setisIssue(true)
+ }
+
+ const issueClose=()=>{
+  setisIssue(false)
+ }
 
   //Get all Api
   const getData = () => {
@@ -186,6 +225,32 @@ function NewBusiness({ modalFunc }: any) {
       };
     }
   };
+
+  const validatePolicy = ()=>{
+    axios.post(`http://localhost:3000/api/v1/nbservices/policyvalidate/${policyId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+    ).then((resp)=>{
+      setvalidateData(resp.data["Payable Amount"])
+      setsummaryData(resp.data["Summary"])
+      setisConfirm(false)
+      policyvalidateOpen()
+    })
+  }
+
+  const issuePolicy = ()=>{
+    axios.post(`http://localhost:3000/api/v1/nbservices/policyissue/${policyId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+    ).then((resp)=>{
+      setissueData(resp.data[0])
+      console.log(resp.data[0],"Issue Data")
+    })
+  }
 
   //Edit Api
   const editFormSubmit = async () => {
@@ -227,6 +292,9 @@ function NewBusiness({ modalFunc }: any) {
 
   return (
     <div>
+      <CustomModal open={isPolicyValidate} handleClose={policyvalidateClose}>
+      <PolicyValidate data={validateData} summaryData={summaryData}/>
+      </CustomModal>
       <header className={styles.flexStyle}>
         <span>
           <TextField
@@ -303,8 +371,10 @@ function NewBusiness({ modalFunc }: any) {
           <AddBoxIcon />
         </Button>
       </header>
-      <CustomTable
+      <NewBussinessTable
         data={data}
+        issueOpen={issueOpen}
+        confirmOpen={confirmOpen}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -328,6 +398,13 @@ function NewBusiness({ modalFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+
+    <NotificationModal open={isConfirm} handleClose={confirmClose} handleFormSubmit={validatePolicy}>
+        <h4>Are you sure you want to validate policy?</h4>
+      </NotificationModal>
+      <NotificationModal open={isIssue} handleClose={issueClose} handleFormSubmit={issuePolicy}>
+        <h4>Are you sure you want to issue policy?</h4>
+      </NotificationModal>
     </div>
   );
 }
