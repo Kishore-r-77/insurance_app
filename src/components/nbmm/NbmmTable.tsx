@@ -263,6 +263,14 @@ function NbmmTable({
                       <MenuItem onClick={() => handleDeclineOpen(row.ID)}>
                         Decline
                       </MenuItem>
+                      <MenuItem onClick={() => handleWithdrawnOpen(row.ID)}>
+                        Withdrawn
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => handlePostponeWithdrawnOpen(row.ID)}
+                      >
+                        PostPone Withdrawn
+                      </MenuItem>
                     </Menu>
                   </span>
                 </td>
@@ -302,6 +310,11 @@ function NbmmTable({
       <PostponeWithdrawnScrModal
         open={PostponeWithdrawnOpen}
         handleClose={handlePostponeWithdrawnClose}
+        policyId={policyId}
+      />
+      <WithdrawnScrModal
+        open={WithdrawnOpen}
+        handleClose={handleWithdrawnClose}
         policyId={policyId}
       />
     </Paper>
