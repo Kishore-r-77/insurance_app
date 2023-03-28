@@ -2,28 +2,31 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+
+// ***  Attention : Check the import below and change it if required ***
+//import { AfiScrStateType } from "../../reducerUtilities/types/afiScr/afiScrTypes";
+
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../reducerUtilities/actions/policy/policyActions";
-import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
-import { useAppSelector } from "../../redux/app/hooks";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import styles from "./nbmm.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./nbmmApis/nbmmApis";
-import PolicyModal from "./nbmmModal/NbmmModal";
-import NbmmTable from "./NbmmTable";
+} from "../../../reducerUtilities/actions/nbmm/afiScr/afiScrActions";
+import styles from "./afiScr.module.css";
 
-function Nbmm({ modalFunc }: any) {
+import { addApi, deleteApi, editApi, getAllApi } from "../nbmmApis/afiScrApis";
+import AfiScrModal from "../nbmmModal/AfiModel/AfiScrModal";
+import { AfiScrStateType } from "../../../reducerUtilities/types/nbmm/afiScr/afiScrTypes";
+import CustomTable from "../../../utilities/Table/CustomTable";
+import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import { useAppSelector } from "../../../redux/app/hooks";
+
+function AfiScr({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
-
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
-
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: PolicyStateType, action: any) => {
+  const reducer = (state: AfiScrStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -59,7 +62,6 @@ function Nbmm({ modalFunc }: any) {
         };
 
       case ACTIONS.ADDCLOSE:
-        state = initialValues;
         return {
           ...state,
           addOpen: false,
@@ -74,46 +76,6 @@ function Nbmm({ modalFunc }: any) {
         return {
           ...state,
           infoOpen: false,
-        };
-      case ACTIONS.CLIENTOPEN:
-        return {
-          ...state,
-          clientOpen: true,
-        };
-      case ACTIONS.CLIENTCLOSE:
-        return {
-          ...state,
-          clientOpen: false,
-        };
-      case ACTIONS.ADDRESSOPEN:
-        return {
-          ...state,
-          addressOpen: true,
-        };
-      case ACTIONS.ADDRESSCLOSE:
-        return {
-          ...state,
-          addressOpen: false,
-        };
-      case ACTIONS.AGENCYOPEN:
-        return {
-          ...state,
-          agencyOpen: true,
-        };
-      case ACTIONS.AGENCYCLOSE:
-        return {
-          ...state,
-          agencyOpen: false,
-        };
-      case ACTIONS.BENEFITOPEN:
-        return {
-          ...state,
-          benefitOpen: true,
-        };
-      case ACTIONS.BENEFITCLOSE:
-        return {
-          ...state,
-          benefitOpen: false,
         };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
@@ -130,6 +92,30 @@ function Nbmm({ modalFunc }: any) {
         if (state.sortAsc) {
           state.sortAsc = false;
         }
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.POLICIESOPEN:
+        return {
+          ...state,
+          policiesOpen: true,
+        };
+      case ACTIONS.POLICIESCLOSE:
+        return {
+          ...state,
+          policiesOpen: false,
+        };
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.UWREASONSOPEN:
+        return {
+          ...state,
+          uwreasonsOpen: true,
+        };
+      case ACTIONS.UWREASONSCLOSE:
+        return {
+          ...state,
+          uwreasonsOpen: false,
+        };
         return {
           ...state,
           sortDesc: desc,
@@ -142,21 +128,21 @@ function Nbmm({ modalFunc }: any) {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Policys"]);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["All AfiScrs"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Policys"]?.length === 0);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All AfiScrs"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -165,21 +151,14 @@ function Nbmm({ modalFunc }: any) {
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = async () => {
-    try {
-      const response = await addApi(state, companyId);
-      getData();
-      return {
-        response,
-        status: response.status,
-      };
-    } catch (err: any) {
-      console.log(err);
-      return {
-        response: err,
-        status: err.response.status,
-      };
-    }
+  const handleFormSubmit = () => {
+    return addApi(state, companyId, 0)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        getData();
+      })
+      .catch((err) => console.log(err.message));
   };
 
   //Edit Api
@@ -279,8 +258,8 @@ function Nbmm({ modalFunc }: any) {
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>NBMM</h1>
+        // *** Attention : Check header below ***
+        <h1>AfiScrs</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -298,7 +277,7 @@ function Nbmm({ modalFunc }: any) {
           <AddBoxIcon />
         </Button>
       </header>
-      <NbmmTable
+      <CustomTable
         data={data}
         modalFunc={modalFunc}
         columns={columns}
@@ -315,8 +294,7 @@ function Nbmm({ modalFunc }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-
-      <PolicyModal
+      <AfiScrModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -326,5 +304,4 @@ function Nbmm({ modalFunc }: any) {
     </div>
   );
 }
-
-export default Nbmm;
+export default AfiScr;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { BankStateType } from "../../../reducerUtilities/types/bank/bankTypes";
+import { BankStateType } from "../../../../reducerUtilities/types/bank/bankTypes";
 
 export const getAllApi = (
   pageNum: number,
