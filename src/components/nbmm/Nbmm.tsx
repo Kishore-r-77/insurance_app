@@ -10,10 +10,10 @@ import {
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
 import styles from "./nbmm.module.css";
 import { addApi, deleteApi, editApi, getAllApi } from "./nbmmApis/nbmmApis";
 import PolicyModal from "./nbmmModal/NbmmModal";
+import NbmmTable from "./NbmmTable";
 
 function Nbmm({ modalFunc }: any) {
   //data from getall api
@@ -298,7 +298,7 @@ function Nbmm({ modalFunc }: any) {
           <AddBoxIcon />
         </Button>
       </header>
-      <CustomTable
+      <NbmmTable
         data={data}
         modalFunc={modalFunc}
         columns={columns}

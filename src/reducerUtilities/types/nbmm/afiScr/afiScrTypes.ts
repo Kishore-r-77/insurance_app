@@ -1,20 +1,14 @@
-export type ClientStateType = {
-  CompanyID: string;
-  ClientShortName: string;
-  ClientLongName: string;
-  ClientSurName: string;
-  Gender: string;
-  Salutation: string;
-  Language: string;
-  ClientDob: string;
-  ClientDod: string;
-  ClientEmail: string;
-  ClientMobile: string;
-  ClientStatus: string;
+
+export type AfiScrStateType = {
+  PolicyID :string;
+  UwreasonsId :string;
+  RequestedDate :string;
+// *** Attention: Check the lookup table open below ***
+  policiesOpen: boolean;
+  uwreasonsOpen: boolean;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
-  addressOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -31,14 +25,16 @@ export type ActionConstantsType = {
   ADDCLOSE: string;
   EDITCLOSE: string;
   INFOCLOSE: string;
-  ADDRESSOPEN: string;
-  ADDRESSCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
+  // *** Attention: Check the Lookup table Open/close below ***
+  POLICIESOPEN: string;
+  POLICIESCLOSE: string;
+  UWREASONSOPEN: string;
+  UWREASONSCLOSE: string;
 };
-
-export type ClientModalType = {
-  state: ClientStateType;
+export type AfiScrModalType = {
+  state: AfiScrStateType;
   record: any;
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;

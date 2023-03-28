@@ -3,7 +3,6 @@ import Modal from "react-bootstrap/Modal";
 
 const NotificationModal = ({
     open,
-  infoOpen,
   handleClose,
   title,
   children,

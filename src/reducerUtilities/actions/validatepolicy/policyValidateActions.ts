@@ -3,6 +3,7 @@
 import { PolicyValidateStateType } from "../../types/validatepolicy/policyValidateTypes";
 //Storing Actions into a Variable for Reducer
 export const ACTIONS = {
+  POLICYCLOSE: "POLICYCLOSE",
   ONCHANGE: "ONCHANGE",
   EDITCHANGE: "EDITCHANGE",
   ADDOPEN: "ADDOPEN",
@@ -16,7 +17,6 @@ export const ACTIONS = {
 // *** Attention: Check the Lookup Open /close ***
   BENEFITSOPEN:  "BENEFITSOPEN",
   BENEFITSCLOSE: "BENEFITSCLOSE",
-  POLICYCLOSE: "POLICYCLOSE"
   };
 
   //Initial State defined

@@ -2,33 +2,31 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+
+// ***  Attention : Check the import below and change it if required ***
+//import { AfiScrStateType } from "../../reducerUtilities/types/afiScr/afiScrTypes";
+
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/admin/permissions/permissionActions";
-import { PermissionStateType } from "../../../reducerUtilities/types/admin/permissions/permissionTypes";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import styles from "./permission.module.css";
-import {
-  addApi,
-  deleteApi,
-  editApi,
-  getAllApi,
-} from "./permissionApis/permissionApis";
-import PermissionModal from "./permissionModal/PermissionModal";
+} from "../../../reducerUtilities/actions/nbmm/afiScr/afiScrActions";
+import styles from "./afiScr.module.css";
 
-function Permission() {
+import { addApi, deleteApi, editApi, getAllApi } from "../nbmmApis/afiScrApis";
+import AfiScrModal from "../nbmmModal/AfiModel/AfiScrModal";
+import { AfiScrStateType } from "../../../reducerUtilities/types/nbmm/afiScr/afiScrTypes";
+import CustomTable from "../../../utilities/Table/CustomTable";
+import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import { useAppSelector } from "../../../redux/app/hooks";
+
+function AfiScr({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
-
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
-
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: PermissionStateType, action: any) => {
+  const reducer = (state: AfiScrStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -40,7 +38,6 @@ function Permission() {
           ...prev,
           [action.fieldName]: action.payload,
         }));
-
         return {
           ...state,
           editOpen: true,
@@ -65,7 +62,6 @@ function Permission() {
         };
 
       case ACTIONS.ADDCLOSE:
-        state = initialValues;
         return {
           ...state,
           addOpen: false,
@@ -80,16 +76,6 @@ function Permission() {
         return {
           ...state,
           infoOpen: false,
-        };
-      case ACTIONS.TRANSACTIONOPEN:
-        return {
-          ...state,
-          transactionOpen: true,
-        };
-      case ACTIONS.TRANSACTIONCLOSE:
-        return {
-          ...state,
-          transactionOpen: false,
         };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
@@ -106,30 +92,34 @@ function Permission() {
         if (state.sortAsc) {
           state.sortAsc = false;
         }
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.POLICIESOPEN:
+        return {
+          ...state,
+          policiesOpen: true,
+        };
+      case ACTIONS.POLICIESCLOSE:
+        return {
+          ...state,
+          policiesOpen: false,
+        };
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.UWREASONSOPEN:
+        return {
+          ...state,
+          uwreasonsOpen: true,
+        };
+      case ACTIONS.UWREASONSCLOSE:
+        return {
+          ...state,
+          uwreasonsOpen: false,
+        };
         return {
           ...state,
           sortDesc: desc,
           sortColumn: action.payload,
-        };
-      case ACTIONS.USEROPEN:
-        return {
-          ...state,
-          userOpen: true,
-        };
-      case ACTIONS.USERCLOSE:
-        return {
-          ...state,
-          userOpen: false,
-        };
-      case ACTIONS.USERGROUPOPEN:
-        return {
-          ...state,
-          userGroupOpen: true,
-        };
-      case ACTIONS.USERGROUPCLOSE:
-        return {
-          ...state,
-          userGroupOpen: false,
         };
       default:
         return initialValues;
@@ -138,136 +128,48 @@ function Permission() {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-
   //Get all Api
   const getData = () => {
-    getAllApi(pageNum, pageSize, state)
+    return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Permissions"]);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["All AfiScrs"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Permissions"].length === 0);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All AfiScrs"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
   };
-
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
-
-  const userBody = {
-    CompanyID: companyId,
-    ModelName: state.ModelName,
-    Method: state.Method,
-    TransactionID: state.TransactionID,
-    UserID: {
-      Int64: state.UserID,
-      Valid: true,
-    },
-    UserGroupID: {
-      Int64: 0,
-      Valid: false,
-    },
-  };
-
-  const userGroupBody = {
-    CompanyID: companyId,
-    ModelName: state.ModelName,
-    Method: state.Method,
-    TransactionID: state.TransactionID,
-    UserID: {
-      Int64: 0,
-      Valid: false,
-    },
-    UserGroupID: {
-      Int64: state.UserGroupID,
-      Valid: true,
-    },
-    // Users: null,
-    // Permissions: null,
-  };
-
-  const userBodyEdit = {
-    ID: record.ID,
-    CompanyID: companyId,
-    ModelName: record.ModelName,
-    Method: record.Method,
-    TransactionID: record.TransactionID,
-    UserID: {
-      Int64: record.UserID?.Int64,
-      Valid: true,
-    },
-    UserGroupID: {
-      Int64: 0,
-      Valid: false,
-    },
-  };
-
-  const userGroupBodyEdit = {
-    ID: record.ID,
-    CompanyID: companyId,
-    ModelName: record.ModelName,
-    Method: record.Method,
-    TransactionID: record.TransactionID,
-    UserID: {
-      Int64: 0,
-      Valid: false,
-    },
-    UserGroupID: {
-      Int64: record.UserGroupID?.Int64,
-      Valid: true,
-    },
-    // Users: null,
-    // Permissions: null,
-  };
-
   //Add Api
   const handleFormSubmit = () => {
-    if (state.userOrGroup === "user") {
-      addApi(userBody)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.ADDCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    } else if (state.userOrGroup === "userGroup") {
-      addApi(userGroupBody)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.ADDCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    }
+    return addApi(state, companyId, 0)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        getData();
+      })
+      .catch((err) => console.log(err.message));
   };
 
   //Edit Api
   const editFormSubmit = async () => {
-    if (state.userOrGroup === "user") {
-      editApi(userBodyEdit)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.EDITCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    } else if (state.userOrGroup === "userGroup") {
-      editApi(userGroupBodyEdit)
-        .then((resp) => {
-          console.log(resp);
-          dispatch({ type: ACTIONS.EDITCLOSE });
-          getData();
-        })
-        .catch((err) => console.log(err.message));
-    }
+    editApi(record)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.EDITCLOSE });
+        getData();
+      })
+      .catch((err) => console.log(err.message));
   };
 
   //Hard Delete Api
@@ -356,8 +258,8 @@ function Permission() {
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>Permissions</h1>
+        // *** Attention : Check header below ***
+        <h1>AfiScrs</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -377,6 +279,7 @@ function Permission() {
       </header>
       <CustomTable
         data={data}
+        modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
@@ -391,7 +294,7 @@ function Permission() {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <PermissionModal
+      <AfiScrModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -401,5 +304,4 @@ function Permission() {
     </div>
   );
 }
-
-export default Permission;
+export default AfiScr;

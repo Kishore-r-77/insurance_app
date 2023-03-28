@@ -47,9 +47,11 @@ function AddressModal({
   };
 
   const getCompanyData = (id: number) => {
-    getApi(id).then((resp) => {
-      setCompanyData(resp.data["Company"]);
-    });
+    getApi(id)
+      .then((resp) => {
+        setCompanyData(resp.data["Company"]);
+      })
+      .catch((err) => err.message);
   };
 
   useEffect(() => {

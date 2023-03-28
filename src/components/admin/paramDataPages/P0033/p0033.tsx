@@ -7,6 +7,7 @@ const P0033 = forwardRef((props: any, ref) => {
   const smsAllowedRef: any = useRef();
   const emailAllowedRef: any = useRef();
   const whatsAppAllowedRef: any = useRef();
+  const agentSMSAllowedRef: any = useRef();
   const agentEmailAllowedRef: any = useRef();
   const agentWhatsAppAllowedRef: any = useRef();
   const companyEmailRef: any = useRef();
@@ -26,6 +27,7 @@ const P0033 = forwardRef((props: any, ref) => {
       inputdata.smsAllowed = smsAllowedRef.current.value;
       inputdata.emailAllowed = emailAllowedRef.current.value;
       inputdata.whatsAppAllowed = whatsAppAllowedRef.current.value;
+      inputdata.agentSMSAllowed = agentSMSAllowedRef.current.value;
       inputdata.agentEmailAllowed = agentEmailAllowedRef.current.value;
       inputdata.agentWhatsAppAllowed = agentWhatsAppAllowedRef.current.value;
       inputdata.companyEmail = companyEmailRef.current.value;
@@ -35,7 +37,7 @@ const P0033 = forwardRef((props: any, ref) => {
       return inputdata;
     },
   }));
-  console.log(props.data, "Kishore %%%%%%%%%%%%%%%%%%%%%");
+
 
   return (
     <>
@@ -79,8 +81,8 @@ const P0033 = forwardRef((props: any, ref) => {
           id="emailAllowed"
           name="emailAllowed"
           inputRef={emailAllowedRef}
-          placeholder="Prodcut Family"
-          label="Prodcut Family"
+          placeholder="emailAllowed"
+          label="emailAllowed"
           defaultValue={inputdata.emailAllowed}
           fullWidth
           margin="dense"
@@ -95,9 +97,25 @@ const P0033 = forwardRef((props: any, ref) => {
           id="whatsAppAllowed"
           name="whatsAppAllowed"
           inputRef={whatsAppAllowedRef}
-          placeholder="Riders Allowed"
-          label="Riders Allowed"
+          placeholder="whatsAppAllowed"
+          label="whatsAppAllowed"
           defaultValue={inputdata.whatsAppAllowed}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="agentSMSAllowed"
+          name="agentSMSAllowed"
+          inputRef={agentSMSAllowedRef}
+          placeholder="agentSMSAllowed"
+          label="agentSMSAllowed"
+          defaultValue={inputdata.agentSMSAllowed}
           fullWidth
           margin="dense"
         />
@@ -203,3 +221,4 @@ const P0033 = forwardRef((props: any, ref) => {
 });
 
 export default P0033;
+
