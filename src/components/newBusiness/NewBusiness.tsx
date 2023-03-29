@@ -164,7 +164,8 @@ function NewBusiness({ modalFunc }: any) {
   const [summaryData, setsummaryData] = useState([]);
   const [isPolicyValidate, setisPolicyValidate] = useState(false);
   const [isIssue, setisIssue] = useState(false);
-  const [issueData, setissueData] = useState([]);
+  const [issueNote,setissueNote] = useState(false);
+  const [issueData, setissueData] = useState();
 
   const policyvalidateOpen=()=>{
     setisPolicyValidate(true)
@@ -172,6 +173,7 @@ function NewBusiness({ modalFunc }: any) {
 
   const policyvalidateClose=()=>{
     setisPolicyValidate(false)
+    location.reload()
   }
   
 
@@ -191,6 +193,15 @@ function NewBusiness({ modalFunc }: any) {
 
  const issueClose=()=>{
   setisIssue(false)
+ }
+
+ const issueNoteOpen=()=>{
+  setissueNote(true)
+ }
+
+ const issueNoteClose=()=>{
+  setissueNote(false)
+  location.reload()
  }
 
   //Get all Api
@@ -247,8 +258,10 @@ function NewBusiness({ modalFunc }: any) {
       withCredentials: true,
     }
     ).then((resp)=>{
-      setissueData(resp.data[0])
-      console.log(resp.data[0],"Issue Data")
+      setissueData(resp.data.Policy)
+      setisIssue(false)
+      setissueNote(true)
+      // console.log(resp.data,"Policy")
     })
   }
 
@@ -399,11 +412,14 @@ function NewBusiness({ modalFunc }: any) {
         ACTIONS={ACTIONS}
       />
 
-    <NotificationModal open={isConfirm} handleClose={confirmClose} handleFormSubmit={validatePolicy}>
+      <NotificationModal open={isConfirm} handleClose={confirmClose} handleFormSubmit={validatePolicy}>
         <h4>Are you sure you want to validate policy?</h4>
       </NotificationModal>
       <NotificationModal open={isIssue} handleClose={issueClose} handleFormSubmit={issuePolicy}>
         <h4>Are you sure you want to issue policy?</h4>
+      </NotificationModal>
+      <NotificationModal open={issueNote} handleClose={issueNoteClose}>
+        <h4>{issueData}</h4>
       </NotificationModal>
     </div>
   );
