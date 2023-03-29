@@ -164,45 +164,44 @@ function NewBusiness({ modalFunc }: any) {
   const [summaryData, setsummaryData] = useState([]);
   const [isPolicyValidate, setisPolicyValidate] = useState(false);
   const [isIssue, setisIssue] = useState(false);
-  const [issueNote,setissueNote] = useState(false);
+  const [issueNote, setissueNote] = useState(false);
   const [issueData, setissueData] = useState();
 
-  const policyvalidateOpen=()=>{
-    setisPolicyValidate(true)
-  }
+  const policyvalidateOpen = () => {
+    setisPolicyValidate(true);
+  };
 
-  const policyvalidateClose=()=>{
-    setisPolicyValidate(false)
-    location.reload()
-  }
-  
+  const policyvalidateClose = () => {
+    setisPolicyValidate(false);
+    getData();
+  };
 
- const confirmOpen=(id:number)=>{
-  setPolicyId(id);
-  setisConfirm(true);
- } 
+  const confirmOpen = (id: number) => {
+    setPolicyId(id);
+    setisConfirm(true);
+  };
 
- const confirmClose=()=>{
-  setisConfirm(false);
- } 
+  const confirmClose = () => {
+    setisConfirm(false);
+  };
 
- const issueOpen=(id:number)=>{
-  setPolicyId(id)
-  setisIssue(true)
- }
+  const issueOpen = (id: number) => {
+    setPolicyId(id);
+    setisIssue(true);
+  };
 
- const issueClose=()=>{
-  setisIssue(false)
- }
+  const issueClose = () => {
+    setisIssue(false);
+  };
 
- const issueNoteOpen=()=>{
-  setissueNote(true)
- }
+  const issueNoteOpen = () => {
+    setissueNote(true);
+  };
 
- const issueNoteClose=()=>{
-  setissueNote(false)
-  location.reload()
- }
+  const issueNoteClose = () => {
+    setissueNote(false);
+    getData();
+  };
 
   //Get all Api
   const getData = () => {
@@ -237,33 +236,39 @@ function NewBusiness({ modalFunc }: any) {
     }
   };
 
-  const validatePolicy = ()=>{
-    axios.post(`http://localhost:3000/api/v1/nbservices/policyvalidate/${policyId}`,
-    {},
-    {
-      withCredentials: true,
-    }
-    ).then((resp)=>{
-      setvalidateData(resp.data["Payable Amount"])
-      setsummaryData(resp.data["Summary"])
-      setisConfirm(false)
-      policyvalidateOpen()
-    })
-  }
+  const validatePolicy = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/nbservices/policyvalidate/${policyId}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setvalidateData(resp.data["Payable Amount"]);
+        setsummaryData(resp.data["Summary"]);
+        setisConfirm(false);
+        policyvalidateOpen();
+      });
+  };
 
-  const issuePolicy = ()=>{
-    axios.post(`http://localhost:3000/api/v1/nbservices/policyissue/${policyId}`,
-    {},
-    {
-      withCredentials: true,
-    }
-    ).then((resp)=>{
-      setissueData(resp.data.Policy)
-      setisIssue(false)
-      setissueNote(true)
-      // console.log(resp.data,"Policy")
-    })
-  }
+  const issuePolicy = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/nbservices/policyissue/${policyId}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setissueData(resp.data.Policy);
+        setisIssue(false);
+        setissueNote(true);
+        // console.log(resp.data,"Policy")
+      });
+  };
 
   //Edit Api
   const editFormSubmit = async () => {
@@ -306,7 +311,7 @@ function NewBusiness({ modalFunc }: any) {
   return (
     <div>
       <CustomModal open={isPolicyValidate} handleClose={policyvalidateClose}>
-      <PolicyValidate data={validateData} summaryData={summaryData}/>
+        <PolicyValidate data={validateData} summaryData={summaryData} />
       </CustomModal>
       <header className={styles.flexStyle}>
         <span>
@@ -412,10 +417,18 @@ function NewBusiness({ modalFunc }: any) {
         ACTIONS={ACTIONS}
       />
 
-      <NotificationModal open={isConfirm} handleClose={confirmClose} handleFormSubmit={validatePolicy}>
+      <NotificationModal
+        open={isConfirm}
+        handleClose={confirmClose}
+        handleFormSubmit={validatePolicy}
+      >
         <h4>Are you sure you want to validate policy?</h4>
       </NotificationModal>
-      <NotificationModal open={isIssue} handleClose={issueClose} handleFormSubmit={issuePolicy}>
+      <NotificationModal
+        open={isIssue}
+        handleClose={issueClose}
+        handleFormSubmit={issuePolicy}
+      >
         <h4>Are you sure you want to issue policy?</h4>
       </NotificationModal>
       <NotificationModal open={issueNote} handleClose={issueNoteClose}>
