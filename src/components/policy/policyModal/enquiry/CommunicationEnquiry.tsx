@@ -42,11 +42,11 @@ const CommunicationEnquiry = ({ communicationData, state }: any) => {
           dbField: "extracted_status",
         },
     
-        {
-          field: "ExtractedData",
-          header: "Extracted Data",
-          dbField: "extracted_data",
-        },
+        // {
+        //   field: "ExtractedData",
+        //   header: "Extracted Data",
+        //   dbField: "extracted_data",
+        // },
     
         {
           field: "SMSAllowed",
