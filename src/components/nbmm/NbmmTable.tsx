@@ -9,7 +9,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import SendIcon from "@mui/icons-material/Send";
 import moment from "moment";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import VerifiedUser from "@mui/icons-material/VerifiedUser";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -41,7 +41,9 @@ function NbmmTable({
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const record = useRef();
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: any) => {
+    record.current = id;
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -211,16 +213,6 @@ function NbmmTable({
               {ACTIONS.EDITOPEN && (
                 <td>
                   <span className={styles.flexButtons}>
-                    {/* <EditIcon
-                      color="primary"
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                      }
-                    />
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => hardDelete(row.ID)}
-                    /> */}
                     <IconButton
                       onClick={() =>
                         dispatch({ type: ACTIONS.INFOOPEN, payload: row })
@@ -235,7 +227,7 @@ function NbmmTable({
                       aria-controls={open ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={open ? "true" : undefined}
-                      onClick={handleClick}
+                      onClick={(e) => handleClick(e, row.ID)}
                     >
                       <MoreVertIcon />
                     </IconButton>
@@ -248,26 +240,36 @@ function NbmmTable({
                         "aria-labelledby": "basic-button",
                       }}
                     >
-                      <MenuItem onClick={() => handleAfiOpen(row.ID)}>
+                      <MenuItem onClick={() => handleAfiOpen(record.current)}>
                         Afi
                       </MenuItem>
-                      <MenuItem onClick={() => handleCfiOpen(row.ID)}>
+                      <MenuItem onClick={() => handleCfiOpen(record.current)}>
                         Cfi
                       </MenuItem>
-                      <MenuItem onClick={() => handleFreeLookOpen(row.ID)}>
+                      <MenuItem
+                        onClick={() => handleFreeLookOpen(record.current)}
+                      >
                         Free Look
                       </MenuItem>
-                      <MenuItem onClick={() => handlePostponeOpen(row.ID)}>
+                      <MenuItem
+                        onClick={() => handlePostponeOpen(record.current)}
+                      >
                         Postpone
                       </MenuItem>
-                      <MenuItem onClick={() => handleDeclineOpen(row.ID)}>
+                      <MenuItem
+                        onClick={() => handleDeclineOpen(record.current)}
+                      >
                         Decline
                       </MenuItem>
-                      <MenuItem onClick={() => handleWithdrawnOpen(row.ID)}>
+                      <MenuItem
+                        onClick={() => handleWithdrawnOpen(record.current)}
+                      >
                         Withdrawn
                       </MenuItem>
                       <MenuItem
-                        onClick={() => handlePostponeWithdrawnOpen(row.ID)}
+                        onClick={() =>
+                          handlePostponeWithdrawnOpen(record.current)
+                        }
                       >
                         PostPone Withdrawn
                       </MenuItem>

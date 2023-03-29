@@ -23,9 +23,6 @@ var initialValues = {
 };
 
 function CfiScrModal({ open, handleClose, policyId }: any) {
-  console.log(policyId, "Policy Id");
-  const nevigate = useNavigate();
-
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
