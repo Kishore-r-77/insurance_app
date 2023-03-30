@@ -2,6 +2,7 @@ import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import "./p0033.css";
+import UserGroup from "../../usergroup/UserGroup";
 const P0033 = forwardRef((props: any, ref) => {
   const templateNameRef: any = useRef();
   const smsAllowedRef: any = useRef();
@@ -34,6 +35,7 @@ const P0033 = forwardRef((props: any, ref) => {
       inputdata.companyPhone = companyPhoneRef.current.value;
       inputdata.departmentName = departmentNameRef.current.value;
       inputdata.departmentHead = departmentHeadRef.current.value;
+      
       return inputdata;
     },
   }));
@@ -216,9 +218,13 @@ const P0033 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
+
+
     </>
   );
 });
 
 export default P0033;
+
+
 
