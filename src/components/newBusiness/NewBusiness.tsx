@@ -208,9 +208,9 @@ function NewBusiness({ modalFunc }: any) {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Policys"]);
+        setData(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Policys"]?.length === 0);
+        setisLast(resp.data["All Policies"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
