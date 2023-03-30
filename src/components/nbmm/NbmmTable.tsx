@@ -271,7 +271,7 @@ function NbmmTable({
                           handlePostponeWithdrawnOpen(record.current)
                         }
                       >
-                        PostPone Withdrawn
+                        Reverse pd/wd
                       </MenuItem>
                     </Menu>
                   </span>

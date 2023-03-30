@@ -59,7 +59,7 @@ function FreeLookScrModal({ open, handleClose, policyId }: any) {
         <Modal.Body>
           <form>
             <Grid2 container spacing={2}>
-              <Grid2 xs={8} md={6} lg={6}>
+              <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
                   id="CompanyID"
@@ -73,7 +73,7 @@ function FreeLookScrModal({ open, handleClose, policyId }: any) {
                 />
               </Grid2>
 
-              <Grid2 xs={8} md={6} lg={6}>
+              <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
                   id="policyId"
@@ -85,6 +85,22 @@ function FreeLookScrModal({ open, handleClose, policyId }: any) {
                   inputProps={{ readOnly: true }}
                   margin="dense"
                 />
+              </Grid2>
+
+              <Grid2 xs={8} md={6} lg={4}>
+                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                      label="Effective Date"
+                      inputFormat="DD/MM/YYYY"
+                      value={FreeLookData.RequestedDate}
+                      onChange={(
+                        date: React.ChangeEvent<HTMLInputElement> | any
+                      ) => onChangeReqDate(date)}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
               </Grid2>
 
               <Grid2 xs={8} md={6} lg={12}>
@@ -99,22 +115,6 @@ function FreeLookScrModal({ open, handleClose, policyId }: any) {
                   margin="dense"
                   onChange={(e) => onChange(e)}
                 />
-              </Grid2>
-
-              <Grid2 xs={8} md={6} lg={12}>
-                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      label="Effective Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={FreeLookData.RequestedDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) => onChangeReqDate(date)}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </FormControl>
               </Grid2>
             </Grid2>
           </form>
