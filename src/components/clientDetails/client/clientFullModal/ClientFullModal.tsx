@@ -1,3 +1,9 @@
+import { useEffect, useState } from "react";
+import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
+
+import { useAppSelector } from "../../../../redux/app/hooks";
+import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import { paramItem } from "../clientApis/clientApis";
 import {
   FormControl,
   InputAdornment,
@@ -8,24 +14,9 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState } from "react";
-import styles from "./clientModal.module.css";
 
-import { ClientModalType } from "../../../../reducerUtilities/types/client/clientTypes";
-import CustomModal from "../../../../utilities/modal/CustomModal";
-import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
-import { useAppSelector } from "../../../../redux/app/hooks";
-import { paramItem } from "../clientApis/clientApis";
-
-function ClientModal({
-  state,
-  record,
-  dispatch,
-  ACTIONS,
-  handleFormSubmit,
-}: ClientModalType) {
-  const editTitle: string = "Client Edit";
-  const infoTitle: string = "Client Info";
+function ClientFullModal({ state, dispatch, ACTIONS }: any) {
+  const title = "Client Add";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -97,19 +88,12 @@ function ClientModal({
 
     return () => {};
   }, []);
-
   return (
-    <div className={styles.modal}>
-      <CustomModal
-        open={state.editOpen ? state.editOpen : state.infoOpen}
-        handleClose={
-          state.editOpen
-            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
-            : () => dispatch({ type: ACTIONS.INFOCLOSE })
-        }
-        title={state.editOpen ? editTitle : state.infoOpen ? infoTitle : null}
-        ACTIONS={ACTIONS}
-        handleFormSubmit={() => handleFormSubmit()}
+    <div>
+      <CustomFullModal
+        open={state.addOpen}
+        handleClose={() => dispatch({ type: ACTIONS.ADDCLOSE })}
+        title={title}
       >
         <form>
           <Grid2 container spacing={2}>
@@ -130,12 +114,12 @@ function ClientModal({
               <TextField
                 id="ClientShortName"
                 name="ClientShortName"
-                value={record.ClientShortName}
+                value={state.ClientShortName}
                 placeholder="Client Short Name"
                 label="Client Short Name"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientShortName",
                   })
@@ -149,12 +133,12 @@ function ClientModal({
               <TextField
                 id="ClientLongName"
                 name="ClientLongName"
-                value={record.ClientLongName}
+                value={state.ClientLongName}
                 placeholder="Client Long Name"
                 label="Client Long Name"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientLongName",
                   })
@@ -168,12 +152,12 @@ function ClientModal({
               <TextField
                 id="ClientSurName"
                 name="ClientSurName"
-                value={record.ClientSurName}
+                value={state.ClientSurName}
                 placeholder="Client Sur Name"
                 label="Client Sur Name"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientSurName",
                   })
@@ -188,12 +172,12 @@ function ClientModal({
                 select
                 id="Gender"
                 name="Gender"
-                value={record.Gender}
+                value={state.Gender}
                 placeholder="Gender"
                 label="Gender"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "Gender",
                   })
@@ -212,12 +196,12 @@ function ClientModal({
                 select
                 id="Salutation"
                 name="Salutation"
-                value={record.Salutation}
+                value={state.Salutation}
                 placeholder="Salutation"
                 label="Salutation"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "Salutation",
                   })
@@ -236,12 +220,12 @@ function ClientModal({
                 select
                 id="Language"
                 name="Language"
-                value={record.Language}
+                value={state.Language}
                 placeholder="Language"
                 label="Language"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "Language",
                   })
@@ -259,12 +243,12 @@ function ClientModal({
               <TextField
                 id="ClientEmail"
                 name="ClientEmail"
-                value={record.ClientEmail}
+                value={state.ClientEmail}
                 placeholder="ClientEmail"
                 label="ClientEmail"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientEmail",
                   })
@@ -279,7 +263,7 @@ function ClientModal({
                 type="number"
                 id="ClientMobile"
                 name="ClientMobile"
-                value={record.ClientMobile}
+                value={state.ClientMobile}
                 placeholder="ClientMobile"
                 label="ClientMobile"
                 InputProps={{
@@ -289,7 +273,7 @@ function ClientModal({
                 }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientMobile",
                   })
@@ -304,12 +288,12 @@ function ClientModal({
                 select
                 id="ClientStatus"
                 name="ClientStatus"
-                value={record.ClientStatus}
+                value={state.ClientStatus}
                 placeholder="ClientStatus"
                 label="ClientStatus"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientStatus",
                   })
@@ -331,12 +315,12 @@ function ClientModal({
                     readOnly={state.infoOpen}
                     label="Client Dob"
                     inputFormat="DD/MM/YYYY"
-                    value={record.ClientDob}
+                    value={state.ClientDob}
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) =>
                       dispatch({
-                        type: ACTIONS.EDITCHANGE,
+                        type: ACTIONS.ONCHANGE,
                         payload: date.$d,
                         fieldName: "ClientDob",
                       })
@@ -354,12 +338,12 @@ function ClientModal({
                     readOnly={state.infoOpen}
                     label="Client Dod"
                     inputFormat="DD/MM/YYYY"
-                    value={record.ClientDod}
+                    value={state.ClientDod}
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) =>
                       dispatch({
-                        type: ACTIONS.EDITCHANGE,
+                        type: ACTIONS.ONCHANGE,
                         payload: date.$d,
                         fieldName: "ClientDod",
                       })
@@ -371,9 +355,9 @@ function ClientModal({
             </Grid2>
           </Grid2>
         </form>
-      </CustomModal>
+      </CustomFullModal>
     </div>
   );
 }
 
-export default ClientModal;
+export default ClientFullModal;

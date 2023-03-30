@@ -20,6 +20,7 @@ import {
   getAddressByClient,
   getAllApi,
 } from "./clientApis/clientApis";
+import ClientFullModal from "./clientFullModal/ClientFullModal";
 import ClientModal from "./clientModal/ClientModal";
 import ClientTable from "./clientTable/ClientTable";
 
@@ -307,9 +308,10 @@ function Client({ modalFunc, dataIndex }: any) {
         state={state}
         record={record}
         dispatch={dispatch}
-        handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
+        handleFormSubmit={editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <ClientFullModal state={state} dispatch={dispatch} ACTIONS={ACTIONS} />
       <CustomModal
         open={state.addressOpen}
         handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
