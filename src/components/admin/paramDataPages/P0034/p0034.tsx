@@ -63,9 +63,14 @@ const P0034 = forwardRef((props: any, ref) => {
       >
         <tr>
           <th>Template Name </th>
-
+          <th>HTML Location</th>
+            <th>PDF Location </th>
           {(props.mode === "update" || props.mode === "create") && (
-            <th>templatess</th>
+            <>
+            
+
+
+            </>
           )}
         </tr>
       </thead>
@@ -90,6 +95,40 @@ const P0034 = forwardRef((props: any, ref) => {
               />
             </td>
 
+            <td>
+              <TextField
+                inputProps={{
+                  readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="reporttemplatelocation"
+                name="reporttemplatelocation"
+                value={value.reporttemplatelocation}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "reporttemplatelocation", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
+            <td>
+              <TextField
+                inputProps={{
+                  readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="pdflocation"
+                name="pdflocation"
+                value={value.pdflocation}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "pdflocation", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
             {(props.mode === "update" || props.mode === "create") && (
               <td>
                 <span
@@ -138,3 +177,4 @@ const P0034 = forwardRef((props: any, ref) => {
 });
 
 export default P0034;
+

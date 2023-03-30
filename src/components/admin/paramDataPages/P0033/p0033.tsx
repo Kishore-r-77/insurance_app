@@ -15,8 +15,6 @@ const P0033 = forwardRef((props: any, ref) => {
   const companyPhoneRef: any = useRef();
   const departmentNameRef: any = useRef();
   const departmentHeadRef: any = useRef();
-  const templateLocationRef : any = useRef();
-  const pdfLocationRef : any= useRef();
 
   let inputdata: any = {};
 
@@ -37,8 +35,7 @@ const P0033 = forwardRef((props: any, ref) => {
       inputdata.companyPhone = companyPhoneRef.current.value;
       inputdata.departmentName = departmentNameRef.current.value;
       inputdata.departmentHead = departmentHeadRef.current.value;
-      inputdata.pdfLocation = pdfLocationRef.current.value;
-      inputdata.templateLocation = templateLocationRef.current.value;
+      
       return inputdata;
     },
   }));
@@ -221,41 +218,13 @@ const P0033 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="pdfLocation"
-          name="pdfLocation"
-          inputRef={pdfLocationRef}
-          placeholder="pdfLocation"
-          label="pdfLocation"
-          defaultValue={inputdata.pdfLocation}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="templateLocation"
-          name="templateLocation"
-          inputRef={templateLocationRef}
-          placeholder="templateLocation"
-          label="templateLocation"
-          defaultValue={inputdata.templateLocation}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
+
 
     </>
   );
 });
 
 export default P0033;
+
 
 
