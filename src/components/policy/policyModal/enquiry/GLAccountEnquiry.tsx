@@ -10,6 +10,7 @@ function GLAccountEnquiry({
   handleClose,
   policyNo,
   GLAccountNo,
+  contractAmnt,
   state,
 }: any) {
   console.log(policyNo, "Policy No");
@@ -128,7 +129,7 @@ function GLAccountEnquiry({
     <div>
       <Modal show={open} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
-          <Modal.Title>{"GL Account"}</Modal.Title>
+          <Modal.Title>GL Account ({contractAmnt})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {
