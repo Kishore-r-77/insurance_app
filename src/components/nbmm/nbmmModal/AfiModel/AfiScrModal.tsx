@@ -22,7 +22,7 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function AfiScrModal({ open, handleClose, policyId }: any) {
+function AfiScrModal({ open, handleClose, policyId, getData }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -47,6 +47,7 @@ function AfiScrModal({ open, handleClose, policyId }: any) {
   const handleFormSubmit = () => {
     return addApi(AfiData, companyId, policyId).then((resp) => {
       handleClose();
+      getData();
     });
   };
 

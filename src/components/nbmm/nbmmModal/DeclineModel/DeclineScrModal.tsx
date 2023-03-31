@@ -17,7 +17,7 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function DeclineScrModal({ open, handleClose, policyId }: any) {
+function DeclineScrModal({ open, handleClose, policyId, getData }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -41,6 +41,7 @@ function DeclineScrModal({ open, handleClose, policyId }: any) {
   const handleFormSubmit = () => {
     return addApi(DeclineData, companyId, policyId).then((resp) => {
       handleClose();
+      getData();
     });
   };
 

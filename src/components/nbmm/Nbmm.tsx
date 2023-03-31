@@ -300,6 +300,7 @@ function Nbmm({ modalFunc }: any) {
       </header>
       <NbmmTable
         data={data}
+        getData={getData}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
