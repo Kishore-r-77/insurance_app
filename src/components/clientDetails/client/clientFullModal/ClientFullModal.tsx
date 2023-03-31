@@ -131,20 +131,6 @@ function ClientFullModal({
       AddressEndDate: "",
       ClientID: 0,
     },
-    {
-      AddressType: "",
-      AddressLine1: "",
-      AddressLine2: "",
-      AddressLine3: "",
-      AddressLine4: "",
-      AddressLine5: "",
-      AddressPostCode: "",
-      AddressState: "",
-      AddressCountry: "",
-      AddressStartDate: "",
-      AddressEndDate: "",
-      ClientID: 0,
-    },
   ]);
 
   const handleAddressAdd = () => {
