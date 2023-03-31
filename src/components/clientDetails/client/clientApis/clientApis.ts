@@ -72,6 +72,44 @@ export const addApi = (state: ClientStateType, companyId: number) => {
     }
   );
 };
+export const createClientWithAddress = (
+  state: ClientStateType,
+  companyId: number,
+  data: any
+) => {
+  return axios.post(
+    `http://localhost:3000/api/v1/basicservices/clientcreatewithaddress`,
+    {
+      CompanyID: companyId,
+      Language: state.Language,
+      Salutation: state.Salutation,
+      ClientShortName: state.ClientShortName,
+      ClientLongName: state.ClientLongName,
+      ClientSurName: state.ClientSurName,
+      Gender: state.Gender,
+      ClientDob:
+        state.ClientDob?.length === 0
+          ? ""
+          : moment(state.ClientDob).format("YYYYMMDD").toString(),
+
+      ClientEmail: state.ClientEmail,
+      ClientMobile: `+91${state.ClientMobile}`,
+      ClientStatus: state.ClientStatus,
+      ClientDod:
+        state.ClientDod?.length === 0
+          ? ""
+          : moment(state.ClientDod).format("YYYYMMDD").toString(),
+      Addresses: data.map((address: any) => ({
+        ...address,
+        AddressStartDate: moment(address?.AddressStartDate).format("YYYYMMDD"),
+        AddressEndDate: moment(address?.AddressEndDate).format("YYYYMMDD"),
+      })),
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
 
 export const editApi = (record: any) => {
   return axios.put(

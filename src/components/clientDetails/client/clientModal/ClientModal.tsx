@@ -24,7 +24,6 @@ function ClientModal({
   ACTIONS,
   handleFormSubmit,
 }: ClientModalType) {
-  const addTitle: string = "Client Add";
   const editTitle: string = "Client Edit";
   const infoTitle: string = "Client Info";
 
@@ -102,29 +101,13 @@ function ClientModal({
   return (
     <div className={styles.modal}>
       <CustomModal
-        open={
-          state.addOpen
-            ? state.addOpen
-            : state.editOpen
-            ? state.editOpen
-            : state.infoOpen
-        }
+        open={state.editOpen ? state.editOpen : state.infoOpen}
         handleClose={
-          state.addOpen
-            ? () => dispatch({ type: ACTIONS.ADDCLOSE })
-            : state.editOpen
+          state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
             : () => dispatch({ type: ACTIONS.INFOCLOSE })
         }
-        title={
-          state.addOpen
-            ? addTitle
-            : state.editOpen
-            ? editTitle
-            : state.infoOpen
-            ? infoTitle
-            : null
-        }
+        title={state.editOpen ? editTitle : state.infoOpen ? infoTitle : null}
         ACTIONS={ACTIONS}
         handleFormSubmit={() => handleFormSubmit()}
       >
@@ -138,15 +121,6 @@ function ClientModal({
                 value={companyData?.CompanyName}
                 placeholder="Company"
                 label="Company"
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                //   dispatch({
-                //     type: state.addOpen
-                //       ? ACTIONS.ONCHANGE
-                //       : ACTIONS.EDITCHANGE,
-                //     payload: e.target.value,
-                //     fieldName: "CompanyID",
-                //   })
-                // }
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
@@ -156,14 +130,12 @@ function ClientModal({
               <TextField
                 id="ClientShortName"
                 name="ClientShortName"
-                value={
-                  state.addOpen ? state.ClientShortName : record.ClientShortName
-                }
+                value={record.ClientShortName}
                 placeholder="Client Short Name"
                 label="Client Short Name"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientShortName",
                   })
@@ -177,14 +149,12 @@ function ClientModal({
               <TextField
                 id="ClientLongName"
                 name="ClientLongName"
-                value={
-                  state.addOpen ? state.ClientLongName : record.ClientLongName
-                }
+                value={record.ClientLongName}
                 placeholder="Client Long Name"
                 label="Client Long Name"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientLongName",
                   })
@@ -198,14 +168,12 @@ function ClientModal({
               <TextField
                 id="ClientSurName"
                 name="ClientSurName"
-                value={
-                  state.addOpen ? state.ClientSurName : record.ClientSurName
-                }
+                value={record.ClientSurName}
                 placeholder="Client Sur Name"
                 label="Client Sur Name"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientSurName",
                   })
@@ -220,12 +188,12 @@ function ClientModal({
                 select
                 id="Gender"
                 name="Gender"
-                value={state.addOpen ? state.Gender : record.Gender}
+                value={record.Gender}
                 placeholder="Gender"
                 label="Gender"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "Gender",
                   })
@@ -244,12 +212,12 @@ function ClientModal({
                 select
                 id="Salutation"
                 name="Salutation"
-                value={state.addOpen ? state.Salutation : record.Salutation}
+                value={record.Salutation}
                 placeholder="Salutation"
                 label="Salutation"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "Salutation",
                   })
@@ -268,12 +236,12 @@ function ClientModal({
                 select
                 id="Language"
                 name="Language"
-                value={state.addOpen ? state.Language : record.Language}
+                value={record.Language}
                 placeholder="Language"
                 label="Language"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "Language",
                   })
@@ -291,12 +259,12 @@ function ClientModal({
               <TextField
                 id="ClientEmail"
                 name="ClientEmail"
-                value={state.addOpen ? state.ClientEmail : record.ClientEmail}
+                value={record.ClientEmail}
                 placeholder="ClientEmail"
                 label="ClientEmail"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientEmail",
                   })
@@ -311,7 +279,7 @@ function ClientModal({
                 type="number"
                 id="ClientMobile"
                 name="ClientMobile"
-                value={state.addOpen ? state.ClientMobile : record.ClientMobile}
+                value={record.ClientMobile}
                 placeholder="ClientMobile"
                 label="ClientMobile"
                 InputProps={{
@@ -321,7 +289,7 @@ function ClientModal({
                 }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientMobile",
                   })
@@ -336,12 +304,12 @@ function ClientModal({
                 select
                 id="ClientStatus"
                 name="ClientStatus"
-                value={state.addOpen ? state.ClientStatus : record.ClientStatus}
+                value={record.ClientStatus}
                 placeholder="ClientStatus"
                 label="ClientStatus"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "ClientStatus",
                   })
@@ -363,14 +331,12 @@ function ClientModal({
                     readOnly={state.infoOpen}
                     label="Client Dob"
                     inputFormat="DD/MM/YYYY"
-                    value={state.addOpen ? state.ClientDob : record.ClientDob}
+                    value={record.ClientDob}
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) =>
                       dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
+                        type: ACTIONS.EDITCHANGE,
                         payload: date.$d,
                         fieldName: "ClientDob",
                       })
@@ -388,14 +354,12 @@ function ClientModal({
                     readOnly={state.infoOpen}
                     label="Client Dod"
                     inputFormat="DD/MM/YYYY"
-                    value={state.addOpen ? state.ClientDod : record.ClientDod}
+                    value={record.ClientDod}
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) =>
                       dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
+                        type: ACTIONS.EDITCHANGE,
                         payload: date.$d,
                         fieldName: "ClientDod",
                       })
