@@ -5,13 +5,17 @@ import styles from "./enquiryTable.module.css";
 import InfoIcon from "@mui/icons-material/Info";
 import { useState } from "react";
 import GLAccountEnquiry from "./GLAccountEnquiry";
+import GLHistoryEnquiry from "./GLHistoryEnquiry";
 
-function EnquiryTable({ data, columns, policyNo, infoOpen }: any) {
+function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
+  console.log(policyNo, "Policy No in Enq");
   const [glEnquiry, setglEnquiry] = useState(false);
   const [GLAcctNo, setGLAcctNo] = useState("");
-  const infoClickOpen = (value: any) => {
+  const [contAmnt, setcontAmnt] = useState("");
+  const infoClickOpen = (value: any, value1: any) => {
     console.log(value, "acct no value");
     setGLAcctNo(value);
+    setcontAmnt(value1);
     setglEnquiry(true);
   };
 
@@ -19,6 +23,19 @@ function EnquiryTable({ data, columns, policyNo, infoOpen }: any) {
     setglEnquiry(false);
   };
   console.log(data, "data");
+
+  const [glHistory, setglHistory] = useState(false);
+  const [Tranno, setTranno] = useState("");
+  const glhClickOpen = (value: any) => {
+    console.log(value, "tranno");
+    setTranno(value);
+    setglHistory(true);
+  };
+
+  const glhClickClose = () => {
+    setglHistory(false);
+  };
+
   return (
     <Paper className={styles.paperStyle}>
       <Table striped bordered hover>
@@ -57,12 +74,21 @@ function EnquiryTable({ data, columns, policyNo, infoOpen }: any) {
                     {infoOpen ? (
                       <td
                         key={col.field}
-                        onClick={() => infoClickOpen(row?.GlAccountno)}
+                        onClick={() => infoClickOpen(row?.GlAccountno, row?.ContractAmount)}
                       >
                         {row[col.field]}
                       </td>
-                    ) : (
-                      <td key={col.field}>{row[col.field]}</td>
+                    ): (
+                      historyOpen? (
+                        <td
+                        key={col.field}
+                        onClick={() => glhClickOpen(row?.Tranno)}
+                      >
+                        {row[col.field]}
+                      </td>
+                      ):(
+                        <td key={col.field}>{row[col.field]}</td>
+                      )
                     )}
                   </>
                 );
@@ -77,6 +103,14 @@ function EnquiryTable({ data, columns, policyNo, infoOpen }: any) {
         handleClose={handleClickClose}
         policyNo={policyNo}
         GLAccountNo={GLAcctNo}
+        contractAmnt={contAmnt}
+      />
+
+      <GLHistoryEnquiry
+        open={glHistory}
+        handleClose={glhClickClose}
+        policyNo={policyNo}
+        TransactionNo={Tranno}
       />
     </Paper>
   );

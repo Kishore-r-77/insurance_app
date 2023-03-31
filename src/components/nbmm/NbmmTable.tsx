@@ -30,6 +30,7 @@ function NbmmTable({
   dispatch,
   ACTIONS,
   sortParam,
+  getData,
   hardDelete,
   modalFunc,
 }: any) {
@@ -286,38 +287,45 @@ function NbmmTable({
         open={afiOpen}
         handleClose={handleAfiClose}
         policyId={policyId}
+        getData={getData}
       />
 
       <CfiScrModal
         open={cfiOpen}
         handleClose={handleCfiClose}
         policyId={policyId}
+        getData={getData}
       />
 
       <FreeLookScrModal
         open={FreeLookOpen}
         handleClose={handleFreeLookClose}
         policyId={policyId}
+        getData={getData}
       />
       <PostponeScrModal
         open={PostponeOpen}
         handleClose={handlePostponeClose}
         policyId={policyId}
+        getData={getData}
       />
       <DeclineScrModal
         open={DeclineOpen}
         handleClose={handleDeclineClose}
         policyId={policyId}
+        getData={getData}
       />
       <PostponeWithdrawnScrModal
         open={PostponeWithdrawnOpen}
         handleClose={handlePostponeWithdrawnClose}
         policyId={policyId}
+        getData={getData}
       />
       <WithdrawnScrModal
         open={WithdrawnOpen}
         handleClose={handleWithdrawnClose}
         policyId={policyId}
+        getData={getData}
       />
     </Paper>
   );

@@ -1,6 +1,7 @@
+import { useState } from "react";
 import EnquiryTable from "./EnquiryTable";
 
-const HistoryEnquiry = ({ historyData, state }: any) => {
+const HistoryEnquiry = ({ historyData, policyNo, state }: any) => {
     const columns = [
         {
             field: "CompanyID",
@@ -46,10 +47,18 @@ const HistoryEnquiry = ({ historyData, state }: any) => {
           dbField: "tranno",
         },
       ];
+
+      const [GLHistoryOpen, setGLHistoryOpen] = useState(true);
+
   return (
     <div>
         <form>
-        <EnquiryTable data={historyData} columns={columns} />
+        <EnquiryTable
+        data={historyData}
+        columns={columns}
+        historyOpen={GLHistoryOpen}
+        policyNo={policyNo}
+         />
       </form>
     </div>
   )

@@ -17,7 +17,7 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function FreeLookScrModal({ open, handleClose, policyId }: any) {
+function FreeLookScrModal({ open, handleClose, policyId, getData }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -42,6 +42,7 @@ function FreeLookScrModal({ open, handleClose, policyId }: any) {
   const handleFormSubmit = () => {
     return addApi(FreeLookData, companyId, policyId).then((resp) => {
       handleClose();
+      getData();
     });
   };
 

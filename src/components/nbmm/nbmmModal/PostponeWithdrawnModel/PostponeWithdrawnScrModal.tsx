@@ -17,7 +17,7 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function PostponeWithdrawnScrModal({ open, handleClose, policyId }: any) {
+function PostponeWithdrawnScrModal({ open, handleClose, policyId, getData }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -42,6 +42,7 @@ function PostponeWithdrawnScrModal({ open, handleClose, policyId }: any) {
   const handleFormSubmit = () => {
     return addApi(PostponeWithdrawnData, companyId, policyId).then((resp) => {
       handleClose();
+      getData();
     });
   };
 
