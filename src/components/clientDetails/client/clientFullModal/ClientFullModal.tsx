@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
 
 import { useAppSelector } from "../../../../redux/app/hooks";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { paramItem } from "../clientApis/clientApis";
 import {
+  Button,
   FormControl,
+  IconButton,
   InputAdornment,
   MenuItem,
   TextField,
@@ -14,8 +16,23 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TreeItem, TreeView } from "@mui/lab";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { getAddressType } from "../../address/addressApis/addressApis";
+import { DesktopDateTimePicker } from "@mui/x-date-pickers";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { createClientWithAddress } from "../clientApis/clientApis";
+import moment from "moment";
 
-function ClientFullModal({ state, dispatch, ACTIONS }: any) {
+function ClientFullModal({
+  state,
+  dispatch,
+  ACTIONS,
+  handleFormSubmit,
+  getData,
+}: any) {
   const title = "Client Add";
 
   const [companyData, setCompanyData] = useState<any>({});
@@ -79,281 +96,632 @@ function ClientFullModal({ state, dispatch, ACTIONS }: any) {
       .catch((err) => err);
   };
 
+  const [addressTypeData, setaddressTypeData] = useState([]);
+  const addressType = (companyId: number, languageId: number) => {
+    getAddressType(companyId, languageId)
+      .then((resp) => {
+        setaddressTypeData(resp.data.data);
+      })
+      .catch((err) => err.message);
+  };
+
   useEffect(() => {
     getCompanyData(companyId);
     getGender(companyId, "P0001", languageId);
     getSalutation(companyId, "P0006", languageId);
     getLanguage(companyId, "P0002", languageId);
     getClientStatus(companyId, "P0009", languageId);
+    addressType(companyId, languageId);
 
     return () => {};
   }, []);
+
+  const [addressData, setaddressData] = useState([
+    {
+      AddressType: "",
+      AddressLine1: "",
+      AddressLine2: "",
+      AddressLine3: "",
+      AddressLine4: "",
+      AddressLine5: "",
+      AddressPostCode: "",
+      AddressState: "",
+      AddressCountry: "",
+      AddressStartDate: "",
+      AddressEndDate: "",
+      ClientID: 0,
+    },
+    {
+      AddressType: "",
+      AddressLine1: "",
+      AddressLine2: "",
+      AddressLine3: "",
+      AddressLine4: "",
+      AddressLine5: "",
+      AddressPostCode: "",
+      AddressState: "",
+      AddressCountry: "",
+      AddressStartDate: "",
+      AddressEndDate: "",
+      ClientID: 0,
+    },
+  ]);
+
+  const handleAddressAdd = () => {
+    setaddressData([
+      ...addressData,
+      {
+        AddressType: "",
+        AddressLine1: "",
+        AddressLine2: "",
+        AddressLine3: "",
+        AddressLine4: "",
+        AddressLine5: "",
+        AddressPostCode: "",
+        AddressState: "",
+        AddressCountry: "",
+        AddressStartDate: "",
+        AddressEndDate: "",
+        ClientID: 0,
+      },
+    ]);
+  };
+
+  const handleAddressRemove = (index: number) => {
+    const list = [...addressData];
+    list.splice(index, 1);
+    setaddressData(list);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
+    const { name, value } = e.target;
+    setaddressData(
+      addressData.map((address, index) => {
+        if (index === i) {
+          return { ...address, [name]: value };
+        } else return address;
+      })
+    );
+  };
+  const handleAddressStartDate = (date: any, i: number) => {
+    setaddressData(
+      addressData.map((address, index) => {
+        if (index === i) {
+          return { ...address, AddressStartDate: date };
+        } else return address;
+      })
+    );
+  };
+  const handleAddressEndDate = (date: any, i: number) => {
+    setaddressData(
+      addressData.map((address, index) => {
+        if (index === i) {
+          return {
+            ...address,
+            AddressEndDate: date,
+          };
+        } else return address;
+      })
+    );
+  };
+
+  const addClientWithAddress = () => {
+    return createClientWithAddress(state, companyId, addressData)
+      .then((resp) => {
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        getData();
+      })
+      .catch((err) => err.message);
+  };
+
   return (
     <div>
       <CustomFullModal
         open={state.addOpen}
+        handleFormSubmit={addClientWithAddress}
         handleClose={() => dispatch({ type: ACTIONS.ADDCLOSE })}
         title={title}
       >
         <form>
-          <Grid2 container spacing={2}>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                InputProps={{ readOnly: true }}
-                id="CompanyID"
-                name="CompanyID"
-                value={companyData?.CompanyName}
-                placeholder="Company"
-                label="Company"
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="ClientShortName"
-                name="ClientShortName"
-                value={state.ClientShortName}
-                placeholder="Client Short Name"
-                label="Client Short Name"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientShortName",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="ClientLongName"
-                name="ClientLongName"
-                value={state.ClientLongName}
-                placeholder="Client Long Name"
-                label="Client Long Name"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientLongName",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="ClientSurName"
-                name="ClientSurName"
-                value={state.ClientSurName}
-                placeholder="Client Sur Name"
-                label="Client Sur Name"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientSurName",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="Gender"
-                name="Gender"
-                value={state.Gender}
-                placeholder="Gender"
-                label="Gender"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "Gender",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
+          <TreeView
+            style={{ width: "90%", margin: "0px auto" }}
+            aria-label="file system navigator"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+            defaultExpanded={["1"]}
+          >
+            <TreeItem nodeId="1" label={`Client Add`}>
+              <Grid2
+                container
+                spacing={2}
+                style={{ width: "95%", margin: "0px auto" }}
               >
-                {genderData.map((val: any) => (
-                  <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                ))}
-              </TextField>
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="Salutation"
-                name="Salutation"
-                value={state.Salutation}
-                placeholder="Salutation"
-                label="Salutation"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "Salutation",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              >
-                {salutationData.map((val: any) => (
-                  <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                ))}
-              </TextField>
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="Language"
-                name="Language"
-                value={state.Language}
-                placeholder="Language"
-                label="Language"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "Language",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              >
-                {languageData.map((val: any) => (
-                  <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                ))}
-              </TextField>
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="ClientEmail"
-                name="ClientEmail"
-                value={state.ClientEmail}
-                placeholder="ClientEmail"
-                label="ClientEmail"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientEmail",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                type="number"
-                id="ClientMobile"
-                name="ClientMobile"
-                value={state.ClientMobile}
-                placeholder="ClientMobile"
-                label="ClientMobile"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">+91</InputAdornment>
-                  ),
-                }}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientMobile",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="ClientStatus"
-                name="ClientStatus"
-                value={state.ClientStatus}
-                placeholder="ClientStatus"
-                label="ClientStatus"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientStatus",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              >
-                {clientStatusData.map((val: any) => (
-                  <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                ))}
-              </TextField>
-            </Grid2>
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    readOnly={state.infoOpen}
-                    label="Client Dob"
-                    inputFormat="DD/MM/YYYY"
-                    value={state.ClientDob}
-                    onChange={(
-                      date: React.ChangeEvent<HTMLInputElement> | any
-                    ) =>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="CompanyID"
+                    name="CompanyID"
+                    value={companyData?.CompanyName}
+                    placeholder="Company"
+                    label="Company"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="ClientShortName"
+                    name="ClientShortName"
+                    value={state.ClientShortName}
+                    placeholder="Client Short Name"
+                    label="Client Short Name"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
-                        payload: date.$d,
-                        fieldName: "ClientDob",
+                        payload: e.target.value,
+                        fieldName: "ClientShortName",
                       })
                     }
-                    renderInput={(params) => <TextField {...params} />}
+                    fullWidth
+                    margin="dense"
                   />
-                </LocalizationProvider>
-              </FormControl>
-            </Grid2>
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    readOnly={state.infoOpen}
-                    label="Client Dod"
-                    inputFormat="DD/MM/YYYY"
-                    value={state.ClientDod}
-                    onChange={(
-                      date: React.ChangeEvent<HTMLInputElement> | any
-                    ) =>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="ClientLongName"
+                    name="ClientLongName"
+                    value={state.ClientLongName}
+                    placeholder="Client Long Name"
+                    label="Client Long Name"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
-                        payload: date.$d,
-                        fieldName: "ClientDod",
+                        payload: e.target.value,
+                        fieldName: "ClientLongName",
                       })
                     }
-                    renderInput={(params) => <TextField {...params} />}
+                    fullWidth
+                    margin="dense"
                   />
-                </LocalizationProvider>
-              </FormControl>
-            </Grid2>
-          </Grid2>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="ClientSurName"
+                    name="ClientSurName"
+                    value={state.ClientSurName}
+                    placeholder="Client Sur Name"
+                    label="Client Sur Name"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientSurName",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="Gender"
+                    name="Gender"
+                    value={state.Gender}
+                    placeholder="Gender"
+                    label="Gender"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "Gender",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {genderData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="Salutation"
+                    name="Salutation"
+                    value={state.Salutation}
+                    placeholder="Salutation"
+                    label="Salutation"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "Salutation",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {salutationData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="Language"
+                    name="Language"
+                    value={state.Language}
+                    placeholder="Language"
+                    label="Language"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "Language",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {languageData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="ClientEmail"
+                    name="ClientEmail"
+                    value={state.ClientEmail}
+                    placeholder="ClientEmail"
+                    label="ClientEmail"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientEmail",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    type="number"
+                    id="ClientMobile"
+                    name="ClientMobile"
+                    value={state.ClientMobile}
+                    placeholder="ClientMobile"
+                    label="ClientMobile"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">+91</InputAdornment>
+                      ),
+                    }}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientMobile",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="ClientStatus"
+                    name="ClientStatus"
+                    value={state.ClientStatus}
+                    placeholder="ClientStatus"
+                    label="ClientStatus"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientStatus",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {clientStatusData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Client Dob"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.ClientDob}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
+                            fieldName: "ClientDob",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Client Dod"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.ClientDod}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
+                            fieldName: "ClientDod",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+              </Grid2>
+            </TreeItem>
+            {addressData.map((address, index) => (
+              <div style={{ display: "flex" }}>
+                <TreeItem
+                  nodeId={(index + 2).toString()}
+                  label={`Address Add`}
+                  style={{ minWidth: "95%", margin: "0px 1rem" }}
+                >
+                  <Grid2 container spacing={2}>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        InputProps={{ readOnly: true }}
+                        id="CompanyID"
+                        name="CompanyID"
+                        value={companyData?.CompanyName}
+                        placeholder="Company"
+                        label="Company"
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        select
+                        id="AddressType"
+                        name="AddressType"
+                        placeholder="Address Type"
+                        label="Address Type"
+                        fullWidth
+                        value={address.AddressType}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        margin="dense"
+                      >
+                        {addressTypeData.map((val: any) => (
+                          <MenuItem value={val.item}>{val.longdesc}</MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressLine1"
+                        name="AddressLine1"
+                        placeholder="Address Line 1"
+                        label="Address Line 1"
+                        fullWidth
+                        value={address.AddressLine1}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressLine2"
+                        name="AddressLine2"
+                        placeholder="Address Line 2"
+                        label="Address Line 2"
+                        value={address.AddressLine2}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressLine3"
+                        name="AddressLine3"
+                        placeholder="Address Line 3"
+                        label="Address Line 3"
+                        value={address.AddressLine3}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressLine4"
+                        name="AddressLine4"
+                        placeholder="Address Line 4"
+                        label="Address Line 4"
+                        value={address.AddressLine4}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressLine5"
+                        name="AddressLine5"
+                        placeholder="Address Line 5"
+                        label="Address Line 5"
+                        value={address.AddressLine5}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressPostCode"
+                        name="AddressPostCode"
+                        placeholder="PostCode"
+                        label="PostCode"
+                        value={address.AddressPostCode}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressState"
+                        name="AddressState"
+                        placeholder="State"
+                        label="State"
+                        value={address.AddressState}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        id="AddressCountry"
+                        name="AddressCountry"
+                        placeholder="Address Country"
+                        label="Address Country"
+                        value={address.AddressCountry}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                            label="Address Start Date"
+                            inputFormat="DD/MM/YYYY"
+                            value={address.AddressStartDate}
+                            onChange={(date: any) =>
+                              handleAddressStartDate(date, index)
+                            }
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </FormControl>
+                    </Grid2>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                            label="Address End Date"
+                            inputFormat="DD/MM/YYYY"
+                            value={address.AddressEndDate}
+                            onChange={(date: any) =>
+                              handleAddressEndDate(date, index)
+                            }
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </FormControl>
+                    </Grid2>
+                    {/* <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        InputProps={{ readOnly: true }}
+                        onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                        id="ClientID"
+                        name="ClientID"
+                        placeholder="Client Id"
+                        label="Client Id"
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2> */}
+                  </Grid2>
+                </TreeItem>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: "5px",
+                  }}
+                >
+                  {addressData.length - 1 === index &&
+                    addressData.length < 4 && (
+                      <Button
+                        variant="contained"
+                        onClick={() => handleAddressAdd()}
+                        style={{
+                          maxWidth: "40px",
+                          maxHeight: "40px",
+                          minWidth: "40px",
+                          minHeight: "40px",
+                          backgroundColor: "#0a3161",
+                        }}
+                      >
+                        <AddBoxRoundedIcon />
+                      </Button>
+                    )}
+                  {addressData.length !== 1 && (
+                    <Button
+                      onClick={() => handleAddressRemove(index)}
+                      variant="contained"
+                      style={{
+                        maxWidth: "40px",
+                        maxHeight: "40px",
+                        minWidth: "40px",
+                        minHeight: "40px",
+                        backgroundColor: "crimson",
+                      }}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </TreeView>
         </form>
       </CustomFullModal>
     </div>

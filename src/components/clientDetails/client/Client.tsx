@@ -145,14 +145,16 @@ function Client({ modalFunc, dataIndex }: any) {
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = () => {
-    return addApi(state, companyId)
-      .then((resp) => {
-        console.log(resp);
-        dispatch({ type: ACTIONS.ADDCLOSE });
-        getData();
-      })
-      .catch((err) => console.log(err.message));
+  const handleFormSubmit = async () => {
+    const resp = addApi(state, companyId);
+
+    try {
+      dispatch({ type: ACTIONS.ADDCLOSE });
+      getData();
+      return resp;
+    } catch (err: any) {
+      err.message;
+    }
   };
 
   //Edit Api
@@ -311,7 +313,12 @@ function Client({ modalFunc, dataIndex }: any) {
         handleFormSubmit={editFormSubmit}
         ACTIONS={ACTIONS}
       />
-      <ClientFullModal state={state} dispatch={dispatch} ACTIONS={ACTIONS} />
+      <ClientFullModal
+        state={state}
+        dispatch={dispatch}
+        ACTIONS={ACTIONS}
+        getData={getData}
+      />
       <CustomModal
         open={state.addressOpen}
         handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
