@@ -17,7 +17,7 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function WithdrawnScrModal({ open, handleClose, policyId }: any) {
+function WithdrawnScrModal({ open, handleClose, policyId, getData }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -41,6 +41,7 @@ function WithdrawnScrModal({ open, handleClose, policyId }: any) {
   const handleFormSubmit = () => {
     return addApi(WithdrawnData, companyId, policyId).then((resp) => {
       handleClose();
+      getData();
     });
   };
 

@@ -28,9 +28,9 @@ import BankEnquiry from "./enquiry/BankEnquiry";
 import BenefitEnquiry from "./enquiry/BenefitEnquiry";
 import ClientEnquiry from "./enquiry/ClientEnquiry";
 import CommunicationEnquiry from "./enquiry/CommunicationEnquiry";
+import ExtraEnquiry from "./enquiry/ExtraEnquiry";
 import HistoryEnquiry from "./enquiry/HistoryEnquiry";
 import SurvivalBenefitEnquiry from "./enquiry/SurvivalBenefitEnquiry";
-import ExtraEnquiry from "./enquiry/ExtraEnquiry";
 import TDFEnquiry from "./enquiry/TDFEnquiry";
 import UWEnquiry from "./enquiry/UWEnquiry";
 import "./policyModal.css";
@@ -721,7 +721,7 @@ function PolicyModal({
                 title="Policy History"
                 style={{ backgroundColor: "white" }}
               >
-                <HistoryEnquiry historyData={historyData} state={state} />
+                <HistoryEnquiry historyData={historyData} state={state} policyNo={record.ID} />
               </Tab>
               <Tab
                 eventKey="Account Balance"

@@ -22,7 +22,7 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function CfiScrModal({ open, handleClose, policyId }: any) {
+function CfiScrModal({ open, handleClose, policyId, getData }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -47,6 +47,7 @@ function CfiScrModal({ open, handleClose, policyId }: any) {
   const handleFormSubmit = () => {
     return addApi(CfiData, companyId, policyId).then((resp) => {
       handleClose();
+      getData();
     });
   };
 
