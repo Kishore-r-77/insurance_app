@@ -35,6 +35,10 @@ import BenefitEnquiry from "./enquiry/BenefitEnquiry";
 import AddressEnquiry from "./enquiry/AddressEnquiry";
 import HistoryEnquiry from "./enquiry/HistoryEnquiry";
 import BALEnquiry from "./enquiry/BALEnquiry";
+import UWEnquiry from "../../policy/policyModal/enquiry/UWEnquiry";
+import CommunicationEnquiry from "../../policy/policyModal/enquiry/CommunicationEnquiry";
+import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBenefitEnquiry";
+import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
 
 function NewBusinessModal({
   state,
@@ -260,6 +264,56 @@ function NewBusinessModal({
       .catch((err) => console.log(err.message));
   };
 
+  const [uwData, setuwData] = useState([]);
+  const getUWByPolicy = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/nbservices/uwenquiry/${record.ID}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        setuwData(resp.data?.UWEnquiry);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  const [communicationData, setcommunicationData] = useState([]);
+  const getCommunicationByPolicy = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/nbservices/policycomm/${record.ID}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        setcommunicationData(resp.data?.Comm);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  const [survivalbenefitenquiryData, setsurvivalbenefitenquiryData] = useState(
+    []
+  );
+  const getSurvivalBenefitByPolicy = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/nbservices/survbs/${record.ID}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        setsurvivalbenefitenquiryData(resp.data?.SurvivalBenefits);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  const [extraData, setextraData] = useState([]);
+  const getextraByPolicy = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/nbservices/extras/${record.ID}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        setextraData(resp.data?.Extras);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   useEffect(() => {
     getCoverage();
 
@@ -274,6 +328,10 @@ function NewBusinessModal({
     getAddressByPolicy();
     getHistoryByPolicy();
     geBALByPolicy();
+    getUWByPolicy();
+    getCommunicationByPolicy();
+    getextraByPolicy();
+    getSurvivalBenefitByPolicy();
 
     return () => {};
   }, [state.infoOpen]);
@@ -877,6 +935,41 @@ function NewBusinessModal({
                     style={{ backgroundColor: "white" }}
                   >
                     <TDFEnquiry data={TDFData} state={state} />
+                  </Tab>
+                  <Tab
+                    eventKey="UW Enquiry"
+                    title="UW Enquiry"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <UWEnquiry uwData={uwData} state={state} />
+                  </Tab>
+                  <Tab
+                    eventKey="Communication"
+                    title="Communication"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <CommunicationEnquiry
+                      communicationData={communicationData}
+                      state={state}
+                    />
+                  </Tab>
+
+                  <Tab
+                    eventKey="Survival Benefit"
+                    title="Survival Benefit"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <SurvivalBenefitEnquiry
+                      survivalbenefitenquiryData={survivalbenefitenquiryData}
+                      state={state}
+                    />
+                  </Tab>
+                  <Tab
+                    eventKey="Extra"
+                    title="Extra"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <ExtraEnquiry data={extraData} state={state} />
                   </Tab>
                 </Tabs>
               </>
