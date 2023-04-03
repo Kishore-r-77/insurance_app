@@ -35,10 +35,6 @@ import BenefitEnquiry from "./enquiry/BenefitEnquiry";
 import AddressEnquiry from "./enquiry/AddressEnquiry";
 import HistoryEnquiry from "./enquiry/HistoryEnquiry";
 import BALEnquiry from "./enquiry/BALEnquiry";
-import UWEnquiry from "./enquiry/UWEnquiry";
-import CommunicationEnquiry from "./enquiry/CommunicationEnquiry";
-import SurvivalBenefitEnquiry from "./enquiry/SurvivalBenefitEnquiry";
-import ExtraEnquiry from "./enquiry/ExtraEnquiry";
 
 function NewBusinessModal({
   state,
@@ -264,57 +260,6 @@ function NewBusinessModal({
       .catch((err) => console.log(err.message));
   };
 
-  const [uwData, setuwData] = useState([]);
-  const getUWByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/uwenquiry/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setuwData(resp.data?.UWEnquiry);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [communicationData, setcommunicationData] = useState([]);
-  const getCommunicationByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/policycomm/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setcommunicationData(resp.data?.Comm);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [survivalbenefitenquiryData, setsurvivalbenefitenquiryData] = useState(
-    []
-  );
-
-  const getSurvivalBenefitByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/survbs/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setsurvivalbenefitenquiryData(resp.data?.SurvivalBenefits);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [extraData, setextraData] = useState([]);
-  const getextraByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/extras/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setextraData(resp.data?.Extras);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
   useEffect(() => {
     getCoverage();
 
@@ -329,10 +274,7 @@ function NewBusinessModal({
     getAddressByPolicy();
     getHistoryByPolicy();
     geBALByPolicy();
-    getUWByPolicy();
-    getCommunicationByPolicy();
-    getextraByPolicy();
-    getSurvivalBenefitByPolicy();
+
     return () => {};
   }, [state.infoOpen]);
 
@@ -908,69 +850,34 @@ function NewBusinessModal({
                 <AddressEnquiry addressData={addressData} state={state} />
               </Tab>
 
-              <Tab
-                eventKey="Bank"
-                title="Bank"
-                style={{ backgroundColor: "white" }}
-              >
-                <BankEnquiry bankData={bankData} state={state} />
-              </Tab>
-              <Tab
-                eventKey="Policy History"
-                title="Policy History"
-                style={{ backgroundColor: "white" }}
-              >
-                <HistoryEnquiry historyData={historyData} state={state} policyNo={record.ID} />
-              </Tab>
-              <Tab
-                eventKey="Account Balance"
-                title="Account Balance"
-                style={{ backgroundColor: "white" }}
-              >
-                <BALEnquiry data={BALData} state={state} policyNo={record.ID} />
-              </Tab>
-              <Tab
-                eventKey="TDF"
-                title="TDF"
-                style={{ backgroundColor: "white" }}
-              >
-                <TDFEnquiry data={TDFData} state={state} />
-              </Tab>
-              <Tab
-                eventKey="UW Enquiry"
-                title="UW Enquiry"
-                style={{ backgroundColor: "white" }}
-              >
-                <UWEnquiry uwData={uwData} state={state} />
-              </Tab>
-              <Tab
-                eventKey="Communication"
-                title="Communication"
-                style={{ backgroundColor: "white" }}
-              >
-                <CommunicationEnquiry
-                  communicationData={communicationData}
-                  state={state}
-                />
-              </Tab>
-
-              <Tab
-                eventKey="Survival Benefit"
-                title="Survival Benefit"
-                style={{ backgroundColor: "white" }}
-              >
-                <SurvivalBenefitEnquiry
-                  survivalbenefitenquiryData={survivalbenefitenquiryData}
-                  state={state}
-                />
-              </Tab>
-              <Tab
-                eventKey="Extra"
-                title="Extra"
-                style={{ backgroundColor: "white" }}
-              >
-                <ExtraEnquiry data={extraData} state={state} />
-              </Tab>
+                  <Tab
+                    eventKey="Bank"
+                    title="Bank"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <BankEnquiry bankData={bankData} state={state} />
+                  </Tab>
+                  <Tab
+                    eventKey="Policy History"
+                    title="Policy History"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <HistoryEnquiry historyData={historyData} state={state} />
+                  </Tab>
+                  <Tab
+                    eventKey="Account Balance"
+                    title="Account Balance"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <BALEnquiry data={BALData} state={state} />
+                  </Tab>
+                  <Tab
+                    eventKey="TDF"
+                    title="TDF"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <TDFEnquiry data={TDFData} state={state} />
+                  </Tab>
                 </Tabs>
               </>
             ) : (
