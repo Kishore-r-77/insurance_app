@@ -1,10 +1,9 @@
-import { TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import React from "react";
-import CustomTable from "../../../../utilities/Table/CustomTable";
+import { useState } from "react";
 import EnquiryTable from "./EnquiryTable";
 
-function BALEnquiry({ data, state }: any) {
+import { useEffect } from "react";
+
+function BALEnquiry({ data, policyNo, state }: any) {
   const columns = [
     {
       field: "CompanyID",
@@ -42,6 +41,9 @@ function BALEnquiry({ data, state }: any) {
       dbField: "contract_amount",
     },
   ];
+
+  const [GLAccountOpen, setGLAccountOpen] = useState(true);
+
   return (
     <div>
       <form>
@@ -78,7 +80,12 @@ function BALEnquiry({ data, state }: any) {
           </Grid2>
         ))} */}
 
-        <EnquiryTable data={data} columns={columns} />
+        <EnquiryTable
+          data={data}
+          columns={columns}
+          infoOpen={GLAccountOpen}
+          policyNo={policyNo}
+        />
       </form>
     </div>
   );

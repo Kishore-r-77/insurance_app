@@ -825,30 +825,30 @@ function NewBusinessModal({
                   style={{ width: "95%", margin: "10px auto" }}
                 >
                   <Tab
-                    eventKey="Benefit"
-                    title="Benefit"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <BenefitEnquiry
-                      benefitenquiryData={benefitenquiryData}
-                      state={state}
-                    />
-                  </Tab>
-                  <Tab
-                    eventKey="Client"
-                    title="Client"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <ClientEnquiry clientData={clientData} state={state} />
-                  </Tab>
+                eventKey="Benefit"
+                title="Benefit"
+                style={{ backgroundColor: "white" }}
+              >
+                <BenefitEnquiry
+                  benefitenquiryData={benefitenquiryData}
+                  state={state}
+                />
+              </Tab>
+              <Tab
+                eventKey="Client"
+                title="Client"
+                style={{ backgroundColor: "white" }}
+              >
+                <ClientEnquiry clientData={clientData} state={state} />
+              </Tab>
 
-                  <Tab
-                    eventKey="Address"
-                    title="Address"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <AddressEnquiry addressData={addressData} state={state} />
-                  </Tab>
+              <Tab
+                eventKey="Address"
+                title="Address"
+                style={{ backgroundColor: "white" }}
+              >
+                <AddressEnquiry addressData={addressData} state={state} />
+              </Tab>
 
                   <Tab
                     eventKey="Bank"

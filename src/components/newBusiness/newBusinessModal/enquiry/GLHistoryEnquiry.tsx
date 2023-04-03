@@ -107,17 +107,19 @@ const GLHistoryEnquiry = ({
       const geGLHistoryByTransaction = () => {
         axios
           .get(
-            `http://localhost:3000/api/v1/nbservices/glmovepol/${policyNo}?pageSize&searchString=${TransactionNo}&searchCriteria=tranno`,
+            `http://localhost:3000/api/v1/nbservices/glmovepol/${policyNo}`,
             {
               withCredentials: true,
             }
           )
           .then((resp) => {
-            setGLHistoryData(resp.data["History"]);
-            console.log(GLHistoryData,"DATA")
+            setGLHistoryData(resp.data.History);
+            // console.log(resp.data["History"],"DATA")
           })
           .catch((err) => console.log(err.message));
       };
+
+      console.log(GLHistoryData,"GL History")
     
       useEffect(() => {
         geGLHistoryByTransaction();
