@@ -56,6 +56,7 @@ function Signin() {
   return (
     <div>
       <AuthForm>
+        <h1 id={styles.title}>Sign in</h1>
         {loading ? (
           <CircularProgress color="secondary" />
         ) : (
@@ -66,8 +67,8 @@ function Signin() {
               value={username}
               onChange={(e) => dispatch(onChangePhone(e.target.value))}
               variant="outlined"
-              label="Username Or Email"
-              placeholder="Username Or Email"
+              label="Phone"
+              placeholder="Phone"
               required
               error={!!error}
               helperText={!!error && "Incorrect Entry"}
@@ -114,6 +115,12 @@ function Signin() {
             >
               Sign In
             </Button>
+            <h5>
+              Don't have an Account?{" "}
+              <a href="#" onClick={() => navigate("signup")}>
+                Sign up
+              </a>
+            </h5>
           </form>
         )}
       </AuthForm>
