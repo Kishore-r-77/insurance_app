@@ -10,6 +10,7 @@ import UserGroup from "./components/admin/usergroup/UserGroup";
 import Users from "./components/admin/users/Users";
 import Agency from "./components/agency/Agency";
 import Signin from "./components/auth/signin/Signin";
+import Signup from "./components/auth/signup/Signup";
 import CampaignComps from "./components/campaignDetails/campaignComps/CampaignComps";
 import Campaigns from "./components/campaignDetails/campaigns/Campaigns";
 import Address from "./components/clientDetails/address/Address";
@@ -40,8 +41,9 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
-      {pathname !== "/" && (
+      {pathname !== "/" && pathname !== "/signup" && (
         <SideBar>
           <Routes>
             <Route element={<CustomNavbar />}>

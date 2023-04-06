@@ -13,13 +13,8 @@ import CustomModal from "../../../utilities/modal/CustomModal";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import Address from "../address/Address";
 import styles from "./client.module.css";
-import {
-  addApi,
-  deleteApi,
-  editApi,
-  getAddressByClient,
-  getAllApi,
-} from "./clientApis/clientApis";
+import { addApi, deleteApi, editApi, getAllApi } from "./clientApis/clientApis";
+import { getAddressByClient } from "./clientApis/clientAddressApis";
 import ClientFullModal from "./clientFullModal/ClientFullModal";
 import ClientModal from "./clientModal/ClientModal";
 import ClientTable from "./clientTable/ClientTable";
