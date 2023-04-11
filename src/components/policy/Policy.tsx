@@ -2,26 +2,36 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import { useAppSelector } from "../../redux/app/hooks";
+// ***  Attention : Check the import below and change it if required ***
+import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
+
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/policy/policyActions";
-import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
-import { useAppSelector } from "../../redux/app/hooks";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import styles from "./policy.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./policyApis/policyApis";
-import CustomPolicyTable from "./policyModal/customPolicyTable/CustomPolicyTable";
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAllApi,
+  getBenefitsByPolicies,
+} from "./policyApis/policyApis";
 import PolicyModal from "./policyModal/PolicyModal";
+import { getAddressByClient } from "../clientDetails/client/clientApis/clientAddressApis";
+import Benefit from "./policyModal/benefit/Benefit";
+import PolicyTable from "./policyTable/PolicyTable";
+import CustomModal from "../../utilities/modal/CustomModal";
 
-function Policy({ modalFunc }: any) {
+function Policy({ modalFunc, dataIndex }: any) {
   //data from getall api
   const [data, setData] = useState([]);
-
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
-
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
@@ -105,16 +115,20 @@ function Policy({ modalFunc }: any) {
           ...state,
           agencyOpen: false,
         };
+
+      // *** Attention: Check the Open /close ***
       case ACTIONS.BENEFITOPEN:
+        setRecord(action.payload);
         return {
           ...state,
-          benefitOpen: true,
+          benefitsOpen: true,
         };
       case ACTIONS.BENEFITCLOSE:
         return {
           ...state,
-          benefitOpen: false,
+          benefitsOpen: false,
         };
+
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -142,43 +156,24 @@ function Policy({ modalFunc }: any) {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-
-  //Get all Api
-  const getData = () => {
-    return getAllApi(pageNum, pageSize, state)
-      .then((resp) => {
-        console.log(resp);
-        setData(resp.data["All Policies"]);
-        settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Policies"]?.length === 0);
-        setfieldMap(resp.data["Field Map"]);
-      })
-      .catch((err) => console.log(err.message));
-  };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = async () => {
+    const resp = addApi(state, companyId);
+
     try {
-      const response = await addApi(state, companyId);
+      dispatch({ type: ACTIONS.ADDCLOSE });
       getData();
-      return {
-        response,
-        status: response.status,
-      };
+      return resp;
     } catch (err: any) {
-      console.log(err);
-      return {
-        response: err,
-        status: err.response.status,
-      };
+      err.message;
     }
   };
 
@@ -202,6 +197,42 @@ function Policy({ modalFunc }: any) {
       })
       .catch((err) => console.log(err.message));
   };
+  //Get all Api
+  const getData = () => {
+    return getAllApi(pageNum, pageSize, state)
+      .then((resp) => {
+        console.log(resp);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["All Policies"]);
+        settotalRecords(resp.data.paginationData.totalRecords);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All Policies"]?.length === 0);
+        setfieldMap(resp.data["Field Map"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  // *** Attention: Check the Lookup Open /close ***
+  const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState([]);
+
+  const getBenefitsByPolicies1 = (clientId: number) => {
+    getBenefitsByPolicies(clientId)
+      .then((resp) => {
+        setbenefitsByPoliciesData(resp.data?.BenefitsByClientID);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBenefitsByPolicies1(record.ID);
+    return () => {};
+  }, [state.benefitOpen]);
+
+  //UseEffect Function to render data on Screen Based on Dependencies
+  useEffect(() => {
+    getData();
+    return () => {};
+  }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
@@ -214,14 +245,8 @@ function Policy({ modalFunc }: any) {
     } else return;
   };
 
-  //UseEffect Function to render data on Screen Based on Dependencies
-  useEffect(() => {
-    getData();
-    return () => {};
-  }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
-
   return (
-    <div style={{ width: "100%" }}>
+    <div>
       <header className={styles.flexStyle}>
         <span>
           <TextField
@@ -279,11 +304,27 @@ function Policy({ modalFunc }: any) {
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>Policy Enquiry</h1>
-      </header>
-      <CustomPolicyTable
+        <h1>Policies</h1>
+        <Button
+          id={styles["add-btn"]}
+          style={{
+            marginTop: "1rem",
+            maxWidth: "40px",
+            maxHeight: "40px",
+            minWidth: "40px",
+            minHeight: "40px",
+            backgroundColor: "#0a3161",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+        >
+          <AddBoxIcon />
+        </Button>
+      </header>{" "}
+      <PolicyTable
         data={data}
+        dataIndex={dataIndex}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -299,16 +340,29 @@ function Policy({ modalFunc }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-
       <PolicyModal
         state={state}
         record={record}
-        dispatch={dispatch}
-        handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        handleFormSubmit={editFormSubmit}
       />
+      <PolicyModal
+        state={state}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        getData={getData}
+      />
+      <CustomModal
+        open={state.benefitOpen}
+        handleClose={() => dispatch({ type: ACTIONS.BENEFITCLOSE })}
+      >
+        <Benefit
+          benefitsByPoliciesData={benefitsByPoliciesData}
+          lookup={state.benefitOpen}
+        />
+      </CustomModal>
     </div>
   );
 }
-
 export default Policy;

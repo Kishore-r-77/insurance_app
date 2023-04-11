@@ -1,12 +1,94 @@
-import React, { forwardRef, useRef, useImperativeHandle } from "react";
+import React, {
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+  useEffect,
+  useState,
+} from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
 import "./q0006.css";
+
 const Q0006 = forwardRef((props: any, ref) => {
+  const {
+    sendRequest: sendMrtlRequest,
+    status: getMrtlResponseStatus,
+    data: getMrtlResponse,
+    error: getMrtlResponseError,
+  } = useHttp(getData, true);
+  const {
+    sendRequest: sendQ0018Request,
+    status: getQ0018ResponseStatus,
+    data: getQ0018Response,
+    error: getQ0018ResponseError,
+  } = useHttp(getData, true);
+  const {
+    sendRequest: sendQ0019Request,
+    status: getQ0019ResponseStatus,
+    data: getQ0019Response,
+    error: getQ0019ResponseError,
+  } = useHttp(getData, true);
+  const {
+    sendRequest: sendQ0020Request,
+    status: getQ0020ResponseStatus,
+    data: getQ0020Response,
+    error: getQ0020ResponseError,
+  } = useHttp(getData, true);
+  const {
+    sendRequest: sendQ0021Request,
+    status: getQ0021ResponseStatus,
+    data: getQ0021Response,
+    error: getQ0021ResponseError,
+  } = useHttp(getData, true);
+
+  useEffect(() => {
+    let getDataParams: any = {};
+    getDataParams.companyId = 1;
+    getDataParams.languageId = 1;
+    getDataParams.seqno = 0;
+
+    getDataParams.name = "Q0050";
+
+    getDataParams.item = "MRTL";
+    sendMrtlRequest({
+      apiUrlPathSuffix: "/basicservices/paramItem",
+      getDataParams: getDataParams,
+    });
+
+    getDataParams.name = "Q0018";
+    sendQ0018Request({
+      apiUrlPathSuffix: "/basicservices/paramItems",
+      getDataParams: getDataParams,
+    });
+
+    getDataParams.name = "Q0019";
+    sendQ0019Request({
+      apiUrlPathSuffix: "/basicservices/paramItems",
+      getDataParams: getDataParams,
+    });
+
+    getDataParams.name = "Q0020";
+    sendQ0020Request({
+      apiUrlPathSuffix: "/basicservices/paramItems",
+      getDataParams: getDataParams,
+    });
+
+    getDataParams.name = "Q0021";
+    sendQ0021Request({
+      apiUrlPathSuffix: "/basicservices/paramItems",
+      getDataParams: getDataParams,
+    });
+  }, []);
+
   const ageCalcMethodRef: any = useRef();
   const annMethodRef: any = useRef();
   const annuityMethodRef: any = useRef();
   const commMethodRef: any = useRef();
+  const deathTypeRef: any = useRef();
   const deathMethodRef: any = useRef();
   const gBonusRef: any = useRef();
   const iBonusRef: any = useRef();
@@ -21,45 +103,39 @@ const Q0006 = forwardRef((props: any, ref) => {
   const minPptRef: any = useRef();
   const minSARef: any = useRef();
   const minTermRef: any = useRef();
-  const nfoMethodRef: any = useRef();
+  const nFOMethodRef: any = useRef();
   const partSurrMethodRef: any = useRef();
   const premIncRef: any = useRef();
   const premIncYrsRef: any = useRef();
   const premiumMethodRef: any = useRef();
   const revBonusRef: any = useRef();
-  const sbMethodRef: any = useRef();
+  const sBTypeRef: any = useRef();
+  const sBMethodRef: any = useRef();
   const surrMethodRef: any = useRef();
   const tBonusRef: any = useRef();
-  const alMethodRef: any = useRef();
-  const gsvMethodRef: any = useRef();
-  const ssvMethodRef: any = useRef();
-  const bsvMethodRef: any = useRef();
+  const uLDeductFrequencyRef: any = useRef();
+  const gSVMethodRef: any = useRef();
+  const sSVMethodRef: any = useRef();
+  const bSVMethodRef: any = useRef();
   const divMethodRef: any = useRef();
-  const divlMethodRef: any = useRef();
-  const sbTypeRef: any = useRef();
-  const disTypRef: any = useRef();
-  const disMethodRef: any = useRef();
+  const divIMethodRef: any = useRef();
+  const mortalitiesRef: any = useRef();
+  const premCalcTypeRef: any = useRef();
+  const discTypeRef: any = useRef();
+  const discMethodRef: any = useRef();
   const frqMethodRef: any = useRef();
   const waivMethodRef: any = useRef();
-  const ulAlMethodRef: any = useRef();
-  const ulMortFreqRef: any = useRef();
-  const ulMortCalcTypeRef: any = useRef();
-  const ulMortDeductMethodRef: any = useRef();
-  const ulFeeFreqRef: any = useRef();
-  const ulFeeTypeRef: any = useRef();
-  const ulFeeMethodRef: any = useRef();
-  const ulFundRulesRef: any = useRef();
-  const premCalcTypeRef: any = useRef();
+  const uLALMethodRef: any = useRef();
+  const uLMortFreqRef: any = useRef();
+  const uLMortCalcTypeRef: any = useRef();
+  const uLMortDeductMethodRef: any = useRef();
+  const uLFeeFreqRef: any = useRef();
+  const uLFeeTypeRef: any = useRef();
+  const uLFeeMethodRef: any = useRef();
+  const uLFundRulesRef: any = useRef();
 
   let inputdata: any = {};
-  const currencyCodes = ["INR", "USD", "AUD", "SGD", "GBP", "EUR"];
 
-  const freqs = [
-    { code: "Y", description: "Yearly" },
-    { code: "Q", description: "Quarterly" },
-    { code: "H", description: "Half Yearly" },
-    { code: "M", description: "Monthly" },
-  ];
   if (props.data) {
     inputdata = props.data;
   }
@@ -70,49 +146,52 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.annMethod = annMethodRef.current.value;
       inputdata.annuityMethod = annuityMethodRef.current.value;
       inputdata.commMethod = commMethodRef.current.value;
+      inputdata.deathType = deathTypeRef.current.value;
       inputdata.deathMethod = deathMethodRef.current.value;
       inputdata.gBonus = gBonusRef.current.value;
       inputdata.iBonus = iBonusRef.current.value;
       inputdata.loanMethod = loanMethodRef.current.value;
       inputdata.loyaltyBonus = loyaltyBonusRef.current.value;
       inputdata.matMethod = matMethodRef.current.value;
-      inputdata.maxPpt = maxPptRef.current.value;
       inputdata.maxAge = maxAgeRef.current.value;
-      inputdata.maxSa = maxSARef.current.value;
+      inputdata.maxPpt = maxPptRef.current.value;
+      inputdata.maxSA = maxSARef.current.value;
       inputdata.maxTerm = maxTermRef.current.value;
       inputdata.minAge = minAgeRef.current.value;
       inputdata.minPpt = minPptRef.current.value;
       inputdata.minSA = minSARef.current.value;
       inputdata.minTerm = minTermRef.current.value;
-      inputdata.nfoMethod = nfoMethodRef.current.value;
+      inputdata.nFOMethod = nFOMethodRef.current.value;
       inputdata.partSurrMethod = partSurrMethodRef.current.value;
       inputdata.premInc = premIncRef.current.value;
       inputdata.premIncYrs = premIncYrsRef.current.value;
       inputdata.premiumMethod = premiumMethodRef.current.value;
       inputdata.revBonus = revBonusRef.current.value;
-      inputdata.sbMethod = sbMethodRef.current.value;
+      inputdata.sBType = sBTypeRef.current.value;
+      inputdata.sBMethod = sBMethodRef.current.value;
       inputdata.surrMethod = surrMethodRef.current.value;
       inputdata.tBonus = tBonusRef.current.value;
-      inputdata.alMethod = alMethodRef.current.value;
-      inputdata.gsvMethod = gsvMethodRef.current.value;
-      inputdata.ssvMethod = ssvMethodRef.current.value;
-      inputdata.bsvMethod = bsvMethodRef.current.value;
+      inputdata.uLDeductFrequency = uLDeductFrequencyRef.current.value;
+      inputdata.gSVMethod = gSVMethodRef.current.value;
+      inputdata.sSVMethod = sSVMethodRef.current.value;
+      inputdata.bSVMethod = bSVMethodRef.current.value;
       inputdata.divMethod = divMethodRef.current.value;
-      inputdata.divlMethod = divlMethodRef.current.value;
-      inputdata.sbType = sbTypeRef.current.value;
-      inputdata.disTyp = disTypRef.current.value;
-      inputdata.disMethod = disMethodRef.current.value;
+      inputdata.divIMethod = divIMethodRef.current.value;
+      inputdata.mortalities = mortalitiesRef.current.value;
+      inputdata.premCalcType = premCalcTypeRef.current.value;
+      inputdata.discType = discTypeRef.current.value;
+      inputdata.discMethod = discMethodRef.current.value;
       inputdata.frqMethod = frqMethodRef.current.value;
       inputdata.waivMethod = waivMethodRef.current.value;
-      inputdata.ulAlMethod = ulAlMethodRef.current.value;
-      inputdata.ulMortFreq = ulMortFreqRef.current.value;
-      inputdata.ulMortCalcType = ulMortCalcTypeRef.current.value;
-      inputdata.ulMortDeductMethod = ulMortDeductMethodRef.current.value;
-      inputdata.ulFeeFreq = ulFeeFreqRef.current.value;
-      inputdata.ulFeeType = ulFeeTypeRef.current.value;
-      inputdata.ulFeeMethod = ulFeeMethodRef.current.value;
-      inputdata.ulFundRules = ulFundRulesRef.current.value;
-      inputdata.premCalcType = premCalcTypeRef.current.value;
+      inputdata.uLALMethod = uLALMethodRef.current.value;
+      inputdata.uLMortFreq = uLMortFreqRef.current.value;
+      inputdata.uLMortCalcType = uLMortCalcTypeRef.current.value;
+      inputdata.uLMortDeductMethod = uLMortDeductMethodRef.current.value;
+      inputdata.uLFeeFreq = uLFeeFreqRef.current.value;
+      inputdata.uLFeeType = uLFeeTypeRef.current.value;
+      inputdata.uLFeeMethod = uLFeeMethodRef.current.value;
+      inputdata.uLFundRules = uLFundRulesRef.current.value;
+
       return inputdata;
     },
   }));
@@ -127,8 +206,8 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="ageCalcMethod"
           name="ageCalcMethod"
           inputRef={ageCalcMethodRef}
-          placeholder="Age Calculation Method"
-          label="Age Calculation Method"
+          placeholder="Age Calc Method"
+          label="Age Calc Method"
           defaultValue={inputdata.ageCalcMethod}
           fullWidth
           margin="dense"
@@ -143,8 +222,8 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="annMethod"
           name="annMethod"
           inputRef={annMethodRef}
-          placeholder="Ann Method"
-          label="Ann Method"
+          placeholder="Anniversay Method"
+          label="Anniversay Method"
           defaultValue={inputdata.annMethod}
           fullWidth
           margin="dense"
@@ -175,13 +254,30 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="commMethod"
           name="commMethod"
           inputRef={commMethodRef}
-          placeholder="Comm Method"
-          label="Comm Method"
+          placeholder="Commission Method"
+          label="Commission Method"
           defaultValue={inputdata.commMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="deathType"
+          name="deathType"
+          inputRef={deathTypeRef}
+          placeholder="Death Type"
+          label="Death Type"
+          defaultValue={inputdata.deathType}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -190,13 +286,14 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="deathMethod"
           name="deathMethod"
           inputRef={deathMethodRef}
-          placeholder="Product Family"
-          label="Product Family"
+          placeholder="Death Method"
+          label="Death Method"
           defaultValue={inputdata.deathMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -209,10 +306,10 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Guaranteed Bonus"
           defaultValue={inputdata.gBonus}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -228,6 +325,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -243,6 +341,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -258,6 +357,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -266,156 +366,166 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="matMethod"
           name="matMethod"
           inputRef={matMethodRef}
-          placeholder="Mat Method"
-          label="Mat Method"
+          placeholder="Maturity Method"
+          label="Maturity Method"
           defaultValue={inputdata.matMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="maxAge"
           name="maxAge"
           inputRef={maxAgeRef}
-          placeholder="Maximum Age"
-          label="Maximum Age"
+          placeholder="Max.Age"
+          label="Max.Age"
           defaultValue={inputdata.maxAge}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="maxPpt"
           name="maxPpt"
           inputRef={maxPptRef}
-          placeholder="Maximum PPT"
-          label="Maximum PPT"
+          placeholder="Max. PPT"
+          label="Max. PPT"
           defaultValue={inputdata.maxPpt}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="maxSa"
-          name="maxSa"
+          id="maxSA"
+          name="maxSA"
           inputRef={maxSARef}
-          placeholder="Maximum Sum Assured"
-          label="Maximum Sum Assured"
-          defaultValue={inputdata.maxSa}
+          placeholder="Max. Sum Assured"
+          label="Max. Sum Assured"
+          defaultValue={inputdata.maxSA}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="maxTerm"
           name="maxTerm"
           inputRef={maxTermRef}
-          placeholder="Maximum Term"
-          label="Maximum Term"
+          placeholder="Max.Term"
+          label="Max.Term"
           defaultValue={inputdata.maxTerm}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="minAge"
           name="minAge"
           inputRef={minAgeRef}
-          placeholder="Minimum Age"
-          label="Minimum Age"
+          placeholder="Min.Age"
+          label="Min.Age"
           defaultValue={inputdata.minAge}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="minPpt"
           name="minPpt"
           inputRef={minPptRef}
-          placeholder="Minimum PPT"
-          label="Minimum PPT"
+          placeholder="Min.PPT"
+          label="Min.PPT"
           defaultValue={inputdata.minPpt}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="minSA"
           name="minSA"
           inputRef={minSARef}
-          placeholder="Minimum Sum Assured"
-          label="Minimum Sum Assured"
+          placeholder="Min. Sum Assured"
+          label="Min. Sum Assured"
           defaultValue={inputdata.minSA}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="minTerm"
           name="minTerm"
           inputRef={minTermRef}
-          placeholder="Minimum Term"
-          label="Minimum Term"
+          placeholder="Min.Term"
+          label="Min.Term"
           defaultValue={inputdata.minTerm}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="nfoMethod"
-          name="nfoMethod"
-          inputRef={nfoMethodRef}
-          placeholder="Info Method"
-          label="Info Method"
-          defaultValue={inputdata.nfoMethod}
+          id="nFOMethod"
+          name="nFOMethod"
+          inputRef={nFOMethodRef}
+          placeholder="NFO Method"
+          label="NFO Method"
+          defaultValue={inputdata.nFOMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -424,13 +534,14 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="partSurrMethod"
           name="partSurrMethod"
           inputRef={partSurrMethodRef}
-          placeholder="Part Surrender Method"
-          label="Part Surrender Method"
+          placeholder="Part Surr.Method"
+          label="Part Surr.Method"
           defaultValue={inputdata.partSurrMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -439,29 +550,31 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="premInc"
           name="premInc"
           inputRef={premIncRef}
-          placeholder="Premium Incoperated"
-          label="Premium Incoperated"
+          placeholder="Premium Increase"
+          label="Premium Increase"
           defaultValue={inputdata.premInc}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="premIncYrs"
           name="premIncYrs"
           inputRef={premIncYrsRef}
-          placeholder="Premium Incoperated Years"
-          label="Premium Incoperated Years"
+          placeholder="Prem.Incr.Years"
+          label="Prem.Incr.Years"
           defaultValue={inputdata.premIncYrs}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -477,6 +590,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -485,28 +599,46 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="revBonus"
           name="revBonus"
           inputRef={revBonusRef}
-          placeholder="Revisionary Bonus"
-          label="Revisionary Bonus"
+          placeholder="Rev.Bonus"
+          label="Rev.Bonus"
           defaultValue={inputdata.revBonus}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="sbMethod"
-          name="sbMethod"
-          inputRef={sbMethodRef}
-          placeholder="SB Method"
-          label="SB Method"
-          defaultValue={inputdata.sbMethod}
+          id="sBType"
+          name="sBType"
+          inputRef={sBTypeRef}
+          placeholder="Survival Benefit Type"
+          label="Survival Benefit Type"
+          defaultValue={inputdata.sBType}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="sBMethod"
+          name="sBMethod"
+          inputRef={sBMethodRef}
+          placeholder="Survival Benefit Method"
+          label="Survival Benefit Method"
+          defaultValue={inputdata.sBMethod}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -522,6 +654,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -537,81 +670,71 @@ const Q0006 = forwardRef((props: any, ref) => {
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="alMethod"
-          name="alMethod"
-          inputRef={alMethodRef}
-          placeholder="All Method"
-          label="All Method"
-          defaultValue={inputdata.alMethod}
+          id="uLDeductFrequency"
+          name="uLDeductFrequency"
+          inputRef={uLDeductFrequencyRef}
+          placeholder="UL Dededuction Frequency"
+          label="UL Dededuction Frequency"
+          defaultValue={inputdata.uLDeductFrequency}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="gsvMethod"
-          name="gsvMethod"
-          inputRef={gsvMethodRef}
+          id="gSVMethod"
+          name="gSVMethod"
+          inputRef={gSVMethodRef}
           placeholder="GSV Method"
           label="GSV Method"
-          defaultValue={inputdata.gsvMethod}
+          defaultValue={inputdata.gSVMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="ssvMethod"
-          name="ssvMethod"
-          inputRef={ssvMethodRef}
+          id="sSVMethod"
+          name="sSVMethod"
+          inputRef={sSVMethodRef}
           placeholder="SSV Method"
           label="SSV Method"
-          defaultValue={inputdata.ssvMethod}
+          defaultValue={inputdata.sSVMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="bsvMethod"
-          name="bsvMethod"
-          inputRef={bsvMethodRef}
-          placeholder="BSV Method"
-          label="BSV Method"
-          defaultValue={inputdata.bsvMethod}
+          id="bSVMethod"
+          name="bSVMethod"
+          inputRef={bSVMethodRef}
+          placeholder="Bonus Surr.Value Method"
+          label="Bonus Surr.Value Method"
+          defaultValue={inputdata.bSVMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="bsvMethod"
-          name="bsvMethod"
-          inputRef={bsvMethodRef}
-          placeholder="BSV Method"
-          label="BSV Method"
-          defaultValue={inputdata.bsvMethod}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -620,223 +743,58 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="divMethod"
           name="divMethod"
           inputRef={divMethodRef}
-          placeholder="Div Method"
-          label="Div Method"
+          placeholder="Dividend Method"
+          label="Dividend Method"
           defaultValue={inputdata.divMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="divlMethod"
-          name="divlMethod"
-          inputRef={divlMethodRef}
-          placeholder="Divl Method"
-          label="Divl Method"
-          defaultValue={inputdata.divlMethod}
+          id="divIMethod"
+          name="divIMethod"
+          inputRef={divIMethodRef}
+          placeholder="Dividend Interest Method"
+          label="Dividend Interest Method"
+          defaultValue={inputdata.divIMethod}
           fullWidth
           margin="dense"
         />
       </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="sbType"
-          name="sbType"
-          inputRef={sbTypeRef}
-          placeholder="SB Type"
-          label="SB Type"
-          defaultValue={inputdata.sbType}
+          id="mortalities"
+          name="mortalities"
+          inputRef={mortalitiesRef}
+          placeholder="Mortalities"
+          label="Mortalities"
+          defaultValue={inputdata.mortalities}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
+          SelectProps={{
+            multiple: true,
           }}
-          id="disTyp"
-          name="disTyp"
-          inputRef={disTypRef}
-          placeholder="Display Type"
-          label="Display Type"
-          defaultValue={inputdata.disTyp}
-          fullWidth
-          margin="dense"
-        />
+        >
+          {getMrtlResponse?.param.data.dataPairs.map((value: any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.description}
+              // {value.code}
+            </MenuItem>
+          ))}
+        </TextField>
       </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="disMethod"
-          name="disMethod"
-          inputRef={disMethodRef}
-          placeholder="Display Method"
-          label="Display Method"
-          defaultValue={inputdata.disMethod}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="frqMethod"
-          name="frqMethod"
-          inputRef={frqMethodRef}
-          placeholder="Frequency Method"
-          label="Frequency Method"
-          defaultValue={inputdata.frqMethod}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="waivMethod"
-          name="waivMethod"
-          inputRef={waivMethodRef}
-          placeholder="Waiver Method"
-          label="Waiver Method"
-          defaultValue={inputdata.waivMethod}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulAlMethod"
-          name="ulAlMethod"
-          inputRef={ulAlMethodRef}
-          placeholder="ULAL Method"
-          label="ULAL Method"
-          defaultValue={inputdata.ulAlMethod}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulMortFreq"
-          name="ulMortFreq"
-          inputRef={ulMortFreqRef}
-          placeholder="UL Mortality Frequency"
-          label="UL Mortality Frequency"
-          defaultValue={inputdata.ulMortFreq}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulMortCalcType"
-          name="ulMortCalcType"
-          inputRef={ulMortCalcTypeRef}
-          placeholder="UL Mortality Calculation Type"
-          label="UL Mortality Calculation Type"
-          defaultValue={inputdata.ulMortCalcType}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulMortDeductMethod"
-          name="ulMortDeductMethod"
-          inputRef={ulMortDeductMethodRef}
-          placeholder="UL Mortality Deduction Method"
-          label="UL Mortality Deduction Method"
-          defaultValue={inputdata.ulMortDeductMethod}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulFeeFreq"
-          name="ulFeeFreq"
-          inputRef={ulFeeFreqRef}
-          placeholder="UL Fee Frequency"
-          label="UL Fee Frequency"
-          defaultValue={inputdata.ulFeeFreq}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulFeeType"
-          name="ulFeeType"
-          inputRef={ulFeeTypeRef}
-          placeholder="UL Fee Type"
-          label="UL Fee Type"
-          defaultValue={inputdata.ulFeeType}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulFeeMethod"
-          name="ulFeeMethod"
-          inputRef={ulFeeMethodRef}
-          placeholder="UL Fee Method"
-          label="UL Fee Method"
-          defaultValue={inputdata.ulFeeMethod}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulFundRules"
-          name="ulFundRules"
-          inputRef={ulFundRulesRef}
-          placeholder="UL Fund Rules"
-          label="UL Fund Rules"
-          defaultValue={inputdata.ulFundRules}
-          fullWidth
-          margin="dense"
-        />
-      </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -845,9 +803,233 @@ const Q0006 = forwardRef((props: any, ref) => {
           id="premCalcType"
           name="premCalcType"
           inputRef={premCalcTypeRef}
-          placeholder="Premium Calculation Type"
-          label="Premium Calculation Type"
+          placeholder="Premium Calc Type"
+          label="Premium Calc Type"
           defaultValue={inputdata.premCalcType}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="discType"
+          name="discType"
+          inputRef={discTypeRef}
+          placeholder="Discount Type"
+          label="Discount Type"
+          defaultValue={inputdata.discType}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="discMethod"
+          name="discMethod"
+          inputRef={discMethodRef}
+          placeholder="Discount Method"
+          label="Discount Method"
+          defaultValue={inputdata.discMethod}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+        >
+          {getQ0018Response?.data.map((value: any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="frqMethod"
+          name="frqMethod"
+          inputRef={frqMethodRef}
+          placeholder="Frequecies Method"
+          label="Frequecies Method"
+          defaultValue={inputdata.frqMethod}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+        >
+          {getQ0019Response?.data.map((value: any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="waivMethod"
+          name="waivMethod"
+          inputRef={waivMethodRef}
+          placeholder="Waive Method"
+          label="Waive Method"
+          defaultValue={inputdata.waivMethod}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+        >
+          {getQ0020Response?.data.map((value: any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLALMethod"
+          name="uLALMethod"
+          inputRef={uLALMethodRef}
+          placeholder="UL Allocation Method"
+          label="UL Allocation Method"
+          defaultValue={inputdata.uLALMethod}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+        >
+          {getQ0021Response?.data.map((value: any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLMortFreq"
+          name="uLMortFreq"
+          inputRef={uLMortFreqRef}
+          placeholder="UL Mortality Freqencies"
+          label="UL Mortality Freqencies"
+          defaultValue={inputdata.uLMortFreq}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLMortCalcType"
+          name="uLMortCalcType"
+          inputRef={uLMortCalcTypeRef}
+          placeholder="UL Mortality Calc Type"
+          label="UL Mortality Calc Type"
+          defaultValue={inputdata.uLMortCalcType}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLMortDeductMethod"
+          name="uLMortDeductMethod"
+          inputRef={uLMortDeductMethodRef}
+          placeholder="UL Mortality Dedn. Method"
+          label="UL Mortality Dedn. Method"
+          defaultValue={inputdata.uLMortDeductMethod}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLFeeFreq"
+          name="uLFeeFreq"
+          inputRef={uLFeeFreqRef}
+          placeholder="UL Fee Frequency"
+          label="UL Fee Frequency"
+          defaultValue={inputdata.uLFeeFreq}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLFeeType"
+          name="uLFeeType"
+          inputRef={uLFeeTypeRef}
+          placeholder="UL Fee Type"
+          label="UL Fee Type"
+          defaultValue={inputdata.uLFeeType}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLFeeMethod"
+          name="uLFeeMethod"
+          inputRef={uLFeeMethodRef}
+          placeholder="UL Fee Method"
+          label="UL Fee Method"
+          defaultValue={inputdata.uLFeeMethod}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="uLFundRules"
+          name="uLFundRules"
+          inputRef={uLFundRulesRef}
+          placeholder="UL Fund Rules"
+          label="UL Fund Rules"
+          defaultValue={inputdata.uLFundRules}
           fullWidth
           margin="dense"
         />

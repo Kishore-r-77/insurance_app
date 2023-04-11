@@ -137,3 +137,73 @@ export const p0024 = (companyId: number, languageId: number) => {
     },
   });
 };
+
+//Attention: Check the API and the path below
+export const createPoliciesWithBenefits = (
+  state: PolicyStateType,
+  companyId: number,
+  data: any
+) => {
+  return axios.post(
+    `http://localhost:3000/api/v1/nbservices/policycreatewithbenefit`,
+    {
+      CompanyID: companyId,
+      ClientID: parseInt(state.ClientID),
+      AddressID: parseInt(state.AddressID),
+      AgencyID: parseInt(state.AgencyID),
+      PRCD:
+        state.PRCD?.length === 0
+          ? ""
+          : moment(state.PRCD).format("YYYYMMDD").toString(),
+      PProduct: state.PProduct,
+      PFreq: state.PFreq,
+      PContractCurr: state.PContractCurr,
+      PBillCurr: state.PBillCurr,
+      POffice: state.POffice,
+      PolStatus: state.PolStatus,
+      PReceivedDate:
+        state.PReceivedDate?.length === 0
+          ? ""
+          : moment(state.PReceivedDate).format("YYYYMMDD").toString(),
+      PUWDate:
+        state.PUWDate?.length === 0
+          ? ""
+          : moment(state.PUWDate).format("YYYYMMDD").toString(),
+      BtDate:
+        state.BtDate?.length === 0
+          ? ""
+          : moment(state.BtDate).format("YYYYMMDD").toString(),
+      PaidToDate:
+        state.PaidToDate?.length === 0
+          ? ""
+          : moment(state.PaidToDate).format("YYYYMMDD").toString(),
+      NxtBtDate:
+        state.NxtBtDate?.length === 0
+          ? ""
+          : moment(state.NxtBtDate).format("YYYYMMDD").toString(),
+      AnnivDate:
+        state.AnnivDate?.length === 0
+          ? ""
+          : moment(state.AnnivDate).format("YYYYMMDD").toString(),
+      InstalmentPrem: null,
+      Benefits: data.map((benefits: any) => ({
+        ...benefits,
+        BStartDate: moment(benefits?.AddressEndDate).format("YYYYMMDD"),
+      })),
+    },
+
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+//Attention: Check the API and the path below,if required
+export const getBenefitsByPolicies = (policiesId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/benefitsgetbypolicies{policiesId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};
