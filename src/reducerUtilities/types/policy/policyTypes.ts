@@ -12,6 +12,10 @@ export type PolicyStateType = {
   ClientID: string;
   AgencyID: string;
   AddressID: string;
+  BtDate: string;
+  PaidToDate: string;
+  NxtBtDate: string;
+  AnnivDate: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;

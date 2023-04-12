@@ -37,6 +37,7 @@ import SideBar from "./utilities/sidebar/Sidebar";
 
 function App() {
   const { pathname } = useLocation();
+
   return (
     <div className="App">
       <Routes>

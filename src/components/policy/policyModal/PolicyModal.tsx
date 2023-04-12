@@ -1,425 +1,254 @@
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TreeItem from "@mui/lab/TreeItem";
-import TreeView from "@mui/lab/TreeView";
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import CustomFullModal from "../../../utilities/modal/CustomFullModal";
+import { useAppSelector } from "../../../redux/app/hooks";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import axios from "axios";
+import { TreeItem, TreeView } from "@mui/lab";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { DesktopDateTimePicker } from "@mui/x-date-pickers";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
-import React, { useEffect, useReducer, useState } from "react";
-import { Tab, Tabs } from "react-bootstrap";
-import { PolicyModalType } from "../../../reducerUtilities/types/policy/policyTypes";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import {
-  frequency,
-  p0018,
-  p0023,
-  p0024,
-  q0005,
-} from "../policyApis/policyApis";
-import AddressEnquiry from "./enquiry/AddressEnquiry";
-import BALEnquiry from "./enquiry/BALEnquiry";
-import BankEnquiry from "./enquiry/BankEnquiry";
-import BenefitEnquiry from "./enquiry/BenefitEnquiry";
-import ClientEnquiry from "./enquiry/ClientEnquiry";
-import CommunicationEnquiry from "./enquiry/CommunicationEnquiry";
-import ExtraEnquiry from "./enquiry/ExtraEnquiry";
-import HistoryEnquiry from "./enquiry/HistoryEnquiry";
-import SurvivalBenefitEnquiry from "./enquiry/SurvivalBenefitEnquiry";
-import TDFEnquiry from "./enquiry/TDFEnquiry";
-import UWEnquiry from "./enquiry/UWEnquiry";
+
 import "./policyModal.css";
+
+//Attention: Check the path below
+//import { PoliciesModalType } from "../../../../reducerUtilities/types/policies/policiesTypes";
+import { paramItem } from "../../clientDetails/client/clientApis/clientApis";
+import { createPoliciesWithBenefits } from "../policyApis/policyApis";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import Client from "../../clientDetails/client/Client";
+import Address from "../../clientDetails/address/Address";
+import Agency from "../../agency/Agency";
+import axios from "axios";
 
 function PolicyModal({
   state,
-  record,
   dispatch,
   ACTIONS,
   handleFormSubmit,
-}: PolicyModalType) {
-  const infoTitle: string = "Proposal Info";
+  record,
+  getData,
+}: any) {
+  const title = "Policies Add";
 
-  const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
   );
+  const [companyData, setCompanyData] = useState<any>({});
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {
       setCompanyData(resp.data["Company"]);
     });
   };
 
-  const [q0005Data, setq0005Data] = useState([]);
-
-  const getQ0005 = () => {
-    return q0005(companyId, languageId)
+  const [pProductData, setPProductData] = useState([]);
+  const getPProduct = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
       .then((resp) => {
-        setq0005Data(resp.data.data);
+        setPProductData(resp.data.data);
+        return resp.data.data;
       })
-      .catch((err) => console.log(err.message));
-  };
-  const [freq, setfreq] = useState([]);
-
-  const getFreq = () => {
-    return frequency(companyId, languageId)
-      .then((resp) => {
-        setfreq(resp.data.AllowedFrequencies);
-      })
-      .catch((err) => console.log(err.message));
-  };
-  const [p0018Data, setp0018Data] = useState([]);
-
-  const getQ0018 = () => {
-    return p0018(companyId, languageId)
-      .then((resp) => {
-        setp0018Data(resp.data.data);
-      })
-      .catch((err) => console.log(err.message));
-  };
-  const [cCurData, setcCurData] = useState([]);
-  const [bCurData, setbCurData] = useState([]);
-
-  const getQ0023Ccur = (Ccur: string) => {
-    return p0023(companyId, languageId, Ccur)
-      .then((resp) => {
-        setcCurData(resp.data.AllowedContractCurriencies);
-      })
-      .catch((err) => console.log(err.message));
-  };
-  const getQ0023Bcur = (Bcur: string) => {
-    return p0023(companyId, languageId, Bcur)
-      .then((resp) => {
-        setbCurData(resp.data.AllowedBillingCurriencies);
-      })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
 
-  const [p0024Data, setp0024Data] = useState([]);
-
-  const getQ0024 = () => {
-    return p0024(companyId, languageId)
+  const [pFreqData, setPFreqData] = useState([]);
+  const getPFreq = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
       .then((resp) => {
-        setp0024Data(resp.data.data);
+        setPFreqData(resp.data.data);
+        return resp.data.data;
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
 
-  const [coverage, setcoverage] = useState([]);
-
-  const getCoverage = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0011&date=20220101&item=END&company_id=1`,
-        {
-          withCredentials: true,
-        }
-      )
+  const [pContractCurrData, setPContractCurrData] = useState([]);
+  const getPContractCurr = (
+    companyId: number,
+    name: string,
+    languageId: number
+  ) => {
+    paramItem(companyId, name, languageId)
       .then((resp) => {
-        setcoverage(resp.data["AllowedCoverages"]);
-        dispatchBenefit({
-          type: "INITIALIZE_STATE",
-          payload: [...resp.data["AllowedCoverages"]],
-        });
+        setPContractCurrData(resp.data.data);
+        return resp.data.data;
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
 
-  const [clientData, setclientData] = useState([]);
-  const getClientByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/clientsgetbypol/${record.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
+  const [pBillCurrData, setPBillCurrData] = useState([]);
+  const getPBillCurr = (
+    companyId: number,
+    name: string,
+    languageId: number
+  ) => {
+    paramItem(companyId, name, languageId)
       .then((resp) => {
-        setclientData(resp.data?.Clients);
+        setPBillCurrData(resp.data.data);
+        return resp.data.data;
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
 
-  const [bankData, setbankData] = useState([]);
-  const getbankByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/banksgetbypol/${record.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
+  const [pOfficeData, setPOfficeData] = useState([]);
+  const getPOffice = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
       .then((resp) => {
-        setbankData(resp.data?.Clients);
+        setPOfficeData(resp.data.data);
+        return resp.data.data;
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
 
-  const [TDFData, setTDFData] = useState([]);
-  const geTDFByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/policytdf/${record.ID}`, {
-        withCredentials: true,
-      })
+  const [polStatusData, setPolStatusData] = useState([]);
+  const getPolStatus = (
+    companyId: number,
+    name: string,
+    languageId: number
+  ) => {
+    paramItem(companyId, name, languageId)
       .then((resp) => {
-        setTDFData(resp.data["TDFPolicy"]);
-        console.log(resp.data["TDFPolicy"], "TDF Data");
+        setPolStatusData(resp.data.data);
+        return resp.data.data;
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
 
-  const [BALData, setBALData] = useState([]);
-  const geBALByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/glbalget/${record.ID}`, {
-        withCredentials: true,
-      })
+  const [bCoverageData, setBCoverageData] = useState([]);
+  const getBCoverage = (
+    companyId: number,
+    name: string,
+    languageId: number
+  ) => {
+    paramItem(companyId, name, languageId)
       .then((resp) => {
-        setBALData(resp.data?.History);
+        setBCoverageData(resp.data.data);
+        return resp.data.data;
       })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [benefitenquiryData, setbenefitenquiryData] = useState([]);
-  const getBenefitByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/benefitgetbypol/${record.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setbenefitenquiryData(resp.data?.Benefit);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [addressData, setaddressData] = useState([]);
-  const getAddressByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/addressgetbypol/${record.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setaddressData(resp.data?.Address);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [historyData, sethistoryData] = useState([]);
-  const getHistoryByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/historyget/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        sethistoryData(resp.data?.History);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [uwData, setuwData] = useState([]);
-  const getUWByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/uwenquiry/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setuwData(resp.data?.UWEnquiry);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [communicationData, setcommunicationData] = useState([]);
-  const getCommunicationByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/policycomm/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setcommunicationData(resp.data?.Comm);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [survivalbenefitenquiryData, setsurvivalbenefitenquiryData] = useState(
-    []
-  );
-  const getSurvivalBenefitByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/survbs/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setsurvivalbenefitenquiryData(resp.data?.SurvivalBenefits);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const [extraData, setextraData] = useState([]);
-  const getextraByPolicy = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/nbservices/extras/${record.ID}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setextraData(resp.data?.Extras);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  useEffect(() => {
-    getCoverage();
-
-    return () => {};
-  }, []);
-
-  useEffect(() => {
-    getClientByPolicy();
-    getbankByPolicy();
-    geTDFByPolicy();
-    getBenefitByPolicy();
-    getAddressByPolicy();
-    getHistoryByPolicy();
-    geBALByPolicy();
-    getUWByPolicy();
-    getCommunicationByPolicy();
-    getextraByPolicy();
-    getSurvivalBenefitByPolicy();
-    return () => {};
-  }, [state.infoOpen]);
-
-  var initialBenefitValues = coverage.map((value) => ({
-    BStartDate: "",
-    BTerm: "",
-    ClientID: "",
-    clientOpen: false,
-    BPTerm: "",
-    BCoverage: "",
-    BSumAssured: "",
-  }));
-
-  const benefitReducer = (state: any, action: any) => {
-    switch (action.type) {
-      case ACTIONS.ONCHANGE:
-        return state.map((value: any, index: number) => {
-          if (index === action.index) {
-            let newValue = value;
-            newValue[action.fieldName] = action.payload;
-            return newValue;
-          } else {
-            return value;
-          }
-        });
-      case ACTIONS.CLIENTOPEN:
-        console.log(state);
-        return state.map((value: any, index: number) => {
-          if ((index = action.index)) {
-            return {
-              ...value,
-              clientOpen: true,
-            };
-          }
-        });
-      case ACTIONS.CLIENTCLOSE:
-        return state.map((value: any, index: number) => {
-          if ((index = action.index)) {
-            return {
-              ...value,
-              clientOpen: false,
-            };
-          }
-        });
-      case "INITIALIZE_STATE":
-        return action.payload;
-      default:
-        return initialBenefitValues;
-    }
-  };
-
-  const [benefitData, dispatchBenefit] = useReducer(
-    benefitReducer,
-    initialBenefitValues
-  );
-
-  const handleBenefitFormSubmit = (index: number, policyId: string) => {
-    axios
-      .post(
-        `http://localhost:3000/api/v1/nbservices/benefitcreate`,
-        {
-          CompanyID: companyId,
-          PolicyID: parseInt(policyId),
-          ClientID: parseInt(benefitData[index]?.ClientID),
-          BStartDate: moment(benefitData[index]?.BStartDate)
-            .format("YYYYMMDD")
-            .toString(),
-          BTerm: parseInt(benefitData[index]?.BTerm),
-          BPTerm: parseInt(benefitData[index]?.BPTerm),
-          BCoverage: benefitData[index]?.Coverage,
-          BSumAssured: parseInt(benefitData[index]?.BSumAssured),
-        },
-        { withCredentials: true }
-      )
-      .then((resp) => {
-        console.log(resp);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => err);
   };
 
   useEffect(() => {
     getCompanyData(companyId);
-    getQ0005();
-    getFreq();
-    getQ0018();
-    getQ0023Ccur("Ccur");
-    getQ0023Bcur("Bcur");
-    getQ0024();
+    getPProduct(companyId, "Q0005", languageId);
+    getPFreq(companyId, "Q0009", languageId);
+    getPContractCurr(companyId, "P0023", languageId);
+    getPBillCurr(companyId, "P0023", languageId);
+    getPOffice(companyId, "P0018", languageId);
+    getPolStatus(companyId, "P0024", languageId);
+    getBCoverage(companyId, "Q0006", languageId);
 
     return () => {};
   }, []);
 
-  useEffect(() => {
-    getCoverage();
-    return () => {};
-  }, []);
+  const [benefitsData, setbenefitsData] = useState([
+    {
+      ClientID: 0,
+      BStartDate: "",
+      BTerm: "",
+      BpTerm: "",
+      BCoverage: "",
+      BSumAssured: "",
+    },
+  ]);
 
-  const policyAndModalAddSubmit = async () => {
-    const response = await handleFormSubmit();
-    console.log(response?.response?.data?.Created, "Response");
-    console.log(response?.status, "Status");
-    if (response.status === 200) {
-      for (let i = 0; i < coverage.length; i++) {
-        handleBenefitFormSubmit(i, response?.response?.data?.Created);
-      }
-      dispatch({ type: ACTIONS.ADDCLOSE });
-    }
+  const handleBenefitsAdd = () => {
+    setbenefitsData([
+      ...benefitsData,
+      {
+        ClientID: 0,
+        BStartDate: "",
+        BTerm: "",
+        BpTerm: "",
+        BCoverage: "",
+        BSumAssured: "",
+      },
+    ]);
+  };
+
+  const handleBenefitsRemove = (index: number) => {
+    const list = [...benefitsData];
+    list.splice(index, 1);
+    setbenefitsData(list);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
+    const { name, value } = e.target;
+    setbenefitsData(
+      benefitsData.map((benefits, index) => {
+        if (index === i) {
+          return { ...benefits, [name]: value };
+        } else return benefits;
+      })
+    );
+  };
+
+  const addPoliciesWithBenefits = () => {
+    return createPoliciesWithBenefits(state, companyId, benefitsData)
+      .then((resp) => {
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        getData();
+      })
+      .catch((err) => err.message);
+  };
+
+  const handleBStartDate = (date: any, i: number) => {
+    setbenefitsData(
+      benefitsData.map((benefits, index) => {
+        if (index === i) {
+          return { ...benefits, BStartDate: date };
+        } else return benefits;
+      })
+    );
+  };
+
+  const [addressClntData, setaddressClntData] = useState([]);
+  const getAddressByClient = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/addressgetbyclient/${state.ClientID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setaddressClntData(resp.data?.AddressByClientID);
+      })
+      .catch((err) => console.log(err.message));
   };
 
   const clientOpenFunc = (item: any) => {
+    console.log(item.ID, "clientId");
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;
+
     dispatch({ type: ACTIONS.CLIENTCLOSE });
   };
+
   const addressOpenFunc = (item: any) => {
     if (state.addOpen) {
       state.AddressID = item.ID;
     } else record.AddressID = item.ID;
     dispatch({ type: ACTIONS.ADDRESSCLOSE });
   };
+
   const agencyOpenFunc = (item: any) => {
     if (state.addOpen) {
       state.AgencyID = item.ID;
@@ -427,69 +256,152 @@ function PolicyModal({
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
 
+  useEffect(() => {
+    getAddressByClient();
+    return () => {};
+  }, [state.ClientID]);
+
   return (
     <div>
       <CustomFullModal
-        open={state.infoOpen}
-        handleClose={() => dispatch({ type: ACTIONS.INFOCLOSE })}
-        title={infoTitle}
-        ACTIONS={ACTIONS}
+        open={state.addOpen}
+        handleFormSubmit={addPoliciesWithBenefits}
+        handleClose={() => dispatch({ type: ACTIONS.ADDCLOSE })}
+        title={title}
       >
         <form>
           <TreeView
+            style={{ width: "90%", margin: "0px auto" }}
             aria-label="file system navigator"
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpandIcon={<ChevronRightIcon />}
             defaultExpanded={["1"]}
           >
-            <TreeItem
-              nodeId="1"
-              label={`Enquiry for Policy Number-${record.ID}`}
-            >
+            {state.clientOpen ? (
+              <CustomModal
+                open={state.clientOpen}
+                handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
+              >
+                <Client modalFunc={clientOpenFunc} />
+              </CustomModal>
+            ) : state.addressOpen ? (
+              <CustomModal
+                open={state.addressOpen}
+                handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
+              >
+                <Address
+                  modalFunc={addressOpenFunc}
+                  addressClntData={addressClntData}
+                  lookup={state.addressOpen}
+                />
+              </CustomModal>
+            ) : state.agencyOpen ? (
+              <CustomModal
+                open={state.agencyOpen}
+                handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
+              >
+                <Agency modalFunc={agencyOpenFunc} />
+              </CustomModal>
+            ) : null}
+            <TreeItem nodeId="1" label={`Policies Add`}>
               <Grid2
                 container
                 spacing={2}
-                style={{ width: "95%", margin: "10px auto" }}
+                style={{ width: "95%", margin: "0px auto" }}
               >
-                <Grid2 xs={8} md={6} lg={3}>
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
-                    placeholder="Company"
-                    label="Company"
-                    // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    //   dispatch({
-                    //     type: state.addOpen
-                    //       ? ACTIONS.ONCHANGE
-                    //       : ACTIONS.EDITCHANGE,
-                    //     payload: e.target.value,
-                    //     fieldName: "CompanyID",
-                    //   })
-                    // }
+                    placeholder="company_id"
+                    label="company_id"
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="ClientID"
+                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                    name="ClientID"
+                    value={state.ClientID}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientID",
+                      })
+                    }
+                    placeholder="client_id"
+                    label="client_id"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="AddressID"
+                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
+                    name="AddressID"
+                    // Attention: *** Check the value details  ***
+                    value={state.AddressID}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "AddressID",
+                      })
+                    }
+                    placeholder="address_id"
+                    label="address_id"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="AgencyID"
+                    onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
+                    name="AgencyID"
+                    // Attention: *** Check the value details  ***
+                    value={state.AgencyID}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "AgencyID",
+                      })
+                    }
+                    placeholder="agency_id"
+                    label="agency_id"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly
-                        label="Proposal Date"
+                        readOnly={state.infoOpen}
+                        label="prcd"
                         inputFormat="DD/MM/YYYY"
-                        value={record.PRCD}
+                        value={state.Prcd}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
+                            type: ACTIONS.ONCHANGE,
                             payload: date.$d,
-                            fieldName: "PRCD",
+                            fieldName: "Prcd",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -497,136 +409,164 @@ function PolicyModal({
                     </LocalizationProvider>
                   </FormControl>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
                     id="PProduct"
                     name="PProduct"
-                    value={record.PProduct}
-                    placeholder="Product"
-                    label="Product"
+                    value={state.PProduct}
+                    placeholder="p_product"
+                    label="p_product"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PProduct",
+                      })
+                    }
                     fullWidth
-                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
-                    {q0005Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
-                      </MenuItem>
+                    {pProductData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
                     id="PFreq"
                     name="PFreq"
-                    value={record.PFreq}
-                    placeholder="Frequency"
-                    label="Frequency"
+                    value={state.PFreq}
+                    placeholder="p_freq"
+                    label="p_freq"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PFreq",
+                      })
+                    }
                     fullWidth
-                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
-                    {freq.map((val: any) => (
-                      <MenuItem key={val} value={val}>
-                        {val}
-                      </MenuItem>
+                    {pFreqData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
                     id="PContractCurr"
                     name="PContractCurr"
-                    value={record.PContractCurr}
-                    placeholder="Contract Currency"
-                    label="Contract Currency"
+                    value={state.PContractCurr}
+                    placeholder="p_contract_curr"
+                    label="p_contract_curr"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PContractCurr",
+                      })
+                    }
                     fullWidth
-                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
-                    {cCurData.map((val: any) => (
-                      <MenuItem key={val} value={val}>
-                        {val}
-                      </MenuItem>
+                    {pContractCurrData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
                     id="PBillCurr"
                     name="PBillCurr"
-                    value={record.PBillCurr}
-                    placeholder="Bill Currency"
-                    label="Bill Currency"
+                    value={state.PBillCurr}
+                    placeholder="p_bill_curr"
+                    label="p_bill_curr"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PBillCurr",
+                      })
+                    }
                     fullWidth
-                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
-                    {bCurData.map((val: any) => (
-                      <MenuItem key={val} value={val}>
-                        {val}
-                      </MenuItem>
+                    {pBillCurrData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
                     id="POffice"
                     name="POffice"
-                    value={record.POffice}
-                    placeholder="Office"
-                    label="Office"
+                    value={state.POffice}
+                    placeholder="p_office"
+                    label="p_office"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "POffice",
+                      })
+                    }
                     fullWidth
-                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
-                    {p0018Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
-                      </MenuItem>
+                    {pOfficeData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
-                    disabled
                     id="PolStatus"
                     name="PolStatus"
-                    value={record.PolStatus}
-                    placeholder="Policy Status"
-                    label="Policy Status"
+                    value={state.PolStatus}
+                    placeholder="pol_status"
+                    label="pol_status"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PolStatus",
+                      })
+                    }
                     fullWidth
-                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
-                    {p0024Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
-                      </MenuItem>
+                    {polStatusData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly
-                        label="Received Date"
+                        readOnly={state.infoOpen}
+                        label="p_received_date"
                         inputFormat="DD/MM/YYYY"
-                        value={record.PReceivedDate}
+                        value={state.PReceivedDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
+                            type: ACTIONS.ONCHANGE,
                             payload: date.$d,
                             fieldName: "PReceivedDate",
                           })
@@ -637,142 +577,335 @@ function PolicyModal({
                   </FormControl>
                 </Grid2>
 
-                <Grid2 xs={8} md={6} lg={3}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="ClientID"
-                    name="ClientID"
-                    value={record.ClientID}
-                    placeholder="Owner Id"
-                    label="Owner Id"
-                    fullWidth
-                    margin="dense"
-                  />
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="puw_date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.PuwDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
+                            fieldName: "PuwDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="AddressID"
-                    name="AddressID"
-                    value={record.AddressID}
-                    placeholder="Address Id"
-                    label="Address Id"
-                    fullWidth
-                    margin="dense"
-                  />
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="bt_date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.BtDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
+                            fieldName: "BtDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="paid_to_date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.PaidToDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
+                            fieldName: "PaidToDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="nxt_bt_date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.NxtBtDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
+                            fieldName: "NxtBtDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="anniv_date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.AnnivDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
+                            fieldName: "AnnivDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
-                    id="AgencyID"
-                    name="AgencyID"
-                    value={record.AgencyID}
-                    placeholder="Agency Id"
-                    label="Agency Id"
+                    type="number"
+                    //InputProps={{
+                    //startAdornment: (
+                    //<InputAdornment position="start">+91</InputAdornment>
+                    // ),
+                    //}}
+                    id="InstalmentPrem"
+                    name="InstalmentPrem"
+                    value={state.InstalmentPrem}
+                    placeholder="instalment_prem"
+                    label="instalment_prem"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "InstalmentPrem",
+                      })
+                    }
                     fullWidth
                     margin="dense"
                   />
                 </Grid2>
               </Grid2>
             </TreeItem>
+            {benefitsData.map((benefits, index) => (
+              <>
+                <div style={{ display: "flex" }}>
+                  <TreeItem
+                    nodeId={(index + 2).toString()}
+                    label={`Benefits Add`}
+                    style={{ minWidth: "95%", margin: "0px 1rem" }}
+                  >
+                    <Grid2 container spacing={2}>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          InputProps={{ readOnly: true }}
+                          id="ClientID"
+                          name="ClientID"
+                          // Attention: *** Check the value details  ***
+                          value={state.ClientID}
+                          placeholder="client_id"
+                          label="client_id"
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
 
-            <Tabs
-              defaultActiveKey="Benefit"
-              id="justify-tab-example"
-              className="mb-3"
-              justify
-              style={{ width: "95%", margin: "10px auto" }}
-            >
-              <Tab
-                eventKey="Benefit"
-                title="Benefit"
-                style={{ backgroundColor: "white" }}
-              >
-                <BenefitEnquiry
-                  benefitenquiryData={benefitenquiryData}
-                  state={state}
-                />
-              </Tab>
-              <Tab
-                eventKey="Client"
-                title="Client"
-                style={{ backgroundColor: "white" }}
-              >
-                <ClientEnquiry clientData={clientData} state={state} />
-              </Tab>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DesktopDatePicker
+                              label="b_start_date"
+                              inputFormat="DD/MM/YYYY"
+                              value={benefits.BStartDate}
+                              onChange={(date) => handleBStartDate(date, index)}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </LocalizationProvider>
+                        </FormControl>
+                      </Grid2>
 
-              <Tab
-                eventKey="Address"
-                title="Address"
-                style={{ backgroundColor: "white" }}
-              >
-                <AddressEnquiry addressData={addressData} state={state} />
-              </Tab>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          type="number"
+                          //InputProps={{
+                          //startAdornment: (
+                          //<InputAdornment position="start">+91</InputAdornment>
+                          // ),
+                          //}}
+                          id="BTerm"
+                          name="BTerm"
+                          value={benefits.BTerm}
+                          placeholder="b_term"
+                          label="b_term"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
 
-              <Tab
-                eventKey="Bank"
-                title="Bank"
-                style={{ backgroundColor: "white" }}
-              >
-                <BankEnquiry bankData={bankData} state={state} />
-              </Tab>
-              <Tab
-                eventKey="Policy History"
-                title="Policy History"
-                style={{ backgroundColor: "white" }}
-              >
-                <HistoryEnquiry historyData={historyData} state={state} policyNo={record.ID} />
-              </Tab>
-              <Tab
-                eventKey="Account Balance"
-                title="Account Balance"
-                style={{ backgroundColor: "white" }}
-              >
-                <BALEnquiry data={BALData} state={state} policyNo={record.ID} />
-              </Tab>
-              <Tab
-                eventKey="TDF"
-                title="TDF"
-                style={{ backgroundColor: "white" }}
-              >
-                <TDFEnquiry data={TDFData} state={state} />
-              </Tab>
-              <Tab
-                eventKey="UW Enquiry"
-                title="UW Enquiry"
-                style={{ backgroundColor: "white" }}
-              >
-                <UWEnquiry uwData={uwData} state={state} />
-              </Tab>
-              <Tab
-                eventKey="Communication"
-                title="Communication"
-                style={{ backgroundColor: "white" }}
-              >
-                <CommunicationEnquiry
-                  communicationData={communicationData}
-                  state={state}
-                />
-              </Tab>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          type="number"
+                          //InputProps={{
+                          //startAdornment: (
+                          //<InputAdornment position="start">+91</InputAdornment>
+                          // ),
+                          //}}
+                          id="BpTerm"
+                          name="BpTerm"
+                          value={benefits.BpTerm}
+                          placeholder="bp_term"
+                          label="bp_term"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
 
-              <Tab
-                eventKey="Survival Benefit"
-                title="Survival Benefit"
-                style={{ backgroundColor: "white" }}
-              >
-                <SurvivalBenefitEnquiry
-                  survivalbenefitenquiryData={survivalbenefitenquiryData}
-                  state={state}
-                />
-              </Tab>
-              <Tab
-                eventKey="Extra"
-                title="Extra"
-                style={{ backgroundColor: "white" }}
-              >
-                <ExtraEnquiry data={extraData} state={state} />
-              </Tab>
-            </Tabs>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          select
+                          id="BCoverage"
+                          name="BCoverage"
+                          value={benefits.BCoverage}
+                          placeholder="b_coverage"
+                          label="b_coverage"
+                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          //   dispatch({
+                          //     type: ACTIONS.ONCHANGE,
+                          //     payload: e.target.value,
+                          //     fieldName: "BCoverage",
+                          //   })
+                          // }
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          fullWidth
+                          margin="dense"
+                        >
+                          {bCoverageData.map((val: any) => (
+                            <MenuItem value={val.item}>
+                              {val.shortdesc}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </Grid2>
+
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          type="number"
+                          //InputProps={{
+                          //startAdornment: (
+                          //<InputAdornment position="start">+91</InputAdornment>
+                          // ),
+                          //}}
+                          id="BSumAssured"
+                          name="BSumAssured"
+                          value={benefits.BSumAssured}
+                          placeholder="b_sum_assured"
+                          label="b_sum_assured"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
+
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          InputProps={{ readOnly: true }}
+                          id="CompanyID"
+                          name="CompanyID"
+                          value={companyData?.CompanyName}
+                          placeholder="company_id"
+                          label="company_id"
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
+                    </Grid2>
+                  </TreeItem>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      gap: "5px",
+                    }}
+                  >
+                    {benefitsData.length - 1 === index &&
+                      benefitsData.length < 4 && (
+                        <Button
+                          variant="contained"
+                          onClick={() => handleBenefitsAdd()}
+                          style={{
+                            maxWidth: "40px",
+                            maxHeight: "40px",
+                            minWidth: "40px",
+                            minHeight: "40px",
+                            backgroundColor: "#0a3161",
+                          }}
+                        >
+                          <AddBoxRoundedIcon />
+                        </Button>
+                      )}
+
+                    {benefitsData.length !== 1 && (
+                      <Button
+                        onClick={() => handleBenefitsRemove(index)}
+                        variant="contained"
+                        style={{
+                          maxWidth: "40px",
+                          maxHeight: "40px",
+                          minWidth: "40px",
+                          minHeight: "40px",
+                          backgroundColor: "crimson",
+                        }}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </>
+            ))}
           </TreeView>
         </form>
       </CustomFullModal>

@@ -10,6 +10,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import SidebarMenu from "./SidebarMenu";
 import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import EditRoadRoundedIcon from "@mui/icons-material/EditRoadRounded";
 
 const routes = [
   {
@@ -133,7 +135,7 @@ const routes = [
   {
     path: "#",
     name: "Lead Management",
-    icon: <ReceiptIcon />,
+    icon: <ManageAccountsIcon />,
     subRoutes: [
       {
         path: "/leadChannel",
@@ -178,7 +180,7 @@ const routes = [
   {
     path: "#",
     name: "Quotations",
-    icon: <ReceiptIcon />,
+    icon: <EditRoadRoundedIcon />,
     subRoutes: [
       {
         path: "/qBenIllValues",

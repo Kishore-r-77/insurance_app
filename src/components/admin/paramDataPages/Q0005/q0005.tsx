@@ -1,8 +1,65 @@
-import React, { forwardRef, useRef, useImperativeHandle } from "react";
+import React, {
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+  useEffect,
+  useState,
+} from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
 import "./q0005.css";
+
 const Q0005 = forwardRef((props: any, ref) => {
+  const {
+    sendRequest: sendP0046Request,
+    status: getP0046ResponseStatus,
+    data: getP0046Response,
+    error: getP0046ResponseError,
+  } = useHttp(getData, true);
+  const {
+    sendRequest: sendFreqRequest,
+    status: getFreqResponseStatus,
+    data: getFreqResponse,
+    error: getFreqResponseError,
+  } = useHttp(getData, true);
+  const {
+    sendRequest: sendBcurRequest,
+    status: getBcurResponseStatus,
+    data: getBcurResponse,
+    error: getBcurResponseError,
+  } = useHttp(getData, true);
+
+  useEffect(() => {
+    let getDataParams: any = {};
+    getDataParams.companyId = 1;
+    getDataParams.languageId = 1;
+    getDataParams.seqno = 0;
+
+    getDataParams.name = "Q0050";
+
+    getDataParams.item = "FREQ";
+    sendFreqRequest({
+      apiUrlPathSuffix: "/basicservices/paramItem",
+      getDataParams: getDataParams,
+    });
+
+    getDataParams.item = "BCUR";
+    sendBcurRequest({
+      apiUrlPathSuffix: "/basicservices/paramItem",
+      getDataParams: getDataParams,
+    });
+
+    getDataParams.name = "P0046";
+    sendP0046Request({
+      apiUrlPathSuffix: "/basicservices/paramItems",
+      getDataParams: getDataParams,
+    });
+  }, []);
+
   const freeLookDaysRef: any = useRef();
   const maxLivesRef: any = useRef();
   const minLivesRef: any = useRef();
@@ -11,19 +68,12 @@ const Q0005 = forwardRef((props: any, ref) => {
   const reinstatementMonthRef: any = useRef();
   const renewableRef: any = useRef();
   const singleRef: any = useRef();
-  const billcurrRef: any = useRef();
   const frequenciesRef: any = useRef();
-  const contCurrRef: any = useRef();
+  const contractCurrRef: any = useRef();
+  const billingCurrRef: any = useRef();
 
   let inputdata: any = {};
-  const currencyCodes = ["INR", "USD", "AUD", "SGD", "GBP", "EUR"];
 
-  const freqs = [
-    { code: "Y", description: "Yearly" },
-    { code: "Q", description: "Quarterly" },
-    { code: "H", description: "Half Yearly" },
-    { code: "M", description: "Monthly" },
-  ];
   if (props.data) {
     inputdata = props.data;
   }
@@ -38,9 +88,10 @@ const Q0005 = forwardRef((props: any, ref) => {
       inputdata.reinstatementMonth = reinstatementMonthRef.current.value;
       inputdata.renewable = renewableRef.current.value;
       inputdata.single = singleRef.current.value;
-      inputdata.billingCurr = billcurrRef.current.value;
-      inputdata.contractCurr = contCurrRef.current.value;
       inputdata.frequencies = frequenciesRef.current.value;
+      inputdata.contractCurr = contractCurrRef.current.value;
+      inputdata.billingCurr = billingCurrRef.current.value;
+
       return inputdata;
     },
   }));
@@ -49,88 +100,72 @@ const Q0005 = forwardRef((props: any, ref) => {
     <>
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="freeLookDays"
           name="freeLookDays"
           inputRef={freeLookDaysRef}
-          placeholder="Free Look Days"
-          label="Free Look Days"
+          placeholder="Free look Days"
+          label="Free look Days"
           defaultValue={inputdata.freeLookDays}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="maxLives"
           name="maxLives"
           inputRef={maxLivesRef}
-          placeholder="Max Lives"
-          label="Max Lives"
+          placeholder="Maximum Lives"
+          label="Maximum Lives"
           defaultValue={inputdata.maxLives}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="minLives"
           name="minLives"
           inputRef={minLivesRef}
-          placeholder="Min Lives"
-          label="Min Lives"
+          placeholder="Minimum Lives"
+          label="Minimum Lives"
           defaultValue={inputdata.minLives}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="minSurrMonths"
           name="minSurrMonths"
           inputRef={minSurrMonthsRef}
-          placeholder="Min Surr Months"
-          label="Min Surr Months"
+          placeholder="Min.period for Surrender (in months)"
+          label="Min.period for Surrender (in months)"
           defaultValue={inputdata.minSurrMonths}
           fullWidth
-          type="number"
           margin="dense"
         />
       </Grid2>
 
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="reinstatementMonth"
-          name="reinstatementMonth"
-          inputRef={reinstatementMonthRef}
-          placeholder="Reinstatement Month"
-          label="Reinstatement Month"
-          defaultValue={inputdata.reinstatementMonth}
-          fullWidth
-          type="number"
-          margin="dense"
-        />
-      </Grid2>
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           inputProps={{
@@ -139,8 +174,8 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="productFamily"
           name="productFamily"
           inputRef={productFamilyRef}
-          placeholder="Product Family"
-          label="Product Family"
+          placeholder="Product  Family"
+          label="Product  Family"
           defaultValue={inputdata.productFamily}
           fullWidth
           margin="dense"
@@ -149,68 +184,64 @@ const Q0005 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="reinstatementMonth"
+          name="reinstatementMonth"
+          inputRef={reinstatementMonthRef}
+          placeholder="Reinstatement from PTD (in months)"
+          label="Reinstatement from PTD (in months)"
+          defaultValue={inputdata.reinstatementMonth}
+          fullWidth
+          margin="dense"
+        />
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
           select
-          label="Renewable"
-          id="Renewable"
-          placeholder="Renewable"
-          name="Renewable"
-          defaultValue={inputdata.renewable}
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="renewable"
+          name="renewable"
           inputRef={renewableRef}
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
+          placeholder="Renewable  "
+          label="Renewable  "
+          defaultValue={inputdata.renewable}
           fullWidth
           variant="outlined"
           margin="dense"
         >
-          <MenuItem value="Y">Yes</MenuItem>
-          <MenuItem value="N">No</MenuItem>
+          {getP0046Response?.data.map((value: any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+          ))}
         </TextField>
       </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           select
-          label="Single"
-          id="Single"
-          placeholder="Single"
-          name="Single"
-          defaultValue={inputdata.single}
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="single"
+          name="single"
           inputRef={singleRef}
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
+          placeholder="Single "
+          label="Single "
+          defaultValue={inputdata.single}
           fullWidth
           variant="outlined"
           margin="dense"
         >
-          <MenuItem value="Y">Yes</MenuItem>
-          <MenuItem value="N">No</MenuItem>
-        </TextField>
-      </Grid2>
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          select
-          label="Billing Currency"
-          id="billcurr"
-          placeholder="Billing Currency"
-          name="billcurr"
-          defaultValue={inputdata.billingCurr}
-          inputRef={billcurrRef}
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          fullWidth
-          variant="outlined"
-          margin="dense"
-          SelectProps={{
-            multiple: true,
-          }}
-        >
-          {currencyCodes.map((code) => (
-            <MenuItem key={code} value={code}>
-              {code}
+          {getP0046Response?.data.map((value: any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
             </MenuItem>
           ))}
         </TextField>
@@ -219,42 +250,15 @@ const Q0005 = forwardRef((props: any, ref) => {
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           select
-          label="Contract Currency"
-          id="contcurr"
-          placeholder="Contract Currency"
-          name="contcurr"
-          defaultValue={inputdata.contractCurr}
-          inputRef={contCurrRef}
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          fullWidth
-          variant="outlined"
-          margin="dense"
-          SelectProps={{
-            multiple: true,
-          }}
-        >
-          {currencyCodes.map((code) => (
-            <MenuItem key={code} value={code}>
-              {code}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Grid2>
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          select
-          label="Billing Frequencies"
-          id="billfreq"
-          placeholder="Billing Frequencies"
-          name="billfreq"
-          defaultValue={inputdata.frequencies}
+          id="frequencies"
+          name="frequencies"
           inputRef={frequenciesRef}
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
+          placeholder="Allowable Frequencies"
+          label="Allowable Frequencies"
+          defaultValue={inputdata.frequencies}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -262,9 +266,66 @@ const Q0005 = forwardRef((props: any, ref) => {
             multiple: true,
           }}
         >
-          {freqs.map((freq) => (
-            <MenuItem key={freq.code} value={freq.code}>
-              {freq.description}
+          {getFreqResponse?.param.data.dataPairs.map((value: any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.description}
+              // {value.code}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="contractCurr"
+          name="contractCurr"
+          inputRef={contractCurrRef}
+          placeholder="Contract Currency"
+          label="Contract Currency"
+          defaultValue={inputdata.contractCurr}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getBcurResponse?.param.data.dataPairs.map((value: any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.description}
+              // {value.code}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="billingCurr"
+          name="billingCurr"
+          inputRef={billingCurrRef}
+          placeholder="Billing Currency"
+          label="Billing Currency"
+          defaultValue={inputdata.billingCurr}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getBcurResponse?.param.data.dataPairs.map((value: any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.description}
+              // {value.code}
             </MenuItem>
           ))}
         </TextField>

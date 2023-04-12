@@ -20,7 +20,7 @@ import {
 } from "../../../reducerUtilities/actions/clientDetails/address/addressActions";
 import { useAppSelector } from "../../../redux/app/hooks";
 
-function Address({ modalFunc, addressByClientData, lookup }: any) {
+function Address({ modalFunc, addressClntData, lookup }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -275,7 +275,7 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
         )}
       </header>
       <CustomTable
-        data={lookup ? addressByClientData : data}
+        data={lookup ? addressClntData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
