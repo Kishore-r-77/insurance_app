@@ -26,6 +26,7 @@ import { getAddressByClient } from "../clientDetails/client/clientApis/clientAdd
 import Benefit from "./policyModal/benefit/Benefit";
 import PolicyTable from "./policyTable/PolicyTable";
 import CustomModal from "../../utilities/modal/CustomModal";
+import PolicyEnquiry from "./policyModal/PolicyEnquiry";
 
 function Policy({ modalFunc, dataIndex }: any) {
   //data from getall api
@@ -121,12 +122,12 @@ function Policy({ modalFunc, dataIndex }: any) {
         setRecord(action.payload);
         return {
           ...state,
-          benefitsOpen: true,
+          benefitOpen: true,
         };
       case ACTIONS.BENEFITCLOSE:
         return {
           ...state,
-          benefitsOpen: false,
+          benefitOpen: false,
         };
 
       case ACTIONS.SORT_ASC:
@@ -215,10 +216,10 @@ function Policy({ modalFunc, dataIndex }: any) {
   // *** Attention: Check the Lookup Open /close ***
   const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState([]);
 
-  const getBenefitsByPolicies1 = (clientId: number) => {
-    getBenefitsByPolicies(clientId)
+  const getBenefitsByPolicies1 = (policyId: number) => {
+    getBenefitsByPolicies(policyId)
       .then((resp) => {
-        setbenefitsByPoliciesData(resp.data?.BenefitsByClientID);
+        setbenefitsByPoliciesData(resp.data?.Benefit);
       })
       .catch((err) => err.message);
   };
@@ -340,7 +341,7 @@ function Policy({ modalFunc, dataIndex }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <PolicyModal
+      <PolicyEnquiry
         state={state}
         record={record}
         ACTIONS={ACTIONS}

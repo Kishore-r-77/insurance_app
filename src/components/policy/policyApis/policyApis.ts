@@ -201,7 +201,7 @@ export const createPoliciesWithBenefits = (
 //Attention: Check the API and the path below,if required
 export const getBenefitsByPolicies = (policiesId: number) => {
   return axios.get(
-    `http://localhost:3000/api/v1/basicservices/benefitsgetbypolicies{policiesId}`,
+    `http://localhost:3000/api/v1/nbservices/benefitgetbypol/${policiesId}`,
     {
       withCredentials: true,
     }

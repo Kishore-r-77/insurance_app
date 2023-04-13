@@ -1,6 +1,6 @@
 import { Button, IconButton, Paper } from "@mui/material";
 import Table from "react-bootstrap/Table";
-import styles from "./policyTable.module.css";
+import styles from "./benefitTable.module.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
@@ -8,9 +8,8 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import moment from "moment";
 import { useState } from "react";
-import BusinessIcon from "@mui/icons-material/Business";
 
-function PolicyTable({
+function BenefitTable({
   data,
   dataIndex,
   columns,
@@ -94,8 +93,6 @@ function PolicyTable({
                 </th>
               )
             )}
-            <th>Benefit</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -115,35 +112,6 @@ function PolicyTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-              <td>
-                <BusinessIcon
-                  onClick={() =>
-                    dispatch({
-                      type: ACTIONS.BENEFITOPEN,
-                      payload: row,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <span className={styles.flexButtons}>
-                  {/* <EditIcon
-                    color="primary"
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                    }
-                  /> */}
-                  <DeleteIcon
-                    color="error"
-                    onClick={() => hardDelete(row.ID)}
-                  />
-                  <InfoIcon
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                    }
-                  />
-                </span>
-              </td>
             </tr>
           ))}
         </tbody>
@@ -152,4 +120,4 @@ function PolicyTable({
   );
 }
 
-export default PolicyTable;
+export default BenefitTable;
