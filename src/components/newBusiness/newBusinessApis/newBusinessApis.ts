@@ -7,13 +7,13 @@ export const getAllApi = (
   pageSize: number,
   state: PolicyStateType
 ) => {
-  return axios.get(`http://localhost:3000/api/v1/nbservices/policies`, {
+  return axios.get(`http://localhost:3000/api/v1/nbservices/policiesbystatus`, {
     withCredentials: true,
     params: {
       pageNum: pageNum,
       pageSize: pageSize,
-      searchString: "P",
-      searchCriteria: "pol_status",
+      searchString: state.searchString,
+      searchCriteria: state.searchCriteria,
       sortColumn: state.sortColumn,
       sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
     },

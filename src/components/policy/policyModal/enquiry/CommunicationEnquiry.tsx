@@ -1,3 +1,4 @@
+import { useState } from "react";
 import EnquiryTable from "./EnquiryTable";
 
 const CommunicationEnquiry = ({ communicationData, state }: any) => {
@@ -108,10 +109,15 @@ const CommunicationEnquiry = ({ communicationData, state }: any) => {
       dbField: "department_head",
     },
   ];
+  const [isCommunication, setisCommunication] = useState(true);
   return (
     <div>
       <form>
-        <EnquiryTable data={communicationData} columns={columns} />
+        <EnquiryTable
+          data={communicationData}
+          columns={columns}
+          isCommunication={isCommunication}
+        />
       </form>
     </div>
   );
