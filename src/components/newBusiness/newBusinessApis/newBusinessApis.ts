@@ -7,7 +7,7 @@ export const getAllApi = (
   pageSize: number,
   state: PolicyStateType
 ) => {
-  return axios.get(`http://localhost:3000/api/v1/nbservices/policiesbystatus`, {
+  return axios.get(`http://localhost:3000/api/v1/nbservices/policies`, {
     withCredentials: true,
     params: {
       pageNum: pageNum,
