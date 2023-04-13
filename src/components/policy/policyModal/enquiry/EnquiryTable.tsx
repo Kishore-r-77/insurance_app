@@ -6,8 +6,17 @@ import InfoIcon from "@mui/icons-material/Info";
 import { useState } from "react";
 import GLAccountEnquiry from "./GLAccountEnquiry";
 import GLHistoryEnquiry from "./GLHistoryEnquiry";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import axios from "axios";
 
-function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
+function EnquiryTable({
+  data,
+  columns,
+  policyNo,
+  infoOpen,
+  historyOpen,
+  isCommunication,
+}: any) {
   console.log(policyNo, "Policy No in Enq");
   const [glEnquiry, setglEnquiry] = useState(false);
   const [GLAcctNo, setGLAcctNo] = useState("");
@@ -36,6 +45,42 @@ function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
     setglHistory(false);
   };
 
+  const communicationClickOpen = (value: any) => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/getReport?reportName=RECEIPT&ID=${value}`,
+        {
+          withCredentials: true,
+          responseType: "blob",
+        }
+      )
+      .then((resp) => {
+        const url = window.URL.createObjectURL(new Blob([resp.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "RECEIPT.pdf");
+        link.click();
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  function downloadReceiptPdf(val: any) {
+    axios({
+      url: `http://localhost:3000/api/v1/basicservices/getReport?reportName=RECEIPT&ID=${val}`,
+      method: "GET",
+      responseType: "blob",
+      headers: {
+        withCredentials: true,
+      },
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "RECEIPT.pdf");
+      link.click();
+    });
+  }
+
   return (
     <Paper className={styles.paperStyle}>
       <Table striped bordered hover>
@@ -54,6 +99,7 @@ function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
                 <th key={column.dbField}>{column.header}</th>
               )
             )}
+            {isCommunication ? <th>PDF</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -74,25 +120,37 @@ function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
                     {infoOpen ? (
                       <td
                         key={col.field}
-                        onClick={() => infoClickOpen(row?.GlAccountno, row?.ContractAmount)}
+                        onClick={() =>
+                          infoClickOpen(row?.GlAccountno, row?.ContractAmount)
+                        }
                       >
                         {row[col.field]}
                       </td>
-                    ): (
-                      historyOpen? (
-                        <td
+                    ) : historyOpen ? (
+                      <td
                         key={col.field}
                         onClick={() => glhClickOpen(row?.Tranno)}
                       >
                         {row[col.field]}
                       </td>
-                      ):(
-                        <td key={col.field}>{row[col.field]}</td>
-                      )
+                    ) : isCommunication ? (
+                      <td
+                        key={col.field}
+                        onClick={() => downloadReceiptPdf(row?.ID)}
+                      >
+                        {row[col.field]}
+                      </td>
+                    ) : (
+                      <td key={col.field}>{row[col.field]}</td>
                     )}
                   </>
                 );
               })}
+              {isCommunication ? (
+                <td onClick={() => communicationClickOpen(row.ID)}>
+                  <PictureAsPdfIcon />
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>
