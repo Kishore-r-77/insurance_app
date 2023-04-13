@@ -392,16 +392,16 @@ function PolicyModal({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly={state.infoOpen}
-                        label="prcd"
+                        label="PRCD"
                         inputFormat="DD/MM/YYYY"
-                        value={state.Prcd}
+                        value={state.PRCD}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
                             payload: date.$d,
-                            fieldName: "Prcd",
+                            fieldName: "PRCD",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -584,14 +584,14 @@ function PolicyModal({
                         readOnly={state.infoOpen}
                         label="puw_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.PuwDate}
+                        value={state.PUWDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
                             payload: date.$d,
-                            fieldName: "PuwDate",
+                            fieldName: "PUWDate",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}

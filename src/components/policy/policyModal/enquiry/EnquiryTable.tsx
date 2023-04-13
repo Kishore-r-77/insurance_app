@@ -45,10 +45,10 @@ function EnquiryTable({
     setglHistory(false);
   };
 
-  const communicationClickOpen = (value: any) => {
+  const communicationClickOpen = (Id: any, temp: any) => {
     axios
       .get(
-        `http://localhost:3000/api/v1/basicservices/getReport?reportName=RECEIPT&ID=${value}`,
+        `http://localhost:3000/api/v1/basicservices/getReport?reportName=${temp}&ID=${Id}`,
         {
           withCredentials: true,
           responseType: "blob",
@@ -58,7 +58,7 @@ function EnquiryTable({
         const url = window.URL.createObjectURL(new Blob([resp.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "RECEIPT.pdf");
+        link.setAttribute("download", `${temp}.pdf`);
         link.click();
       })
       .catch((err) => console.log(err.message));
@@ -147,7 +147,11 @@ function EnquiryTable({
                 );
               })}
               {isCommunication ? (
-                <td onClick={() => communicationClickOpen(row.ID)}>
+                <td
+                  onClick={() =>
+                    communicationClickOpen(row.ID, row.TemplateName)
+                  }
+                >
                   <PictureAsPdfIcon />
                 </td>
               ) : null}

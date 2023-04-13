@@ -41,6 +41,7 @@ export const initialValues: PolicyStateType = {
   PaidToDate: "",
   NxtBtDate: "",
   AnnivDate: "",
+  InstalmentPrem: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,

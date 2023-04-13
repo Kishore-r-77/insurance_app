@@ -185,9 +185,10 @@ export const createPoliciesWithBenefits = (
         state.AnnivDate?.length === 0
           ? ""
           : moment(state.AnnivDate).format("YYYYMMDD").toString(),
-      InstalmentPrem: null,
+      InstalmentPrem: parseInt(state.InstalmentPrem),
       Benefits: data.map((benefits: any) => ({
         ...benefits,
+        ClientID: parseInt(state.ClientID),
         BStartDate: moment(benefits?.AddressEndDate).format("YYYYMMDD"),
       })),
     },

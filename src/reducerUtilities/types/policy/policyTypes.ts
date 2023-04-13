@@ -16,6 +16,7 @@ export type PolicyStateType = {
   PaidToDate: string;
   NxtBtDate: string;
   AnnivDate: string;
+  InstalmentPrem: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
