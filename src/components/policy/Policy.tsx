@@ -246,7 +246,7 @@ function Policy({ modalFunc, dataIndex }: any) {
   };
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <header className={styles.flexStyle}>
         <span>
           <TextField
