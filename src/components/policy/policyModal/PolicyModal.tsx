@@ -161,10 +161,10 @@ function PolicyModal({
     {
       ClientID: 0,
       BStartDate: "",
-      BTerm: "",
-      BpTerm: "",
+      BTerm: 0,
+      BpTerm: 0,
       BCoverage: "",
-      BSumAssured: "",
+      BSumAssured: 0,
     },
   ]);
 
@@ -174,10 +174,10 @@ function PolicyModal({
       {
         ClientID: 0,
         BStartDate: "",
-        BTerm: "",
-        BpTerm: "",
+        BTerm: 0,
+        BpTerm: 0,
         BCoverage: "",
-        BSumAssured: "",
+        BSumAssured: 0,
       },
     ]);
   };
