@@ -67,7 +67,7 @@ const ParamData = () => {
     resetStatus: resetModDataRequestStatus,
   } = useHttp(modData, false);
   const [searchparams] = useSearchParams();
-  const [pagination, setPagination] = useState({ pageNum: 1, fetchData: true });
+  const [pagination, setPagination] = useState({ pageNum: Number(searchparams.get("seqno")) + 1, fetchData: true });
   const [mode, setMode] = useState("display");
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());

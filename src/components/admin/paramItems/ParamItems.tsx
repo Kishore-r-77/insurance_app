@@ -1,6 +1,6 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button, MenuItem, TextField, FormControlLabel, Checkbox } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
 import useHttp from "../../../hooks/use-http";
 import { getData } from "../../../services/http-service";
@@ -33,14 +33,18 @@ function ParamItems() {
 
   const [pageAndSearch, setPageAndSearch] = useState({
     pageNum: 1,
-    pageSize: 5,
+    pageSize: 15,
     searchString: "",
     searchCriteria: "item",
     sortColumn: "item",
     sortDirection: "asc",
     firstTime: true,
+    getAllInstances : false,
   });
 
+  const [tableColumns, setTableColumns] = useState(columns);
+
+  
   const [searchparams] = useSearchParams();
 
   useEffect(() => {
@@ -214,7 +218,7 @@ function ParamItems() {
       ? getScreenResponse.data.map((ob: any) => ({
           ...ob,
           ID:
-            ob.companyId + "," + ob.name + "," + ob.item + "," + ob.languageId,
+            ob.companyId + "," + ob.name + "," + ob.item + "," + ob.languageId+","+ob.seqno,
         }))
       : [];
 
@@ -279,6 +283,7 @@ function ParamItems() {
         name: record.name,
         languageId: record.languageId,
         item: record.item,
+        seqno: record.seqno
       },
     });
   }
@@ -344,6 +349,63 @@ function ParamItems() {
         </span>
 
         <h1>Params</h1>
+        {getScreenResponse?.paramType === "D" &&
+        <FormControlLabel
+        style={{
+          marginTop: ".9rem",
+         
+        }}
+        control={
+          <Checkbox
+           checked = {pageAndSearch.getAllInstances}
+
+           onChange={e => {
+            setPageAndSearch((prevState) => ({ ...prevState, getAllInstances: e.target.checked }));
+            if(e.target.checked)
+            {
+            setTableColumns((prevState) => ([ ...prevState, 
+              {
+                field: "startDate",
+                header: "Start Date",
+                dbField: "start_date",
+                sortable: true,
+              },
+            
+              {
+                field: "endDate",
+                header: "End Date",
+                dbField: "end_date",
+                sortable: true,
+              },
+            
+              {
+                field: "seqno",
+                header: "Seq Num",
+                dbField: "seqno",
+                sortable: true,
+              }
+            
+            ]))
+            }
+            else
+            {
+
+              setTableColumns((prevState) => (
+                prevState.filter(
+                  (value: any) => value.field !== "startDate" && value.field !== "endDate" && value.field !== "seqno"
+                )
+
+              ))
+            }
+
+
+          }}
+           
+          />
+        }
+        label="Show All Dates"
+      />
+}
         <Button
           id={styles["add-btn"]}
           style={{
@@ -383,7 +445,7 @@ function ParamItems() {
         <>
           <CustomTable
             data={data}
-            columns={columns}
+            columns={tableColumns}
             ACTIONS={ACTIONS}
             sortParam={{
               fieldName: pageAndSearch.sortColumn,

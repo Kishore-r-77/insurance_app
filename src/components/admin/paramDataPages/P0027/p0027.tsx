@@ -68,9 +68,30 @@ const P0027 = forwardRef((props: any, ref) => {
 
           <th>GL Sign</th>
 
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
-          )}
+          {(props.mode === "update" || props.mode === "create") &&
+            inputdata.glMovements?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.glMovements || inputdata.glMovements?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        glMovements: [
+                          {
+                            accountCode: "",
+                            accountAmt: 0,
+                            seqNo: 0,
+                            glSign: "+",
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
