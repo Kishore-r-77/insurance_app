@@ -28,7 +28,7 @@ import PolicyTable from "./policyTable/PolicyTable";
 import CustomModal from "../../utilities/modal/CustomModal";
 import PolicyEnquiry from "./policyModal/PolicyEnquiry";
 
-function Policy({ modalFunc, dataIndex }: any) {
+function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
@@ -324,7 +324,7 @@ function Policy({ modalFunc, dataIndex }: any) {
         </Button>
       </header>{" "}
       <PolicyTable
-        data={data}
+        data={lookup ? getByTable : data}
         dataIndex={dataIndex}
         modalFunc={modalFunc}
         columns={columns}

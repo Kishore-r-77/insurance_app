@@ -211,3 +211,11 @@ export const getBenefitsByPolicies = (policiesId: number) => {
     }
   );
 };
+export const getPoliciesByClient = (clientId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/nbservices/owners/${clientId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};

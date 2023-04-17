@@ -21,7 +21,7 @@ import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/rece
 import { paramItem } from "../receiptsApis/receiptsApis";
 import Client from "../../clientDetails/client/Client";
 import Policy from "../../policy/Policy";
-import { p0023 } from "../../policy/policyApis/policyApis";
+import { getPoliciesByClient, p0023 } from "../../policy/policyApis/policyApis";
 function ReceiptsModal({
   state,
   record,
@@ -120,6 +120,19 @@ function ReceiptsModal({
     dispatch({ type: ACTIONS.POLICIESCLOSE });
   };
 
+  const [policiesByClient, setpoliciesByClient] = useState();
+
+  const getPolicesByClient1 = (clientId: number) => {
+    return getPoliciesByClient(clientId).then((resp) => {
+      setpoliciesByClient(resp.data?.GetAllPoliciesByClient);
+    });
+  };
+
+  useEffect(() => {
+    getPolicesByClient1(parseInt(state.ClientID));
+    return () => {};
+  }, [state.ClientID]);
+
   return (
     <div className={styles.modal}>
       <CustomModal
@@ -154,7 +167,11 @@ function ReceiptsModal({
             {state.clientsOpen ? (
               <Client modalFunc={clientsOpenFunc} />
             ) : state.policiesOpen ? (
-              <Policy modalFunc={policiesOpenFunc} />
+              <Policy
+                lookup={state.policiesOpen}
+                modalFunc={policiesOpenFunc}
+                getByTable={policiesByClient}
+              />
             ) : (
               <>
                 <Grid2 xs={8} md={6} lg={4}>
