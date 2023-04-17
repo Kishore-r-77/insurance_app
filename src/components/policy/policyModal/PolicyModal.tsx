@@ -291,7 +291,7 @@ function PolicyModal({
               >
                 <Address
                   modalFunc={addressOpenFunc}
-                  addressClntData={addressClntData}
+                  addressByClientData={addressClntData}
                   lookup={state.addressOpen}
                 />
               </CustomModal>
