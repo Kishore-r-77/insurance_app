@@ -51,6 +51,7 @@ import Q0022 from "../paramDataPages/Q0022/q0022";
 import Q0023 from "../paramDataPages/Q0023/q0023";
 import Q0024 from "../paramDataPages/Q0024/q0024";
 import P0043 from "../paramDataPages/P0043/P0043";
+import P0050 from "../paramDataPages/P0050/p0050";
 
 const ParamData = () => {
   const {
@@ -67,7 +68,10 @@ const ParamData = () => {
     resetStatus: resetModDataRequestStatus,
   } = useHttp(modData, false);
   const [searchparams] = useSearchParams();
-  const [pagination, setPagination] = useState({ pageNum: Number(searchparams.get("seqno")) + 1, fetchData: true });
+  const [pagination, setPagination] = useState({
+    pageNum: Number(searchparams.get("seqno")) + 1,
+    fetchData: true,
+  });
   const [mode, setMode] = useState("display");
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
@@ -480,6 +484,15 @@ const ParamData = () => {
       case "1-P0043":
         return (
           <P0043
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+
+      case "1-P0050":
+        return (
+          <P0050
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}
