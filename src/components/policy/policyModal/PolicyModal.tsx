@@ -1,38 +1,32 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import { useAppSelector } from "../../../redux/app/hooks";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { TreeItem, TreeView } from "@mui/lab";
+import { Button, FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { TreeItem, TreeView } from "@mui/lab";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { DesktopDateTimePicker } from "@mui/x-date-pickers";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import DeleteIcon from "@mui/icons-material/Delete";
-import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useAppSelector } from "../../../redux/app/hooks";
+import CustomFullModal from "../../../utilities/modal/CustomFullModal";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
 import "./policyModal.css";
 
 //Attention: Check the path below
 //import { PoliciesModalType } from "../../../../reducerUtilities/types/policies/policiesTypes";
-import { paramItem } from "../../clientDetails/client/clientApis/clientApis";
-import { createPoliciesWithBenefits } from "../policyApis/policyApis";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import Client from "../../clientDetails/client/Client";
-import Address from "../../clientDetails/address/Address";
-import Agency from "../../agency/Agency";
 import axios from "axios";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import Agency from "../../agency/Agency";
+import Address from "../../clientDetails/address/Address";
+import Client from "../../clientDetails/client/Client";
+import {
+  extraParamItem,
+  paramItem,
+} from "../../clientDetails/client/clientApis/clientApis";
+import { createPoliciesWithBenefits } from "../policyApis/policyApis";
 
 function PolicyModal({
   state,
@@ -134,12 +128,13 @@ function PolicyModal({
   const getBCoverage = (
     companyId: number,
     name: string,
-    languageId: number
+    item: string,
+    date: string
   ) => {
-    paramItem(companyId, name, languageId)
+    extraParamItem(companyId, name, item, date)
       .then((resp) => {
-        setBCoverageData(resp.data.data);
-        return resp.data.data;
+        setBCoverageData(resp.data["AllowedCoverages"]);
+        return resp.data["AllowedCoverages"];
       })
       .catch((err) => err);
   };
@@ -152,10 +147,14 @@ function PolicyModal({
     getPBillCurr(companyId, "P0023", languageId);
     getPOffice(companyId, "P0018", languageId);
     getPolStatus(companyId, "P0024", languageId);
-    getBCoverage(companyId, "Q0006", languageId);
 
     return () => {};
   }, []);
+
+  useEffect(() => {
+    getBCoverage(companyId, "Q0011", state.PProduct, "20220101");
+    return () => {};
+  }, [state.PProduct]);
 
   const [benefitsData, setbenefitsData] = useState([
     {
@@ -821,8 +820,8 @@ function PolicyModal({
                           margin="dense"
                         >
                           {bCoverageData.map((val: any) => (
-                            <MenuItem value={val.item}>
-                              {val.shortdesc}
+                            <MenuItem key={val.Coverage} value={val.Coverage}>
+                              {val.Coverage}
                             </MenuItem>
                           ))}
                         </TextField>
