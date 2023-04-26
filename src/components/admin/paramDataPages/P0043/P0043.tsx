@@ -3,25 +3,28 @@ import { MenuItem, TextField } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./p0043.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
-const P0043 = forwardRef((props: any, ref) => {
-  const [inputdata, setInputdata] = useState(props.data ? props.data : {});
 
+import  "./p0043.css";
+
+
+const P0043 = forwardRef((props: any, ref) => {
+  
+
+  const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
       retData.frequencies = retData.frequencies.filter(
-        (value: any) => value.amount !== ""
+        (value: any) => value.frequency !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         frequencies: inputdata.frequencies.filter(
-          (value: any) => value.amount !== ""
+          (value: any) => value.frequency !== ""
         ),
       }));
-
       return retData;
     },
   }));
@@ -50,11 +53,8 @@ const P0043 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
-      <h1>
-        {" "}
-        <center>Premium Tolerance </center>
-      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -63,12 +63,12 @@ const P0043 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
-        <tr>
-          <th>Frequency </th>
-          <th>Absolute Amount </th>
 
+        <tr>
+          <th>Frequency</th> 
+          <th>Amount</th> 
           {(props.mode === "update" || props.mode === "create") && (
-            <th>amounts</th>
+            <th>Actions</th>
           )}
         </tr>
       </thead>
@@ -78,7 +78,7 @@ const P0043 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="frequency"
                 name="frequency"
@@ -92,10 +92,11 @@ const P0043 = forwardRef((props: any, ref) => {
                 margin="dense"
               />
             </td>
+
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="amount"
                 name="amount"
@@ -126,6 +127,7 @@ const P0043 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.frequencies.length - 1 && (
                     <CustomTooltip text="Add">
@@ -136,10 +138,9 @@ const P0043 = forwardRef((props: any, ref) => {
                             frequencies: [
                               ...inputdata.frequencies,
                               {
-                                amount: "",
-                                rate: 0,
-                                seqNo: 0,
-                                glSign: "+",
+                                frequency: "",
+                                amount: 0,
+
                               },
                             ],
                           }));
@@ -156,5 +157,5 @@ const P0043 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-
 export default P0043;
+

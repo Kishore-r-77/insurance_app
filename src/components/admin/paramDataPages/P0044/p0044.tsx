@@ -5,24 +5,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 
-import  "./q0019.css";
+import  "./p0044.css";
 
 
-const Q0019 = forwardRef((props: any, ref) => {
+const P0044 = forwardRef((props: any, ref) => {
   
 
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.freqFactor = retData.freqFactor.filter(
-        (value: any) => value.frequency !== ""
+      retData.actions = retData.actions.filter(
+        (value: any) => value.action  !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        freqFactor: inputdata.freqFactor.filter(
-          (value: any) => value.frequency !== ""
+        actions: inputdata.actions.filter(
+          (value: any) => value.action  !== ""
         ),
       }));
       return retData;
@@ -32,7 +32,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.filter(
+      actions: inputdata.actions.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -41,7 +41,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.map((val: any, ind: number) => {
+      actions: inputdata.actions.map((val: any, ind: number) => {
         if (index === ind) {
           val[fieldname] = value;
           return val;
@@ -65,26 +65,27 @@ const Q0019 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Frequency</th> 
-          <th>Factor</th> 
+          <th>Action</th> 
+          <th>Description</th> 
+          <th>Url</th> 
           {(props.mode === "update" || props.mode === "create") && (
             <th>Actions</th>
           )}
         </tr>
       </thead>
       <tbody>
-        {inputdata.freqFactor?.map((value: any, index: number) => (
+        {inputdata.actions?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="frequency"
-                name="frequency"
-                value={value.frequency}
+                id="action"
+                name="action"
+                value={value.action}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "frequency", e.target.value)
+                  fieldChangeHandler(index, "action", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -98,15 +99,33 @@ const Q0019 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="factor"
-                name="factor"
-                value={value.factor}
+                id="description"
+                name="description"
+                value={value.description}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "factor", e.target.value)
+                  fieldChangeHandler(index, "description", e.target.value)
                 }
                 fullWidth
                 size="small"
-                type="number"
+                type="text"
+                margin="dense"
+              />
+            </td>
+
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="url"
+                name="url"
+                value={value.url}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "url", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
                 margin="dense"
               />
             </td>
@@ -129,17 +148,18 @@ const Q0019 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.freqFactor.length - 1 && (
+                  {index === inputdata.actions.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            freqFactor: [
-                              ...inputdata.freqFactor,
+                            actions: [
+                              ...inputdata.actions,
                               {
-                                frequency: "",
-                                factor: 0,
+                                action: "",
+                                description: "",
+                                url: "",
 
                               },
                             ],
@@ -157,5 +177,5 @@ const Q0019 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-export default Q0019;
+export default P0044;
 

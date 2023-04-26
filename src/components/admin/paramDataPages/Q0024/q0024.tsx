@@ -1,13 +1,18 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./q0024.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
+import  "./q0024.css";
+
+
 const Q0024 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
-
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
@@ -17,9 +22,10 @@ const Q0024 = forwardRef((props: any, ref) => {
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        biRates: inputdata.biRates.filter((value: any) => value.biType !== ""),
+        biRates: inputdata.biRates.filter(
+          (value: any) => value.biType !== ""
+        ),
       }));
-
       return retData;
     },
   }));
@@ -27,7 +33,9 @@ const Q0024 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      biRates: inputdata.biRates.filter((_: any, ind: number) => ind !== index),
+      biRates: inputdata.biRates.filter(
+        (_: any, ind: number) => ind !== index
+      ),
     }));
   };
 
@@ -46,11 +54,8 @@ const Q0024 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
-      <h1>
-        {" "}
-        <center>Benefit Illustration Unit Linked Projections P/O/N </center>
-      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -59,14 +64,32 @@ const Q0024 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
+
         <tr>
-          <th>business Illustration Type </th>
-
-          <th>Expected Rate of Return </th>
-
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>biTypes</th>
-          )}
+          <th>BIType</th> 
+          <th>Rate</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.biRates?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.biRates || inputdata.biRates?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        biRates: [
+                          {
+                            biType: "",
+                            rate: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -75,7 +98,7 @@ const Q0024 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="biType"
                 name="biType"
@@ -89,10 +112,11 @@ const Q0024 = forwardRef((props: any, ref) => {
                 margin="dense"
               />
             </td>
+
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="rate"
                 name="rate"
@@ -102,7 +126,7 @@ const Q0024 = forwardRef((props: any, ref) => {
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
@@ -123,6 +147,7 @@ const Q0024 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.biRates.length - 1 && (
                     <CustomTooltip text="Add">
@@ -135,8 +160,7 @@ const Q0024 = forwardRef((props: any, ref) => {
                               {
                                 biType: "",
                                 rate: 0,
-                                seqNo: 0,
-                                glSign: "+",
+
                               },
                             ],
                           }));
@@ -153,5 +177,5 @@ const Q0024 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-
 export default Q0024;
+

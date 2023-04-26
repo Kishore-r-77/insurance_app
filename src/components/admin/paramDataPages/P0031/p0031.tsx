@@ -3,11 +3,15 @@ import { MenuItem, TextField } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./p0031.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
-const P0031 = forwardRef((props: any, ref) => {
-  const [inputdata, setInputdata] = useState(props.data ? props.data : {});
 
+import  "./p0031.css";
+
+
+const P0031 = forwardRef((props: any, ref) => {
+  
+
+  const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
@@ -21,7 +25,6 @@ const P0031 = forwardRef((props: any, ref) => {
           (value: any) => value.action !== ""
         ),
       }));
-
       return retData;
     },
   }));
@@ -50,11 +53,8 @@ const P0031 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
-      <h1>
-        {" "}
-        <center>EXCHANGE RATES </center>
-      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -63,11 +63,10 @@ const P0031 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
+
         <tr>
-          <th>Action </th>
-
-          <th>Rate </th>
-
+          <th>Action</th> 
+          <th>Rate</th> 
           {(props.mode === "update" || props.mode === "create") && (
             <th>Actions</th>
           )}
@@ -79,7 +78,7 @@ const P0031 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="action"
                 name="action"
@@ -93,10 +92,11 @@ const P0031 = forwardRef((props: any, ref) => {
                 margin="dense"
               />
             </td>
+
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="rate"
                 name="rate"
@@ -106,7 +106,7 @@ const P0031 = forwardRef((props: any, ref) => {
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
@@ -127,6 +127,7 @@ const P0031 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.currencyRates.length - 1 && (
                     <CustomTooltip text="Add">
@@ -139,8 +140,7 @@ const P0031 = forwardRef((props: any, ref) => {
                               {
                                 action: "",
                                 rate: 0,
-                                seqNo: 0,
-                                glSign: "+",
+
                               },
                             ],
                           }));
@@ -157,5 +157,5 @@ const P0031 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-
 export default P0031;
+

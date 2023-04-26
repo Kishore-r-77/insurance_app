@@ -5,24 +5,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 
-import  "./q0019.css";
+import  "./q0032.css";
 
 
-const Q0019 = forwardRef((props: any, ref) => {
+const Q0032 = forwardRef((props: any, ref) => {
   
 
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.freqFactor = retData.freqFactor.filter(
-        (value: any) => value.frequency !== ""
+      retData.uWRules = retData.uWRules.filter(
+        (value: any) => value.noOfMonths !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        freqFactor: inputdata.freqFactor.filter(
-          (value: any) => value.frequency !== ""
+        uWRules: inputdata.uWRules.filter(
+          (value: any) => value.noOfMonths !== ""
         ),
       }));
       return retData;
@@ -32,7 +32,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.filter(
+      uWRules: inputdata.uWRules.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -41,7 +41,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.map((val: any, ind: number) => {
+      uWRules: inputdata.uWRules.map((val: any, ind: number) => {
         if (index === ind) {
           val[fieldname] = value;
           return val;
@@ -65,7 +65,7 @@ const Q0019 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Frequency</th> 
+          <th>NoOfMonths</th> 
           <th>Factor</th> 
           {(props.mode === "update" || props.mode === "create") && (
             <th>Actions</th>
@@ -73,22 +73,22 @@ const Q0019 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.freqFactor?.map((value: any, index: number) => (
+        {inputdata.uWRules?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="frequency"
-                name="frequency"
-                value={value.frequency}
+                id="noOfMonths"
+                name="noOfMonths"
+                value={value.noOfMonths}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "frequency", e.target.value)
+                  fieldChangeHandler(index, "noOfMonths", e.target.value)
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
@@ -129,16 +129,16 @@ const Q0019 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.freqFactor.length - 1 && (
+                  {index === inputdata.uWRules.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            freqFactor: [
-                              ...inputdata.freqFactor,
+                            uWRules: [
+                              ...inputdata.uWRules,
                               {
-                                frequency: "",
+                                noOfMonths: 0,
                                 factor: 0,
 
                               },
@@ -157,5 +157,5 @@ const Q0019 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-export default Q0019;
+export default Q0032;
 

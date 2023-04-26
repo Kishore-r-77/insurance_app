@@ -113,7 +113,7 @@ const GLHistoryEnquiry = ({
             }
           )
           .then((resp) => {
-            setGLHistoryData(resp.data["History"]);
+            setGLHistoryData(resp.data.History);
             console.log(GLHistoryData,"DATA")
           })
           .catch((err) => console.log(err.message));

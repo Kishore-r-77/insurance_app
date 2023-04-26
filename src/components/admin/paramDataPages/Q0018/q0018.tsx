@@ -1,13 +1,18 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./q0018.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
+import  "./q0018.css";
+
+
 const Q0018 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
-
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
@@ -21,7 +26,6 @@ const Q0018 = forwardRef((props: any, ref) => {
           (value: any) => value.annPrem !== ""
         ),
       }));
-
       return retData;
     },
   }));
@@ -50,11 +54,8 @@ const Q0018 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
-      <h1>
-        {" "}
-        <center>Annualized Premium Band Discount </center>
-      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -63,11 +64,32 @@ const Q0018 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
-        <tr>
-          <th>Annualized Premium </th>
-          <th>Discount % </th>
 
-          {(props.mode === "update" || props.mode === "create") && <th>sa</th>}
+        <tr>
+          <th>AnnPer</th> 
+          <th>Discount</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.premBand?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.premBand || inputdata.premBand?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        premBand: [
+                          {
+                            annPrem: 0,
+                            discount: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -76,7 +98,7 @@ const Q0018 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="annPrem"
                 name="annPrem"
@@ -90,10 +112,11 @@ const Q0018 = forwardRef((props: any, ref) => {
                 margin="dense"
               />
             </td>
+
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="discount"
                 name="discount"
@@ -124,6 +147,7 @@ const Q0018 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.premBand.length - 1 && (
                     <CustomTooltip text="Add">
@@ -134,10 +158,9 @@ const Q0018 = forwardRef((props: any, ref) => {
                             premBand: [
                               ...inputdata.premBand,
                               {
-                                term: "",
-                                rate: 0,
-                                seqNo: 0,
-                                glSign: "+",
+                                annPrem: 0,
+                                discount: 0,
+
                               },
                             ],
                           }));
@@ -154,5 +177,5 @@ const Q0018 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-
 export default Q0018;
+

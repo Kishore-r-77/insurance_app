@@ -5,24 +5,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 
-import  "./q0019.css";
+import  "./p0049.css";
 
 
-const Q0019 = forwardRef((props: any, ref) => {
+const P0049 = forwardRef((props: any, ref) => {
   
 
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.freqFactor = retData.freqFactor.filter(
-        (value: any) => value.frequency !== ""
+      retData.months = retData.months.filter(
+        (value: any) => value.month !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        freqFactor: inputdata.freqFactor.filter(
-          (value: any) => value.frequency !== ""
+        months: inputdata.months.filter(
+          (value: any) => value.month !== ""
         ),
       }));
       return retData;
@@ -32,7 +32,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.filter(
+      months: inputdata.months.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -41,7 +41,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.map((val: any, ind: number) => {
+      months: inputdata.months.map((val: any, ind: number) => {
         if (index === ind) {
           val[fieldname] = value;
           return val;
@@ -65,30 +65,31 @@ const Q0019 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Frequency</th> 
-          <th>Factor</th> 
+          <th>Month (upto)</th> 
+          <th>Percentage</th> 
+          <th>Death Method</th> 
           {(props.mode === "update" || props.mode === "create") && (
             <th>Actions</th>
           )}
         </tr>
       </thead>
       <tbody>
-        {inputdata.freqFactor?.map((value: any, index: number) => (
+        {inputdata.months?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="frequency"
-                name="frequency"
-                value={value.frequency}
+                id="month"
+                name="month"
+                value={value.month}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "frequency", e.target.value)
+                  fieldChangeHandler(index, "month", e.target.value)
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
@@ -98,15 +99,33 @@ const Q0019 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="factor"
-                name="factor"
-                value={value.factor}
+                id="percentage"
+                name="percentage"
+                value={value.percentage}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "factor", e.target.value)
+                  fieldChangeHandler(index, "percentage", e.target.value)
                 }
                 fullWidth
                 size="small"
                 type="number"
+                margin="dense"
+              />
+            </td>
+
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="deathMethod"
+                name="deathMethod"
+                value={value.deathMethod}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "deathMethod", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
                 margin="dense"
               />
             </td>
@@ -129,17 +148,18 @@ const Q0019 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.freqFactor.length - 1 && (
+                  {index === inputdata.months.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            freqFactor: [
-                              ...inputdata.freqFactor,
+                            months: [
+                              ...inputdata.months,
                               {
-                                frequency: "",
-                                factor: 0,
+                                month: 0,
+                                percentage: 0,
+                                deathMethod: "",
 
                               },
                             ],
@@ -157,5 +177,5 @@ const Q0019 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-export default Q0019;
+export default P0049;
 

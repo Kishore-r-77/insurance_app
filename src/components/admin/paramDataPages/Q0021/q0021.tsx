@@ -1,13 +1,18 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./q0021.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
+import  "./q0021.css";
+
+
 const Q0021 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
-
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
@@ -17,9 +22,10 @@ const Q0021 = forwardRef((props: any, ref) => {
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        alBand: inputdata.alBand.filter((value: any) => value.months !== ""),
+        alBand: inputdata.alBand.filter(
+          (value: any) => value.months !== ""
+        ),
       }));
-
       return retData;
     },
   }));
@@ -27,7 +33,9 @@ const Q0021 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      alBand: inputdata.alBand.filter((_: any, ind: number) => ind !== index),
+      alBand: inputdata.alBand.filter(
+        (_: any, ind: number) => ind !== index
+      ),
     }));
   };
 
@@ -46,11 +54,8 @@ const Q0021 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
-      <h1>
-        {" "}
-        <center>Allocation Rates (Month Wise) </center>
-      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -59,14 +64,32 @@ const Q0021 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
+
         <tr>
-          <th>No. of Months (From RCD to Collection Date) </th>
-
-          <th>Allocation Percentage </th>
-
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>monthss</th>
-          )}
+          <th>Months</th> 
+          <th>Percentage</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.alBand?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.alBand || inputdata.alBand?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        alBand: [
+                          {
+                            months: 0,
+                            percentage: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -75,7 +98,7 @@ const Q0021 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="months"
                 name="months"
@@ -85,14 +108,15 @@ const Q0021 = forwardRef((props: any, ref) => {
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
+
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="percentage"
                 name="percentage"
@@ -102,7 +126,7 @@ const Q0021 = forwardRef((props: any, ref) => {
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
@@ -123,6 +147,7 @@ const Q0021 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.alBand.length - 1 && (
                     <CustomTooltip text="Add">
@@ -133,10 +158,9 @@ const Q0021 = forwardRef((props: any, ref) => {
                             alBand: [
                               ...inputdata.alBand,
                               {
-                                months: "",
-                                rate: 0,
-                                seqNo: 0,
-                                glSign: "+",
+                                months: 0,
+                                percentage: 0,
+
                               },
                             ],
                           }));
@@ -153,5 +177,5 @@ const Q0021 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-
 export default Q0021;
+

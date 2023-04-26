@@ -5,24 +5,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 
-import  "./q0019.css";
+import  "./q0036.css";
 
 
-const Q0019 = forwardRef((props: any, ref) => {
+const Q0036 = forwardRef((props: any, ref) => {
   
 
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.freqFactor = retData.freqFactor.filter(
-        (value: any) => value.frequency !== ""
+      retData.stampDuties = retData.stampDuties.filter(
+        (value: any) => value.sA !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        freqFactor: inputdata.freqFactor.filter(
-          (value: any) => value.frequency !== ""
+        stampDuties: inputdata.stampDuties.filter(
+          (value: any) => value.sA !== ""
         ),
       }));
       return retData;
@@ -32,7 +32,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.filter(
+      stampDuties: inputdata.stampDuties.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -41,7 +41,7 @@ const Q0019 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      freqFactor: inputdata.freqFactor.map((val: any, ind: number) => {
+      stampDuties: inputdata.stampDuties.map((val: any, ind: number) => {
         if (index === ind) {
           val[fieldname] = value;
           return val;
@@ -65,30 +65,30 @@ const Q0019 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Frequency</th> 
-          <th>Factor</th> 
+          <th>SA</th> 
+          <th>Rate</th> 
           {(props.mode === "update" || props.mode === "create") && (
             <th>Actions</th>
           )}
         </tr>
       </thead>
       <tbody>
-        {inputdata.freqFactor?.map((value: any, index: number) => (
+        {inputdata.stampDuties?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="frequency"
-                name="frequency"
-                value={value.frequency}
+                id="sA"
+                name="sA"
+                value={value.sA}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "frequency", e.target.value)
+                  fieldChangeHandler(index, "sA", e.target.value)
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
@@ -98,11 +98,11 @@ const Q0019 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="factor"
-                name="factor"
-                value={value.factor}
+                id="rate"
+                name="rate"
+                value={value.rate}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "factor", e.target.value)
+                  fieldChangeHandler(index, "rate", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -129,17 +129,17 @@ const Q0019 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.freqFactor.length - 1 && (
+                  {index === inputdata.stampDuties.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            freqFactor: [
-                              ...inputdata.freqFactor,
+                            stampDuties: [
+                              ...inputdata.stampDuties,
                               {
-                                frequency: "",
-                                factor: 0,
+                                sA: 0,
+                                rate: 0,
 
                               },
                             ],
@@ -157,5 +157,5 @@ const Q0019 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-export default Q0019;
+export default Q0036;
 
