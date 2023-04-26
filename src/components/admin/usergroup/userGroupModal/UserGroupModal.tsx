@@ -21,6 +21,7 @@ function UserGroupModal({
   const addTitle: string = "User Group Add";
   const editTitle: string = "User Group Edit";
   const infoTitle: string = "User Group Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -48,6 +49,7 @@ function UserGroupModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

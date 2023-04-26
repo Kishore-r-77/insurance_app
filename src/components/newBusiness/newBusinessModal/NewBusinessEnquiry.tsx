@@ -37,6 +37,7 @@ function NewBusinessEnquiry({
   const addTitle: string = "Proposal Create";
   const editTitle: string = "Proposal Edit";
   const infoTitle: string = "Proposal Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -300,6 +301,7 @@ function NewBusinessEnquiry({
           >
             {state.clientOpen ? (
               <CustomModal
+                size={size}
                 open={state.clientOpen}
                 handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
               >
@@ -307,6 +309,7 @@ function NewBusinessEnquiry({
               </CustomModal>
             ) : state.addressOpen ? (
               <CustomModal
+                size={size}
                 open={state.addressOpen}
                 handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
               >
@@ -314,6 +317,7 @@ function NewBusinessEnquiry({
               </CustomModal>
             ) : state.agencyOpen ? (
               <CustomModal
+                size={size}
                 open={state.agencyOpen}
                 handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
               >

@@ -18,6 +18,7 @@ function TransactionModal({
   const addTitle: string = "Transaction Add";
   const editTitle: string = "Transaction Edit";
   const infoTitle: string = "Transaction Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -38,6 +39,7 @@ function TransactionModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen

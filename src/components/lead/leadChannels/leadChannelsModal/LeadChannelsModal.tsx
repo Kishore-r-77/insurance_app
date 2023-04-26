@@ -29,6 +29,7 @@ function LeadChannelsModal({
   const addTitle: string = "LeadChannels Add";
   const editTitle: string = "LeadChannels Edit";
   const infoTitle: string = "LeadChannels Info";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -90,6 +91,7 @@ function LeadChannelsModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

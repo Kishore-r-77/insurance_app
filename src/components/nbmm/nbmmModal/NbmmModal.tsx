@@ -44,6 +44,7 @@ function NewBusinessModal({
   const addTitle: string = "Proposal Create";
   const editTitle: string = "Proposal Edit";
   const infoTitle: string = "Proposal Info";
+  const size = "xl";
 
   console.log(record?.ID, "Record");
 
@@ -490,6 +491,7 @@ function NewBusinessModal({
           >
             {state.clientOpen ? (
               <CustomModal
+                size={size}
                 open={state.clientOpen}
                 handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
               >
@@ -497,6 +499,7 @@ function NewBusinessModal({
               </CustomModal>
             ) : state.addressOpen ? (
               <CustomModal
+                size={size}
                 open={state.addressOpen}
                 handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
               >
@@ -508,6 +511,7 @@ function NewBusinessModal({
               </CustomModal>
             ) : state.agencyOpen ? (
               <CustomModal
+                size={size}
                 open={state.agencyOpen}
                 handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
               >

@@ -26,6 +26,7 @@ import CustomModal from "../../utilities/modal/CustomModal";
 import PolicyValidate from "./policyValidate/PolicyValidate";
 
 function NewBusiness({ modalFunc }: any) {
+  const size = "xl";
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -310,7 +311,11 @@ function NewBusiness({ modalFunc }: any) {
 
   return (
     <div>
-      <CustomModal open={isPolicyValidate} handleClose={policyvalidateClose}>
+      <CustomModal
+        size={size}
+        open={isPolicyValidate}
+        handleClose={policyvalidateClose}
+      >
         <PolicyValidate data={validateData} summaryData={summaryData} />
       </CustomModal>
       <header className={styles.flexStyle}>

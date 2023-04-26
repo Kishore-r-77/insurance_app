@@ -29,6 +29,7 @@ function QBenIllValuesModal({
   const addTitle: string = "QBenIllValues Add";
   const editTitle: string = "QBenIllValues Edit";
   const infoTitle: string = "QBenIllValues Info";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -76,6 +77,7 @@ function QBenIllValuesModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen

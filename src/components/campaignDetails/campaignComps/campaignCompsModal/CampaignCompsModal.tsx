@@ -31,6 +31,7 @@ function CampaignCompsModal({
   const addTitle: string = "CampaignComps Add";
   const editTitle: string = "CampaignComps Edit";
   const infoTitle: string = "CampaignComps Info";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -89,6 +90,7 @@ function CampaignCompsModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

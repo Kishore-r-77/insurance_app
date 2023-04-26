@@ -31,6 +31,7 @@ function LevelsModal({
   const addTitle: string = "Levels Add";
   const editTitle: string = "Levels Edit";
   const infoTitle: string = "Levels Info";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -89,6 +90,7 @@ function LevelsModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

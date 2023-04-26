@@ -14,10 +14,10 @@ import { PolicyModalType } from "../../../reducerUtilities/types/policy/policyTy
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import CustomModal from "../../../utilities/modal/CustomModal";
-import Address from "../../admin/address/Address";
+import Address from "../../clientDetails/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
-import Client from "../../client/Client";
+import Client from "../../clientDetails/client/Client";
 import { frequency, p0018, p0023, p0024, q0005 } from "../nbmmApis/nbmmApis";
 import "./policyModal.css";
 
@@ -31,6 +31,7 @@ function NewBusinessEnquiry({
   const addTitle: string = "Proposal Create";
   const editTitle: string = "Proposal Edit";
   const infoTitle: string = "Proposal Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -294,6 +295,7 @@ function NewBusinessEnquiry({
           >
             {state.clientOpen ? (
               <CustomModal
+                size={size}
                 open={state.clientOpen}
                 handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
               >
@@ -301,6 +303,7 @@ function NewBusinessEnquiry({
               </CustomModal>
             ) : state.addressOpen ? (
               <CustomModal
+                size={size}
                 open={state.addressOpen}
                 handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
               >
@@ -308,6 +311,7 @@ function NewBusinessEnquiry({
               </CustomModal>
             ) : state.agencyOpen ? (
               <CustomModal
+                size={size}
                 open={state.agencyOpen}
                 handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
               >

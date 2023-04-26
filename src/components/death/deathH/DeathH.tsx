@@ -274,6 +274,7 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
+        getData={getData}
       />
       <CustomPagination
         pageNum={pageNum}

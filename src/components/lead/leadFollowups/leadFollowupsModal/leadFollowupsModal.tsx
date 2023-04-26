@@ -32,6 +32,7 @@ function LeadFollowupsModal({
   const addTitle: string = "LeadFollowups Add";
   const editTitle: string = "LeadFollowups Edit";
   const infoTitle: string = "LeadFollowups Info";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -154,6 +155,7 @@ function LeadFollowupsModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

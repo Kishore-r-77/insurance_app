@@ -23,6 +23,8 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
+  const size = "xl";
+
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
 
@@ -316,6 +318,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
       />
       <CustomModal
         open={state.addressOpen}
+        size={size}
         handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
       >
         <Address

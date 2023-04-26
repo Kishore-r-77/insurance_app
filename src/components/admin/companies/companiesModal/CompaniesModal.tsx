@@ -19,6 +19,7 @@ function CompaniesModal({
   const addTitle: string = "Company Add";
   const editTitle: string = "Company Edit";
   const infoTitle: string = "Company Info";
+  const size: string = "xl";
 
   return (
     <div className={styles.modal}>
@@ -30,6 +31,7 @@ function CompaniesModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

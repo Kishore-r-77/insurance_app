@@ -21,6 +21,7 @@ function PermissionModal({
   const addTitle = "Permission Add";
   const editTitle = "Permission Edit";
   const infoTitle = "Permission Info";
+  const size: string = "xl";
 
   const [userData, setUserData] = useState({} as any);
   const [userGroupData, setUserGroupData] = useState({} as any);
@@ -92,6 +93,7 @@ function PermissionModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.userOpen
             ? () => dispatch({ type: ACTIONS.USERCLOSE })

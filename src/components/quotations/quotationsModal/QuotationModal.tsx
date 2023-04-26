@@ -35,6 +35,7 @@ function QuotationModal({
   const addTitle: string = "Quotation Add";
   const editTitle: string = "Quotation Edit";
   const infoTitle: string = "Quotation Info";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -165,6 +166,7 @@ function QuotationModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen
