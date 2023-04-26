@@ -109,6 +109,18 @@ const routes = [
   },
   {
     path: "#",
+    name: "Death Header",
+    icon: <ReduceCapacityIcon />,
+    subRoutes: [
+      {
+        path: "deathH",
+        name: "Death",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
     name: "Agency Details",
     icon: <ReduceCapacityIcon />,
     subRoutes: [

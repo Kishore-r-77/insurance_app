@@ -1,7 +1,8 @@
 import { Button, Modal } from "react-bootstrap";
 
-function CustomFullModal({
+function DeathHFullModal({
   open,
+  commit,
   infoOpen,
   handleClose,
   title,
@@ -19,15 +20,14 @@ function CustomFullModal({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          {!!handleFormSubmit && (
-            <Button variant="primary" onClick={() => handleFormSubmit()}>
-              Save
-            </Button>
-          )}
+
+          <Button variant="primary" onClick={() => handleFormSubmit()}>
+            {commit ? "Register" : "Calculate"}
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
   );
 }
 
-export default CustomFullModal;
+export default DeathHFullModal;

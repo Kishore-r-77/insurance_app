@@ -34,10 +34,29 @@ export const paramItem = (
     },
   });
 };
+export const extraParamItem = (
+  companyId: number,
+  name: string,
+  item: string,
+  date: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata`,
+    {
+      withCredentials: true,
+      params: {
+        company_id: companyId,
+        name,
+        item,
+        date,
+      },
+    }
+  );
+};
 
 export const addApi = (state: ClientStateType, companyId: number) => {
   return axios.post(
-    `http://localhost:3000/api/v1/basicservices/clientcreate`,
+    `http://localhost:3000/api/v1/basicservices/client`,
     {
       CompanyID: companyId,
       Language: state.Language,
