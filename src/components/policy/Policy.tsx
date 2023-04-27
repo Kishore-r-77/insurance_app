@@ -29,6 +29,7 @@ import CustomModal from "../../utilities/modal/CustomModal";
 import PolicyEnquiry from "./policyModal/PolicyEnquiry";
 
 function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
+  const size = "xl";
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
@@ -355,6 +356,7 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
         getData={getData}
       />
       <CustomModal
+        size={size}
         open={state.benefitOpen}
         handleClose={() => dispatch({ type: ACTIONS.BENEFITCLOSE })}
       >

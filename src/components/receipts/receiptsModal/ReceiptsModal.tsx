@@ -32,6 +32,7 @@ function ReceiptsModal({
   const addTitle: string = "Receipts Add";
   const editTitle: string = "Receipts Edit";
   const infoTitle: string = "Receipts Info";
+  const size: string = "size";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -136,6 +137,7 @@ function ReceiptsModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen

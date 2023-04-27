@@ -19,6 +19,7 @@ function Benefit({
   handleClientOpen,
   setclientOpen,
 }: any) {
+  const size = "xl";
   const [isChecked, setisChecked] = useState(false);
 
   const [btermData, setbtermData] = useState([]);
@@ -234,6 +235,7 @@ function Benefit({
                   />
                 </td>
                 <CustomModal
+                  size={size}
                   open={clientOpen.open}
                   handleClose={() => setclientOpen({ open: false, index: 0 })}
                 >

@@ -37,6 +37,7 @@ function PolicyModal({
   getData,
 }: any) {
   const title = "Policies Add";
+  const size = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -278,6 +279,7 @@ function PolicyModal({
           >
             {state.clientOpen ? (
               <CustomModal
+                size={size}
                 open={state.clientOpen}
                 handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
               >
@@ -285,6 +287,7 @@ function PolicyModal({
               </CustomModal>
             ) : state.addressOpen ? (
               <CustomModal
+                size={size}
                 open={state.addressOpen}
                 handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
               >
@@ -296,6 +299,7 @@ function PolicyModal({
               </CustomModal>
             ) : state.agencyOpen ? (
               <CustomModal
+                size={size}
                 open={state.agencyOpen}
                 handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
               >

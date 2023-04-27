@@ -36,6 +36,7 @@ function DeathHModal({
   setNotify,
 }: any) {
   const title = "Death Header Add";
+  const size = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -190,6 +191,7 @@ function DeathHModal({
             {state.clientOpen ? (
               <CustomModal
                 open={state.clientOpen}
+                size={size}
                 handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
               >
                 <Client

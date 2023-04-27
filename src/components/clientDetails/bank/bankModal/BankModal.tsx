@@ -21,6 +21,7 @@ function BankModal({
   const addTitle: string = "Bank Add";
   const editTitle: string = "Bank Edit";
   const infoTitle: string = "Bank Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -55,6 +56,7 @@ function BankModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

@@ -24,6 +24,7 @@ function AgencyModal({
   const addTitle: string = "Agency Add";
   const editTitle: string = "Agency Edit";
   const infoTitle: string = "Agency Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -70,6 +71,7 @@ function AgencyModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

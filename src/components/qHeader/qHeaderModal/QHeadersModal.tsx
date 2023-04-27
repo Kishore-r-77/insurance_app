@@ -31,6 +31,7 @@ function QHeadersModal({
   const addTitle: string = "QHeaders Add";
   const editTitle: string = "QHeaders Edit";
   const infoTitle: string = "QHeaders Info";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -115,6 +116,7 @@ function QHeadersModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen

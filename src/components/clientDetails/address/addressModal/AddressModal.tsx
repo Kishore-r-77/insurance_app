@@ -27,6 +27,7 @@ function AddressModal({
   const addTitle: string = "Address Add";
   const editTitle: string = "Address Edit";
   const infoTitle: string = "Address Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -78,6 +79,7 @@ function AddressModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

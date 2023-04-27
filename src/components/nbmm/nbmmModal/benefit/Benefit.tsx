@@ -14,7 +14,7 @@ function Benefit({
   clientOpenFunc,
 }: any) {
   const [isChecked, setisChecked] = useState(false);
-  console.log("ischecked", isChecked);
+  const size = "xl";
   return (
     <div>
       <Paper className={styles.paperStyle}>
@@ -166,6 +166,7 @@ function Benefit({
                   />
                 </td>
                 <CustomModal
+                  size={size}
                   open={benefitData[index]?.clientOpen}
                   handleClose={() =>
                     dispatchBenefit({ type: ACTIONS.CLIENTCLOSE, index })

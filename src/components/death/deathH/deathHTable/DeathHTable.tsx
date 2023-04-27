@@ -1,4 +1,4 @@
-import { Button, IconButton, Paper } from "@mui/material";
+import { Button, IconButton, Menu, MenuItem, Paper } from "@mui/material";
 import Table from "react-bootstrap/Table";
 import styles from "./deathHTable.module.css";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,8 +7,13 @@ import InfoIcon from "@mui/icons-material/Info";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BusinessIcon from "@mui/icons-material/Business";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ModifyDeath from "../deathHModal/modifyDeath/ModifyDeath";
+import axios from "axios";
+import { useAppSelector } from "../../../../redux/app/hooks";
+import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 
 function DeathHTable({
   data,
@@ -19,12 +24,86 @@ function DeathHTable({
   sortParam,
   hardDelete,
   modalFunc,
+  getData,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
       ? sortParam
       : { fieldName: columns[0].dbField, order: "asc" }
   );
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const id = useRef(0);
+  const policyId = useRef(0);
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    value: any
+  ) => {
+    id.current = value.ID;
+    policyId.current = value.PolicyID;
+    setAnchorEl(event.currentTarget);
+    setAdjustedAmount(value.AdjustedAmount);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [modifyDeath, setmodifyDeath] = useState(false);
+
+  const [ID, setID] = useState(0);
+  const [PolicyID, setPolicyID] = useState(0);
+  const modifyDeathOpen = (id: number, policyId: number) => {
+    setID(id);
+    setPolicyID(policyId);
+    setmodifyDeath(true);
+    handleClose();
+  };
+
+  const modifyDeathClose = () => {
+    setmodifyDeath(false);
+  };
+
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+
+  const [companyData, setCompanyData] = useState<any>({});
+  const getCompanyData = (id: number) => {
+    getApi(id).then((resp) => {
+      setCompanyData(resp.data["Company"]);
+    });
+  };
+
+  useEffect(() => {
+    getCompanyData(companyId);
+
+    return () => {};
+  }, []);
+
+  const [adjustedAmount, setAdjustedAmount] = useState("");
+
+  const modifyDeathSubmit = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/deathmodify`,
+        {
+          CompanyID: companyId,
+          ID,
+          PolicyID,
+          AdjustedAmount: parseInt(adjustedAmount),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        console.log(resp);
+        modifyDeathClose();
+        getData();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -127,17 +206,59 @@ function DeathHTable({
               </td> */}
               <td>
                 <span className={styles.flexButtons}>
-                  <InfoIcon
+                  <IconButton
                     onClick={() =>
                       dispatch({ type: ACTIONS.INFOOPEN, payload: row })
                     }
-                  />
+                  >
+                    {" "}
+                    <InfoIcon />
+                  </IconButton>
+
+                  <IconButton
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={(e) => handleClick(e, row)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() =>
+                        modifyDeathOpen(id.current, policyId.current)
+                      }
+                    >
+                      Modify Death
+                    </MenuItem>
+                    <MenuItem>Death Rejection</MenuItem>
+                    <MenuItem>Death Approval</MenuItem>
+                  </Menu>
                 </span>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <ModifyDeath
+        open={modifyDeath}
+        companyName={companyData.CompanyName}
+        handleClose={modifyDeathClose}
+        id={ID}
+        policyId={PolicyID}
+        adjustedAmount={adjustedAmount}
+        setAdjustedAmount={setAdjustedAmount}
+        modifyDeathSubmit={modifyDeathSubmit}
+      />
     </Paper>
   );
 }

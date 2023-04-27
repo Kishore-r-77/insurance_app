@@ -14,10 +14,9 @@ import { useAppSelector } from "../../../redux/app/hooks";
 
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
-
 import styles from "./policyValidateModal.module.css";
 
-// Attention: Check the path below 
+// Attention: Check the path below
 import { PolicyValidateModalType } from "../../../reducerUtilities/types/validatepolicy/policyValidateTypes";
 import { paramItem } from "../newBusinessApis/policyValidateApis";
 import Benefit from "../../nbmm/nbmmModal/benefit/Benefit";
@@ -30,9 +29,10 @@ function PolicyValidateModal({
   ACTIONS,
   handleFormSubmit,
 }: PolicyValidateModalType) {
-  const addTitle: string = "PolicyValidate Add"; 
+  const addTitle: string = "PolicyValidate Add";
   const editTitle: string = "PolicyValidate Edit";
   const infoTitle: string = "PolicyValidate Info";
+  const size: string = "xl";
 
   const [policyData, setPolicyIDData] = useState<any>({});
   const getPolicyIDData = (id: number) => {
@@ -64,12 +64,12 @@ function PolicyValidateModal({
 
   useEffect(() => {
     getCompanyData(companyId);
-    getCoverageData(CoverageData );
+    getCoverageData(CoverageData);
 
     return () => {};
   }, []);
 
-// *** Attention: Check the Lookup table  OPenFunc details below ***
+  // *** Attention: Check the Lookup table  OPenFunc details below ***
   const benefitsOpenFunc = (item: any) => {
     if (state.addOpen) {
       state["PolicyID"] = item.ID;
@@ -80,6 +80,7 @@ function PolicyValidateModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen
@@ -112,161 +113,147 @@ function PolicyValidateModal({
               <Benefit modalFunc={benefitsOpenFunc} />
             ) : (
               <>
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                InputProps={{ readOnly: true }}
-                id="PolicyID"
-                name="PolicyID"
-                placeholder="Policy Number"
-                label="Policy Number"
-                // Attention: *** Check the value details  ***
-                onClick={() => dispatch({ type: ACTIONS.BENEFITSOPEN })}
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="PolicyID"
+                    name="PolicyID"
+                    placeholder="Policy Number"
+                    label="Policy Number"
+                    // Attention: *** Check the value details  ***
+                    onClick={() => dispatch({ type: ACTIONS.BENEFITSOPEN })}
                     value={
-                      state.addOpen
-                        ? state["PolicyID"]
-                        : record["PolicyID"]
+                      state.addOpen ? state["PolicyID"] : record["PolicyID"]
                     }
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen
-                      ? ACTIONS.ONCHANGE
-                      : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "PolicyID",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PolicyID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
 
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                InputProps={{ readOnly: true }}
-                id="CompanyID"
-                name="CompanyID"
-                value={companyData?.CompanyName}
-                placeholder="Company"
-                label="Company"
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="CompanyID"
+                    name="CompanyID"
+                    value={companyData?.CompanyName}
+                    placeholder="Company"
+                    label="Company"
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
 
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                InputProps={{ readOnly: true }}
-                id="Coverage "
-                name="Coverage "
-                // Attention: *** Check the value details  ***
-                value={CoverageData?.CoverageName}
-                placeholder="Coverage"
-                label="Coverage"
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="Coverage "
+                    name="Coverage "
+                    // Attention: *** Check the value details  ***
+                    value={CoverageData?.CoverageName}
+                    placeholder="Coverage"
+                    label="Coverage"
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
 
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                type="number"
-                //InputProps={{
-                  //startAdornment: (
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    type="number"
+                    //InputProps={{
+                    //startAdornment: (
                     //<InputAdornment position="start">+91</InputAdornment>
-                  // ),
-                //}}
-                id="BPrem"
-                name="BPrem"
-                    value={
-                      state.addOpen
-                        ? state["Premium"]
-                        : record["Premium"]
+                    // ),
+                    //}}
+                    id="BPrem"
+                    name="BPrem"
+                    value={state.addOpen ? state["Premium"] : record["Premium"]}
+                    placeholder="Premium "
+                    label="Premium "
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "Premium",
+                      })
                     }
-                placeholder="Premium "
-                label="Premium "
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen
-                      ? ACTIONS.ONCHANGE 
-                      : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "Premium",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
 
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                type="number"
-                //InputProps={{
-                  //startAdornment: (
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    type="number"
+                    //InputProps={{
+                    //startAdornment: (
                     //<InputAdornment position="start">+91</InputAdornment>
-                  // ),
-                //}}
-                id="CovrGst"
-                name="CovrGst"
-                    value={
-                      state.addOpen
-                        ? state["GST"]
-                        : record["GST"]
+                    // ),
+                    //}}
+                    id="CovrGst"
+                    name="CovrGst"
+                    value={state.addOpen ? state["GST"] : record["GST"]}
+                    placeholder="GST"
+                    label="GST"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "GST",
+                      })
                     }
-                placeholder="GST"
-                label="GST"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen
-                      ? ACTIONS.ONCHANGE 
-                      : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "GST",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
 
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                type="number"
-                //InputProps={{
-                  //startAdornment: (
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    type="number"
+                    //InputProps={{
+                    //startAdornment: (
                     //<InputAdornment position="start">+91</InputAdornment>
-                  // ),
-                //}}
-                id="CovrStampduty"
-                name="CovrStampduty"
+                    // ),
+                    //}}
+                    id="CovrStampduty"
+                    name="CovrStampduty"
                     value={
-                      state.addOpen
-                        ? state["StampDuty"]
-                        : record["StampDuty"]
+                      state.addOpen ? state["StampDuty"] : record["StampDuty"]
                     }
-                placeholder="Stamp Duty"
-                label="Stamp Duty"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen
-                      ? ACTIONS.ONCHANGE 
-                      : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "StampDuty",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
-
+                    placeholder="Stamp Duty"
+                    label="Stamp Duty"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "StampDuty",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
               </>
             )}
           </Grid2>
@@ -276,4 +263,3 @@ function PolicyValidateModal({
   );
 }
 export default PolicyValidateModal;
-

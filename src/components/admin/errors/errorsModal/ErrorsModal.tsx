@@ -21,6 +21,7 @@ function ErrorsModal({
   const addTitle: string = "Errors Add";
   const editTitle: string = "Errors Edit";
   const infoTitle: string = "Errors Info";
+  const size: string = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -48,6 +49,7 @@ function ErrorsModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })

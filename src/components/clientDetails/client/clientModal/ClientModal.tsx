@@ -26,6 +26,7 @@ function ClientModal({
 }: ClientModalType) {
   const editTitle: string = "Client Edit";
   const infoTitle: string = "Client Info";
+  const size = "xl";
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -101,6 +102,7 @@ function ClientModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={state.editOpen ? state.editOpen : state.infoOpen}
         handleClose={
           state.editOpen

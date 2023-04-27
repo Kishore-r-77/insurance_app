@@ -31,6 +31,7 @@ function LeadAllocationsModal({
   const addTitle: string = "LeadAllocations Add";
   const editTitle: string = "LeadAllocations Edit";
   const infoTitle: string = "LeadAllocations Info";
+  const size = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -164,6 +165,7 @@ function LeadAllocationsModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen

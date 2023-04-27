@@ -29,6 +29,7 @@ function QDetailsModal({
   const addTitle: string = "QDetails Add";
   const editTitle: string = "QDetails Edit";
   const infoTitle: string = "QDetails Info";
+  const size = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -76,6 +77,7 @@ function QDetailsModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen

@@ -32,6 +32,7 @@ function LeadDetailsModal({
   const addTitle: string = "LeadDetails Add";
   const editTitle: string = "LeadDetails Edit";
   const infoTitle: string = "LeadDetails Info";
+  const size: string = "size";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -154,6 +155,7 @@ function LeadDetailsModal({
             ? state.editOpen
             : state.infoOpen
         }
+        size={size}
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
