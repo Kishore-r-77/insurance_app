@@ -53,6 +53,6 @@ export type DeathHModalType = {
   state: DeathHStateType;
   record: any;
   dispatch: React.Dispatch<any>;
-  handleFormSubmit: () => any;
+  // handleFormSubmit: () => any;
   ACTIONS: ActionConstantsType;
 };

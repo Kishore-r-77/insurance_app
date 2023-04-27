@@ -19,6 +19,7 @@ import { getAllApi } from "./deathHApis/deathHApis";
 import DeathHModal from "./deathHModal/DeathHModal";
 import DeathHTable from "./deathHTable/DeathHTable";
 import Notification from "../../../utilities/Notification/Notification";
+import DeathHEnquiry from "./deathHModal/DeathHEnquiry";
 
 function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
   //data from getall api
@@ -62,6 +63,7 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
+        console.log("Payload",action.payload)
         return {
           ...state,
           infoOpen: true,
@@ -283,6 +285,12 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
         isLast={isLast}
         prevPage={prevPage}
         nexPage={nexPage}
+      />
+      <DeathHEnquiry
+        state={state}
+        record={record}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
       />
       <DeathHModal
         state={state}
