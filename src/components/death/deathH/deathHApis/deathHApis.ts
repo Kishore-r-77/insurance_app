@@ -69,11 +69,65 @@ export const createDeathWithBenefits = (
   );
 };
 
-export const paramItem = (
+//paramItems
+
+export const q0005 = (companyId: number, languageId: number) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name: "Q0005",
+      languageId,
+    },
+  });
+};
+export const frequency = (companyId: number, languageId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0005&date=20220101&item=END&company_id=1&function=Freq`,
+    {
+      withCredentials: true,
+    }
+  );
+};
+export const p0023 = (
   companyId: number,
-  name: string,
-  languageId: number
+  languageId: number,
+  currency: string
 ) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0005&date=20220101&item=END&company_id=1&function=${currency}`,
+    {
+      withCredentials: true,
+      params: {
+        companyId,
+        name: "P0023",
+        languageId,
+      },
+    }
+  );
+};
+export const p0018 = (companyId: number, languageId: number) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name: "P0018",
+      languageId,
+    },
+  });
+};
+export const p0024 = (companyId: number, languageId: number) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name: "P0024",
+      languageId,
+    },
+  });
+};
+
+export const paramItem = (companyId: number,name: string, languageId: number) => {
   return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
     withCredentials: true,
     params: {
