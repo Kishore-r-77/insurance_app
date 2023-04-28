@@ -13,7 +13,7 @@ import React, { useEffect, useReducer, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import { DeathHModalType } from "../../../../reducerUtilities/types/death/deathH/deathHTypes";
 import { useAppSelector } from "../../../../redux/app/hooks";
-import CustomFullModal from "../../../../utilities/modal/CustomModal";
+import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import {
   frequency,
@@ -39,15 +39,11 @@ import Policy from "../../../policy/Policy";
 import DeathHeaderEnquiry from "./enquiry/DeathHeaderEnquiry";
 import DeathDEnquiry from "./enquiry/DeathDEnquiry";
 
-function DeathHEnquiry({
-  state,
-  record,
-  dispatch,
-  ACTIONS,
-}: DeathHModalType) {
+function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
   const infoTitle: string = "Death Enquiry Info";
+  const size: string = "xl";
 
-  console.log("Records",record)
+  console.log("Records", record);
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -121,7 +117,7 @@ function DeathHEnquiry({
   const [deathHs, setDeathHs] = useState([]);
   const [deathDs, setDeathDs] = useState([]);
 
-  const getdeathenquiry=()=>{
+  const getdeathenquiry = () => {
     axios
       .get(
         `http://localhost:3000/api/v1/deathservices/enqdeath/${record.PolicyID}`,
@@ -130,15 +126,15 @@ function DeathHEnquiry({
         }
       )
       .then((resp) => {
-      setpolicy(resp.data.Policy);
-      console.log("Policy",policy)
-      setBenefits(resp.data.Policy.Benefits);
-      console.log("Benefits",benefits)
-      setDeathHs(resp.data.Policy.DeathHs);
-      setDeathDs(resp.data.Policy.DeathDs);
-      }
-        ).catch((err) => console.log(err.message));
-  }
+        setpolicy(resp.data.Policy);
+        console.log("Policy", policy);
+        setBenefits(resp.data.Policy.Benefits);
+        console.log("Benefits", benefits);
+        setDeathHs(resp.data.Policy.DeathHs);
+        setDeathDs(resp.data.Policy.DeathDs);
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -153,15 +149,14 @@ function DeathHEnquiry({
 
   useEffect(() => {
     getdeathenquiry();
-    return () => { 
-    }
-  }, [state.infoOpen])
-  
+    return () => {};
+  }, [state.infoOpen]);
 
-   return (
+  return (
     <div>
       <CustomFullModal
         open={state.infoOpen}
+        size={size}
         handleClose={() => dispatch({ type: ACTIONS.INFOCLOSE })}
         title={infoTitle}
         ACTIONS={ACTIONS}
@@ -238,8 +233,7 @@ function DeathHEnquiry({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  >
-                  </TextField>
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
@@ -251,8 +245,7 @@ function DeathHEnquiry({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  >
-                  </TextField>
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
@@ -264,8 +257,7 @@ function DeathHEnquiry({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  >
-                  </TextField>
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
@@ -277,8 +269,7 @@ function DeathHEnquiry({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  >
-                  </TextField>
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
@@ -290,8 +281,7 @@ function DeathHEnquiry({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  >
-                  </TextField>
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
@@ -304,8 +294,7 @@ function DeathHEnquiry({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  >
-                  </TextField>
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
@@ -383,10 +372,7 @@ function DeathHEnquiry({
                 title="Benefit"
                 style={{ backgroundColor: "white" }}
               >
-                <BenefitEnquiry
-                  benefitenquiryData={benefits}
-                  state={state}
-                />
+                <BenefitEnquiry benefitenquiryData={benefits} state={state} />
               </Tab>
 
               <Tab
@@ -394,10 +380,7 @@ function DeathHEnquiry({
                 title="Death Header"
                 style={{ backgroundColor: "white" }}
               >
-                <DeathHeaderEnquiry
-                  deathHenquiry={deathHs}
-                  state={state}
-                />
+                <DeathHeaderEnquiry deathHenquiry={deathHs} state={state} />
               </Tab>
 
               <Tab
@@ -405,10 +388,7 @@ function DeathHEnquiry({
                 title="Death D"
                 style={{ backgroundColor: "white" }}
               >
-                <DeathDEnquiry
-                  deathDenquiry={deathDs}
-                  state={state}
-                />
+                <DeathDEnquiry deathDenquiry={deathDs} state={state} />
               </Tab>
             </Tabs>
           </TreeView>
