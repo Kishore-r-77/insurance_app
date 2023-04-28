@@ -34,6 +34,8 @@ function PolicyModal({
   ACTIONS,
   handleFormSubmit,
   record,
+  notify,
+  setNotify,
   getData,
 }: any) {
   const title = "Policies Add";
@@ -203,6 +205,11 @@ function PolicyModal({
     return createPoliciesWithBenefits(state, companyId, benefitsData)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created record of id:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
       .catch((err) => err.message);
@@ -541,6 +548,7 @@ function PolicyModal({
                     value={state.PolStatus}
                     placeholder="pol_status"
                     label="pol_status"
+                    inputProps={{ readOnly: true }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,

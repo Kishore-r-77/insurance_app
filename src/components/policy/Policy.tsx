@@ -27,6 +27,7 @@ import Benefit from "./policyModal/benefit/Benefit";
 import PolicyTable from "./policyTable/PolicyTable";
 import CustomModal from "../../utilities/modal/CustomModal";
 import PolicyEnquiry from "./policyModal/PolicyEnquiry";
+import Notification from "../../utilities/Notification/Notification";
 
 function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
   const size = "xl";
@@ -34,6 +35,12 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
@@ -353,6 +360,8 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
         state={state}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
+        notify={notify}
+        setNotify={setNotify}
         getData={getData}
       />
       <CustomModal
@@ -365,6 +374,7 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
           lookup={state.benefitOpen}
         />
       </CustomModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

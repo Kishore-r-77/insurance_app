@@ -14,6 +14,8 @@ import ModifyDeath from "../deathHModal/modifyDeath/ModifyDeath";
 import axios from "axios";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import DeathRejection from "../deathHModal/deathRejection/DeathRejection";
+import DeathApproval from "../deathHModal/deathApproval/DeathApproval";
 
 function DeathHTable({
   data,
@@ -25,6 +27,7 @@ function DeathHTable({
   hardDelete,
   modalFunc,
   getData,
+  setNotify,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -45,13 +48,14 @@ function DeathHTable({
     id.current = value.ID;
     policyId.current = value.PolicyID;
     setAnchorEl(event.currentTarget);
-    setAdjustedAmount(value.AdjustedAmount);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const [modifyDeath, setmodifyDeath] = useState(false);
+  const [deathRejection, setdeathRejection] = useState(false);
+  const [deathApproval, setdeathApproval] = useState(false);
 
   const [ID, setID] = useState(0);
   const [PolicyID, setPolicyID] = useState(0);
@@ -64,6 +68,27 @@ function DeathHTable({
 
   const modifyDeathClose = () => {
     setmodifyDeath(false);
+  };
+
+  const deathRejectionOpen = (id: number, policyId: number) => {
+    setID(id);
+    setPolicyID(policyId);
+    setdeathRejection(true);
+    handleClose();
+  };
+
+  const deathRejectionClose = () => {
+    setdeathRejection(false);
+  };
+  const deathApprovalOpen = (id: number, policyId: number) => {
+    setID(id);
+    setPolicyID(policyId);
+    setdeathApproval(true);
+    handleClose();
+  };
+
+  const deathApprovalClose = () => {
+    setdeathApproval(false);
   };
 
   const companyId = useAppSelector(
@@ -82,28 +107,6 @@ function DeathHTable({
 
     return () => {};
   }, []);
-
-  const [adjustedAmount, setAdjustedAmount] = useState("");
-
-  const modifyDeathSubmit = () => {
-    axios
-      .post(
-        `http://localhost:3000/api/v1/deathservices/deathmodify`,
-        {
-          CompanyID: companyId,
-          ID,
-          PolicyID,
-          AdjustedAmount: parseInt(adjustedAmount),
-        },
-        { withCredentials: true }
-      )
-      .then((resp) => {
-        console.log(resp);
-        modifyDeathClose();
-        getData();
-      })
-      .catch((err) => console.log(err));
-  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -240,8 +243,20 @@ function DeathHTable({
                     >
                       Modify Death
                     </MenuItem>
-                    <MenuItem>Death Rejection</MenuItem>
-                    <MenuItem>Death Approval</MenuItem>
+                    <MenuItem
+                      onClick={() =>
+                        deathRejectionOpen(id.current, policyId.current)
+                      }
+                    >
+                      Death Rejection
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() =>
+                        deathApprovalOpen(id.current, policyId.current)
+                      }
+                    >
+                      Death Approval
+                    </MenuItem>
                   </Menu>
                 </span>
               </td>
@@ -255,9 +270,29 @@ function DeathHTable({
         handleClose={modifyDeathClose}
         id={ID}
         policyId={PolicyID}
-        adjustedAmount={adjustedAmount}
-        setAdjustedAmount={setAdjustedAmount}
-        modifyDeathSubmit={modifyDeathSubmit}
+        companyId={companyId}
+        getData={getData}
+        setNotify={setNotify}
+      />
+      <DeathRejection
+        open={deathRejection}
+        companyName={companyData.CompanyName}
+        handleClose={deathRejectionClose}
+        id={ID}
+        policyId={PolicyID}
+        companyId={companyId}
+        getData={getData}
+        setNotify={setNotify}
+      />
+      <DeathApproval
+        open={deathApproval}
+        companyName={companyData.CompanyName}
+        handleClose={deathApprovalClose}
+        id={ID}
+        policyId={PolicyID}
+        companyId={companyId}
+        getData={getData}
+        setNotify={setNotify}
       />
     </Paper>
   );

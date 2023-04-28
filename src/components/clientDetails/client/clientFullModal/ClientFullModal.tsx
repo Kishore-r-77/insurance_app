@@ -28,6 +28,8 @@ function ClientFullModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  notify,
+  setNotify,
   getData,
 }: any) {
   const title = "Client Add";
@@ -192,6 +194,11 @@ function ClientFullModal({
     return createClientWithAddress(state, companyId, addressData)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created record of id:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
       .catch((err) => err.message);

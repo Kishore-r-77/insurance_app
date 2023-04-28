@@ -32,7 +32,6 @@ function DeathHModal({
   handleFormSubmit,
   record,
   getData,
-  notify,
   setNotify,
 }: any) {
   const title = "Death Header Add";
@@ -111,7 +110,6 @@ function DeathHModal({
           dispatch({ type: ACTIONS.COMMITOPEN });
 
           state.Function = "Commit";
-          console.log(setNotify, "notification");
         } else {
           dispatch({ type: ACTIONS.COMMITCLOSE });
           dispatch({ type: ACTIONS.ADDCLOSE });
@@ -202,6 +200,7 @@ function DeathHModal({
               </CustomModal>
             ) : state.policyOpen ? (
               <CustomModal
+                size={size}
                 open={state.policyOpen}
                 handleClose={() => dispatch({ type: ACTIONS.POLICYCLOSE })}
               >
