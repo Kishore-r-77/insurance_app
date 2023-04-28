@@ -12,6 +12,7 @@ import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import EditRoadRoundedIcon from "@mui/icons-material/EditRoadRounded";
+import { GiDeathSkull } from "react-icons/gi";
 
 const routes = [
   {
@@ -110,7 +111,7 @@ const routes = [
   {
     path: "#",
     name: "Death Header",
-    icon: <ReduceCapacityIcon />,
+    icon: <GiDeathSkull size="23px" />,
     subRoutes: [
       {
         path: "deathH",
