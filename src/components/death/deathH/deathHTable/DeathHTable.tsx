@@ -48,6 +48,7 @@ function DeathHTable({
     id.current = value.ID;
     policyId.current = value.PolicyID;
     setAnchorEl(event.currentTarget);
+    deathMenu();
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -100,6 +101,41 @@ function DeathHTable({
     getApi(id).then((resp) => {
       setCompanyData(resp.data["Company"]);
     });
+  };
+  const [deathMenuData, setdeathMenuData] = useState([]);
+  const deathMenu = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/basicservices/paramextradata`, {
+        withCredentials: true,
+        params: {
+          name: "P0044",
+          date: "20220101",
+          item: "DEATHMM",
+          company_id: companyId,
+        },
+      })
+      .then((resp) => {
+        setdeathMenuData(resp.data?.AllowedMenus);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const deathMenuClick = (value: any) => {
+    switch (value) {
+      case "Adjustment":
+        modifyDeathOpen(id.current, policyId.current);
+        break;
+      case "Approval":
+        deathApprovalOpen(id.current, policyId.current);
+        break;
+      case "Rejection":
+        deathRejectionOpen(id.current, policyId.current);
+        break;
+      default:
+        return;
+    }
   };
 
   useEffect(() => {
@@ -236,27 +272,13 @@ function DeathHTable({
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem
-                      onClick={() =>
-                        modifyDeathOpen(id.current, policyId.current)
-                      }
-                    >
-                      Modify Death
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() =>
-                        deathRejectionOpen(id.current, policyId.current)
-                      }
-                    >
-                      Death Rejection
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() =>
-                        deathApprovalOpen(id.current, policyId.current)
-                      }
-                    >
-                      Death Approval
-                    </MenuItem>
+                    {deathMenuData.map((deathValue: any) => (
+                      <MenuItem
+                        onClick={() => deathMenuClick(deathValue.Action)}
+                      >
+                        {deathValue?.Action}
+                      </MenuItem>
+                    ))}
                   </Menu>
                 </span>
               </td>

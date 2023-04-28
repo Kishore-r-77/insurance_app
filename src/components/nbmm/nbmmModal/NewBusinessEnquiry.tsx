@@ -220,8 +220,8 @@ function NewBusinessEnquiry({
     getQ0005();
     getFreq();
     getQ0018();
-    getQ0023Ccur("Ccur");
-    getQ0023Bcur("Bcur");
+    getQ0023Ccur("CCUR");
+    getQ0023Bcur("BCUR");
     getQ0024();
 
     return () => {};

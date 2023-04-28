@@ -141,8 +141,8 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
     getQ0005();
     getFreq();
     getQ0018();
-    getQ0023Ccur("Ccur");
-    getQ0023Bcur("Bcur");
+    getQ0023Ccur("CCUR");
+    getQ0023Bcur("BCUR");
     getQ0024();
     return () => {};
   }, []);
@@ -206,7 +206,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                         readOnly
                         label="Proposal Date"
                         inputFormat="DD/MM/YYYY"
-                        value={record.PRCD}
+                        value={policy.PRCD}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
