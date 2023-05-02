@@ -216,11 +216,11 @@ function DeathApproval({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    id="PProduct"
-                    name="PProduct"
+                    id="PRCD"
+                    name="PRCD"
                     value={moment(policy.PRCD).format("YYYY-MM-DD")}
-                    placeholder="Product"
-                    label="Product"
+                    placeholder="PRCD"
+                    label="PRCD"
                     fullWidth
                     inputProps={{ readOnly: true }}
                     margin="dense"

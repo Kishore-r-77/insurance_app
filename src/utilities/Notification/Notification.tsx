@@ -31,7 +31,7 @@ export default function Notification(props: any) {
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
         open={notify.isOpen}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >

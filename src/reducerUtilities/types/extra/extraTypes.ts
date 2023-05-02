@@ -1,19 +1,20 @@
-
 export type ExtraStateType = {
-  CompanyID :string;
-  PolicyID :string;
-  BCoverage :string;
-  BenefitID :string;
-  EReason :string;
-  EMethod :string;
-  EPrem :string;
-  EPercentage :string;
-  EAmt :string;
-  ETerm :string;
-  EAge :string;
-  FromDate :string;
-  ToDate :string;
-// *** Attention: Check the lookup table open below ***
+  CompanyID: string;
+  PolicyID: string;
+  BCoverage: string;
+  BenefitID: string;
+  EReason: string;
+  EMethod: string;
+  EPrem: string;
+  EPercentage: string;
+  EAmt: string;
+  ETerm: string;
+  EAge: string;
+  FromDate: string;
+  ToDate: string;
+  ReasonDescription: string;
+  RequestedDate: string;
+  // *** Attention: Check the lookup table open below ***
   policyOpen: boolean;
   benefitOpen: boolean;
   addOpen: boolean;
@@ -44,6 +45,8 @@ export type ActionConstantsType = {
   BENEFITCLOSE: string;
 };
 export type ExtraModalType = {
+  benefitState: any;
+  lookup: boolean;
   state: ExtraStateType;
   record: any;
   dispatch: React.Dispatch<any>;

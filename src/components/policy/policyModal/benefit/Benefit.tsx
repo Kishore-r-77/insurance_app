@@ -11,12 +11,28 @@ import { BenefitStateType } from "../../../../reducerUtilities/types/benefit/ben
 import { useAppSelector } from "../../../../redux/app/hooks";
 import CustomPagination from "../../../../utilities/Pagination/CustomPagination";
 import styles from "./benefit.module.css";
-import { getAllApi } from "./benefitApis/benefitApis";
+import { deleteApi, editApi, getAllApi } from "./benefitApis/benefitApis";
 import BenefitTable from "./BenefitTable/BenefitTable";
+import CustomModal from "../../../../utilities/modal/CustomModal";
+import Extra from "../../../extra/Extra";
+import BenefitModal from "./benefitModal/BenefitModal";
+import Notification from "../../../../utilities/Notification/Notification";
 
-function Benefit({ modalFunc, benefitsByPoliciesData, lookup }: any) {
+function Benefit({
+  modalFunc,
+  benefitsByPoliciesData,
+  lookup,
+  getBenefitsByPolicies1,
+  policyRecord,
+}: any) {
   //data from getall api
   const [data, setData] = useState([]);
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
@@ -30,7 +46,6 @@ function Benefit({ modalFunc, benefitsByPoliciesData, lookup }: any) {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.payload, action.fieldName, "kish");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,
@@ -85,6 +100,17 @@ function Benefit({ modalFunc, benefitsByPoliciesData, lookup }: any) {
           ...state,
           clientOpen: false,
         };
+      case ACTIONS.EXTRAOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          extraOpen: true,
+        };
+      case ACTIONS.EXTRACLOSE:
+        return {
+          ...state,
+          extraOpen: false,
+        };
 
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
@@ -137,7 +163,40 @@ function Benefit({ modalFunc, benefitsByPoliciesData, lookup }: any) {
   //Add Api
 
   //Edit Api
+  const editFormSubmit = async () => {
+    editApi(record)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.EDITCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated record of id:${resp.data.outputs.ID} Successfully`,
+          type: "success",
+        });
+        getData();
+        if (lookup) {
+          getBenefitsByPolicies1(policyRecord.ID);
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      });
+  };
 
+  //Hard Delete Api
+  const hardDelete = async (id: number) => {
+    deleteApi(id)
+      .then((resp) => {
+        console.log(resp);
+        getData();
+      })
+      .catch((err) => console.log(err.message));
+  };
   //Hard Delete Api
 
   const nexPage = () => {
@@ -158,7 +217,7 @@ function Benefit({ modalFunc, benefitsByPoliciesData, lookup }: any) {
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <header className={styles.flexStyle}>
         {lookup ? null : (
           <>
@@ -259,6 +318,21 @@ function Benefit({ modalFunc, benefitsByPoliciesData, lookup }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
+      <BenefitModal
+        state={state}
+        record={record}
+        dispatch={dispatch}
+        handleFormSubmit={editFormSubmit}
+        ACTIONS={ACTIONS}
+      />
+      <CustomModal
+        open={state.extraOpen}
+        size="xl"
+        handleClose={() => dispatch({ type: ACTIONS.EXTRACLOSE })}
+      >
+        <Extra benefitState={record} lookup={state.extraOpen} />
+      </CustomModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

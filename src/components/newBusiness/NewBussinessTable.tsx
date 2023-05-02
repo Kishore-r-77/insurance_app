@@ -1,16 +1,14 @@
-import { Button, IconButton, Paper } from "@mui/material";
-import Table from "react-bootstrap/Table";
-import styles from "./newbussinesstable.module.css";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import SendIcon from '@mui/icons-material/Send';
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import InfoIcon from "@mui/icons-material/Info";
+import SendIcon from "@mui/icons-material/Send";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import { IconButton, Paper } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
-import VerifiedUser from "@mui/icons-material/VerifiedUser";
+import Table from "react-bootstrap/Table";
+import styles from "./newbussinesstable.module.css";
+import BusinessIcon from "@mui/icons-material/Business";
 
 function NewBussinessTable({
   issueOpen,
@@ -97,7 +95,8 @@ function NewBussinessTable({
                 </th>
               )
             )}
-            {ACTIONS.EDITOPEN && <th>Actions</th>}
+            <th>Benefit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -117,6 +116,16 @@ function NewBussinessTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
+              <td>
+                <BusinessIcon
+                  onClick={() =>
+                    dispatch({
+                      type: ACTIONS.BENEFITOPEN,
+                      payload: row,
+                    })
+                  }
+                />
+              </td>
               {ACTIONS.EDITOPEN && (
                 <td>
                   <span className={styles.flexButtons}>
@@ -137,13 +146,11 @@ function NewBussinessTable({
                     />
                     <VerifiedUserIcon
                       color="primary"
-                      onClick={()=>confirmOpen(row.ID)
-                      }
+                      onClick={() => confirmOpen(row.ID)}
                     />
                     <SendIcon
                       color="success"
-                      onClick={()=>issueOpen(row.ID)
-                      }
+                      onClick={() => issueOpen(row.ID)}
                     />
                   </span>
                 </td>

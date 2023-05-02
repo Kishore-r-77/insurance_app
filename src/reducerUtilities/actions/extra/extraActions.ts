@@ -36,6 +36,8 @@ export const initialValues: ExtraStateType = {
   EAge: "",
   FromDate: "",
   ToDate: "",
+  ReasonDescription: "",
+  RequestedDate: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
@@ -51,4 +53,60 @@ export const initialValues: ExtraStateType = {
 
 //Columns Defined to Pass into the Custom Table
 
-export const columns = [];
+export const columns = [
+  { field: "ID", header: "ID", dbField: "id" },
+  // { field: "CompanyID", header: "Company ID", dbField: "company_id" },
+  {
+    field: "BCoverage",
+    header: "Policy Id",
+    dbField: "policy_id",
+  },
+
+  {
+    field: "EReason",
+    header: "EReason",
+    dbField: "e_reason",
+  },
+  {
+    field: "EMethod",
+    header: "EMethod",
+    dbField: "e_method",
+  },
+  {
+    field: "EPrem",
+    header: "EPrem",
+    dbField: "e_prem",
+  },
+  {
+    field: "EPercentage",
+    header: "EPercentage",
+    dbField: "e_percentage",
+  },
+  {
+    field: "  EAmt",
+    header: "EAmt",
+    dbField: "e_amt",
+  },
+  {
+    field: "ETerm",
+    header: "ETerm",
+    dbField: "e_term",
+  },
+  {
+    field: "EAge",
+    header: "EAge",
+    dbField: "e_age",
+  },
+  {
+    field: "FromDate",
+    header: "FromDate",
+    dbField: "from_date",
+    type: "date",
+  },
+  {
+    field: "ToDate",
+    header: "ToDate",
+    dbField: "to_date",
+    type: "date",
+  },
+];

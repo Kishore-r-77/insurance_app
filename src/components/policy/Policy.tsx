@@ -314,7 +314,7 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
           </Button>
         </span>
         <h1>Policies</h1>
-        <Button
+        {/* <Button
           id={styles["add-btn"]}
           style={{
             marginTop: "1rem",
@@ -329,7 +329,7 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
           onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
         >
           <AddBoxIcon />
-        </Button>
+        </Button> */}
       </header>{" "}
       <PolicyTable
         data={lookup ? getByTable : data}

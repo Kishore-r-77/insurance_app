@@ -2,42 +2,41 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import { useAppSelector } from "../../redux/app/hooks";
+// ***  Attention : Check the import below and change it if required ***
+import { ExtraStateType } from "../../reducerUtilities/types/extra/extraTypes";
+
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../reducerUtilities/actions/policy/policyActions";
-import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
-import { useAppSelector } from "../../redux/app/hooks";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
-import styles from "./newBusiness.module.css";
+} from "../../reducerUtilities/actions/extra/extraActions";
+import styles from "./extra.module.css";
 import {
   addApi,
   deleteApi,
   editApi,
   getAllApi,
-} from "./newBusinessApis/newBusinessApis";
-import PolicyModal from "./newBusinessModal/NewBusinessModal";
-import NewBussinessTable from "./NewBussinessTable";
-import axios from "axios";
-import NotificationModal from "../../utilities/modal/NotificationModal";
-import CustomModal from "../../utilities/modal/CustomModal";
-import PolicyValidate from "./policyValidate/PolicyValidate";
+  getExtrasByBenefit,
+} from "./extraApis/extraApis";
+import ExtraModal from "./extraModal/ExtraModal";
+import Notification from "../../utilities/Notification/Notification";
 
-import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
-import Benefit from "../policy/policyModal/benefit/Benefit";
-
-function NewBusiness({ modalFunc }: any) {
-  const size = "xl";
+function Extra({ modalFunc, lookup, benefitState }: any) {
   //data from getall api
   const [data, setData] = useState([]);
-
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
-
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: PolicyStateType, action: any) => {
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const reducer = (state: ExtraStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -89,36 +88,20 @@ function NewBusiness({ modalFunc }: any) {
           ...state,
           infoOpen: false,
         };
-      case ACTIONS.CLIENTOPEN:
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.POLICYOPEN:
         return {
           ...state,
-          clientOpen: true,
+          policyOpen: true,
         };
-      case ACTIONS.CLIENTCLOSE:
+      case ACTIONS.POLICYCLOSE:
         return {
           ...state,
-          clientOpen: false,
+          policyOpen: false,
         };
-      case ACTIONS.ADDRESSOPEN:
-        return {
-          ...state,
-          addressOpen: true,
-        };
-      case ACTIONS.ADDRESSCLOSE:
-        return {
-          ...state,
-          addressOpen: false,
-        };
-      case ACTIONS.AGENCYOPEN:
-        return {
-          ...state,
-          agencyOpen: true,
-        };
-      case ACTIONS.AGENCYCLOSE:
-        return {
-          ...state,
-          agencyOpen: false,
-        };
+
+      // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.BENEFITOPEN:
         setRecord(action.payload);
         return {
@@ -130,6 +113,7 @@ function NewBusiness({ modalFunc }: any) {
           ...state,
           benefitOpen: false,
         };
+
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -157,65 +141,21 @@ function NewBusiness({ modalFunc }: any) {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-  const [isConfirm, setisConfirm] = useState(false);
-  const [policyId, setPolicyId] = useState(0);
-  const [validateData, setvalidateData] = useState([]);
-  const [summaryData, setsummaryData] = useState([]);
-  const [isPolicyValidate, setisPolicyValidate] = useState(false);
-  const [isIssue, setisIssue] = useState(false);
-  const [issueNote, setissueNote] = useState(false);
-  const [issueData, setissueData] = useState();
-
-  const policyvalidateOpen = () => {
-    setisPolicyValidate(true);
-  };
-
-  const policyvalidateClose = () => {
-    setisPolicyValidate(false);
-    getData();
-  };
-
-  const confirmOpen = (id: number) => {
-    setPolicyId(id);
-    setisConfirm(true);
-  };
-
-  const confirmClose = () => {
-    setisConfirm(false);
-  };
-
-  const issueOpen = (id: number) => {
-    setPolicyId(id);
-    setisIssue(true);
-  };
-
-  const issueClose = () => {
-    setisIssue(false);
-  };
-
-  const issueNoteOpen = () => {
-    setissueNote(true);
-  };
-
-  const issueNoteClose = () => {
-    setissueNote(false);
-    getData();
-  };
-
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Policies"]);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["Extra"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Policies"]?.length === 0);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["Extra"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -224,54 +164,28 @@ function NewBusiness({ modalFunc }: any) {
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = async () => {
-    try {
-      const response = await addApi(state, companyId);
-      getData();
-      return {
-        response,
-        status: response.status,
-      };
-    } catch (err: any) {
-      console.log(err);
-      return {
-        response: err,
-        status: err.response.status,
-      };
-    }
-  };
-
-  const validatePolicy = () => {
-    axios
-      .post(
-        `http://localhost:3000/api/v1/nbservices/policyvalidate/${policyId}`,
-        {},
-        {
-          withCredentials: true,
-        }
-      )
+  const handleFormSubmit = () => {
+    return addApi(state, companyId, benefitState.ID)
       .then((resp) => {
-        setvalidateData(resp.data["Payable Amount"]);
-        setsummaryData(resp.data["Summary"]);
-        setisConfirm(false);
-        policyvalidateOpen();
-      });
-  };
-
-  const issuePolicy = () => {
-    axios
-      .post(
-        `http://localhost:3000/api/v1/nbservices/policyissue/${policyId}`,
-        {},
-        {
-          withCredentials: true,
+        console.log(resp);
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: resp.data?.Result,
+          type: "success",
+        });
+        getData();
+        if (lookup) {
+          getExtrasByBenefit1();
         }
-      )
-      .then((resp) => {
-        setissueData(resp.data.Policy);
-        setisIssue(false);
-        setissueNote(true);
-        // console.log(resp.data,"Policy")
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
       });
   };
 
@@ -281,17 +195,55 @@ function NewBusiness({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated record of id:${resp.data.outputs.ID} Successfully`,
+          type: "success",
+        });
         getData();
+        if (lookup) {
+          getExtrasByBenefit1();
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      });
+  };
+
+  const [extrasByBenefitData, setextrasByBenefitData] = useState([]);
+
+  const getExtrasByBenefit1 = () => {
+    return getExtrasByBenefit(benefitState.ID)
+      .then((resp) => {
+        setextrasByBenefitData(resp.data?.Extra);
       })
       .catch((err) => console.log(err.message));
   };
+
+  useEffect(() => {
+    getExtrasByBenefit1();
+    return () => {};
+  }, [lookup]);
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: resp.data,
+          type: "success",
+        });
         getData();
+        if (lookup) {
+          getExtrasByBenefit1();
+        }
       })
       .catch((err) => console.log(err.message));
   };
@@ -313,30 +265,8 @@ function NewBusiness({ modalFunc }: any) {
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
-  const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState([]);
-
-  const getBenefitsByPolicies1 = (policyId: number) => {
-    getBenefitsByPolicies(policyId)
-      .then((resp) => {
-        setbenefitsByPoliciesData(resp.data?.Benefit);
-      })
-      .catch((err) => err.message);
-  };
-
-  useEffect(() => {
-    getBenefitsByPolicies1(record.ID);
-    return () => {};
-  }, [state.benefitOpen]);
-
   return (
     <div>
-      <CustomModal
-        size={size}
-        open={isPolicyValidate}
-        handleClose={policyvalidateClose}
-      >
-        <PolicyValidate data={validateData} summaryData={summaryData} />
-      </CustomModal>
       <header className={styles.flexStyle}>
         <span>
           <TextField
@@ -394,8 +324,7 @@ function NewBusiness({ modalFunc }: any) {
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>New Business Enquiry</h1>
+        <h1>Extras</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -413,10 +342,8 @@ function NewBusiness({ modalFunc }: any) {
           <AddBoxIcon />
         </Button>
       </header>
-      <NewBussinessTable
-        data={data}
-        issueOpen={issueOpen}
-        confirmOpen={confirmOpen}
+      <CustomTable
+        data={lookup ? extrasByBenefitData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -432,47 +359,17 @@ function NewBusiness({ modalFunc }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-
-      <PolicyModal
+      <ExtraModal
+        benefitState={benefitState}
+        lookup={lookup}
         state={state}
         record={record}
         dispatch={dispatch}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
-
-      <CustomModal
-        size={size}
-        open={state.benefitOpen}
-        handleClose={() => dispatch({ type: ACTIONS.BENEFITCLOSE })}
-      >
-        <Benefit
-          benefitsByPoliciesData={benefitsByPoliciesData}
-          getBenefitsByPolicies1={getBenefitsByPolicies1}
-          policyRecord={record}
-          lookup={state.benefitOpen}
-        />
-      </CustomModal>
-
-      <NotificationModal
-        open={isConfirm}
-        handleClose={confirmClose}
-        handleFormSubmit={validatePolicy}
-      >
-        <h4>Are you sure you want to validate policy?</h4>
-      </NotificationModal>
-      <NotificationModal
-        open={isIssue}
-        handleClose={issueClose}
-        handleFormSubmit={issuePolicy}
-      >
-        <h4>Are you sure you want to issue policy?</h4>
-      </NotificationModal>
-      <NotificationModal open={issueNote} handleClose={issueNoteClose}>
-        <h4>{issueData}</h4>
-      </NotificationModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
-
-export default NewBusiness;
+export default Extra;
