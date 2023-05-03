@@ -212,7 +212,13 @@ function PolicyModal({
         });
         getData();
       })
-      .catch((err) => err.message);
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      });
   };
 
   const handleBStartDate = (date: any, i: number) => {
