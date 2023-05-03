@@ -172,6 +172,9 @@ function Benefit({
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
+        if (lookup) {
+          getBenefitsByPolicies1();
+        }
         getData();
       })
       .catch((err) => console.log(err.message));
