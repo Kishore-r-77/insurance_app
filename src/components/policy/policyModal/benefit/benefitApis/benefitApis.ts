@@ -58,7 +58,7 @@ export const addApi = (state: any, companyId: number, policyRecord: any) => {
   return axios.post(
     `http://localhost:3000/api/v1/nbservices/benefitcreate`,
     {
-      CompanyID: parseInt(state.CompanyID),
+      CompanyID: companyId,
       BStartDate: moment(state.BStartDate).format("YYYYMMDD").toString(),
       BRiskCessDate: moment(state.BRiskCessDate).format("YYYYMMDD").toString(),
       BPremCessDate: moment(state.BPremCessDate).format("YYYYMMDD").toString(),
