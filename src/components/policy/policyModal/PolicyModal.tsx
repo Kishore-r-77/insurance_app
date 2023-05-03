@@ -621,7 +621,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.BtDate}
@@ -644,7 +644,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="paid_to_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.PaidToDate}
@@ -667,7 +667,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.NxtBtDate}
@@ -690,7 +690,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="anniv_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.AnnivDate}
@@ -717,6 +717,7 @@ function PolicyModal({
                     //<InputAdornment position="start">+91</InputAdornment>
                     // ),
                     //}}
+                    inputProps={{ readOnly: true }}
                     id="InstalmentPrem"
                     name="InstalmentPrem"
                     value={state.InstalmentPrem}
