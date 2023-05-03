@@ -882,7 +882,7 @@ function PolicyModal({
                     }}
                   >
                     {benefitsData.length - 1 === index &&
-                      benefitsData.length < 4 && (
+                      benefitsData.length < 5 && (
                         <Button
                           variant="contained"
                           onClick={() => handleBenefitsAdd()}
