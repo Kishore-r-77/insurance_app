@@ -60,9 +60,9 @@ export const addApi = (state: any, companyId: number, policyRecord: any) => {
     {
       CompanyID: companyId,
       BStartDate: moment(state.BStartDate).format("YYYYMMDD").toString(),
-      BRiskCessDate: moment(state.BRiskCessDate).format("YYYYMMDD").toString(),
-      BPremCessDate: moment(state.BPremCessDate).format("YYYYMMDD").toString(),
-      BDOB: moment(state.BDOB).format("YYYYMMDD").toString(),
+      // BRiskCessDate: moment(state.BRiskCessDate).format("YYYYMMDD").toString(),
+      // BPremCessDate: moment(state.BPremCessDate).format("YYYYMMDD").toString(),
+      // BDOB: moment(state.BDOB).format("YYYYMMDD").toString(),
       BTerm: parseInt(state.BTerm),
       BPTerm: parseInt(state.BPTerm),
       BRiskCessAge: parseInt(state.BRiskCessAge),
