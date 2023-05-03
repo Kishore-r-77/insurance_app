@@ -37,6 +37,7 @@ function PolicyModal({
   notify,
   setNotify,
   getData,
+  validatePolicy,
 }: any) {
   const title = "Policies Add";
   const size = "xl";
@@ -204,6 +205,7 @@ function PolicyModal({
   const addPoliciesWithBenefits = () => {
     return createPoliciesWithBenefits(state, companyId, benefitsData)
       .then((resp) => {
+        validatePolicy(parseInt(resp.data?.Created));
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,

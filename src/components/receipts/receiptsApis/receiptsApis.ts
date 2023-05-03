@@ -98,3 +98,24 @@ export const deleteApi = (id: number) => {
     }
   );
 };
+
+export const q0005 = (
+  companyId: number,
+  languageId: number,
+  currency: string,
+  product: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata?&date=20220101`,
+    {
+      withCredentials: true,
+      params: {
+        company_id: companyId,
+        name: "Q0005",
+        languageId,
+        function: currency,
+        item: product,
+      },
+    }
+  );
+};

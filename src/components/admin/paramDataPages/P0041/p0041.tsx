@@ -8,22 +8,39 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
-import  "./p0050.css";
+import  "./p0041.css";
 
 
-const P0050 = forwardRef((props: any, ref) => {
+const P0041 = forwardRef((props: any, ref) => {
+
+  const {sendRequest : sendMedrRequest , status: getMedrResponseStatus ,  data: getMedrResponse , error:getMedrResponseError} = useHttp(getData, true); 
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "MEDR";
+        sendMedrRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+    },[]);
+
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.dataPairs = retData.dataPairs.filter(
-        (value: any) => value.code !== ""
+      retData.sumAssured = retData.sumAssured.filter(
+        (value: any) => value.age !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        dataPairs: inputdata.dataPairs.filter(
-          (value: any) => value.code !== ""
+        sumAssured: inputdata.sumAssured.filter(
+          (value: any) => value.age !== ""
         ),
       }));
       return retData;
@@ -33,7 +50,7 @@ const P0050 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      dataPairs: inputdata.dataPairs.filter(
+      sumAssured: inputdata.sumAssured.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -42,7 +59,7 @@ const P0050 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      dataPairs: inputdata.dataPairs.map((val: any, ind: number) => {
+      sumAssured: inputdata.sumAssured.map((val: any, ind: number) => {
         if (index === ind) {
           val[fieldname] = value;
           return val;
@@ -66,22 +83,24 @@ const P0050 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Code</th> 
-          <th>Description</th> 
+          <th>Age (Upto)</th> 
+          <th>Sum Assured  (Upto)</th> 
+          <th>Codes</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.dataPairs?.length > 0 && <th>Actions</th>}
+            inputdata.sumAssured?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.dataPairs || inputdata.dataPairs?.length === 0) && (
+            (!inputdata.sumAssured || inputdata.sumAssured?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        dataPairs: [
+                        sumAssured: [
                           {
-                            code: "",
-                            description: "",
+                            age: 0,
+                            sA: "",
+                            codes: [],
                           },
                         ],
                       }));
@@ -93,18 +112,36 @@ const P0050 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.dataPairs?.map((value: any, index: number) => (
+        {inputdata.sumAssured?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="code"
-                name="code"
-                value={value.code}
+                id="age"
+                name="age"
+                value={value.age}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "code", e.target.value)
+                  fieldChangeHandler(index, "age", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="number"
+                margin="dense"
+              />
+            </td>
+
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="sA"
+                name="sA"
+                value={value.sA}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "sA", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -115,21 +152,32 @@ const P0050 = forwardRef((props: any, ref) => {
 
             <td>
               <TextField
+                select
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="description"
-                name="description"
-                value={value.description}
+                id="codes"
+                name="codes"
+                value={value.codes}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "description", e.target.value)
+                  fieldChangeHandler(index, "codes", e.target.value)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
-              />
-            </td>
+                SelectProps={{
+                  multiple: true,
+                }}
+              >
+                {getMedrResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                    {value.description}
+                 - {value.code}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             {(props.mode === "update" || props.mode === "create") && (
               <td>
@@ -149,17 +197,18 @@ const P0050 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.dataPairs.length - 1 && (
+                  {index === inputdata.sumAssured.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            dataPairs: [
-                              ...inputdata.dataPairs,
+                            sumAssured: [
+                              ...inputdata.sumAssured,
                               {
-                                code: "",
-                                description: "",
+                                age: 0,
+                                sA: "",
+                                codes: [],
 
                               },
                             ],
@@ -177,5 +226,5 @@ const P0050 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-export default P0050;
+export default P0041;
 

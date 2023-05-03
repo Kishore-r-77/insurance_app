@@ -371,6 +371,7 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
       >
         <Benefit
           benefitsByPoliciesData={benefitsByPoliciesData}
+          policyRecord={record}
           lookup={state.benefitOpen}
         />
       </CustomModal>

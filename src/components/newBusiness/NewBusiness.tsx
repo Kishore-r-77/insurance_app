@@ -21,7 +21,7 @@ import {
   editApi,
   getAllApi,
 } from "./newBusinessApis/newBusinessApis";
-import PolicyModal from "./newBusinessModal/NewBusinessModal";
+import PolicyModal from "../policy/policyModal/PolicyModal";
 import PolicyValidate from "./policyValidate/PolicyValidate";
 
 import Notification from "../../utilities/Notification/Notification";
@@ -247,7 +247,7 @@ function NewBusiness({ modalFunc }: any) {
     }
   };
 
-  const validatePolicy = () => {
+  const validatePolicy = (policyId: number) => {
     axios
       .post(
         `http://localhost:3000/api/v1/nbservices/policyvalidate/${policyId}`,
@@ -440,10 +440,12 @@ function NewBusiness({ modalFunc }: any) {
       />
 
       <PolicyModal
+        getData={getData}
         state={state}
         record={record}
         dispatch={dispatch}
         setNotify={setNotify}
+        validatePolicy={validatePolicy}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
@@ -464,7 +466,7 @@ function NewBusiness({ modalFunc }: any) {
       <NotificationModal
         open={isConfirm}
         handleClose={confirmClose}
-        handleFormSubmit={validatePolicy}
+        handleFormSubmit={() => validatePolicy(policyId)}
       >
         <h4>Are you sure you want to validate policy?</h4>
       </NotificationModal>

@@ -18,10 +18,13 @@ import styles from "./receiptsModal.module.css";
 
 //Attention: Check the path below
 import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
-import { paramItem } from "../receiptsApis/receiptsApis";
+import { q0005, paramItem } from "../receiptsApis/receiptsApis";
 import Client from "../../clientDetails/client/Client";
 import Policy from "../../policy/Policy";
-import { getPoliciesByClient, p0023 } from "../../policy/policyApis/policyApis";
+import {
+  getPoliciesByClient,
+  getPolicyApi,
+} from "../../policy/policyApis/policyApis";
 function ReceiptsModal({
   state,
   record,
@@ -86,25 +89,44 @@ function ReceiptsModal({
   //   });
   // };
 
-  const [aCur, setaCur] = useState([]);
-  const getACur = (Acur: string) => {
-    return p0023(companyId, languageId, Acur)
+  const [policyData, setpolicyData] = useState<any>([]);
+  const getPolicy = (policyId: number) => {
+    return getPolicyApi(policyId)
       .then((resp) => {
-        setaCur(resp.data.AllowedContractCurriencies);
+        setpolicyData(resp.data?.Policy);
+      })
+      .catch((err) => err.message);
+  };
+
+  const [aCur, setaCur] = useState([]);
+  const getACur = (Acur: string, product: string) => {
+    return q0005(companyId, languageId, Acur, product)
+      .then((resp) => {
+        setaCur(resp.data?.AllowedBillingCurriencies);
       })
       .catch((err) => console.log(err.message));
   };
+
+  useEffect(() => {
+    getPolicy(parseInt(state.PolicyID));
+    return () => {};
+  }, [state.PolicyID]);
 
   useEffect(() => {
     getCompanyData(companyId);
     getBranch(companyId, "P0018", languageId);
     //getClientData(clientId);
     getTypeOfReceipt(companyId, "P0030", languageId);
-    getACur("CCUR");
+
     //getPolicyData(policyId);
 
     return () => {};
   }, []);
+
+  useEffect(() => {
+    getACur("BCUR", policyData?.PProduct);
+    return () => {};
+  }, [state.PolicyID]);
 
   // *** Attention: Check the Lookup table  OPenFunc details below ***
   const clientsOpenFunc = (item: any) => {
@@ -286,7 +308,7 @@ function ReceiptsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date?.$d,
                             fieldName: "DateOfCollection",
                           })
                         }

@@ -58,6 +58,7 @@ export type ActionConstantsType = {
 
 export type BenefitModalType = {
   state: BenefitStateType;
+  policyRecord: any;
   record: any;
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;

@@ -1,4 +1,4 @@
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -10,6 +10,7 @@ import { BenefitModalType } from "../../../../../reducerUtilities/types/benefit/
 import CustomModal from "../../../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../../../redux/app/hooks";
 import { getApi } from "../../../../admin/companies/companiesApis/companiesApis";
+import { extraParamItem } from "../../../../clientDetails/client/clientApis/clientApis";
 
 function BenefitModal({
   state,
@@ -17,11 +18,27 @@ function BenefitModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  policyRecord,
 }: BenefitModalType) {
   const addTitle: string = "Benefit Add";
   const editTitle: string = "Benefit Edit";
   const infoTitle: string = "Benefit Info";
   const size: string = "xl";
+
+  const [bCoverageData, setBCoverageData] = useState([]);
+  const getBCoverage = (
+    companyId: number,
+    name: string,
+    item: string,
+    date: string
+  ) => {
+    extraParamItem(companyId, name, item, date)
+      .then((resp) => {
+        setBCoverageData(resp.data["AllowedCoverages"]);
+        return resp.data["AllowedCoverages"];
+      })
+      .catch((err) => err);
+  };
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -35,7 +52,7 @@ function BenefitModal({
 
   useEffect(() => {
     getCompanyData(companyId);
-
+    getBCoverage(companyId, "Q0011", policyRecord.PProduct, "20220101");
     return () => {};
   }, []);
 
@@ -74,6 +91,7 @@ function BenefitModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 InputProps={{ readOnly: true }}
+                InputLabelProps={{ shrink: true }}
                 id="CompanyID"
                 name="CompanyID"
                 value={companyData?.CompanyName}
@@ -124,22 +142,28 @@ function BenefitModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                select
                 id="BCoverage"
                 name="BCoverage"
-                value={state.addOpen ? state.BCoverage : record.BCoverage}
-                placeholder="BCoverage"
-                label="BCoverage"
+                value={state.BCoverage}
+                placeholder="b_coverage"
+                label="b_coverage"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    type: ACTIONS.ONCHANGE,
                     payload: e.target.value,
                     fieldName: "BCoverage",
                   })
                 }
                 fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
-              />
+              >
+                {bCoverageData.map((val: any) => (
+                  <MenuItem key={val.Coverage} value={val.Coverage}>
+                    {val.Coverage}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField

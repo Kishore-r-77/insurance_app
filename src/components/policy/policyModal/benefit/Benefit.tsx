@@ -11,7 +11,12 @@ import { BenefitStateType } from "../../../../reducerUtilities/types/benefit/ben
 import { useAppSelector } from "../../../../redux/app/hooks";
 import CustomPagination from "../../../../utilities/Pagination/CustomPagination";
 import styles from "./benefit.module.css";
-import { deleteApi, editApi, getAllApi } from "./benefitApis/benefitApis";
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAllApi,
+} from "./benefitApis/benefitApis";
 import BenefitTable from "./BenefitTable/BenefitTable";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import Extra from "../../../extra/Extra";
@@ -162,6 +167,16 @@ function Benefit({
   );
   //Add Api
 
+  const handleFormSubmit = () => {
+    return addApi(state, companyId, policyRecord)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        getData();
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   //Edit Api
   const editFormSubmit = async () => {
     editApi(record)
@@ -281,26 +296,23 @@ function Benefit({
         )}
 
         <h1 style={lookup ? { textAlign: "center" } : {}}>Benefit</h1>
-        {lookup ? null : (
-          <>
-            <Button
-              id={styles["add-btn"]}
-              style={{
-                marginTop: "1rem",
-                maxWidth: "40px",
-                maxHeight: "40px",
-                minWidth: "40px",
-                minHeight: "40px",
-                backgroundColor: "#0a3161",
-              }}
-              variant="contained"
-              color="primary"
-              onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-            >
-              <AddBoxIcon />
-            </Button>
-          </>
-        )}
+
+        <Button
+          id={styles["add-btn"]}
+          style={{
+            marginTop: "1rem",
+            maxWidth: "40px",
+            maxHeight: "40px",
+            minWidth: "40px",
+            minHeight: "40px",
+            backgroundColor: "#0a3161",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+        >
+          <AddBoxIcon />
+        </Button>
       </header>
       <BenefitTable
         data={lookup ? benefitsByPoliciesData : data}
@@ -321,8 +333,9 @@ function Benefit({
       <BenefitModal
         state={state}
         record={record}
+        policyRecord={policyRecord}
         dispatch={dispatch}
-        handleFormSubmit={editFormSubmit}
+        handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
       <CustomModal
