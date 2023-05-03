@@ -1,49 +1,67 @@
+import axios from "axios";
+
+import BenefitEnquiry from "../enquiry/BenefitEnquiry";
+
+import DeathDEnquiry from "../enquiry/DeathDEnquiry";
+import DeathHeaderEnquiry from "../enquiry/DeathHeaderEnquiry";
+
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
+
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
-import { DeathHModalType } from "../../../../reducerUtilities/types/death/deathH/deathHTypes";
-import { useAppSelector } from "../../../../redux/app/hooks";
-import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
-import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import { useAppSelector } from "../../../../../redux/app/hooks";
+import { getApi } from "../../../../admin/companies/companiesApis/companiesApis";
 import {
   frequency,
   p0018,
   p0023,
   p0024,
   q0005,
-} from "../deathHApis/deathHApis";
-// import AddressEnquiry from "./enquiry/AddressEnquiry";
-// import BALEnquiry from "./enquiry/BALEnquiry";
-// import BankEnquiry from "./enquiry/BankEnquiry";
-// import BenefitEnquiry from "./enquiry/BenefitEnquiry";
-// import ClientEnquiry from "./enquiry/ClientEnquiry";
-// import CommunicationEnquiry from "./enquiry/CommunicationEnquiry";
-// import ExtraEnquiry from "./enquiry/ExtraEnquiry";
-// import HistoryEnquiry from "./enquiry/HistoryEnquiry";
-// import SurvivalBenefitEnquiry from "./enquiry/SurvivalBenefitEnquiry";
-// import TDFEnquiry from "./enquiry/TDFEnquiry";
-// import UWEnquiry from "./enquiry/UWEnquiry";
-import "./deathHModal.css";
-import BenefitEnquiry from "./enquiry/BenefitEnquiry";
-import Policy from "../../../policy/Policy";
-import DeathHeaderEnquiry from "./enquiry/DeathHeaderEnquiry";
-import DeathDEnquiry from "./enquiry/DeathDEnquiry";
+} from "../../deathHApis/deathHApis";
+import DeathApprovalFullModal from "./DeathApprovalFullModal";
 
-function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
-  const infoTitle: string = "Death Enquiry Info";
-  const size: string = "xl";
+function DeathApproval({
+  open,
+  handleClose,
+  id,
+  policyId,
+  getData,
+  setNotify,
+}: any) {
+  const title = "Death Approval";
+  const size = "xl";
 
-  console.log("Records", record);
+  const deathApprovalSubmit = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/approvedeath/${id}`,
+        {
+          //   CompanyID: companyId,
+          // policyId,
+          // ReasonDescription: reasonDescription,
+          // RequestedDate: moment(requestedDate).format("YYYYMMDD").toString(),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        console.log(resp);
+        handleClose();
+        setNotify({
+          isOpen: true,
+          message: `Death has been Approved Succesfully`,
+          type: "success",
+        });
+        getData();
+      })
+      .catch((err) => console.log(err));
+  };
+
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -119,12 +137,9 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
 
   const getdeathenquiry = () => {
     axios
-      .get(
-        `http://localhost:3000/api/v1/deathservices/enqdeath/${record.PolicyID}`,
-        {
-          withCredentials: true,
-        }
-      )
+      .get(`http://localhost:3000/api/v1/deathservices/enqdeath/${policyId}`, {
+        withCredentials: true,
+      })
       .then((resp) => {
         setpolicy(resp.data.Policy);
         console.log("Policy", policy);
@@ -150,16 +165,16 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
   useEffect(() => {
     getdeathenquiry();
     return () => {};
-  }, [state.infoOpen]);
+  }, []);
 
   return (
     <div>
-      <CustomFullModal
-        open={state.infoOpen}
+      <DeathApprovalFullModal
+        title={title}
         size={size}
-        handleClose={() => dispatch({ type: ACTIONS.INFOCLOSE })}
-        title={infoTitle}
-        ACTIONS={ACTIONS}
+        open={open}
+        handleClose={handleClose}
+        handleFormSubmit={deathApprovalSubmit}
       >
         <form>
           <TreeView
@@ -170,7 +185,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
           >
             <TreeItem
               nodeId="1"
-              label={`Enquiry for Death Header Number-${record.ID}`}
+              label={`Enquiry for Death Header Number-${policy.ID}`}
             >
               <Grid2
                 container
@@ -179,7 +194,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
               >
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
@@ -195,33 +210,21 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     //   })
                     // }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   />
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly
-                        label="Proposal Date"
-                        inputFormat="DD/MM/YYYY"
-                        value={policy.PRCD}
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
-                            fieldName: "PRCD",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
+                  <TextField
+                    id="PRCD"
+                    name="PRCD"
+                    value={moment(policy.PRCD).format("YYYY-MM-DD")}
+                    placeholder="PRCD"
+                    label="PRCD"
+                    fullWidth
+                    inputProps={{ readOnly: true }}
+                    margin="dense"
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
@@ -231,7 +234,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Product"
                     label="Product"
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   ></TextField>
                 </Grid2>
@@ -243,7 +246,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Frequency"
                     label="Frequency"
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   ></TextField>
                 </Grid2>
@@ -255,7 +258,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Contract Currency"
                     label="Contract Currency"
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   ></TextField>
                 </Grid2>
@@ -267,7 +270,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Bill Currency"
                     label="Bill Currency"
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   ></TextField>
                 </Grid2>
@@ -279,7 +282,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Office"
                     label="Office"
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   ></TextField>
                 </Grid2>
@@ -292,38 +295,26 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Policy Status"
                     label="Policy Status"
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   ></TextField>
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly
-                        label="Received Date"
-                        inputFormat="DD/MM/YYYY"
-                        value={policy.PReceivedDate}
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
-                            fieldName: "PReceivedDate",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
+                    id="PReceivedDate"
+                    name="PReceivedDate"
+                    value={moment(policy.PReceivedDate).format("YYYY-MM-DD")}
+                    placeholder="Received Date"
+                    label="Received Date"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
                     id="ClientID"
                     name="ClientID"
                     value={policy.ClientID}
@@ -335,7 +326,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
                     id="AddressID"
                     name="AddressID"
                     value={policy.AddressID}
@@ -347,7 +338,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
                     id="AgencyID"
                     name="AgencyID"
                     value={policy.AgencyID}
@@ -372,7 +363,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                 title="Benefit"
                 style={{ backgroundColor: "white" }}
               >
-                <BenefitEnquiry benefitenquiryData={benefits} state={state} />
+                <BenefitEnquiry benefitenquiryData={benefits} />
               </Tab>
 
               <Tab
@@ -380,7 +371,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                 title="Death Header"
                 style={{ backgroundColor: "white" }}
               >
-                <DeathHeaderEnquiry deathHenquiry={deathHs} state={state} />
+                <DeathHeaderEnquiry deathHenquiry={deathHs} />
               </Tab>
 
               <Tab
@@ -388,14 +379,14 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                 title="Death D"
                 style={{ backgroundColor: "white" }}
               >
-                <DeathDEnquiry deathDenquiry={deathDs} state={state} />
+                <DeathDEnquiry deathDenquiry={deathDs} />
               </Tab>
             </Tabs>
           </TreeView>
         </form>
-      </CustomFullModal>
+      </DeathApprovalFullModal>
     </div>
   );
 }
 
-export default DeathHEnquiry;
+export default DeathApproval;

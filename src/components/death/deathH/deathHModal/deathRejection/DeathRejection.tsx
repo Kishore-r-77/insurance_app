@@ -1,10 +1,13 @@
-import { TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import CustomModal from "../../../../../utilities/modal/CustomModal";
 import { useState } from "react";
 import axios from "axios";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import moment from "moment";
 
-function ModifyDeath({
+function DeathRejection({
   open,
   companyName,
   handleClose,
@@ -14,20 +17,21 @@ function ModifyDeath({
   getData,
   setNotify,
 }: any) {
-  const title = "Modify Death";
+  const title = "Death Rejection";
   const size = "lg";
+  const [reasonDescription, setReasonDescription] = useState("");
+  const [requestedDate, setRequestedDate] = useState("");
 
-  const [adjustedAmount, setAdjustedAmount] = useState("");
-
-  const modifyDeathSubmit = () => {
+  const deathRejectionSubmit = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/deathmodify`,
+        `http://localhost:3000/api/v1/deathservices/rejectdeath/${id}`,
         {
           CompanyID: companyId,
-          ID: id,
-          PolicyID: policyId,
-          AdjustedAmount: parseInt(adjustedAmount),
+          policyId,
+          ReasonDescription: moment(requestedDate)
+            .format("YYYYMMDD")
+            .toString(),
         },
         { withCredentials: true }
       )
@@ -36,7 +40,7 @@ function ModifyDeath({
         handleClose();
         setNotify({
           isOpen: true,
-          message: `Updated Successfully`,
+          message: `Death has been Rejected Successfully`,
           type: "success",
         });
         getData();
@@ -50,7 +54,7 @@ function ModifyDeath({
         size={size}
         open={open}
         handleClose={handleClose}
-        handleFormSubmit={modifyDeathSubmit}
+        handleFormSubmit={deathRejectionSubmit}
       >
         <Grid2 container spacing={2}>
           <Grid2 lg={6} xs={12}>
@@ -86,13 +90,28 @@ function ModifyDeath({
           </Grid2>
           <Grid2 lg={6} xs={12}>
             <TextField
-              name="AdjustedAmount"
+              name="ReasonDescription"
               fullWidth
-              value={adjustedAmount}
-              onChange={(e) => setAdjustedAmount(e.target.value)}
-              placeholder="Adjusted Amount"
-              label="Adjusted Amount"
+              value={reasonDescription}
+              onChange={(e) => setReasonDescription(e.target.value)}
+              placeholder="ReasonDescription"
+              label="ReasonDescription"
             />
+          </Grid2>
+          <Grid2 lg={6} xs={12}>
+            <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  label="RequestedDate"
+                  inputFormat="DD/MM/YYYY"
+                  value={requestedDate}
+                  onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
+                    setRequestedDate(date)
+                  }
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </FormControl>
           </Grid2>
         </Grid2>
       </CustomModal>
@@ -100,4 +119,4 @@ function ModifyDeath({
   );
 }
 
-export default ModifyDeath;
+export default DeathRejection;

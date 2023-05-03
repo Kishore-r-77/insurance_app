@@ -2,41 +2,41 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import { useAppSelector } from "../../redux/app/hooks";
+// ***  Attention : Check the import below and change it if required ***
+import { ExtraStateType } from "../../reducerUtilities/types/extra/extraTypes";
+
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/clientDetails/client/clientActions";
-import { ClientStateType } from "../../../reducerUtilities/types/client/clientTypes";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import Address from "../address/Address";
-import styles from "./client.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./clientApis/clientApis";
-import { getAddressByClient } from "./clientApis/clientAddressApis";
-import ClientFullModal from "./clientFullModal/ClientFullModal";
-import ClientModal from "./clientModal/ClientModal";
-import ClientTable from "./clientTable/ClientTable";
-import Notification from "../../../utilities/Notification/Notification";
+} from "../../reducerUtilities/actions/extra/extraActions";
+import styles from "./extra.module.css";
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAllApi,
+  getExtrasByBenefit,
+} from "./extraApis/extraApis";
+import ExtraModal from "./extraModal/ExtraModal";
+import Notification from "../../utilities/Notification/Notification";
 
-function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
+function Extra({ modalFunc, lookup, benefitState }: any) {
   //data from getall api
   const [data, setData] = useState([]);
-
-  const size = "xl";
-
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+  //Reducer Function to be used inside UserReducer hook
 
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
-
-  //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: ClientStateType, action: any) => {
+  const reducer = (state: ExtraStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -70,12 +70,6 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
           ...state,
           infoOpen: true,
         };
-      case ACTIONS.ADDRESSOPEN:
-        setRecord(action.payload);
-        return {
-          ...state,
-          addressOpen: true,
-        };
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
@@ -94,11 +88,32 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
           ...state,
           infoOpen: false,
         };
-      case ACTIONS.ADDRESSCLOSE:
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.POLICYOPEN:
         return {
           ...state,
-          addressOpen: false,
+          policyOpen: true,
         };
+      case ACTIONS.POLICYCLOSE:
+        return {
+          ...state,
+          policyOpen: false,
+        };
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.BENEFITOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          benefitOpen: true,
+        };
+      case ACTIONS.BENEFITCLOSE:
+        return {
+          ...state,
+          benefitOpen: false,
+        };
+
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -126,21 +141,21 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
         console.log(resp);
-        setData(resp.data["All Clients"]);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["Extra"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Clients"]?.length === 0);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["Extra"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -149,16 +164,29 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = async () => {
-    const resp = addApi(state, companyId);
-
-    try {
-      dispatch({ type: ACTIONS.ADDCLOSE });
-      getData();
-      return resp;
-    } catch (err: any) {
-      err.message;
-    }
+  const handleFormSubmit = () => {
+    return addApi(state, companyId, benefitState.ID)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: resp.data?.Result,
+          type: "success",
+        });
+        getData();
+        if (lookup) {
+          getExtrasByBenefit1();
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -167,35 +195,58 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated record of id:${resp.data.outputs.ID} Successfully`,
+          type: "success",
+        });
         getData();
+        if (lookup) {
+          getExtrasByBenefit1();
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      });
+  };
+
+  const [extrasByBenefitData, setextrasByBenefitData] = useState([]);
+
+  const getExtrasByBenefit1 = () => {
+    return getExtrasByBenefit(benefitState.ID)
+      .then((resp) => {
+        setextrasByBenefitData(resp.data?.Extra);
       })
       .catch((err) => console.log(err.message));
   };
+
+  useEffect(() => {
+    getExtrasByBenefit1();
+    return () => {};
+  }, [lookup]);
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: resp.data,
+          type: "success",
+        });
         getData();
+        if (lookup) {
+          getExtrasByBenefit1();
+        }
       })
       .catch((err) => console.log(err.message));
   };
-
-  const [addressByClientData, setaddressByClientData] = useState([]);
-
-  const getAddressByClnt = (clientId: number) => {
-    getAddressByClient(clientId)
-      .then((resp) => {
-        setaddressByClientData(resp.data?.AddressByClientID);
-      })
-      .catch((err) => err.message);
-  };
-
-  useEffect(() => {
-    getAddressByClnt(record.ID);
-    return () => {};
-  }, [state.addressOpen]);
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
@@ -273,8 +324,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>Clients</h1>
+        <h1>Extras</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -292,9 +342,8 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
           <AddBoxIcon />
         </Button>
       </header>
-      <ClientTable
-        data={lookup ? getByTable : data}
-        dataIndex={dataIndex}
+      <CustomTable
+        data={lookup ? extrasByBenefitData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -310,34 +359,17 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <ClientModal
+      <ExtraModal
+        benefitState={benefitState}
+        lookup={lookup}
         state={state}
         record={record}
         dispatch={dispatch}
-        handleFormSubmit={editFormSubmit}
+        handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
-      <ClientFullModal
-        state={state}
-        dispatch={dispatch}
-        ACTIONS={ACTIONS}
-        getData={getData}
-        notify={notify}
-        setNotify={setNotify}
-      />
-      <CustomModal
-        open={state.addressOpen}
-        size={size}
-        handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
-      >
-        <Address
-          addressByClientData={addressByClientData}
-          lookup={state.addressOpen}
-        />
-      </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
-
-export default Client;
+export default Extra;

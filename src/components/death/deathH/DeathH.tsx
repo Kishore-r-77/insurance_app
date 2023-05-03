@@ -63,7 +63,7 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
-        console.log("Payload",action.payload)
+        console.log("Payload", action.payload);
         return {
           ...state,
           infoOpen: true,
@@ -277,6 +277,7 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
         ACTIONS={ACTIONS}
         dispatch={dispatch}
         getData={getData}
+        setNotify={setNotify}
       />
       <CustomPagination
         pageNum={pageNum}
@@ -302,15 +303,6 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
         setNotify={setNotify}
       />
       <Notification notify={notify} setNotify={setNotify} />
-      {/* <CustomModal
-        open={state.benefitOpen}
-        handleClose={() => dispatch({ type: ACTIONS.BENEFITCLOSE })}
-      >
-        <Benefit
-          benefitsByPoliciesData={benefitsByPoliciesData}
-          lookup={state.benefitOpen}
-        />
-      </CustomModal> */}
     </div>
   );
 }

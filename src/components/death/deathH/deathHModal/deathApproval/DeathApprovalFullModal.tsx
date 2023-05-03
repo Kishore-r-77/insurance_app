@@ -1,29 +1,27 @@
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Modal } from "react-bootstrap";
 
-function CustomModal({
+function DeathApprovalFullModal({
   open,
   infoOpen,
   handleClose,
-  size,
   title,
   children,
   handleFormSubmit,
 }: any) {
   return (
     <div>
-      <Modal show={open} onHide={handleClose} centered size={size}>
+      <Modal show={open} fullscreen={true} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
+          <Button variant="danger" onClick={handleClose}>
+            Cancel
           </Button>
           {!!handleFormSubmit && (
-            <Button variant="primary" onClick={() => handleFormSubmit()}>
-              Save
+            <Button variant="success" onClick={() => handleFormSubmit()}>
+              Approve
             </Button>
           )}
         </Modal.Footer>
@@ -32,4 +30,4 @@ function CustomModal({
   );
 }
 
-export default CustomModal;
+export default DeathApprovalFullModal;

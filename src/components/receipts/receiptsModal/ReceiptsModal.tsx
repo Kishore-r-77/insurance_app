@@ -32,7 +32,7 @@ function ReceiptsModal({
   const addTitle: string = "Receipts Add";
   const editTitle: string = "Receipts Edit";
   const infoTitle: string = "Receipts Info";
-  const size: string = "size";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -100,7 +100,7 @@ function ReceiptsModal({
     getBranch(companyId, "P0018", languageId);
     //getClientData(clientId);
     getTypeOfReceipt(companyId, "P0030", languageId);
-    getACur("Ccur");
+    getACur("CCUR");
     //getPolicyData(policyId);
 
     return () => {};

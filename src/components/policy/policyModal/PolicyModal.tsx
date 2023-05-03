@@ -34,6 +34,8 @@ function PolicyModal({
   ACTIONS,
   handleFormSubmit,
   record,
+  notify,
+  setNotify,
   getData,
 }: any) {
   const title = "Policies Add";
@@ -203,9 +205,20 @@ function PolicyModal({
     return createPoliciesWithBenefits(state, companyId, benefitsData)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created record of id:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => err.message);
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      });
   };
 
   const handleBStartDate = (date: any, i: number) => {
@@ -541,6 +554,7 @@ function PolicyModal({
                     value={state.PolStatus}
                     placeholder="pol_status"
                     label="pol_status"
+                    inputProps={{ readOnly: true }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -607,7 +621,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.BtDate}
@@ -630,7 +644,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="paid_to_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.PaidToDate}
@@ -653,7 +667,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.NxtBtDate}
@@ -676,7 +690,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="anniv_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.AnnivDate}
@@ -703,6 +717,7 @@ function PolicyModal({
                     //<InputAdornment position="start">+91</InputAdornment>
                     // ),
                     //}}
+                    inputProps={{ readOnly: true }}
                     id="InstalmentPrem"
                     name="InstalmentPrem"
                     value={state.InstalmentPrem}
@@ -874,7 +889,7 @@ function PolicyModal({
                     }}
                   >
                     {benefitsData.length - 1 === index &&
-                      benefitsData.length < 4 && (
+                      benefitsData.length < 5 && (
                         <Button
                           variant="contained"
                           onClick={() => handleBenefitsAdd()}

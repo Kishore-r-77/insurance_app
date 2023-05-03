@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -32,7 +32,6 @@ function DeathHModal({
   handleFormSubmit,
   record,
   getData,
-  notify,
   setNotify,
 }: any) {
   const title = "Death Header Add";
@@ -52,42 +51,7 @@ function DeathHModal({
     });
   };
 
-  useEffect(() => {
-    getCompanyData(companyId);
-
-    return () => {};
-  }, []);
-
   const [deathDdata, setdeathDdata] = useState<any>([{}, {}, {}, {}, {}]);
-
-  // const handleDeathDAdd = () => {
-  //   setdeathDdata([
-  //     ...deathDdata,
-  //     {
-  //       ClientID: 0,
-  //       BenefitID: 0,
-  //       BCoverage: "",
-  //       BenefitType: "",
-  //       BSumAssured: 0,
-  //       RevBonus: 0,
-  //       AddlBonus: 0,
-  //       TerminalBonus: 0,
-  //       InterimBonus: 0,
-  //       LoyaltyBonus: 0,
-  //       OtherAmount: 0,
-  //       AccumDividend: 0,
-  //       AccumDivInt: 0,
-  //       TotalFundValue: 0,
-  //       TotalDeathAmount: 0,
-  //     },
-  //   ]);
-  // };
-
-  // const handleDeathDRemove = (index: number) => {
-  //   const list = [...deathDdata];
-  //   list.splice(index, 1);
-  //   setdeathDdata(list);
-  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
@@ -111,7 +75,6 @@ function DeathHModal({
           dispatch({ type: ACTIONS.COMMITOPEN });
 
           state.Function = "Commit";
-          console.log(setNotify, "notification");
         } else {
           dispatch({ type: ACTIONS.COMMITCLOSE });
           dispatch({ type: ACTIONS.ADDCLOSE });
@@ -143,16 +106,6 @@ function DeathHModal({
     dispatch({ type: ACTIONS.POLICYCLOSE });
   };
 
-  const [productData, setProductData] = useState([]);
-  const getProduct = (companyId: number, name: string, languageId: number) => {
-    paramItem(companyId, name, languageId)
-      .then((resp) => {
-        setProductData(resp.data.data);
-        return resp.data.data;
-      })
-      .catch((err) => err);
-  };
-
   const [clientsByPolicy, setclientsByPolicy] = useState();
 
   const getLAByPolicy1 = (policyId: number) => {
@@ -166,8 +119,27 @@ function DeathHModal({
     return () => {};
   }, [state.PolicyID]);
 
+  const [causeOfDeathData, setcauseOfDeathData] = useState([]);
+  const causeOfDeathMenu = () => {
+    return paramItem(companyId, "P0047", languageId)
+      .then((resp) => {
+        setcauseOfDeathData(resp.data?.data);
+      })
+      .catch((err) => err.message);
+  };
+  const [deathProofData, setdeathProofData] = useState([]);
+  const deathProofMenu = () => {
+    return paramItem(companyId, "P0048", languageId)
+      .then((resp) => {
+        setdeathProofData(resp.data?.data);
+      })
+      .catch((err) => err.message);
+  };
+
   useEffect(() => {
-    getProduct(companyId, "Q0005", languageId);
+    getCompanyData(companyId);
+    causeOfDeathMenu();
+    deathProofMenu();
     return () => {};
   }, []);
 
@@ -202,6 +174,7 @@ function DeathHModal({
               </CustomModal>
             ) : state.policyOpen ? (
               <CustomModal
+                size={size}
                 open={state.policyOpen}
                 handleClose={() => dispatch({ type: ACTIONS.POLICYCLOSE })}
               >
@@ -217,6 +190,7 @@ function DeathHModal({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
@@ -316,6 +290,7 @@ function DeathHModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="Cause"
                     name="Cause"
                     value={state.Cause}
@@ -330,11 +305,18 @@ function DeathHModal({
                     }
                     fullWidth
                     margin="dense"
-                  />
+                  >
+                    {causeOfDeathData.map((value: any) => (
+                      <MenuItem key={value.item} value={value.item}>
+                        {value.item}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="DeathProof"
                     name="DeathProof"
                     value={state.DeathProof}
@@ -349,7 +331,13 @@ function DeathHModal({
                     }
                     fullWidth
                     margin="dense"
-                  />
+                  >
+                    {deathProofData.map((value: any) => (
+                      <MenuItem key={value.item} value={value.item}>
+                        {value.item}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
               </Grid2>
               {state.commitOpen ? (

@@ -8,6 +8,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import moment from "moment";
 import { useState } from "react";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
 function BenefitTable({
   data,
@@ -93,6 +94,8 @@ function BenefitTable({
                 </th>
               )
             )}
+            <th>Actions</th>
+            <th>Extras</th>
           </tr>
         </thead>
         <tbody>
@@ -112,6 +115,34 @@ function BenefitTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
+              <td>
+                <span className={styles.flexButtons}>
+                  <EditIcon
+                    color="primary"
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                    }
+                  />
+                  {/* <DeleteIcon
+                    color="error"
+                    onClick={() => hardDelete(row.ID)}
+                  />
+                  <InfoIcon
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                    }
+                  /> */}
+                </span>
+              </td>
+              <td>
+                <IconButton
+                  onClick={() =>
+                    dispatch({ type: ACTIONS.EXTRAOPEN, payload: row })
+                  }
+                >
+                  <PlaylistAddIcon />
+                </IconButton>
+              </td>
             </tr>
           ))}
         </tbody>
