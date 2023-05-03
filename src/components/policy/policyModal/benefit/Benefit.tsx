@@ -173,7 +173,7 @@ function Benefit({
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
         if (lookup) {
-          getBenefitsByPolicies1();
+          getBenefitsByPolicies1(policyRecord.ID);
         }
         getData();
       })
