@@ -245,7 +245,13 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
           getExtrasByBenefit1();
         }
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: "Deleted Successfully",
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
