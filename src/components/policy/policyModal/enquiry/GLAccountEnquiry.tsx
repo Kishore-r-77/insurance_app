@@ -100,7 +100,6 @@ function GLAccountEnquiry({
       field: "HistoryCode",
       header: "History Code",
       dbField: "history_code",
-      type: "date",
     },
   ];
 

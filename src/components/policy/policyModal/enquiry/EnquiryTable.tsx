@@ -109,7 +109,7 @@ function EnquiryTable({
                 if (col.type === "date") {
                   return (
                     <td key={col.field}>
-                      {row[col.field] === ""
+                      {row[col.field].length === 0
                         ? ""
                         : moment(row[col.field]).format("DD-MM-YYYY")}
                     </td>
