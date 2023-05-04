@@ -28,6 +28,7 @@ function Benefit({
   benefitsByPoliciesData,
   lookup,
   getBenefitsByPolicies1,
+  getPolicies,
   policyRecord,
 }: any) {
   //data from getall api
@@ -176,6 +177,7 @@ function Benefit({
           getBenefitsByPolicies1(policyRecord.ID);
         }
         getData();
+        getPolicies();
       })
       .catch((err) => console.log(err.message));
   };
@@ -192,6 +194,7 @@ function Benefit({
           type: "success",
         });
         getData();
+        getPolicies();
         if (lookup) {
           getBenefitsByPolicies1(policyRecord.ID);
         }

@@ -41,7 +41,7 @@ export const createClientWithAddress = (
       Addresses: data.map((address: any) => ({
         ...address,
         AddressStartDate: moment(address?.AddressStartDate).format("YYYYMMDD"),
-        AddressEndDate: moment(address?.AddressEndDate).format("YYYYMMDD"),
+        // AddressEndDate: moment(address?.AddressEndDate).format("YYYYMMDD"),
       })),
     },
     {

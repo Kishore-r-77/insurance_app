@@ -458,6 +458,7 @@ function NewBusiness({ modalFunc }: any) {
         <Benefit
           benefitsByPoliciesData={benefitsByPoliciesData}
           getBenefitsByPolicies1={getBenefitsByPolicies1}
+          getPolicies={getData}
           policyRecord={record}
           lookup={state.benefitOpen}
         />
