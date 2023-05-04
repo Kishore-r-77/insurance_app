@@ -1,14 +1,13 @@
-import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
-import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { MenuItem, TextField } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
-import UserGroup from "../../usergroup/UserGroup";
-import useHttp from "../../../../hooks/use-http";
-import { getData } from "../../../../services/http-service";
 
 import  "./p0041.css";
+import { getData } from "../../../../services/http-service";
+import useHttp from "../../../../hooks/use-http";
 
 
 const P0041 = forwardRef((props: any, ref) => {
@@ -83,8 +82,8 @@ const P0041 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Age (Upto)</th> 
-          <th>Sum Assured  (Upto)</th> 
+          <th>Age (upto)</th> 
+          <th>Sum Assured (upto)</th> 
           <th>Codes</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.sumAssured?.length > 0 && <th>Actions</th>}
@@ -172,8 +171,7 @@ const P0041 = forwardRef((props: any, ref) => {
               >
                 {getMedrResponse?.param.data.dataPairs.map((value:any) => (
                   <MenuItem key={value.code} value={value.code}>
-                    {value.description}
-                 - {value.code}
+                 {value.code}
                   </MenuItem>
                 ))}
               </TextField>

@@ -58,7 +58,9 @@ function BankModal({
         }
         size={size}
         handleClose={
-          state.addOpen
+          state.clientOpen
+            ? () => dispatch({ type: ACTIONS.CLIENTCLOSE })
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
