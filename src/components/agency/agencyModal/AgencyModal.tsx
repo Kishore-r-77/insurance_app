@@ -73,7 +73,13 @@ function AgencyModal({
         }
         size={size}
         handleClose={
-          state.addOpen
+          state.clientOpen
+            ? () => dispatch({ type: ACTIONS.CLIENTCLOSE })
+            : state.addressOpen
+            ? () => dispatch({ type: ACTIONS.ADDRESSCLOSE })
+            : state.bankOpen
+            ? () => dispatch({ type: ACTIONS.BANKCLOSE })
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
