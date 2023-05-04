@@ -169,7 +169,7 @@ function ReceiptsModal({
         }
         handleClose={
           state.clientsOpen
-            ? dispatch({ type: ACTIONS.CLIENTSCLOSE })
+            ? () => dispatch({ type: ACTIONS.CLIENTSCLOSE })
             : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
