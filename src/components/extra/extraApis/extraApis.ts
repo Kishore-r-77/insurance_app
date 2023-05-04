@@ -24,7 +24,7 @@ export const getAllApi = (
 export const getExtrasByBenefit = (benefitId: number) => {
   // Attention : Check and update the below API, if required
   return axios.get(
-    `http://localhost:3000/api/v1/nbservices/extraByBenefit/${benefitId}`,
+    `http://localhost:3000/api/v1/nbservices/benefitextra/${benefitId}`,
     {
       withCredentials: true,
     }
