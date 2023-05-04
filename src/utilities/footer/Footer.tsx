@@ -24,7 +24,7 @@ function Footer() {
   return (
     <>
       <StyledFooter>
-        <h4>www.futurainstech.com @{moment().format("YYYY")}</h4>
+        <h4>www.futurainstech.com ©{moment().format("YYYY")}</h4>
       </StyledFooter>
       <Outlet />
     </>
