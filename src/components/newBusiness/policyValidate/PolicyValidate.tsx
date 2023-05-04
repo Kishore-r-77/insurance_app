@@ -3,8 +3,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
 import styles from "./policyValidate.module.css";
-import { addApi, deleteApi, editApi, getAllApi} from "../newBusinessApis/policyValidateApis";
-import { ACTIONS , columns, initialValues } from "../../../reducerUtilities/actions/validatepolicy/policyValidateActions";
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAllApi,
+} from "../newBusinessApis/policyValidateApis";
+import {
+  ACTIONS,
+  columns,
+  initialValues,
+} from "../../../reducerUtilities/actions/validatepolicy/policyValidateActions";
 import { PolicyValidateStateType } from "../../../reducerUtilities/types/validatepolicy/policyValidateTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomTable from "../../../utilities/Table/CustomTable";
@@ -13,8 +22,7 @@ import PolicyValidateModal from "../newBusinessModal/PolicyValidateModal";
 import PolicyValidateTable from "./PolicyValidateTable";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
-
-function PolicyValidate({ data,summaryData,modalFunc }: any) {
+function PolicyValidate({ data, summaryData, modalFunc }: any) {
   //data from getall api
   // const [data, setData] = useState([]);
   //data got after rendering from table
@@ -86,8 +94,8 @@ function PolicyValidate({ data,summaryData,modalFunc }: any) {
         if (state.sortAsc) {
           state.sortAsc = false;
         }
-		
-// *** Attention: Check the Lookup Open /close ***
+
+      // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.BENEFITSOPEN:
         return {
           ...state,
@@ -116,19 +124,19 @@ function PolicyValidate({ data,summaryData,modalFunc }: any) {
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
   //Get all Api
-//   const getData = () => {
-//     return getAllApi(pageNum, pageSize, state)
-//     .then((resp) => {
-//       console.log(resp);
-// // ***  Attention : Check the API and modify it, if required  ***
-//       setData(resp.data["All PolicyValidates"]);
-//       settotalRecords(resp.data.paginationData.totalRecords);
-// // ***  Attention : Check the API and modify it, if required   ***
-//       setisLast(resp.data["All PolicyValidates"]?.length === 0);
-//       setfieldMap(resp.data["Field Map"]);
-//     })
-//     .catch((err) => console.log(err.message));
-//   };
+  //   const getData = () => {
+  //     return getAllApi(pageNum, pageSize, state)
+  //     .then((resp) => {
+  //       console.log(resp);
+  // // ***  Attention : Check the API and modify it, if required  ***
+  //       setData(resp.data["All PolicyValidates"]);
+  //       settotalRecords(resp.data.paginationData.totalRecords);
+  // // ***  Attention : Check the API and modify it, if required   ***
+  //       setisLast(resp.data["All PolicyValidates"]?.length === 0);
+  //       setfieldMap(resp.data["Field Map"]);
+  //     })
+  //     .catch((err) => console.log(err.message));
+  //   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -161,17 +169,50 @@ function PolicyValidate({ data,summaryData,modalFunc }: any) {
         ACTIONS={ACTIONS}
         dispatch={dispatch}
       />
-      {summaryData?.map((val: any)=>(
-        <>
-        <Grid2 container spacing={2}>
-          <Grid2><TextField value={val.CumulativePrem} placeholder="Cumulative Premium"
-                label="Cumulative Premium"/></Grid2>
-          <Grid2><TextField value={val.PolicyDeposit} placeholder="Policy Deposit"
-                label="Policy Deposit"/></Grid2>
-          <Grid2><TextField value={val["PolicyDeposit After Adjustment"]} placeholder="Policy Deposit After Adjustment"
-                label="Policy Deposit After Adjustment"/></Grid2>
-        </Grid2>
-        </>
+      <hr className={`${styles.adjamount} ${styles.line}`} />
+      {summaryData?.map((val: any) => (
+        <div className={styles.adjamount}>
+          <Grid2 container spacing={2}>
+            <Grid2 xs={8} md={6} lg={3}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ readOnly: true }}
+                value={val["PolicyCurrency"]}
+                placeholder="Policy Currency"
+                label="Policy Currency"
+                fullWidth
+              />
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={3}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ readOnly: true }}
+                value={val.CumulativePrem}
+                placeholder="Cumulative Premium"
+                label="Cumulative Premium"
+                fullWidth
+              />
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={3}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ readOnly: true }}
+                value={val.PolicyDeposit}
+                placeholder="Policy Deposit"
+                label="Policy Deposit"
+                fullWidth
+              />
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={3}>
+              <TextField
+                value={val["PolicyDeposit After Adjustment"]}
+                placeholder="Policy Deposit After Adjustment"
+                label="Policy Deposit After Adjustment"
+                fullWidth
+              />
+            </Grid2>
+          </Grid2>
+        </div>
       ))}
     </div>
   );

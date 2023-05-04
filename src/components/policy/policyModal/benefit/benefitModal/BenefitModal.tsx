@@ -103,6 +103,30 @@ function BenefitModal({
               />
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
+              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    readOnly={state.infoOpen}
+                    label="BStart Date"
+                    inputFormat="DD/MM/YYYY"
+                    value={state.addOpen ? state.BStartDate : record.BStartDate}
+                    onChange={(
+                      date: React.ChangeEvent<HTMLInputElement> | any
+                    ) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: date.$d,
+                        fieldName: "BStartDate",
+                      })
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </FormControl>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 id="BTerm"
                 name="BTerm"
@@ -183,31 +207,6 @@ function BenefitModal({
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
               />
-            </Grid2>
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    readOnly={state.infoOpen}
-                    label="BStart Date"
-                    inputFormat="DD/MM/YYYY"
-                    value={state.addOpen ? state.BStartDate : record.BStartDate}
-                    onChange={(
-                      date: React.ChangeEvent<HTMLInputElement> | any
-                    ) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: date.$d,
-                        fieldName: "BStartDate",
-                      })
-                    }
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </FormControl>
             </Grid2>
           </Grid2>
         </form>

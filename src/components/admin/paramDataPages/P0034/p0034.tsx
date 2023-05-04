@@ -16,13 +16,13 @@ const P0034 = forwardRef((props: any, ref) => {
     getData() {
       let retData = inputdata;
       retData.letters = retData.letters.filter(
-        (value: any) => value.templates  !== ""
+        (value: any) => value.templates !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         letters: inputdata.letters.filter(
-          (value: any) => value.templates  !== ""
+          (value: any) => value.templates !== ""
         ),
       }));
       return retData;
@@ -66,8 +66,8 @@ const P0034 = forwardRef((props: any, ref) => {
 
         <tr>
           <th>Templates</th> 
-          <th>ReportTemplateLocation</th> 
-          <th>PDFLocation</th> 
+          <th>Report Template Location</th> 
+          <th>PDF Location</th> 
           {(props.mode === "update" || props.mode === "create") && (
             <th>Actions</th>
           )}

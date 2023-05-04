@@ -278,17 +278,16 @@ function ClientModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                type="number"
                 id="ClientMobile"
                 name="ClientMobile"
                 value={record.ClientMobile}
                 placeholder="ClientMobile"
                 label="ClientMobile"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">+91</InputAdornment>
-                  ),
-                }}
+                // InputProps={{
+                //   startAdornment: (
+                //     <InputAdornment position="start">+91</InputAdornment>
+                //   ),
+                // }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
@@ -339,7 +338,7 @@ function ClientModal({
                     ) =>
                       dispatch({
                         type: ACTIONS.EDITCHANGE,
-                        payload: date.$d,
+                        payload: date,
                         fieldName: "ClientDob",
                       })
                     }

@@ -65,10 +65,8 @@ export const addApi = (
       EAmt: parseInt(state.EAmt),
       ETerm: parseInt(state.ETerm),
       EAge: parseInt(state.EAge),
-      FromDate: moment(state.FromDate).format("YYYYMMDD").toString(),
       ToDate: moment(state.ToDate).format("YYYYMMDD").toString(),
       ReasonDescription: state.ReasonDescription,
-      RequestedDate: moment(state.RequestedDate).format("YYYYMMDD").toString(),
     },
     {
       withCredentials: true,
@@ -93,10 +91,8 @@ export const editApi = (record: any) => {
       EAmt: parseInt(record.EAmt),
       ETerm: parseInt(record.ETerm),
       EAge: parseInt(record.EAge),
-      FromDate: moment(record.FromDate).format("YYYYMMDD"),
       ToDate: moment(record.ToDate).format("YYYYMMDD"),
       ReasonDescription: record.ReasonDescription,
-      RequestedDate: moment(record.RequestedDate).format("YYYYMMDD"),
     },
     {
       withCredentials: true,

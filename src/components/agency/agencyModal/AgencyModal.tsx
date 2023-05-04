@@ -272,7 +272,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "LicenseStartDate",
                           })
                         }
@@ -301,7 +301,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "LicenseEndDate",
                           })
                         }
@@ -327,7 +327,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "Startdate",
                           })
                         }

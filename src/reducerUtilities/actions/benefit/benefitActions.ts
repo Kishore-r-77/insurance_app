@@ -79,11 +79,6 @@ export const columns = [
   },
 
   {
-    field: "PFreq",
-    header: "Frequency",
-    dbField: "pfreq",
-  },
-  {
     field: "BTerm",
     header: "Term",
     dbField: "b_term",

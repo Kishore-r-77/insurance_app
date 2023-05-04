@@ -314,231 +314,6 @@ function ExtraModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
-                    id="EPrem"
-                    name="EPrem"
-                    value={state.addOpen ? state.EPrem : record.EPrem}
-                    placeholder="Extra Premium per Mille"
-                    label="Extra Premium per Mille"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "EPrem",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
-                    id="ReasonDescription"
-                    name="ReasonDescription"
-                    value={
-                      state.addOpen
-                        ? state.ReasonDescription
-                        : record.ReasonDescription
-                    }
-                    placeholder="Reason Description"
-                    label="Reason Description"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ReasonDescription",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
-                    id="EPercentage"
-                    name="EPercentage"
-                    value={
-                      state.addOpen ? state.EPercentage : record.EPercentage
-                    }
-                    placeholder="Extra by Percentage"
-                    label="Extra by Percentage"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "EPercentage",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
-                    id="EAmt"
-                    name="EAmt"
-                    value={state.addOpen ? state.EAmt : record.EAmt}
-                    placeholder="Extra by Flat Amount"
-                    label="Extra by Flat Amount"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "EAmt",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
-                    id="ETerm"
-                    name="ETerm"
-                    value={state.addOpen ? state.ETerm : record.ETerm}
-                    placeholder="Extra for Fixed Term"
-                    label="Extra for Fixed Term"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ETerm",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
-                    id="EAge"
-                    name="EAge"
-                    value={state.addOpen ? state.EAge : record.EAge}
-                    placeholder="Extra for Age"
-                    label="Extra for Age"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "EAge",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={state.infoOpen}
-                        label="Effective From Date"
-                        inputFormat="DD/MM/YYYY"
-                        value={state.addOpen ? state.FromDate : record.FromDate}
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
-                            fieldName: "FromDate",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={state.infoOpen}
-                        label="Requested Date"
-                        inputFormat="DD/MM/YYYY"
-                        value={
-                          state.addOpen
-                            ? state.RequestedDate
-                            : record.RequestedDate
-                        }
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
-                            fieldName: "RequestedDate",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
@@ -553,14 +328,196 @@ function ExtraModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "ToDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            error={state?.ToDate?.length === 0 ? true : false}
+                            required
+                            helperText={
+                              state?.ToDate?.length === 0 ? "Required" : null
+                            }
+                          />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
+                </Grid2>
+                <Grid2 container spacing={2}>
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="EPrem"
+                      name="EPrem"
+                      value={state.addOpen ? state.EPrem : record.EPrem}
+                      placeholder="Extra Premium per Mille"
+                      label="Extra Premium per Mille"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EPrem",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="ReasonDescription"
+                      name="ReasonDescription"
+                      value={
+                        state.addOpen
+                          ? state.ReasonDescription
+                          : record.ReasonDescription
+                      }
+                      placeholder="Reason Description"
+                      label="Reason Description"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReasonDescription",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="EPercentage"
+                      name="EPercentage"
+                      value={
+                        state.addOpen ? state.EPercentage : record.EPercentage
+                      }
+                      placeholder="Extra by Percentage"
+                      label="Extra by Percentage"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EPercentage",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="EAmt"
+                      name="EAmt"
+                      value={state.addOpen ? state.EAmt : record.EAmt}
+                      placeholder="Extra by Flat Amount"
+                      label="Extra by Flat Amount"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EAmt",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="ETerm"
+                      name="ETerm"
+                      value={state.addOpen ? state.ETerm : record.ETerm}
+                      placeholder="Extra for Fixed Term"
+                      label="Extra for Fixed Term"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ETerm",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="EAge"
+                      name="EAge"
+                      value={state.addOpen ? state.EAge : record.EAge}
+                      placeholder="Extra for Age"
+                      label="Extra for Age"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EAge",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
                 </Grid2>
               </>
             )}

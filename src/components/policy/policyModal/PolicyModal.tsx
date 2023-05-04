@@ -750,6 +750,18 @@ function PolicyModal({
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
                           InputProps={{ readOnly: true }}
+                          id="CompanyID"
+                          name="CompanyID"
+                          value={companyData?.CompanyName}
+                          placeholder="company_id"
+                          label="company_id"
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          InputProps={{ readOnly: true }}
                           id="ClientID"
                           name="ClientID"
                           // Attention: *** Check the value details  ***
@@ -767,7 +779,7 @@ function PolicyModal({
                             <DesktopDatePicker
                               label="b_start_date"
                               inputFormat="DD/MM/YYYY"
-                              value={benefits.BStartDate}
+                              value={state.PReceivedDate}
                               onChange={(date) => handleBStartDate(date, index)}
                               renderInput={(params) => (
                                 <TextField {...params} />
@@ -864,19 +876,6 @@ function PolicyModal({
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleChange(e, index)
                           }
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          InputProps={{ readOnly: true }}
-                          id="CompanyID"
-                          name="CompanyID"
-                          value={companyData?.CompanyName}
-                          placeholder="company_id"
-                          label="company_id"
                           fullWidth
                           margin="dense"
                         />

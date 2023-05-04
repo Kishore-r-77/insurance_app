@@ -27,6 +27,7 @@ import PolicyValidate from "./policyValidate/PolicyValidate";
 import Notification from "../../utilities/Notification/Notification";
 import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
 import Benefit from "../policy/policyModal/benefit/Benefit";
+import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 
 function NewBusiness({ modalFunc }: any) {
   const size = "xl";
@@ -437,6 +438,14 @@ function NewBusiness({ modalFunc }: any) {
         isLast={isLast}
         prevPage={prevPage}
         nexPage={nexPage}
+      />
+
+      <PolicyEnquiry
+        state={state}
+        record={record}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        handleFormSubmit={editFormSubmit}
       />
 
       <PolicyModal
