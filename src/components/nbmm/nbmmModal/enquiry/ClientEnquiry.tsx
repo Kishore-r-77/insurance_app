@@ -6,7 +6,7 @@ import EnquiryTable from "./EnquiryTable";
 
 function ClientEnquiry({ clientData, state }: any) {
   const columns = [
-    { field: "Client ID", header: "ID", dbField: "id" },
+    { field: "Client ID", header: " Client ID", dbField: "id" },
     {
       field: "Salutation",
       header: "Salutation",
@@ -14,12 +14,12 @@ function ClientEnquiry({ clientData, state }: any) {
     },
     {
       field: "ShortName",
-      header: "Client Short Name",
+      header: "Short Name",
       dbField: "client_short_name",
     },
     {
       field: "LastName",
-      header: "Client Long Name",
+      header: "Long Name",
       dbField: "client_long_name",
     },
     {
@@ -35,24 +35,24 @@ function ClientEnquiry({ clientData, state }: any) {
 
     {
       field: "DOB",
-      header: "Client DOB",
+      header: "DOB",
       dbField: "client_dob",
       type: "date",
     },
     {
       field: "DOD",
-      header: "Client DOD",
+      header: "DOD",
       dbField: "client_dod",
       type: "date",
     },
     {
       field: "Email",
-      header: "Client Email",
+      header: "Email",
       dbField: "client_email",
     },
     {
       field: "Mobile",
-      header: "Client Mobile",
+      header: "Mobile",
       dbField: "client_mobile",
     },
   ];

@@ -4,40 +4,80 @@ import React from "react";
 import CustomTable from "../../../../utilities/Table/CustomTable";
 import EnquiryTable from "./EnquiryTable";
 
-function TDFEnquiry({ data, state }: any) {
+function ExtraEnquiry({ data, state }: any) {
   const columns = [
-    { field: "ID", header: "TDF ID", dbField: "id" },
     {
       field: "PolicyID",
-      header: "Policy Id",
+      header: "Policy ID",
       dbField: "policy_id",
     },
     {
-      field: "Tranno",
-      header: "Tran No",
-      dbField: "tran_no",
+      field: "EReason",
+      header: "EReason",
+      dbField: "e_reason",
     },
     {
-      field: "TDFType",
-      header: "TDF Type",
-      dbField: "tdf_type",
+      field: "EMethod",
+      header: "EMethod",
+      dbField: "e_method",
+    },
+
+    {
+      field: "EPrem",
+      header: "EPrem",
+      dbField: "e_prem",
     },
     {
-      field: "TDFRuleID",
-      header: "TDF Rule ID",
-      dbField: "tdf_rule_id",
+      field: "EPercentage",
+      header: "EPercentage",
+      dbField: "e_percentage",
+    },
+
+    {
+      field: "EAmt",
+      header: "EAmt",
+      dbField: "e_amt",
+    },
+
+    {
+      field: "ETerm",
+      header: "ETerm",
+      dbField: "e_term",
     },
     {
-      field: "EffectiveDate",
-      header: "Effective Date",
-      dbField: "effective_date",
+      field: "EAge",
+      header: "EAge",
+      dbField: "e_age",
+    },
+    {
+      field: "BenefitID",
+      header: "Benefit ID",
+      dbField: "benefit_id",
+    },
+    {
+      field: "BCoverage",
+      header: "BCoverage",
+      dbField: "b_coverage",
+    },
+
+    {
+      field: "FromDate",
+      header: "From Date",
+      dbField: "from_date",
+      type: "date",
+    },
+
+    {
+      field: "ToDate",
+      header: "To Date",
+      dbField: "to_date",
       type: "date",
     },
   ];
   return (
     <div>
       <form>
-        {/* {data.map((val: any) => (
+        {/* {bankData.map((val: any) => (
           <Grid2 container spacing={2}>
             <Grid2 xs={8} md={6} lg={3}>
               <TextField
@@ -76,4 +116,4 @@ function TDFEnquiry({ data, state }: any) {
   );
 }
 
-export default TDFEnquiry;
+export default ExtraEnquiry;
