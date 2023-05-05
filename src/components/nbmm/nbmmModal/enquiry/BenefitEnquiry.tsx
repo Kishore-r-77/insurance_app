@@ -3,6 +3,13 @@ import EnquiryTable from "./EnquiryTable";
 const BenefitEnquiry = ({ benefitenquiryData, state }: any) => {
   const columns = [
     { field: "ID", header: "Benefit ID", dbField: "id" },
+
+    {
+      field: "BCoverage",
+      header: "Coverage",
+      dbField: "b_coverage",
+    },
+
     {
       field: "BStartDate",
       header: "Start Date",
@@ -58,12 +65,6 @@ const BenefitEnquiry = ({ benefitenquiryData, state }: any) => {
       field: "BLoadPrem",
       header: "Loaded Premium",
       dbField: "b_load_prem",
-    },
-
-    {
-      field: "BCoverage",
-      header: "Coverage",
-      dbField: "b_coverage",
     },
 
     {
