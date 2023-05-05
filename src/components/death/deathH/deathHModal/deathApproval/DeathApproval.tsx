@@ -165,7 +165,7 @@ function DeathApproval({
   useEffect(() => {
     getdeathenquiry();
     return () => {};
-  }, []);
+  }, [open]);
 
   return (
     <div>

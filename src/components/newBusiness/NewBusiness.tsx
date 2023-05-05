@@ -262,6 +262,15 @@ function NewBusiness({ modalFunc }: any) {
         setsummaryData(resp.data["Summary"]);
         setisConfirm(false);
         policyvalidateOpen();
+      })
+      .catch((err) => {
+        console.log(err, "Error");
+        setNotify({
+          isOpen: true,
+          message: err.response.data.ValidatePolicy,
+          type: "error",
+        });
+        confirmClose();
       });
   };
 

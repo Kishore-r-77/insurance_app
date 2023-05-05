@@ -25,6 +25,7 @@ import {
   getPoliciesByClient,
   getPolicyApi,
 } from "../../policy/policyApis/policyApis";
+import axios from "axios";
 function ReceiptsModal({
   state,
   record,
@@ -82,18 +83,14 @@ function ReceiptsModal({
       .catch((err) => err);
   };
 
-  // const [policyData, setPolicyIDData] = useState<any>({});
-  // const getPolicyData = (id: number) => {
-  //   getApi(id).then((resp) => {
-  //     setPolicyIDData(resp.data["PolicyID"]);
-  //   });
-  // };
+  const [toggle, settoggle] = useState(false);
 
   const [policyData, setpolicyData] = useState<any>([]);
   const getPolicy = (policyId: number) => {
     return getPolicyApi(policyId)
       .then((resp) => {
         setpolicyData(resp.data?.Policy);
+        settoggle(!toggle);
       })
       .catch((err) => err.message);
   };
@@ -108,11 +105,6 @@ function ReceiptsModal({
   };
 
   useEffect(() => {
-    getPolicy(parseInt(state.PolicyID));
-    return () => {};
-  }, [state.PolicyID]);
-
-  useEffect(() => {
     getCompanyData(companyId);
     getBranch(companyId, "P0018", languageId);
     //getClientData(clientId);
@@ -124,10 +116,13 @@ function ReceiptsModal({
   }, []);
 
   useEffect(() => {
-    getACur("BCUR", policyData?.PProduct);
+    getPolicy(parseInt(state.PolicyID));
     return () => {};
   }, [state.PolicyID]);
 
+  useEffect(() => {
+    getACur("BCUR", policyData?.PProduct);
+  }, [toggle]);
   // *** Attention: Check the Lookup table  OPenFunc details below ***
   const clientsOpenFunc = (item: any) => {
     if (state.addOpen) {
