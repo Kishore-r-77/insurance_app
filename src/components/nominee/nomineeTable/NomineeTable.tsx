@@ -4,7 +4,7 @@ import { IconButton, Paper } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
 import Table from "react-bootstrap/Table";
-import styles from "./nominee.module.css";
+import styles from "./nomineeTable.module.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
