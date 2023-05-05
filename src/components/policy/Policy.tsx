@@ -130,7 +130,6 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
           ...state,
           benefitOpen: false,
         };
-
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {

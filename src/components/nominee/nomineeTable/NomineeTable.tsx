@@ -1,28 +1,23 @@
-import { Button, IconButton, Paper } from "@mui/material";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { IconButton, Paper } from "@mui/material";
+import moment from "moment";
+import { useState } from "react";
 import Table from "react-bootstrap/Table";
-import styles from "./newbussinesstable.module.css";
+import styles from "./nominee.module.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import SendIcon from "@mui/icons-material/Send";
-import moment from "moment";
-import { useState } from "react";
-import VerifiedUser from "@mui/icons-material/VerifiedUser";
-import PeopleIcon from "@mui/icons-material/People";
 
-function NewBussinessTable({
-  issueOpen,
-  confirmOpen,
+function NomineeTable({
   data,
   columns,
   dispatch,
   ACTIONS,
-  sortParam,
   hardDelete,
+  sortParam,
   modalFunc,
+  dataIndex,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -98,14 +93,13 @@ function NewBussinessTable({
                 </th>
               )
             )}
-            <th>Nominees</th>
-            {ACTIONS.EDITOPEN && <th>Actions</th>}
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {data?.map((row: any) => (
             <tr
-              onClick={() => modalFunc(row)}
+              onClick={() => modalFunc(row, dataIndex?.index)}
               key={row.ID}
               className={styles["table-cell"]}
             >
@@ -119,45 +113,26 @@ function NewBussinessTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
+
               <td>
-                <PeopleIcon
-                  onClick={() =>
-                    dispatch({
-                      type: ACTIONS.NOMINEEOPEN,
-                      payload: row,
-                    })
-                  }
-                />
+                <span className={styles.flexButtons}>
+                  <EditIcon
+                    color="primary"
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                    }
+                  />
+                  <DeleteIcon
+                    color="error"
+                    onClick={() => hardDelete(row.ID)}
+                  />
+                  <InfoIcon
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                    }
+                  />
+                </span>
               </td>
-              {ACTIONS.EDITOPEN && (
-                <td>
-                  <span className={styles.flexButtons}>
-                    {/* <EditIcon
-                      color="primary"
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                      }
-                    />
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => hardDelete(row.ID)}
-                    /> */}
-                    <InfoIcon
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                      }
-                    />
-                    <VerifiedUserIcon
-                      color="primary"
-                      onClick={() => confirmOpen(row.ID)}
-                    />
-                    <SendIcon
-                      color="success"
-                      onClick={() => issueOpen(row.ID)}
-                    />
-                  </span>
-                </td>
-              )}
             </tr>
           ))}
         </tbody>
@@ -166,4 +141,4 @@ function NewBussinessTable({
   );
 }
 
-export default NewBussinessTable;
+export default NomineeTable;

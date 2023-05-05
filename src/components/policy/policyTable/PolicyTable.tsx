@@ -9,7 +9,6 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import moment from "moment";
 import { useState } from "react";
 import BusinessIcon from "@mui/icons-material/Business";
-
 function PolicyTable({
   data,
   dataIndex,
@@ -123,7 +122,7 @@ function PolicyTable({
                       payload: row,
                     })
                   }
-                />
+                />{" "}
               </td>
               <td>
                 <span className={styles.flexButtons}>

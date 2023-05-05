@@ -18,6 +18,8 @@ export const ACTIONS = {
   AGENCYCLOSE: "AGENCYCLOSE",
   BENEFITOPEN: "BENEFITOPEN",
   BENEFITCLOSE: "BENEFITCLOSE",
+  NOMINEEOPEN: "NOMINEEOPEN",
+  NOMINEECLOSE: "NOMINEECLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
 };
@@ -49,6 +51,7 @@ export const initialValues: PolicyStateType = {
   addressOpen: false,
   agencyOpen: false,
   benefitOpen: false,
+  nomineeOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",

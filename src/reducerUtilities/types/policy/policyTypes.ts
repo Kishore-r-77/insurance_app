@@ -24,6 +24,7 @@ export type PolicyStateType = {
   addressOpen: boolean;
   agencyOpen: boolean;
   benefitOpen: boolean;
+  nomineeOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -48,6 +49,8 @@ export type ActionConstantsType = {
   AGENCYCLOSE: string;
   BENEFITOPEN: string;
   BENEFITCLOSE: string;
+  NOMINEEOPEN: string;
+  NOMINEECLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
 };

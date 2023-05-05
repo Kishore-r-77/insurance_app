@@ -137,3 +137,11 @@ export const p0024 = (companyId: number, languageId: number) => {
     },
   });
 };
+// export const getNopmieesByPolicy = (policiesId: number) => {
+//   return axios.get(
+//     `http://localhost:3000/api/v1/deathservices/nomineesbypol/${policiesId}`,
+//     {
+//       withCredentials: true,
+//     }
+//   );
+// };

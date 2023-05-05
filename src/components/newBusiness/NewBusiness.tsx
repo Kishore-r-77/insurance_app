@@ -24,6 +24,7 @@ import axios from "axios";
 import NotificationModal from "../../utilities/modal/NotificationModal";
 import CustomModal from "../../utilities/modal/CustomModal";
 import PolicyValidate from "./policyValidate/PolicyValidate";
+import Nominee from "../nominee/nomineeTable/Nominee";
 
 function NewBusiness({ modalFunc }: any) {
   const size = "xl";
@@ -126,6 +127,18 @@ function NewBusiness({ modalFunc }: any) {
           ...state,
           benefitOpen: false,
         };
+      case ACTIONS.NOMINEEOPEN:
+        console.log(action.payload, "EEEEEEE");
+        setRecord(action.payload);
+        return {
+          ...state,
+          nomineeOpen: true,
+        };
+      case ACTIONS.NOMINEECLOSE:
+        return {
+          ...state,
+          nomineeOpen: false,
+        };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -167,6 +180,7 @@ function NewBusiness({ modalFunc }: any) {
   const [isIssue, setisIssue] = useState(false);
   const [issueNote, setissueNote] = useState(false);
   const [issueData, setissueData] = useState();
+  const [nomineeByPolicyData, setNomineeByPolicyData] = useState();
 
   const policyvalidateOpen = () => {
     setisPolicyValidate(true);
@@ -439,6 +453,14 @@ function NewBusiness({ modalFunc }: any) {
       <NotificationModal open={issueNote} handleClose={issueNoteClose}>
         <h4>{issueData}</h4>
       </NotificationModal>
+
+      <CustomModal
+        size={size}
+        open={state.nomineeOpen}
+        handleClose={() => dispatch({ type: ACTIONS.NOMINEECLOSE })}
+      >
+        <Nominee lookup={state.nomineeOpen} policyRecord={record} />
+      </CustomModal>
     </div>
   );
 }

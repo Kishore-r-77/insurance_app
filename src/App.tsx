@@ -35,7 +35,7 @@ import Footer from "./utilities/footer/Footer";
 import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
 import DeathH from "./components/death/deathH/DeathH";
-
+import Nominee from "./components/nominee/nomineeTable/Nominee";
 function App() {
   const { pathname } = useLocation();
 
@@ -81,6 +81,7 @@ function App() {
                 <Route path="/qHeader" element={<QHeaders />} />
                 <Route path="/quotations" element={<Quotation />} />
                 <Route path="/deathH" element={<DeathH />} />
+                <Route path="/nominee" element={<Nominee />} />
               </Route>
               {/* </Route> */}
             </Route>
