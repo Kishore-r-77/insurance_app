@@ -1,16 +1,25 @@
 export type BenefitStateType = {
   CompanyID: string;
-  PRCD: string;
-  PProduct: string;
-  PFreq: string;
-  PContractCurr: string;
-  PBillCurr: string;
-  POffice: string;
-  PolStatus: string;
-  PReceivedDate: string;
-  PUWDate: string;
   ClientID: string;
   PolicyID: string;
+  BStartDate: string;
+  BRiskCessDate: string;
+  BPremCessDate: string;
+  BTerm: string;
+  BPTerm: string;
+  BRiskCessAge: string;
+  BPremCessAge: string;
+  BBasAnnualPrem: string;
+  BLoadPrem: string;
+  BCoverage: string;
+  BSumAssured: string;
+  BPrem: string;
+  BGender: string;
+  BDOB: string;
+  BMortality: string;
+  BStatus: string;
+  BAge: string;
+  BRerate: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
@@ -18,6 +27,7 @@ export type BenefitStateType = {
   addressOpen: boolean;
   agencyOpen: boolean;
   benefitOpen: boolean;
+  extraOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -48,6 +58,7 @@ export type ActionConstantsType = {
 
 export type BenefitModalType = {
   state: BenefitStateType;
+  policyRecord: any;
   record: any;
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;

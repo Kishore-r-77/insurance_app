@@ -23,7 +23,7 @@ function CustomModal({
           </Button>
           {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
-              Save Changes
+              Save
             </Button>
           )}
         </Modal.Footer>

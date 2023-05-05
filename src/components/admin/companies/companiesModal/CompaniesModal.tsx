@@ -338,7 +338,7 @@ function CompaniesModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date.$d,
+                        payload: date,
                         fieldName: "CompanyIncorporationDate",
                       })
                     }
@@ -367,7 +367,7 @@ function CompaniesModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date.$d,
+                        payload: date,
                         fieldName: "CompanyTerminationDate",
                       })
                     }

@@ -73,7 +73,13 @@ function AgencyModal({
         }
         size={size}
         handleClose={
-          state.addOpen
+          state.clientOpen
+            ? () => dispatch({ type: ACTIONS.CLIENTCLOSE })
+            : state.addressOpen
+            ? () => dispatch({ type: ACTIONS.ADDRESSCLOSE })
+            : state.bankOpen
+            ? () => dispatch({ type: ACTIONS.BANKCLOSE })
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
@@ -272,7 +278,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "LicenseStartDate",
                           })
                         }
@@ -301,7 +307,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "LicenseEndDate",
                           })
                         }
@@ -327,7 +333,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "Startdate",
                           })
                         }

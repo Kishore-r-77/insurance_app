@@ -51,7 +51,7 @@ const Q0006 = forwardRef((props: any, ref) => {
     getDataParams.languageId = 1;
     getDataParams.seqno = 0;
 
-    getDataParams.name = "Q0050";
+    getDataParams.name = "P0050";
 
     getDataParams.item = "MRTL";
     sendMrtlRequest({

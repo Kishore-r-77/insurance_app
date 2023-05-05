@@ -34,7 +34,10 @@ function PolicyModal({
   ACTIONS,
   handleFormSubmit,
   record,
+  notify,
+  setNotify,
   getData,
+  validatePolicy,
 }: any) {
   const title = "Policies Add";
   const size = "xl";
@@ -202,10 +205,22 @@ function PolicyModal({
   const addPoliciesWithBenefits = () => {
     return createPoliciesWithBenefits(state, companyId, benefitsData)
       .then((resp) => {
+        validatePolicy(parseInt(resp.data?.Created));
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created record of id:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => err.message);
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      });
   };
 
   const handleBStartDate = (date: any, i: number) => {
@@ -407,7 +422,9 @@ function PolicyModal({
                             fieldName: "PRCD",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -541,6 +558,7 @@ function PolicyModal({
                     value={state.PolStatus}
                     placeholder="pol_status"
                     label="pol_status"
+                    inputProps={{ readOnly: true }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -574,7 +592,9 @@ function PolicyModal({
                             fieldName: "PReceivedDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -597,7 +617,9 @@ function PolicyModal({
                             fieldName: "PUWDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -607,7 +629,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.BtDate}
@@ -620,7 +642,9 @@ function PolicyModal({
                             fieldName: "BtDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -630,7 +654,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="paid_to_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.PaidToDate}
@@ -643,7 +667,9 @@ function PolicyModal({
                             fieldName: "PaidToDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -653,7 +679,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.NxtBtDate}
@@ -666,7 +692,9 @@ function PolicyModal({
                             fieldName: "NxtBtDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -676,7 +704,7 @@ function PolicyModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label="anniv_date"
                         inputFormat="DD/MM/YYYY"
                         value={state.AnnivDate}
@@ -689,7 +717,9 @@ function PolicyModal({
                             fieldName: "AnnivDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -703,6 +733,7 @@ function PolicyModal({
                     //<InputAdornment position="start">+91</InputAdornment>
                     // ),
                     //}}
+                    inputProps={{ readOnly: true }}
                     id="InstalmentPrem"
                     name="InstalmentPrem"
                     value={state.InstalmentPrem}
@@ -733,6 +764,18 @@ function PolicyModal({
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
                           InputProps={{ readOnly: true }}
+                          id="CompanyID"
+                          name="CompanyID"
+                          value={companyData?.CompanyName}
+                          placeholder="company_id"
+                          label="company_id"
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          InputProps={{ readOnly: true }}
                           id="ClientID"
                           name="ClientID"
                           // Attention: *** Check the value details  ***
@@ -750,10 +793,10 @@ function PolicyModal({
                             <DesktopDatePicker
                               label="b_start_date"
                               inputFormat="DD/MM/YYYY"
-                              value={benefits.BStartDate}
+                              value={state.PRCD}
                               onChange={(date) => handleBStartDate(date, index)}
                               renderInput={(params) => (
-                                <TextField {...params} />
+                                <TextField {...params} error={false} />
                               )}
                             />
                           </LocalizationProvider>
@@ -851,19 +894,6 @@ function PolicyModal({
                           margin="dense"
                         />
                       </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          InputProps={{ readOnly: true }}
-                          id="CompanyID"
-                          name="CompanyID"
-                          value={companyData?.CompanyName}
-                          placeholder="company_id"
-                          label="company_id"
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
                     </Grid2>
                   </TreeItem>
                   <div
@@ -874,7 +904,7 @@ function PolicyModal({
                     }}
                   >
                     {benefitsData.length - 1 === index &&
-                      benefitsData.length < 4 && (
+                      benefitsData.length < 5 && (
                         <Button
                           variant="contained"
                           onClick={() => handleBenefitsAdd()}

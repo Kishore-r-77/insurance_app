@@ -1,41 +1,28 @@
 @font-face {
-  font-family: Poppins Medium;
-  src: url("../../fonts/Poppins/Poppins-Medium.ttf");
+  font-family: Julee Regular;
+  src: url("../../../fonts/Julee/Julee-Regular.ttf");
 }
 
-.paperStyle {
-  width: 90%;
-  margin: 20px auto;
-  overflow-y: scroll;
-  max-height: 350px;
-  font-family: Poppins Medium;
-}
-
-/* .table-cell:nth-child(odd) {
-    background: rgb(241, 216, 237);
-  } */
-
-.flexButtons {
+.flexStyle {
   display: flex;
+  justify-content: space-between;
+  margin: 1rem 5rem;
   gap: 1rem;
 }
-.header {
-  background-color: rgba(71, 11, 75, 1);
-  color: white;
-  position: sticky;
-  top: 0;
+
+.text-fields {
+  flex: 1 1 20rem;
 }
 
-.icon {
-  max-height: 30px;
-  color: white;
+.flexStyle h1 {
+  flex: 4 1 20rem;
+  font-family: Julee Regular;
+  letter-spacing: 2px;
+  font-weight: bolder;
+  color: rgb(42, 6, 45);
 }
 
-.icon-disabled {
-  max-height: 30px;
-  color: grey;
-}
-
-.input-form {
-  width: 10rem;
+#add-btn {
+  flex: 2 1 20rem;
+  margin-right: 1rem;
 }

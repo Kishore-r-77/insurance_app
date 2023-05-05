@@ -19,6 +19,14 @@ export const getAllApi = (
     },
   });
 };
+export const getPolicyApi = (policyId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/nbservices/policyget/${policyId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};
 
 export const addApi = (state: PolicyStateType, companyId: number) => {
   return axios.post(

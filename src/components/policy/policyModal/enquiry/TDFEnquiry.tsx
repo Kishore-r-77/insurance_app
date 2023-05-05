@@ -6,7 +6,7 @@ import EnquiryTable from "./EnquiryTable";
 
 function TDFEnquiry({ data, state }: any) {
   const columns = [
-    { field: "ID", header: "ID", dbField: "id" },
+    { field: "ID", header: "TDF ID", dbField: "id" },
     {
       field: "PolicyID",
       header: "Policy Id",

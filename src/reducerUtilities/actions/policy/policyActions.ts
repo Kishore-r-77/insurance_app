@@ -61,7 +61,7 @@ export const initialValues: PolicyStateType = {
 
 //Columns Defined to Pass into the Custom Table
 export const columns = [
-  { field: "ID", header: "ID", dbField: "id" },
+  { field: "ID", header: "Policy ID", dbField: "id" },
   // { field: "CompanyID", header: "Company ID", dbField: "company_id" },
   {
     field: "PRCD",

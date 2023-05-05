@@ -18,10 +18,14 @@ import styles from "./receiptsModal.module.css";
 
 //Attention: Check the path below
 import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
-import { paramItem } from "../receiptsApis/receiptsApis";
+import { q0005, paramItem } from "../receiptsApis/receiptsApis";
 import Client from "../../clientDetails/client/Client";
 import Policy from "../../policy/Policy";
-import { getPoliciesByClient, p0023 } from "../../policy/policyApis/policyApis";
+import {
+  getPoliciesByClient,
+  getPolicyApi,
+} from "../../policy/policyApis/policyApis";
+import axios from "axios";
 function ReceiptsModal({
   state,
   record,
@@ -32,7 +36,7 @@ function ReceiptsModal({
   const addTitle: string = "Receipts Add";
   const editTitle: string = "Receipts Edit";
   const infoTitle: string = "Receipts Info";
-  const size: string = "size";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -79,18 +83,23 @@ function ReceiptsModal({
       .catch((err) => err);
   };
 
-  // const [policyData, setPolicyIDData] = useState<any>({});
-  // const getPolicyData = (id: number) => {
-  //   getApi(id).then((resp) => {
-  //     setPolicyIDData(resp.data["PolicyID"]);
-  //   });
-  // };
+  const [toggle, settoggle] = useState(false);
+
+  const [policyData, setpolicyData] = useState<any>([]);
+  const getPolicy = (policyId: number) => {
+    return getPolicyApi(policyId)
+      .then((resp) => {
+        setpolicyData(resp.data?.Policy);
+        settoggle(!toggle);
+      })
+      .catch((err) => err.message);
+  };
 
   const [aCur, setaCur] = useState([]);
-  const getACur = (Acur: string) => {
-    return p0023(companyId, languageId, Acur)
+  const getACur = (Acur: string, product: string) => {
+    return q0005(companyId, languageId, Acur, product)
       .then((resp) => {
-        setaCur(resp.data.AllowedContractCurriencies);
+        setaCur(resp.data?.AllowedBillingCurriencies);
       })
       .catch((err) => console.log(err.message));
   };
@@ -100,12 +109,20 @@ function ReceiptsModal({
     getBranch(companyId, "P0018", languageId);
     //getClientData(clientId);
     getTypeOfReceipt(companyId, "P0030", languageId);
-    getACur("Ccur");
+
     //getPolicyData(policyId);
 
     return () => {};
   }, []);
 
+  useEffect(() => {
+    getPolicy(parseInt(state.PolicyID));
+    return () => {};
+  }, [state.PolicyID]);
+
+  useEffect(() => {
+    getACur("BCUR", policyData?.PProduct);
+  }, [toggle]);
   // *** Attention: Check the Lookup table  OPenFunc details below ***
   const clientsOpenFunc = (item: any) => {
     if (state.addOpen) {
@@ -146,7 +163,11 @@ function ReceiptsModal({
             : state.infoOpen
         }
         handleClose={
-          state.addOpen
+          state.clientsOpen
+            ? () => dispatch({ type: ACTIONS.CLIENTSCLOSE })
+            : state.policiesOpen
+            ? () => dispatch({ type: ACTIONS.POLICIESCLOSE })
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
@@ -286,7 +307,7 @@ function ReceiptsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date?.$d,
                             fieldName: "DateOfCollection",
                           })
                         }

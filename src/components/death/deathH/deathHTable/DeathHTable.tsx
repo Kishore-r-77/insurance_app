@@ -14,6 +14,8 @@ import ModifyDeath from "../deathHModal/modifyDeath/ModifyDeath";
 import axios from "axios";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import DeathRejection from "../deathHModal/deathRejection/DeathRejection";
+import DeathApproval from "../deathHModal/deathApproval/DeathApproval";
 
 function DeathHTable({
   data,
@@ -25,6 +27,7 @@ function DeathHTable({
   hardDelete,
   modalFunc,
   getData,
+  setNotify,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -45,13 +48,15 @@ function DeathHTable({
     id.current = value.ID;
     policyId.current = value.PolicyID;
     setAnchorEl(event.currentTarget);
-    setAdjustedAmount(value.AdjustedAmount);
+    deathMenu();
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const [modifyDeath, setmodifyDeath] = useState(false);
+  const [deathRejection, setdeathRejection] = useState(false);
+  const [deathApproval, setdeathApproval] = useState(false);
 
   const [ID, setID] = useState(0);
   const [PolicyID, setPolicyID] = useState(0);
@@ -66,6 +71,27 @@ function DeathHTable({
     setmodifyDeath(false);
   };
 
+  const deathRejectionOpen = (id: number, policyId: number) => {
+    setID(id);
+    setPolicyID(policyId);
+    setdeathRejection(true);
+    handleClose();
+  };
+
+  const deathRejectionClose = () => {
+    setdeathRejection(false);
+  };
+  const deathApprovalOpen = (id: number, policyId: number) => {
+    setID(id);
+    setPolicyID(policyId);
+    setdeathApproval(true);
+    handleClose();
+  };
+
+  const deathApprovalClose = () => {
+    setdeathApproval(false);
+  };
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -76,34 +102,47 @@ function DeathHTable({
       setCompanyData(resp.data["Company"]);
     });
   };
+  const [deathMenuData, setdeathMenuData] = useState([]);
+  const deathMenu = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/basicservices/paramextradata`, {
+        withCredentials: true,
+        params: {
+          name: "P0044",
+          date: "20220101",
+          item: "DEATHMM",
+          company_id: companyId,
+        },
+      })
+      .then((resp) => {
+        setdeathMenuData(resp.data?.AllowedMenus);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const deathMenuClick = (value: any) => {
+    switch (value) {
+      case "Adjustment":
+        modifyDeathOpen(id.current, policyId.current);
+        break;
+      case "Approval":
+        deathApprovalOpen(id.current, policyId.current);
+        break;
+      case "Rejection":
+        deathRejectionOpen(id.current, policyId.current);
+        break;
+      default:
+        return;
+    }
+  };
 
   useEffect(() => {
     getCompanyData(companyId);
 
     return () => {};
   }, []);
-
-  const [adjustedAmount, setAdjustedAmount] = useState("");
-
-  const modifyDeathSubmit = () => {
-    axios
-      .post(
-        `http://localhost:3000/api/v1/deathservices/deathmodify`,
-        {
-          CompanyID: companyId,
-          ID,
-          PolicyID,
-          AdjustedAmount: parseInt(adjustedAmount),
-        },
-        { withCredentials: true }
-      )
-      .then((resp) => {
-        console.log(resp);
-        modifyDeathClose();
-        getData();
-      })
-      .catch((err) => console.log(err));
-  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -233,15 +272,13 @@ function DeathHTable({
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem
-                      onClick={() =>
-                        modifyDeathOpen(id.current, policyId.current)
-                      }
-                    >
-                      Modify Death
-                    </MenuItem>
-                    <MenuItem>Death Rejection</MenuItem>
-                    <MenuItem>Death Approval</MenuItem>
+                    {deathMenuData.map((deathValue: any) => (
+                      <MenuItem
+                        onClick={() => deathMenuClick(deathValue.Action)}
+                      >
+                        {deathValue?.Action}
+                      </MenuItem>
+                    ))}
                   </Menu>
                 </span>
               </td>
@@ -255,9 +292,29 @@ function DeathHTable({
         handleClose={modifyDeathClose}
         id={ID}
         policyId={PolicyID}
-        adjustedAmount={adjustedAmount}
-        setAdjustedAmount={setAdjustedAmount}
-        modifyDeathSubmit={modifyDeathSubmit}
+        companyId={companyId}
+        getData={getData}
+        setNotify={setNotify}
+      />
+      <DeathRejection
+        open={deathRejection}
+        companyName={companyData.CompanyName}
+        handleClose={deathRejectionClose}
+        id={ID}
+        policyId={PolicyID}
+        companyId={companyId}
+        getData={getData}
+        setNotify={setNotify}
+      />
+      <DeathApproval
+        open={deathApproval}
+        companyName={companyData.CompanyName}
+        handleClose={deathApprovalClose}
+        id={ID}
+        policyId={PolicyID}
+        companyId={companyId}
+        getData={getData}
+        setNotify={setNotify}
       />
     </Paper>
   );

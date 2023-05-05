@@ -1,18 +1,15 @@
-import { Button, IconButton, Paper } from "@mui/material";
-import Table from "react-bootstrap/Table";
-import styles from "./newbussinesstable.module.css";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import InfoIcon from "@mui/icons-material/Info";
 import SendIcon from "@mui/icons-material/Send";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import { IconButton, Paper } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
-import VerifiedUser from "@mui/icons-material/VerifiedUser";
+import Table from "react-bootstrap/Table";
+import styles from "./newbussinesstable.module.css";
+import BusinessIcon from "@mui/icons-material/Business";
 import PeopleIcon from "@mui/icons-material/People";
-
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -99,7 +96,8 @@ function NewBussinessTable({
               )
             )}
             <th>Nominees</th>
-            {ACTIONS.EDITOPEN && <th>Actions</th>}
+            <th>Benefit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -124,6 +122,16 @@ function NewBussinessTable({
                   onClick={() =>
                     dispatch({
                       type: ACTIONS.NOMINEEOPEN,
+                      payload: row,
+                    })
+                  }
+                />
+              </td>
+              <td>
+                <BusinessIcon
+                  onClick={() =>
+                    dispatch({
+                      type: ACTIONS.BENEFITOPEN,
                       payload: row,
                     })
                   }

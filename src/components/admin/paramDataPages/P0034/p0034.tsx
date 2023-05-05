@@ -5,24 +5,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 
-import  "./p0034.css";
-
+import "./p0034.css";
 
 const P0034 = forwardRef((props: any, ref) => {
-  
-
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
       retData.letters = retData.letters.filter(
-        (value: any) => value.templates  !== ""
+        (value: any) => value.templates !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         letters: inputdata.letters.filter(
-          (value: any) => value.templates  !== ""
+          (value: any) => value.templates !== ""
         ),
       }));
       return retData;
@@ -32,9 +29,7 @@ const P0034 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      letters: inputdata.letters.filter(
-        (_: any, ind: number) => ind !== index
-      ),
+      letters: inputdata.letters.filter((_: any, ind: number) => ind !== index),
     }));
   };
 
@@ -53,7 +48,6 @@ const P0034 = forwardRef((props: any, ref) => {
   };
 
   return (
-  
     <Table striped bordered hover>
       <thead
         style={{
@@ -63,11 +57,10 @@ const P0034 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
-
         <tr>
-          <th>Templates</th> 
-          <th>ReportTemplateLocation</th> 
-          <th>PDFLocation</th> 
+          <th>Templates</th>
+          <th>Report Template Location</th>
+          <th>PDF Location</th>
           {(props.mode === "update" || props.mode === "create") && (
             <th>Actions</th>
           )}
@@ -79,7 +72,7 @@ const P0034 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
+                  readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="templates"
                 name="templates"
@@ -97,13 +90,17 @@ const P0034 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
+                  readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="reportTemplateLocation"
                 name="reportTemplateLocation"
                 value={value.reportTemplateLocation}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "reportTemplateLocation", e.target.value)
+                  fieldChangeHandler(
+                    index,
+                    "reportTemplateLocation",
+                    e.target.value
+                  )
                 }
                 fullWidth
                 size="small"
@@ -115,7 +112,7 @@ const P0034 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
+                  readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="pDFLocation"
                 name="pDFLocation"
@@ -146,7 +143,6 @@ const P0034 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
-
                   </CustomTooltip>
                   {index === inputdata.letters.length - 1 && (
                     <CustomTooltip text="Add">
@@ -160,7 +156,6 @@ const P0034 = forwardRef((props: any, ref) => {
                                 templates: "",
                                 reportTemplateLocation: "",
                                 pDFLocation: "",
-
                               },
                             ],
                           }));
@@ -178,4 +173,3 @@ const P0034 = forwardRef((props: any, ref) => {
   );
 });
 export default P0034;
-

@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const NotificationModal = ({
-    open,
+  open,
   handleClose,
   title,
   children,
@@ -10,7 +10,7 @@ const NotificationModal = ({
 }: any) => {
   return (
     <div>
-        <Modal show={open} onHide={handleClose} centered size="xl">
+      <Modal show={open} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
@@ -27,7 +27,7 @@ const NotificationModal = ({
         </Modal.Footer>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default NotificationModal
+export default NotificationModal;

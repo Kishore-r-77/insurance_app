@@ -39,7 +39,7 @@ const Q0005 = forwardRef((props: any, ref) => {
     getDataParams.languageId = 1;
     getDataParams.seqno = 0;
 
-    getDataParams.name = "Q0050";
+    getDataParams.name = "P0050";
 
     getDataParams.item = "FREQ";
     sendFreqRequest({
@@ -269,7 +269,6 @@ const Q0005 = forwardRef((props: any, ref) => {
           {getFreqResponse?.param.data.dataPairs.map((value: any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
-              // {value.code}
             </MenuItem>
           ))}
         </TextField>
@@ -297,7 +296,6 @@ const Q0005 = forwardRef((props: any, ref) => {
           {getBcurResponse?.param.data.dataPairs.map((value: any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
-              // {value.code}
             </MenuItem>
           ))}
         </TextField>
@@ -325,7 +323,6 @@ const Q0005 = forwardRef((props: any, ref) => {
           {getBcurResponse?.param.data.dataPairs.map((value: any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
-              // {value.code}
             </MenuItem>
           ))}
         </TextField>

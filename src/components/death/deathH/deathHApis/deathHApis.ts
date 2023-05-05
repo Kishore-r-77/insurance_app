@@ -83,7 +83,7 @@ export const q0005 = (companyId: number, languageId: number) => {
 };
 export const frequency = (companyId: number, languageId: number) => {
   return axios.get(
-    `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0005&date=20220101&item=END&company_id=1&function=Freq`,
+    `http://localhost:3000/api/v1/basicservices/paramextradata?name=Q0005&date=20220101&item=END&company_id=1&function=FREQ`,
     {
       withCredentials: true,
     }
@@ -127,7 +127,11 @@ export const p0024 = (companyId: number, languageId: number) => {
   });
 };
 
-export const paramItem = (companyId: number,name: string, languageId: number) => {
+export const paramItem = (
+  companyId: number,
+  name: string,
+  languageId: number
+) => {
   return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
     withCredentials: true,
     params: {

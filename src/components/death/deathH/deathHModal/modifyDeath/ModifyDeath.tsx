@@ -1,6 +1,8 @@
 import { TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import CustomModal from "../../../../../utilities/modal/CustomModal";
+import { useState } from "react";
+import axios from "axios";
 
 function ModifyDeath({
   open,
@@ -8,12 +10,39 @@ function ModifyDeath({
   handleClose,
   id,
   policyId,
-  adjustedAmount,
-  modifyDeathSubmit,
-  setAdjustedAmount,
+  companyId,
+  getData,
+  setNotify,
 }: any) {
   const title = "Modify Death";
   const size = "lg";
+
+  const [adjustedAmount, setAdjustedAmount] = useState("");
+
+  const modifyDeathSubmit = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/deathmodify`,
+        {
+          CompanyID: companyId,
+          ID: id,
+          PolicyID: policyId,
+          AdjustedAmount: parseInt(adjustedAmount),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        console.log(resp);
+        handleClose();
+        setNotify({
+          isOpen: true,
+          message: `Updated Successfully`,
+          type: "success",
+        });
+        getData();
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div>
       <CustomModal
@@ -61,8 +90,8 @@ function ModifyDeath({
               fullWidth
               value={adjustedAmount}
               onChange={(e) => setAdjustedAmount(e.target.value)}
-              placeholder="AdjustedAmount"
-              label="AdjustedAmount"
+              placeholder="Adjusted Amount"
+              label="Adjusted Amount"
             />
           </Grid2>
         </Grid2>

@@ -28,6 +28,8 @@ function ClientFullModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  notify,
+  setNotify,
   getData,
 }: any) {
   const title = "Client Add";
@@ -125,7 +127,7 @@ function ClientFullModal({
       AddressState: "",
       AddressCountry: "",
       AddressStartDate: "",
-      AddressEndDate: "",
+      // AddressEndDate: "",
       ClientID: 0,
     },
   ]);
@@ -144,7 +146,7 @@ function ClientFullModal({
         AddressState: "",
         AddressCountry: "",
         AddressStartDate: "",
-        AddressEndDate: "",
+        // AddressEndDate: "",
         ClientID: 0,
       },
     ]);
@@ -192,6 +194,11 @@ function ClientFullModal({
     return createClientWithAddress(state, companyId, addressData)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created record of id:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
       .catch((err) => err.message);
@@ -634,7 +641,7 @@ function ClientFullModal({
                         </LocalizationProvider>
                       </FormControl>
                     </Grid2>
-                    <Grid2 xs={8} md={6} lg={4}>
+                    {/* <Grid2 xs={8} md={6} lg={4}>
                       <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DesktopDatePicker
@@ -648,7 +655,7 @@ function ClientFullModal({
                           />
                         </LocalizationProvider>
                       </FormControl>
-                    </Grid2>
+                    </Grid2> */}
                     {/* <Grid2 xs={8} md={6} lg={4}>
                       <TextField
                         InputProps={{ readOnly: true }}

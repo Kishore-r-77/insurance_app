@@ -18,6 +18,7 @@ import { getAddressByClient } from "./clientApis/clientAddressApis";
 import ClientFullModal from "./clientFullModal/ClientFullModal";
 import ClientModal from "./clientModal/ClientModal";
 import ClientTable from "./clientTable/ClientTable";
+import Notification from "../../../utilities/Notification/Notification";
 
 function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
   //data from getall api
@@ -27,6 +28,12 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: ClientStateType, action: any) => {
@@ -315,6 +322,8 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
         dispatch={dispatch}
         ACTIONS={ACTIONS}
         getData={getData}
+        notify={notify}
+        setNotify={setNotify}
       />
       <CustomModal
         open={state.addressOpen}
@@ -326,6 +335,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
           lookup={state.addressOpen}
         />
       </CustomModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

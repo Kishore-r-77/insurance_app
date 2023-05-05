@@ -1,6 +1,7 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
+import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import {
   ACTIONS,
@@ -10,7 +11,9 @@ import {
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
+import CustomModal from "../../utilities/modal/CustomModal";
+import NotificationModal from "../../utilities/modal/NotificationModal";
+import NewBussinessTable from "./NewBussinessTable";
 import styles from "./newBusiness.module.css";
 import {
   addApi,
@@ -18,13 +21,14 @@ import {
   editApi,
   getAllApi,
 } from "./newBusinessApis/newBusinessApis";
-import PolicyModal from "./newBusinessModal/NewBusinessModal";
-import NewBussinessTable from "./NewBussinessTable";
-import axios from "axios";
-import NotificationModal from "../../utilities/modal/NotificationModal";
-import CustomModal from "../../utilities/modal/CustomModal";
+import PolicyModal from "../policy/policyModal/PolicyModal";
 import PolicyValidate from "./policyValidate/PolicyValidate";
 import Nominee from "../nominee/nomineeTable/Nominee";
+
+import Notification from "../../utilities/Notification/Notification";
+import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
+import Benefit from "../policy/policyModal/benefit/Benefit";
+import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 
 function NewBusiness({ modalFunc }: any) {
   const size = "xl";
@@ -33,6 +37,12 @@ function NewBusiness({ modalFunc }: any) {
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
@@ -118,6 +128,7 @@ function NewBusiness({ modalFunc }: any) {
           agencyOpen: false,
         };
       case ACTIONS.BENEFITOPEN:
+        setRecord(action.payload);
         return {
           ...state,
           benefitOpen: true,
@@ -251,7 +262,7 @@ function NewBusiness({ modalFunc }: any) {
     }
   };
 
-  const validatePolicy = () => {
+  const validatePolicy = (policyId: number) => {
     axios
       .post(
         `http://localhost:3000/api/v1/nbservices/policyvalidate/${policyId}`,
@@ -265,6 +276,15 @@ function NewBusiness({ modalFunc }: any) {
         setsummaryData(resp.data["Summary"]);
         setisConfirm(false);
         policyvalidateOpen();
+      })
+      .catch((err) => {
+        console.log(err, "Error");
+        setNotify({
+          isOpen: true,
+          message: err.response.data.ValidatePolicy,
+          type: "error",
+        });
+        confirmClose();
       });
   };
 
@@ -322,6 +342,21 @@ function NewBusiness({ modalFunc }: any) {
     getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
+
+  const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState([]);
+
+  const getBenefitsByPolicies1 = (policyId: number) => {
+    getBenefitsByPolicies(policyId)
+      .then((resp) => {
+        setbenefitsByPoliciesData(resp.data?.Benefit);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBenefitsByPolicies1(record.ID);
+    return () => {};
+  }, [state.benefitOpen]);
 
   return (
     <div>
@@ -428,18 +463,43 @@ function NewBusiness({ modalFunc }: any) {
         nexPage={nexPage}
       />
 
+      <PolicyEnquiry
+        state={state}
+        record={record}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        handleFormSubmit={editFormSubmit}
+      />
+
       <PolicyModal
+        getData={getData}
         state={state}
         record={record}
         dispatch={dispatch}
+        setNotify={setNotify}
+        validatePolicy={validatePolicy}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
 
+      <CustomModal
+        size={size}
+        open={state.benefitOpen}
+        handleClose={() => dispatch({ type: ACTIONS.BENEFITCLOSE })}
+      >
+        <Benefit
+          benefitsByPoliciesData={benefitsByPoliciesData}
+          getBenefitsByPolicies1={getBenefitsByPolicies1}
+          getPolicies={getData}
+          policyRecord={record}
+          lookup={state.benefitOpen}
+        />
+      </CustomModal>
+
       <NotificationModal
         open={isConfirm}
         handleClose={confirmClose}
-        handleFormSubmit={validatePolicy}
+        handleFormSubmit={() => validatePolicy(policyId)}
       >
         <h4>Are you sure you want to validate policy?</h4>
       </NotificationModal>
@@ -461,6 +521,7 @@ function NewBusiness({ modalFunc }: any) {
       >
         <Nominee lookup={state.nomineeOpen} policyRecord={record} />
       </CustomModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

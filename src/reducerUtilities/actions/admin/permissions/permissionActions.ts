@@ -5,7 +5,11 @@ export const columns = [
   { field: "ID", header: "ID", dbField: "id" },
   { field: "ModelName", header: "Model Name", dbField: "company_id" },
   { field: "Method", header: "Method", dbField: "method" },
-  { field: "TransCode", header: "TransCode", dbField: "trans_code" },
+  // {
+  //   field: "TransactionID",
+  //   header: "Transaction ID",
+  //   dbField: "transaction_id",
+  // },
 ];
 
 //Storing Actions into a Variable for Reducer
