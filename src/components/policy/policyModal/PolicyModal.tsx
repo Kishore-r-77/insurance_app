@@ -805,6 +805,35 @@ function PolicyModal({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          select
+                          id="BCoverage"
+                          name="BCoverage"
+                          value={benefits.BCoverage}
+                          placeholder="b_coverage"
+                          label="b_coverage"
+                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          //   dispatch({
+                          //     type: ACTIONS.ONCHANGE,
+                          //     payload: e.target.value,
+                          //     fieldName: "BCoverage",
+                          //   })
+                          // }
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          fullWidth
+                          margin="dense"
+                        >
+                          {bCoverageData.map((val: any) => (
+                            <MenuItem key={val.Coverage} value={val.Coverage}>
+                              {val.Coverage}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </Grid2>
+
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
                           type="number"
                           //InputProps={{
                           //startAdornment: (
@@ -843,35 +872,6 @@ function PolicyModal({
                           fullWidth
                           margin="dense"
                         />
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          select
-                          id="BCoverage"
-                          name="BCoverage"
-                          value={benefits.BCoverage}
-                          placeholder="b_coverage"
-                          label="b_coverage"
-                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          //   dispatch({
-                          //     type: ACTIONS.ONCHANGE,
-                          //     payload: e.target.value,
-                          //     fieldName: "BCoverage",
-                          //   })
-                          // }
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleChange(e, index)
-                          }
-                          fullWidth
-                          margin="dense"
-                        >
-                          {bCoverageData.map((val: any) => (
-                            <MenuItem key={val.Coverage} value={val.Coverage}>
-                              {val.Coverage}
-                            </MenuItem>
-                          ))}
-                        </TextField>
                       </Grid2>
 
                       <Grid2 xs={8} md={6} lg={4}>
