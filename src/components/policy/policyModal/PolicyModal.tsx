@@ -24,6 +24,7 @@ import Address from "../../clientDetails/address/Address";
 import Client from "../../clientDetails/client/Client";
 import {
   extraParamItem,
+  freqItems,
   paramItem,
 } from "../../clientDetails/client/clientApis/clientApis";
 import { createPoliciesWithBenefits } from "../policyApis/policyApis";
@@ -67,14 +68,22 @@ function PolicyModal({
   };
 
   const [pFreqData, setPFreqData] = useState([]);
-  const getPFreq = (companyId: number, name: string, languageId: number) => {
-    paramItem(companyId, name, languageId)
+  const getPFreq = (
+    companyId: number,
+    name: string,
+    item: string,
+    languageId: number,
+    func: string
+  ) => {
+    freqItems(companyId, name, item, languageId, func)
       .then((resp) => {
-        setPFreqData(resp.data.data);
-        return resp.data.data;
+        setPFreqData(resp.data?.AllowedFrequencies);
+        return resp.data?.AllowedFrequencies;
       })
       .catch((err) => err);
   };
+
+  console.log(pFreqData, "freq");
 
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
@@ -144,9 +153,14 @@ function PolicyModal({
   };
 
   useEffect(() => {
+    getPFreq(companyId, "Q0005", state.PProduct, languageId, "FREQ");
+    return () => {};
+  }, [state.PProduct]);
+
+  useEffect(() => {
     getCompanyData(companyId);
     getPProduct(companyId, "Q0005", languageId);
-    getPFreq(companyId, "Q0009", languageId);
+
     getPContractCurr(companyId, "P0023", languageId);
     getPBillCurr(companyId, "P0023", languageId);
     getPOffice(companyId, "P0018", languageId);
@@ -473,7 +487,7 @@ function PolicyModal({
                     margin="dense"
                   >
                     {pFreqData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      <MenuItem value={val}>{val}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>

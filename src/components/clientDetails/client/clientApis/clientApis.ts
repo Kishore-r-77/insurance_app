@@ -34,6 +34,29 @@ export const paramItem = (
     },
   });
 };
+export const freqItems = (
+  companyId: number,
+  name: string,
+  item: string,
+  languageId: number,
+  func: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata`,
+    {
+      withCredentials: true,
+      params: {
+        company_id: companyId,
+        name,
+        item,
+        languageId,
+        function: func,
+        date: "20220101",
+      },
+    }
+  );
+};
+
 export const extraParamItem = (
   companyId: number,
   name: string,

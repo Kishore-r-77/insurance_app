@@ -34,7 +34,8 @@ function NomineeModal({
   const addTitle: string = "Nominee Add";
   const editTitle: string = "Nominee Edit";
   const infoTitle: string = "Nominee Info";
-  console.log(policyRecord.ID, "POLICYID");
+
+  const size: string = "xl";
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -136,6 +137,7 @@ function NomineeModal({
   return (
     <div className={styles.modal}>
       <CustomModal
+        size={size}
         open={
           state.addOpen
             ? state.addOpen
