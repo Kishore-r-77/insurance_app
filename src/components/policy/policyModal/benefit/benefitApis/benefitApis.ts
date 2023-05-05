@@ -77,7 +77,7 @@ export const addApi = (state: any, companyId: number, policyRecord: any) => {
       BStatus: state.BStatus,
       BAge: parseInt(state.BAge),
       BRerate: state.BRerate,
-      ClientID: parseInt(policyRecord.ClientID),
+      ClientID: parseInt(state.ClientID),
       PolicyID: parseInt(policyRecord.ID),
       AddressID: parseInt(policyRecord.AddressID),
     },

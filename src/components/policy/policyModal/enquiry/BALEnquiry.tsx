@@ -10,11 +10,7 @@ function BALEnquiry({ data, policyNo, state }: any) {
       header: "Company ID",
       dbField: "company_id",
     },
-    {
-      field: "Tranno",
-      header: "Tran No",
-      dbField: "tranno",
-    },
+
     {
       field: "GlRdocno",
       header: "GL Record No",

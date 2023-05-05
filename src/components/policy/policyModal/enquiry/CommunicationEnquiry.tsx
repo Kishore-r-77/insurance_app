@@ -3,7 +3,7 @@ import EnquiryTable from "./EnquiryTable";
 
 const CommunicationEnquiry = ({ communicationData, state }: any) => {
   const columns = [
-    { field: "ID", header: "ID", dbField: "id" },
+    { field: "ID", header: "Communication ID", dbField: "id" },
 
     {
       field: "TemplateName",

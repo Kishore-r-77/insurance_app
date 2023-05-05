@@ -11,6 +11,7 @@ import CustomModal from "../../../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../../../redux/app/hooks";
 import { getApi } from "../../../../admin/companies/companiesApis/companiesApis";
 import { extraParamItem } from "../../../../clientDetails/client/clientApis/clientApis";
+import Client from "../../../../clientDetails/client/Client";
 
 function BenefitModal({
   state,
@@ -50,6 +51,17 @@ function BenefitModal({
     });
   };
 
+  const clientOpenFunc = (item: any) => {
+    console.log(item.ID, "clientId");
+    if (state.addOpen) {
+      state.ClientID = item.ID;
+    } else record.ClientID = item.ID;
+
+    dispatch({ type: ACTIONS.CLIENTCLOSE });
+  };
+
+  console.log(record, "Record");
+
   useEffect(() => {
     getCompanyData(companyId);
     getBCoverage(companyId, "Q0011", policyRecord.PProduct, "20220101");
@@ -87,6 +99,15 @@ function BenefitModal({
         handleFormSubmit={() => handleFormSubmit()}
       >
         <form>
+          {state.clientOpen ? (
+            <CustomModal
+              size={size}
+              open={state.clientOpen}
+              handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
+            >
+              <Client modalFunc={clientOpenFunc} />
+            </CustomModal>
+          ) : null}
           <Grid2 container spacing={2}>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
@@ -99,6 +120,27 @@ function BenefitModal({
                 label="Company"
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
+
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                InputProps={{ readOnly: true }}
+                id="ClientID"
+                onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                name="ClientID"
+                value={state.ClientID}
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "ClientID",
+                  })
+                }
+                placeholder="client_id"
+                label="client_id"
+                fullWidth
                 margin="dense"
               />
             </Grid2>
@@ -125,6 +167,31 @@ function BenefitModal({
                   />
                 </LocalizationProvider>
               </FormControl>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                select
+                id="BCoverage"
+                name="BCoverage"
+                value={state.BCoverage}
+                placeholder="b_coverage"
+                label="b_coverage"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "BCoverage",
+                  })
+                }
+                fullWidth
+                margin="dense"
+              >
+                {bCoverageData.map((val: any) => (
+                  <MenuItem key={val.Coverage} value={val.Coverage}>
+                    {val.Coverage}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
@@ -164,31 +231,7 @@ function BenefitModal({
                 margin="dense"
               />
             </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="BCoverage"
-                name="BCoverage"
-                value={state.BCoverage}
-                placeholder="b_coverage"
-                label="b_coverage"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "BCoverage",
-                  })
-                }
-                fullWidth
-                margin="dense"
-              >
-                {bCoverageData.map((val: any) => (
-                  <MenuItem key={val.Coverage} value={val.Coverage}>
-                    {val.Coverage}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid2>
+
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 id="BSumAssured"

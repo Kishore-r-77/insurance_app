@@ -23,6 +23,11 @@ function GLAccountEnquiry({
       dbField: "gl_rdocno",
     },
     {
+      field: "Tranno",
+      header: "Tran No",
+      dbField: "tranno",
+    },
+    {
       field: "GlRldgAcct",
       header: "GL Account",
       dbField: "gl_rldg_acct",
@@ -33,7 +38,7 @@ function GLAccountEnquiry({
       dbField: "gl_curry",
     },
     {
-      field: "GlRldGlAmountgAcct",
+      field: "GlAmount",
       header: "GL Amount",
       dbField: "gl_amount",
     },

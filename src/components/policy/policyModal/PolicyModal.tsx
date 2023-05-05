@@ -779,7 +779,7 @@ function PolicyModal({
                             <DesktopDatePicker
                               label="b_start_date"
                               inputFormat="DD/MM/YYYY"
-                              value={state.PReceivedDate}
+                              value={state.PRCD}
                               onChange={(date) => handleBStartDate(date, index)}
                               renderInput={(params) => (
                                 <TextField {...params} />

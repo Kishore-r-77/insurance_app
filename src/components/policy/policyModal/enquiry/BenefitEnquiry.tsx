@@ -2,104 +2,104 @@ import EnquiryTable from "./EnquiryTable";
 
 const BenefitEnquiry = ({ benefitenquiryData, state }: any) => {
   const columns = [
-    { field: "ID", header: "ID", dbField: "id" },
+    { field: "ID", header: "Benefit ID", dbField: "id" },
     {
       field: "BStartDate",
-      header: "Benefit Start Date",
+      header: "Start Date",
       dbField: "b_start_date",
       type: "date",
     },
 
     {
       field: "BRiskCessDate",
-      header: "Benefit Risk Cessation Date",
+      header: "Risk Cessation Date",
       dbField: "b_risk_cess_date",
       type: "date",
     },
 
     {
       field: "BPremCessDate",
-      header: "Benefit Premium Cessation Date",
+      header: "Premium Cessation Date",
       dbField: "b_prem_cess_date",
       type: "date",
     },
 
     {
       field: "BTerm",
-      header: "Benefit Term",
+      header: "Term",
       dbField: "b_term",
     },
 
     {
       field: "BPTerm",
-      header: "Benefit Premiun Term",
+      header: "Premiun Term",
       dbField: "bp_term",
     },
 
     {
       field: "BRiskCessAge",
-      header: "Benefit Risk Cessation Age",
+      header: "Risk Cessation Age",
       dbField: "b_risk_cess_age",
     },
 
     {
       field: "BPremCessAge",
-      header: "Benefit Premium Cessation Age",
+      header: "Premium Cessation Age",
       dbField: "b_prem_cess_age",
     },
 
     {
       field: "BBasAnnualPrem",
-      header: "Benefit Basic Annual Premium",
+      header: "Basic Annual Premium",
       dbField: "b_bas_annual_prem",
     },
 
     {
       field: "BLoadPrem",
-      header: "Benefit Loaded Premium",
+      header: "Loaded Premium",
       dbField: "b_load_prem",
     },
 
     {
       field: "BCoverage",
-      header: "Benefit Coverage",
+      header: "Coverage",
       dbField: "b_coverage",
     },
 
     {
       field: "BSumAssured",
-      header: "Benefit Sum Assured",
+      header: "Sum Assured",
       dbField: "b_sum_assured",
     },
 
     {
       field: "BPrem",
-      header: "Benefit Premium",
+      header: "Premium",
       dbField: "b_prem",
     },
 
     {
       field: "BGender",
-      header: "Beneficiary Gender",
+      header: "Gender",
       dbField: "b_gender",
     },
 
     {
       field: "BDOB",
-      header: "Beneficiary DOB",
+      header: "DOB",
       dbField: "bdob",
       type: "date",
     },
 
     {
       field: "BMortality",
-      header: "Benefit Mortality",
+      header: " Mortality",
       dbField: "b_mortality",
     },
 
     {
       field: "BStatus",
-      header: "Benefit Status",
+      header: "Status",
       dbField: "b_status",
     },
 
@@ -111,7 +111,7 @@ const BenefitEnquiry = ({ benefitenquiryData, state }: any) => {
 
     {
       field: "BRerate",
-      header: "Benefit ReRated",
+      header: "ReRated",
       dbField: "b_rerate",
       type: "date",
     },
