@@ -128,9 +128,11 @@ function BenefitModal({
               <TextField
                 InputProps={{ readOnly: true }}
                 id="ClientID"
-                onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                onClick={() =>
+                  state.addOpen ? dispatch({ type: ACTIONS.CLIENTOPEN }) : {}
+                }
                 name="ClientID"
-                value={state.ClientID}
+                value={state.addOpen ? state.ClientID : record.ClientID}
                 onChange={(e) =>
                   dispatch({
                     type: ACTIONS.ONCHANGE,
@@ -173,7 +175,7 @@ function BenefitModal({
                 select
                 id="BCoverage"
                 name="BCoverage"
-                value={state.BCoverage}
+                value={state.addOpen ? state.BCoverage : record.BCoverage}
                 placeholder="b_coverage"
                 label="b_coverage"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

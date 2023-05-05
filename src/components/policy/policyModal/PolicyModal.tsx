@@ -422,7 +422,9 @@ function PolicyModal({
                             fieldName: "PRCD",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -590,7 +592,9 @@ function PolicyModal({
                             fieldName: "PReceivedDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -613,7 +617,9 @@ function PolicyModal({
                             fieldName: "PUWDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -636,7 +642,9 @@ function PolicyModal({
                             fieldName: "BtDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -659,7 +667,9 @@ function PolicyModal({
                             fieldName: "PaidToDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -682,7 +692,9 @@ function PolicyModal({
                             fieldName: "NxtBtDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -705,7 +717,9 @@ function PolicyModal({
                             fieldName: "AnnivDate",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
@@ -782,7 +796,7 @@ function PolicyModal({
                               value={state.PRCD}
                               onChange={(date) => handleBStartDate(date, index)}
                               renderInput={(params) => (
-                                <TextField {...params} />
+                                <TextField {...params} error={false} />
                               )}
                             />
                           </LocalizationProvider>
