@@ -195,6 +195,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     //   })
                     // }
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
@@ -231,6 +232,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Product"
                     label="Product"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   ></TextField>
@@ -243,6 +245,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Frequency"
                     label="Frequency"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   ></TextField>
@@ -255,6 +258,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Contract Currency"
                     label="Contract Currency"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   ></TextField>
@@ -267,6 +271,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Bill Currency"
                     label="Bill Currency"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   ></TextField>
@@ -279,6 +284,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Office"
                     label="Office"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   ></TextField>
@@ -292,6 +298,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Policy Status"
                     label="Policy Status"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   ></TextField>
@@ -330,6 +337,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Owner Id"
                     label="Owner Id"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     margin="dense"
                   />
                 </Grid2>
@@ -342,6 +350,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Address Id"
                     label="Address Id"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     margin="dense"
                   />
                 </Grid2>
@@ -354,6 +363,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     placeholder="Agency Id"
                     label="Agency Id"
                     fullWidth
+                    InputLabelProps={{ shrink: true }}
                     margin="dense"
                   />
                 </Grid2>

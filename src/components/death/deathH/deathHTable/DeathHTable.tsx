@@ -40,6 +40,7 @@ function DeathHTable({
 
   const id = useRef(0);
   const policyId = useRef(0);
+  const enquiryRecord = useRef();
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -47,6 +48,7 @@ function DeathHTable({
   ) => {
     id.current = value.ID;
     policyId.current = value.PolicyID;
+    enquiryRecord.current = value;
     setAnchorEl(event.currentTarget);
     deathMenu();
   };
@@ -124,6 +126,10 @@ function DeathHTable({
 
   const deathMenuClick = (value: any) => {
     switch (value) {
+      case "Enquiry":
+        dispatch({ type: ACTIONS.INFOOPEN, payload: enquiryRecord?.current });
+        handleClose();
+        break;
       case "Adjustment":
         modifyDeathOpen(id.current, policyId.current);
         break;
@@ -245,14 +251,14 @@ function DeathHTable({
               </td> */}
               <td>
                 <span className={styles.flexButtons}>
-                  <IconButton
+                  {/* <IconButton
                     onClick={() =>
                       dispatch({ type: ACTIONS.INFOOPEN, payload: row })
                     }
                   >
                     {" "}
                     <InfoIcon />
-                  </IconButton>
+                  </IconButton> */}
 
                   <IconButton
                     id="basic-button"
