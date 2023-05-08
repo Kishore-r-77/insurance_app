@@ -256,7 +256,7 @@ function NomineeModal({
                   </TextField>
                 </Grid2>
 
-                <Grid2 xs={8} md={6} lg={4}>
+                {/* <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="NomineeLongName"
                     name="NomineeLongName"
@@ -280,7 +280,7 @@ function NomineeModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
-                </Grid2>
+                </Grid2> */}
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
