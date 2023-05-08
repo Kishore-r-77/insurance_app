@@ -92,4 +92,9 @@ export const columns = [
     header: "Death Proof",
     dbField: "death_proof",
   },
+  {
+    field: "Status",
+    header: "Status",
+    dbField: "status",
+  },
 ];
