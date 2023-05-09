@@ -1,15 +1,22 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import BusinessIcon from "@mui/icons-material/Business";
 import InfoIcon from "@mui/icons-material/Info";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SendIcon from "@mui/icons-material/Send";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { IconButton, Paper } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import axios from "axios";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Table from "react-bootstrap/Table";
+import { useAppSelector } from "../../redux/app/hooks";
 import styles from "./newbussinesstable.module.css";
-import BusinessIcon from "@mui/icons-material/Business";
-import PeopleIcon from "@mui/icons-material/People";
+import CustomModal from "../../utilities/modal/CustomModal";
+import OwnerModal from "./ownerModal/OwnerModal";
+import Payer from "../payer/Payer";
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -26,6 +33,136 @@ function NewBussinessTable({
       ? sortParam
       : { fieldName: columns[0].dbField, order: "asc" }
   );
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const policyId = useRef(0);
+  const enquiryRecord = useRef<any>();
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    value: any
+  ) => {
+    policyId.current = value.ID;
+    enquiryRecord.current = value;
+    setAnchorEl(event.currentTarget);
+    clientMenu();
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+
+  const [clientData, setclientData] = useState([]);
+  const [isClientOpen, setisClientOpen] = useState(false);
+
+  const getClient = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/clientget/${enquiryRecord?.current?.ClientID}`,
+        { withCredentials: true }
+      )
+      .then((resp) => setclientData(resp.data?.Client))
+      .catch((err) => err.message);
+  };
+
+  const clientOpen = () => {
+    setisClientOpen(true);
+  };
+
+  const clientClose = () => {
+    setisClientOpen(false);
+  };
+
+  useEffect(() => {
+    getClient();
+    return () => {};
+  }, [isClientOpen === true]);
+
+  const [clientMenuData, setclientMenuData] = useState([]);
+  const clientMenu = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/basicservices/paramextradata`, {
+        withCredentials: true,
+        params: {
+          name: "P0044",
+          date: "20220101",
+          item: "CLIENTMM",
+          company_id: companyId,
+        },
+      })
+      .then((resp) => {
+        setclientMenuData(resp.data?.AllowedMenus);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const [isPayer, setisPayer] = useState(false);
+
+  const [PolicyID, setPolicyID] = useState(0);
+  const [payerObj, setpayerObj] = useState<any>({});
+  const payerOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setisPayer(true);
+    setpayerObj(value);
+    console.log(policyId, "policy Id");
+
+    handleClose();
+  };
+
+  const payerClose = () => {
+    setisPayer(false);
+  };
+
+  const [payerByPolicyData, setpayerByPolicyData] = useState([]);
+
+  const getPayerByPolicy = (id: number) => {
+    axios
+      .get(`http://${payerObj?.URL}${id}`, { withCredentials: true })
+      .then((resp) => {
+        setpayerByPolicyData(resp?.data?.Payer);
+      })
+      .catch((err) => {
+        console.log(err);
+
+        setpayerByPolicyData([]);
+      });
+  };
+
+  useEffect(() => {
+    getPayerByPolicy(PolicyID);
+    return () => {};
+  }, [isPayer]);
+
+  const clientMenuClick = (value: any) => {
+    switch (value.Action) {
+      case "Nominee":
+        dispatch({
+          type: ACTIONS.NOMINEEOPEN,
+          payload: enquiryRecord?.current,
+        });
+        handleClose();
+        break;
+      case "Payer":
+        payerOpen(policyId.current, value);
+        handleClose();
+
+        break;
+      case "Owner":
+        clientOpen();
+        handleClose();
+        break;
+
+      default:
+        return;
+    }
+  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -95,8 +232,8 @@ function NewBussinessTable({
                 </th>
               )
             )}
-            <th>Nominees</th>
             <th>Benefit</th>
+            <th>Clients</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -117,16 +254,7 @@ function NewBussinessTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-              <td>
-                <PeopleIcon
-                  onClick={() =>
-                    dispatch({
-                      type: ACTIONS.NOMINEEOPEN,
-                      payload: row,
-                    })
-                  }
-                />
-              </td>
+
               <td>
                 <BusinessIcon
                   onClick={() =>
@@ -137,6 +265,44 @@ function NewBussinessTable({
                   }
                 />
               </td>
+              <td>
+                <span className={styles.flexButtons}>
+                  {/* <IconButton
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                    }
+                  >
+                    {" "}
+                    <InfoIcon />
+                  </IconButton> */}
+
+                  <IconButton
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={(e) => handleClick(e, row)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    {clientMenuData.map((clientValue: any) => (
+                      <MenuItem onClick={() => clientMenuClick(clientValue)}>
+                        {clientValue?.Action}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </span>
+              </td>
+
               {ACTIONS.EDITOPEN && (
                 <td>
                   <span className={styles.flexButtons}>
@@ -170,6 +336,19 @@ function NewBussinessTable({
           ))}
         </tbody>
       </Table>
+      <OwnerModal
+        record={clientData}
+        open={isClientOpen}
+        handleClose={clientClose}
+      />
+      <CustomModal open={isPayer} handleClose={payerClose} size="xl">
+        <Payer
+          lookup={isPayer}
+          payerByPolicyData={payerByPolicyData}
+          policyId={PolicyID}
+          getPayerByPolicy={getPayerByPolicy}
+        />
+      </CustomModal>
     </Paper>
   );
 }

@@ -16,6 +16,7 @@ import Campaigns from "./components/campaignDetails/campaigns/Campaigns";
 import Address from "./components/clientDetails/address/Address";
 import Bank from "./components/clientDetails/bank/Bank";
 import Client from "./components/clientDetails/client/Client";
+import DeathH from "./components/death/deathH/DeathH";
 import Hompage from "./components/homepage/Hompage";
 import LeadAllocations from "./components/lead/leadAllocations/LeadAllocations";
 import LeadChannels from "./components/lead/leadChannels/LeadChannels";
@@ -24,6 +25,7 @@ import LeadFollowups from "./components/lead/leadFollowups/LeadFollowups";
 import Levels from "./components/levels/Levels";
 import Nbmm from "./components/nbmm/Nbmm";
 import NewBusiness from "./components/newBusiness/NewBusiness";
+import Nominee from "./components/nominee/nomineeTable/Nominee";
 import Policy from "./components/policy/Policy";
 import QBenIllValues from "./components/qBenIllValues/QBenIllValues";
 import QDetails from "./components/qDetails/QDetails";
@@ -34,8 +36,6 @@ import Transaction from "./components/transaction/Transaction";
 import Footer from "./utilities/footer/Footer";
 import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
-import DeathH from "./components/death/deathH/DeathH";
-import Nominee from "./components/nominee/nomineeTable/Nominee";
 function App() {
   const { pathname } = useLocation();
 

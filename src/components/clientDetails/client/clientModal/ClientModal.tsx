@@ -23,7 +23,7 @@ function ClientModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
-}: ClientModalType) {
+}: any) {
   const editTitle: string = "Client Edit";
   const infoTitle: string = "Client Info";
   const size = "xl";
