@@ -200,10 +200,10 @@ function Benefit({
         }
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log(err);
         setNotify({
           isOpen: true,
-          message: err.message,
+          message: err?.response?.data["History Status"],
           type: "error",
         });
       });

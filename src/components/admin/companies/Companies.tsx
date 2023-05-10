@@ -19,6 +19,7 @@ import {
   getAllApi,
 } from "./companiesApis/companiesApis";
 import CompaniesModal from "./companiesModal/CompaniesModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function Companies({ userORGroupFunc }: any) {
   //data from getall api
@@ -26,6 +27,12 @@ function Companies({ userORGroupFunc }: any) {
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   //Function for Conversion of Base64
   const convertBase64 = (file: any) => {
@@ -163,9 +170,20 @@ function Companies({ userORGroupFunc }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created: ${resp?.data?.Result}`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -173,10 +191,21 @@ function Companies({ userORGroupFunc }: any) {
     editApi(record)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: `Updated:${resp.data?.outputs?.ID}`,
+          type: "success",
+        });
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Hard Delete Api
@@ -308,6 +337,7 @@ function Companies({ userORGroupFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
