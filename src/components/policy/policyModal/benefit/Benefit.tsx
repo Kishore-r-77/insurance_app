@@ -176,10 +176,22 @@ function Benefit({
         if (lookup) {
           getBenefitsByPolicies1(policyRecord.ID);
         }
+        setNotify({
+          isOpen: true,
+          message: `Created Successfully`,
+          type: "success",
+        });
         getData();
         getPolicies();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -190,7 +202,7 @@ function Benefit({
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
-          message: `Updated record of id:${resp.data.outputs.ID} Successfully`,
+          message: `Updated Successfully`,
           type: "success",
         });
         getData();
@@ -203,7 +215,7 @@ function Benefit({
         console.log(err);
         setNotify({
           isOpen: true,
-          message: err?.response?.data["History Status"],
+          message: err?.response?.data?.error,
           type: "error",
         });
       });
