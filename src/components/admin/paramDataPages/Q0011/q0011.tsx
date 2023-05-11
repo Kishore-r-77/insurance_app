@@ -1,279 +1,301 @@
-import React , { forwardRef, useRef, useImperativeHandle } from 'react';
-import { TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import './q0011.css'
-const Q0011 = forwardRef((props:any,ref) => {
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { MenuItem, TextField } from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Table from "react-bootstrap/Table";
+import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 
-    const mandatoryNameInputRef0:any = useRef();
-    const coverageNameNameInputRef0:any = useRef();
-    const mandatoryNameInputRef1:any = useRef();
-    const coverageNameNameInputRef1:any = useRef();
-    const mandatoryNameInputRef2:any = useRef();
-    const coverageNameNameInputRef2:any = useRef();
-    const mandatoryNameInputRef3:any = useRef();
-    const coverageNameNameInputRef3:any = useRef();
-    const mandatoryNameInputRef4:any = useRef();
-    const coverageNameNameInputRef4:any = useRef();
-    const mandatoryNameInputRef5:any = useRef();
-    const coverageNameNameInputRef5:any = useRef();
-    let inputdata:any = {}
-    if(props.data)
-    {
-      inputdata= props.data;
-    }
-      
-      useImperativeHandle(ref, () => ({
- 
-       
-        getData() {
-       
-            
-          inputdata.coverages[0].coverageName = coverageNameNameInputRef0.current.value;
-          inputdata.coverages[0].mandatory = mandatoryNameInputRef0.current.value;
-          
-          inputdata.coverages[1].coverageName = coverageNameNameInputRef1.current.value;
-          inputdata.coverages[1].mandatory = mandatoryNameInputRef1.current.value;
-          
-          inputdata.coverages[2].coverageName = coverageNameNameInputRef2.current.value;
-          inputdata.coverages[2].mandatory = mandatoryNameInputRef2.current.value;
-          
-          inputdata.coverages[3].coverageName = coverageNameNameInputRef3.current.value;
-          inputdata.coverages[3].mandatory = mandatoryNameInputRef3.current.value;
-          
-          inputdata.coverages[4].coverageName = coverageNameNameInputRef4.current.value;
-          inputdata.coverages[4].mandatory = mandatoryNameInputRef4.current.value;
-          
-          inputdata.coverages[5].coverageName = coverageNameNameInputRef5.current.value;
-          inputdata.coverages[5].mandatory = mandatoryNameInputRef5.current.value;
-          
+import  "./q0011.css";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
 
-          return inputdata
-          
-        }
-    
+
+const Q0011 = forwardRef((props: any, ref) => {
+
+  const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true);
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+
+        getDataParams.name = "P0046";
+        sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
+
+
+    },[]);
+
+  const [inputdata, setInputdata] = useState(props.data ? props.data : {});
+  useImperativeHandle(ref, () => ({
+    getData() {
+      let retData = inputdata;
+      retData.coverages = retData.coverages.filter(
+        (value: any) => value.coverageName !== ""
+      );
+
+      setInputdata((inputdata: any) => ({
+        ...inputdata,
+        coverages: inputdata.coverages.filter(
+          (value: any) => value.coverageName !== ""
+        ),
       }));
+      return retData;
+    },
+  }));
 
+  const deleteItemHandler = (index: Number) => {
+    setInputdata((inputdata: any) => ({
+      ...inputdata,
+      coverages: inputdata.coverages.filter(
+        (_: any, ind: number) => ind !== index
+      ),
+    }));
+  };
+
+  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+    setInputdata((inputdata: any) => ({
+      ...inputdata,
+      coverages: inputdata.coverages.map((val: any, ind: number) => {
+        if (index === ind) {
+          val[fieldname] = value;
+          return val;
+        } else {
+          return val;
+        }
+      }),
+    }));
+  };
+
+  return (
   
-    
-   
+    <Table striped bordered hover>
+      <thead
+        style={{
+          backgroundColor: "rgba(71, 11, 75, 1)",
+          color: "white",
+          position: "sticky",
+          top: "0",
+        }}
+      >
 
-          return(
-<>
-            <Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                   inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="coverageName"
-                  name="coverageName"
-                  inputRef = {coverageNameNameInputRef0} 
-                  placeholder="coverageName"
-                  label="coverageName"
-                  defaultValue = {inputdata.coverages[0].coverageName}
-                  fullWidth
-            
+        <tr>
+          <th>Coverage Short Name</th> 
+          <th>Coverage Long Name</th> 
+          <th>Is it Mandatory?(Y/N)</th> 
+          <th>Basic or Rider(B/R)</th> 
+          <th>Term can Exceed Basic(Y/N)</th> 
+          <th>Premium Paying Term can Exceed Basic(Y/N)</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.coverages?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.coverages || inputdata.coverages?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        coverages: [
+                          {
+                            coverageName: "",
+                            coverageLongName: "",
+                            mandatory: "",
+                            basicorRider: "",
+                            termCanExceed: "",
+                            pptCanExceed: "",
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
+        </tr>
+      </thead>
+      <tbody>
+        {inputdata.coverages?.map((value: any, index: number) => (
+          <tr key={index}>
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="coverageName"
+                name="coverageName"
+                value={value.coverageName}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "coverageName", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="coverageLongName"
+                name="coverageLongName"
+                value={value.coverageLongName}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "coverageLongName", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
 
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                  inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="Mandatory"
-                  name="Mandatory"
-                  inputRef = {mandatoryNameInputRef0} 
-                  placeholder="Mandatory"
-                  label="Mandatory"
-                  defaultValue = {inputdata.coverages[0].mandatory}
-                  fullWidth
-                
- 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                   inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="coverageName"
-                  name="coverageName"
-                  inputRef = {coverageNameNameInputRef1} 
-                  placeholder="coverageName"
-                  label="coverageName"
-                  defaultValue = {inputdata.coverages[1].coverageName}
-                  fullWidth
-            
+            <td>
+              <TextField
+                select
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="mandatory"
+                name="mandatory"
+                value={value.mandatory}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "mandatory", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              >
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="basicorRider"
+                name="basicorRider"
+                value={value.basicorRider}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "basicorRider", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
 
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                  inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="Mandatory"
-                  name="Mandatory"
-                  inputRef = {mandatoryNameInputRef1} 
-                  placeholder="Mandatory"
-                  label="Mandatory"
-                  defaultValue = {inputdata.coverages[1].mandatory}
-                  fullWidth
-                
- 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                   inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="coverageName"
-                  name="coverageName"
-                  inputRef = {coverageNameNameInputRef2} 
-                  placeholder="coverageName"
-                  label="coverageName"
-                  defaultValue = {inputdata.coverages[2].coverageName}
-                  fullWidth
-            
+            <td>
+              <TextField
+                select
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="termCanExceed"
+                name="termCanExceed"
+                value={value.termCanExceed}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "termCanExceed", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              >
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
+            <td>
+              <TextField
+                select
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="pptCanExceed"
+                name="pptCanExceed"
+                value={value.pptCanExceed}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "pptCanExceed", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              >
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                  inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="Mandatory"
-                  name="Mandatory"
-                  inputRef = {mandatoryNameInputRef2} 
-                  placeholder="Mandatory"
-                  label="Mandatory"
-                  defaultValue = {inputdata.coverages[2].mandatory}
-                  fullWidth
-                
- 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                   inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="coverageName"
-                  name="coverageName"
-                  inputRef = {coverageNameNameInputRef3} 
-                  placeholder="coverageName"
-                  label="coverageName"
-                  defaultValue = {inputdata.coverages[3].coverageName}
-                  fullWidth
-            
+            {(props.mode === "update" || props.mode === "create") && (
+              <td>
+                <span
+                  style={{
+                    display: "flex",
+                    gap: "0.5rem",
+                    marginTop: "0.9rem",
+                  }}
+                >
+                  <CustomTooltip text="Remove">
+                    <DeleteIcon
+                      color="error"
+                      onClick={() => {
+                        deleteItemHandler(index);
+                      }}
+                    />
 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
+                  </CustomTooltip>
+                  {index === inputdata.coverages.length - 1 && (
+                    <CustomTooltip text="Add">
+                      <AddBoxIcon
+                        onClick={() => {
+                          setInputdata((inputdata: any) => ({
+                            ...inputdata,
+                            coverages: [
+                              ...inputdata.coverages,
+                              {
+                                coverageName: "",
+                                coverageLongName: "",
+                                mandatory: "",
+                                basicorRider: "",
+                                termCanExceed: "",
+                                pptCanExceed: "",
 
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                  inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="Mandatory"
-                  name="Mandatory"
-                  inputRef = {mandatoryNameInputRef3} 
-                  placeholder="Mandatory"
-                  label="Mandatory"
-                  defaultValue = {inputdata.coverages[3].mandatory}
-                  fullWidth
-                
- 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                   inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="coverageName"
-                  name="coverageName"
-                  inputRef = {coverageNameNameInputRef4} 
-                  placeholder="coverageName"
-                  label="coverageName"
-                  defaultValue = {inputdata.coverages[4].coverageName}
-                  fullWidth
-            
-
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                  inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="Mandatory"
-                  name="Mandatory"
-                  inputRef = {mandatoryNameInputRef4} 
-                  placeholder="Mandatory"
-                  label="Mandatory"
-                  defaultValue = {inputdata.coverages[4].mandatory}
-                  fullWidth
-                
- 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                   inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="coverageName"
-                  name="coverageName"
-                  inputRef = {coverageNameNameInputRef5} 
-                  placeholder="coverageName"
-                  label="coverageName"
-                  defaultValue = {inputdata.coverages[5].coverageName}
-                  fullWidth
-            
-
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-
-<Grid2  xs={8} md={4} lg={4}  sm= {4}>
-<TextField
-                  inputProps={{ readOnly:  (props.mode === 'display' || props.mode === 'delete')  }}
-                  id="Mandatory"
-                  name="Mandatory"
-                  inputRef = {mandatoryNameInputRef5} 
-                  placeholder="Mandatory"
-                  label="Mandatory"
-                  defaultValue = {inputdata.coverages[5].mandatory}
-                  fullWidth
-                
- 
-                 
-                  margin="dense"
-                />
-  
-</Grid2>
-</>      
-           )
-
-
-}
-);
-
+                              },
+                            ],
+                          }));
+                        }}
+                      />
+                    </CustomTooltip>
+                  )}
+                </span>
+              </td>
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
+});
 export default Q0011;
+
