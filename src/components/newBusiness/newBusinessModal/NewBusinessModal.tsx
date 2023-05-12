@@ -410,7 +410,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PRCD",
                           })
                         }
@@ -578,7 +578,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -601,7 +601,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PUWDate",
                           })
                         }
@@ -624,7 +624,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "BtDate",
                           })
                         }
@@ -647,7 +647,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -670,7 +670,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "NxtBtDate",
                           })
                         }
@@ -693,7 +693,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "AnnivDate",
                           })
                         }

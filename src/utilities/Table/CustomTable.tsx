@@ -93,7 +93,7 @@ function CustomTable({
                 </th>
               )
             )}
-            {ACTIONS.EDITOPEN && <th>Actions</th>}
+            {!modalFunc && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -113,7 +113,7 @@ function CustomTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-              {ACTIONS.EDITOPEN && (
+              {!modalFunc && (
                 <td>
                   <span className={styles.flexButtons}>
                     <EditIcon

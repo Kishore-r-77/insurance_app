@@ -298,7 +298,7 @@ function LeadFollowupsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "AppointmentDate",
                           })
                         }
@@ -416,7 +416,7 @@ function LeadFollowupsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "ActualMeetingDate",
                           })
                         }
@@ -467,7 +467,7 @@ function LeadFollowupsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "NextFollowupDate",
                           })
                         }

@@ -26,7 +26,6 @@ export const initialValues: BankStateType = {
   BankType: "",
   BankAccountStatus: "",
   ClientID: "",
-  AgnecyID: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,

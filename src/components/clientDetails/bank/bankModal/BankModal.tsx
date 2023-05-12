@@ -205,7 +205,7 @@ function BankModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "StartDate",
                           })
                         }
@@ -229,7 +229,7 @@ function BankModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "EndDate",
                           })
                         }
@@ -254,28 +254,6 @@ function BankModal({
                           : ACTIONS.EDITCHANGE,
                         payload: e.target.value,
                         fieldName: "ClientID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    id="AgnecyID"
-                    name="AgnecyID"
-                    value={state.addOpen ? state.AgnecyID : record.AgnecyID}
-                    placeholder="Agency Id"
-                    label="Agency Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AgnecyID",
                       })
                     }
                     fullWidth

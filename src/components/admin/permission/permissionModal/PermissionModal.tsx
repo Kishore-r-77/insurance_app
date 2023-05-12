@@ -95,7 +95,9 @@ function PermissionModal({
         }
         size={size}
         handleClose={
-          state.userOpen
+          state.transactionOpen
+            ? () => dispatch({ type: ACTIONS.TRANSACTIONCLOSE })
+            : state.userOpen
             ? () => dispatch({ type: ACTIONS.USERCLOSE })
             : state.userGroupOpen
             ? () => dispatch({ type: ACTIONS.USERGROUPCLOSE })
