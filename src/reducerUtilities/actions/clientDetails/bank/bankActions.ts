@@ -81,9 +81,4 @@ export const columns = [
     header: "Client Id",
     dbField: "client_id",
   },
-  {
-    field: "AgnecyID",
-    header: "Agency Id",
-    dbField: "agency_id",
-  },
 ];
