@@ -17,6 +17,7 @@ import styles from "./newbussinesstable.module.css";
 import CustomModal from "../../utilities/modal/CustomModal";
 import OwnerModal from "./ownerModal/OwnerModal";
 import Payer from "../payer/Payer";
+import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -35,7 +36,9 @@ function NewBussinessTable({
   );
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [csAnchor, setCsAnchor] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const csOpen = Boolean(csAnchor);
 
   const policyId = useRef(0);
   const enquiryRecord = useRef<any>();
@@ -49,8 +52,20 @@ function NewBussinessTable({
     setAnchorEl(event.currentTarget);
     clientMenu();
   };
+  const handleServiceClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    value: any
+  ) => {
+    policyId.current = value.ID;
+    enquiryRecord.current = value;
+    setCsAnchor(event.currentTarget);
+    clientServiceMenu();
+  };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleServiceClose = () => {
+    setCsAnchor(null);
   };
 
   const companyId = useAppSelector(
@@ -102,6 +117,29 @@ function NewBussinessTable({
         console.log(err.message);
       });
   };
+  const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
+  const clientServiceMenu = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/paramextradata`,
+
+        {
+          params: {
+            name: "P0044",
+            date: "20220101",
+            item: "CSMM",
+            company_id: companyId,
+          },
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setclientServiceMenuData(resp.data?.AllowedMenus);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
   const [isPayer, setisPayer] = useState(false);
 
@@ -111,7 +149,6 @@ function NewBussinessTable({
     setPolicyID(policyId);
     setisPayer(true);
     setpayerObj(value);
-    console.log(policyId, "policy Id");
 
     handleClose();
   };
@@ -140,6 +177,16 @@ function NewBussinessTable({
     return () => {};
   }, [isPayer]);
 
+  const [isFreqQuote, setIsFreqQuote] = useState(false);
+
+  const freqQuoteOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setIsFreqQuote(true);
+  };
+  const freqQuoteClose = () => {
+    setIsFreqQuote(false);
+  };
+
   const clientMenuClick = (value: any) => {
     switch (value.Action) {
       case "Nominee":
@@ -152,12 +199,14 @@ function NewBussinessTable({
       case "Payer":
         payerOpen(policyId.current, value);
         handleClose();
-
         break;
       case "Owner":
         clientOpen();
         handleClose();
         break;
+      case "FreqQuote":
+        freqQuoteOpen(policyId.current, value);
+        handleServiceClose();
 
       default:
         return;
@@ -303,10 +352,9 @@ function NewBussinessTable({
                 </span>
               </td>
 
-              {ACTIONS.EDITOPEN && (
-                <td>
-                  <span className={styles.flexButtons}>
-                    {/* <EditIcon
+              <td>
+                <span className={styles.flexButtons}>
+                  {/* <EditIcon
                       color="primary"
                       onClick={() =>
                         dispatch({ type: ACTIONS.EDITOPEN, payload: row })
@@ -316,22 +364,42 @@ function NewBussinessTable({
                       color="error"
                       onClick={() => hardDelete(row.ID)}
                     /> */}
-                    <InfoIcon
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                      }
-                    />
-                    <VerifiedUserIcon
-                      color="primary"
-                      onClick={() => confirmOpen(row.ID)}
-                    />
-                    <SendIcon
-                      color="success"
-                      onClick={() => issueOpen(row.ID)}
-                    />
-                  </span>
-                </td>
-              )}
+                  <InfoIcon
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                    }
+                  />
+                  <VerifiedUserIcon
+                    color="primary"
+                    onClick={() => confirmOpen(row.ID)}
+                  />
+                  <SendIcon color="success" onClick={() => issueOpen(row.ID)} />
+                  <IconButton
+                    id="basic-button"
+                    aria-controls={csOpen ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={csOpen ? "true" : undefined}
+                    onClick={(e) => handleServiceClick(e, row)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={csAnchor}
+                    open={csOpen}
+                    onClose={handleServiceClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    {clientServiceMenuData.map((clientValue: any) => (
+                      <MenuItem onClick={() => clientMenuClick(clientValue)}>
+                        {clientValue?.Action}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -340,6 +408,12 @@ function NewBussinessTable({
         record={clientData}
         open={isClientOpen}
         handleClose={clientClose}
+      />
+      <FreqQuoteModal
+        open={isFreqQuote}
+        handleClose={freqQuoteClose}
+        policyId={PolicyID}
+        companyId={companyId}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer
