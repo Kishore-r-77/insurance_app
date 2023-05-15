@@ -93,7 +93,7 @@ function CustomTable({
                 </th>
               )
             )}
-            {!modalFunc && <th>Actions</th>}
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -113,27 +113,26 @@ function CustomTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-              {!modalFunc && (
-                <td>
-                  <span className={styles.flexButtons}>
-                    <EditIcon
-                      color="primary"
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                      }
-                    />
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => hardDelete(row.ID)}
-                    />
-                    <InfoIcon
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                      }
-                    />
-                  </span>
-                </td>
-              )}
+
+              <td>
+                <span className={styles.flexButtons}>
+                  <EditIcon
+                    color="primary"
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                    }
+                  />
+                  <DeleteIcon
+                    color="error"
+                    onClick={() => hardDelete(row.ID)}
+                  />
+                  <InfoIcon
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                    }
+                  />
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
