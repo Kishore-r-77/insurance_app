@@ -4,7 +4,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { TextField } from "@mui/material";
 import axios from "axios";
 
-function FreqQuoteModal({ open, handleClose, policyId, companyId }: any) {
+function FreqQuoteModal({ open, handleClose, policyId }: any) {
   const title: string = "Frequency Quote";
   const size: string = "xl";
   const [record, setRecord] = useState<any>("");
@@ -39,53 +39,57 @@ function FreqQuoteModal({ open, handleClose, policyId, companyId }: any) {
       >
         {record !== "" ? (
           <Grid2 container spacing={2}>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="HalfYearly"
-                name="HalfYearly"
-                value={record["HalfYearly "]}
-                placeholder="HalfYearly"
-                label="HalfYearly"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="Monthly"
-                name="Monthly"
-                value={record["Monthly "]}
-                placeholder="Monthly"
-                label="Monthly"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="Quarterly"
-                name="Quarterly"
-                value={record.Quarterly}
-                placeholder="Quarterly"
-                label="Quarterly"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
+            <Grid2 lg={3}>
               <TextField
                 id="Yearly"
                 name="Yearly"
-                value={record.Yearly}
+                value={record["01.Yearly"]}
                 placeholder="Yearly"
                 label="Yearly"
                 fullWidth
                 inputProps={{ readOnly: true }}
+                InputLabelProps={{ shrink: true }}
                 margin="dense"
               ></TextField>
+            </Grid2>
+            <Grid2 lg={3}>
+              <TextField
+                id="HalfYearly"
+                name="HalfYearly"
+                value={record["02.HalfYearly"]}
+                placeholder="HalfYearly"
+                label="HalfYearly"
+                fullWidth
+                inputProps={{ readOnly: true }}
+                InputLabelProps={{ shrink: true }}
+                margin="dense"
+              />
+            </Grid2>
+            <Grid2 lg={3}>
+              <TextField
+                id="Quarterly"
+                name="Quarterly"
+                value={record["03.Quarterly"]}
+                placeholder="Quarterly"
+                label="Quarterly"
+                fullWidth
+                inputProps={{ readOnly: true }}
+                InputLabelProps={{ shrink: true }}
+                margin="dense"
+              />
+            </Grid2>
+            <Grid2 lg={3}>
+              <TextField
+                id="Monthly"
+                name="Monthly"
+                value={record["04.Monthly"]}
+                placeholder="Monthly"
+                label="Monthly"
+                fullWidth
+                inputProps={{ readOnly: true }}
+                InputLabelProps={{ shrink: true }}
+                margin="dense"
+              />
             </Grid2>
           </Grid2>
         ) : (

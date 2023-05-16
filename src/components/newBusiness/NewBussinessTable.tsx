@@ -18,6 +18,7 @@ import CustomModal from "../../utilities/modal/CustomModal";
 import OwnerModal from "./ownerModal/OwnerModal";
 import Payer from "../payer/Payer";
 import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
+import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -167,7 +168,6 @@ function NewBussinessTable({
       })
       .catch((err) => {
         console.log(err);
-
         setpayerByPolicyData([]);
       });
   };
@@ -185,6 +185,18 @@ function NewBussinessTable({
   };
   const freqQuoteClose = () => {
     setIsFreqQuote(false);
+  };
+  const [isFreqChange, setIsFreqChange] = useState(false);
+  const [completed, setcompleted] = useState(false);
+  const [func, setfunc] = useState<any>("Calculate");
+  const freqChangeOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setIsFreqChange(true);
+  };
+  const freqChangeClose = () => {
+    setIsFreqChange(false);
+    setcompleted(false);
+    setfunc("Calculated");
   };
 
   const clientMenuClick = (value: any) => {
@@ -206,6 +218,10 @@ function NewBussinessTable({
         break;
       case "FreqQuote":
         freqQuoteOpen(policyId.current, value);
+        handleServiceClose();
+
+      case "FreqChange":
+        freqChangeOpen(policyId.current, value);
         handleServiceClose();
 
       default:
@@ -413,7 +429,15 @@ function NewBussinessTable({
         open={isFreqQuote}
         handleClose={freqQuoteClose}
         policyId={PolicyID}
-        companyId={companyId}
+      />
+      <FreqChangeModal
+        open={isFreqChange}
+        handleClose={freqChangeClose}
+        policyId={PolicyID}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer

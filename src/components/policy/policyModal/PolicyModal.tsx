@@ -83,8 +83,6 @@ function PolicyModal({
       .catch((err) => err);
   };
 
-  console.log(pFreqData, "freq");
-
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
     companyId: number,
