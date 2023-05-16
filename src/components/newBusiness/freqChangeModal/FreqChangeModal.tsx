@@ -17,6 +17,7 @@ function FreqChangeModal({
   setcompleted,
   func,
   setfunc,
+  getData,
 }: any) {
   const size: string = "xl";
   const title: string = "Frequency Change";
@@ -46,6 +47,7 @@ function FreqChangeModal({
       .then((resp) => {
         setpolicyData(resp.data?.Policy);
         setisPolicy(!isPolicy);
+        getData();
       })
       .catch((err) => {
         console.log(err.message);

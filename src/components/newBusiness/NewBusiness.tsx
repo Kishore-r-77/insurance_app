@@ -452,6 +452,7 @@ function NewBusiness({ modalFunc }: any) {
         ACTIONS={ACTIONS}
         dispatch={dispatch}
         hardDelete={hardDelete}
+        getData={getData}
       />
       <CustomPagination
         pageNum={pageNum}

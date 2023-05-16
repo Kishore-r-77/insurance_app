@@ -29,6 +29,7 @@ function NewBussinessTable({
   sortParam,
   hardDelete,
   modalFunc,
+  getData,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -219,11 +220,12 @@ function NewBussinessTable({
       case "FreqQuote":
         freqQuoteOpen(policyId.current, value);
         handleServiceClose();
+        break;
 
       case "FreqChange":
         freqChangeOpen(policyId.current, value);
         handleServiceClose();
-
+        break;
       default:
         return;
     }
@@ -438,6 +440,7 @@ function NewBussinessTable({
         setcompleted={setcompleted}
         func={func}
         setfunc={setfunc}
+        getData={getData}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer
