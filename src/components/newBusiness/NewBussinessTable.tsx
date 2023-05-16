@@ -187,13 +187,16 @@ function NewBussinessTable({
     setIsFreqQuote(false);
   };
   const [isFreqChange, setIsFreqChange] = useState(false);
-
+  const [completed, setcompleted] = useState(false);
+  const [func, setfunc] = useState<any>("Calculate");
   const freqChangeOpen = (policyId: number, value: any) => {
     setPolicyID(policyId);
     setIsFreqChange(true);
   };
   const freqChangeClose = () => {
     setIsFreqChange(false);
+    setcompleted(false);
+    setfunc("Calculated");
   };
 
   const clientMenuClick = (value: any) => {
@@ -431,6 +434,10 @@ function NewBussinessTable({
         open={isFreqChange}
         handleClose={freqChangeClose}
         policyId={PolicyID}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer

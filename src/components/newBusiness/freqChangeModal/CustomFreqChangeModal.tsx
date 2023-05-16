@@ -9,6 +9,7 @@ function CustomFreqChangeModal({
   title,
   children,
   handleFormSubmit,
+  completed,
 }: any) {
   return (
     <div>
@@ -23,7 +24,7 @@ function CustomFreqChangeModal({
           </Button>
           {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
-              Save
+              {completed ? "Save" : "Calculate"}
             </Button>
           )}
         </Modal.Footer>

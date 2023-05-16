@@ -7,15 +7,50 @@ import { freqItems } from "../../clientDetails/client/clientApis/clientApis";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFreqChangeModal from "./CustomFreqChangeModal";
 import ResultModal from "./ResultModal";
+import Notification from "../../../utilities/Notification/Notification";
 
-function FreqChangeModal({ open, handleClose, policyId }: any) {
+function FreqChangeModal({
+  open,
+  handleClose,
+  policyId,
+  completed,
+  setcompleted,
+  func,
+  setfunc,
+}: any) {
   const size: string = "xl";
   const title: string = "Frequency Change";
   const [frequency, setfrequency] = useState<any>("");
-  const [func, setfunc] = useState<any>("Calculate");
+
   const [premium, setpremium] = useState<any>("");
 
-  const [result, setresult] = useState("");
+  const [result, setresult] = useState<any>("");
+  const [policyData, setpolicyData] = useState<any>("");
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  const [isPolicy, setisPolicy] = useState(false);
+  const getByPolicy = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/nbservices/policyget/${policyId}`,
+
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setpolicyData(resp.data?.Policy);
+        setisPolicy(!isPolicy);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
   const getFreqChange = () => {
     axios
@@ -32,33 +67,30 @@ function FreqChangeModal({ open, handleClose, policyId }: any) {
         }
       )
       .then((resp) => {
+        setcompleted(true);
+        setfunc("Save");
+        setpremium(resp.data?.result?.Premium);
+        // if (func === "Save") {
+        //   setcompleted(false);
+        // }
         setresult(resp.data?.result);
         setIsResult(true);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  };
-
-  const [policyData, setpolicyData] = useState<any>("");
-
-  const [isPolicy, setisPolicy] = useState(false);
-
-  const getByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/policyget/${policyId}`,
-
-        {
-          withCredentials: true,
+        if (func === "Save") {
+          handleClose();
+          setNotify({
+            isOpen: true,
+            message: resp.data?.Success,
+            type: "success",
+          });
         }
-      )
-      .then((resp) => {
-        setpolicyData(resp.data?.Policy);
-        setisPolicy(!isPolicy);
       })
       .catch((err) => {
         console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
 
@@ -104,8 +136,11 @@ function FreqChangeModal({ open, handleClose, policyId }: any) {
     setIsResult(true);
   };
   const resultClose = () => {
-    setIsResult(true);
+    setIsResult(false);
+    setcompleted(true);
+    setfunc("Save");
   };
+  console.log(completed, "completed");
 
   return (
     <div>
@@ -115,6 +150,7 @@ function FreqChangeModal({ open, handleClose, policyId }: any) {
         handleFormSubmit={getFreqChange}
         size={size}
         title={title}
+        completed={completed}
       >
         <Grid2 container spacing={2}>
           <Grid2 lg={3}>
@@ -167,6 +203,7 @@ function FreqChangeModal({ open, handleClose, policyId }: any) {
               value={premium}
               onChange={(e) => setpremium(e.target.value)}
               placeholder="Premium"
+              InputLabelProps={{ shrink: true }}
               label="Premium"
               fullWidth
               margin="dense"
@@ -174,7 +211,13 @@ function FreqChangeModal({ open, handleClose, policyId }: any) {
           </Grid2>
         </Grid2>
       </CustomFreqChangeModal>
-      <ResultModal open={isResult} handleClose={resultClose} record={result} />
+      {/* <ResultModal
+        open={isResult}
+        handleClose={resultClose}
+        record={result}
+        completed={completed}
+      /> */}
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
