@@ -644,14 +644,14 @@ function PolicyModal({
                         readOnly
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.BtDate}
+                        value={state.BTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
                             payload: date,
-                            fieldName: "BtDate",
+                            fieldName: "BTDate",
                           })
                         }
                         renderInput={(params) => (
@@ -694,14 +694,14 @@ function PolicyModal({
                         readOnly
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.NxtBtDate}
+                        value={state.NxtBTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
                             payload: date,
-                            fieldName: "NxtBtDate",
+                            fieldName: "NxtBTDate",
                           })
                         }
                         renderInput={(params) => (

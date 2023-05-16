@@ -22,7 +22,7 @@ function FreqChangeModal({
   const title: string = "Frequency Change";
   const [frequency, setfrequency] = useState<any>("");
 
-  const [premium, setpremium] = useState<any>("");
+  const [premium, setpremium] = useState<any>(0);
 
   const [result, setresult] = useState<any>("");
   const [policyData, setpolicyData] = useState<any>("");
@@ -198,6 +198,7 @@ function FreqChangeModal({
           </Grid2>
           <Grid2 lg={3}>
             <TextField
+              type="number"
               id="Premium"
               name="Premium"
               value={premium}

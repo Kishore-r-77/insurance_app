@@ -618,14 +618,14 @@ function NewBusinessModal({
                         readOnly={state.infoOpen}
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.BtDate}
+                        value={state.BTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
                             payload: date,
-                            fieldName: "BtDate",
+                            fieldName: "BTDate",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -664,14 +664,14 @@ function NewBusinessModal({
                         readOnly
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.NxtBtDate}
+                        value={state.NxtBTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
                             payload: date,
-                            fieldName: "NxtBtDate",
+                            fieldName: "NxtBTDate",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
