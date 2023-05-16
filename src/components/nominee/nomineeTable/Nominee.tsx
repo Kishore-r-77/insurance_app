@@ -24,12 +24,19 @@ import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import NomineeTable from "./NomineeTable";
 import { getNopmieesByPolicy } from "../nomineeApi/nomineeApi";
+import Notification from "../../../utilities/Notification/Notification";
 
 function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: NomineeStateType, action: any) => {
     switch (action.type) {
@@ -180,9 +187,21 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created:${resp.data?.Created}`,
+          type: "success",
+        });
         getNomineesByPolicy1(policyRecord.ID);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -191,9 +210,21 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated Successfully`,
+          type: "success",
+        });
         getNomineesByPolicy1(policyRecord.ID);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Hard Delete Api
@@ -201,9 +232,21 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
     deleteApi(id)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: `Deleted Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
@@ -274,6 +317,7 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         ACTIONS={ACTIONS}
         policyRecord={policyRecord}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

@@ -21,12 +21,19 @@ import {
   getAllApi,
 } from "./leadDetailsApis/leadDetailsApis";
 import LeadDetailsModal from "./leadDetailsModal/LeadDetailsModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function LeadDetails({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: LeadDetailsStateType, action: any) => {
     switch (action.type) {
@@ -154,9 +161,21 @@ function LeadDetails({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -165,9 +184,21 @@ function LeadDetails({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Hard Delete Api
@@ -175,9 +206,21 @@ function LeadDetails({ modalFunc }: any) {
     deleteApi(id)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: `Deleted Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
@@ -298,6 +341,7 @@ function LeadDetails({ modalFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

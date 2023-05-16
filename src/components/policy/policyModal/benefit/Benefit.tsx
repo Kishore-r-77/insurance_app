@@ -173,13 +173,25 @@ function Benefit({
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created:${resp.data?.Created}`,
+          type: "success",
+        });
         if (lookup) {
           getBenefitsByPolicies1(policyRecord.ID);
         }
         getData();
         getPolicies();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -190,7 +202,7 @@ function Benefit({
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
-          message: `Updated record of id:${resp.data.outputs.ID} Successfully`,
+          message: `Updated  Successfully`,
           type: "success",
         });
         getData();
@@ -203,7 +215,7 @@ function Benefit({
         console.log(err.message);
         setNotify({
           isOpen: true,
-          message: err.message,
+          message: err?.response?.data?.error,
           type: "error",
         });
       });
@@ -214,9 +226,21 @@ function Benefit({
     deleteApi(id)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: `Deleted  Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
   //Hard Delete Api
 
