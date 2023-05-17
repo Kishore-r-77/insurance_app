@@ -84,6 +84,8 @@ function FreqChangeModal({
             message: resp.data?.Success,
             type: "success",
           });
+          setfrequency("");
+          setpremium("");
         }
       })
       .catch((err) => {
