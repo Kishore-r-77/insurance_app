@@ -191,9 +191,21 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Hard Delete Api
@@ -201,9 +213,21 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
     deleteApi(id)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: `Deleted Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
   //Get all Api
   const getData = () => {

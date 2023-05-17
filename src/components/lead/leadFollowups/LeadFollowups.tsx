@@ -21,12 +21,19 @@ import {
   getAllApi,
 } from "./leadFollowupsApis/leadFollowupsApis";
 import LeadFollowupsModal from "./leadFollowupsModal/leadFollowupsModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function LeadFollowups({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: LeadFollowupsStateType, action: any) => {
     switch (action.type) {
@@ -142,9 +149,21 @@ function LeadFollowups({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -153,9 +172,21 @@ function LeadFollowups({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Hard Delete Api
@@ -163,9 +194,21 @@ function LeadFollowups({ modalFunc }: any) {
     deleteApi(id)
       .then((resp) => {
         console.log(resp);
+        setNotify({
+          isOpen: true,
+          message: `Deleted Successfully`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
@@ -286,6 +329,7 @@ function LeadFollowups({ modalFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
