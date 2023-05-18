@@ -54,13 +54,14 @@ import P0049 from "../paramDataPages/P0049/p0049";
 import Q0032 from "../paramDataPages/Q0032/q0032";
 import Q0029 from "../paramDataPages/Q0029/q0029";
 import P0050 from "../paramDataPages/P0050/p0050";
-import P0043 from "../paramDataPages/P0043/P0043";
 import P0028 from "../paramDataPages/P0028/p0028";
 import P0044 from "../paramDataPages/P0044/p0044";
 import Q0036 from "../paramDataPages/Q0036/q0036";
 import Q0043 from "../paramDataPages/Q0043/q0043";
 import P0036 from "../paramDataPages/P0036/p0036";
 import P0041 from "../paramDataPages/P0041/p0041";
+import P0043 from "../paramDataPages/P0043/p0043";
+import Q0025 from "../paramDataPages/Q0025/q0025";
 
 const ParamData = () => {
   const {
@@ -539,6 +540,14 @@ const ParamData = () => {
             mode={mode}
           />
         );
+      case "1-Q0025":
+          return (
+            <Q0025
+              ref={extraDataRef}
+              data={getDataResponse.param.data}
+              mode={mode}
+            />
+          );
       case "1-Q0029":
         return (
           <Q0029

@@ -5,33 +5,31 @@ import { useEffect, useReducer, useState } from "react";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
-//import { PayerStateType } from "../../reducerUtilities/types/payor/payorTypes";
+import { AssigneeStateType } from "../../reducerUtilities/types/assignee/assigneeTypes";
 
 import {
-  ACTIONS,
-  columns,
-  initialValues,
-} from "../../reducerUtilities/actions/payer/payerActions";
-import styles from "./payer.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./payerApis/payerApis";
-import PayerModal from "./payerModal/PayerModal";
-import { PayerStateType } from "../../reducerUtilities/types/payer/payerTypes";
+ ACTIONS,
+ columns,
+ initialValues,
+} from "../../reducerUtilities/actions/assignee/assigneeActions";
+import styles from "./assignee.module.css";
+import { addApi, deleteApi, editApi, getAllApi } from "./assigneeApi/assigneeApis" ;
+import AssigneeModal from "./assigneeModal/AssigneeModal";
 import Notification from "../../utilities/Notification//Notification";
 
-function Payer({
+
+function Assignee({ 
   modalFunc,
   lookup,
-  payerByPolicyData,
+  assigneeByPolicyData,
   policyId,
-  getPayerByPolicy,
-}: any) {
+  getAssigneeByPolicy, }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
   //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: PayerStateType, action: any) => {
+  const reducer = (state: AssigneeStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -67,7 +65,7 @@ function Payer({
         };
 
       case ACTIONS.ADDCLOSE:
-        state = initialValues;
+	    state = initialValues;
         return {
           ...state,
           addOpen: false,
@@ -84,7 +82,6 @@ function Payer({
           infoOpen: false,
         };
 
-      // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.POLICYOPEN:
         return {
           ...state,
@@ -96,7 +93,6 @@ function Payer({
           policyOpen: false,
         };
 
-      // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.CLIENTOPEN:
         return {
           ...state,
@@ -106,18 +102,6 @@ function Payer({
         return {
           ...state,
           clientOpen: false,
-        };
-
-      // *** Attention: Check the Lookup Open /close ***
-      case ACTIONS.BANKOPEN:
-        return {
-          ...state,
-          bankOpen: true,
-        };
-      case ACTIONS.BANKCLOSE:
-        return {
-          ...state,
-          bankOpen: false,
         };
 
       case ACTIONS.SORT_ASC:
@@ -157,33 +141,30 @@ function Payer({
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
-  const [fieldMap, setfieldMap] = useState([]);
-
+  const [fieldMap, setfieldMap] = useState([]);  
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
-      .then((resp) => {
-        console.log(resp);
-        // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["GetAllPayer"]);
-        settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["GetAllPayer"]?.length === 0);
-        setfieldMap(resp.data["Field Map"]);
-      })
-      .catch((err) => console.log(err.message));
+    .then((resp) => {
+      console.log(resp);
+      setData(resp.data["GetAllasignee"]);
+      settotalRecords(resp.data.paginationData.totalRecords);
+      setisLast(resp.data["GetAllasignee"]?.length === 0);
+      setfieldMap(resp.data["Field Map"]);
+    })
+    .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId, policyId)
+    return addApi(state, companyId)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
         if (lookup) {
-          getPayerByPolicy(policyId);
+          getAssigneeByPolicy(policyId);
         }
         getData();
       })
@@ -203,7 +184,7 @@ function Payer({
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
         if (lookup) {
-          getPayerByPolicy(policyId);
+          getAssigneeByPolicy(policyId);
         }
         getData();
       })
@@ -222,7 +203,7 @@ function Payer({
       .then((resp) => {
         console.log(resp);
         if (lookup) {
-          getPayerByPolicy(policyId);
+          getAssigneeByPolicy(policyId);
         }
         getData();
       })
@@ -311,28 +292,26 @@ function Payer({
             <SearchIcon />
           </Button>
         </span>
-        <h1>Payers</h1>
-        {payerByPolicyData.length !== 0 ? null : (
-          <Button
-            id={styles["add-btn"]}
-            style={{
-              marginTop: "1rem",
-              maxWidth: "40px",
-              maxHeight: "40px",
-              minWidth: "40px",
-              minHeight: "40px",
-              backgroundColor: "#0a3161",
-            }}
-            variant="contained"
-            color="primary"
-            onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-          >
-            <AddBoxIcon />
-          </Button>
-        )}
+        <h1>Assignees</h1>
+        <Button
+          id={styles["add-btn"]}
+          style={{
+            marginTop: "1rem",
+            maxWidth: "40px",
+            maxHeight: "40px",
+            minWidth: "40px",
+            minHeight: "40px",
+            backgroundColor: "#0a3161",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+        >
+          <AddBoxIcon />
+        </Button>
       </header>
       <CustomTable
-        data={lookup ? payerByPolicyData : data}
+        data={lookup ? assigneeByPolicyData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -348,11 +327,11 @@ function Payer({
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <PayerModal
+      <AssigneeModal 
         state={state}
         record={record}
-        policyId={policyId}
         dispatch={dispatch}
+        policyId={policyId}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
@@ -360,4 +339,4 @@ function Payer({
     </div>
   );
 }
-export default Payer;
+export default Assignee;

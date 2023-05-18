@@ -36,6 +36,7 @@ import Transaction from "./components/transaction/Transaction";
 import Footer from "./utilities/footer/Footer";
 import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
+import Assignee from "./components/assignee/Assignee";
 function App() {
   const { pathname } = useLocation();
 
@@ -82,6 +83,7 @@ function App() {
                 <Route path="/quotations" element={<Quotation />} />
                 <Route path="/deathH" element={<DeathH />} />
                 <Route path="/nominee" element={<Nominee />} />
+                <Route path="/assignee" element={<Assignee />} />
               </Route>
               {/* </Route> */}
             </Route>

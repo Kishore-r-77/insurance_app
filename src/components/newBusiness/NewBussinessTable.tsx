@@ -17,6 +17,7 @@ import styles from "./newbussinesstable.module.css";
 import CustomModal from "../../utilities/modal/CustomModal";
 import OwnerModal from "./ownerModal/OwnerModal";
 import Payer from "../payer/Payer";
+import Assignee from "../assignee/Assignee";
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -140,6 +141,41 @@ function NewBussinessTable({
     return () => {};
   }, [isPayer]);
 
+  const [isAssignee, setisAssignee] = useState(false);
+  const [assigneeObj, setassigneeObj] = useState<any>({});
+  const assigneeOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setisAssignee(true);
+    setassigneeObj(value);
+    console.log(policyId, "policy Id");
+
+    handleClose();
+  };
+
+  const assigneeClose = () => {
+    setisAssignee(false);
+  };
+
+  const [assigneeByPolicyData, setassigneeByPolicyData] = useState([]);
+
+  const getAssigneeByPolicy = (id: number) => {
+    axios
+      .get(`http://${assigneeObj?.URL}${id}`, { withCredentials: true })
+      .then((resp) => {
+        setassigneeByPolicyData(resp?.data?.asignee);
+      })
+      .catch((err) => {
+        console.log(err);
+
+        setassigneeByPolicyData([]);
+      });
+  };
+
+  useEffect(() => {
+    getAssigneeByPolicy(PolicyID);
+    return () => {};
+  }, [isAssignee]);
+
   const clientMenuClick = (value: any) => {
     switch (value.Action) {
       case "Nominee":
@@ -156,6 +192,11 @@ function NewBussinessTable({
         break;
       case "Owner":
         clientOpen();
+        handleClose();
+        break;
+
+      case "Assignee":
+        assigneeOpen(policyId.current, value);
         handleClose();
         break;
 
@@ -347,6 +388,14 @@ function NewBussinessTable({
           payerByPolicyData={payerByPolicyData}
           policyId={PolicyID}
           getPayerByPolicy={getPayerByPolicy}
+        />
+      </CustomModal>
+      <CustomModal open={isAssignee} handleClose={assigneeClose} size="xl">
+        <Assignee
+          lookup={isAssignee}
+          assigneeByPolicyData={assigneeByPolicyData}
+          policyId={PolicyID}
+          getAssigneeByPolicy={getAssigneeByPolicy}
         />
       </CustomModal>
     </Paper>
