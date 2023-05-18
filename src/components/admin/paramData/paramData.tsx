@@ -60,7 +60,7 @@ import Q0036 from "../paramDataPages/Q0036/q0036";
 import Q0043 from "../paramDataPages/Q0043/q0043";
 import P0036 from "../paramDataPages/P0036/p0036";
 import P0041 from "../paramDataPages/P0041/p0041";
-import P0043 from "../paramDataPages/P0043/P0043";
+import P0043 from "../paramDataPages/P0043/p0043";
 import Q0025 from "../paramDataPages/Q0025/q0025";
 
 const ParamData = () => {
