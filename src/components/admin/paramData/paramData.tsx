@@ -588,6 +588,14 @@ const ParamData = () => {
             mode={mode}
           />
         );
+      case "1-Q0025":
+        return (
+          <Q0025
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
 
       default:
         return (

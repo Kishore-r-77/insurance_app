@@ -358,7 +358,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "EndDate",
                           })
                         }

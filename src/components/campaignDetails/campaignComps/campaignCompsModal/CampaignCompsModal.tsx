@@ -274,7 +274,7 @@ function CampaignCompsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "StartDate",
                           })
                         }
@@ -299,7 +299,7 @@ function CampaignCompsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "EndDate",
                           })
                         }

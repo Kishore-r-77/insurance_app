@@ -93,8 +93,12 @@ function PolicyTable({
                 </th>
               )
             )}
-            <th>Benefit</th>
-            <th>Actions</th>
+            {modalFunc ? null : (
+              <>
+                <th>Benefit</th>
+                <th>Actions</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -114,35 +118,39 @@ function PolicyTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-              <td>
-                <BusinessIcon
-                  onClick={() =>
-                    dispatch({
-                      type: ACTIONS.BENEFITOPEN,
-                      payload: row,
-                    })
-                  }
-                />{" "}
-              </td>
-              <td>
-                <span className={styles.flexButtons}>
-                  {/* <EditIcon
+              {modalFunc ? null : (
+                <>
+                  <td>
+                    <BusinessIcon
+                      onClick={() =>
+                        dispatch({
+                          type: ACTIONS.BENEFITOPEN,
+                          payload: row,
+                        })
+                      }
+                    />{" "}
+                  </td>
+                  <td>
+                    <span className={styles.flexButtons}>
+                      {/* <EditIcon
                     color="primary"
                     onClick={() =>
                       dispatch({ type: ACTIONS.EDITOPEN, payload: row })
                     }
                   /> */}
-                  <DeleteIcon
-                    color="error"
-                    onClick={() => hardDelete(row.ID)}
-                  />
-                  <InfoIcon
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                    }
-                  />
-                </span>
-              </td>
+                      <DeleteIcon
+                        color="error"
+                        onClick={() => hardDelete(row.ID)}
+                      />
+                      <InfoIcon
+                        onClick={() =>
+                          dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                        }
+                      />
+                    </span>
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

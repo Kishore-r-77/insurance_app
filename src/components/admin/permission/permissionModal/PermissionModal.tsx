@@ -16,15 +16,18 @@ function PermissionModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  userData,
+  setUserData,
+  userGroupData,
+  setUserGroupData,
+  userOrGroup,
+  setUserOrGroup,
 }: PermissionModalType) {
   //Modal Titles
   const addTitle = "Permission Add";
   const editTitle = "Permission Edit";
   const infoTitle = "Permission Info";
   const size: string = "xl";
-
-  const [userData, setUserData] = useState({} as any);
-  const [userGroupData, setUserGroupData] = useState({} as any);
 
   const userGroupDataFunc = (item: any) => {
     setUserGroupData(item);
@@ -47,10 +50,6 @@ function PermissionModal({
     } else record.TransactionID = item.ID;
     dispatch({ type: ACTIONS.TRANSACTIONCLOSE });
   };
-
-  const [userOrGroup, setUserOrGroup] = useState(
-    record.UserID?.Valid ? "user" : record.UserGroupID?.Valid ? "userGroup" : ""
-  );
 
   useEffect(() => {
     setUserOrGroup(
@@ -95,7 +94,9 @@ function PermissionModal({
         }
         size={size}
         handleClose={
-          state.userOpen
+          state.transactionOpen
+            ? () => dispatch({ type: ACTIONS.TRANSACTIONCLOSE })
+            : state.userOpen
             ? () => dispatch({ type: ACTIONS.USERCLOSE })
             : state.userGroupOpen
             ? () => dispatch({ type: ACTIONS.USERGROUPCLOSE })

@@ -356,7 +356,7 @@ function AddressModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "AddressStartDate",
                           })
                         }
@@ -384,7 +384,7 @@ function AddressModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "AddressEndDate",
                           })
                         }

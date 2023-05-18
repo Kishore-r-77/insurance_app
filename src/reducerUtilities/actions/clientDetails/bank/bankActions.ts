@@ -26,7 +26,6 @@ export const initialValues: BankStateType = {
   BankType: "",
   BankAccountStatus: "",
   ClientID: "",
-  AgnecyID: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
@@ -81,10 +80,5 @@ export const columns = [
     field: "ClientID",
     header: "Client Id",
     dbField: "client_id",
-  },
-  {
-    field: "AgnecyID",
-    header: "Agency Id",
-    dbField: "agency_id",
   },
 ];

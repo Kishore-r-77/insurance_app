@@ -94,8 +94,12 @@ function ClientTable({
                 </th>
               )
             )}
-            <th>Address</th>
-            <th>Actions</th>
+            {modalFunc ? null : (
+              <>
+                <th>Address</th>
+                <th>Actions</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -115,35 +119,39 @@ function ClientTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-              <td>
-                <BusinessIcon
-                  onClick={() =>
-                    dispatch({
-                      type: ACTIONS.ADDRESSOPEN,
-                      payload: row,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <span className={styles.flexButtons}>
-                  <EditIcon
-                    color="primary"
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                    }
-                  />
-                  <DeleteIcon
-                    color="error"
-                    onClick={() => hardDelete(row.ID)}
-                  />
-                  <InfoIcon
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                    }
-                  />
-                </span>
-              </td>
+              {modalFunc ? null : (
+                <>
+                  <td>
+                    <BusinessIcon
+                      onClick={() =>
+                        dispatch({
+                          type: ACTIONS.ADDRESSOPEN,
+                          payload: row,
+                        })
+                      }
+                    />
+                  </td>
+                  <td>
+                    <span className={styles.flexButtons}>
+                      <EditIcon
+                        color="primary"
+                        onClick={() =>
+                          dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                        }
+                      />
+                      <DeleteIcon
+                        color="error"
+                        onClick={() => hardDelete(row.ID)}
+                      />
+                      <InfoIcon
+                        onClick={() =>
+                          dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                        }
+                      />
+                    </span>
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

@@ -361,7 +361,7 @@ function ClientModal({
                     ) =>
                       dispatch({
                         type: ACTIONS.EDITCHANGE,
-                        payload: date.$d,
+                        payload: date,
                         fieldName: "ClientDod",
                       })
                     }

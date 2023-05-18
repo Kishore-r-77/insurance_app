@@ -215,7 +215,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PRCD",
                           })
                         }
@@ -318,7 +318,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PReceivedDate",
                           })
                         }

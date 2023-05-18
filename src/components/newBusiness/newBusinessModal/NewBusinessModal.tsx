@@ -410,7 +410,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PRCD",
                           })
                         }
@@ -578,7 +578,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -601,7 +601,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PUWDate",
                           })
                         }
@@ -618,14 +618,14 @@ function NewBusinessModal({
                         readOnly={state.infoOpen}
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.BtDate}
+                        value={state.BTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
-                            fieldName: "BtDate",
+                            payload: date,
+                            fieldName: "BTDate",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -647,7 +647,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -664,14 +664,14 @@ function NewBusinessModal({
                         readOnly
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.NxtBtDate}
+                        value={state.NxtBTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
-                            fieldName: "NxtBtDate",
+                            payload: date,
+                            fieldName: "NxtBTDate",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -693,7 +693,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "AnnivDate",
                           })
                         }

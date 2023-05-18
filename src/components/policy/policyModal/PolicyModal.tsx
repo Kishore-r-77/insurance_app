@@ -83,8 +83,6 @@ function PolicyModal({
       .catch((err) => err);
   };
 
-  console.log(pFreqData, "freq");
-
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
     companyId: number,
@@ -432,7 +430,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PRCD",
                           })
                         }
@@ -602,7 +600,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -627,7 +625,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PUWDate",
                           })
                         }
@@ -646,14 +644,14 @@ function PolicyModal({
                         readOnly
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.BtDate}
+                        value={state.BTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
-                            fieldName: "BtDate",
+                            payload: date,
+                            fieldName: "BTDate",
                           })
                         }
                         renderInput={(params) => (
@@ -677,7 +675,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -696,14 +694,14 @@ function PolicyModal({
                         readOnly
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.NxtBtDate}
+                        value={state.NxtBTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
-                            fieldName: "NxtBtDate",
+                            payload: date,
+                            fieldName: "NxtBTDate",
                           })
                         }
                         renderInput={(params) => (
@@ -727,7 +725,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "AnnivDate",
                           })
                         }

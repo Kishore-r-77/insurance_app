@@ -177,7 +177,7 @@ function QHeadersModal({
                           type: state.addOpen
                             ? ACTIONS.ONCHANGE
                             : ACTIONS.EDITCHANGE,
-                          payload: date.$d,
+                          payload: date,
                           fieldName: "QuoteDate",
                         })
                       }
@@ -320,7 +320,7 @@ function QHeadersModal({
                           type: state.addOpen
                             ? ACTIONS.ONCHANGE
                             : ACTIONS.EDITCHANGE,
-                          payload: date.$d,
+                          payload: date,
                           fieldName: "QDob",
                         })
                       }

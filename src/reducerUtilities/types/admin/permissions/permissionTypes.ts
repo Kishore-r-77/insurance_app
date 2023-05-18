@@ -44,4 +44,10 @@ export type PermissionModalType = {
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => void;
   ACTIONS: ActionConstantsType;
+  userData: any;
+  setUserData: any;
+  userGroupData: any;
+  setUserGroupData: any;
+  userOrGroup: any;
+  setUserOrGroup: any;
 };

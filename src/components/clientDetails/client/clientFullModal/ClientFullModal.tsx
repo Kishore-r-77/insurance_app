@@ -381,7 +381,6 @@ function ClientFullModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    type="number"
                     id="ClientMobile"
                     name="ClientMobile"
                     value={state.ClientMobile}
@@ -440,7 +439,7 @@ function ClientFullModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "ClientDob",
                           })
                         }
@@ -463,7 +462,7 @@ function ClientFullModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "ClientDod",
                           })
                         }

@@ -26,6 +26,11 @@ function Permission() {
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+  const [userData, setUserData] = useState<any>("");
+  const [userGroupData, setUserGroupData] = useState<any>("");
+  const [userOrGroup, setUserOrGroup] = useState(
+    record.UserID?.Valid ? "user" : record.UserGroupID?.Valid ? "userGroup" : ""
+  );
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PermissionStateType, action: any) => {
@@ -66,6 +71,9 @@ function Permission() {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
+        setUserGroupData("");
+        setUserData("");
+        setUserOrGroup("");
         return {
           ...state,
           addOpen: false,
@@ -397,6 +405,12 @@ function Permission() {
         dispatch={dispatch}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
+        userData={userData}
+        setUserData={setUserData}
+        userGroupData={userGroupData}
+        setUserGroupData={setUserGroupData}
+        userOrGroup={userOrGroup}
+        setUserOrGroup={setUserOrGroup}
       />
     </div>
   );

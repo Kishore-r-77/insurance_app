@@ -561,7 +561,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PRCD",
                           })
                         }
@@ -760,7 +760,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date.$d,
+                            payload: date,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -768,6 +768,129 @@ function NewBusinessModal({
                       />
                     </LocalizationProvider>
                   </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={3}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly
+                        label="Bill To Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.addOpen ? state.BTDate : record.BTDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date,
+                            fieldName: "BTDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={3}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly
+                        label="Paid To Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen ? state.PaidToDate : record.PaidToDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date,
+                            fieldName: "PaidToDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={3}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly
+                        label="Next Bill To Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen ? state.NxtBTDate : record.NxtBTDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date,
+                            fieldName: "NxtBTDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={3}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly
+                        label="Anniversy Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen ? state.AnnivDate : record.AnnivDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date,
+                            fieldName: "AnnivDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    id="InstalmentPrem"
+                    name="InstalmentPrem"
+                    value={
+                      state.addOpen
+                        ? state.InstalmentPrem
+                        : record.InstalmentPrem
+                    }
+                    placeholder="Installment Premium"
+                    label="Installment Premium"
+                    fullWidth
+                    margin="dense"
+                  />
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={3}>
