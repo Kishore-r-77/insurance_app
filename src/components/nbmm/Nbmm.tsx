@@ -14,6 +14,7 @@ import styles from "./nbmm.module.css";
 import { addApi, deleteApi, editApi, getAllApi } from "./nbmmApis/nbmmApis";
 import PolicyModal from "./nbmmModal/NbmmModal";
 import NbmmTable from "./NbmmTable";
+import Notification from "../../utilities/Notification/Notification";
 
 function Nbmm({ modalFunc }: any) {
   //data from getall api
