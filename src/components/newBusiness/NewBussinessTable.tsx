@@ -20,6 +20,9 @@ import Payer from "../payer/Payer";
 import Assignee from "../assignee/Assignee";
 import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
 import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import SaChangeModal from "./saChangeModal/SaChangeModal";
+import Notification from "../../utilities/Notification/Notification";
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -45,6 +48,12 @@ function NewBussinessTable({
 
   const policyId = useRef(0);
   const enquiryRecord = useRef<any>();
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -271,6 +280,74 @@ function NewBussinessTable({
     }
   };
 
+  const [isSaChange, setisSaChange] = useState(false);
+  const [saPolicyRecord, setsaPolicyRecord] = useState<any>("");
+  const [saChangeObj, setsaChangeObj] = useState<any>("");
+  const [saChangeBenefits, setsaChangeBenefits] = useState<any>([]);
+
+  const getSaChange = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/changesa/${saPolicyRecord.ID}`,
+        {
+          Function: "",
+          PolicyID: saPolicyRecord.ID,
+          TotalPremium: 0,
+          NewTotalPremium: 0,
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setsaChangeObj(resp?.data?.Policy);
+        setsaChangeBenefits(resp?.data?.Policy?.Benefits);
+      })
+      .catch((err) => {
+        setisSaChange(false);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
+  };
+  const postSaChange = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/changesa/${saPolicyRecord.ID}`,
+        {
+          Benefits: saChangeBenefits,
+          BillToDate: saChangeObj.BillToDate,
+          CompanyID: saChangeObj.CompanyID,
+          InstalmentPremium: saChangeObj.InstalmentPremium,
+          PaidToDate: saChangeObj.PaidToDate,
+          PolicyID: saChangeObj.PolicyID,
+          Product: saChangeObj.Product,
+          Function: "Calculate",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setsaChangeObj(resp.data?.Policy);
+        saChangeClose();
+      })
+      .catch((err) => {});
+  };
+
+  const saChangeOpen = (value: any) => {
+    setisSaChange(true);
+    setsaPolicyRecord(value);
+  };
+  const saChangeClose = () => {
+    setisSaChange(false);
+  };
+
+  useEffect(() => {
+    if (isSaChange) {
+      getSaChange();
+    }
+    return () => {};
+  }, [isSaChange]);
+
   return (
     <Paper className={styles.paperStyle}>
       <Table striped bordered hover>
@@ -342,6 +419,7 @@ function NewBussinessTable({
             <th>Benefit</th>
             <th>Clients</th>
             <th>Actions</th>
+            <th>Sa Changes</th>
           </tr>
         </thead>
         <tbody>
@@ -458,6 +536,12 @@ function NewBussinessTable({
                   </Menu>
                 </span>
               </td>
+              <td>
+                <ChangeCircleIcon
+                  color="secondary"
+                  onClick={() => saChangeOpen(row)}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -482,6 +566,14 @@ function NewBussinessTable({
         setfunc={setfunc}
         getData={getData}
       />
+      <SaChangeModal
+        open={isSaChange}
+        handleClose={saChangeClose}
+        saChangeObj={saChangeObj}
+        saChangeBenefits={saChangeBenefits}
+        setsaChangeBenefits={setsaChangeBenefits}
+        postSaChange={postSaChange}
+      />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer
           lookup={isPayer}
@@ -498,6 +590,7 @@ function NewBussinessTable({
           getAssigneeByPolicy={getAssigneeByPolicy}
         />
       </CustomModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </Paper>
   );
 }

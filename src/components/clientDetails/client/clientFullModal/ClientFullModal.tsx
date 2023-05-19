@@ -439,7 +439,7 @@ function ClientFullModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload: date?.$d,
                             fieldName: "ClientDob",
                           })
                         }
@@ -633,7 +633,7 @@ function ClientFullModal({
                             inputFormat="DD/MM/YYYY"
                             value={address.AddressStartDate}
                             onChange={(date: any) =>
-                              handleAddressStartDate(date, index)
+                              handleAddressStartDate(date?.$d, index)
                             }
                             renderInput={(params) => <TextField {...params} />}
                           />
