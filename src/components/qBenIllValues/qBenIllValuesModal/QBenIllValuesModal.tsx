@@ -231,7 +231,7 @@ function QBenIllValuesModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "QPolAnnivDate",
                       })
                     }
@@ -756,7 +756,7 @@ function QBenIllValuesModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "QMaturityDate",
                       })
                     }

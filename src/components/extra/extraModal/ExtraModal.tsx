@@ -328,7 +328,7 @@ function ExtraModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "ToDate",
                           })
                         }

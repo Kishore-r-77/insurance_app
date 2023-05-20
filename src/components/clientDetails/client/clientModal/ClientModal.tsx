@@ -338,7 +338,7 @@ function ClientModal({
                     ) =>
                       dispatch({
                         type: ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "ClientDob",
                       })
                     }
@@ -361,7 +361,7 @@ function ClientModal({
                     ) =>
                       dispatch({
                         type: ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "ClientDod",
                       })
                     }

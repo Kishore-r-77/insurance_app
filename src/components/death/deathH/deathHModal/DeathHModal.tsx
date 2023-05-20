@@ -256,7 +256,7 @@ function DeathHModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "EffectiveDate",
                           })
                         }
@@ -278,7 +278,7 @@ function DeathHModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "DeathDate",
                           })
                         }

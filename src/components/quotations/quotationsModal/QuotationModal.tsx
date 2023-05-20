@@ -259,7 +259,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QuoteDate",
                           })
                         }
@@ -402,7 +402,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QDob",
                           })
                         }
@@ -662,7 +662,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QDate",
                           })
                         }
@@ -892,7 +892,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QRiskCessDate",
                           })
                         }
@@ -981,7 +981,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QPremCessDate",
                           })
                         }
@@ -1070,7 +1070,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QBeneCessDate",
                           })
                         }
@@ -1302,7 +1302,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QPolAnnivDate",
                           })
                         }
@@ -1851,7 +1851,7 @@ function QuotationModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "QMaturityDate",
                           })
                         }

@@ -205,7 +205,7 @@ function BankModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "StartDate",
                           })
                         }
@@ -229,7 +229,7 @@ function BankModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "EndDate",
                           })
                         }

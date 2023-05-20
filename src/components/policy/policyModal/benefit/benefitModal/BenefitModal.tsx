@@ -188,7 +188,7 @@ function BenefitModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "BStartDate",
                       })
                     }

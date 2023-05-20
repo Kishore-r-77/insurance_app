@@ -367,7 +367,7 @@ function NewBusinessEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -566,7 +566,7 @@ function NewBusinessEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -591,7 +591,7 @@ function NewBusinessEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "BTDate",
                           })
                         }
@@ -616,7 +616,7 @@ function NewBusinessEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -641,7 +641,7 @@ function NewBusinessEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "NxtBTDate",
                           })
                         }
@@ -666,7 +666,7 @@ function NewBusinessEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "AnnivDate",
                           })
                         }

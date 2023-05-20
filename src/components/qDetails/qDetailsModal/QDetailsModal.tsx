@@ -149,7 +149,7 @@ function QDetailsModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "QDate",
                       })
                     }
@@ -359,7 +359,7 @@ function QDetailsModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "QRiskCessDate",
                       })
                     }
@@ -440,7 +440,7 @@ function QDetailsModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "QPremCessDate",
                       })
                     }
@@ -521,7 +521,7 @@ function QDetailsModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date,
+                        payload:date?.$d,
                         fieldName: "QBeneCessDate",
                       })
                     }

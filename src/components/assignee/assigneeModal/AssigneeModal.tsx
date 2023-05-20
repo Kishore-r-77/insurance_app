@@ -253,7 +253,7 @@ function AssigneeModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date.$d,
+                        payload:date?.$d.$d,
                         fieldName: "Fromdate",
                       })
                     }
@@ -282,7 +282,7 @@ function AssigneeModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date.$d,
+                        payload:date?.$d.$d,
                         fieldName: "Todate",
                       })
                     }

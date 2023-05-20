@@ -430,7 +430,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -600,7 +600,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -625,7 +625,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PUWDate",
                           })
                         }
@@ -650,7 +650,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "BTDate",
                           })
                         }
@@ -675,7 +675,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -700,7 +700,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "NxtBTDate",
                           })
                         }
@@ -725,7 +725,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "AnnivDate",
                           })
                         }

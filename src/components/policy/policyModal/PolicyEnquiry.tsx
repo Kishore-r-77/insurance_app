@@ -488,7 +488,7 @@ function PolicyEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -620,7 +620,7 @@ function PolicyEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -644,7 +644,7 @@ function PolicyEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "BTDate",
                           })
                         }
@@ -669,7 +669,7 @@ function PolicyEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -694,7 +694,7 @@ function PolicyEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "NxtBTDate",
                           })
                         }
@@ -719,7 +719,7 @@ function PolicyEnquiry({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "AnnivDate",
                           })
                         }

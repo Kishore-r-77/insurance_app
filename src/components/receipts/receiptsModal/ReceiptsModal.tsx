@@ -307,7 +307,7 @@ function ReceiptsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date?.$d,
+                            payload:date?.$d?.$d,
                             fieldName: "DateOfCollection",
                           })
                         }

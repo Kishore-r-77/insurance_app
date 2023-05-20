@@ -307,7 +307,7 @@ function LeadAllocationsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "AllocationDate",
                           })
                         }
@@ -336,7 +336,7 @@ function LeadAllocationsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "AppointmentDate",
                           })
                         }
@@ -567,7 +567,7 @@ function LeadAllocationsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date,
+                            payload:date?.$d,
                             fieldName: "ClosureDate",
                           })
                         }
