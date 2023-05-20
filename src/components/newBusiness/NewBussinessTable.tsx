@@ -429,9 +429,7 @@ function NewBussinessTable({
               )
             )}
             <th>Benefit</th>
-            <th>Clients</th>
             <th>Actions</th>
-            <th>Sa Changes</th>
           </tr>
         </thead>
         <tbody>
@@ -462,43 +460,6 @@ function NewBussinessTable({
                   }
                 />
               </td>
-              <td>
-                <span className={styles.flexButtons}>
-                  {/* <IconButton
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                    }
-                  >
-                    {" "}
-                    <InfoIcon />
-                  </IconButton> */}
-
-                  <IconButton
-                    id="basic-button"
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={(e) => handleClick(e, row)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
-                    }}
-                  >
-                    {clientMenuData.map((clientValue: any) => (
-                      <MenuItem onClick={() => clientMenuClick(clientValue)}>
-                        {clientValue?.Action}
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </span>
-              </td>
 
               <td>
                 <span className={styles.flexButtons}>
@@ -522,37 +483,7 @@ function NewBussinessTable({
                     onClick={() => confirmOpen(row.ID)}
                   />
                   <SendIcon color="success" onClick={() => issueOpen(row.ID)} />
-                  <IconButton
-                    id="basic-button"
-                    aria-controls={csOpen ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={csOpen ? "true" : undefined}
-                    onClick={(e) => handleServiceClick(e, row)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={csAnchor}
-                    open={csOpen}
-                    onClose={handleServiceClose}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
-                    }}
-                  >
-                    {clientServiceMenuData.map((clientValue: any) => (
-                      <MenuItem onClick={() => clientMenuClick(clientValue)}>
-                        {clientValue?.Action}
-                      </MenuItem>
-                    ))}
-                  </Menu>
                 </span>
-              </td>
-              <td>
-                <ChangeCircleIcon
-                  color="secondary"
-                  onClick={() => saChangeOpen(row)}
-                />
               </td>
             </tr>
           ))}

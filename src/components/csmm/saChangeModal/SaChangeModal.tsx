@@ -271,6 +271,7 @@ function SaChangeModal({
                     <td className={styles["td-class"]}>
                       <input
                         className={styles["input-form"]}
+                        disabled={val?.Select === ""}
                         name="NTerm"
                         type="number"
                         value={val?.NTerm}
@@ -285,6 +286,7 @@ function SaChangeModal({
                         className={styles["input-form"]}
                         name="NSumAssured"
                         type="number"
+                        disabled={val?.Select === ""}
                         value={val?.NSumAssured}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleChange(e, index)
@@ -294,6 +296,7 @@ function SaChangeModal({
                     <td className={styles["td-class"]}>
                       <input
                         className={styles["input-form"]}
+                        disabled={val?.Select === ""}
                         name="NPrem"
                         type="number"
                         value={val?.NPrem}
