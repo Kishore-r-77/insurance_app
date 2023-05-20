@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import { TreeItem, TreeView } from "@mui/lab";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -18,7 +18,7 @@ function SaChangeModal({
   postSaChange,
 }: any) {
   const title: string = "Sa Change";
-  const [isChecked, setisChecked] = useState(false);
+  const isChecked = useRef(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
@@ -35,12 +35,12 @@ function SaChangeModal({
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
 
-    setisChecked(e.target.checked);
+    isChecked.current = e.target.checked;
     setsaChangeBenefits(
       saChangeBenefits.map((benefits: any, index: number) => {
-        if (index === i && isChecked) {
+        if (index === i && isChecked.current) {
           return { ...benefits, Select: "X" };
-        } else if (index === i && !isChecked) {
+        } else if (index === i && !isChecked.current) {
           return { ...benefits, Select: "" };
         } else return benefits;
       })
@@ -74,6 +74,7 @@ function SaChangeModal({
                   label="Company ID"
                   fullWidth
                   margin="dense"
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
@@ -86,6 +87,7 @@ function SaChangeModal({
                   label="policyId"
                   fullWidth
                   margin="dense"
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
@@ -98,6 +100,7 @@ function SaChangeModal({
                   label="Product"
                   fullWidth
                   margin="dense"
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
@@ -110,6 +113,7 @@ function SaChangeModal({
                   label="Install Premium"
                   fullWidth
                   margin="dense"
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
@@ -126,6 +130,7 @@ function SaChangeModal({
                   label="Bill To Date"
                   fullWidth
                   margin="dense"
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
@@ -142,17 +147,33 @@ function SaChangeModal({
                   label="Paid To Date"
                   fullWidth
                   margin="dense"
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
             </Grid2>
           </TreeItem>
           <TreeItem nodeId="2" label={`Benefits`}>
             <Paper className={styles.paperStyle}>
-              <Table striped bordered hover>
+              <Table striped bordered hover style={{ position: "relative" }}>
                 <thead className={styles.header}>
                   <tr>
-                    <th>Selected</th>
-                    <th>BenefitID</th>
+                    <th
+                      style={{
+                        position: "sticky",
+                        left: 0,
+                        zIndex: 2,
+                        overflow: "hidden",
+                      }}
+                    >
+                      Selected
+                    </th>
+                    <th
+                      style={{
+                        zIndex: -1,
+                      }}
+                    >
+                      BenefitID
+                    </th>
                     <th>BCoverage</th>
                     <th>BPTerm</th>
                     <th>BPrem</th>
@@ -167,7 +188,10 @@ function SaChangeModal({
                 {saChangeBenefits?.map((val: any, index: number) => (
                   <tr>
                     <input
-                      className={styles["input-form"]}
+                      style={{
+                        position: "sticky",
+                        left: 0,
+                      }}
                       type="checkbox"
                       name="Select"
                       defaultChecked={val.Select === "X"}

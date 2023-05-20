@@ -329,8 +329,20 @@ function NewBussinessTable({
       .then((resp) => {
         setsaChangeObj(resp.data?.Policy);
         saChangeClose();
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
       })
-      .catch((err) => {});
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const saChangeOpen = (value: any) => {
