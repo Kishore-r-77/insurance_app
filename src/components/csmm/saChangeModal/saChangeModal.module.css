@@ -1,0 +1,25 @@
+.paperStyle {
+  margin: 20px auto;
+  overflow-y: scroll;
+  max-height: 350px;
+  font-family: Poppins Medium;
+}
+
+.header {
+  background-color: rgba(71, 11, 75, 1);
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+.input-form {
+  width: 10rem;
+  border: none;
+}
+
+.td-class {
+  border-right: 2px solid rgb(109, 108, 108) !important;
+  border-left: 2px solid rgb(109, 108, 108) !important;
+  border-top: 2px solid rgb(109, 108, 108) !important;
+  border-bottom: 2px solid rgb(109, 108, 108) !important;
+}

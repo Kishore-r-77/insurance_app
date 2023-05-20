@@ -37,6 +37,7 @@ import Footer from "./utilities/footer/Footer";
 import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
 import Assignee from "./components/assignee/Assignee";
+import Csmm from "./components/csmm/Csmm";
 function App() {
   const { pathname } = useLocation();
 
@@ -84,6 +85,7 @@ function App() {
                 <Route path="/deathH" element={<DeathH />} />
                 <Route path="/nominee" element={<Nominee />} />
                 <Route path="/assignee" element={<Assignee />} />
+                <Route path="/csmm" element={<Csmm />} />
               </Route>
               {/* </Route> */}
             </Route>

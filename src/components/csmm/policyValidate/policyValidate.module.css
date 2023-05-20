@@ -1,0 +1,38 @@
+@font-face {
+  font-family: Julee Regular;
+  src: url("../../../fonts/Julee/Julee-Regular.ttf");
+}
+
+.flexStyle {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.text-fields {
+  flex: 1 1 20rem;
+}
+
+.flexStyle h1 {
+  flex: 4 1 20rem;
+  font-family: Julee Regular;
+  letter-spacing: 2px;
+  font-weight: bolder;
+  color: rgb(42, 6, 45);
+}
+
+.adjamount {
+  width: 90%;
+  margin: 20px auto;
+}
+
+.line {
+  height: 10px;
+  background-color: rgb(0, 0, 110);
+  border-bottom: "5px solid rgb(33, 70, 100)";
+}
+
+#add-btn {
+  flex: 2 1 20rem;
+  margin-right: 1rem;
+}

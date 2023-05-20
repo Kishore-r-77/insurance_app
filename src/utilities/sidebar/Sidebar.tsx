@@ -106,6 +106,11 @@ const routes = [
         name: "NBMM",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/csmm",
+        name: "CSMM",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
