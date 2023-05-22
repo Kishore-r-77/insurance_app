@@ -168,7 +168,7 @@ function Receipts({ modalFunc }: any) {
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
-          message: `Created:${resp.data?.Created}`,
+          message: `Created:${resp.data["Receipt Created"]}`,
           type: "success",
         });
         getData();
