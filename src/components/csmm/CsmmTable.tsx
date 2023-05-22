@@ -288,14 +288,9 @@ function CsmmTable({
 
   const getSaChange = () => {
     axios
-      .post(
-        `http://localhost:3000/api/v1/deathservices/changesa/${saPolicyRecord.ID}`,
-        {
-          Function: "",
-          PolicyID: saPolicyRecord.ID,
-          TotalPremium: 0,
-          NewTotalPremium: 0,
-        },
+      .get(
+        `http://localhost:3000/api/v1/deathservices/initsa/${saPolicyRecord.ID}`,
+
         { withCredentials: true }
       )
       .then((resp) => {
@@ -331,7 +326,7 @@ function CsmmTable({
       )
       .then((resp) => {
         setsaChangeObj(resp.data?.Policy);
-        setsaChangeBenefits(resp?.data?.Policy?.Benefits);
+        setsaChangeBenefits(resp?.data?.Benefits);
         setisSave(true);
         //saChangeClose();
         getData();
@@ -355,19 +350,13 @@ function CsmmTable({
         `http://localhost:3000/api/v1/deathservices/changesa/${saPolicyRecord.ID}`,
         {
           Benefits: saChangeBenefits,
-          BillToDate: saChangeObj.BillToDate,
-          CompanyID: saChangeObj.CompanyID,
-          InstalmentPremium: saChangeObj.InstalmentPremium,
-          PaidToDate: saChangeObj.PaidToDate,
-          PolicyID: saChangeObj.PolicyID,
-          Product: saChangeObj.Product,
           Function: "Save",
         },
         { withCredentials: true }
       )
       .then((resp) => {
         setsaChangeObj(resp.data?.Policy);
-        setsaChangeBenefits(resp?.data?.Policy?.Benefits);
+        setsaChangeBenefits(resp?.data?.Benefits);
         setisSave(false);
         saChangeClose();
         getData();
