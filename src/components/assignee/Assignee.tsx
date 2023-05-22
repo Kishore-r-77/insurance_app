@@ -8,22 +8,27 @@ import { useAppSelector } from "../../redux/app/hooks";
 import { AssigneeStateType } from "../../reducerUtilities/types/assignee/assigneeTypes";
 
 import {
- ACTIONS,
- columns,
- initialValues,
+  ACTIONS,
+  columns,
+  initialValues,
 } from "../../reducerUtilities/actions/assignee/assigneeActions";
 import styles from "./assignee.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./assigneeApi/assigneeApis" ;
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAllApi,
+} from "./assigneeApi/assigneeApis";
 import AssigneeModal from "./assigneeModal/AssigneeModal";
 import Notification from "../../utilities/Notification//Notification";
 
-
-function Assignee({ 
+function Assignee({
   modalFunc,
   lookup,
   assigneeByPolicyData,
   policyId,
-  getAssigneeByPolicy, }: any) {
+  getAssigneeByPolicy,
+}: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
@@ -65,7 +70,7 @@ function Assignee({
         };
 
       case ACTIONS.ADDCLOSE:
-	    state = initialValues;
+        state = initialValues;
         return {
           ...state,
           addOpen: false,
@@ -141,25 +146,25 @@ function Assignee({
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
-  const [fieldMap, setfieldMap] = useState([]);  
+  const [fieldMap, setfieldMap] = useState([]);
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
-    .then((resp) => {
-      console.log(resp);
-      setData(resp.data["GetAllasignee"]);
-      settotalRecords(resp.data.paginationData.totalRecords);
-      setisLast(resp.data["GetAllasignee"]?.length === 0);
-      setfieldMap(resp.data["Field Map"]);
-    })
-    .catch((err) => console.log(err.message));
+      .then((resp) => {
+        console.log(resp);
+        setData(resp.data["GetAllasignee"]);
+        settotalRecords(resp.data.paginationData.totalRecords);
+        setisLast(resp.data["GetAllasignee"]?.length === 0);
+        setfieldMap(resp.data["Field Map"]);
+      })
+      .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId)
+    return addApi(state, companyId, policyId)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
@@ -327,7 +332,7 @@ function Assignee({
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <AssigneeModal 
+      <AssigneeModal
         state={state}
         record={record}
         dispatch={dispatch}

@@ -1,17 +1,15 @@
 import axios from "axios";
 import moment from "moment";
-//Attention: Check the path below and change it if required 
+//Attention: Check the path below and change it if required
 import { AssigneeStateType } from "../../../reducerUtilities/types/assignee/assigneeTypes";
 
-
 export const getAllApi = (
-pageNum: number,
-pageSize: number,
-state: AssigneeStateType
-)=> {
-// Attention : Check and update the below API, if required
-  return axios.get(
-`http://localhost:3000/api/v1/nbservices/assignees`, {
+  pageNum: number,
+  pageSize: number,
+  state: AssigneeStateType
+) => {
+  // Attention : Check and update the below API, if required
+  return axios.get(`http://localhost:3000/api/v1/nbservices/assignees`, {
     withCredentials: true,
     // params: {
     //   pageNum: pageNum,
@@ -38,13 +36,17 @@ export const paramItem = (
   });
 };
 
-  export const addApi = (state: AssigneeStateType, companyId: number) => { 
-// Attention : Check and update the below API, if required
+export const addApi = (
+  state: AssigneeStateType,
+  companyId: number,
+  policyId: number
+) => {
+  // Attention : Check and update the below API, if required
   return axios.post(
-  `http://localhost:3000/api/v1/nbservices/assigneecreate`, 
-    { 
+    `http://localhost:3000/api/v1/nbservices/assigneecreate`,
+    {
       CompanyID: companyId,
-      PolicyID: parseInt(state.PolicyID),
+      PolicyID: policyId,
       ClientID: parseInt(state.ClientID),
       AssigneeType: state.AssigneeType,
       Fromdate: moment(state.Fromdate).format("YYYYMMDD"),
@@ -56,14 +58,14 @@ export const paramItem = (
   );
 };
 
-  export const editApi = (record: any) => { 
-// Attention : Check and update the below API, if required
+export const editApi = (record: any) => {
+  // Attention : Check and update the below API, if required
   return axios.put(
-  `http://localhost:3000/api/v1/nbservices/assigneeupdate`, 
-    { 
-      ID: parseInt(record.ID),  
+    `http://localhost:3000/api/v1/nbservices/assigneeupdate`,
+    {
+      ID: parseInt(record.ID),
 
-      CompanyID:  parseInt(record.CompanyID),
+      CompanyID: parseInt(record.CompanyID),
       PolicyID: parseInt(record.PolicyID),
       ClientID: parseInt(record.ClientID),
       AssigneeType: record.AssigneeType,
@@ -78,8 +80,8 @@ export const paramItem = (
 
 export const deleteApi = (id: number) => {
   return axios.delete(
-//Attention: Check the path below,if required 
-    `http://localhost:3000/api/v1/nbservices/assigneedelete/${id}` ,
+    //Attention: Check the path below,if required
+    `http://localhost:3000/api/v1/nbservices/assigneedelete/${id}`,
     {
       withCredentials: true,
     }
