@@ -8,6 +8,7 @@ import GLAccountEnquiry from "./GLAccountEnquiry";
 import GLHistoryEnquiry from "./GLHistoryEnquiry";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
+import SAChangeEnquiry from "./SAChangeEnquiry";
 
 function EnquiryTable({
   data,
@@ -34,11 +35,22 @@ function EnquiryTable({
   console.log(data, "data");
 
   const [glHistory, setglHistory] = useState(false);
+
   const [Tranno, setTranno] = useState("");
-  const glhClickOpen = (value: any) => {
+  const [isSachange, setisSachange] = useState(false);
+  const glhClickOpen = (value: any, hcode: any) => {
     console.log(value, "tranno");
     setTranno(value);
-    setglHistory(true);
+    if (hcode === "H0091") {
+      console.log(hcode, "History");
+      setisSachange(true);
+    } else {
+      setglHistory(true);
+    }
+  };
+
+  const isSAChangeClose = () => {
+    setisSachange(false);
   };
 
   const glhClickClose = () => {
@@ -129,7 +141,9 @@ function EnquiryTable({
                     ) : historyOpen ? (
                       <td
                         key={col.field}
-                        onClick={() => glhClickOpen(row?.Tranno)}
+                        onClick={() =>
+                          glhClickOpen(row?.Tranno, row?.PHistoryCode)
+                        }
                       >
                         {row[col.field]}
                       </td>
@@ -171,6 +185,13 @@ function EnquiryTable({
       <GLHistoryEnquiry
         open={glHistory}
         handleClose={glhClickClose}
+        policyNo={policyNo}
+        TransactionNo={Tranno}
+      />
+
+      <SAChangeEnquiry
+        open={isSachange}
+        handleClose={isSAChangeClose}
         policyNo={policyNo}
         TransactionNo={Tranno}
       />
