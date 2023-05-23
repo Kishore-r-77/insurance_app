@@ -263,7 +263,7 @@ function CsmmTable({
         break;
       case "FreqQuote":
         freqQuoteOpen(policyId.current, value);
-        handleServiceClose();
+        handleClose();
         break;
 
       case "Assignee":
@@ -273,7 +273,11 @@ function CsmmTable({
 
       case "FreqChange":
         freqChangeOpen(policyId.current, value);
-        handleServiceClose();
+        handleClose();
+        break;
+      case "SaChange":
+        saChangeOpen(policyId.current, value);
+        handleClose();
         break;
       default:
         return;
@@ -281,7 +285,7 @@ function CsmmTable({
   };
 
   const [isSaChange, setisSaChange] = useState(false);
-  const [saPolicyRecord, setsaPolicyRecord] = useState<any>("");
+  const [saChangeMenu, setsaChangeMenu] = useState<any>("");
   const [saChangeObj, setsaChangeObj] = useState<any>("");
   const [saChangeBenefits, setsaChangeBenefits] = useState<any>([]);
   const [isSave, setisSave] = useState(false);
@@ -289,7 +293,7 @@ function CsmmTable({
   const getSaChange = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/deathservices/initsa/${saPolicyRecord.ID}`,
+        `http://${saChangeMenu?.URL}${PolicyID}`,
 
         { withCredentials: true }
       )
@@ -311,7 +315,7 @@ function CsmmTable({
   const postSaChange = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/changesa/${saPolicyRecord.ID}`,
+        `http://localhost:3000/api/v1/deathservices/changesa/${PolicyID}`,
         {
           Benefits: saChangeBenefits,
           BillToDate: saChangeObj.BillToDate,
@@ -347,7 +351,7 @@ function CsmmTable({
   const saveSaChange = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/changesa/${saPolicyRecord.ID}`,
+        `http://localhost:3000/api/v1/deathservices/changesa/${PolicyID}`,
         {
           Benefits: saChangeBenefits,
           Function: "Save",
@@ -375,9 +379,10 @@ function CsmmTable({
       );
   };
 
-  const saChangeOpen = (value: any) => {
+  const saChangeOpen = (policyId: number, value: any) => {
     setisSaChange(true);
-    setsaPolicyRecord(value);
+    setsaChangeMenu(value);
+    setPolicyID(policyId);
   };
   const saChangeClose = () => {
     setisSaChange(false);
@@ -459,9 +464,7 @@ function CsmmTable({
               )
             )}
             <th>Benefit</th>
-            <th>Clients</th>
             <th>Actions</th>
-            <th>Sa Changes</th>
           </tr>
         </thead>
         <tbody>
@@ -492,17 +495,24 @@ function CsmmTable({
                   }
                 />
               </td>
+
               <td>
                 <span className={styles.flexButtons}>
-                  {/* <IconButton
+                  {/* <EditIcon
+                      color="primary"
+                      onClick={() =>
+                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                      }
+                    />
+                    <DeleteIcon
+                      color="error"
+                      onClick={() => hardDelete(row.ID)}
+                    /> */}
+                  <InfoIcon
                     onClick={() =>
                       dispatch({ type: ACTIONS.INFOOPEN, payload: row })
                     }
-                  >
-                    {" "}
-                    <InfoIcon />
-                  </IconButton> */}
-
+                  />
                   <IconButton
                     id="basic-button"
                     aria-controls={open ? "basic-menu" : undefined}
@@ -527,27 +537,7 @@ function CsmmTable({
                       </MenuItem>
                     ))}
                   </Menu>
-                </span>
-              </td>
-
-              <td>
-                <span className={styles.flexButtons}>
-                  {/* <EditIcon
-                      color="primary"
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                      }
-                    />
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => hardDelete(row.ID)}
-                    /> */}
-                  <InfoIcon
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                    }
-                  />
-                  <IconButton
+                  {/* <IconButton
                     id="basic-button"
                     aria-controls={csOpen ? "basic-menu" : undefined}
                     aria-haspopup="true"
@@ -570,15 +560,15 @@ function CsmmTable({
                         {clientValue?.Action}
                       </MenuItem>
                     ))}
-                  </Menu>
+                  </Menu> */}
                 </span>
               </td>
-              <td>
+              {/* <td>
                 <ChangeCircleIcon
                   color="secondary"
                   onClick={() => saChangeOpen(row)}
                 />
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>
