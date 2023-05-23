@@ -312,6 +312,7 @@ function CsmmTable({
       });
   };
 
+  const modifiedPremium = useRef();
   const postSaChange = () => {
     axios
       .post(
@@ -331,6 +332,7 @@ function CsmmTable({
       .then((resp) => {
         setsaChangeObj(resp.data?.Policy);
         setsaChangeBenefits(resp?.data?.Benefits);
+        modifiedPremium.current = resp?.data?.ModifiedPrem;
         setisSave(true);
         //saChangeClose();
         getData();
@@ -595,6 +597,7 @@ function CsmmTable({
       />
       <SaChangeModal
         open={isSaChange}
+        modifiedPremium={modifiedPremium}
         handleClose={saChangeClose}
         saChangeObj={saChangeObj}
         saChangeBenefits={saChangeBenefits}

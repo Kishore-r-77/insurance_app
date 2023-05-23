@@ -11,6 +11,7 @@ import styles from "./saChangeModal.module.css";
 
 function SaChangeModal({
   open,
+  modifiedPremium,
   handleClose,
   saChangeObj,
   saChangeBenefits,
@@ -113,7 +114,11 @@ function SaChangeModal({
                   InputProps={{ readOnly: true }}
                   id="InstalmentPremium"
                   name="InstalmentPremium"
-                  value={saChangeObj?.InstalmentPremium}
+                  value={
+                    isSave
+                      ? modifiedPremium?.current
+                      : saChangeObj?.InstalmentPremium
+                  }
                   placeholder="Install Premium"
                   label="Install Premium"
                   fullWidth
