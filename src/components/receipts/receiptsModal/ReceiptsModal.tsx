@@ -169,9 +169,9 @@ function ReceiptsModal({
             ? () => dispatch({ type: ACTIONS.POLICIESCLOSE })
             : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
-            : state.editOpen
-            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
-            : () => dispatch({ type: ACTIONS.INFOCLOSE })
+            : // : state.editOpen
+              // ? () => dispatch({ type: ACTIONS.EDITCLOSE })
+              () => dispatch({ type: ACTIONS.INFOCLOSE })
         }
         title={
           state.addOpen
@@ -307,7 +307,7 @@ function ReceiptsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d?.$d,
+                            payload: date?.$d?.$d,
                             fieldName: "DateOfCollection",
                           })
                         }

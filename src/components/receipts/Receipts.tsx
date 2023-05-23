@@ -42,26 +42,26 @@ function Receipts({ modalFunc }: any) {
           ...state,
           [action.fieldName]: action.payload,
         };
-      case ACTIONS.EDITCHANGE:
-        setRecord((prev: any) => ({
-          ...prev,
-          [action.fieldName]: action.payload,
-        }));
-        return {
-          ...state,
-          editOpen: true,
-        };
+      // case ACTIONS.EDITCHANGE:
+      //   setRecord((prev: any) => ({
+      //     ...prev,
+      //     [action.fieldName]: action.payload,
+      //   }));
+      //   return {
+      //     ...state,
+      //     editOpen: true,
+      //   };
       case ACTIONS.ADDOPEN:
         return {
           ...state,
           addOpen: true,
         };
-      case ACTIONS.EDITOPEN:
-        setRecord(action.payload);
-        return {
-          ...state,
-          editOpen: true,
-        };
+      // case ACTIONS.EDITOPEN:
+      //   setRecord(action.payload);
+      //   return {
+      //     ...state,
+      //     editOpen: true,
+      //   };
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
@@ -77,11 +77,11 @@ function Receipts({ modalFunc }: any) {
           addOpen: false,
         };
 
-      case ACTIONS.EDITCLOSE:
-        return {
-          ...state,
-          editOpen: false,
-        };
+      // case ACTIONS.EDITCLOSE:
+      //   return {
+      //     ...state,
+      //     editOpen: false,
+      //   };
       case ACTIONS.INFOCLOSE:
         return {
           ...state,
@@ -184,49 +184,49 @@ function Receipts({ modalFunc }: any) {
   };
 
   //Edit Api
-  const editFormSubmit = async () => {
-    editApi(record)
-      .then((resp) => {
-        console.log(resp);
-        dispatch({ type: ACTIONS.EDITCLOSE });
-        setNotify({
-          isOpen: true,
-          message: `Updated Successfully`,
-          type: "success",
-        });
-        getData();
-      })
-      .catch((err) => {
-        console.log(err.message);
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        });
-      });
-  };
+  // const editFormSubmit = async () => {
+  //   editApi(record)
+  //     .then((resp) => {
+  //       console.log(resp);
+  //       dispatch({ type: ACTIONS.EDITCLOSE });
+  //       setNotify({
+  //         isOpen: true,
+  //         message: `Updated Successfully`,
+  //         type: "success",
+  //       });
+  //       getData();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //       setNotify({
+  //         isOpen: true,
+  //         message: err?.response?.data?.error,
+  //         type: "error",
+  //       });
+  //     });
+  // };
 
-  //Hard Delete Api
-  const hardDelete = async (id: number) => {
-    deleteApi(id)
-      .then((resp) => {
-        console.log(resp);
-        setNotify({
-          isOpen: true,
-          message: `Deleted Successfully`,
-          type: "success",
-        });
-        getData();
-      })
-      .catch((err) => {
-        console.log(err.message);
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        });
-      });
-  };
+  // //Hard Delete Api
+  // const hardDelete = async (id: number) => {
+  //   deleteApi(id)
+  //     .then((resp) => {
+  //       console.log(resp);
+  //       setNotify({
+  //         isOpen: true,
+  //         message: `Deleted Successfully`,
+  //         type: "success",
+  //       });
+  //       getData();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //       setNotify({
+  //         isOpen: true,
+  //         message: err?.response?.data?.error,
+  //         type: "error",
+  //       });
+  //     });
+  // };
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
@@ -328,7 +328,7 @@ function Receipts({ modalFunc }: any) {
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
-        hardDelete={hardDelete}
+        // hardDelete={hardDelete}
       />
       <CustomPagination
         pageNum={pageNum}
@@ -343,7 +343,7 @@ function Receipts({ modalFunc }: any) {
         state={state}
         record={record}
         dispatch={dispatch}
-        handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
+        handleFormSubmit={handleFormSubmit}
         ACTIONS={ACTIONS}
       />
       <Notification notify={notify} setNotify={setNotify} />

@@ -116,16 +116,21 @@ function CustomTable({
 
               <td>
                 <span className={styles.flexButtons}>
-                  <EditIcon
-                    color="primary"
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                    }
-                  />
-                  <DeleteIcon
-                    color="error"
-                    onClick={() => hardDelete(row.ID)}
-                  />
+                  {!!ACTIONS.EDITOPEN && (
+                    <>
+                      {" "}
+                      <EditIcon
+                        color="primary"
+                        onClick={() =>
+                          dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                        }
+                      />
+                      <DeleteIcon
+                        color="error"
+                        onClick={() => hardDelete(row.ID)}
+                      />
+                    </>
+                  )}
                   <InfoIcon
                     onClick={() =>
                       dispatch({ type: ACTIONS.INFOOPEN, payload: row })

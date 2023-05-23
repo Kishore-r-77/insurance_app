@@ -13,7 +13,7 @@
 }
 
 .input-form {
-  width: 10rem;
+  max-width: 10rem;
   border: none;
 }
 

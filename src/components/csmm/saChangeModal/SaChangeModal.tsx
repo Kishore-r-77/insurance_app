@@ -198,13 +198,13 @@ function SaChangeModal({
                       BenefitID
                     </th>
                     <th>BCoverage</th>
-                    <th>BPTerm</th>
-                    <th>BPrem</th>
                     <th>BSumAssured</th>
                     <th>BTerm</th>
-                    <th>NPTerm</th>
-                    <th>NTerm</th>
+                    <th>BPTerm</th>
+                    <th>BPrem</th>
                     <th>NSumAssured</th>
+                    <th>NTerm</th>
+                    <th>NPTerm</th>
                     <th>NPrem</th>
                   </tr>
                 </thead>
@@ -246,6 +246,22 @@ function SaChangeModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
+                        value={val?.BSumAssured}
+                      />
+                    </td>
+                    <td className={styles["td-class"]}>
+                      <input
+                        className={styles["input-form"]}
+                        type="text"
+                        disabled
+                        value={val?.BTerm}
+                      />
+                    </td>
+                    <td className={styles["td-class"]}>
+                      <input
+                        className={styles["input-form"]}
+                        type="text"
+                        disabled
                         value={val?.BPTerm}
                       />
                     </td>
@@ -260,32 +276,16 @@ function SaChangeModal({
                     <td className={styles["td-class"]}>
                       <input
                         className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.BSumAssured}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.BTerm}
-                      />
-                    </td>
-
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        name="NPTerm"
+                        name="NSumAssured"
                         type="number"
-                        value={val?.NPTerm}
                         disabled={val?.Select === ""}
+                        value={val?.NSumAssured}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleChange(e, index)
                         }
                       />
                     </td>
+
                     <td className={styles["td-class"]}>
                       <input
                         className={styles["input-form"]}
@@ -302,15 +302,16 @@ function SaChangeModal({
                     <td className={styles["td-class"]}>
                       <input
                         className={styles["input-form"]}
-                        name="NSumAssured"
+                        name="NPTerm"
                         type="number"
+                        value={val?.NPTerm}
                         disabled={val?.Select === ""}
-                        value={val?.NSumAssured}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleChange(e, index)
                         }
                       />
                     </td>
+
                     <td className={styles["td-class"]}>
                       <input
                         className={styles["input-form"]}

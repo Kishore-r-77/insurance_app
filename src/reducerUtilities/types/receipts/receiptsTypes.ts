@@ -28,10 +28,10 @@ export type ActionConstantsType = {
   ONCHANGE: string;
   EDITCHANGE: string;
   ADDOPEN: string;
-  EDITOPEN: string;
+  // EDITOPEN: string;
   INFOOPEN: string;
   ADDCLOSE: string;
-  EDITCLOSE: string;
+  // EDITCLOSE: string;
   INFOCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
