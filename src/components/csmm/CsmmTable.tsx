@@ -466,7 +466,7 @@ function CsmmTable({
                 </th>
               )
             )}
-            <th>Benefit</th>
+            {/* <th>Benefit</th> */}
             <th>Actions</th>
           </tr>
         </thead>
@@ -488,7 +488,7 @@ function CsmmTable({
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
 
-              <td>
+              {/* <td>
                 <BusinessIcon
                   onClick={() =>
                     dispatch({
@@ -497,7 +497,7 @@ function CsmmTable({
                     })
                   }
                 />
-              </td>
+              </td> */}
 
               <td>
                 <span className={styles.flexButtons}>
