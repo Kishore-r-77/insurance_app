@@ -112,6 +112,19 @@ function SaChangeModal({
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
+                  id="Frequency"
+                  name="Frequency"
+                  value={saChangeObj?.Frequency}
+                  placeholder="Frequency"
+                  label="Frequency"
+                  fullWidth
+                  margin="dense"
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid2>
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  InputProps={{ readOnly: true }}
                   id="InstalmentPremium"
                   name="InstalmentPremium"
                   value={
