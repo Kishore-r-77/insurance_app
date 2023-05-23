@@ -382,6 +382,29 @@ function CsmmTable({
       );
   };
 
+  const invalidatesa = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/invalidatesa/${PolicyID}`,
+        {},
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setNotify({
+          isOpen: true,
+          message: resp?.data?.success,
+          type: "error",
+        });
+      })
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.data?.error,
+          type: "error",
+        });
+      });
+  };
+
   const saChangeOpen = (policyId: number, value: any) => {
     setisSaChange(true);
     setsaChangeMenu(value);
@@ -389,6 +412,7 @@ function CsmmTable({
   };
   const saChangeClose = () => {
     setisSaChange(false);
+    invalidatesa();
   };
 
   useEffect(() => {
