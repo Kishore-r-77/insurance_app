@@ -1,39 +1,31 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import React, { forwardRef, useImperativeHandle, useState, useEffect } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
-
-import "./q0011.css";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import  "./q0011.css";
+
+
 const Q0011 = forwardRef((props: any, ref) => {
-  const {
-    sendRequest: sendP0046Request,
-    status: getP0046ResponseStatus,
-    data: getP0046Response,
-    error: getP0046ResponseError,
-  } = useHttp(getData, true);
+
+  const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true); 
 
   useEffect(() => {
-    let getDataParams: any = {};
-    getDataParams.companyId = 1;
-    getDataParams.languageId = 1;
-    getDataParams.seqno = 0;
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
 
-    getDataParams.name = "P0046";
-    sendP0046Request({
-      apiUrlPathSuffix: "/basicservices/paramItems",
-      getDataParams: getDataParams,
-    });
-  }, []);
+
+        getDataParams.name = "P0046";
+        sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
+
+
+    },[]);
 
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
@@ -77,6 +69,7 @@ const Q0011 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
       <thead
         style={{
@@ -86,14 +79,15 @@ const Q0011 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
+
         <tr>
-          <th>Coverage Short Name</th>
-          <th>Coverage Long Name</th>
-          <th>Is it Mandatory?(Y/N)</th>
-          <th>Basic or Rider(B/R)</th>
-          <th>Term can Exceed Basic(Y/N)</th>
-          <th>Premium Paying Term can Exceed Basic(Y/N)</th>
-          {(props.mode === "update" || props.mode === "create") &&
+          <th>Coverage Name</th> 
+          <th>Is it Mandatory?(Y/N)</th> 
+          <th>Basic or Rider(B/R)</th> 
+          <th>Term can Exceed Basic(Y/N)</th> 
+          <th>Premium Paying Term can Exceed Basic(Y/N)</th> 
+          <th>Sum Assured can Exceed</th> 
+          {(props.mode === "update" || props.mode === "create") && 
             inputdata.coverages?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
             (!inputdata.coverages || inputdata.coverages?.length === 0) && (
@@ -106,11 +100,11 @@ const Q0011 = forwardRef((props: any, ref) => {
                         coverages: [
                           {
                             coverageName: "",
-                            coverageLongName: "",
                             mandatory: "",
                             basicorRider: "",
                             termCanExceed: "",
                             pptCanExceed: "",
+                            saCanExceed: "",
                           },
                         ],
                       }));
@@ -127,7 +121,7 @@ const Q0011 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="coverageName"
                 name="coverageName"
@@ -144,27 +138,9 @@ const Q0011 = forwardRef((props: any, ref) => {
 
             <td>
               <TextField
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="coverageLongName"
-                name="coverageLongName"
-                value={value.coverageLongName}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "coverageLongName", e.target.value)
-                }
-                fullWidth
-                size="small"
-                type="text"
-                margin="dense"
-              />
-            </td>
-
-            <td>
-              <TextField
                 select
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="mandatory"
                 name="mandatory"
@@ -177,18 +153,18 @@ const Q0011 = forwardRef((props: any, ref) => {
                 type="text"
                 margin="dense"
               >
-                {getP0046Response?.data.map((value: any) => (
-                  <MenuItem key={value.item} value={value.item}>
-                    {value.longdesc}
-                  </MenuItem>
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
                 ))}
               </TextField>
-            </td>
+          </td>
 
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="basicorRider"
                 name="basicorRider"
@@ -207,7 +183,7 @@ const Q0011 = forwardRef((props: any, ref) => {
               <TextField
                 select
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="termCanExceed"
                 name="termCanExceed"
@@ -220,19 +196,19 @@ const Q0011 = forwardRef((props: any, ref) => {
                 type="text"
                 margin="dense"
               >
-                {getP0046Response?.data.map((value: any) => (
-                  <MenuItem key={value.item} value={value.item}>
-                    {value.longdesc}
-                  </MenuItem>
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
                 ))}
               </TextField>
-            </td>
+          </td>
 
             <td>
               <TextField
                 select
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="pptCanExceed"
                 name="pptCanExceed"
@@ -245,13 +221,38 @@ const Q0011 = forwardRef((props: any, ref) => {
                 type="text"
                 margin="dense"
               >
-                {getP0046Response?.data.map((value: any) => (
-                  <MenuItem key={value.item} value={value.item}>
-                    {value.longdesc}
-                  </MenuItem>
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
                 ))}
               </TextField>
-            </td>
+          </td>
+
+            <td>
+              <TextField
+                select
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="saCanExceed"
+                name="saCanExceed"
+                value={value.saCanExceed}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "saCanExceed", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              >
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             {(props.mode === "update" || props.mode === "create") && (
               <td>
@@ -269,6 +270,7 @@ const Q0011 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.coverages.length - 1 && (
                     <CustomTooltip text="Add">
@@ -280,11 +282,12 @@ const Q0011 = forwardRef((props: any, ref) => {
                               ...inputdata.coverages,
                               {
                                 coverageName: "",
-                                coverageLongName: "",
                                 mandatory: "",
                                 basicorRider: "",
                                 termCanExceed: "",
                                 pptCanExceed: "",
+                                saCanExceed: "",
+
                               },
                             ],
                           }));
@@ -302,3 +305,4 @@ const Q0011 = forwardRef((props: any, ref) => {
   );
 });
 export default Q0011;
+

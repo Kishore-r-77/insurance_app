@@ -1,64 +1,44 @@
-import React, {
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-  useEffect,
-  useState,
-} from "react";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
-import "./q0005.css";
+import  "./q0005.css";
 
 const Q0005 = forwardRef((props: any, ref) => {
-  const {
-    sendRequest: sendP0046Request,
-    status: getP0046ResponseStatus,
-    data: getP0046Response,
-    error: getP0046ResponseError,
-  } = useHttp(getData, true);
-  const {
-    sendRequest: sendFreqRequest,
-    status: getFreqResponseStatus,
-    data: getFreqResponse,
-    error: getFreqResponseError,
-  } = useHttp(getData, true);
-  const {
-    sendRequest: sendBcurRequest,
-    status: getBcurResponseStatus,
-    data: getBcurResponse,
-    error: getBcurResponseError,
-  } = useHttp(getData, true);
+  
+  const {sendRequest : sendFreqRequest , status: getFreqResponseStatus ,  data: getFreqResponse , error:getFreqResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendCcurRequest , status: getCcurResponseStatus ,  data: getCcurResponse , error:getCcurResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendBcurRequest , status: getBcurResponseStatus ,  data: getBcurResponse , error:getBcurResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true); 
+
 
   useEffect(() => {
-    let getDataParams: any = {};
-    getDataParams.companyId = 1;
-    getDataParams.languageId = 1;
-    getDataParams.seqno = 0;
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
 
-    getDataParams.name = "P0050";
+        getDataParams.name =  "P0050";
 
-    getDataParams.item = "FREQ";
-    sendFreqRequest({
-      apiUrlPathSuffix: "/basicservices/paramItem",
-      getDataParams: getDataParams,
-    });
+        getDataParams.item = "FREQ";
+        sendFreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-    getDataParams.item = "BCUR";
-    sendBcurRequest({
-      apiUrlPathSuffix: "/basicservices/paramItem",
-      getDataParams: getDataParams,
-    });
+        getDataParams.item = "CCUR";
+        sendCcurRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-    getDataParams.name = "P0046";
-    sendP0046Request({
-      apiUrlPathSuffix: "/basicservices/paramItems",
-      getDataParams: getDataParams,
-    });
-  }, []);
+        getDataParams.item = "BCUR";
+        sendBcurRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+        getDataParams.name = "P0046";
+        sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
+
+
+    },[]);
+
 
   const freeLookDaysRef: any = useRef();
   const maxLivesRef: any = useRef();
@@ -71,12 +51,14 @@ const Q0005 = forwardRef((props: any, ref) => {
   const frequenciesRef: any = useRef();
   const contractCurrRef: any = useRef();
   const billingCurrRef: any = useRef();
+  const componentAddAtAnyTimeRef: any = useRef();
 
   let inputdata: any = {};
 
   if (props.data) {
     inputdata = props.data;
   }
+
 
   useImperativeHandle(ref, () => ({
     getData() {
@@ -91,6 +73,7 @@ const Q0005 = forwardRef((props: any, ref) => {
       inputdata.frequencies = frequenciesRef.current.value;
       inputdata.contractCurr = contractCurrRef.current.value;
       inputdata.billingCurr = billingCurrRef.current.value;
+      inputdata.componentAddAtAnyTime = componentAddAtAnyTimeRef.current.value;
 
       return inputdata;
     },
@@ -107,13 +90,13 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="freeLookDays"
           name="freeLookDays"
           inputRef={freeLookDaysRef}
-          placeholder="Free look Days"
-          label="Free look Days"
+          placeholder="Free Look Days"
+          label="Free Look Days"
           defaultValue={inputdata.freeLookDays}
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -130,7 +113,7 @@ const Q0005 = forwardRef((props: any, ref) => {
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -147,7 +130,7 @@ const Q0005 = forwardRef((props: any, ref) => {
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -158,29 +141,30 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="minSurrMonths"
           name="minSurrMonths"
           inputRef={minSurrMonthsRef}
-          placeholder="Min.period for Surrender (in months)"
-          label="Min.period for Surrender (in months)"
+          placeholder="Minimum Surr Months"
+          label="Minimum Surr Months"
           defaultValue={inputdata.minSurrMonths}
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="productFamily"
           name="productFamily"
           inputRef={productFamilyRef}
-          placeholder="Product  Family"
-          label="Product  Family"
+          placeholder="Product Family"
+          label="Product Family"
           defaultValue={inputdata.productFamily}
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -191,61 +175,47 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="reinstatementMonth"
           name="reinstatementMonth"
           inputRef={reinstatementMonthRef}
-          placeholder="Reinstatement from PTD (in months)"
-          label="Reinstatement from PTD (in months)"
+          placeholder="Reinstatemant Month"
+          label="Reinstatemant Month"
           defaultValue={inputdata.reinstatementMonth}
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          select
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="renewable"
           name="renewable"
           inputRef={renewableRef}
-          placeholder="Renewable  "
-          label="Renewable  "
+          placeholder="Renewable"
+          label="Renewable"
           defaultValue={inputdata.renewable}
           fullWidth
-          variant="outlined"
           margin="dense"
-        >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Grid2>
+        />
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          select
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="single"
           name="single"
           inputRef={singleRef}
-          placeholder="Single "
-          label="Single "
+          placeholder="Single"
+          label="Single"
           defaultValue={inputdata.single}
           fullWidth
-          variant="outlined"
           margin="dense"
-        >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Grid2>
+        />
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -256,8 +226,8 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="frequencies"
           name="frequencies"
           inputRef={frequenciesRef}
-          placeholder="Allowable Frequencies"
-          label="Allowable Frequencies"
+          placeholder="Frequencies"
+          label="Frequencies"
           defaultValue={inputdata.frequencies}
           fullWidth
           variant="outlined"
@@ -266,13 +236,14 @@ const Q0005 = forwardRef((props: any, ref) => {
             multiple: true,
           }}
         >
-          {getFreqResponse?.param.data.dataPairs.map((value: any) => (
+          {getFreqResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
+              //  {value.code}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -293,13 +264,14 @@ const Q0005 = forwardRef((props: any, ref) => {
             multiple: true,
           }}
         >
-          {getBcurResponse?.param.data.dataPairs.map((value: any) => (
+          {getCcurResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
+              //  {value.code}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -320,15 +292,43 @@ const Q0005 = forwardRef((props: any, ref) => {
             multiple: true,
           }}
         >
-          {getBcurResponse?.param.data.dataPairs.map((value: any) => (
+          {getBcurResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
+              //  {value.code}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="componentAddAtAnyTime"
+          name="componentAddAtAnyTime"
+          inputRef={componentAddAtAnyTimeRef}
+          placeholder="Component Add At Any Time"
+          label="Component Add At Any Time"
+          defaultValue={inputdata.componentAddAtAnyTime}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+        >
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+
     </>
   );
 });
 
 export default Q0005;
+
