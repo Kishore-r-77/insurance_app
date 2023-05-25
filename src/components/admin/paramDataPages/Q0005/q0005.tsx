@@ -9,10 +9,10 @@ import  "./q0005.css";
 
 const Q0005 = forwardRef((props: any, ref) => {
   
+  const {sendRequest : sendP0053Request , status: getP0053ResponseStatus ,  data: getP0053Response , error:getP0053ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendFreqRequest , status: getFreqResponseStatus ,  data: getFreqResponse , error:getFreqResponseError} = useHttp(getData, true); 
   const {sendRequest : sendCcurRequest , status: getCcurResponseStatus ,  data: getCcurResponse , error:getCcurResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBcurRequest , status: getBcurResponseStatus ,  data: getBcurResponse , error:getBcurResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -33,8 +33,8 @@ const Q0005 = forwardRef((props: any, ref) => {
         sendBcurRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
 
-        getDataParams.name = "P0046";
-        sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
+        getDataParams.name = "P0053";
+        sendP0053Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
 
 
     },[]);
@@ -185,7 +185,7 @@ const Q0005 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -196,13 +196,20 @@ const Q0005 = forwardRef((props: any, ref) => {
           label="Renewable"
           defaultValue={inputdata.renewable}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+        >
+          {getP0053Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -213,9 +220,16 @@ const Q0005 = forwardRef((props: any, ref) => {
           label="Single"
           defaultValue={inputdata.single}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+        >
+          {getP0053Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -239,7 +253,6 @@ const Q0005 = forwardRef((props: any, ref) => {
           {getFreqResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
-              //  {value.code}
             </MenuItem>
             ))}
         </TextField>
@@ -267,7 +280,6 @@ const Q0005 = forwardRef((props: any, ref) => {
           {getCcurResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
-              //  {value.code}
             </MenuItem>
             ))}
         </TextField>
@@ -295,7 +307,6 @@ const Q0005 = forwardRef((props: any, ref) => {
           {getBcurResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.description}
-              //  {value.code}
             </MenuItem>
             ))}
         </TextField>
@@ -317,7 +328,7 @@ const Q0005 = forwardRef((props: any, ref) => {
           variant="outlined"
           margin="dense"
         >
-          {getP0046Response?.data.map((value:any) => (
+          {getP0053Response?.data.map((value:any) => (
             <MenuItem key={value.item} value={value.item}>
               {value.longdesc}
             </MenuItem>
