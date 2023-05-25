@@ -279,13 +279,19 @@ function CsmmTable({
         saChangeOpen(policyId.current, value);
         handleClose();
         break;
+      case "ComponentAdd":
+        componentOpen(policyId.current, value);
+        handleClose();
+        break;
       default:
         return;
     }
   };
 
   const [isSaChange, setisSaChange] = useState(false);
+  const [isComponent, setisComponent] = useState(false);
   const [saChangeMenu, setsaChangeMenu] = useState<any>("");
+  const [componentMenu, setcomponentMenu] = useState<any>("");
   const [saChangeObj, setsaChangeObj] = useState<any>("");
   const [saChangeBenefits, setsaChangeBenefits] = useState<any>([]);
   const [isSave, setisSave] = useState(false);
@@ -404,6 +410,28 @@ function CsmmTable({
         });
       });
   };
+  const getComponentInit = () => {
+    axios
+      .post(
+        `http://${componentMenu.URL}${PolicyID}`,
+        {},
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setNotify({
+          isOpen: true,
+          message: resp?.data?.success,
+          type: "error",
+        });
+      })
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.data?.error,
+          type: "error",
+        });
+      });
+  };
 
   const saChangeOpen = (policyId: number, value: any) => {
     setisSaChange(true);
@@ -412,6 +440,15 @@ function CsmmTable({
   };
   const saChangeClose = () => {
     setisSaChange(false);
+    invalidatesa();
+  };
+  const componentOpen = (policyId: number, value: any) => {
+    setisComponent(true);
+    setcomponentMenu(value);
+    setPolicyID(policyId);
+  };
+  const componentClose = () => {
+    setisComponent(false);
     invalidatesa();
   };
 
