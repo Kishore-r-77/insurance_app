@@ -23,6 +23,7 @@ import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
 import Notification from "../../utilities/Notification/Notification";
+import ComponentModal from "./componentModal/ComponentModal";
 function CsmmTable({
   issueOpen,
   confirmOpen,
@@ -410,18 +411,42 @@ function CsmmTable({
         });
       });
   };
+  const [componentData, setcomponentData] = useState("");
+  const [componentBenefits, setcomponentBenefits] = useState([]);
   const getComponentInit = () => {
     axios
-      .post(
-        `http://${componentMenu.URL}${PolicyID}`,
-        {},
+      .get(
+        `http://${componentMenu?.URL}${PolicyID}`,
+
         { withCredentials: true }
       )
       .then((resp) => {
+        setcomponentData(resp.data?.result);
+        setcomponentBenefits(resp.data?.result?.Benefits);
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+  const postComponentAdd = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
+        {
+          Benefits: componentBenefits,
+          Function: "Calculate",
+        },
+
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        // setcomponentData(resp.data?.result);
+        setcomponentBenefits(resp.data?.result);
+        setisSave(true);
         setNotify({
           isOpen: true,
-          message: resp?.data?.success,
-          type: "error",
+          message: "Calculated Successfully",
+          type: "success",
         });
       })
       .catch((err) => {
@@ -433,6 +458,41 @@ function CsmmTable({
       });
   };
 
+  const saveComponent = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
+        {
+          Benefits: componentBenefits,
+          Function: "Save",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setcomponentBenefits(resp.data?.result);
+        setisSave(false);
+        setNotify({
+          isOpen: true,
+          message: "Saved Successfully",
+          type: "success",
+        });
+        setisSave(false);
+        componentClose();
+        getData();
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+
+  useEffect(() => {
+    getComponentInit();
+    return () => {};
+  }, [isComponent]);
   const saChangeOpen = (policyId: number, value: any) => {
     setisSaChange(true);
     setsaChangeMenu(value);
@@ -449,7 +509,6 @@ function CsmmTable({
   };
   const componentClose = () => {
     setisComponent(false);
-    invalidatesa();
   };
 
   useEffect(() => {
@@ -667,6 +726,16 @@ function CsmmTable({
         postSaChange={postSaChange}
         isSave={isSave}
         saveSaChange={saveSaChange}
+      />
+      <ComponentModal
+        open={isComponent}
+        handleClose={componentClose}
+        componentData={componentData}
+        componentBenefits={componentBenefits}
+        setcomponentBenefits={setcomponentBenefits}
+        postComponentAdd={postComponentAdd}
+        isSave={isSave}
+        saveComponent={saveComponent}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer
