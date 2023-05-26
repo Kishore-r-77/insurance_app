@@ -29,7 +29,7 @@ function ComponentModal({
     setcomponentBenefits(
       componentBenefits.map((benefits: any, index: number) => {
         if (index === i) {
-          return { ...benefits, [name]: parseInt(value) };
+          return { ...benefits, [name]: value };
         } else return benefits;
       })
     );
@@ -232,7 +232,11 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        name="ClientID"
+                        disabled={val?.Select === ""}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
                         value={val.ClientID}
                       />
                     </td>
@@ -256,7 +260,11 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        name="BSumAssured"
+                        disabled={val?.Select === ""}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
                         value={val?.BSumAssured}
                       />
                     </td>
@@ -264,7 +272,11 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        name="BTerm"
+                        disabled={val?.Select === ""}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
                         value={val?.BTerm}
                       />
                     </td>
@@ -272,7 +284,11 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        name="BPTerm"
+                        disabled={val?.Select === ""}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
                         value={val?.BPTerm}
                       />
                     </td>
@@ -280,7 +296,11 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        name="BPrem"
+                        disabled={val?.Select === ""}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleChange(e, index)
+                        }
                         value={val?.BPrem}
                       />
                     </td>
