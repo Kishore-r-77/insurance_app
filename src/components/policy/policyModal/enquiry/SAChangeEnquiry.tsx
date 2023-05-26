@@ -60,7 +60,7 @@ const SAChangeEnquiry = ({
       dbField: "bp_term",
     },
     {
-      field: "SequBPremenceNo",
+      field: "BPrem",
       header: "BPrem",
       dbField: "b_prem",
     },

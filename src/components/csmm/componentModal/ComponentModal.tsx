@@ -258,7 +258,7 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        disabled={val?.Select === ""}
                         value={val?.BSumAssured}
                       />
                     </td>
@@ -266,7 +266,7 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        disabled={val?.Select === ""}
                         value={val?.BTerm}
                       />
                     </td>
@@ -274,7 +274,7 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        disabled={val?.Select === ""}
                         value={val?.BPTerm}
                       />
                     </td>
@@ -282,7 +282,7 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        disabled={val?.Select === ""}
                         value={val?.BPrem}
                       />
                     </td>
@@ -290,7 +290,7 @@ function ComponentModal({
                       <input
                         className={styles["input-form"]}
                         type="text"
-                        disabled
+                        disabled={val?.Select === ""}
                         value={val?.BAnnualPrem}
                       />
                     </td>
@@ -307,7 +307,7 @@ function ComponentModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
-                        value={val?.BDOB}
+                        value={moment(val?.BDOB).format("DD-MM-YYYY")}
                       />
                     </td>
                     <td className={styles["td-class"]}>
