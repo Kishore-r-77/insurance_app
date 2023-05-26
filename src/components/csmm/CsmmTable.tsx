@@ -320,6 +320,7 @@ function CsmmTable({
   };
 
   const modifiedPremium = useRef();
+  const premium = useRef();
   const postSaChange = () => {
     axios
       .post(
@@ -443,6 +444,7 @@ function CsmmTable({
         // setcomponentData(resp.data?.result);
         setcomponentBenefits(resp.data?.result);
         setisSave(true);
+        premium.current = resp?.data?.premium;
         setNotify({
           isOpen: true,
           message: "Calculated Successfully",
@@ -465,6 +467,13 @@ function CsmmTable({
         {
           Benefits: componentBenefits,
           Function: "Save",
+          // BillToDate: componentData.BillToDate,
+          // CompanyID: companyId,
+          // Frequency: componentData?.Frequency,
+          // InstalmentPremium: componentData?.InstalmentPremium,
+          // PaidToDate: componentData.PaidToDate,
+          // PolicyID: componentData.PolicyID,
+          // Product: componentData.Product,
         },
         { withCredentials: true }
       )
@@ -476,7 +485,6 @@ function CsmmTable({
           message: "Saved Successfully",
           type: "success",
         });
-        setisSave(false);
         componentClose();
         getData();
       })
@@ -500,7 +508,9 @@ function CsmmTable({
   };
   const saChangeClose = () => {
     setisSaChange(false);
-    invalidatesa();
+    if (isSave) {
+      invalidatesa();
+    }
   };
   const componentOpen = (policyId: number, value: any) => {
     setisComponent(true);
@@ -509,6 +519,9 @@ function CsmmTable({
   };
   const componentClose = () => {
     setisComponent(false);
+    if (isSave) {
+      invalidatca();
+    }
   };
 
   useEffect(() => {
@@ -517,6 +530,29 @@ function CsmmTable({
     }
     return () => {};
   }, [isSaChange]);
+
+  const invalidatca = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/deathservices/invalidateca/${PolicyID}`,
+        {},
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setNotify({
+          isOpen: true,
+          message: resp?.data?.success,
+          type: "error",
+        });
+      })
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.data?.error,
+          type: "error",
+        });
+      });
+  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -734,6 +770,7 @@ function CsmmTable({
         componentBenefits={componentBenefits}
         setcomponentBenefits={setcomponentBenefits}
         postComponentAdd={postComponentAdd}
+        premium={premium}
         isSave={isSave}
         saveComponent={saveComponent}
       />

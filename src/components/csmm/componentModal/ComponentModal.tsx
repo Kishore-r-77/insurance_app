@@ -18,6 +18,7 @@ function ComponentModal({
   postComponentAdd,
   isSave,
   saveComponent,
+  premium,
 }: any) {
   const title: string = "Sa Change";
   const isChecked = useRef(false);
@@ -127,10 +128,7 @@ function ComponentModal({
                   id="InstalmentPremium"
                   name="InstalmentPremium"
                   value={
-                    // isSave
-                    //   ? modifiedPremium?.current
-                    //   :
-                    componentData?.InstalmentPremium
+                    isSave ? premium?.current : componentData?.InstalmentPremium
                   }
                   placeholder="Install Premium"
                   label="Install Premium"
