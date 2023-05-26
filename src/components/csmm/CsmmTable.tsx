@@ -485,6 +485,7 @@ function CsmmTable({
           message: "Saved Successfully",
           type: "success",
         });
+        setisSave(false);
         componentClose();
         getData();
       })
@@ -508,7 +509,7 @@ function CsmmTable({
   };
   const saChangeClose = () => {
     setisSaChange(false);
-    if (isSave) {
+    if (!isSave) {
       invalidatesa();
     }
   };
@@ -519,7 +520,7 @@ function CsmmTable({
   };
   const componentClose = () => {
     setisComponent(false);
-    if (isSave) {
+    if (!isSave) {
       invalidatca();
     }
   };
