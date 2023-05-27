@@ -4,10 +4,13 @@ import { TreeItem, TreeView } from "@mui/lab";
 import { Paper, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import moment from "moment";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Table } from "react-bootstrap";
 import CustomComponentModal from "./CustomComponentModal";
 import styles from "./componentModal.module.css";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import Client from "../../clientDetails/client/Client";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 function ComponentModal({
   open,
@@ -22,6 +25,9 @@ function ComponentModal({
 }: any) {
   const title: string = "Sa Change";
   const isChecked = useRef(false);
+
+  const [isClient, setisClient] = useState(false);
+  const clientId = useRef<any>(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
@@ -51,6 +57,28 @@ function ComponentModal({
       })
     );
   };
+
+  const clientOpen = (clientId: any) => {
+    // clientId.current = clientId;
+    setisClient(true);
+  };
+  const clientClose = () => {
+    setisClient(false);
+  };
+
+  const clientOpenFunc = (item: any, i: number) => {
+    clientId.current = item.ID;
+    setcomponentBenefits((componentBen: any) =>
+      componentBen.map((benefits: any, index: number) => {
+        if (i === index) {
+          return { ...benefits, ClientID: item.ID };
+        } else return benefits;
+      })
+    );
+    clientClose();
+  };
+
+  console.log(clientId.current, "refClient");
 
   return (
     <div>
@@ -203,141 +231,191 @@ function ComponentModal({
                     <th>Method</th>
                   </tr>
                 </thead>
-                {componentBenefits?.map((val: any, index: number) => (
-                  <tr>
-                    <td>
-                      <input
-                        className={styles["input-form"]}
-                        style={{
-                          position: "sticky",
-                          left: 0,
-                        }}
-                        type="checkbox"
-                        name="Select"
-                        defaultChecked={val.Select === "X"}
-                        value={val.Select[index]}
-                        checked={val?.Select === "X"}
-                        onChange={(e) => handleCheck(e, index)}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val.PolicyID}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        name="ClientID"
-                        disabled={val?.Select === ""}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleChange(e, index)
-                        }
-                        value={val.ClientID}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.BCoverage}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={moment(val?.BStartDate).format("DD-MM-YYYY")}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        name="BSumAssured"
-                        disabled={val?.Select === ""}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleChange(e, index)
-                        }
-                        value={val?.BSumAssured}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        name="BTerm"
-                        disabled={val?.Select === ""}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleChange(e, index)
-                        }
-                        value={val?.BTerm}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        name="BPTerm"
-                        disabled={val?.Select === ""}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleChange(e, index)
-                        }
-                        value={val?.BPTerm}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        name="BPrem"
-                        disabled={val?.Select === ""}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleChange(e, index)
-                        }
-                        value={val?.BPrem}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.BAnnualPrem}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.BGender}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={moment(val?.BDOB).format("DD-MM-YYYY")}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.Method}
-                      />
-                    </td>
-                  </tr>
-                ))}
+                {componentBenefits?.map((val: any, index: number) => {
+                  // clientId.current = val.ClientID;
+
+                  return (
+                    <>
+                      <CustomModal
+                        size="xl"
+                        open={isClient}
+                        handleClose={clientClose}
+                      >
+                        <Client modalFunc={clientOpenFunc} />
+                      </CustomModal>
+                      <tr>
+                        <td>
+                          <input
+                            className={styles["input-form"]}
+                            style={{
+                              position: "sticky",
+                              left: 0,
+                            }}
+                            type="checkbox"
+                            name="Select"
+                            defaultChecked={val.Select === "X"}
+                            value={val.Select[index]}
+                            checked={val?.Select === "X"}
+                            onChange={(e) => handleCheck(e, index)}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={val.PolicyID}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <span style={{ display: "flex" }}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              name="ClientID"
+                              disabled={val?.Select === ""}
+                              style={{
+                                backgroundColor:
+                                  val.Select === "X" ? "#caccca" : "",
+                              }}
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => handleChange(e, index)}
+                              value={
+                                // clientId.current !== 0
+                                //   ? clientId?.current
+                                //   :
+                                val.ClientID
+                              }
+                            />
+                            <OpenInNewIcon
+                              color={
+                                val.Select === "X" ? "primary" : "secondary"
+                              }
+                              onClick={
+                                val.Select === "X"
+                                  ? () => clientOpen(val.ClientID)
+                                  : () => {}
+                              }
+                            />
+                          </span>
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={val?.BCoverage}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={moment(val?.BStartDate).format("DD-MM-YYYY")}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            name="BSumAssured"
+                            disabled={val?.Select === ""}
+                            style={{
+                              backgroundColor:
+                                val.Select === "X" ? "#caccca" : "",
+                            }}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            value={val?.BSumAssured}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            name="BTerm"
+                            disabled={val?.Select === ""}
+                            style={{
+                              backgroundColor:
+                                val.Select === "X" ? "#caccca" : "",
+                            }}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            value={val?.BTerm}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            name="BPTerm"
+                            disabled={val?.Select === ""}
+                            style={{
+                              backgroundColor:
+                                val.Select === "X" ? "#caccca" : "",
+                            }}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            value={val?.BPTerm}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            name="BPrem"
+                            disabled={val?.Select === ""}
+                            style={{
+                              backgroundColor:
+                                val.Select === "X" ? "#caccca" : "",
+                            }}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            value={val?.BPrem}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={val?.BAnnualPrem}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={val?.BGender}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={moment(val?.BDOB).format("DD-MM-YYYY")}
+                          />
+                        </td>
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={val?.Method}
+                          />
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
               </Table>
             </Paper>
           </TreeItem>
