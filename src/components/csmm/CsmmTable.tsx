@@ -295,7 +295,8 @@ function CsmmTable({
   const [componentMenu, setcomponentMenu] = useState<any>("");
   const [saChangeObj, setsaChangeObj] = useState<any>("");
   const [saChangeBenefits, setsaChangeBenefits] = useState<any>([]);
-  const [isSave, setisSave] = useState(false);
+
+  const isSave = useRef(false);
 
   const getSaChange = () => {
     axios
@@ -307,7 +308,7 @@ function CsmmTable({
       .then((resp) => {
         setsaChangeObj(resp?.data?.Policy);
         setsaChangeBenefits(resp?.data?.Policy?.Benefits);
-        setisSave(false);
+        isSave.current = false;
       })
       .catch((err) => {
         setisSaChange(false);
@@ -342,7 +343,7 @@ function CsmmTable({
         setsaChangeObj(resp.data?.Policy);
         setsaChangeBenefits(resp?.data?.Benefits);
         modifiedPremium.current = resp?.data?.ModifiedPrem;
-        setisSave(true);
+        isSave.current = true;
         //saChangeClose();
         getData();
         setNotify({
@@ -372,7 +373,7 @@ function CsmmTable({
       .then((resp) => {
         setsaChangeObj(resp.data?.Policy);
         setsaChangeBenefits(resp?.data?.Benefits);
-        setisSave(false);
+        isSave.current = false;
         saChangeClose();
         getData();
         setNotify({
@@ -389,6 +390,8 @@ function CsmmTable({
         })
       );
   };
+
+  console.log(isSave.current, "IsSave");
 
   const invalidatesa = () => {
     axios
@@ -424,6 +427,7 @@ function CsmmTable({
       .then((resp) => {
         setcomponentData(resp.data?.result);
         setcomponentBenefits(resp.data?.result?.Benefits);
+        isSave.current = false;
       })
       .catch((err) => {
         return err;
@@ -434,7 +438,14 @@ function CsmmTable({
       .post(
         `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
         {
-          Benefits: componentBenefits,
+          Benefits: componentBenefits.map((benefit: any) => ({
+            ...benefit,
+            ClientID: parseInt(benefit?.ClientID),
+            BSumAssured: parseInt(benefit?.BSumAssured),
+            BTerm: parseInt(benefit?.BTerm),
+            BPTerm: parseInt(benefit?.BPTerm),
+            BPrem: parseInt(benefit?.BPrem),
+          })),
           Function: "Calculate",
         },
 
@@ -443,7 +454,7 @@ function CsmmTable({
       .then((resp) => {
         // setcomponentData(resp.data?.result);
         setcomponentBenefits(resp.data?.result);
-        setisSave(true);
+        isSave.current = true;
         premium.current = resp?.data?.premium;
         setNotify({
           isOpen: true,
@@ -465,7 +476,18 @@ function CsmmTable({
       .post(
         `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
         {
-          Benefits: componentBenefits,
+          Benefits: componentBenefits.map((benefit: any) => ({
+            ...benefit,
+            ClientID: parseInt(benefit?.ClientID),
+            BSumAssured: parseInt(benefit?.BSumAssured),
+            BTerm: parseInt(benefit?.BTerm),
+            BPTerm: parseInt(benefit?.BPTerm),
+            BPrem: parseInt(benefit?.BPrem),
+            // BDOB:
+            //   benefit.BDOB === ""
+            //     ? ""
+            //     : moment(benefit.BDOB).format("YYYYMMDD"),
+          })),
           Function: "Save",
           // BillToDate: componentData.BillToDate,
           // CompanyID: companyId,
@@ -478,14 +500,14 @@ function CsmmTable({
         { withCredentials: true }
       )
       .then((resp) => {
+        isSave.current = false;
         setcomponentBenefits(resp.data?.result);
-        setisSave(false);
         setNotify({
           isOpen: true,
           message: "Saved Successfully",
           type: "success",
         });
-        setisSave(false);
+
         componentClose();
         getData();
       })
@@ -499,7 +521,9 @@ function CsmmTable({
   };
 
   useEffect(() => {
-    getComponentInit();
+    if (isComponent) {
+      getComponentInit();
+    }
     return () => {};
   }, [isComponent]);
   const saChangeOpen = (policyId: number, value: any) => {
@@ -509,7 +533,9 @@ function CsmmTable({
   };
   const saChangeClose = () => {
     setisSaChange(false);
-    if (!isSave) {
+    console.log(isSave, "isSave");
+
+    if (isSave.current) {
       invalidatesa();
     }
   };
@@ -520,7 +546,7 @@ function CsmmTable({
   };
   const componentClose = () => {
     setisComponent(false);
-    if (!isSave) {
+    if (isSave.current) {
       invalidatca();
     }
   };
@@ -545,6 +571,7 @@ function CsmmTable({
           message: resp?.data?.success,
           type: "error",
         });
+        isSave.current = false;
       })
       .catch((err) => {
         setNotify({
@@ -761,7 +788,7 @@ function CsmmTable({
         saChangeBenefits={saChangeBenefits}
         setsaChangeBenefits={setsaChangeBenefits}
         postSaChange={postSaChange}
-        isSave={isSave}
+        isSave={isSave?.current}
         saveSaChange={saveSaChange}
       />
       <ComponentModal
@@ -772,7 +799,7 @@ function CsmmTable({
         setcomponentBenefits={setcomponentBenefits}
         postComponentAdd={postComponentAdd}
         premium={premium}
-        isSave={isSave}
+        isSave={isSave?.current}
         saveComponent={saveComponent}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
