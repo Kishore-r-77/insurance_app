@@ -105,7 +105,7 @@ function ClientTable({
         <tbody>
           {data?.map((row: any) => (
             <tr
-              onClick={() => modalFunc(row, dataIndex?.index)}
+              onClick={() => modalFunc(row, dataIndex)}
               key={row.ID}
               className={styles["table-cell"]}
             >
