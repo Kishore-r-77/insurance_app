@@ -178,17 +178,17 @@ export const createPoliciesWithBenefits = (
           ? ""
           : moment(state.PUWDate).format("YYYYMMDD").toString(),
       BtDate:
-        state.BtDate?.length === 0
+        state.BTDate?.length === 0
           ? ""
-          : moment(state.BtDate).format("YYYYMMDD").toString(),
+          : moment(state.BTDate).format("YYYYMMDD").toString(),
       PaidToDate:
         state.PaidToDate?.length === 0
           ? ""
           : moment(state.PaidToDate).format("YYYYMMDD").toString(),
       NxtBtDate:
-        state.NxtBtDate?.length === 0
+        state.NxtBTDate?.length === 0
           ? ""
-          : moment(state.NxtBtDate).format("YYYYMMDD").toString(),
+          : moment(state.NxtBTDate).format("YYYYMMDD").toString(),
       AnnivDate:
         state.AnnivDate?.length === 0
           ? ""

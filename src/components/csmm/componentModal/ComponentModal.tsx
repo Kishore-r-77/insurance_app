@@ -58,8 +58,12 @@ function ComponentModal({
     );
   };
 
-  const clientOpen = (clientId: any) => {
+  const dataIndex = useRef(0);
+
+  const clientOpen = (clientId: any, index: number) => {
     // clientId.current = clientId;
+
+    dataIndex.current = index;
     setisClient(true);
   };
   const clientClose = () => {
@@ -67,18 +71,19 @@ function ComponentModal({
   };
 
   const clientOpenFunc = (item: any, i: number) => {
-    clientId.current = item.ID;
+    console.log(item.ID);
+    console.log(i, "i");
+
     setcomponentBenefits((componentBen: any) =>
       componentBen.map((benefits: any, index: number) => {
         if (i === index) {
+          clientId.current = item.ID;
           return { ...benefits, ClientID: item.ID };
         } else return benefits;
       })
     );
     clientClose();
   };
-
-  console.log(clientId.current, "refClient");
 
   return (
     <div>
@@ -241,7 +246,10 @@ function ComponentModal({
                         open={isClient}
                         handleClose={clientClose}
                       >
-                        <Client modalFunc={clientOpenFunc} />
+                        <Client
+                          dataIndex={dataIndex.current}
+                          modalFunc={clientOpenFunc}
+                        />
                       </CustomModal>
                       <tr>
                         <td>
@@ -294,7 +302,7 @@ function ComponentModal({
                               }
                               onClick={
                                 val.Select === "X"
-                                  ? () => clientOpen(val.ClientID)
+                                  ? () => clientOpen(val.ClientID, index)
                                   : () => {}
                               }
                             />
