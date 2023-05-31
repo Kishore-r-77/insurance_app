@@ -238,7 +238,7 @@ export const getPoliciesByClient = (
   state: any
 ) => {
   return axios.get(
-    `http://localhost:3000/api/v1/nbservices/owners1/${clientId}`,
+    `http://localhost:3000/api/v1/nbservices/owners/${clientId}`,
     {
       withCredentials: true,
       params: {
