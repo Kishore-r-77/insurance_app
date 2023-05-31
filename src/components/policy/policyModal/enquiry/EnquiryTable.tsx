@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Paper, Tooltip } from "@mui/material";
 import moment from "moment";
 import Table from "react-bootstrap/Table";
 import styles from "./enquiryTable.module.css";
@@ -120,7 +120,13 @@ function EnquiryTable({
               {columns.map((col: { field: string; type: string }) => {
                 if (col.type === "date") {
                   return (
-                    <td key={col.field}>
+                    <td key={col.field}
+                    style={{
+                      textDecoration: (row.IsReversed && historyOpen)
+                        ? "line-through"
+                        : "none",
+                    }}
+                    >
                       {row[col.field].length === 0
                         ? ""
                         : moment(row[col.field]).format("DD-MM-YYYY")}
@@ -144,8 +150,25 @@ function EnquiryTable({
                         onClick={() =>
                           glhClickOpen(row?.Tranno, row?.PHistoryCode)
                         }
+                       
                       >
-                        {row[col.field]}
+                        <span   style={{
+                          textDecoration: row.IsReversed
+                            ? "line-through"
+                            : "none",
+                           marginRight: '1.5rem' 
+                        }}>{row[col.field]} </span>
+                        {(col.field === 'Tranno' && row.IsReversed) && 
+                      <Tooltip
+                      title= {'Reversed by '+  row.ReversedUser + ' on '+ row.ReversedAt + '  Remarks: '+row.RevRemark }
+                      
+                    >
+                      <InfoIcon
+                      
+                      />
+                       </Tooltip>
+                        
+                        } 
                       </td>
                     ) : isCommunication ? (
                       <td
