@@ -47,6 +47,7 @@ export const initialValues: BenefitStateType = {
   BStatus: "",
   BAge: "",
   BRerate: "",
+  Interest: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
