@@ -1,6 +1,7 @@
 import axios from "axios";
 import moment from "moment";
 import { PolicyStateType } from "../../../reducerUtilities/types/policy/policyTypes";
+import { ReceiptsStateType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
 
 export const getAllApi = (
   pageNum: number,
@@ -219,11 +220,33 @@ export const getBenefitsByPolicies = (policiesId: number) => {
     }
   );
 };
-export const getPoliciesByClient = (clientId: number) => {
+// export const getPoliciesByClient = (clientId: number) => {
+//   return axios.get(
+//     `http://localhost:3000/api/v1/nbservices/owners1/${clientId}`,
+//     {
+//       withCredentials: true,
+//     }
+//   );
+// };
+
+export const getPoliciesByClient = (
+  clientId: number,
+  pageNum: number,
+  pageSize: number,
+  state: any
+) => {
   return axios.get(
-    `http://localhost:3000/api/v1/nbservices/owners/${clientId}`,
+    `http://localhost:3000/api/v1/nbservices/owners1/${clientId}`,
     {
       withCredentials: true,
+      params: {
+        pageNum: pageNum,
+        pageSize: pageSize,
+        searchString: state.searchString,
+        searchCriteria: state.searchCriteria,
+        sortColumn: state.sortColumn,
+        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+      },
     }
   );
 };

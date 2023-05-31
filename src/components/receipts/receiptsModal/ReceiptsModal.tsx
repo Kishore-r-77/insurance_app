@@ -38,6 +38,14 @@ function ReceiptsModal({
   const infoTitle: string = "Receipts Info";
   const size: string = "xl";
 
+  //Creating useReducer Hook
+
+  const [pageNum, setpageNum] = useState(1);
+  const [pageSize, setpageSize] = useState(5);
+  const [totalRecords, settotalRecords] = useState(0);
+  const [isLast, setisLast] = useState(false);
+  const [fieldMap, setfieldMap] = useState([]);
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -140,14 +148,44 @@ function ReceiptsModal({
 
   const [policiesByClient, setpoliciesByClient] = useState();
 
-  const getPolicesByClient1 = (clientId: number) => {
-    return getPoliciesByClient(clientId).then((resp) => {
-      setpoliciesByClient(resp.data?.GetAllPoliciesByClient);
-    });
+  // const getPolicesByClient1 = (clientId: number) => {
+  //   return getPoliciesByClient(clientId).then((resp) => {
+  //     setpoliciesByClient(resp.data["All Policies"]);
+  //   });
+  // };
+
+  const [searchContent, setsearchContent] = useState({
+    searchString: "",
+    searchCriteria: "",
+  });
+  const hanldeSearchChange = (e: any) => {
+    const { value, name } = e.target;
+    setsearchContent((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const getPolicesByClient1 = () => {
+    return getPoliciesByClient(
+      parseInt(state.ClientID),
+      pageNum,
+      pageSize,
+      searchContent
+    )
+      .then((resp) => {
+        console.log(resp);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setpoliciesByClient(resp.data["All Policies"]);
+        settotalRecords(resp.data.paginationData.totalRecords);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All Policies"]?.length === 0);
+        setfieldMap(resp.data["Field Map"]);
+      })
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {
-    getPolicesByClient1(parseInt(state.ClientID));
+    getPolicesByClient1();
     return () => {};
   }, [state.ClientID]);
 
@@ -191,9 +229,12 @@ function ReceiptsModal({
               <Client modalFunc={clientsOpenFunc} />
             ) : state.policiesOpen ? (
               <Policy
-                lookup={state.policiesOpen}
+                receiptLookup={state.policiesOpen}
                 modalFunc={policiesOpenFunc}
                 getByTable={policiesByClient}
+                getByFunction={getPolicesByClient1}
+                searchContent={searchContent}
+                hanldeSearchChange={hanldeSearchChange}
               />
             ) : (
               <>

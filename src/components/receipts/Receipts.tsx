@@ -126,11 +126,6 @@ function Receipts({ modalFunc }: any) {
           ...state,
           policiesOpen: false,
         };
-        return {
-          ...state,
-          sortDesc: desc,
-          sortColumn: action.payload,
-        };
       default:
         return initialValues;
     }
