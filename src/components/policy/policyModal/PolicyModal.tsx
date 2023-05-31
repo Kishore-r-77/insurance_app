@@ -27,7 +27,10 @@ import {
   freqItems,
   paramItem,
 } from "../../clientDetails/client/clientApis/clientApis";
-import { createPoliciesWithBenefits } from "../policyApis/policyApis";
+import {
+  createPoliciesWithBenefits,
+  extraParams,
+} from "../policyApis/policyApis";
 
 function PolicyModal({
   state,
@@ -180,6 +183,7 @@ function PolicyModal({
       BpTerm: 0,
       BCoverage: "",
       BSumAssured: 0,
+      Interest: 0,
     },
   ]);
 
@@ -193,6 +197,7 @@ function PolicyModal({
         BpTerm: 0,
         BCoverage: "",
         BSumAssured: 0,
+        Interest: 0,
       },
     ]);
   };
@@ -287,6 +292,19 @@ function PolicyModal({
     getAddressByClient();
     return () => {};
   }, [state.ClientID]);
+
+  const [intrestData, setintrestData] = useState([]);
+
+  const mrtaDropdown = () => {
+    return extraParams(companyId, "Q0006", "MRTA", "MRTA")
+      .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    mrtaDropdown();
+    return () => {};
+  }, [state.PProduct]);
 
   return (
     <div>
@@ -430,7 +448,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -600,7 +618,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -625,7 +643,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PUWDate",
                           })
                         }
@@ -650,7 +668,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "BTDate",
                           })
                         }
@@ -675,7 +693,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -700,7 +718,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "NxtBTDate",
                           })
                         }
@@ -725,7 +743,7 @@ function PolicyModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "AnnivDate",
                           })
                         }
@@ -906,6 +924,29 @@ function PolicyModal({
                           margin="dense"
                         />
                       </Grid2>
+                      {benefits.BCoverage === "MRTA" ? (
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            select
+                            id="Interest"
+                            name="Interest"
+                            value={benefits.Interest}
+                            placeholder="Interest"
+                            label="Interest"
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            fullWidth
+                            margin="dense"
+                          >
+                            {intrestData?.map((val, index) => (
+                              <MenuItem value={val} key={val}>
+                                {val}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Grid2>
+                      ) : null}
                     </Grid2>
                   </TreeItem>
                   <div

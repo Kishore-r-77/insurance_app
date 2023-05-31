@@ -98,6 +98,7 @@ export const q0005 = (companyId: number, languageId: number) => {
       companyId,
       name: "Q0005",
       languageId,
+      date: "20220101",
     },
   });
 };
@@ -202,6 +203,7 @@ export const createPoliciesWithBenefits = (
         BTerm: parseInt(benefits?.BTerm),
         BpTerm: parseInt(benefits?.BpTerm),
         BSumAssured: parseInt(benefits?.BSumAssured),
+        Interest: parseInt(benefits?.Interest),
       })),
     },
 
@@ -246,6 +248,27 @@ export const getPoliciesByClient = (
         searchCriteria: state.searchCriteria,
         sortColumn: state.sortColumn,
         sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+      },
+    }
+  );
+};
+
+export const extraParams = (
+  companyId: number,
+  name: string,
+  item: string,
+  func: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata`,
+    {
+      withCredentials: true,
+      params: {
+        company_id: companyId,
+        name,
+        item,
+        function: func,
+        date: "20220101",
       },
     }
   );

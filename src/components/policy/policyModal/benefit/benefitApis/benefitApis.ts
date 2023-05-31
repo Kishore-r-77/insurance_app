@@ -44,6 +44,7 @@ export const editApi = (record: any) => {
       BMortality: record.BMortality,
       BStatus: record.BStatus,
       BAge: parseInt(record.BAge),
+      Interest: parseFloat(record.Interest),
       BRerate: record.BRerate,
       ClientID: parseInt(record.ClientID),
       PolicyID: parseInt(record.PolicyID),

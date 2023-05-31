@@ -12,6 +12,7 @@ import { useAppSelector } from "../../../../../redux/app/hooks";
 import { getApi } from "../../../../admin/companies/companiesApis/companiesApis";
 import { extraParamItem } from "../../../../clientDetails/client/clientApis/clientApis";
 import Client from "../../../../clientDetails/client/Client";
+import { extraParams } from "../../../policyApis/policyApis";
 
 function BenefitModal({
   state,
@@ -60,13 +61,24 @@ function BenefitModal({
     dispatch({ type: ACTIONS.CLIENTCLOSE });
   };
 
-  console.log(record, "Record");
-
   useEffect(() => {
     getCompanyData(companyId);
     getBCoverage(companyId, "Q0011", policyRecord.PProduct, "20220101");
     return () => {};
   }, []);
+
+  const [intrestData, setintrestData] = useState([]);
+
+  const mrtaDropdown = () => {
+    return extraParams(companyId, "Q0006", "MRTA", "MRTA")
+      .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    mrtaDropdown();
+    return () => {};
+  }, [state.benefitOpen]);
 
   return (
     <div className={styles.modal}>
@@ -157,7 +169,7 @@ function BenefitModal({
                 label="b_coverage"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: ACTIONS.ONCHANGE,
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "BCoverage",
                   })
@@ -188,7 +200,7 @@ function BenefitModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload:date?.$d,
+                        payload: date?.$d,
                         fieldName: "BStartDate",
                       })
                     }
@@ -255,6 +267,37 @@ function BenefitModal({
                 margin="dense"
               />
             </Grid2>
+            {state.addOpen ? (
+              state.BCoverage === "MRTA"
+            ) : record.BCoverage === "MRTA" ? (
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  select
+                  id="Interest"
+                  name="Interest"
+                  value={state.addOpen ? state.Interest : record.Interest}
+                  placeholder="Interest"
+                  label="Interest"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: state.addOpen
+                        ? ACTIONS.ONCHANGE
+                        : ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "Interest",
+                    })
+                  }
+                  fullWidth
+                  margin="dense"
+                >
+                  {intrestData.map((val, index) => (
+                    <MenuItem value={val} key={val}>
+                      {val}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid2>
+            ) : null}
           </Grid2>
         </form>
       </CustomModal>
