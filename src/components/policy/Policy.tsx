@@ -37,7 +37,7 @@ function Policy({
   getByFunction,
   receiptLookup,
   searchContent,
-  hanldeSearchChange,
+  handleSearchChange,
 }: any) {
   const size = "xl";
   //data from getall api
@@ -305,7 +305,7 @@ function Policy({
             name="searchCriteria"
             onChange={
               receiptLookup
-                ? (e) => hanldeSearchChange(e)
+                ? (e) => handleSearchChange(e)
                 : (e) =>
                     dispatch({
                       type: ACTIONS.ONCHANGE,
@@ -335,7 +335,7 @@ function Policy({
             name="searchString"
             onChange={
               receiptLookup
-                ? (e) => hanldeSearchChange(e)
+                ? (e) => handleSearchChange(e)
                 : (e) =>
                     dispatch({
                       type: ACTIONS.ONCHANGE,

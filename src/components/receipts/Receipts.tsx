@@ -34,6 +34,11 @@ function Receipts({ modalFunc }: any) {
     message: "",
     type: "",
   });
+
+  const [searchContent, setsearchContent] = useState({
+    searchString: "",
+    searchCriteria: "",
+  });
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: ReceiptsStateType, action: any) => {
     switch (action.type) {
@@ -122,6 +127,10 @@ function Receipts({ modalFunc }: any) {
           policiesOpen: true,
         };
       case ACTIONS.POLICIESCLOSE:
+        setsearchContent({
+          searchString: "",
+          searchCriteria: "",
+        });
         return {
           ...state,
           policiesOpen: false,
@@ -234,6 +243,14 @@ function Receipts({ modalFunc }: any) {
     } else return;
   };
 
+  const handleSearchChange = (e: any) => {
+    const { value, name } = e.target;
+    setsearchContent((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
     getData();
@@ -340,6 +357,8 @@ function Receipts({ modalFunc }: any) {
         dispatch={dispatch}
         handleFormSubmit={handleFormSubmit}
         ACTIONS={ACTIONS}
+        searchContent={searchContent}
+        handleSearchChange={handleSearchChange}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>

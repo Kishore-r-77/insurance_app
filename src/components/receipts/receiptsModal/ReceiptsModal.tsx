@@ -32,6 +32,8 @@ function ReceiptsModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  searchContent,
+  handleSearchChange,
 }: ReceiptsModalType) {
   const addTitle: string = "Receipts Add";
   const editTitle: string = "Receipts Edit";
@@ -154,17 +156,6 @@ function ReceiptsModal({
   //   });
   // };
 
-  const [searchContent, setsearchContent] = useState({
-    searchString: "",
-    searchCriteria: "",
-  });
-  const hanldeSearchChange = (e: any) => {
-    const { value, name } = e.target;
-    setsearchContent((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
   const getPolicesByClient1 = () => {
     return getPoliciesByClient(
       parseInt(state.ClientID),
@@ -234,7 +225,7 @@ function ReceiptsModal({
                 getByTable={policiesByClient}
                 getByFunction={getPolicesByClient1}
                 searchContent={searchContent}
-                hanldeSearchChange={hanldeSearchChange}
+                handleSearchChange={handleSearchChange}
               />
             ) : (
               <>
