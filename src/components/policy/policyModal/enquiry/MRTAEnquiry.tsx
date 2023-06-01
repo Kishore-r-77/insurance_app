@@ -5,7 +5,7 @@ import EnquiryTable from "./EnquiryTable";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const MRTAEnquiry = ({ 
+const MRTAEnquiry = ({
   open,
   handleClose,
   policyNo,
@@ -13,16 +13,15 @@ const MRTAEnquiry = ({
   state,
 }: any) => {
   const columns = [
-
     {
-        field: "BStartDate",
-        header: "Benefit Start Date",
-        dbField: "b_start_date",
-        type: "date",
+      field: "BStartDate",
+      header: "Benefit Start Date",
+      dbField: "b_start_date",
+      type: "date",
     },
 
     {
-      field: "Term",
+      field: "BTerm",
       header: "Term",
       dbField: "term",
     },
@@ -34,7 +33,7 @@ const MRTAEnquiry = ({
     },
 
     {
-      field: "BasicSA",
+      field: "BSumAssured",
       header: "Sum Assured",
       dbField: "basic_sa",
     },
@@ -55,12 +54,9 @@ const MRTAEnquiry = ({
   const [mrtaData, setmrtaData] = useState([]);
   const getmrtaAddData = () => {
     axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/mrtagetbypol/${policyNo}`,
-        {
-          withCredentials: true,
-        }
-      )
+      .get(`http://localhost:3000/api/v1/nbservices/mrtagetbypol/${policyNo}`, {
+        withCredentials: true,
+      })
       .then((resp) => {
         setmrtaData(resp.data.Mrta);
         console.log(mrtaData, "DATA");

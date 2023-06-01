@@ -9,6 +9,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import moment from "moment";
 import { useState } from "react";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import MRTAEnquiry from "../../enquiry/MRTAEnquiry";
 
 function BenefitTable({
   data,
@@ -19,12 +20,22 @@ function BenefitTable({
   sortParam,
   hardDelete,
   modalFunc,
+  policyRecord,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
       ? sortParam
       : { fieldName: columns[0].dbField, order: "asc" }
   );
+
+  const [isMrta, setisMrta] = useState(false);
+
+  const mrtaOpen = () => {
+    setisMrta(true);
+  };
+  const mrtaClose = () => {
+    setisMrta(false);
+  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -95,6 +106,7 @@ function BenefitTable({
               )
             )}
             <th>Actions</th>
+            <th>Schedule</th>
             <th>Extras</th>
           </tr>
         </thead>
@@ -134,6 +146,7 @@ function BenefitTable({
                   /> */}
                 </span>
               </td>
+              <td onClick={() => mrtaOpen()}>BS</td>
               <td>
                 <IconButton
                   onClick={() =>
@@ -147,6 +160,11 @@ function BenefitTable({
           ))}
         </tbody>
       </Table>
+      <MRTAEnquiry
+        open={isMrta}
+        handleClose={mrtaClose}
+        policyNo={policyRecord.ID}
+      />
     </Paper>
   );
 }

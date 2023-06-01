@@ -352,6 +352,7 @@ function Benefit({
       <BenefitTable
         data={lookup ? benefitsByPoliciesData : data}
         modalFunc={modalFunc}
+        policyRecord={policyRecord}
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
