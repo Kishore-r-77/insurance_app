@@ -439,7 +439,7 @@ function ClientFullModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d?.$d,
+                            payload: date?.$d,
                             fieldName: "ClientDob",
                           })
                         }
@@ -462,7 +462,7 @@ function ClientFullModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "ClientDod",
                           })
                         }
