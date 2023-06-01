@@ -44,6 +44,18 @@ function NewBusiness({ modalFunc }: any) {
     type: "",
   });
 
+  const [benefitsData, setbenefitsData] = useState([
+    {
+      ClientID: 0,
+      BStartDate: "",
+      BTerm: 0,
+      BpTerm: 0,
+      BCoverage: "",
+      BSumAssured: 0,
+      Interest: 0,
+    },
+  ]);
+
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
@@ -82,6 +94,17 @@ function NewBusiness({ modalFunc }: any) {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
+        setbenefitsData([
+          {
+            ClientID: 0,
+            BStartDate: "",
+            BTerm: 0,
+            BpTerm: 0,
+            BCoverage: "",
+            BSumAssured: 0,
+            Interest: 0,
+          },
+        ]);
         return {
           ...state,
           addOpen: false,
@@ -481,6 +504,8 @@ function NewBusiness({ modalFunc }: any) {
         validatePolicy={validatePolicy}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
+        benefitsData={benefitsData}
+        setbenefitsData={setbenefitsData}
       />
 
       <CustomModal

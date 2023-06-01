@@ -50,6 +50,7 @@ function Policy({
     message: "",
     type: "",
   });
+
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
@@ -88,6 +89,7 @@ function Policy({
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
+
         return {
           ...state,
           addOpen: false,

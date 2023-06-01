@@ -42,9 +42,13 @@ function PolicyModal({
   setNotify,
   getData,
   validatePolicy,
+  setbenefitsData,
+  benefitsData,
 }: any) {
   const title = "Policies Add";
   const size = "xl";
+
+  console.log(benefitsData, "benefits data");
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -175,18 +179,6 @@ function PolicyModal({
     return () => {};
   }, [state.PProduct]);
 
-  const [benefitsData, setbenefitsData] = useState([
-    {
-      ClientID: 0,
-      BStartDate: "",
-      BTerm: 0,
-      BpTerm: 0,
-      BCoverage: "",
-      BSumAssured: 0,
-      Interest: 0,
-    },
-  ]);
-
   const handleBenefitsAdd = () => {
     setbenefitsData([
       ...benefitsData,
@@ -211,7 +203,7 @@ function PolicyModal({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
     setbenefitsData(
-      benefitsData.map((benefits, index) => {
+      benefitsData?.map((benefits: any, index: number) => {
         if (index === i) {
           return { ...benefits, [name]: value };
         } else return benefits;
@@ -242,7 +234,7 @@ function PolicyModal({
 
   const handleBStartDate = (date: any, i: number) => {
     setbenefitsData(
-      benefitsData.map((benefits, index) => {
+      benefitsData?.map((benefits: any, index: number) => {
         if (index === i) {
           return { ...benefits, BStartDate: date };
         } else return benefits;
@@ -782,7 +774,7 @@ function PolicyModal({
                 </Grid2>
               </Grid2>
             </TreeItem>
-            {benefitsData.map((benefits, index) => (
+            {benefitsData?.map((benefits: any, index: number) => (
               <>
                 <div style={{ display: "flex" }}>
                   <TreeItem
@@ -956,8 +948,8 @@ function PolicyModal({
                       gap: "5px",
                     }}
                   >
-                    {benefitsData.length - 1 === index &&
-                      benefitsData.length < 5 && (
+                    {benefitsData?.length - 1 === index &&
+                      benefitsData?.length < 5 && (
                         <Button
                           variant="contained"
                           onClick={() => handleBenefitsAdd()}
@@ -973,7 +965,7 @@ function PolicyModal({
                         </Button>
                       )}
 
-                    {benefitsData.length !== 1 && (
+                    {benefitsData?.length !== 1 && (
                       <Button
                         onClick={() => handleBenefitsRemove(index)}
                         variant="contained"
