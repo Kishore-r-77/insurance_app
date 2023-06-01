@@ -9,6 +9,8 @@ import GLHistoryEnquiry from "./GLHistoryEnquiry";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
 import SAChangeEnquiry from "./SAChangeEnquiry";
+import ComponentAddEnquiry from "./ComponentAddEnquiry";
+import MRTAEnquiry from "./MRTAEnquiry";
 
 function EnquiryTable({
   data,
@@ -16,6 +18,7 @@ function EnquiryTable({
   policyNo,
   infoOpen,
   historyOpen,
+  mrtaOpen,
   isCommunication,
 }: any) {
   console.log(policyNo, "Policy No in Enq");
@@ -35,26 +38,53 @@ function EnquiryTable({
   console.log(data, "data");
 
   const [glHistory, setglHistory] = useState(false);
+  const [mrta, setmrta] = useState(false);
 
+  const [policyId, setpolicyId] = useState("")
   const [Tranno, setTranno] = useState("");
   const [isSachange, setisSachange] = useState(false);
+  const [isComponentAdd, setisComponentAdd] = useState(false);
+
   const glhClickOpen = (value: any, hcode: any) => {
     console.log(value, "tranno");
     setTranno(value);
     if (hcode === "H0091") {
       console.log(hcode, "History");
       setisSachange(true);
-    } else {
+    }else if(hcode === "H0093"){
+      setisComponentAdd(true)
+    } 
+    else {
       setglHistory(true);
     }
+  };
+
+  const mrtaClickOpen = (pid: any, tno: any, cov:any) => {
+    setpolicyId(pid)
+    setTranno(tno);
+    if (cov === "MRTA") {
+      console.log(cov, "Coverage");
+      setmrta(true);
+    }
+    // else {
+    //   setglHistory(true);
+    // }
   };
 
   const isSAChangeClose = () => {
     setisSachange(false);
   };
 
+  const isComponentAddClose = () => {
+    setisComponentAdd(false);
+  };
+
   const glhClickClose = () => {
     setglHistory(false);
+  };
+
+  const mrtaClickClose = () => {
+    setmrta(false);
   };
 
   const communicationClickOpen = (Id: any, temp: any) => {
@@ -121,7 +151,7 @@ function EnquiryTable({
                 if (col.type === "date") {
                   return (
                     <td key={col.field}>
-                      {row[col.field].length === 0
+                      {row[col.field]?.length === 0
                         ? ""
                         : moment(row[col.field]).format("DD-MM-YYYY")}
                     </td>
@@ -147,7 +177,16 @@ function EnquiryTable({
                       >
                         {row[col.field]}
                       </td>
-                    ) : isCommunication ? (
+                    ) : mrtaOpen ? (
+                      <td
+                        key={col.field}
+                        onClick={() =>
+                          mrtaClickOpen(row?.PolicyID, row?.Tranno, row?.BCoverage)
+                        }
+                      >
+                        {row[col.field]}
+                      </td>
+                    ): isCommunication ? (
                       <td
                         key={col.field}
                         onClick={() => downloadReceiptPdf(row?.ID)}
@@ -195,6 +234,21 @@ function EnquiryTable({
         policyNo={policyNo}
         TransactionNo={Tranno}
       />
+
+      <ComponentAddEnquiry
+        open={isComponentAdd}
+        handleClose={isComponentAddClose}
+        policyNo={policyNo}
+        TransactionNo={Tranno}
+      />
+
+      <MRTAEnquiry
+        open={mrta}
+        handleClose={mrtaClickClose}
+        policyNo={policyNo}
+        TransactionNo={Tranno}
+      />
+      
     </Paper>
   );
 }

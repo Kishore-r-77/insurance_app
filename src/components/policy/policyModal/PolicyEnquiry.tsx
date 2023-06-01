@@ -796,6 +796,8 @@ function PolicyEnquiry({
                 <BenefitEnquiry
                   benefitenquiryData={benefitenquiryData}
                   state={state}
+                  policyNo={record.ID}
+                  TransactionNo={record.Tranno}
                 />
               </Tab>
               <Tab
