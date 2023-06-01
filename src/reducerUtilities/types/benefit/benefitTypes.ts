@@ -20,6 +20,7 @@ export type BenefitStateType = {
   BStatus: string;
   BAge: string;
   BRerate: string;
+  Interest: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;

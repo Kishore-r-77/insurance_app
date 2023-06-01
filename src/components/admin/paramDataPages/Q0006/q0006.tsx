@@ -20,8 +20,6 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendQ0019Request , status: getQ0019ResponseStatus ,  data: getQ0019Response , error:getQ0019ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0020Request , status: getQ0020ResponseStatus ,  data: getQ0020Response , error:getQ0020ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0021Request , status: getQ0021ResponseStatus ,  data: getQ0021Response , error:getQ0021ResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -49,12 +47,6 @@ const Q0006 = forwardRef((props: any, ref) => {
 
         getDataParams.item = "MRTL";
         sendMrtlRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-        getDataParams.item = "MRTMETH";
-        sendMrtmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-        getDataParams.item = "MRTINT";
-        sendMrtintRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
 
         getDataParams.name = "P0046";
@@ -216,7 +208,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         >
           {getAgecalcmResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -243,7 +235,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         >
           {getAnnivermResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -270,7 +262,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         >
           {getAnnuitymResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -297,7 +289,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         >
           {getCommismResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -341,7 +333,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         >
           {getDeathmResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -872,7 +864,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputRef={mortalitiesRef}
           placeholder="Mortalities"
           label="Mortalities"
-          defaultValue={inputdata.mortalities}
+          defaultValue={inputdata.mortalities?inputdata.mortalities:[]}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -882,7 +874,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         >
           {getMrtlResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -1139,7 +1131,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          select
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1150,23 +1142,13 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="MRTA Method"
           defaultValue={inputdata.mrtaMethod}
           fullWidth
-          variant="outlined"
           margin="dense"
-          SelectProps={{
-            multiple: false,
-          }}
-        >
-          {getMrtmethResponse?.param.data.dataPairs.map((value:any) => (
-            <MenuItem key={value.code} value={value.code}>
-              {value.description}
-            </MenuItem>
-            ))}
-        </TextField>
-            </Grid2> 
+        />
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          select
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1177,19 +1159,9 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="MRTA Interest (in %)"
           defaultValue={inputdata.mrtaInterest}
           fullWidth
-          variant="outlined"
           margin="dense"
-          SelectProps={{
-            multiple: false,
-          }}
-        >
-          {getMrtintResponse?.param.data.dataPairs.map((value:any) => (
-            <MenuItem key={value.code} value={value.code}>
-              {value.description}
-            </MenuItem>
-            ))}
-        </TextField>
-            </Grid2> 
+        />
+        </Grid2>
 
 
     </>

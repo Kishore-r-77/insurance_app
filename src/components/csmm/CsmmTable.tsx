@@ -507,6 +507,7 @@ function CsmmTable({
           message: "Saved Successfully",
           type: "success",
         });
+
         componentClose();
         getData();
       })

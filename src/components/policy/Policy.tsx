@@ -29,7 +29,16 @@ import CustomModal from "../../utilities/modal/CustomModal";
 import PolicyEnquiry from "./policyModal/PolicyEnquiry";
 import Notification from "../../utilities/Notification/Notification";
 
-function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
+function Policy({
+  modalFunc,
+  dataIndex,
+  lookup,
+  getByTable,
+  getByFunction,
+  receiptLookup,
+  searchContent,
+  handleSearchChange,
+}: any) {
   const size = "xl";
   //data from getall api
   const [data, setData] = useState([]);
@@ -277,21 +286,32 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
     } else return;
   };
 
+  console.log(state.searchString, "Search String");
+  console.log(state.searchCriteria, "Search Criteria");
+
   return (
     <div style={{ width: "100%" }}>
       <header className={styles.flexStyle}>
         <span>
           <TextField
             select
-            value={state.searchCriteria}
+            value={
+              receiptLookup
+                ? searchContent.searchCriteria
+                : state.searchCriteria
+            }
             placeholder="Search Criteria"
             label="Search Criteria"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchCriteria",
-              })
+            name="searchCriteria"
+            onChange={
+              receiptLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchCriteria",
+                    })
             }
             style={{ width: "12rem" }}
           >
@@ -307,21 +327,27 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
         </span>
         <span className={styles["text-fields"]}>
           <TextField
-            value={state.searchString}
+            value={
+              receiptLookup ? searchContent.searchString : state.searchString
+            }
             placeholder="Search String"
             label="Search String"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchString",
-              })
+            name="searchString"
+            onChange={
+              receiptLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchString",
+                    })
             }
             style={{ width: "12rem" }}
           />
           <Button
             variant="contained"
-            onClick={getData}
+            onClick={receiptLookup ? getByFunction : getData}
             color="primary"
             style={{
               marginTop: "0.5rem",
@@ -355,7 +381,7 @@ function Policy({ modalFunc, dataIndex, lookup, getByTable }: any) {
         </Button> */}
       </header>{" "}
       <PolicyTable
-        data={lookup ? getByTable : data}
+        data={receiptLookup ? getByTable : data}
         dataIndex={dataIndex}
         modalFunc={modalFunc}
         columns={columns}

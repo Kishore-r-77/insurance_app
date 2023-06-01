@@ -47,4 +47,6 @@ export type ReceiptsModalType = {
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;
   ACTIONS: ActionConstantsType;
+  handleSearchChange: any;
+  searchContent: any;
 };
