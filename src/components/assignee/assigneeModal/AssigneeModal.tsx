@@ -14,10 +14,9 @@ import { useAppSelector } from "../../../redux/app/hooks";
 
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
-
 import styles from "../assignee.module.css";
 
-//Attention: Check the path below 
+//Attention: Check the path below
 import { AssigneeModalType } from "../../../reducerUtilities/types/assignee/assigneeTypes";
 import { paramItem } from "../../assignee/assigneeApi/assigneeApis";
 import Policy from "../../../components/policy/Policy";
@@ -28,13 +27,13 @@ function AssigneeModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
-  policyId
+  policyId,
 }: any) {
-  const addTitle: string = "Assignee Add"; 
+  const addTitle: string = "Assignee Add";
   const editTitle: string = "Assignee Edit";
   const infoTitle: string = "Assignee Info";
   const size: string = "xl";
-  
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -49,9 +48,8 @@ function AssigneeModal({
     });
   };
 
-
   const [assigneetypeData, setAssigneetypeData] = useState([]);
-  const getAssigneetype= (
+  const getAssigneetype = (
     companyId: number,
     name: string,
     languageId: number
@@ -62,8 +60,7 @@ function AssigneeModal({
         return resp.data.data;
       })
       .catch((err) => err);
-      };
-
+  };
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -72,7 +69,7 @@ function AssigneeModal({
     return () => {};
   }, []);
 
-// *** Attention: Check the Lookup table  OPenFunc details below ***
+  // *** Attention: Check the Lookup table  OPenFunc details below ***
   const policyOpenFunc = (item: any) => {
     if (state.addOpen) {
       state.PolicyID = item.ID;
@@ -97,16 +94,13 @@ function AssigneeModal({
             ? state.editOpen
             : state.infoOpen
         }
-		size={size}
+        size={size}
         handleClose={
-           state.clientOpen
+          state.clientOpen
             ? () => dispatch({ type: ACTIONS.CLIENTCLOSE })
-            :				
-           state.policyOpen
+            : state.policyOpen
             ? () => dispatch({ type: ACTIONS.POLICYCLOSE })
-            :			
-		
-          state.addOpen
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
@@ -128,170 +122,152 @@ function AssigneeModal({
           <Grid2 container spacing={2}>
             {state.policyOpen ? (
               <Policy modalFunc={policyOpenFunc} />
-            ) : 
-            state.clientOpen ? (
+            ) : state.clientOpen ? (
               <Client modalFunc={clientOpenFunc} />
-            ) : 
-                (
+            ) : (
               <>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="CompanyID"
+                    name="CompanyID"
+                    value={companyData?.CompanyName}
+                    placeholder="Company ID"
+                    label="Company ID"
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
 
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                InputProps={{ readOnly: true }}
-                id="CompanyID"
-                name="CompanyID"
-                value={companyData?.CompanyName}
-                placeholder="Company ID"
-                label="Company ID"
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                InputProps={{ readOnly: true }}
-                id="PolicyID"
-                name="PolicyID"
-                placeholder="Policy ID"
-                label="Policy ID"
-                // Attention: *** Check the value details  ***
-                onClick={() => dispatch({ type: ACTIONS.POLICYOPEN })}
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="PolicyID"
+                    name="PolicyID"
+                    placeholder="Policy ID"
+                    label="Policy ID"
+                    // Attention: *** Check the value details  ***
+                    onClick={() => dispatch({ type: ACTIONS.POLICYOPEN })}
                     value={policyId}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen
-                      ? ACTIONS.ONCHANGE
-                      : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "PolicyID",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                InputProps={{ readOnly: true }}
-                id="ClientID"
-                name="ClientID"
-                placeholder="Client ID"
-                label="Client ID"
-                // Attention: *** Check the value details  ***
-                onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
-                    value={
-                      state.addOpen
-                        ? state.ClientID
-                        : record.ClientID
-                    }
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen
-                      ? ACTIONS.ONCHANGE
-                      : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientID",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> 
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="AssigneeType"
-                name="AssigneeType"
-                    value={
-                      state.addOpen
-                        ? state.AssigneeType
-                        : record.AssigneeType
-                    }
-                placeholder="Assignee Type"
-                label="Assignee Type"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen
-                      ? ACTIONS.ONCHANGE 
-                      : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "AssigneeType",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              >
-                {assigneetypeData.map((val: any) => (
-                  <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                ))}
-              </TextField>
-            </Grid2> 
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    readOnly={state.infoOpen}
-                    label="From Date"
-                    inputFormat="DD/MM/YYYY"
-                    value={
-                      state.addOpen
-                        ? state.Fromdate
-                        : record.Fromdate
-                    }
-                    onChange={(
-                      date: React.ChangeEvent<HTMLInputElement> | any
-                    ) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload:date?.$d.$d,
-                        fieldName: "Fromdate",
+                        payload: e.target.value,
+                        fieldName: "PolicyID",
                       })
                     }
-                    renderInput={(params) => <TextField {...params} />}
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
                   />
-                </LocalizationProvider>
-              </FormControl>
-            </Grid2>
+                </Grid2>
 
-            <Grid2 xs={8} md={6} lg={4}>
-              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    readOnly={state.infoOpen}
-                    label="To Date"
-                    inputFormat="DD/MM/YYYY"
-                    value={
-                      state.addOpen
-                        ? state.Todate
-                        : record.Todate
-                    }
-                    onChange={(
-                      date: React.ChangeEvent<HTMLInputElement> | any
-                    ) =>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="ClientID"
+                    name="ClientID"
+                    placeholder="Client ID"
+                    label="Client ID"
+                    // Attention: *** Check the value details  ***
+                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload:date?.$d.$d,
-                        fieldName: "Todate",
+                        payload: e.target.value,
+                        fieldName: "ClientID",
                       })
                     }
-                    renderInput={(params) => <TextField {...params} />}
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
                   />
-                </LocalizationProvider>
-              </FormControl>
-            </Grid2>
+                </Grid2>
 
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="AssigneeType"
+                    name="AssigneeType"
+                    value={
+                      state.addOpen ? state.AssigneeType : record.AssigneeType
+                    }
+                    placeholder="Assignee Type"
+                    label="Assignee Type"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "AssigneeType",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {assigneetypeData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="From Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.addOpen ? state.Fromdate : record.Fromdate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date?.$d,
+                            fieldName: "Fromdate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="To Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={state.addOpen ? state.Todate : record.Todate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date?.$d,
+                            fieldName: "Todate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
               </>
             )}
           </Grid2>
@@ -301,4 +277,3 @@ function AssigneeModal({
   );
 }
 export default AssigneeModal;
-
