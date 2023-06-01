@@ -24,6 +24,7 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
 import Notification from "../../utilities/Notification/Notification";
 import ComponentModal from "./componentModal/ComponentModal";
+import TranReversalModal from "./tranReversalModal/TranReversalModal";
 function CsmmTable({
   issueOpen,
   confirmOpen,
@@ -233,6 +234,7 @@ function CsmmTable({
     setIsFreqQuote(false);
   };
   const [isFreqChange, setIsFreqChange] = useState(false);
+  const [isTranReversal, setIsTranReversal] = useState(false);
   const [completed, setcompleted] = useState(false);
   const [func, setfunc] = useState<any>("Calculate");
   const freqChangeOpen = (policyId: number, value: any) => {
@@ -243,6 +245,14 @@ function CsmmTable({
     setIsFreqChange(false);
     setcompleted(false);
     setfunc("Calculated");
+  };
+
+  const tranReversalOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setIsTranReversal(true);
+  };
+  const tranReversalClose = () => {
+    setIsTranReversal(false);
   };
 
   const clientMenuClick = (value: any) => {
@@ -282,6 +292,10 @@ function CsmmTable({
         break;
       case "ComponentAdd":
         componentOpen(policyId.current, value);
+        handleClose();
+        break;
+      case "TransReversal":
+        tranReversalOpen(policyId.current, value);
         handleClose();
         break;
       default:
@@ -779,6 +793,11 @@ function CsmmTable({
         func={func}
         setfunc={setfunc}
         getData={getData}
+      />
+      <TranReversalModal
+        open={isTranReversal}
+        handleClose={tranReversalClose}
+        policyId={PolicyID}
       />
       <SaChangeModal
         open={isSaChange}
