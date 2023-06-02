@@ -10,6 +10,7 @@ import moment from "moment";
 import { useState } from "react";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import MRTAEnquiry from "../../enquiry/MRTAEnquiry";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 
 function BenefitTable({
   data,
@@ -146,7 +147,9 @@ function BenefitTable({
                   /> */}
                 </span>
               </td>
-              <td onClick={() => mrtaOpen()}>BS</td>
+              <td onClick={() => mrtaOpen()}>
+                <EventAvailableIcon color="success" />
+              </td>
               <td>
                 <IconButton
                   onClick={() =>
