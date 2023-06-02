@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Paper, Tooltip } from "@mui/material";
 import moment from "moment";
 import Table from "react-bootstrap/Table";
 import styles from "./enquiryTable.module.css";
@@ -40,7 +40,7 @@ function EnquiryTable({
   const [glHistory, setglHistory] = useState(false);
   const [mrta, setmrta] = useState(false);
 
-  const [policyId, setpolicyId] = useState("")
+  const [policyId, setpolicyId] = useState("");
   const [Tranno, setTranno] = useState("");
   const [isSachange, setisSachange] = useState(false);
   const [isComponentAdd, setisComponentAdd] = useState(false);
@@ -51,16 +51,15 @@ function EnquiryTable({
     if (hcode === "H0091") {
       console.log(hcode, "History");
       setisSachange(true);
-    }else if(hcode === "H0093"){
-      setisComponentAdd(true)
-    } 
-    else {
+    } else if (hcode === "H0093") {
+      setisComponentAdd(true);
+    } else {
       setglHistory(true);
     }
   };
 
-  const mrtaClickOpen = (pid: any, tno: any, cov:any) => {
-    setpolicyId(pid)
+  const mrtaClickOpen = (pid: any, tno: any, cov: any) => {
+    setpolicyId(pid);
     setTranno(tno);
     if (cov === "MRTA") {
       console.log(cov, "Coverage");
@@ -150,8 +149,16 @@ function EnquiryTable({
               {columns.map((col: { field: string; type: string }) => {
                 if (col.type === "date") {
                   return (
-                    <td key={col.field}>
-                      {row[col.field]?.length === 0
+                    <td
+                      key={col.field}
+                      style={{
+                        textDecoration:
+                          row.IsReversed && historyOpen
+                            ? "line-through"
+                            : "none",
+                      }}
+                    >
+                      {row[col.field].length === 0
                         ? ""
                         : moment(row[col.field]).format("DD-MM-YYYY")}
                     </td>
@@ -175,18 +182,45 @@ function EnquiryTable({
                           glhClickOpen(row?.Tranno, row?.PHistoryCode)
                         }
                       >
-                        {row[col.field]}
+                        <span
+                          style={{
+                            textDecoration: row.IsReversed
+                              ? "line-through"
+                              : "none",
+                            marginRight: "1.5rem",
+                          }}
+                        >
+                          {row[col.field]}{" "}
+                        </span>
+                        {col.field === "Tranno" && row.IsReversed && (
+                          <Tooltip
+                            title={
+                              "Reversed by " +
+                              row.ReversedUser +
+                              " on " +
+                              row.ReversedAt +
+                              "  Remarks: " +
+                              row.RevRemark
+                            }
+                          >
+                            <InfoIcon />
+                          </Tooltip>
+                        )}
                       </td>
                     ) : mrtaOpen ? (
                       <td
                         key={col.field}
                         onClick={() =>
-                          mrtaClickOpen(row?.PolicyID, row?.Tranno, row?.BCoverage)
+                          mrtaClickOpen(
+                            row?.PolicyID,
+                            row?.Tranno,
+                            row?.BCoverage
+                          )
                         }
                       >
                         {row[col.field]}
                       </td>
-                    ): isCommunication ? (
+                    ) : isCommunication ? (
                       <td
                         key={col.field}
                         onClick={() => downloadReceiptPdf(row?.ID)}
@@ -248,7 +282,6 @@ function EnquiryTable({
         policyNo={policyNo}
         TransactionNo={Tranno}
       />
-      
     </Paper>
   );
 }
