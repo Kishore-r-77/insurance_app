@@ -38,6 +38,7 @@ function Policy({
   receiptLookup,
   searchContent,
   handleSearchChange,
+  receiptFieldMap,
 }: any) {
   const size = "xl";
   //data from getall api
@@ -273,7 +274,12 @@ function Policy({
 
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
-    getData();
+    if (receiptLookup) {
+      getByFunction(pageNum, pageSize, searchContent);
+    } else {
+      getData();
+    }
+
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
@@ -288,8 +294,10 @@ function Policy({
     } else return;
   };
 
-  console.log(state.searchString, "Search String");
-  console.log(state.searchCriteria, "Search Criteria");
+  console.log(searchContent.searchString, "Search String");
+  console.log(searchContent.searchCriteria, "Search Criteria");
+  console.log(receiptFieldMap, "Field Map");
+  console.log(searchContent, "search content");
 
   return (
     <div style={{ width: "100%" }}>
@@ -320,11 +328,17 @@ function Policy({
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {fieldMap.map((value: any) => (
-              <MenuItem key={value.fieldName} value={value.fieldName}>
-                {value.displayName}
-              </MenuItem>
-            ))}
+            {receiptLookup
+              ? receiptFieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))
+              : fieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))}
           </TextField>
         </span>
         <span className={styles["text-fields"]}>
@@ -349,7 +363,11 @@ function Policy({
           />
           <Button
             variant="contained"
-            onClick={receiptLookup ? getByFunction : getData}
+            onClick={
+              receiptLookup
+                ? () => getByFunction(pageNum, pageSize, searchContent)
+                : getData
+            }
             color="primary"
             style={{
               marginTop: "0.5rem",

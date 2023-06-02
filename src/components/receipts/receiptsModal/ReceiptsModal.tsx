@@ -156,12 +156,17 @@ function ReceiptsModal({
   //   });
   // };
 
-  const getPolicesByClient1 = () => {
+  const getPolicesByClient1 = (
+    pageNum: number,
+    pageSize: number,
+    searchContent: any
+  ) => {
     return getPoliciesByClient(
       parseInt(state.ClientID),
       pageNum,
       pageSize,
-      searchContent
+      searchContent,
+      state
     )
       .then((resp) => {
         console.log(resp);
@@ -176,7 +181,7 @@ function ReceiptsModal({
   };
 
   useEffect(() => {
-    getPolicesByClient1();
+    getPolicesByClient1(pageNum, pageSize, searchContent);
     return () => {};
   }, [state.ClientID]);
 
@@ -226,6 +231,7 @@ function ReceiptsModal({
                 getByFunction={getPolicesByClient1}
                 searchContent={searchContent}
                 handleSearchChange={handleSearchChange}
+                receiptFieldMap={fieldMap}
               />
             ) : (
               <>

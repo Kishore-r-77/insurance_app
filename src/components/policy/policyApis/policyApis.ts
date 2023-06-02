@@ -235,6 +235,7 @@ export const getPoliciesByClient = (
   clientId: number,
   pageNum: number,
   pageSize: number,
+  searchContent: any,
   state: any
 ) => {
   return axios.get(
@@ -244,8 +245,8 @@ export const getPoliciesByClient = (
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
-        searchString: state.searchString,
-        searchCriteria: state.searchCriteria,
+        searchString: searchContent?.searchString,
+        searchCriteria: searchContent?.searchCriteria,
         sortColumn: state.sortColumn,
         sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
       },
