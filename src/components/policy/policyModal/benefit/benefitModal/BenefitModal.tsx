@@ -21,6 +21,7 @@ function BenefitModal({
   ACTIONS,
   handleFormSubmit,
   policyRecord,
+  interest,
 }: BenefitModalType) {
   const addTitle: string = "Benefit Add";
   const editTitle: string = "Benefit Edit";
@@ -275,7 +276,7 @@ function BenefitModal({
                   select
                   id="Interest"
                   name="Interest"
-                  value={state.addOpen ? state.Interest : record.Interest}
+                  value={state.addOpen ? state.Interest : interest}
                   placeholder="Interest"
                   label="Interest"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

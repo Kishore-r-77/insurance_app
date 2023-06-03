@@ -294,11 +294,6 @@ function Policy({
     } else return;
   };
 
-  console.log(searchContent.searchString, "Search String");
-  console.log(searchContent.searchCriteria, "Search Criteria");
-  console.log(receiptFieldMap, "Field Map");
-  console.log(searchContent, "search content");
-
   return (
     <div style={{ width: "100%" }}>
       <header className={styles.flexStyle}>

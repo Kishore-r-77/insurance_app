@@ -64,4 +64,5 @@ export type BenefitModalType = {
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;
   ACTIONS: ActionConstantsType;
+  interest: number;
 };

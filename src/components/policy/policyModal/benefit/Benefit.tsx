@@ -30,6 +30,7 @@ function Benefit({
   getBenefitsByPolicies1,
   getPolicies,
   policyRecord,
+  interest,
 }: any) {
   //data from getall api
   const [data, setData] = useState([]);
@@ -52,10 +53,14 @@ function Benefit({
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        setRecord((prev: any) => ({
-          ...prev,
-          [action.fieldName]: action.payload,
-        }));
+        if (action.fieldName === "Interest") {
+          interest = action.payload;
+        } else {
+          setRecord((prev: any) => ({
+            ...prev,
+            [action.fieldName]: action.payload,
+          }));
+        }
         return {
           ...state,
           editOpen: true,
@@ -371,6 +376,7 @@ function Benefit({
         record={record}
         policyRecord={policyRecord}
         dispatch={dispatch}
+        interest={interest}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />

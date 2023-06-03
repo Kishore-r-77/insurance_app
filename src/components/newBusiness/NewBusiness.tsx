@@ -2,7 +2,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import {
   ACTIONS,
   columns,
@@ -367,11 +367,13 @@ function NewBusiness({ modalFunc }: any) {
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState([]);
+  const interest = useRef(0);
 
   const getBenefitsByPolicies1 = (policyId: number) => {
     getBenefitsByPolicies(policyId)
       .then((resp) => {
         setbenefitsByPoliciesData(resp.data?.Benefit);
+        interest.current = resp.data?.Interest;
       })
       .catch((err) => err.message);
   };
@@ -518,6 +520,7 @@ function NewBusiness({ modalFunc }: any) {
           getBenefitsByPolicies1={getBenefitsByPolicies1}
           getPolicies={getData}
           policyRecord={record}
+          interest={interest.current}
           lookup={state.benefitOpen}
         />
       </CustomModal>
