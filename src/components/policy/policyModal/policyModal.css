@@ -1,6 +1,6 @@
 @font-face {
-  font-family: Julee-Regular;
-  src: url("../../../fonts/Julee/Julee-Regular.ttf");
+  font-family: Merriweather-Regular;
+  src: url("../../../fonts/Merriweather/Merriweather-Regular.ttf");
 }
 
 .css-1g86id8-MuiTreeItem-content .MuiTreeItem-label {
@@ -13,7 +13,7 @@
   margin-bottom: 1rem;
   background-color: silver;
   border-radius: 5%;
-  font-family: Julee-Regular !important;
+  font-family: Merriweather-Regular !important;
   font-size: 20px !important;
   font-weight: bolder;
   padding: 0.5rem;

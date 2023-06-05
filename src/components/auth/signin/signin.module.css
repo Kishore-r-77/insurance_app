@@ -1,10 +1,10 @@
 @font-face {
-  font-family: "Julee-Regular";
-  src: url("../../../fonts/Julee/Julee-Regular.ttf");
+  font-family: "Merriweather-Regular";
+  src: url("../../../fonts/Merriweather/Merriweather-Regular.ttf");
 }
 
 #title {
-  font-family: "Julee-Regular";
+  font-family: "Merriweather-Regular";
   color: #6a3093;
 }
 

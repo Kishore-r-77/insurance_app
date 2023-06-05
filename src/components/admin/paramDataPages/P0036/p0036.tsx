@@ -9,20 +9,18 @@ import  "./p0036.css";
 
 
 const P0036 = forwardRef((props: any, ref) => {
-  
-
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
       retData.stampDuties = retData.stampDuties.filter(
-        (value: any) => value.SA !== ""
+        (value: any) => value.nofInstalments !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         stampDuties: inputdata.stampDuties.filter(
-          (value: any) => value.SA !== ""
+          (value: any) => value.nofInstalments !== ""
         ),
       }));
       return retData;
@@ -65,11 +63,32 @@ const P0036 = forwardRef((props: any, ref) => {
       >
 
         <tr>
+          <th>No Of Installments</th> 
           <th>Sum Assured</th> 
           <th>Rate</th> 
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
-          )}
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.stampDuties?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.stampDuties || inputdata.stampDuties?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        stampDuties: [
+                          {
+                            nofInstalments: 0,
+                            sa: 0,
+                            rate: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -80,11 +99,11 @@ const P0036 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="SA"
-                name="SA"
-                value={value.SA}
+                id="nofInstalments"
+                name="nofInstalments"
+                value={value.nofInstalments}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "SA", e.target.value)
+                  fieldChangeHandler(index, "nofInstalments", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -98,11 +117,29 @@ const P0036 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="Rate"
-                name="Rate"
-                value={value.Rate}
+                id="sa"
+                name="sa"
+                value={value.sa}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "Rate", e.target.value)
+                  fieldChangeHandler(index, "sa", e.target.value)
+                }
+                fullWidth
+                size="small"
+                type="number"
+                margin="dense"
+              />
+            </td>
+
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="rate"
+                name="rate"
+                value={value.rate}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "rate", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -138,8 +175,9 @@ const P0036 = forwardRef((props: any, ref) => {
                             stampDuties: [
                               ...inputdata.stampDuties,
                               {
-                                SA: 0,
-                                Rate: 0,
+                                nofInstalments: 0,
+                                sa: 0,
+                                rate: 0,
 
                               },
                             ],
