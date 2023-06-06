@@ -14,13 +14,13 @@ const P0036 = forwardRef((props: any, ref) => {
     getData() {
       let retData = inputdata;
       retData.stampDuties = retData.stampDuties.filter(
-        (value: any) => value.nofInstalments !== ""
+        (value: any) => value.noofinstalments !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         stampDuties: inputdata.stampDuties.filter(
-          (value: any) => value.nofInstalments !== ""
+          (value: any) => value.noofinstalments !== ""
         ),
       }));
       return retData;
@@ -78,7 +78,7 @@ const P0036 = forwardRef((props: any, ref) => {
                         ...inputdata,
                         stampDuties: [
                           {
-                            nofInstalments: 0,
+                            noofinstalments: 0,
                             sa: 0,
                             rate: 0,
                           },
@@ -99,11 +99,11 @@ const P0036 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="nofInstalments"
-                name="nofInstalments"
-                value={value.nofInstalments}
+                id="noofinstalments"
+                name="noofinstalments"
+                value={value.noofinstalments}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "nofInstalments", e.target.value)
+                  fieldChangeHandler(index, "noofinstalments", e.target.value)
                 }
                 fullWidth
                 size="small"
@@ -175,7 +175,7 @@ const P0036 = forwardRef((props: any, ref) => {
                             stampDuties: [
                               ...inputdata.stampDuties,
                               {
-                                nofInstalments: 0,
+                                noofinstalments: 0,
                                 sa: 0,
                                 rate: 0,
 
