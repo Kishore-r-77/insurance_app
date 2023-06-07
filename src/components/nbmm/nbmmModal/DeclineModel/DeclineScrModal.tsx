@@ -41,6 +41,7 @@ function DeclineScrModal({ open, handleClose, policyId, getData }: any) {
   const handleFormSubmit = () => {
     return addApi(DeclineData, companyId, policyId).then((resp) => {
       handleClose();
+      setDeclineData(initialValues);
       getData();
     });
   };
