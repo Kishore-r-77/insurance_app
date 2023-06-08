@@ -13,13 +13,44 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendAnnivermRequest , status: getAnnivermResponseStatus ,  data: getAnnivermResponse , error:getAnnivermResponseError} = useHttp(getData, true); 
   const {sendRequest : sendAnnuitymRequest , status: getAnnuitymResponseStatus ,  data: getAnnuitymResponse , error:getAnnuitymResponseError} = useHttp(getData, true); 
   const {sendRequest : sendCommismRequest , status: getCommismResponseStatus ,  data: getCommismResponse , error:getCommismResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendDeathtypRequest , status: getDeathtypResponseStatus ,  data: getDeathtypResponse , error:getDeathtypResponseError} = useHttp(getData, true); 
   const {sendRequest : sendDeathmRequest , status: getDeathmResponseStatus ,  data: getDeathmResponse , error:getDeathmResponseError} = useHttp(getData, true); 
   const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendLoanmethRequest , status: getLoanmethResponseStatus ,  data: getLoanmethResponse , error:getLoanmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendMaturitymRequest , status: getMaturitymResponseStatus ,  data: getMaturitymResponse , error:getMaturitymResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendAgeallRequest , status: getAgeallResponseStatus ,  data: getAgeallResponse , error:getAgeallResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendPrptRequest , status: getPrptResponseStatus ,  data: getPrptResponse , error:getPrptResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendTermRequest , status: getTermResponseStatus ,  data: getTermResponse , error:getTermResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendNfomethRequest , status: getNfomethResponseStatus ,  data: getNfomethResponse , error:getNfomethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendPartsurrmRequest , status: getPartsurrmResponseStatus ,  data: getPartsurrmResponse , error:getPartsurrmResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendPremmethRequest , status: getPremmethResponseStatus ,  data: getPremmethResponse , error:getPremmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendRevbonmRequest , status: getRevbonmResponseStatus ,  data: getRevbonmResponse , error:getRevbonmResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendSurvbentypRequest , status: getSurvbentypResponseStatus ,  data: getSurvbentypResponse , error:getSurvbentypResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendSurvbenmethRequest , status: getSurvbenmethResponseStatus ,  data: getSurvbenmethResponse , error:getSurvbenmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendSurrendmethRequest , status: getSurrendmethResponseStatus ,  data: getSurrendmethResponse , error:getSurrendmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendTermlbonmethRequest , status: getTermlbonmethResponseStatus ,  data: getTermlbonmethResponse , error:getTermlbonmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUldednfreqRequest , status: getUldednfreqResponseStatus ,  data: getUldednfreqResponse , error:getUldednfreqResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendGsvmethRequest , status: getGsvmethResponseStatus ,  data: getGsvmethResponse , error:getGsvmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendSsvmethRequest , status: getSsvmethResponseStatus ,  data: getSsvmethResponse , error:getSsvmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendBonsurrmethRequest , status: getBonsurrmethResponseStatus ,  data: getBonsurrmethResponse , error:getBonsurrmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendDividendmethRequest , status: getDividendmethResponseStatus ,  data: getDividendmethResponse , error:getDividendmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendDivintmethRequest , status: getDivintmethResponseStatus ,  data: getDivintmethResponse , error:getDivintmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtlRequest , status: getMrtlResponseStatus ,  data: getMrtlResponse , error:getMrtlResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendPremcalctypRequest , status: getPremcalctypResponseStatus ,  data: getPremcalctypResponse , error:getPremcalctypResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendPremdisctypRequest , status: getPremdisctypResponseStatus ,  data: getPremdisctypResponse , error:getPremdisctypResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0018Request , status: getQ0018ResponseStatus ,  data: getQ0018Response , error:getQ0018ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0019Request , status: getQ0019ResponseStatus ,  data: getQ0019Response , error:getQ0019ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0020Request , status: getQ0020ResponseStatus ,  data: getQ0020Response , error:getQ0020ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0021Request , status: getQ0021ResponseStatus ,  data: getQ0021Response , error:getQ0021ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlmortfreqRequest , status: getUlmortfreqResponseStatus ,  data: getUlmortfreqResponse , error:getUlmortfreqResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlmortcalctypRequest , status: getUlmortcalctypResponseStatus ,  data: getUlmortcalctypResponse , error:getUlmortcalctypResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlmortdednmethRequest , status: getUlmortdednmethResponseStatus ,  data: getUlmortdednmethResponse , error:getUlmortdednmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlfeefreqRequest , status: getUlfeefreqResponseStatus ,  data: getUlfeefreqResponse , error:getUlfeefreqResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlfeetypRequest , status: getUlfeetypResponseStatus ,  data: getUlfeetypResponse , error:getUlfeetypResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlfeemethRequest , status: getUlfeemethResponseStatus ,  data: getUlfeemethResponse , error:getUlfeemethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlfundruleRequest , status: getUlfundruleResponseStatus ,  data: getUlfundruleResponse , error:getUlfundruleResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -42,11 +73,104 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "COMMISM";
         sendCommismRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "DEATHTYP";
+        sendDeathtypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
         getDataParams.item = "DEATHM";
         sendDeathmRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "LOANMETH";
+        sendLoanmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "MATURITYM";
+        sendMaturitymRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "AGEALL";
+        sendAgeallRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "PRPT";
+        sendPrptRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "TERM";
+        sendTermRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "NFOMETH";
+        sendNfomethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "PARTSURRM";
+        sendPartsurrmRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "PREMMETH";
+        sendPremmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "REVBONM";
+        sendRevbonmRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "SURVBENTYP";
+        sendSurvbentypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "SURVBENMETH";
+        sendSurvbenmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "SURRENDMETH";
+        sendSurrendmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "TERMLBONMETH";
+        sendTermlbonmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULDEDNFREQ";
+        sendUldednfreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "GSVMETH";
+        sendGsvmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "SSVMETH";
+        sendSsvmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "BONSURRMETH";
+        sendBonsurrmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "DIVIDENDMETH";
+        sendDividendmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "DIVINTMETH";
+        sendDivintmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
         getDataParams.item = "MRTL";
         sendMrtlRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "PREMCALCTYP";
+        sendPremcalctypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "PREMDISCTYP";
+        sendPremdisctypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULMORTFREQ";
+        sendUlmortfreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULMORTCALCTYP";
+        sendUlmortcalctypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULMORTDEDNMETH";
+        sendUlmortdednmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULFEEFREQ";
+        sendUlfeefreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULFEETYP";
+        sendUlfeetypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULFEEMETH";
+        sendUlfeemethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULFUNDRULE";
+        sendUlfundruleRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "MRTMETH";
+        sendMrtmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "MRTINT";
+        sendMrtintRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
 
         getDataParams.name = "P0046";
@@ -79,14 +203,16 @@ const Q0006 = forwardRef((props: any, ref) => {
   const loanMethodRef: any = useRef();
   const loyaltyBonusRef: any = useRef();
   const matMethodRef: any = useRef();
-  const maxAgeRef: any = useRef();
-  const maxPptRef: any = useRef();
+  const ageRangeRef: any = useRef();
+  const pptRangeRef: any = useRef();
   const maxSARef: any = useRef();
-  const maxTermRef: any = useRef();
-  const minAgeRef: any = useRef();
-  const minPptRef: any = useRef();
+  const termRangeRef: any = useRef();
+  const minRiskCessAgeRef: any = useRef();
+  const maxRiskCessAgeRef: any = useRef();
+  const minPremCessAgeRef: any = useRef();
+  const maxPremCessAgeRef: any = useRef();
+  const maxTermBeyondTermRef: any = useRef();
   const minSARef: any = useRef();
-  const minTermRef: any = useRef();
   const nFOMethodRef: any = useRef();
   const partSurrMethodRef: any = useRef();
   const premIncRef: any = useRef();
@@ -140,18 +266,20 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.loanMethod = loanMethodRef.current.value;
       inputdata.loyaltyBonus = loyaltyBonusRef.current.value;
       inputdata.matMethod = matMethodRef.current.value;
-      inputdata.maxAge = maxAgeRef.current.value;
-      inputdata.maxPpt = maxPptRef.current.value;
-      inputdata.maxSA = maxSARef.current.value;
-      inputdata.maxTerm = maxTermRef.current.value;
-      inputdata.minAge = minAgeRef.current.value;
-      inputdata.minPpt = minPptRef.current.value;
-      inputdata.minSA = minSARef.current.value;
-      inputdata.minTerm = minTermRef.current.value;
+      inputdata.ageRange = ageRangeRef.current.value;
+      inputdata.pptRange = pptRangeRef.current.value;
+      inputdata.maxSA = Number(maxSARef.current.value);
+      inputdata.termRange = termRangeRef.current.value;
+      inputdata.minRiskCessAge = Number(minRiskCessAgeRef.current.value);
+      inputdata.maxRiskCessAge = Number(maxRiskCessAgeRef.current.value);
+      inputdata.minPremCessAge = Number(minPremCessAgeRef.current.value);
+      inputdata.maxPremCessAge = Number(maxPremCessAgeRef.current.value);
+      inputdata.maxTermBeyondTerm = Number(maxTermBeyondTermRef.current.value);
+      inputdata.minSA = Number(minSARef.current.value);
       inputdata.nFOMethod = nFOMethodRef.current.value;
       inputdata.partSurrMethod = partSurrMethodRef.current.value;
       inputdata.premInc = premIncRef.current.value;
-      inputdata.premIncYrs = premIncYrsRef.current.value;
+      inputdata.premIncYrs = Number(premIncYrsRef.current.value);
       inputdata.premiumMethod = premiumMethodRef.current.value;
       inputdata.revBonus = revBonusRef.current.value;
       inputdata.sBType = sBTypeRef.current.value;
@@ -297,7 +425,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -306,11 +434,21 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputRef={deathTypeRef}
           placeholder="Death Type"
           label="Death Type"
-          defaultValue={inputdata.deathType}
+          defaultValue={inputdata.deathType&&Array.isArray(inputdata.deathType)?inputdata.deathType:[]}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getDeathtypResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -389,7 +527,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -400,9 +538,19 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Loan Method"
           defaultValue={inputdata.loanMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getLoanmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -430,7 +578,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -441,43 +589,73 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Maturity Method"
           defaultValue={inputdata.matMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getMaturitymResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          type="number"
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="maxAge"
-          name="maxAge"
-          inputRef={maxAgeRef}
-          placeholder="Max.Age"
-          label="Max.Age"
-          defaultValue={inputdata.maxAge}
+          id="ageRange"
+          name="ageRange"
+          inputRef={ageRangeRef}
+          placeholder="Allowable Ages (at entry)"
+          label="Allowable Ages (at entry)"
+          defaultValue={inputdata.ageRange&&Array.isArray(inputdata.ageRange)?inputdata.ageRange:[]}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getAgeallResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          type="number"
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="maxPpt"
-          name="maxPpt"
-          inputRef={maxPptRef}
-          placeholder="Max. PPT"
-          label="Max. PPT"
-          defaultValue={inputdata.maxPpt}
+          id="pptRange"
+          name="pptRange"
+          inputRef={pptRangeRef}
+          placeholder="Allowable Prem.Paying Terms"
+          label="Allowable Prem.Paying Terms"
+          defaultValue={inputdata.pptRange&&Array.isArray(inputdata.pptRange)?inputdata.pptRange:[]}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getPrptResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -498,16 +676,43 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="termRange"
+          name="termRange"
+          inputRef={termRangeRef}
+          placeholder="Allowable Policy Terms"
+          label="Allowable Policy Terms"
+          defaultValue={inputdata.termRange&&Array.isArray(inputdata.termRange)?inputdata.termRange:[]}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getTermResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
           type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="maxTerm"
-          name="maxTerm"
-          inputRef={maxTermRef}
-          placeholder="Max.Term"
-          label="Max.Term"
-          defaultValue={inputdata.maxTerm}
+          id="minRiskCessAge"
+          name="minRiskCessAge"
+          inputRef={minRiskCessAgeRef}
+          placeholder="Minimum Risk Cess Age"
+          label="Minimum Risk Cess Age"
+          defaultValue={inputdata.minRiskCessAge}
           fullWidth
           margin="dense"
         />
@@ -519,12 +724,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="minAge"
-          name="minAge"
-          inputRef={minAgeRef}
-          placeholder="Min.Age"
-          label="Min.Age"
-          defaultValue={inputdata.minAge}
+          id="maxRiskCessAge"
+          name="maxRiskCessAge"
+          inputRef={maxRiskCessAgeRef}
+          placeholder="Maximum Risk Cess Age"
+          label="Maximum Risk Cess Age"
+          defaultValue={inputdata.maxRiskCessAge}
           fullWidth
           margin="dense"
         />
@@ -536,12 +741,46 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="minPpt"
-          name="minPpt"
-          inputRef={minPptRef}
-          placeholder="Min.PPT"
-          label="Min.PPT"
-          defaultValue={inputdata.minPpt}
+          id="minPremCessAge"
+          name="minPremCessAge"
+          inputRef={minPremCessAgeRef}
+          placeholder="Minimum Prem Cess Age"
+          label="Minimum Prem Cess Age"
+          defaultValue={inputdata.minPremCessAge}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="maxPremCessAge"
+          name="maxPremCessAge"
+          inputRef={maxPremCessAgeRef}
+          placeholder="Maximum Prem Cess Age"
+          label="Maximum Prem Cess Age"
+          defaultValue={inputdata.maxPremCessAge}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="maxTermBeyondTerm"
+          name="maxTermBeyondTerm"
+          inputRef={maxTermBeyondTermRef}
+          placeholder="Max Term Beyond Basic cover"
+          label="Max Term Beyond Basic cover"
+          defaultValue={inputdata.maxTermBeyondTerm}
           fullWidth
           margin="dense"
         />
@@ -566,24 +805,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          type="number"
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="minTerm"
-          name="minTerm"
-          inputRef={minTermRef}
-          placeholder="Min.Term"
-          label="Min.Term"
-          defaultValue={inputdata.minTerm}
-          fullWidth
-          margin="dense"
-        />
-        </Grid2>
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -594,13 +816,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="NFO Method"
           defaultValue={inputdata.nFOMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getNfomethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -611,13 +843,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Part Surr.Method"
           defaultValue={inputdata.partSurrMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getPartsurrmResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -628,9 +870,16 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Premium Increase"
           defaultValue={inputdata.premInc}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+        >
+          {getP0046Response?.data.map((value:any) => (
+            <MenuItem key={value.item} value={value.item}>
+              {value.longdesc}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -651,7 +900,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -662,13 +911,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Premium Method"
           defaultValue={inputdata.premiumMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getPremmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -679,13 +938,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Rev.Bonus"
           defaultValue={inputdata.revBonus}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getRevbonmResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -696,13 +965,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Survival Benefit Type"
           defaultValue={inputdata.sBType}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getSurvbentypResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -713,13 +992,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Survival Benefit Method"
           defaultValue={inputdata.sBMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getSurvbenmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -730,13 +1019,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Surrender Method"
           defaultValue={inputdata.surrMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getSurrendmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -747,13 +1046,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Terminal Bonus"
           defaultValue={inputdata.tBonus}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getTermlbonmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -764,13 +1073,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Deduction Frequency"
           defaultValue={inputdata.uLDeductFrequency}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUldednfreqResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -781,13 +1100,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="GSV Method"
           defaultValue={inputdata.gSVMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getGsvmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -798,13 +1127,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="SSV Method"
           defaultValue={inputdata.sSVMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getSsvmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -815,13 +1154,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Bonus Surr.Value Method"
           defaultValue={inputdata.bSVMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getBonsurrmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -832,13 +1181,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Dividend Method"
           defaultValue={inputdata.divMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getDividendmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -849,9 +1208,19 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Dividend Interest Method"
           defaultValue={inputdata.divIMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getDivintmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -864,12 +1233,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputRef={mortalitiesRef}
           placeholder="Mortalities"
           label="Mortalities"
-          defaultValue={inputdata.mortalities?inputdata.mortalities:[]}
+          defaultValue={inputdata.mortalities&&Array.isArray(inputdata.mortalities)?inputdata.mortalities:[]}
           fullWidth
           variant="outlined"
           margin="dense"
           SelectProps={{
-            multiple: false,
+            multiple: true,
           }}
         >
           {getMrtlResponse?.param.data.dataPairs.map((value:any) => (
@@ -882,7 +1251,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -893,13 +1262,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Premium Calc Type"
           defaultValue={inputdata.premCalcType}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getPremcalctypResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -910,9 +1289,19 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Discount Type"
           defaultValue={inputdata.discType}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getPremdisctypResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -1012,7 +1401,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1023,13 +1412,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Mortality Freqencies"
           defaultValue={inputdata.uLMortFreq}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlmortfreqResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1040,13 +1439,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Mortality Calc Type"
           defaultValue={inputdata.uLMortCalcType}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlmortcalctypResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1057,13 +1466,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Mortality Dedn. Method"
           defaultValue={inputdata.uLMortDeductMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlmortdednmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1074,13 +1493,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Fee Frequency"
           defaultValue={inputdata.uLFeeFreq}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlfeefreqResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1091,13 +1520,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Fee Type"
           defaultValue={inputdata.uLFeeType}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlfeetypResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1108,13 +1547,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Fee Method"
           defaultValue={inputdata.uLFeeMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlfeemethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1125,13 +1574,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UL Fund Rules"
           defaultValue={inputdata.uLFundRules}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlfundruleResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1142,13 +1601,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="MRTA Method"
           defaultValue={inputdata.mrtaMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getMrtmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1157,11 +1626,21 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputRef={mrtaInterestRef}
           placeholder="MRTA Interest (in %)"
           label="MRTA Interest (in %)"
-          defaultValue={inputdata.mrtaInterest}
+          defaultValue={inputdata.mrtaInterest&&Array.isArray(inputdata.mrtaInterest)?inputdata.mrtaInterest:[]}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getMrtintResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
 
     </>

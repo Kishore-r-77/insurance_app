@@ -47,6 +47,7 @@ function CfiScrModal({ open, handleClose, policyId, getData }: any) {
   const handleFormSubmit = () => {
     return addApi(CfiData, companyId, policyId).then((resp) => {
       handleClose();
+      setCfiData(initialValues);
       getData();
     });
   };
