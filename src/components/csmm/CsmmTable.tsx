@@ -798,6 +798,7 @@ function CsmmTable({
         open={isTranReversal}
         handleClose={tranReversalClose}
         policyId={PolicyID}
+        getPolicyData={getData}
       />
       <SaChangeModal
         open={isSaChange}
