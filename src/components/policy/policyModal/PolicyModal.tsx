@@ -8,7 +8,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
@@ -297,6 +297,31 @@ function PolicyModal({
     mrtaDropdown();
     return () => {};
   }, [state.PProduct]);
+
+  const [termRangeMenu, settermRangeMenu] = useState([]);
+  const [pptRangeMenu, setpptRangeMenu] = useState([]);
+  const bcoverage = useRef("");
+
+  const termRange = () => {
+    return extraParams(companyId, "Q0006", bcoverage.current, "TermRange")
+      .then((resp) => {
+        settermRangeMenu(resp.data.AllowedTermRange);
+      })
+      .catch((err) => err.message);
+  };
+  const pptRange = () => {
+    return extraParams(companyId, "Q0006", bcoverage.current, "PptRange")
+      .then((resp) => {
+        setpptRangeMenu(resp.data.AllowedPptRange);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    termRange();
+    pptRange();
+    return () => {};
+  }, [bcoverage.current]);
 
   return (
     <div>
@@ -774,216 +799,231 @@ function PolicyModal({
                 </Grid2>
               </Grid2>
             </TreeItem>
-            {benefitsData?.map((benefits: any, index: number) => (
-              <>
-                <div style={{ display: "flex" }}>
-                  <TreeItem
-                    nodeId={(index + 2).toString()}
-                    label={`Benefits Add`}
-                    style={{ minWidth: "95%", margin: "0px 1rem" }}
-                  >
-                    <Grid2 container spacing={2}>
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          InputProps={{ readOnly: true }}
-                          id="CompanyID"
-                          name="CompanyID"
-                          value={companyData?.CompanyName}
-                          placeholder="company_id"
-                          label="company_id"
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          InputProps={{ readOnly: true }}
-                          id="ClientID"
-                          name="ClientID"
-                          // Attention: *** Check the value details  ***
-                          value={state.ClientID}
-                          placeholder="client_id"
-                          label="client_id"
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
+            {benefitsData?.map((benefits: any, index: number) => {
+              bcoverage.current = benefits?.BCoverage;
+              return (
+                <>
+                  <div style={{ display: "flex" }}>
+                    <TreeItem
+                      nodeId={(index + 2).toString()}
+                      label={`Benefits Add`}
+                      style={{ minWidth: "95%", margin: "0px 1rem" }}
+                    >
+                      <Grid2 container spacing={2}>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="CompanyID"
+                            name="CompanyID"
+                            value={companyData?.CompanyName}
+                            placeholder="company_id"
+                            label="company_id"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="ClientID"
+                            name="ClientID"
+                            // Attention: *** Check the value details  ***
+                            value={state.ClientID}
+                            placeholder="client_id"
+                            label="client_id"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
 
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DesktopDatePicker
-                              label="b_start_date"
-                              inputFormat="DD/MM/YYYY"
-                              value={state.PRCD}
-                              onChange={(date) => handleBStartDate(date, index)}
-                              renderInput={(params) => (
-                                <TextField {...params} error={false} />
-                              )}
-                            />
-                          </LocalizationProvider>
-                        </FormControl>
-                      </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <FormControl
+                            style={{ marginTop: "0.5rem" }}
+                            fullWidth
+                          >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DesktopDatePicker
+                                label="b_start_date"
+                                inputFormat="DD/MM/YYYY"
+                                value={state.PRCD}
+                                onChange={(date) =>
+                                  handleBStartDate(date, index)
+                                }
+                                renderInput={(params) => (
+                                  <TextField {...params} error={false} />
+                                )}
+                              />
+                            </LocalizationProvider>
+                          </FormControl>
+                        </Grid2>
 
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          select
-                          id="BCoverage"
-                          name="BCoverage"
-                          value={benefits.BCoverage}
-                          placeholder="b_coverage"
-                          label="b_coverage"
-                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          //   dispatch({
-                          //     type: ACTIONS.ONCHANGE,
-                          //     payload: e.target.value,
-                          //     fieldName: "BCoverage",
-                          //   })
-                          // }
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleChange(e, index)
-                          }
-                          fullWidth
-                          margin="dense"
-                        >
-                          {bCoverageData.map((val: any) => (
-                            <MenuItem key={val.Coverage} value={val.Coverage}>
-                              {val.Coverage}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          type="number"
-                          //InputProps={{
-                          //startAdornment: (
-                          //<InputAdornment position="start">+91</InputAdornment>
-                          // ),
-                          //}}
-                          id="BTerm"
-                          name="BTerm"
-                          value={benefits.BTerm}
-                          placeholder="b_term"
-                          label="b_term"
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleChange(e, index)
-                          }
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          type="number"
-                          //InputProps={{
-                          //startAdornment: (
-                          //<InputAdornment position="start">+91</InputAdornment>
-                          // ),
-                          //}}
-                          id="BpTerm"
-                          name="BpTerm"
-                          value={benefits.BpTerm}
-                          placeholder="bp_term"
-                          label="bp_term"
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleChange(e, index)
-                          }
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          type="number"
-                          //InputProps={{
-                          //startAdornment: (
-                          //<InputAdornment position="start">+91</InputAdornment>
-                          // ),
-                          //}}
-                          id="BSumAssured"
-                          name="BSumAssured"
-                          value={benefits.BSumAssured}
-                          placeholder="b_sum_assured"
-                          label="b_sum_assured"
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleChange(e, index)
-                          }
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-                      {benefits.BCoverage === "MRTA" ? (
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
-                            id="Interest"
-                            name="Interest"
-                            value={benefits.Interest}
-                            placeholder="Interest"
-                            label="Interest"
+                            id="BCoverage"
+                            name="BCoverage"
+                            value={benefits.BCoverage}
+                            placeholder="b_coverage"
+                            label="b_coverage"
+                            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            //   dispatch({
+                            //     type: ACTIONS.ONCHANGE,
+                            //     payload: e.target.value,
+                            //     fieldName: "BCoverage",
+                            //   })
+                            // }
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => handleChange(e, index)}
                             fullWidth
                             margin="dense"
                           >
-                            {intrestData?.map((val, index) => (
-                              <MenuItem value={val} key={val}>
+                            {bCoverageData.map((val: any) => (
+                              <MenuItem key={val.Coverage} value={val.Coverage}>
+                                {val.Coverage}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Grid2>
+
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            select
+                            //InputProps={{
+                            //startAdornment: (
+                            //<InputAdornment position="start">+91</InputAdornment>
+                            // ),
+                            //}}
+                            id="BTerm"
+                            name="BTerm"
+                            value={benefits.BTerm}
+                            placeholder="b_term"
+                            label="b_term"
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            fullWidth
+                            margin="dense"
+                          >
+                            {termRangeMenu.map((val, index) => (
+                              <MenuItem key={val} value={val}>
                                 {val}
                               </MenuItem>
                             ))}
                           </TextField>
                         </Grid2>
-                      ) : null}
-                    </Grid2>
-                  </TreeItem>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      gap: "5px",
-                    }}
-                  >
-                    {benefitsData?.length - 1 === index &&
-                      benefitsData?.length < 5 && (
+
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            select
+                            id="BpTerm"
+                            name="BpTerm"
+                            value={benefits.BpTerm}
+                            placeholder="bp_term"
+                            label="bp_term"
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            fullWidth
+                            margin="dense"
+                          >
+                            {pptRangeMenu.map((val, index) => (
+                              <MenuItem key={val} value={val}>
+                                {val}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Grid2>
+
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            type="number"
+                            //InputProps={{
+                            //startAdornment: (
+                            //<InputAdornment position="start">+91</InputAdornment>
+                            // ),
+                            //}}
+                            id="BSumAssured"
+                            name="BSumAssured"
+                            value={benefits.BSumAssured}
+                            placeholder="b_sum_assured"
+                            label="b_sum_assured"
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            fullWidth
+                            margin="dense"
+                          ></TextField>
+                        </Grid2>
+                        {benefits.BCoverage === "MRTA" ? (
+                          <Grid2 xs={8} md={6} lg={4}>
+                            <TextField
+                              select
+                              id="Interest"
+                              name="Interest"
+                              value={benefits.Interest}
+                              placeholder="Interest"
+                              label="Interest"
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => handleChange(e, index)}
+                              fullWidth
+                              margin="dense"
+                            >
+                              {intrestData?.map((val, index) => (
+                                <MenuItem value={val} key={val}>
+                                  {val}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          </Grid2>
+                        ) : null}
+                      </Grid2>
+                    </TreeItem>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        gap: "5px",
+                      }}
+                    >
+                      {benefitsData?.length - 1 === index &&
+                        benefitsData?.length < 5 && (
+                          <Button
+                            variant="contained"
+                            onClick={() => handleBenefitsAdd()}
+                            style={{
+                              maxWidth: "40px",
+                              maxHeight: "40px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              backgroundColor: "#0a3161",
+                            }}
+                          >
+                            <AddBoxRoundedIcon />
+                          </Button>
+                        )}
+
+                      {benefitsData?.length !== 1 && (
                         <Button
+                          onClick={() => handleBenefitsRemove(index)}
                           variant="contained"
-                          onClick={() => handleBenefitsAdd()}
                           style={{
                             maxWidth: "40px",
                             maxHeight: "40px",
                             minWidth: "40px",
                             minHeight: "40px",
-                            backgroundColor: "#0a3161",
+                            backgroundColor: "crimson",
                           }}
                         >
-                          <AddBoxRoundedIcon />
+                          <DeleteIcon />
                         </Button>
                       )}
-
-                    {benefitsData?.length !== 1 && (
-                      <Button
-                        onClick={() => handleBenefitsRemove(index)}
-                        variant="contained"
-                        style={{
-                          maxWidth: "40px",
-                          maxHeight: "40px",
-                          minWidth: "40px",
-                          minHeight: "40px",
-                          backgroundColor: "crimson",
-                        }}
-                      >
-                        <DeleteIcon />
-                      </Button>
-                    )}
+                    </div>
                   </div>
-                </div>
-              </>
-            ))}
+                </>
+              );
+            })}
           </TreeView>
         </form>
       </CustomFullModal>
