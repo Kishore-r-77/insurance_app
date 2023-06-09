@@ -27,13 +27,13 @@ const Q0005 = forwardRef((props: any, ref) => {
         getDataParams.item = "YESNO";
         sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "FREQ";
+        getDataParams.item = "Frequencies";
         sendFreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "CCUR";
+        getDataParams.item = "ContractCurr";
         sendCcurRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "BCUR";
+        getDataParams.item = "BillingCurr";
         sendBcurRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
 

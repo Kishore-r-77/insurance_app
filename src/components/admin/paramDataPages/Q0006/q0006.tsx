@@ -118,7 +118,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "TERMLBONMETH";
         sendTermlbonmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "ULDEDNFREQ";
+        getDataParams.item = "ULDEDNFrequencies";
         sendUldednfreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "GSVMETH";
@@ -145,7 +145,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "PREMDISCTYP";
         sendPremdisctypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "ULMORTFREQ";
+        getDataParams.item = "ULMORTFrequencies";
         sendUlmortfreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "ULMORTCALCTYP";
@@ -154,7 +154,7 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "ULMORTDEDNMETH";
         sendUlmortdednmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "ULFEEFREQ";
+        getDataParams.item = "ULFEEFrequencies";
         sendUlfeefreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "ULFEETYP";

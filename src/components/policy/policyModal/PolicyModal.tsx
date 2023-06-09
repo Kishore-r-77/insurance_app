@@ -68,8 +68,8 @@ function PolicyModal({
   const getPProduct = (companyId: number, name: string, languageId: number) => {
     paramItem(companyId, name, languageId)
       .then((resp) => {
-        setPProductData(resp.data.data);
-        return resp.data.data;
+        setPProductData(resp?.data?.data);
+        return resp?.data?.data;
       })
       .catch((err) => err);
   };
@@ -158,7 +158,7 @@ function PolicyModal({
   };
 
   useEffect(() => {
-    getPFreq(companyId, "Q0005", state.PProduct, languageId, "FREQ");
+    getPFreq(companyId, "Q0005", state.PProduct, languageId, "Frequencies");
     return () => {};
   }, [state.PProduct]);
 
@@ -482,7 +482,7 @@ function PolicyModal({
                     select
                     id="PProduct"
                     name="PProduct"
-                    value={state.PProduct}
+                    value={state?.PProduct}
                     placeholder="p_product"
                     label="p_product"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -495,8 +495,8 @@ function PolicyModal({
                     fullWidth
                     margin="dense"
                   >
-                    {pProductData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    {pProductData?.map((val: any) => (
+                      <MenuItem value={val?.item}>{val?.shortdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
@@ -519,7 +519,7 @@ function PolicyModal({
                     fullWidth
                     margin="dense"
                   >
-                    {pFreqData.map((val: any) => (
+                    {pFreqData?.map((val: any) => (
                       <MenuItem value={val}>{val}</MenuItem>
                     ))}
                   </TextField>

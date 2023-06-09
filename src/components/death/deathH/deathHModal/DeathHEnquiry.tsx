@@ -141,8 +141,8 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
     getQ0005();
     getFreq();
     getQ0018();
-    getQ0023Ccur("CCUR");
-    getQ0023Bcur("BCUR");
+    getQ0023Ccur("ContractCurr");
+    getQ0023Bcur("BillingCurr");
     getQ0024();
     return () => {};
   }, []);

@@ -131,7 +131,7 @@ function ReceiptsModal({
   }, [state.PolicyID]);
 
   useEffect(() => {
-    getACur("BCUR", policyData?.PProduct);
+    getACur("BillingCurr", policyData?.PProduct);
   }, [toggle]);
   // *** Attention: Check the Lookup table  OPenFunc details below ***
   const clientsOpenFunc = (item: any) => {
