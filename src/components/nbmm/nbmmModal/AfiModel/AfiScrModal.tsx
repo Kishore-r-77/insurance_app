@@ -46,6 +46,7 @@ function AfiScrModal({ open, handleClose, policyId, getData }: any) {
 
   const handleFormSubmit = () => {
     return addApi(AfiData, companyId, policyId).then((resp) => {
+      setAfiData(initialValues);
       handleClose();
       getData();
     });

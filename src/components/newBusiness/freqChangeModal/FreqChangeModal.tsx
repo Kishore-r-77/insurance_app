@@ -129,7 +129,7 @@ function FreqChangeModal({
       "Q0005",
       policyData?.PProduct,
       languageId,
-      "FREQ"
+      "Frequencies"
     );
     return () => {};
   }, [isPolicy]);

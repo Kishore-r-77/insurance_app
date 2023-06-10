@@ -831,6 +831,8 @@ function CsmmTable({
         open={isTranReversal}
         handleClose={tranReversalClose}
         policyId={PolicyID}
+        getPolicyData={getData}
+        setNotify={setNotify}
       />
       <AdjPremModal
         open={isAdjPrem}

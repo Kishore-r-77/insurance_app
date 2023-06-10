@@ -1,124 +1,262 @@
-import {useState } from "react";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import {  TextField } from "@mui/material";
+import { Global } from "@emotion/react";
 import axios from "axios";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomTranReversalModal from "./CustomTranReversalModal";
+import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import TranReversalTable from "./TranReversalTable";
+import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import { getAllHistrotyReverse } from "../csmmApis/tranReversalApis";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { TextField } from "@mui/material";
+import { addApi } from "../csmmApis/tranReversalApis";
 
-import Notification from "../../../utilities/Notification/Notification";
-
-function TranReversalModal({
+const TranReversalModal = ({
   open,
   handleClose,
-  policyId
+  policyId,
+  getPolicyData,
+  setNotify,
+}: any) => {
+  const [pageNum, setpageNum] = useState(1);
+  const [pageSize, setpageSize] = useState(5);
+  const [totalRecords, settotalRecords] = useState(0);
+  const [isLast, setisLast] = useState(false);
+  const [fieldMap, setfieldMap] = useState([]);
+  const [searchString, setsearchString] = useState("");
+  const [searchCriteria, setsearchCriteria] = useState("");
 
-}: any) {
-  const size: string = "xl";
-  const title: string = "Transaction Reversal";
-  const [tranno, settranno] = useState<any>(0);
-  const [remarks, setremarks] = useState<any>("");
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "",
-  });
+  const columns = [
+    {
+      field: "CompanyID",
+      header: "Company ID",
+      dbField: "company_id",
+    },
+    {
+      field: "PolicyID",
+      header: "Policy ID",
+      dbField: "policy_id",
+    },
+    {
+      field: "Tranno",
+      header: "Tran No",
+      dbField: "tranno",
+    },
+    {
+      field: "ShortDescription",
+      header: "Short Description",
+      dbField: "short_description",
+    },
+    {
+      field: "LongDescription",
+      header: "LongDescription",
+      dbField: "long_description",
+    },
+    {
+      field: "EffectiveDate",
+      header: "Effective Date",
+      dbField: "effective_date",
+      type: "date",
+    },
+    {
+      field: "PHistoryCode",
+      header: "History Code",
+      dbField: "history_code",
+    },
+  ];
 
-  
-  const doTranReversal = () => {
+  const [historyReversalData, sethistoryReversalData] = useState([]);
+  const getHistoryRerverse = () => {
     axios
-      .post(
-        `http://localhost:3000/api/v1/nbservices/policyReverseTransaction`,
-        {
-          PolicyID: policyId,
-          Tranno: parseInt(tranno),
-          Remark : remarks
-          
-        },
-        {
-          withCredentials: true,
-        }
+      .get(
+        `http://localhost:3000/api/v1/nbservices/historygetreverse/${policyId}`,
+
+        { withCredentials: true }
       )
       .then((resp) => {
-          handleClose();
-          setNotify({
-            isOpen: true,
-            message: resp.data?.Success,
-            type: "success",
-          });
-         
-        
+        sethistoryReversalData(resp.data?.History);
       })
       .catch((err) => {
-        console.log(err.message);
+        return err;
+      });
+  };
+
+  //data from getall Reversed api
+  const [data, setData] = useState([]);
+
+  const getData = () => {
+    return getAllHistrotyReverse(
+      pageNum,
+      pageSize,
+      searchString,
+      searchCriteria,
+      policyId
+    )
+      .then((resp) => {
+        console.log(resp);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["History"]);
+        settotalRecords(resp.data.paginationData.totalRecords);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["History"]?.length === 0);
+        setfieldMap(resp.data["Field Map"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  console.log(data, "data");
+
+  const nexPage = () => {
+    setpageNum((prev) => prev + 1);
+  };
+
+  //Pagination Function to navigate to Previous page
+  const prevPage = () => {
+    if (pageNum > 1) {
+      setpageNum((prev) => prev - 1);
+    } else return;
+  };
+
+  useEffect(() => {
+    getData();
+    return () => {};
+  }, [open]);
+
+  useEffect(() => {
+    getData();
+    return () => {};
+  }, [pageNum, pageSize]);
+
+  const [Tranno, setTranno] = useState(0);
+  const [isTranReversal, setisTranReversal] = useState(false);
+  const tranReversalClick = (tranNo: any) => {
+    setTranno(tranNo);
+    setisTranReversal(true);
+  };
+
+  const tranReversalClose = () => {
+    setisTranReversal(false);
+    setRemark("");
+  };
+
+  const [Remark, setRemark] = useState("");
+
+  const reversalSubmit = () => {
+    return addApi(Remark, Tranno, policyId)
+      .then((resp) => {
+        tranReversalClose();
+        setNotify({
+          isOpen: true,
+          message: resp.data?.message,
+          type: "success",
+        });
+        getData();
+        getPolicyData();
+      })
+      .catch((err) =>
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        });
-      });
+        })
+      );
   };
-
- 
-  const languageId = useAppSelector(
-    (state) => state.users.user.message.languageId
-  );
 
   return (
     <div>
-      <CustomTranReversalModal
-        open={open}
-        handleClose={handleClose}
-        handleFormSubmit={doTranReversal}
-        size={size}
-        title={title}
+      <Modal
+        show={isTranReversal ? isTranReversal : open}
+        onHide={isTranReversal ? tranReversalClose : handleClose}
+        centered
+        size="xl"
       >
-        <Grid2 container spacing={2}>
-          <Grid2 lg={3}>
-            <TextField
-              id="PolicyID"
-              name="PolicyID"
-              value={policyId}
-              placeholder="PolicyID"
-              label="PolicyID"
-              fullWidth
-              inputProps={{ readOnly: true }}
-              InputLabelProps={{ shrink: true }}
-              margin="dense"
-            ></TextField>
-          </Grid2>
-          <Grid2 lg={3}>
-            <TextField
-              type="number"
-              id="Tranno"
-              name="Tranno"
-              value={tranno}
-              onChange={(e) => settranno(e.target.value)}
-              placeholder="Transaction Number"
-              InputLabelProps={{ shrink: true }}
-              label="Transaction Number"
-              fullWidth
-              margin="dense"
-            />
-          </Grid2>
+        <Modal.Header closeButton>
+          <Modal.Title>{"Transaction Reversal"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {
+            <div>
+              {isTranReversal ? (
+                <form>
+                  <Grid2 container spacing={2}>
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        InputProps={{ readOnly: true }}
+                        id="policyId"
+                        name="policyId"
+                        value={policyId}
+                        placeholder="Policy Id"
+                        label="Policy Id"
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
 
-          <Grid2 lg={3}>
-            <TextField
-              id="Remarks"
-              name="Remarks"
-              value={remarks}
-              onChange={(e) => setremarks(e.target.value)}
-              placeholder="Reversal Remarks"
-              label="Reversal Remarks"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              margin="dense"
-            ></TextField>
-          </Grid2>
-        </Grid2>
-      </CustomTranReversalModal>
-      <Notification notify={notify} setNotify={setNotify} />
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        InputProps={{ readOnly: true }}
+                        id="Tranno"
+                        name="Tranno"
+                        value={Tranno}
+                        placeholder="Tran No"
+                        label="Tran No"
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        multiline
+                        id="Remark"
+                        name="Remark"
+                        value={Remark}
+                        placeholder="Rev Remark"
+                        label="Rev Remark"
+                        fullWidth
+                        margin="dense"
+                        onChange={(e) => setRemark(e.target.value)}
+                      />
+                    </Grid2>
+                  </Grid2>
+                </form>
+              ) : (
+                <form>
+                  <TranReversalTable
+                    data={data}
+                    columns={columns}
+                    tranReversalClick={tranReversalClick}
+                  />
+
+                  <CustomPagination
+                    pageNum={pageNum}
+                    setpageSize={setpageSize}
+                    // totalPages={totalPages}
+                    totalRecords={totalRecords}
+                    isLast={isLast}
+                    prevPage={prevPage}
+                    nexPage={nexPage}
+                  />
+                </form>
+              )}
+            </div>
+          }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={isTranReversal ? tranReversalClose : handleClose}
+          >
+            Close
+          </Button>
+          {isTranReversal ? (
+            <Button variant="primary" onClick={() => reversalSubmit()}>
+              Reverse
+            </Button>
+          ) : null}
+        </Modal.Footer>
+      </Modal>
     </div>
   );
-}
+};
 
 export default TranReversalModal;

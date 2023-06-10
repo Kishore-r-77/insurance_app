@@ -23,7 +23,7 @@ function ComponentModal({
   saveComponent,
   premium,
 }: any) {
-  const title: string = "Sa Change";
+  const title: string = "Component Add";
   const isChecked = useRef(false);
 
   const [isClient, setisClient] = useState(false);
