@@ -15,6 +15,7 @@ const TranReversalModal = ({
   handleClose,
   policyId,
   getPolicyData,
+  setNotify,
 }: any) => {
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
@@ -140,11 +141,24 @@ const TranReversalModal = ({
   const [Remark, setRemark] = useState("");
 
   const reversalSubmit = () => {
-    return addApi(Remark, Tranno, policyId).then((resp) => {
-      tranReversalClose();
-      getData();
-      getPolicyData();
-    });
+    return addApi(Remark, Tranno, policyId)
+      .then((resp) => {
+        tranReversalClose();
+        setNotify({
+          isOpen: true,
+          message: resp.data?.message,
+          type: "success",
+        });
+        getData();
+        getPolicyData();
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   return (
