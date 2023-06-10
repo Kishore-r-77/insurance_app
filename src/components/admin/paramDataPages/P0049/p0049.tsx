@@ -1,15 +1,33 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
 
 import  "./p0049.css";
 
 
 const P0049 = forwardRef((props: any, ref) => {
-  
+
+  const {sendRequest : sendDeathmRequest , status: getDeathmResponseStatus ,  data: getDeathmResponse , error:getDeathmResponseError} = useHttp(getData, true); 
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "DEATHM";
+        sendDeathmRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+    },[]);
 
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
@@ -38,13 +56,18 @@ const P0049 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       months: inputdata.months.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -65,12 +88,32 @@ const P0049 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Month (upto)</th> 
+          <th>Month</th> 
           <th>Percentage</th> 
-          <th>Death Method</th> 
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
-          )}
+          <th>DeathMethod</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.months?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.months || inputdata.months?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        months: [
+                          {
+                            month: 0,
+                            percentage: 0,
+                            deathMethod: "",
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -85,7 +128,7 @@ const P0049 = forwardRef((props: any, ref) => {
                 name="month"
                 value={value.month}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "month", e.target.value)
+                  fieldChangeHandler(index, "month", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -103,7 +146,7 @@ const P0049 = forwardRef((props: any, ref) => {
                 name="percentage"
                 value={value.percentage}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "percentage", e.target.value)
+                  fieldChangeHandler(index, "percentage", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -114,6 +157,7 @@ const P0049 = forwardRef((props: any, ref) => {
 
             <td>
               <TextField
+                select
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
@@ -121,14 +165,23 @@ const P0049 = forwardRef((props: any, ref) => {
                 name="deathMethod"
                 value={value.deathMethod}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "deathMethod", e.target.value)
+                  fieldChangeHandler(index, "deathMethod", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
-              />
-            </td>
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getDeathmResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             {(props.mode === "update" || props.mode === "create") && (
               <td>

@@ -1,23 +1,31 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./q0010.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
+import  "./q0010.css";
+
+
 const Q0010 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
-
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.rates = retData.rates.filter((value: any) => value.age !== "");
+      retData.rates = retData.rates.filter(
+        (value: any) => value.age !== ""
+      );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        rates: inputdata.rates.filter((value: any) => value.age !== ""),
+        rates: inputdata.rates.filter(
+          (value: any) => value.age !== ""
+        ),
       }));
-
       return retData;
     },
   }));
@@ -25,17 +33,24 @@ const Q0010 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      rates: inputdata.rates.filter((_: any, ind: number) => ind !== index),
+      rates: inputdata.rates.filter(
+        (_: any, ind: number) => ind !== index
+      ),
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       rates: inputdata.rates.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -44,11 +59,8 @@ const Q0010 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
-      <h1>
-        {" "}
-        <center>Premium Rates </center>
-      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -57,14 +69,32 @@ const Q0010 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
+
         <tr>
-          <th>Age </th>
-
-          <th>Rates</th>
-
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>ages</th>
-          )}
+          <th>Age</th> 
+          <th>Rate</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.rates?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.rates || inputdata.rates?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        rates: [
+                          {
+                            age: 0,
+                            rate: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -73,34 +103,35 @@ const Q0010 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="age"
                 name="age"
                 value={value.age}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "age", e.target.value)
+                  fieldChangeHandler(index, "age", e.target.value,true)
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
+
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="rate"
                 name="rate"
                 value={value.rate}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "rate", e.target.value)
+                  fieldChangeHandler(index, "rate", e.target.value,true)
                 }
                 fullWidth
                 size="small"
-                type="text"
+                type="number"
                 margin="dense"
               />
             </td>
@@ -121,6 +152,7 @@ const Q0010 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.rates.length - 1 && (
                     <CustomTooltip text="Add">
@@ -131,10 +163,9 @@ const Q0010 = forwardRef((props: any, ref) => {
                             rates: [
                               ...inputdata.rates,
                               {
-                                age: "",
+                                age: 0,
                                 rate: 0,
-                                seqNo: 0,
-                                glSign: "+",
+
                               },
                             ],
                           }));
@@ -151,5 +182,5 @@ const Q0010 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-
 export default Q0010;
+

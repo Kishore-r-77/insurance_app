@@ -68,12 +68,12 @@ const Q0005 = forwardRef((props: any, ref) => {
 
   useImperativeHandle(ref, () => ({
     getData() {
-      inputdata.freeLookDays = freeLookDaysRef.current.value;
-      inputdata.maxLives = maxLivesRef.current.value;
-      inputdata.minLives = minLivesRef.current.value;
-      inputdata.minSurrMonths = minSurrMonthsRef.current.value;
+      inputdata.freeLookDays = Number(freeLookDaysRef.current.value);
+      inputdata.maxLives = Number(maxLivesRef.current.value);
+      inputdata.minLives = Number(minLivesRef.current.value);
+      inputdata.minSurrMonths = Number(minSurrMonthsRef.current.value);
       inputdata.productFamily = productFamilyRef.current.value;
-      inputdata.reinstatementMonth = reinstatementMonthRef.current.value;
+      inputdata.reinstatementMonth = Number(reinstatementMonthRef.current.value);
       inputdata.renewable = renewableRef.current.value;
       inputdata.single = singleRef.current.value;
       inputdata.frequencies = frequenciesRef.current.value;
@@ -81,7 +81,7 @@ const Q0005 = forwardRef((props: any, ref) => {
       inputdata.billingCurr = billingCurrRef.current.value;
       inputdata.componentAddAtAnyTime = componentAddAtAnyTimeRef.current.value;
       inputdata.futurePremAdj = futurePremAdjRef.current.value;
-      inputdata.futurePremAdjYrs = futurePremAdjYrsRef.current.value;
+      inputdata.futurePremAdjYrs = Number(futurePremAdjYrsRef.current.value);
 
       return inputdata;
     },
@@ -219,7 +219,7 @@ const Q0005 = forwardRef((props: any, ref) => {
         >
           {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -246,7 +246,7 @@ const Q0005 = forwardRef((props: any, ref) => {
         >
           {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -273,7 +273,7 @@ const Q0005 = forwardRef((props: any, ref) => {
         >
           {getFreqResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -290,7 +290,7 @@ const Q0005 = forwardRef((props: any, ref) => {
           inputRef={contractCurrRef}
           placeholder="Contract Currency"
           label="Contract Currency"
-          defaultValue={inputdata.contractCurr}
+          defaultValue={inputdata.contractCurr&&Array.isArray(inputdata.contractCurr)?inputdata.contractCurr:[]}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -300,7 +300,7 @@ const Q0005 = forwardRef((props: any, ref) => {
         >
           {getCcurResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -317,7 +317,7 @@ const Q0005 = forwardRef((props: any, ref) => {
           inputRef={billingCurrRef}
           placeholder="Billing Currency"
           label="Billing Currency"
-          defaultValue={inputdata.billingCurr}
+          defaultValue={inputdata.billingCurr&&Array.isArray(inputdata.billingCurr)?inputdata.billingCurr:[]}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -327,7 +327,7 @@ const Q0005 = forwardRef((props: any, ref) => {
         >
           {getBcurResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -354,7 +354,7 @@ const Q0005 = forwardRef((props: any, ref) => {
         >
           {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -381,7 +381,7 @@ const Q0005 = forwardRef((props: any, ref) => {
         >
           {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
-              {value.description}
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>

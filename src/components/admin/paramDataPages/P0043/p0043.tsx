@@ -1,15 +1,33 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
 
 import  "./p0043.css";
 
 
 const P0043 = forwardRef((props: any, ref) => {
-  
+
+  const {sendRequest : sendFreqRequest , status: getFreqResponseStatus ,  data: getFreqResponse , error:getFreqResponseError} = useHttp(getData, true); 
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "FREQ";
+        sendFreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+    },[]);
 
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
@@ -38,13 +56,18 @@ const P0043 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       frequencies: inputdata.frequencies.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -67,9 +90,28 @@ const P0043 = forwardRef((props: any, ref) => {
         <tr>
           <th>Frequency</th> 
           <th>Amount</th> 
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
-          )}
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.frequencies?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.frequencies || inputdata.frequencies?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        frequencies: [
+                          {
+                            frequency: "",
+                            amount: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -77,6 +119,7 @@ const P0043 = forwardRef((props: any, ref) => {
           <tr key={index}>
             <td>
               <TextField
+                select
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
@@ -84,14 +127,23 @@ const P0043 = forwardRef((props: any, ref) => {
                 name="frequency"
                 value={value.frequency}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "frequency", e.target.value)
+                  fieldChangeHandler(index, "frequency", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
-              />
-            </td>
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getFreqResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             <td>
               <TextField
@@ -102,7 +154,7 @@ const P0043 = forwardRef((props: any, ref) => {
                 name="amount"
                 value={value.amount}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "amount", e.target.value)
+                  fieldChangeHandler(index, "amount", e.target.value,true)
                 }
                 fullWidth
                 size="small"

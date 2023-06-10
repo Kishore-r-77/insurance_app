@@ -25,6 +25,7 @@ import SaChangeModal from "./saChangeModal/SaChangeModal";
 import Notification from "../../utilities/Notification/Notification";
 import ComponentModal from "./componentModal/ComponentModal";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
+import AdjPremModal from "./adjPremModal/AdjPremModal";
 function CsmmTable({
   issueOpen,
   confirmOpen,
@@ -235,6 +236,7 @@ function CsmmTable({
   };
   const [isFreqChange, setIsFreqChange] = useState(false);
   const [isTranReversal, setIsTranReversal] = useState(false);
+  const [isAdjPrem, setIsAdjPrem] = useState(false);
   const [completed, setcompleted] = useState(false);
   const [func, setfunc] = useState<any>("Calculate");
   const freqChangeOpen = (policyId: number, value: any) => {
@@ -254,6 +256,33 @@ function CsmmTable({
   const tranReversalClose = () => {
     setIsTranReversal(false);
   };
+
+  const adjPremOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setIsAdjPrem(true);
+  };
+  const adjPremClose = () => {
+    setIsAdjPrem(false);
+  };
+  
+  const [polenqData, setPolenqData] = useState("");
+  const getPolEnq = (id: number) =>{
+    axios
+      .get(`http://localhost:3000/api/v1/deathservices/polheaderenq/${id}`, { withCredentials: true })
+      .then((resp) => {
+        setPolenqData(resp?.data?.PolicyHeaderEnq);
+      })
+      .catch((err) => {
+        console.log(err);
+
+        setPolenqData("");
+      });
+  }
+
+  useEffect(() => {
+    getPolEnq(PolicyID);
+    return () => {};
+  }, [isAdjPrem]);
 
   const clientMenuClick = (value: any) => {
     switch (value.Action) {
@@ -296,6 +325,10 @@ function CsmmTable({
         break;
       case "TransReversal":
         tranReversalOpen(policyId.current, value);
+        handleClose();
+        break;
+      case "AdjPrem":
+        adjPremOpen(policyId.current, value);
         handleClose();
         break;
       default:
@@ -798,6 +831,11 @@ function CsmmTable({
         open={isTranReversal}
         handleClose={tranReversalClose}
         policyId={PolicyID}
+      />
+      <AdjPremModal
+        open={isAdjPrem}
+        handleClose={adjPremClose}
+        data={polenqData}
       />
       <SaChangeModal
         open={isSaChange}

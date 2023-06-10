@@ -1,38 +1,32 @@
-import React, {
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-  useEffect,
-  useState,
-} from "react";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
-import "./p0033.css";
+import  "./p0033.css";
 
 const P0033 = forwardRef((props: any, ref) => {
-  const {
-    sendRequest: sendP0046Request,
-    status: getP0046ResponseStatus,
-    data: getP0046Response,
-    error: getP0046ResponseError,
-  } = useHttp(getData, true);
+  
+  const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
+
 
   useEffect(() => {
-    let getDataParams: any = {};
-    getDataParams.companyId = 1;
-    getDataParams.languageId = 1;
-    getDataParams.seqno = 0;
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
 
-    getDataParams.name = "P0046";
-    sendP0046Request({
-      apiUrlPathSuffix: "/basicservices/paramItems",
-      getDataParams: getDataParams,
-    });
-  }, []);
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "YESNO";
+        sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+
+    },[]);
+
 
   const templateNameRef: any = useRef();
   const sMSAllowedRef: any = useRef();
@@ -51,6 +45,7 @@ const P0033 = forwardRef((props: any, ref) => {
   if (props.data) {
     inputdata = props.data;
   }
+
 
   useImperativeHandle(ref, () => ({
     getData() {
@@ -74,6 +69,7 @@ const P0033 = forwardRef((props: any, ref) => {
     <>
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -86,7 +82,7 @@ const P0033 = forwardRef((props: any, ref) => {
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -97,20 +93,23 @@ const P0033 = forwardRef((props: any, ref) => {
           id="sMSAllowed"
           name="sMSAllowed"
           inputRef={sMSAllowedRef}
-          placeholder="SMSAllowed"
-          label="SMSAllowed"
+          placeholder="Is SMS Allowed"
+          label="Is SMS Allowed"
           defaultValue={inputdata.sMSAllowed}
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -121,20 +120,23 @@ const P0033 = forwardRef((props: any, ref) => {
           id="emailAllowed"
           name="emailAllowed"
           inputRef={emailAllowedRef}
-          placeholder="Email Allowed"
-          label="Email Allowed"
+          placeholder="Is Email Allowed"
+          label="Is Email Allowed"
           defaultValue={inputdata.emailAllowed}
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -145,20 +147,23 @@ const P0033 = forwardRef((props: any, ref) => {
           id="whatsAppAllowed"
           name="whatsAppAllowed"
           inputRef={whatsAppAllowedRef}
-          placeholder="WhatsApp Allowed"
-          label="WhatsApp Allowed"
+          placeholder="Is WhatsApp Allowed"
+          label="Is WhatsApp Allowed"
           defaultValue={inputdata.whatsAppAllowed}
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -169,20 +174,23 @@ const P0033 = forwardRef((props: any, ref) => {
           id="agentSMSAllowed"
           name="agentSMSAllowed"
           inputRef={agentSMSAllowedRef}
-          placeholder="SMS to Agent Allowed"
-          label="SMS to Agent Allowed"
+          placeholder="Is Agent SMS Allowed"
+          label="Is Agent SMS Allowed"
           defaultValue={inputdata.agentSMSAllowed}
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -193,20 +201,23 @@ const P0033 = forwardRef((props: any, ref) => {
           id="agentEmailAllowed"
           name="agentEmailAllowed"
           inputRef={agentEmailAllowedRef}
-          placeholder="Email to Agentl Allowed"
-          label="Email to Agentl Allowed"
+          placeholder="Is Agent Email Allowed"
+          label="Is Agent Email Allowed"
           defaultValue={inputdata.agentEmailAllowed}
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
@@ -217,23 +228,27 @@ const P0033 = forwardRef((props: any, ref) => {
           id="agentWhatsAppAllowed"
           name="agentWhatsAppAllowed"
           inputRef={agentWhatsAppAllowedRef}
-          placeholder="WhatsApp to Agent Allowed"
-          label="WhatsApp to Agent Allowed"
+          placeholder="Is Agent WhatsApp Allowed"
+          label="Is Agent WhatsApp Allowed"
           defaultValue={inputdata.agentWhatsAppAllowed}
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value: any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
-          ))}
+            ))}
         </TextField>
-      </Grid2>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -246,10 +261,11 @@ const P0033 = forwardRef((props: any, ref) => {
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -262,10 +278,11 @@ const P0033 = forwardRef((props: any, ref) => {
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -278,10 +295,11 @@ const P0033 = forwardRef((props: any, ref) => {
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -294,9 +312,12 @@ const P0033 = forwardRef((props: any, ref) => {
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
+
+
     </>
   );
 });
 
 export default P0033;
+

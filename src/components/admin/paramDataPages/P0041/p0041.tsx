@@ -1,13 +1,14 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
 
 import  "./p0041.css";
-import { getData } from "../../../../services/http-service";
-import useHttp from "../../../../hooks/use-http";
 
 
 const P0041 = forwardRef((props: any, ref) => {
@@ -55,13 +56,18 @@ const P0041 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       sumAssured: inputdata.sumAssured.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -82,8 +88,8 @@ const P0041 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Age (upto)</th> 
-          <th>Sum Assured (upto)</th> 
+          <th>Age (Upto)</th> 
+          <th>Sum Assured  (Upto)</th> 
           <th>Codes</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.sumAssured?.length > 0 && <th>Actions</th>}
@@ -122,7 +128,7 @@ const P0041 = forwardRef((props: any, ref) => {
                 name="age"
                 value={value.age}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "age", e.target.value)
+                  fieldChangeHandler(index, "age", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -140,7 +146,7 @@ const P0041 = forwardRef((props: any, ref) => {
                 name="sA"
                 value={value.sA}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "sA", e.target.value)
+                  fieldChangeHandler(index, "sA", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -159,7 +165,7 @@ const P0041 = forwardRef((props: any, ref) => {
                 name="codes"
                 value={value.codes}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "codes", e.target.value)
+                  fieldChangeHandler(index, "codes", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -171,7 +177,7 @@ const P0041 = forwardRef((props: any, ref) => {
               >
                 {getMedrResponse?.param.data.dataPairs.map((value:any) => (
                   <MenuItem key={value.code} value={value.code}>
-                 {value.code}
+                {value.description}
                   </MenuItem>
                 ))}
               </TextField>

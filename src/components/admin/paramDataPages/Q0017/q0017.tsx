@@ -1,23 +1,31 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
-import "./q0017.css";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
+import  "./q0017.css";
+
+
 const Q0017 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
-
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.saBand = retData.saBand.filter((value: any) => value.sa !== "");
+      retData.saBand = retData.saBand.filter(
+        (value: any) => value.sa !== ""
+      );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        saBand: inputdata.saBand.filter((value: any) => value.sa !== ""),
+        saBand: inputdata.saBand.filter(
+          (value: any) => value.sa !== ""
+        ),
       }));
-
       return retData;
     },
   }));
@@ -25,17 +33,24 @@ const Q0017 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      saBand: inputdata.saBand.filter((_: any, ind: number) => ind !== index),
+      saBand: inputdata.saBand.filter(
+        (_: any, ind: number) => ind !== index
+      ),
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       saBand: inputdata.saBand.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -44,11 +59,8 @@ const Q0017 = forwardRef((props: any, ref) => {
   };
 
   return (
+  
     <Table striped bordered hover>
-      <h1>
-        {" "}
-        <center>Sum Assured Band Discount </center>
-      </h1>
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -57,11 +69,32 @@ const Q0017 = forwardRef((props: any, ref) => {
           top: "0",
         }}
       >
-        <tr>
-          <th>Sum Assured </th>
-          <th>Discount % </th>
 
-          {(props.mode === "update" || props.mode === "create") && <th>sa</th>}
+        <tr>
+          <th>Sum Assured</th> 
+          <th>Discount</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.saBand?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.saBand || inputdata.saBand?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        saBand: [
+                          {
+                            sa: 0,
+                            discount: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -70,13 +103,13 @@ const Q0017 = forwardRef((props: any, ref) => {
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="sa"
                 name="sa"
                 value={value.sa}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "sa", e.target.value)
+                  fieldChangeHandler(index, "sa", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -84,16 +117,17 @@ const Q0017 = forwardRef((props: any, ref) => {
                 margin="dense"
               />
             </td>
+
             <td>
               <TextField
                 inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
+                readOnly: props.mode === "display" || props.mode === "delete",
                 }}
                 id="discount"
                 name="discount"
                 value={value.discount}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "discount", e.target.value)
+                  fieldChangeHandler(index, "discount", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -118,6 +152,7 @@ const Q0017 = forwardRef((props: any, ref) => {
                         deleteItemHandler(index);
                       }}
                     />
+
                   </CustomTooltip>
                   {index === inputdata.saBand.length - 1 && (
                     <CustomTooltip text="Add">
@@ -128,10 +163,9 @@ const Q0017 = forwardRef((props: any, ref) => {
                             saBand: [
                               ...inputdata.saBand,
                               {
-                                term: "",
-                                rate: 0,
-                                seqNo: 0,
-                                glSign: "+",
+                                sa: 0,
+                                discount: 0,
+
                               },
                             ],
                           }));
@@ -148,5 +182,5 @@ const Q0017 = forwardRef((props: any, ref) => {
     </Table>
   );
 });
-
 export default Q0017;
+

@@ -39,13 +39,18 @@ const Q0018 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       premBand: inputdata.premBand.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -66,7 +71,7 @@ const Q0018 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>AnnPer</th> 
+          <th>Annual Premium</th> 
           <th>Discount</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.premBand?.length > 0 && <th>Actions</th>}
@@ -104,7 +109,7 @@ const Q0018 = forwardRef((props: any, ref) => {
                 name="annPrem"
                 value={value.annPrem}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "annPrem", e.target.value)
+                  fieldChangeHandler(index, "annPrem", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -122,7 +127,7 @@ const Q0018 = forwardRef((props: any, ref) => {
                 name="discount"
                 value={value.discount}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "discount", e.target.value)
+                  fieldChangeHandler(index, "discount", e.target.value,true)
                 }
                 fullWidth
                 size="small"

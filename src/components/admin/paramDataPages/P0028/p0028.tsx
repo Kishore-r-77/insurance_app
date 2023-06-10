@@ -39,13 +39,18 @@ const P0028 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       commissions: inputdata.commissions.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -66,7 +71,7 @@ const P0028 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>PPT</th> 
+          <th>Premium Paying Term</th> 
           <th>Rate</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.commissions?.length > 0 && <th>Actions</th>}
@@ -104,7 +109,7 @@ const P0028 = forwardRef((props: any, ref) => {
                 name="ppt"
                 value={value.ppt}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "ppt", e.target.value)
+                  fieldChangeHandler(index, "ppt", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -122,7 +127,7 @@ const P0028 = forwardRef((props: any, ref) => {
                 name="rate"
                 value={value.rate}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "rate", e.target.value)
+                  fieldChangeHandler(index, "rate", e.target.value,true)
                 }
                 fullWidth
                 size="small"

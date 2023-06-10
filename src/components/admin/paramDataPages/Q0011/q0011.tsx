@@ -1,9 +1,10 @@
-import React, { forwardRef, useImperativeHandle, useState, useEffect } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
@@ -12,7 +13,8 @@ import  "./q0011.css";
 
 const Q0011 = forwardRef((props: any, ref) => {
 
-  const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendBasridRequest , status: getBasridResponseStatus ,  data: getBasridResponse , error:getBasridResponseError} = useHttp(getData, true); 
 
   useEffect(() => {
     let getDataParams:any = {}
@@ -20,9 +22,13 @@ const Q0011 = forwardRef((props: any, ref) => {
         getDataParams.languageId =  1;
         getDataParams.seqno =  0;
 
+        getDataParams.name =  "P0050";
 
-        getDataParams.name = "P0046";
-        sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
+        getDataParams.item = "YESNO";
+        sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "BASRID";
+        sendBasridRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
 
     },[]);
@@ -54,13 +60,18 @@ const Q0011 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       coverages: inputdata.coverages.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -81,7 +92,7 @@ const Q0011 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Coverage Name</th> 
+          <th>Coverage Short Name</th> 
           <th>Is it Mandatory?(Y/N)</th> 
           <th>Basic or Rider(B/R)</th> 
           <th>Term can Exceed Basic(Y/N)</th> 
@@ -127,7 +138,7 @@ const Q0011 = forwardRef((props: any, ref) => {
                 name="coverageName"
                 value={value.coverageName}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "coverageName", e.target.value)
+                  fieldChangeHandler(index, "coverageName", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -146,23 +157,27 @@ const Q0011 = forwardRef((props: any, ref) => {
                 name="mandatory"
                 value={value.mandatory}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "mandatory", e.target.value)
+                  fieldChangeHandler(index, "mandatory", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
+                SelectProps={{
+                  multiple: false,
+                }}
               >
-          {getP0046Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
-            </MenuItem>
+                {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
                 ))}
               </TextField>
           </td>
 
             <td>
               <TextField
+                select
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
@@ -170,14 +185,23 @@ const Q0011 = forwardRef((props: any, ref) => {
                 name="basicorRider"
                 value={value.basicorRider}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "basicorRider", e.target.value)
+                  fieldChangeHandler(index, "basicorRider", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
-              />
-            </td>
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getBasridResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             <td>
               <TextField
@@ -189,17 +213,20 @@ const Q0011 = forwardRef((props: any, ref) => {
                 name="termCanExceed"
                 value={value.termCanExceed}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "termCanExceed", e.target.value)
+                  fieldChangeHandler(index, "termCanExceed", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
+                SelectProps={{
+                  multiple: false,
+                }}
               >
-          {getP0046Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
-            </MenuItem>
+                {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
                 ))}
               </TextField>
           </td>
@@ -214,17 +241,20 @@ const Q0011 = forwardRef((props: any, ref) => {
                 name="pptCanExceed"
                 value={value.pptCanExceed}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "pptCanExceed", e.target.value)
+                  fieldChangeHandler(index, "pptCanExceed", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
+                SelectProps={{
+                  multiple: false,
+                }}
               >
-          {getP0046Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
-            </MenuItem>
+                {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
                 ))}
               </TextField>
           </td>
@@ -239,17 +269,20 @@ const Q0011 = forwardRef((props: any, ref) => {
                 name="saCanExceed"
                 value={value.saCanExceed}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "saCanExceed", e.target.value)
+                  fieldChangeHandler(index, "saCanExceed", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
+                SelectProps={{
+                  multiple: false,
+                }}
               >
-          {getP0046Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
-            </MenuItem>
+                {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
                 ))}
               </TextField>
           </td>

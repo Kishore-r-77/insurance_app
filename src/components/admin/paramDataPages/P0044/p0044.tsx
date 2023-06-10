@@ -1,28 +1,29 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
 
 import  "./p0044.css";
 
 
 const P0044 = forwardRef((props: any, ref) => {
-  
-
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
       retData.actions = retData.actions.filter(
-        (value: any) => value.action  !== ""
+        (value: any) => value.action !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         actions: inputdata.actions.filter(
-          (value: any) => value.action  !== ""
+          (value: any) => value.action !== ""
         ),
       }));
       return retData;
@@ -38,13 +39,18 @@ const P0044 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       actions: inputdata.actions.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -68,9 +74,31 @@ const P0044 = forwardRef((props: any, ref) => {
           <th>Action</th> 
           <th>Description</th> 
           <th>Url</th> 
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
-          )}
+          <th>Trancode</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.actions?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.actions || inputdata.actions?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        actions: [
+                          {
+                            action: "",
+                            description: "",
+                            url: "",
+                            trancode: "",
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -85,7 +113,7 @@ const P0044 = forwardRef((props: any, ref) => {
                 name="action"
                 value={value.action}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "action", e.target.value)
+                  fieldChangeHandler(index, "action", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -103,7 +131,7 @@ const P0044 = forwardRef((props: any, ref) => {
                 name="description"
                 value={value.description}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "description", e.target.value)
+                  fieldChangeHandler(index, "description", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -121,7 +149,25 @@ const P0044 = forwardRef((props: any, ref) => {
                 name="url"
                 value={value.url}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "url", e.target.value)
+                  fieldChangeHandler(index, "url", e.target.value,false)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
+
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="trancode"
+                name="trancode"
+                value={value.trancode}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "trancode", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -160,6 +206,7 @@ const P0044 = forwardRef((props: any, ref) => {
                                 action: "",
                                 description: "",
                                 url: "",
+                                trancode: "",
 
                               },
                             ],

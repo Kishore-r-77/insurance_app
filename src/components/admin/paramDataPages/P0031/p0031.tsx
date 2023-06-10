@@ -1,16 +1,17 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
 
 import  "./p0031.css";
 
 
 const P0031 = forwardRef((props: any, ref) => {
-  
-
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -38,13 +39,18 @@ const P0031 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       currencyRates: inputdata.currencyRates.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -67,9 +73,28 @@ const P0031 = forwardRef((props: any, ref) => {
         <tr>
           <th>Action</th> 
           <th>Rate</th> 
-          {(props.mode === "update" || props.mode === "create") && (
-            <th>Actions</th>
-          )}
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.currencyRates?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.currencyRates || inputdata.currencyRates?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        currencyRates: [
+                          {
+                            action: "",
+                            rate: 0,
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
         </tr>
       </thead>
       <tbody>
@@ -84,7 +109,7 @@ const P0031 = forwardRef((props: any, ref) => {
                 name="action"
                 value={value.action}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "action", e.target.value)
+                  fieldChangeHandler(index, "action", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -102,7 +127,7 @@ const P0031 = forwardRef((props: any, ref) => {
                 name="rate"
                 value={value.rate}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "rate", e.target.value)
+                  fieldChangeHandler(index, "rate", e.target.value,true)
                 }
                 fullWidth
                 size="small"

@@ -39,13 +39,18 @@ const Q0023 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       gst: inputdata.gst.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -104,7 +109,7 @@ const Q0023 = forwardRef((props: any, ref) => {
                 name="month"
                 value={value.month}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "month", e.target.value)
+                  fieldChangeHandler(index, "month", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -122,7 +127,7 @@ const Q0023 = forwardRef((props: any, ref) => {
                 name="rate"
                 value={value.rate}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "rate", e.target.value)
+                  fieldChangeHandler(index, "rate", e.target.value,true)
                 }
                 fullWidth
                 size="small"

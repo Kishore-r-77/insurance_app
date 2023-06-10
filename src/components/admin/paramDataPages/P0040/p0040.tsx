@@ -1,8 +1,33 @@
-import React, { forwardRef, useRef, useImperativeHandle } from "react";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import "./p0040.css";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
+import  "./p0040.css";
+
 const P0040 = forwardRef((props: any, ref) => {
+  
+  const {sendRequest : sendCcurRequest , status: getCcurResponseStatus ,  data: getCcurResponse , error:getCcurResponseError} = useHttp(getData, true); 
+
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "CCUR";
+        sendCcurRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+
+    },[]);
+
+
   const medicalFeeRef: any = useRef();
   const medicalCurrRef: any = useRef();
 
@@ -12,51 +37,66 @@ const P0040 = forwardRef((props: any, ref) => {
     inputdata = props.data;
   }
 
+
   useImperativeHandle(ref, () => ({
     getData() {
-      inputdata.medicalFee = medicalFeeRef.current.value;
+      inputdata.medicalFee = Number(medicalFeeRef.current.value);
       inputdata.medicalCurr = medicalCurrRef.current.value;
 
       return inputdata;
     },
   }));
-  console.log(inputdata, "Kishore %%%%%%%%%%%%%%%%%%%%%");
 
   return (
     <>
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          type="number"
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="medicalFee"
           name="medicalFee"
           inputRef={medicalFeeRef}
-          placeholder="Medical Fee Amount Maximum"
-          label="Medical Fee Amount Maximum"
+          placeholder="Medical Fee"
+          label="Medical Fee"
           defaultValue={inputdata.medicalFee}
           fullWidth
           margin="dense"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="medicalCurr"
           name="medicalCurr"
           inputRef={medicalCurrRef}
-          placeholder="Currency Code"
-          label="Currency Code"
+          placeholder="Medical Currency"
+          label="Medical Currency"
           defaultValue={inputdata.medicalCurr}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-      </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getCcurResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+
     </>
   );
 });
 
 export default P0040;
+

@@ -39,13 +39,18 @@ const Q0021 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       alBand: inputdata.alBand.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -104,7 +109,7 @@ const Q0021 = forwardRef((props: any, ref) => {
                 name="months"
                 value={value.months}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "months", e.target.value)
+                  fieldChangeHandler(index, "months", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -122,7 +127,7 @@ const Q0021 = forwardRef((props: any, ref) => {
                 name="percentage"
                 value={value.percentage}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "percentage", e.target.value)
+                  fieldChangeHandler(index, "percentage", e.target.value,true)
                 }
                 fullWidth
                 size="small"

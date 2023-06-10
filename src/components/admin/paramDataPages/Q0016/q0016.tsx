@@ -39,13 +39,18 @@ const Q0016 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       pTerms: inputdata.pTerms.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -66,7 +71,7 @@ const Q0016 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Pterm</th> 
+          <th>Premium Term</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.pTerms?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
@@ -102,7 +107,7 @@ const Q0016 = forwardRef((props: any, ref) => {
                 name="pTerm"
                 value={value.pTerm}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "pTerm", e.target.value)
+                  fieldChangeHandler(index, "pTerm", e.target.value,true)
                 }
                 fullWidth
                 size="small"

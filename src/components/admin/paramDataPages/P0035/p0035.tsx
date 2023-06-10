@@ -1,8 +1,29 @@
-import React, { forwardRef, useRef, useImperativeHandle } from "react";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import "./p0035.css";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
+
+import  "./p0035.css";
+
 const P0035 = forwardRef((props: any, ref) => {
+  
+  const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true);
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "YESNO";
+        sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+    },[]);
+
+
   const premPropRef: any = useRef();
   const commRecovPercetageRef: any = useRef();
   const medicalFeeRecoveryRef: any = useRef();
@@ -15,6 +36,7 @@ const P0035 = forwardRef((props: any, ref) => {
     inputdata = props.data;
   }
 
+
   useImperativeHandle(ref, () => ({
     getData() {
       inputdata.premProp = premPropRef.current.value;
@@ -22,48 +44,60 @@ const P0035 = forwardRef((props: any, ref) => {
       inputdata.medicalFeeRecovery = medicalFeeRecoveryRef.current.value;
       inputdata.gstRecovery = gstRecoveryRef.current.value;
       inputdata.stampDuty = stampDutyRef.current.value;
+
       return inputdata;
     },
   }));
-  console.log(inputdata, "Kishore %%%%%%%%%%%%%%%%%%%%%");
 
   return (
     <>
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+            <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="premProp"
           name="premProp"
           inputRef={premPropRef}
-          placeholder="Premium Recovery Proportionate"
-          label="Premium Recovery Proportionate"
+          placeholder="Medical Fee Recovery"
+          label="Medical Fee Recovery"
           defaultValue={inputdata.premProp}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-      </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="commRecovPercetage"
           name="commRecovPercetage"
           inputRef={commRecovPercetageRef}
-          placeholder="Commission Recovery Percentage"
-          label="Commission Recovery Percentage"
+          placeholder="Commencement Recovery Percentage"
+          label="Commencement Recovery Percentage"
           defaultValue={inputdata.commRecovPercetage}
           fullWidth
           margin="dense"
-          type="number"
         />
-      </Grid2>
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -71,46 +105,81 @@ const P0035 = forwardRef((props: any, ref) => {
           name="medicalFeeRecovery"
           inputRef={medicalFeeRecoveryRef}
           placeholder="Medical Fee Recovery"
-          label="Medical Fee Recovery "
+          label="Medical Fee Recovery"
           defaultValue={inputdata.medicalFeeRecovery}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-      </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="gstRecovery"
           name="gstRecovery"
           inputRef={gstRecoveryRef}
-          placeholder="GST To Be Recovered "
-          label="GST To Be Recovered"
+          placeholder="Gst Recovery"
+          label="Gst Recovery"
           defaultValue={inputdata.gstRecovery}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-      </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
           id="stampDuty"
           name="stampDuty"
           inputRef={stampDutyRef}
-          placeholder="Stamp Duty To Be Recovered"
-          label="Stamp Duty To Be Recovered"
+          placeholder="Stamp Duty"
+          label="Stamp Duty"
           defaultValue={inputdata.stampDuty}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-      </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+
     </>
   );
 });
 
 export default P0035;
+

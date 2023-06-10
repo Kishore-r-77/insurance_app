@@ -22,7 +22,7 @@ const Q0025 = forwardRef((props: any, ref) => {
 
   useImperativeHandle(ref, () => ({
     getData() {
-      inputdata.biYrInterval = biYrIntervalRef.current.value;
+      inputdata.biYrInterval = Number(biYrIntervalRef.current.value);
 
       return inputdata;
     },

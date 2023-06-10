@@ -1,9 +1,12 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
+import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
+import UserGroup from "../../usergroup/UserGroup";
+import useHttp from "../../../../hooks/use-http";
+import { getData } from "../../../../services/http-service";
 
 import  "./p0036.css";
 
@@ -36,13 +39,18 @@ const P0036 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       stampDuties: inputdata.stampDuties.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -103,7 +111,7 @@ const P0036 = forwardRef((props: any, ref) => {
                 name="noofinstalments"
                 value={value.noofinstalments}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "noofinstalments", e.target.value)
+                  fieldChangeHandler(index, "noofinstalments", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -121,7 +129,7 @@ const P0036 = forwardRef((props: any, ref) => {
                 name="sa"
                 value={value.sa}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "sa", e.target.value)
+                  fieldChangeHandler(index, "sa", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -139,7 +147,7 @@ const P0036 = forwardRef((props: any, ref) => {
                 name="rate"
                 value={value.rate}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "rate", e.target.value)
+                  fieldChangeHandler(index, "rate", e.target.value,true)
                 }
                 fullWidth
                 size="small"

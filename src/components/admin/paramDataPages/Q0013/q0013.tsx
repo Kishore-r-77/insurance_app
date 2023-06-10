@@ -39,13 +39,18 @@ const Q0013 = forwardRef((props: any, ref) => {
     }));
   };
 
-  const fieldChangeHandler = (index: number, fieldname: string, value: any) => {
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
       sbRates: inputdata.sbRates.map((val: any, ind: number) => {
         if (index === ind) {
-          val[fieldname] = value;
-          return val;
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
         } else {
           return val;
         }
@@ -67,7 +72,7 @@ const Q0013 = forwardRef((props: any, ref) => {
 
         <tr>
           <th>Age</th> 
-          <th>Rate</th> 
+          <th>Percentage</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.sbRates?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
@@ -104,7 +109,7 @@ const Q0013 = forwardRef((props: any, ref) => {
                 name="age"
                 value={value.age}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "age", e.target.value)
+                  fieldChangeHandler(index, "age", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -122,7 +127,7 @@ const Q0013 = forwardRef((props: any, ref) => {
                 name="percentage"
                 value={value.percentage}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "percentage", e.target.value)
+                  fieldChangeHandler(index, "percentage", e.target.value,true)
                 }
                 fullWidth
                 size="small"
