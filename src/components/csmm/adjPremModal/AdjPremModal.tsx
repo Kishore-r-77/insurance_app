@@ -25,13 +25,13 @@ function AdjPremModal({
 
   
   const doPremAdj = () => {
-    console.log(moment(data?.NxtBillDate).format("YYYYMMDD"))
+    console.log(typeof data?.NxtBillDate)
     axios
       .post(
         `http://localhost:3000/api/v1/deathservices/premadj/${data?.PolicyId}`,
         {
           PolicyID: data?.PolicyId,
-          NextDate: moment(data?.NxtBillDate).format("YYYYMMDD"),
+          NextDate: moment(data?.NxtBillDate,"DD/MM/YYYY").format("YYYYMMDD").toString(),
           
         },
         {
