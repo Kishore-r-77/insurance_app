@@ -1,7 +1,10 @@
 import {
   FormControl,
+  IconButton,
   InputAdornment,
+  InputLabel,
   MenuItem,
+  OutlinedInput,
   TextField,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
@@ -18,14 +21,16 @@ import styles from "./receiptsModal.module.css";
 
 //Attention: Check the path below
 import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
-import { q0005, paramItem } from "../receiptsApis/receiptsApis";
+import { q0005, paramItem, getPolicySnap } from "../receiptsApis/receiptsApis";
 import Client from "../../clientDetails/client/Client";
 import Policy from "../../policy/Policy";
 import {
   getPoliciesByClient,
   getPolicyApi,
 } from "../../policy/policyApis/policyApis";
-import axios from "axios";
+import { AccountCircle } from "@mui/icons-material";
+import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
+
 function ReceiptsModal({
   state,
   record,
@@ -185,6 +190,21 @@ function ReceiptsModal({
     return () => {};
   }, [state.ClientID]);
 
+  const [snapShot, setsnapShot] = useState([]);
+
+  const getPolicySnapshot = () => {
+    return getPolicySnap(parseInt(state.PolicyID)).then((resp) => {
+      setsnapShot(resp.data.result);
+    });
+  };
+
+  const [isShown, setisShown] = useState(false);
+
+  const handleHover = () => {
+    setisShown(!isShown);
+    getPolicySnapshot();
+  };
+
   return (
     <div className={styles.modal}>
       <CustomModal
@@ -303,7 +323,14 @@ function ReceiptsModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
+                    // InputProps={{
+                    //   readOnly: true,
+                    //   endAdornment: (
+                    //     <InputAdornment position="start">
+                    //       <AccountCircle />
+                    //     </InputAdornment>
+                    //   ),
+                    // }}
                     id="PolicyID"
                     name="PolicyID"
                     placeholder="Policy Number"
@@ -324,6 +351,10 @@ function ReceiptsModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
+
+                  {isShown && state.PolicyID ? (
+                    <HoverDetails data={snapShot} />
+                  ) : null}
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
@@ -388,6 +419,8 @@ function ReceiptsModal({
                     type="number"
                     id="AccAmount"
                     name="AccAmount"
+                    onMouseEnter={() => handleHover()}
+                    onMouseOut={() => setisShown(false)}
                     value={state.addOpen ? state.AccAmount : record.AccAmount}
                     placeholder="Accounting Amount"
                     label="Accounting Amount"

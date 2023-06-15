@@ -35,6 +35,14 @@ export const paramItem = (
     },
   });
 };
+export const getPolicySnap = (policyId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/nbservices/snappol/${policyId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};
 
 export const addApi = (state: ReceiptsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
