@@ -899,6 +899,7 @@ function PolicyModal({
             </TreeItem>
             {benefitsData?.map((benefits: any, index: number) => {
               bcoverage.current = benefits?.BCoverage;
+
               return (
                 <>
                   <div style={{ display: "flex" }}>
@@ -1018,9 +1019,9 @@ function PolicyModal({
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
-                            id="BpTerm"
-                            name="BpTerm"
-                            value={benefits.BpTerm}
+                            id="BPTerm"
+                            name="BPTerm"
+                            value={benefits.BPTerm}
                             placeholder="bp_term"
                             label="bp_term"
                             onChange={(
