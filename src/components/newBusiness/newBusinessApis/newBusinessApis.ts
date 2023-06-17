@@ -71,6 +71,71 @@ export const editApi = (record: any) => {
   );
 };
 
+export const modifyPolicyWithBenefits = (
+  state: any,
+  companyId: number,
+  data: any
+) => {
+  return axios.put(
+    `http://localhost:3000/api/v1/nbservices/policymodifywithbenefit`,
+    {
+      ID: state.ID,
+      CompanyID: companyId,
+      ClientID: parseInt(state.ClientID),
+      AddressID: parseInt(state.AddressID),
+      AgencyID: parseInt(state.AgencyID),
+      PRCD:
+        state.PRCD?.length === 0
+          ? ""
+          : moment(state.PRCD).format("YYYYMMDD").toString(),
+      PProduct: state.PProduct,
+      PFreq: state.PFreq,
+      PContractCurr: state.PContractCurr,
+      PBillCurr: state.PBillCurr,
+      POffice: state.POffice,
+      PolStatus: state.PolStatus,
+      PReceivedDate:
+        state.PReceivedDate?.length === 0
+          ? ""
+          : moment(state.PReceivedDate).format("YYYYMMDD").toString(),
+      PUWDate:
+        state.PUWDate?.length === 0
+          ? ""
+          : moment(state.PUWDate).format("YYYYMMDD").toString(),
+      BtDate:
+        state.BTDate?.length === 0
+          ? ""
+          : moment(state.BTDate).format("YYYYMMDD").toString(),
+      PaidToDate:
+        state.PaidToDate?.length === 0
+          ? ""
+          : moment(state.PaidToDate).format("YYYYMMDD").toString(),
+      NxtBtDate:
+        state.NxtBTDate?.length === 0
+          ? ""
+          : moment(state.NxtBTDate).format("YYYYMMDD").toString(),
+      AnnivDate:
+        state.AnnivDate?.length === 0
+          ? ""
+          : moment(state.AnnivDate).format("YYYYMMDD").toString(),
+      InstalmentPrem: parseInt(state.InstalmentPrem),
+      Benefits: data.map((benefits: any) => ({
+        ...benefits,
+        ID: parseInt(benefits.ID),
+        ClientID: parseInt(state.ClientID),
+        BStartDate: moment(benefits?.AddressEndDate).format("YYYYMMDD"),
+        BTerm: parseInt(benefits?.BTerm),
+        BpTerm: parseInt(benefits?.BpTerm),
+        BSumAssured: parseInt(benefits?.BSumAssured),
+        Interest: parseInt(benefits?.Interest),
+      })),
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
 export const deleteApi = (id: number) => {
   return axios.delete(
     `http://localhost:3000/api/v1/nbservices/policydelete/${id}`,

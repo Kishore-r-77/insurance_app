@@ -381,7 +381,7 @@ function NewBusiness({ modalFunc }: any) {
   useEffect(() => {
     getBenefitsByPolicies1(record.ID);
     return () => {};
-  }, [state.benefitOpen]);
+  }, [state.benefitOpen, state.editOpen]);
 
   return (
     <div>
@@ -504,10 +504,11 @@ function NewBusiness({ modalFunc }: any) {
         dispatch={dispatch}
         setNotify={setNotify}
         validatePolicy={validatePolicy}
-        handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
-        benefitsData={benefitsData}
-        setbenefitsData={setbenefitsData}
+        benefitsData={state.addOpen ? benefitsData : benefitsByPoliciesData}
+        setbenefitsData={
+          state.addOpen ? setbenefitsData : setbenefitsByPoliciesData
+        }
       />
 
       <CustomModal
