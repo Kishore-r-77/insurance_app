@@ -32,6 +32,7 @@ import {
   extraParams,
 } from "../policyApis/policyApis";
 import { modifyPolicyWithBenefits } from "../../newBusiness/newBusinessApis/newBusinessApis";
+import { deleteApi } from "./benefit/benefitApis/benefitApis";
 
 function PolicyModal({
   state,
@@ -164,12 +165,12 @@ function PolicyModal({
     getPFreq(
       companyId,
       "Q0005",
-      state.addOpen ? state.PProduct : record.PProduct,
+      state.addOpen ? state.PProduct : record?.PProduct,
       languageId,
       "Frequencies"
     );
     return () => {};
-  }, [state.addOpen ? state.PProduct : record.PProduct]);
+  }, [state.addOpen ? state?.PProduct : record?.PProduct]);
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -187,11 +188,11 @@ function PolicyModal({
     getBCoverage(
       companyId,
       "Q0011",
-      state.addOpen ? state.PProduct : record.PProduct,
+      state.addOpen ? state?.PProduct : record?.PProduct,
       "20220101"
     );
     return () => {};
-  }, [state.addOpen ? state.PProduct : record.PProduct]);
+  }, [state.addOpen ? state?.PProduct : record?.PProduct]);
 
   const handleBenefitsAdd = () => {
     setbenefitsData([
@@ -208,10 +209,19 @@ function PolicyModal({
     ]);
   };
 
-  const handleBenefitsRemove = (index: number) => {
+  const handleBenefitsRemove = (index: number, benefitID: number) => {
     const list = [...benefitsData];
     list.splice(index, 1);
     setbenefitsData(list);
+    state.editOpen && benefitID
+      ? deleteApi(benefitID)
+          .then((resp) => {
+            console.log(resp);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          })
+      : null;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
@@ -441,7 +451,7 @@ function PolicyModal({
                     id="ClientID"
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="ClientID"
-                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    value={state.addOpen ? state.ClientID : record?.ClientID}
                     onChange={(e) =>
                       dispatch({
                         type: state.addOpen
@@ -465,7 +475,7 @@ function PolicyModal({
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     name="AddressID"
                     // Attention: *** Check the value details  ***
-                    value={state.addOpen ? state.AddressID : record.AddressID}
+                    value={state.addOpen ? state.AddressID : record?.AddressID}
                     onChange={(e) =>
                       dispatch({
                         type: state.addOpen
@@ -489,7 +499,7 @@ function PolicyModal({
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     name="AgencyID"
                     // Attention: *** Check the value details  ***
-                    value={state.addOpen ? state.AgencyID : record.AgencyID}
+                    value={state.addOpen ? state.AgencyID : record?.AgencyID}
                     onChange={(e) =>
                       dispatch({
                         type: state.addOpen
@@ -513,7 +523,7 @@ function PolicyModal({
                         readOnly={state.infoOpen}
                         label="PRCD"
                         inputFormat="DD/MM/YYYY"
-                        value={state.addOpen ? state.PRCD : record.PRCD}
+                        value={state.addOpen ? state.PRCD : record?.PRCD}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -538,7 +548,7 @@ function PolicyModal({
                     select
                     id="PProduct"
                     name="PProduct"
-                    value={state.addOpen ? state?.PProduct : record.PProduct}
+                    value={state.addOpen ? state?.PProduct : record?.PProduct}
                     placeholder="p_product"
                     label="p_product"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -564,7 +574,7 @@ function PolicyModal({
                     select
                     id="PFreq"
                     name="PFreq"
-                    value={state.addOpen ? state.PFreq : record.PFreq}
+                    value={state.addOpen ? state.PFreq : record?.PFreq}
                     placeholder="p_freq"
                     label="p_freq"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -591,7 +601,9 @@ function PolicyModal({
                     id="PContractCurr"
                     name="PContractCurr"
                     value={
-                      state.addOpen ? state.PContractCurr : record.PContractCurr
+                      state.addOpen
+                        ? state.PContractCurr
+                        : record?.PContractCurr
                     }
                     placeholder="p_contract_curr"
                     label="p_contract_curr"
@@ -618,7 +630,7 @@ function PolicyModal({
                     select
                     id="PBillCurr"
                     name="PBillCurr"
-                    value={state.addOpen ? state.PBillCurr : record.PBillCurr}
+                    value={state.addOpen ? state.PBillCurr : record?.PBillCurr}
                     placeholder="p_bill_curr"
                     label="p_bill_curr"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -644,7 +656,7 @@ function PolicyModal({
                     select
                     id="POffice"
                     name="POffice"
-                    value={state.addOpen ? state.POffice : record.POffice}
+                    value={state.addOpen ? state.POffice : record?.POffice}
                     placeholder="p_office"
                     label="p_office"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -670,7 +682,7 @@ function PolicyModal({
                     select
                     id="PolStatus"
                     name="PolStatus"
-                    value={state.addOpen ? state.PolStatus : record.PolStatus}
+                    value={state.addOpen ? state.PolStatus : record?.PolStatus}
                     placeholder="pol_status"
                     label="pol_status"
                     inputProps={{ readOnly: true }}
@@ -702,7 +714,7 @@ function PolicyModal({
                         value={
                           state.addOpen
                             ? state.PReceivedDate
-                            : record.PReceivedDate
+                            : record?.PReceivedDate
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
@@ -730,7 +742,7 @@ function PolicyModal({
                         readOnly={state.infoOpen}
                         label="puw_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.addOpen ? state.PUWDate : record.PUWDate}
+                        value={state.addOpen ? state.PUWDate : record?.PUWDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -757,7 +769,7 @@ function PolicyModal({
                         readOnly
                         label="bt_date"
                         inputFormat="DD/MM/YYYY"
-                        value={state.addOpen ? state.BTDate : record.BTDate}
+                        value={state.addOpen ? state.BTDate : record?.BTDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -785,7 +797,7 @@ function PolicyModal({
                         label="paid_to_date"
                         inputFormat="DD/MM/YYYY"
                         value={
-                          state.addOpen ? state.PaidToDate : record.PaidToDate
+                          state.addOpen ? state.PaidToDate : record?.PaidToDate
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
@@ -814,7 +826,7 @@ function PolicyModal({
                         label="nxt_bt_date"
                         inputFormat="DD/MM/YYYY"
                         value={
-                          state.addOpen ? state.NxtBTDate : record.NxtBTDate
+                          state.addOpen ? state.NxtBTDate : record?.NxtBTDate
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
@@ -843,7 +855,7 @@ function PolicyModal({
                         label="anniv_date"
                         inputFormat="DD/MM/YYYY"
                         value={
-                          state.addOpen ? state.AnnivDate : record.AnnivDate
+                          state.addOpen ? state.AnnivDate : record?.AnnivDate
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
@@ -878,7 +890,7 @@ function PolicyModal({
                     value={
                       state.addOpen
                         ? state.InstalmentPrem
-                        : record.InstalmentPrem
+                        : record?.InstalmentPrem
                     }
                     placeholder="instalment_prem"
                     label="instalment_prem"
@@ -928,7 +940,7 @@ function PolicyModal({
                             name="ClientID"
                             // Attention: *** Check the value details  ***
                             value={
-                              state.addOpen ? state.ClientID : record.ClientID
+                              state.addOpen ? state.ClientID : record?.ClientID
                             }
                             placeholder="client_id"
                             label="client_id"
@@ -1109,7 +1121,9 @@ function PolicyModal({
 
                       {benefitsData?.length !== 1 && (
                         <Button
-                          onClick={() => handleBenefitsRemove(index)}
+                          onClick={() =>
+                            handleBenefitsRemove(index, benefits.ID)
+                          }
                           variant="contained"
                           style={{
                             maxWidth: "40px",
