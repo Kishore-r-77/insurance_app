@@ -161,9 +161,15 @@ function PolicyModal({
   };
 
   useEffect(() => {
-    getPFreq(companyId, "Q0005", state.PProduct, languageId, "Frequencies");
+    getPFreq(
+      companyId,
+      "Q0005",
+      state.addOpen ? state.PProduct : record.PProduct,
+      languageId,
+      "Frequencies"
+    );
     return () => {};
-  }, [state.PProduct]);
+  }, [state.addOpen ? state.PProduct : record.PProduct]);
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -178,7 +184,12 @@ function PolicyModal({
   }, []);
 
   useEffect(() => {
-    getBCoverage(companyId, "Q0011", state.PProduct, "20220101");
+    getBCoverage(
+      companyId,
+      "Q0011",
+      state.addOpen ? state.PProduct : record.PProduct,
+      "20220101"
+    );
     return () => {};
   }, [state.addOpen ? state.PProduct : record.PProduct]);
 
