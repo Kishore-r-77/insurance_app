@@ -27,10 +27,6 @@ import Nbmm from "./components/nbmm/Nbmm";
 import NewBusiness from "./components/newBusiness/NewBusiness";
 import Nominee from "./components/nominee/nomineeTable/Nominee";
 import Policy from "./components/policy/Policy";
-import QBenIllValues from "./components/qBenIllValues/QBenIllValues";
-import QDetails from "./components/qDetails/QDetails";
-import QHeaders from "./components/qHeader/QHeaders";
-import Quotation from "./components/quotations/Quotation";
 import Receipts from "./components/receipts/Receipts";
 import Transaction from "./components/transaction/Transaction";
 import Footer from "./utilities/footer/Footer";
@@ -38,6 +34,8 @@ import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
 import Assignee from "./components/assignee/Assignee";
 import Csmm from "./components/csmm/Csmm";
+import QHeaderQDetail from "./components/quotation/QHeaderQDetail";
+import QBenIllValue from "./components/qBenIllValues/QBenIllValue";
 function App() {
   const { pathname } = useLocation();
 
@@ -78,10 +76,8 @@ function App() {
                 <Route path="/leadDetails" element={<LeadDetails />} />
                 <Route path="/leadFollowups" element={<LeadFollowups />} />
                 <Route path="/levels" element={<Levels />} />
-                <Route path="/qBenIllValues" element={<QBenIllValues />} />
-                <Route path="/qDetails" element={<QDetails />} />
-                <Route path="/qHeader" element={<QHeaders />} />
-                <Route path="/quotations" element={<Quotation />} />
+                <Route path="/qHeaderqDetail" element={<QHeaderQDetail />} />
+                <Route path="/qBenIllValue" element={<QBenIllValue />} />
                 <Route path="/deathH" element={<DeathH />} />
                 <Route path="/nominee" element={<Nominee />} />
                 <Route path="/assignee" element={<Assignee />} />

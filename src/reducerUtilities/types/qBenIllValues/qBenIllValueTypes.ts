@@ -1,0 +1,56 @@
+export type QBenIllValueStateType = {
+  CompanyID: string;
+  QAccuDivInterest: string;
+  QAccuDividend: string;
+  QAntiSurBenAmt: string;
+  QBonusSurValue: string;
+  QCoverage: string;
+  QDeathBenefitAmt: string;
+  QDetailID: string;
+  QGuarAdditions: string;
+  QGuarSurrValue: string;
+  QLifeAssuredAge: string;
+  QLoyaltyAdditions: string;
+  QMaturityAmt: string;
+  QMaturityDate: string;
+  QNorValamt: string;
+  QOptValamt: string;
+  QPesValamt: string;
+  QPolAnnivDate: string;
+  QPolicyYear: string;
+  QRevBonusAmt: string;
+  QSplSurrValue: string;
+  QSumAssured: string;
+  QTerBonusAmt: string;
+  QTotalPremPaid: string;
+  QUnallocedAmt: string;
+  QallocatedAmt: string;
+  addOpen: boolean;
+  editOpen: boolean;
+  infoOpen: boolean;
+  searchString: string;
+  searchCriteria: string;
+  sortColumn: string;
+  sortAsc: boolean;
+  sortDesc: boolean;
+};
+
+export type ActionConstantsType = {
+  ONCHANGE: string;
+  EDITCHANGE: string;
+  ADDOPEN: string;
+  EDITOPEN: string;
+  INFOOPEN: string;
+  ADDCLOSE: string;
+  EDITCLOSE: string;
+  INFOCLOSE: string;
+  SORT_ASC: string;
+  SORT_DESC: string;
+};
+export type QBenIllValueModalType = {
+  state: QBenIllValueStateType;
+  record: any;
+  dispatch: React.Dispatch<any>;
+  handleFormSubmit: () => Promise<void>;
+  ACTIONS: ActionConstantsType;
+};

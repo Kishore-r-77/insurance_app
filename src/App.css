@@ -3,10 +3,6 @@
   src: url("./fonts/Poppins/Poppins-Regular.ttf");
 }
 
-body {
-  background-color: rgb(245, 237, 220);
-}
-
 .App {
   min-height: 100vh;
   position: relative;
