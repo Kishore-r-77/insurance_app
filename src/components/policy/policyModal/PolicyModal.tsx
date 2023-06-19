@@ -52,8 +52,6 @@ function PolicyModal({
   const infoTitle: string = "Policy Info";
   const size = "xl";
 
-  console.log(benefitsData, "benefits data");
-
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
