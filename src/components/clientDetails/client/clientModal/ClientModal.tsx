@@ -1,7 +1,10 @@
 import {
   FormControl,
+  FormControlLabel,
   InputAdornment,
   MenuItem,
+  Radio,
+  RadioGroup,
   TextField,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
@@ -338,7 +341,7 @@ function ClientModal({
                     ) =>
                       dispatch({
                         type: ACTIONS.EDITCHANGE,
-                        payload:date?.$d,
+                        payload: date?.$d,
                         fieldName: "ClientDob",
                       })
                     }
@@ -361,7 +364,7 @@ function ClientModal({
                     ) =>
                       dispatch({
                         type: ACTIONS.EDITCHANGE,
-                        payload:date?.$d,
+                        payload: date?.$d,
                         fieldName: "ClientDod",
                       })
                     }

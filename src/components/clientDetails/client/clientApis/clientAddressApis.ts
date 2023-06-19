@@ -14,7 +14,8 @@ export const getAddressByClient = (clientId: number) => {
 export const createClientWithAddress = (
   state: ClientStateType,
   companyId: number,
-  data: any
+  data: any,
+  ClientType: any
 ) => {
   return axios.post(
     `http://localhost:3000/api/v1/basicservices/clientcreatewithaddress`,
@@ -26,6 +27,7 @@ export const createClientWithAddress = (
       ClientLongName: state.ClientLongName,
       ClientSurName: state.ClientSurName,
       Gender: state.Gender,
+      ClientType: ClientType,
       ClientDob:
         state.ClientDob?.length === 0
           ? ""

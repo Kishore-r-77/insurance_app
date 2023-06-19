@@ -12,6 +12,8 @@ const SAChangeEnquiry = ({
   TransactionNo,
   state,
 }: any) => {
+  console.log(policyNo, "Policy No");
+  console.log(TransactionNo, "Transaction No");
   const columns = [
     {
       field: "CompanyID",
