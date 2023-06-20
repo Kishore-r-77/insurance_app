@@ -634,7 +634,6 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputLabelProps={{ shrink: true }}
                     id="Qfirstname"
                     name="Qfirstname"
                     value={
@@ -658,7 +657,6 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputLabelProps={{ shrink: true }}
                     id="Qlastname"
                     name="Qlastname"
                     value={
@@ -709,7 +707,6 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputLabelProps={{ shrink: true }}
                     id="Qgender"
                     name="Qgender"
                     value={
