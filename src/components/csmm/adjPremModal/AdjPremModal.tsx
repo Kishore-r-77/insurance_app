@@ -115,8 +115,7 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
         title={title}
         completed={completed}
       > 
-      { result === ""? 
-      (<Grid2 container spacing={2}>
+      <Grid2 container spacing={2}>
         <Grid2 lg={4}>
             <TextField
               id="PolicyID"
@@ -211,9 +210,9 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
                   </FormControl>
             </Grid2>
 
-            </Grid2>):
+            </Grid2>
             
-            (<Grid2 container spacing={2}>
+            <Grid2 container spacing={2}>
             <Grid2 lg={4}>
             <TextField
               id="No Of Dues"
@@ -266,7 +265,7 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
               margin="dense"
             ></TextField>
           </Grid2>
-        </Grid2>)}
+        </Grid2>
       </CustomAdjPremModal>
       {/* <ResultModal
         open={isResult}
