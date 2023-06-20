@@ -8,6 +8,7 @@ function CustomAdjPremModal({
   title,
   children,
   handleFormSubmit,
+  completed
 }: any) {
   return (
     <div>
@@ -22,7 +23,8 @@ function CustomAdjPremModal({
           </Button>
           {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
-              Adjust Premium             </Button>
+            {completed ? "Save" : "Calculate"}
+          </Button>
           )}
         </Modal.Footer>
       </Modal>

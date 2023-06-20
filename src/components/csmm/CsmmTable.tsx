@@ -837,6 +837,10 @@ function CsmmTable({
       <AdjPremModal
         open={isAdjPrem}
         handleClose={adjPremClose}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
         data={polenqData}
       />
       <SaChangeModal
