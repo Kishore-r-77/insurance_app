@@ -201,7 +201,7 @@ export const createPoliciesWithBenefits = (
         ClientID: parseInt(state.ClientID),
         BStartDate: moment(benefits?.AddressEndDate).format("YYYYMMDD"),
         BTerm: parseInt(benefits?.BTerm),
-        BpTerm: parseInt(benefits?.BpTerm),
+        BPTerm: parseInt(benefits?.BPTerm),
         BSumAssured: parseInt(benefits?.BSumAssured),
         Interest: parseInt(benefits?.Interest),
       })),
