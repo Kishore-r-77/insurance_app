@@ -194,6 +194,19 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
               margin="dense"
             ></TextField>
           </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="Frequency"
+              name="Frequency"
+              value={data?.Frequency}
+              placeholder="Frequency"
+              label="Frequency"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
           <hr style={{color: "black", height:"20px"}}/>
           <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
