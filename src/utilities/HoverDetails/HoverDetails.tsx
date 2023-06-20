@@ -22,6 +22,9 @@ function HoverDetails({ title, data }: any) {
           </li>
           <li>Premium: {val.Premium}</li>
           <li>Status: {val.Status}</li>
+          <li>GST: {val.GST}</li>
+          <li>Stamp Duty: {val.StampDuty}</li>
+          <li>Policy Deposit: {val.PolicyDeposit}</li>
         </ul>
       ))}
     </div>

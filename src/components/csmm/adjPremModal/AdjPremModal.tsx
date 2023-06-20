@@ -115,8 +115,7 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
         title={title}
         completed={completed}
       > 
-      { result === ""? 
-      (<Grid2 container spacing={2}>
+      <Grid2 container spacing={2}>
         <Grid2 lg={4}>
             <TextField
               id="PolicyID"
@@ -195,6 +194,19 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
               margin="dense"
             ></TextField>
           </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="Frequency"
+              name="Frequency"
+              value={data?.Frequency}
+              placeholder="Frequency"
+              label="Frequency"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
           <hr style={{color: "black", height:"20px"}}/>
           <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
@@ -211,9 +223,9 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
                   </FormControl>
             </Grid2>
 
-            </Grid2>):
+            </Grid2>
             
-            (<Grid2 container spacing={2}>
+            <Grid2 container spacing={2}>
             <Grid2 lg={4}>
             <TextField
               id="No Of Dues"
@@ -266,7 +278,7 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
               margin="dense"
             ></TextField>
           </Grid2>
-        </Grid2>)}
+        </Grid2>
       </CustomAdjPremModal>
       {/* <ResultModal
         open={isResult}
