@@ -74,6 +74,11 @@ export const columns = [
     dbField: "client_mobile",
   },
   {
+    field: "ClientType",
+    header: "Client Type",
+    dbField: "client_type",
+  },
+  {
     field: "ClientStatus",
     header: "Client Status",
     dbField: "client_status",

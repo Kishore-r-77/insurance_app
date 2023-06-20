@@ -1,6 +1,7 @@
 import {
   FormControl,
   FormControlLabel,
+  FormLabel,
   InputAdornment,
   MenuItem,
   Radio,
@@ -26,10 +27,13 @@ function ClientModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  clientType,
+  handleradiochange,
 }: any) {
   const editTitle: string = "Client Edit";
   const infoTitle: string = "Client Info";
   const size = "xl";
+  console.log(clientType, "client type");
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -117,6 +121,38 @@ function ClientModal({
         handleFormSubmit={() => handleFormSubmit()}
       >
         <form>
+          <Grid2
+            lg={12}
+            style={{ display: "flex", justifyContent: "space-around" }}
+          >
+            <FormControl style={{ textAlign: "center" }}>
+              <FormLabel id="demo-radio-buttons-group-label">
+                <b> Client Type</b>
+              </FormLabel>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue={record.ClientType}
+                name="radio-buttons-group"
+                row
+                value={clientType}
+
+                // onChange={(e) => handleradiochange(e)}
+              >
+                <FormControlLabel
+                  value="I"
+                  control={<Radio />}
+                  label="Individual"
+                  disabled
+                />
+                <FormControlLabel
+                  value="C"
+                  control={<Radio />}
+                  label="Corporate"
+                  disabled
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid2>
           <Grid2 container spacing={2}>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
@@ -137,7 +173,7 @@ function ClientModal({
                 name="ClientShortName"
                 value={record.ClientShortName}
                 placeholder="Client Short Name"
-                label="Client Short Name"
+                label={record.ClientType === "I" ? "Client Short Name" : "FAO"}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
@@ -156,7 +192,11 @@ function ClientModal({
                 name="ClientLongName"
                 value={record.ClientLongName}
                 placeholder="Client Long Name"
-                label="Client Long Name"
+                label={
+                  record.ClientType === "I"
+                    ? "Client Long Name"
+                    : "Company Name"
+                }
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
@@ -169,73 +209,82 @@ function ClientModal({
                 margin="dense"
               />
             </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="ClientSurName"
-                name="ClientSurName"
-                value={record.ClientSurName}
-                placeholder="Client Sur Name"
-                label="Client Sur Name"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ClientSurName",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="Gender"
-                name="Gender"
-                value={record.Gender}
-                placeholder="Gender"
-                label="Gender"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "Gender",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              >
-                {genderData.map((val: any) => (
-                  <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                ))}
-              </TextField>
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                select
-                id="Salutation"
-                name="Salutation"
-                value={record.Salutation}
-                placeholder="Salutation"
-                label="Salutation"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "Salutation",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              >
-                {salutationData.map((val: any) => (
-                  <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                ))}
-              </TextField>
-            </Grid2>
+            {record.ClientType === "I" ? (
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  id="ClientSurName"
+                  name="ClientSurName"
+                  value={record.ClientSurName}
+                  placeholder="Client Sur Name"
+                  label="Client Sur Name"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "ClientSurName",
+                    })
+                  }
+                  fullWidth
+                  inputProps={{ readOnly: state.infoOpen }}
+                  margin="dense"
+                />
+              </Grid2>
+            ) : null}
+
+            {record.ClientType === "I" ? (
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  select
+                  id="Gender"
+                  name="Gender"
+                  value={record.Gender}
+                  placeholder="Gender"
+                  label="Gender"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "Gender",
+                    })
+                  }
+                  fullWidth
+                  inputProps={{ readOnly: state.infoOpen }}
+                  margin="dense"
+                >
+                  {genderData.map((val: any) => (
+                    <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                  ))}
+                </TextField>
+              </Grid2>
+            ) : null}
+
+            {record.ClientType === "I" ? (
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  select
+                  id="Salutation"
+                  name="Salutation"
+                  value={record.Salutation}
+                  placeholder="Salutation"
+                  label="Salutation"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "Salutation",
+                    })
+                  }
+                  fullWidth
+                  inputProps={{ readOnly: state.infoOpen }}
+                  margin="dense"
+                >
+                  {salutationData.map((val: any) => (
+                    <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                  ))}
+                </TextField>
+              </Grid2>
+            ) : null}
+
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 select
@@ -266,7 +315,9 @@ function ClientModal({
                 name="ClientEmail"
                 value={record.ClientEmail}
                 placeholder="ClientEmail"
-                label="ClientEmail"
+                label={
+                  record.ClientType === "I" ? "Client Email" : "Office Mail"
+                }
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
@@ -285,7 +336,9 @@ function ClientModal({
                 name="ClientMobile"
                 value={record.ClientMobile}
                 placeholder="ClientMobile"
-                label="ClientMobile"
+                label={
+                  record.ClientType === "I" ? "Client Mobile" : "Office Mobile"
+                }
                 // InputProps={{
                 //   startAdornment: (
                 //     <InputAdornment position="start">+91</InputAdornment>
@@ -302,6 +355,19 @@ function ClientModal({
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
               />
+            </Grid2>
+
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                id="ClientType"
+                name="ClientType"
+                value={record.ClientType}
+                placeholder="Client Type"
+                label="Client Type"
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              ></TextField>
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
@@ -333,7 +399,11 @@ function ClientModal({
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDatePicker
                     readOnly={state.infoOpen}
-                    label="Client Dob"
+                    label={
+                      record.ClientType === "I"
+                        ? "Client Dob"
+                        : "Date of incorporation"
+                    }
                     inputFormat="DD/MM/YYYY"
                     value={record.ClientDob}
                     onChange={(
@@ -356,7 +426,11 @@ function ClientModal({
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDatePicker
                     readOnly={state.infoOpen}
-                    label="Client Dod"
+                    label={
+                      record.ClientType === "I"
+                        ? "Client Dod"
+                        : "Date Of Termination"
+                    }
                     inputFormat="DD/MM/YYYY"
                     value={record.ClientDod}
                     onChange={(

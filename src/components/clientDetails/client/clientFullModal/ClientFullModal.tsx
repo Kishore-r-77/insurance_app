@@ -240,7 +240,7 @@ function ClientFullModal({
                   </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="F"
+                    defaultValue="I"
                     name="radio-buttons-group"
                     row
                     value={clientType}
@@ -360,29 +360,32 @@ function ClientFullModal({
                   </Grid2>
                 ) : null}
 
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="Salutation"
-                    name="Salutation"
-                    value={state.Salutation}
-                    placeholder="Salutation"
-                    label="Salutation"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "Salutation",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  >
-                    {salutationData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
+                {clientType === "I" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      select
+                      id="Salutation"
+                      name="Salutation"
+                      value={state.Salutation}
+                      placeholder="Salutation"
+                      label="Salutation"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: ACTIONS.ONCHANGE,
+                          payload: e.target.value,
+                          fieldName: "Salutation",
+                        })
+                      }
+                      fullWidth
+                      margin="dense"
+                    >
+                      {salutationData.map((val: any) => (
+                        <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                ) : null}
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
