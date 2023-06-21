@@ -421,7 +421,7 @@ function QHeaderQDetailEnquiry({
                 <Client modalFunc={clientOpenFunc} />
               </CustomModal>
             ) : null}
-            <TreeItem nodeId="1" label={`Quotation Info-${record.ID}`}>
+            <TreeItem nodeId="1" label={`Quotation Info}`}>
               <Grid2
                 container
                 spacing={2}
@@ -447,7 +447,7 @@ function QHeaderQDetailEnquiry({
                         readOnly={state.infoOpen}
                         label="Quote Date"
                         inputFormat="DD/MM/YYYY"
-                        value={record.QuoteDate}
+                        value={record?.QuoteDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -469,7 +469,7 @@ function QHeaderQDetailEnquiry({
                     id="QHeaderID"
                     //onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="QHeaderID"
-                    value={record.ID}
+                    value={record?.ID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -489,7 +489,7 @@ function QHeaderQDetailEnquiry({
                     id="ClientID"
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="ClientID"
-                    value={record.ClientID}
+                    value={record?.ClientID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -509,7 +509,7 @@ function QHeaderQDetailEnquiry({
                     InputProps={{ readOnly: state.infoOpen }}
                     id="Qfirstname"
                     name="Qfirstname"
-                    value={record.QFirstName}
+                    value={record?.QFirstName}
                     placeholder="First Name"
                     label="First Name"
                     // onChange={(e) =>
@@ -529,7 +529,7 @@ function QHeaderQDetailEnquiry({
                     InputProps={{ readOnly: state.infoOpen }}
                     id="Qlastname"
                     name="Qlastname"
-                    value={record.QLastName}
+                    value={record?.QLastName}
                     placeholder="Last Name"
                     label="Last Name"
                     // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -551,7 +551,7 @@ function QHeaderQDetailEnquiry({
                         readOnly={state.infoOpen}
                         label="Date of Birth"
                         inputFormat="DD/MM/YYYY"
-                        value={record.QDob}
+                        value={record?.QDob}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -572,7 +572,7 @@ function QHeaderQDetailEnquiry({
                     InputProps={{ readOnly: state.infoOpen }}
                     id="Qgender"
                     name="Qgender"
-                    value={record.QGender}
+                    value={record?.QGender}
                     placeholder="Gender"
                     label="Gender"
                     // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -592,7 +592,7 @@ function QHeaderQDetailEnquiry({
                     InputProps={{ readOnly: state.infoOpen }}
                     id="Qemail"
                     name="Qemail"
-                    value={record.QEmail}
+                    value={record?.QEmail}
                     placeholder="Email"
                     label="Email"
                     // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -612,7 +612,7 @@ function QHeaderQDetailEnquiry({
                     InputProps={{ readOnly: state.infoOpen }}
                     id="Qmobile"
                     name="Qmobile"
-                    value={record.QMobile}
+                    value={record?.QMobile}
                     placeholder="Mobile"
                     label="Mobile"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -633,7 +633,7 @@ function QHeaderQDetailEnquiry({
                     id="AddressID"
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     name="AddressID"
-                    value={record.AddressID}
+                    value={record?.AddressID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -653,7 +653,7 @@ function QHeaderQDetailEnquiry({
                     select
                     id="Qcontractcurr"
                     name="Qcontractcurr"
-                    value={record.QContractCurr}
+                    value={record?.QContractCurr}
                     placeholder="Contract Currency"
                     label="Contract Currency"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -676,7 +676,7 @@ function QHeaderQDetailEnquiry({
                     select
                     id="Qproduct"
                     name="Qproduct"
-                    value={record.QProduct}
+                    value={record?.QProduct}
                     placeholder="Product"
                     label="Product"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -699,7 +699,7 @@ function QHeaderQDetailEnquiry({
                     select
                     id="Qnri"
                     name="Qnri"
-                    value={record.QNri}
+                    value={record?.QNri}
                     placeholder="NRI"
                     label="NRI"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -723,7 +723,7 @@ function QHeaderQDetailEnquiry({
                     select
                     id="Qoccgroup"
                     name="Qoccgroup"
-                    value={record.QOccGroup}
+                    value={record?.QOccGroup}
                     placeholder="Occ Group"
                     label="Occ Group"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -747,7 +747,7 @@ function QHeaderQDetailEnquiry({
                     select
                     id="Qoccsect"
                     name="Qoccsect"
-                    value={record.QOccSect}
+                    value={record?.QOccSect}
                     placeholder="Occ Sector"
                     label="Occ Sector"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -770,7 +770,7 @@ function QHeaderQDetailEnquiry({
                   <TextField
                     id="Qoccupation"
                     name="Qoccupation"
-                    value={record.QOccupation}
+                    value={record?.QOccupation}
                     placeholder="Occupation"
                     label="Occupation"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -790,7 +790,7 @@ function QHeaderQDetailEnquiry({
                     type="number"
                     id="Qannualincome"
                     name="Qannualincome"
-                    value={record.QAnnualIncome}
+                    value={record?.QAnnualIncome}
                     placeholder="Annual Income"
                     label="Annual Income"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -811,7 +811,7 @@ function QHeaderQDetailEnquiry({
                     id="AgencyID"
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     name="AgencyID"
-                    value={record.AgencyID}
+                    value={record?.AgencyID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -867,7 +867,7 @@ function QHeaderQDetailEnquiry({
                           id="ClientID"
                           name="ClientID"
                           // Attention: *** Check the value details  ***
-                          value={record.ClientID}
+                          value={record?.ClientID}
                           placeholder="ClientID"
                           label="ClientID"
                           fullWidth

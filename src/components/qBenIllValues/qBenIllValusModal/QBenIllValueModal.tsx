@@ -93,7 +93,6 @@ function QBenIllValuesModal({
         }
         title={infoTitle}
         ACTIONS={ACTIONS}
-        handleFormSubmit={() => handleFormSubmit()}
       >
         <form>
           <Grid2 container spacing={2}>

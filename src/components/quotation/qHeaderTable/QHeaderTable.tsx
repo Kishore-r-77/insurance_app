@@ -35,6 +35,7 @@ function QHeaderTable({
   modalFunc,
   initialValues,
   setNotify,
+  state,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -51,28 +52,34 @@ function QHeaderTable({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: any) => {
-    record.current = id;
+  const qheaderid = useRef<any>(0);
+  const editpayload = useRef();
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    value: any
+  ) => {
+    editpayload.current = value;
+    qheaderid.current = value.ID;
 
     setAnchorEl(event.currentTarget);
-    console.log(record.current, "----", record);
+    console.log(qheaderid.current, "----");
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
   const [allowedMenuRecord, setAllowedMenuRecord] = useState<any>("");
-  const editClickOpen = (item: any, row: any) => {
+  const editClickOpen = (item: any, payload: any) => {
     setAllowedMenuRecord(item);
     if (item.Action === "Change") {
-      dispatch({ type: ACTIONS.EDITOPEN, payload: row });
+      dispatch({ type: ACTIONS.EDITOPEN, payload: editpayload.current });
     } else if (item.Action === "Validate") {
       setValidateOpen(true);
     } else if (item.Action === "Calculate") {
       setCalculateOpen(true);
     } else if (item.Action === "View") {
       navigate("/qBenIllValue", {
-        state: { id: record.current },
+        state: { id: qheaderid.current },
       });
     } else if (item.Action === "Print") {
       setPrintOpen(true);
@@ -90,7 +97,7 @@ function QHeaderTable({
   const createQBenIllValues = (ID: number) => {
     axios
       .post(
-        `http://localhost:3000/api/v1/quotationservices/qbenillvaluecreatebyqheader/${record.current}`,
+        `http://localhost:3000/api/v1/quotationservices/qbenillvaluecreatebyqheader/${qheaderid.current}`,
         {},
         { withCredentials: true }
       )
@@ -114,7 +121,7 @@ function QHeaderTable({
         `http://localhost:3000/api/v1/quotationservices/qstatuscheck`,
         {
           CompanyID: parseInt(companyId),
-          QHeaderID: parseInt(record.current),
+          QHeaderID: parseInt(qheaderid.current),
           QStatus: qHeaderData.QStatus,
           QuoteDate: "20230402",
           TranCode: item.Trancode,
@@ -133,7 +140,7 @@ function QHeaderTable({
   const getQHeader = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/quotationservices/qheaderget/${record.current}`,
+        `http://localhost:3000/api/v1/quotationservices/qheaderget/${qheaderid.current}`,
         {
           withCredentials: true,
         }
@@ -217,11 +224,11 @@ function QHeaderTable({
   const [p0044SQMMData, setP0044SQMMData] = useState<any>();
   const p0044SQMM = () => {
     if (allowedMenuRecord.Action === "Calculate") {
-      createQBenIllValues(record.ID);
+      createQBenIllValues(qheaderid.current);
     }
     axios
       .post(
-        `http://${allowedMenuRecord.URL}/${record.current}`,
+        `http://${allowedMenuRecord.URL}/${qheaderid.current}`,
         {},
         {
           withCredentials: true,
@@ -288,7 +295,6 @@ function QHeaderTable({
       })
       .catch((err) => console.log(err.message));
   };
-  console.log(qCommunicationData, "========");
   const item = "QUOTE";
   const downloadQuotePdf = (id: any) => {
     axios
@@ -319,7 +325,7 @@ function QHeaderTable({
   useEffect(() => {
     getQHeader();
     return () => {};
-  }, [record.current]);
+  }, [qheaderid.current]);
   useEffect(() => {
     downloadQuotePdf(qCommunicationData);
 
@@ -431,15 +437,17 @@ function QHeaderTable({
                       aria-controls={openMenu ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={openMenu ? "true" : undefined}
-                      onClick={(e) => handleClick(e, row.ID)}
+                      onClick={(e) => handleClick(e, row)}
                     >
                       <MoreVertIcon />
                     </IconButton>
-                    <IconButton
-                      onClick={() => getQCommunicationByHeader(row.ID)}
-                    >
-                      <PictureAsPdfIcon />
-                    </IconButton>
+                    {row.QStatus === "QP" || row.QStatus === "QA" ? (
+                      <IconButton
+                        onClick={() => getQCommunicationByHeader(row.ID)}
+                      >
+                        <PictureAsPdfIcon />
+                      </IconButton>
+                    ) : null}
                     <Menu
                       id="basic-menu"
                       anchorEl={anchorEl}

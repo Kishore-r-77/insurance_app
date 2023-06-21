@@ -280,13 +280,13 @@ function QHeaderQDetailModal({
     getEditQcoverage(
       companyId,
       "Q0011",
-      record.QProduct,
+      record?.QProduct,
       "20220101",
       languageId
     );
 
     return () => {};
-  }, [record.QProduct]);
+  }, [state.editOpen]);
 
   useEffect(() => {
     getEditQriskcessterm(
@@ -305,7 +305,7 @@ function QHeaderQDetailModal({
     );
 
     return () => {};
-  }, [QCoverage.current]);
+  }, [state.editOpen]);
 
   const [qDetailData, setqDetailData] = useState([
     {
@@ -367,7 +367,7 @@ function QHeaderQDetailModal({
   const getClientRecord = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/basicservices/clientget/${record.ClientID}`,
+        `http://localhost:3000/api/v1/basicservices/clientget/${record?.ClientID}`,
         {
           withCredentials: true,
         }
@@ -377,21 +377,46 @@ function QHeaderQDetailModal({
       })
       .catch((err) => console.log(err.message));
   };
-  const [detailsData, setDetailsData] = useState<any>([]);
+  //const [detailsData, setDetailsData] = useState<any>([]);
+  const [detailsData, setqDetailsData] = useState([
+    {
+      CompanyID: companyId,
+      ClientID: 0,
+      QCoverage: "",
+      QSumAssured: "",
+      QRiskCessTerm: "",
+      QPremCessTerm: "",
+      QAgeAdmitted: "",
+    },
+  ]);
+
+  const handleQDetailEditAdd = () => {
+    setqDetailsData([
+      ...detailsData,
+      {
+        CompanyID: companyId,
+        ClientID: 0,
+        QCoverage: "",
+        QSumAssured: "",
+        QRiskCessTerm: "",
+        QPremCessTerm: "",
+        QAgeAdmitted: "",
+      },
+    ]);
+  };
   const getDetails = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/quotationservices/qdetailbyqheaderget/${record.ID}`,
+        `http://localhost:3000/api/v1/quotationservices/qdetailbyqheaderget/${record?.ID}`,
         {
           withCredentials: true,
         }
       )
       .then((resp) => {
-        setDetailsData(resp.data["QDetail"]);
+        setqDetailsData(resp.data["QDetail"]);
       })
       .catch((err) => console.log(err.message));
   };
-  console.log(detailsData, "-", record.ID);
 
   const handleQDetailRemove = (index: number) => {
     const list = [...qDetailData];
@@ -415,7 +440,7 @@ function QHeaderQDetailModal({
     i: number
   ) => {
     const { name, value } = e.target;
-    setDetailsData(
+    setqDetailsData(
       detailsData.map((qDetail: any, index: number) => {
         if (index === i) {
           console.log(name, "------", value);
@@ -423,6 +448,11 @@ function QHeaderQDetailModal({
         } else return qDetail;
       })
     );
+  };
+  const handleQDetailEditRemove = (index: number) => {
+    const list = [...detailsData];
+    list.splice(index, 1);
+    setqDetailsData(list);
   };
 
   const addQHeaderWithQDetail = () => {
@@ -451,7 +481,7 @@ function QHeaderQDetailModal({
       })
       .catch((err) => err.message);
   };
-  console.log(detailsData, "---------", record);
+  console.log(detailsData, "---------");
 
   const handleQriskcessdate = (date: any, i: number) => {
     setqDetailData(
@@ -500,10 +530,14 @@ function QHeaderQDetailModal({
 
   useEffect(() => {
     getDetails();
-    getClientRecord();
 
     return () => {};
   }, [state.editOpen]);
+  useEffect(() => {
+    getClientRecord();
+
+    return () => {};
+  }, [record?.ClientID]);
 
   return (
     <div>
@@ -594,7 +628,7 @@ function QHeaderQDetailModal({
                         label="Quote Date"
                         inputFormat="DD/MM/YYYY"
                         value={
-                          state.addOpen ? state.Quotedate : record.Quotedate
+                          state.addOpen ? state.Quotedate : record?.Quotedate
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
@@ -617,7 +651,7 @@ function QHeaderQDetailModal({
                     id="ClientID"
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="ClientID"
-                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    value={state.addOpen ? state.ClientID : record?.ClientID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -634,6 +668,7 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     id="Qfirstname"
                     name="Qfirstname"
                     value={
@@ -657,6 +692,7 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     id="Qlastname"
                     name="Qlastname"
                     value={
@@ -707,6 +743,7 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     id="Qgender"
                     name="Qgender"
                     value={
@@ -728,6 +765,7 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     id="Qemail"
                     name="Qemail"
                     value={
@@ -751,6 +789,7 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     id="Qmobile"
                     name="Qmobile"
                     value={
@@ -778,7 +817,7 @@ function QHeaderQDetailModal({
                     id="AddressID"
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     name="AddressID"
-                    value={state.addOpen ? state.AddressID : record.AddressID}
+                    value={state.addOpen ? state.AddressID : record?.AddressID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -798,7 +837,9 @@ function QHeaderQDetailModal({
                     id="QContractCurr"
                     name="QContractCurr"
                     value={
-                      state.addOpen ? state.QContractCurr : record.QContractCurr
+                      state.addOpen
+                        ? state.QContractCurr
+                        : record?.QContractCurr
                     }
                     placeholder="Contract Currency"
                     label="Contract Currency"
@@ -822,7 +863,7 @@ function QHeaderQDetailModal({
                     select
                     id="Qproduct"
                     name="QProduct"
-                    value={state.addOpen ? state.QProduct : record.QProduct}
+                    value={state.addOpen ? state.QProduct : record?.QProduct}
                     placeholder="Product"
                     label="Product"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -845,7 +886,7 @@ function QHeaderQDetailModal({
                     select
                     id="Qnri"
                     name="QNri"
-                    value={state.addOpen ? state.QNri : record.QNri}
+                    value={state.addOpen ? state.QNri : record?.QNri}
                     placeholder="NRI"
                     label="NRI"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -871,7 +912,7 @@ function QHeaderQDetailModal({
                     select
                     id="Qoccgroup"
                     name="QOccGroup"
-                    value={state.addOpen ? state.QOccGroup : record.QOccGroup}
+                    value={state.addOpen ? state.QOccGroup : record?.QOccGroup}
                     placeholder="Occ Group"
                     label="Occ Group"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -887,7 +928,7 @@ function QHeaderQDetailModal({
                     margin="dense"
                   >
                     {qoccgroupData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      <MenuItem value={val.item}>{val.longdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
@@ -897,7 +938,7 @@ function QHeaderQDetailModal({
                     select
                     id="Qoccsect"
                     name="QOccSect"
-                    value={state.addOpen ? state.QOccSect : record.QOccSect}
+                    value={state.addOpen ? state.QOccSect : record?.QOccSect}
                     placeholder="Occ Sector"
                     label="Occ Sector"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -923,7 +964,7 @@ function QHeaderQDetailModal({
                     id="Qoccupation"
                     name="QOccupation"
                     value={
-                      state.addOpen ? state.QOccupation : record.QOccupation
+                      state.addOpen ? state.QOccupation : record?.QOccupation
                     }
                     placeholder="Occupation"
                     label="Occupation"
@@ -947,7 +988,9 @@ function QHeaderQDetailModal({
                     id="Qannualincome"
                     name="QAnnualIncome"
                     value={
-                      state.addOpen ? state.QAnnualIncome : record.QAnnualIncome
+                      state.addOpen
+                        ? state.QAnnualIncome
+                        : record?.QAnnualIncome
                     }
                     placeholder="Annual Income"
                     label="Annual Income"
@@ -971,7 +1014,7 @@ function QHeaderQDetailModal({
                     id="AgencyID"
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     name="AgencyID"
-                    value={state.addOpen ? state.AgencyID : record.AgencyID}
+                    value={state.addOpen ? state.AgencyID : record?.AgencyID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -1020,7 +1063,7 @@ function QHeaderQDetailModal({
                                 value={
                                   state.addOpen
                                     ? state.ClientID
-                                    : record.ClientID
+                                    : record?.ClientID
                                 }
                                 placeholder="ClientID"
                                 label="ClientID"
@@ -1053,7 +1096,7 @@ function QHeaderQDetailModal({
                                 value={
                                   state.addOpen
                                     ? qDetail.QCoverage
-                                    : record.QCoverage
+                                    : record?.QCoverage
                                 }
                                 placeholder="Coverage"
                                 label="Coverage"
@@ -1079,7 +1122,7 @@ function QHeaderQDetailModal({
                                 value={
                                   state.addOpen
                                     ? qDetail.QSumAssured
-                                    : record.QSumAssured
+                                    : record?.QSumAssured
                                 }
                                 placeholder="Sum Assured"
                                 label="Sum Assured"
@@ -1099,7 +1142,7 @@ function QHeaderQDetailModal({
                                 value={
                                   state.addOpen
                                     ? qDetail.QRiskCessTerm
-                                    : record.QRiskCessTerm
+                                    : record?.QRiskCessTerm
                                 }
                                 placeholder="Risk Cess Term"
                                 label="Risk Cess Term"
@@ -1123,7 +1166,7 @@ function QHeaderQDetailModal({
                                 value={
                                   state.addOpen
                                     ? qDetail.QPremCessTerm
-                                    : record.QPremCessTerm
+                                    : record?.QPremCessTerm
                                 }
                                 placeholder="Prem Cess Term"
                                 label="Prem Cess Term"
@@ -1221,7 +1264,7 @@ function QHeaderQDetailModal({
                                 value={
                                   state.addOpen
                                     ? qDetail.QAgeAdmitted
-                                    : record.QAgeAdmitted
+                                    : record?.QAgeAdmitted
                                 }
                                 placeholder="Age Admitted"
                                 label="Age Admitted"
@@ -1375,7 +1418,7 @@ function QHeaderQDetailModal({
                                 value={
                                   state.addOpen
                                     ? state.ClientID
-                                    : record.ClientID
+                                    : record?.ClientID
                                 }
                                 placeholder="client_id"
                                 label="client_id"
@@ -1402,7 +1445,7 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
-                                //select
+                                select
                                 id="QCoverage"
                                 name="QCoverage"
                                 value={qDetail.QCoverage}
@@ -1410,15 +1453,15 @@ function QHeaderQDetailModal({
                                 label="Coverage"
                                 onChange={(
                                   e: React.ChangeEvent<HTMLInputElement>
-                                ) => handleChange(e, index)}
+                                ) => handleEditChange(e, index)}
                                 fullWidth
                                 margin="dense"
                               >
-                                {/* {editQCoverageData.map((val: any) => (
-                                  <MenuItem value={val.item}>
-                                    {val.shortdesc}
+                                {editQCoverageData.map((val: any) => (
+                                  <MenuItem value={val.Coverage}>
+                                    {val.Coverage}
                                   </MenuItem>
-                                ))} */}
+                                ))}
                               </TextField>
                             </Grid2>
 
@@ -1610,6 +1653,46 @@ function QHeaderQDetailModal({
                             </Grid2>
                           </Grid2>
                         </TreeItem>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "baseline",
+                            gap: "5px",
+                          }}
+                        >
+                          {detailsData.length - 1 === index &&
+                            detailsData.length < 5 && (
+                              <Button
+                                variant="contained"
+                                onClick={() => handleQDetailEditAdd()}
+                                style={{
+                                  maxWidth: "40px",
+                                  maxHeight: "40px",
+                                  minWidth: "40px",
+                                  minHeight: "40px",
+                                  backgroundColor: "#0a3161",
+                                }}
+                              >
+                                <AddBoxRoundedIcon />
+                              </Button>
+                            )}
+
+                          {detailsData.length !== 1 && (
+                            <Button
+                              onClick={() => handleQDetailEditRemove(index)}
+                              variant="contained"
+                              style={{
+                                maxWidth: "40px",
+                                maxHeight: "40px",
+                                minWidth: "40px",
+                                minHeight: "40px",
+                                backgroundColor: "crimson",
+                              }}
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </>
                   );
