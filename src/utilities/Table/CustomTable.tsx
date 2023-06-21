@@ -107,7 +107,9 @@ function CustomTable({
                 if (col.type === "date") {
                   return (
                     <td key={col.field}>
-                      {moment(row[col.field]).format("DD-MM-YYYY")}
+                      {row[col.field].length === 0
+                        ? ""
+                        : moment(row[col.field]).format("DD-MM-YYYY")}
                     </td>
                   );
                 }

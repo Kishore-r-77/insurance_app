@@ -47,7 +47,7 @@ export const addApi = (state: LeadFollowupsStateType, companyId: number) => {
       CompanyID: companyId,
       CountryCode: state.CountryCode,
       LeadDetailID: parseInt(state.LeadDetailID),
-      SeqNo: null,
+      SeqNo: state.SeqNo,
       AppointmentDate: moment(state.AppointmentDate).format("YYYYMMDD"),
       AppointmentFlag: state.AppointmentFlag,
       PreferredDay: state.PreferredDay,
