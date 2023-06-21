@@ -1,18 +1,21 @@
-
 export type LeadFollowupsStateType = {
-  CompanyID :string;
-  CountryCode :string;
-  LeadDetailID :string;
-  SeqNo :string;
-  AppointmentDate :string;
-  AppointmentFlag :string;
-  PreferredDay :string;
-  PreferredTime :string;
-  ActualMeetingDate :string;
-  ActionNote :string;
-  NextFollowupDate :string;
-  ProgressStatus :string;
-// *** Attention: Check the lookup table open below ***
+  CompanyID: string;
+  CountryCode: string;
+  LeadDetailID: string;
+  ClientID: string;
+  ClientName: string;
+  SalesManager: string;
+  AgencyID: string;
+  SeqNo: string;
+  AppointmentDate: string;
+  AppointmentFlag: string;
+  PreferredDay: string;
+  PreferredTime: string;
+  ActualMeetingDate: string;
+  ActionNote: string;
+  NextFollowupDate: string;
+  ProgressStatus: string;
+  // *** Attention: Check the lookup table open below ***
   leadDetailsOpen: boolean;
   addOpen: boolean;
   editOpen: boolean;

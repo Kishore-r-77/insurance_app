@@ -57,7 +57,14 @@ export const addApi = (state: LeadAllocationsStateType, companyId: number) => {
       Priority: state.Priority,
       Quality: state.Quality,
       ClosureStatus: state.ClosureStatus,
-      ClosureDate: moment(state.ClosureDate).format("YYYYMMDD"),
+      ClosureDate:
+        state.ClosureDate?.length === 0
+          ? ""
+          : moment(state.ClosureDate).format("YYYYMMDD").toString(),
+      ExtractionDate:
+        state.ExtractionDate?.length === 0
+          ? ""
+          : moment(state.ExtractionDate).format("YYYYMMDD").toString(),
     },
     {
       withCredentials: true,
@@ -76,6 +83,8 @@ export const editApi = (record: any) => {
       Office: record.Office,
       SalesManager: record.SalesManager,
       AgencyID: parseInt(record.AgencyID),
+      ClientID: record.ClientID,
+      ClientName: record.ClientName,
       AllocationDate: moment(record.AllocationDate).format("YYYYMMDD"),
       AppointmentDate: moment(record.AppointmentDate).format("YYYYMMDD"),
       LeadAllocStatus: record.LeadAllocStatus,
@@ -85,7 +94,14 @@ export const editApi = (record: any) => {
       Priority: record.Priority,
       Quality: record.Quality,
       ClosureStatus: record.ClosureStatus,
-      ClosureDate: moment(record.ClosureDate).format("YYYYMMDD"),
+      ClosureDate:
+        record.ClosureDate?.length === 0
+          ? ""
+          : moment(record.ClosureDate).format("YYYYMMDD").toString(),
+      ExtractionDate:
+        record.ExtractionDate?.length === 0
+          ? ""
+          : moment(record.ExtractionDate).format("YYYYMMDD").toString(),
     },
     {
       withCredentials: true,

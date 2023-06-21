@@ -161,7 +161,7 @@ function LeadAllocationsModal({
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCIESCLOSE });
   };
-
+  console.log(state.infoOpen, "**8");
   return (
     <div className={styles.modal}>
       <CustomModal
@@ -258,7 +258,7 @@ function LeadAllocationsModal({
                       })
                     }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    // inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
                 </Grid2>
@@ -289,10 +289,60 @@ function LeadAllocationsModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="ClientID"
+                    name="ClientID"
+                    placeholder="Client ID"
+                    label="Client ID"
+                    // Attention: *** Check the value details  ***
+                    onClick={() => dispatch({ type: ACTIONS.AGENCIESOPEN })}
+                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="ClientName"
+                    name="ClientName"
+                    placeholder="Client Name"
+                    label="Client Name"
+                    // Attention: *** Check the value details  ***
+                    onClick={() => dispatch({ type: ACTIONS.AGENCIESOPEN })}
+                    value={state.addOpen ? state.ClientName : record.ClientName}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientName",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        // readOnly={state.infoOpen}
                         label="Allocation Date"
                         inputFormat="DD/MM/YYYY"
                         value={
@@ -307,7 +357,7 @@ function LeadAllocationsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "AllocationDate",
                           })
                         }
@@ -321,7 +371,7 @@ function LeadAllocationsModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        // readOnly={state.infoOpen}
                         label="Appointment Date"
                         inputFormat="DD/MM/YYYY"
                         value={
@@ -336,7 +386,7 @@ function LeadAllocationsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "AppointmentDate",
                           })
                         }
@@ -368,7 +418,7 @@ function LeadAllocationsModal({
                       })
                     }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    // inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
                     {leadAllocStatusData.map((val: any) => (
@@ -554,7 +604,7 @@ function LeadAllocationsModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        // readOnly={state.infoOpen}
                         label="Closure Date"
                         inputFormat="DD/MM/YYYY"
                         value={
@@ -567,7 +617,7 @@ function LeadAllocationsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "ClosureDate",
                           })
                         }

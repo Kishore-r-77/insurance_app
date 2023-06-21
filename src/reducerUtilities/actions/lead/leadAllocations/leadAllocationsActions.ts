@@ -1,6 +1,8 @@
-
-//Attention: Check the path below and change it if required 
+//Attention: Check the path below and change it if required
 //import { LeadAllocationsStateType } from "../../types/leadAllocations/leadAllocationsTypes";
+
+import { LeadAllocationsStateType } from "../../../types/lead/leadAllocations/leadAllocationsTypes";
+
 //Storing Actions into a Variable for Reducer
 export const ACTIONS = {
   ONCHANGE: "ONCHANGE",
@@ -13,30 +15,32 @@ export const ACTIONS = {
   INFOCLOSE: "INFOCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
-// *** Attention: Check the Lookup Open /close ***
-  AGENCIESOPEN:  "AGENCIESOPEN",
+  // *** Attention: Check the Lookup Open /close ***
+  AGENCIESOPEN: "AGENCIESOPEN",
   AGENCIESCLOSE: "AGENCIESCLOSE",
-  };
+};
 
-  //Initial State defined
-
-
+//Initial State defined
 
 export const initialValues: LeadAllocationsStateType = {
-  CompanyID :"",
-  Office :"",
-  SalesManager :"",
-  AgencyID :"",
-  AllocationDate :"",
-  AppointmentDate :"",
-  LeadAllocStatus :"",
-  ProductType :"",
-  ProductCode :"",
-  NoofAppointment :"",
-  Priority :"",
-  Quality :"",
-  ClosureStatus :"",
-  ClosureDate :"",
+  CompanyID: "",
+  Office: "",
+  SalesManager: "",
+  AgencyID: "",
+  ClientID: "",
+  ClientName: "",
+  AllocationDate: "",
+  AppointmentDate: "",
+  LeadAllocStatus: "",
+  ProductType: "",
+  ProductCode: "",
+  NoofAppointment: "",
+  ExtractionDate: "",
+  LeadChannelID: "",
+  Priority: "",
+  Quality: "",
+  ClosureStatus: "",
+  ClosureDate: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
@@ -45,27 +49,51 @@ export const initialValues: LeadAllocationsStateType = {
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,
-// *** Attention: Check initial value below ***
+  // *** Attention: Check initial value below ***
   agenciesOpen: false,
-  };
+};
 
-  //Columns Defined to Pass into the Custom Table
+//Columns Defined to Pass into the Custom Table
 
-
-
-export const columns = [ 
+export const columns = [
   { field: "ID", header: "ID", dbField: "id" },
 
+  {
+    field: "LeadChannelID",
+    header: "LeadChannel ID",
+    dbField: "lead_channel_id",
+  },
+  {
+    field: "ReceivedDate",
+    header: "Received Date",
+    dbField: "received_date",
+  },
+  {
+    field: "CampaignCode",
+    header: "Campaign Code",
+    dbField: "campaign_code",
+  },
   {
     field: "SalesManager",
     header: "Sales Manager",
     dbField: "sales_manager",
   },
   {
+    field: "ClientID",
+    header: "Client ID",
+    dbField: "client_id",
+  },
+  {
+    field: "ClientName",
+    header: "Client Name",
+    dbField: "client_name",
+  },
+  {
     field: "AgencyID",
     header: "Agent ID",
     dbField: "agency_id",
   },
+
   {
     field: "AllocationDate",
     header: "Allocation Date",
@@ -88,9 +116,9 @@ export const columns = [
     header: "No.Of Appts",
     dbField: "noof_appointment",
   },
-  {
-    field: "ClosureStatus",
-    header: "Closure Status",
-    dbField: "closure_status",
-  },
-  ];
+  // {
+  //   field: "ClosureStatus",
+  //   header: "Closure Status",
+  //   dbField: "closure_status",
+  // },
+];
