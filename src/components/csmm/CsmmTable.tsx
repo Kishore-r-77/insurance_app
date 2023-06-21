@@ -26,6 +26,7 @@ import Notification from "../../utilities/Notification/Notification";
 import ComponentModal from "./componentModal/ComponentModal";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import AdjPremModal from "./adjPremModal/AdjPremModal";
+import SurrenderModal from "./surrenderModal/SurrenderModal";
 function CsmmTable({
   issueOpen,
   confirmOpen,
@@ -237,6 +238,7 @@ function CsmmTable({
   const [isFreqChange, setIsFreqChange] = useState(false);
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
+  const [isSurrender, setIsSurrender] = useState(false);
   const [completed, setcompleted] = useState(false);
   const [func, setfunc] = useState<any>("Calculate");
   const freqChangeOpen = (policyId: number, value: any) => {
@@ -264,11 +266,20 @@ function CsmmTable({
   const adjPremClose = () => {
     setIsAdjPrem(false);
   };
-  
+  const surrenderOpen = (policyId: number) => {
+    setPolicyID(policyId);
+    setIsSurrender(true);
+  };
+  const surrenderClose = () => {
+    setIsSurrender(false);
+  };
+
   const [polenqData, setPolenqData] = useState("");
-  const getPolEnq = (id: number) =>{
+  const getPolEnq = (id: number) => {
     axios
-      .get(`http://localhost:3000/api/v1/deathservices/polheaderenq/${id}`, { withCredentials: true })
+      .get(`http://localhost:3000/api/v1/deathservices/polheaderenq/${id}`, {
+        withCredentials: true,
+      })
       .then((resp) => {
         setPolenqData(resp?.data?.PolicyHeaderEnq);
       })
@@ -277,7 +288,7 @@ function CsmmTable({
 
         setPolenqData("");
       });
-  }
+  };
 
   useEffect(() => {
     getPolEnq(PolicyID);
@@ -285,6 +296,7 @@ function CsmmTable({
   }, [isAdjPrem]);
 
   const clientMenuClick = (value: any) => {
+    console.log(value.Action, "****");
     switch (value.Action) {
       case "Nominee":
         dispatch({
@@ -331,6 +343,10 @@ function CsmmTable({
         adjPremOpen(policyId.current, value);
         handleClose();
         break;
+      case "Surrender":
+        surrenderOpen(policyId.current);
+        handleClose();
+        break;
       default:
         return;
     }
@@ -342,6 +358,8 @@ function CsmmTable({
   const [componentMenu, setcomponentMenu] = useState<any>("");
   const [saChangeObj, setsaChangeObj] = useState<any>("");
   const [saChangeBenefits, setsaChangeBenefits] = useState<any>([]);
+  const [surrenderBenefits, setsurrenderBenefits] = useState<any>([]);
+  const [surrender, setSurrender] = useState<any>("");
 
   const isSave = useRef(false);
 
@@ -586,6 +604,7 @@ function CsmmTable({
       invalidatesa();
     }
   };
+
   const componentOpen = (policyId: number, value: any) => {
     setisComponent(true);
     setcomponentMenu(value);
@@ -843,16 +862,21 @@ function CsmmTable({
         setfunc={setfunc}
         data={polenqData}
       />
+      <SurrenderModal
+        open={isSurrender}
+        handleClose={surrenderClose}
+        policyId={policyId}
+        surrender={surrender}
+        surrenderBenefits={surrenderBenefits}
+        setsurrenderBenefits={setsurrenderBenefits}
+        isSave={isSave?.current}
+        policyRecord={enquiryRecord.current}
+      />
       <SaChangeModal
         open={isSaChange}
-        modifiedPremium={modifiedPremium}
         handleClose={saChangeClose}
-        saChangeObj={saChangeObj}
-        saChangeBenefits={saChangeBenefits}
-        setsaChangeBenefits={setsaChangeBenefits}
-        postSaChange={postSaChange}
         isSave={isSave?.current}
-        saveSaChange={saveSaChange}
+        getData={getData}
       />
       <ComponentModal
         open={isComponent}

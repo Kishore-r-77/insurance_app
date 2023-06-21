@@ -253,7 +253,7 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
           CompanyID: parseInt(companyId),
           QStatus: "",
           QuoteDate: "20230402",
-          TranCode: "Q0003",
+          TranCode: "Q0023",
         },
         { withCredentials: true }
       );
@@ -371,7 +371,7 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         editForm={editApi}
         initialValues={initialValues}
         record={record}
-        //editClickOpen={editClickOpen}
+        state={state}
       />
       <CustomPagination
         pageNum={pageNum}
