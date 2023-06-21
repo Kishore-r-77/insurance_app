@@ -23,6 +23,7 @@ import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
 import Notification from "../../utilities/Notification/Notification";
+import EditIcon from "@mui/icons-material/Edit";
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -463,16 +464,17 @@ function NewBussinessTable({
 
               <td>
                 <span className={styles.flexButtons}>
-                  {/* <EditIcon
-                      color="primary"
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                      }
-                    />
+                  {/* 
                     <DeleteIcon
                       color="error"
                       onClick={() => hardDelete(row.ID)}
                     /> */}
+                  <EditIcon
+                    color="primary"
+                    onClick={() =>
+                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                    }
+                  />
                   <InfoIcon
                     onClick={() =>
                       dispatch({ type: ACTIONS.INFOOPEN, payload: row })

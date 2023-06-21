@@ -11,7 +11,11 @@ import {
   FormControl,
   InputAdornment,
   MenuItem,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
   TextField,
+  FormLabel,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -191,7 +195,7 @@ function ClientFullModal({
   };
 
   const addClientWithAddress = () => {
-    return createClientWithAddress(state, companyId, addressData)
+    return createClientWithAddress(state, companyId, addressData, clientType)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
@@ -202,6 +206,11 @@ function ClientFullModal({
         getData();
       })
       .catch((err) => err.message);
+  };
+
+  const [clientType, setclientType] = useState("I");
+  const handleradiochange = (event: any) => {
+    setclientType(event.target.value);
   };
 
   return (
@@ -221,6 +230,35 @@ function ClientFullModal({
             defaultExpanded={["1"]}
           >
             <TreeItem nodeId="1" label={`Client Add`}>
+              <Grid2
+                lg={12}
+                style={{ display: "flex", justifyContent: "space-around" }}
+              >
+                <FormControl style={{ textAlign: "center" }}>
+                  <FormLabel id="demo-radio-buttons-group-label">
+                    <b> Client Type</b>
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="I"
+                    name="radio-buttons-group"
+                    row
+                    value={clientType}
+                    onChange={(e) => handleradiochange(e)}
+                  >
+                    <FormControlLabel
+                      value="I"
+                      control={<Radio />}
+                      label="Individual"
+                    />
+                    <FormControlLabel
+                      value="C"
+                      control={<Radio />}
+                      label="Corporate"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid2>
               <Grid2
                 container
                 spacing={2}
@@ -244,7 +282,7 @@ function ClientFullModal({
                     name="ClientShortName"
                     value={state.ClientShortName}
                     placeholder="Client Short Name"
-                    label="Client Short Name"
+                    label={clientType === "I" ? "Client Short Name" : "FAO"}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -262,7 +300,9 @@ function ClientFullModal({
                     name="ClientLongName"
                     value={state.ClientLongName}
                     placeholder="Client Long Name"
-                    label="Client Long Name"
+                    label={
+                      clientType === "I" ? "Client Long Name" : "Company Name"
+                    }
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -274,70 +314,78 @@ function ClientFullModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    id="ClientSurName"
-                    name="ClientSurName"
-                    value={state.ClientSurName}
-                    placeholder="Client Sur Name"
-                    label="Client Sur Name"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ClientSurName",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  />
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="Gender"
-                    name="Gender"
-                    value={state.Gender}
-                    placeholder="Gender"
-                    label="Gender"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "Gender",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  >
-                    {genderData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="Salutation"
-                    name="Salutation"
-                    value={state.Salutation}
-                    placeholder="Salutation"
-                    label="Salutation"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "Salutation",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  >
-                    {salutationData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
+                {clientType === "I" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      id="ClientSurName"
+                      name="ClientSurName"
+                      value={state.ClientSurName}
+                      placeholder="Client Sur Name"
+                      label="Client Sur Name"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: ACTIONS.ONCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ClientSurName",
+                        })
+                      }
+                      fullWidth
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : null}
+                {clientType === "I" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      select
+                      id="Gender"
+                      name="Gender"
+                      value={state.Gender}
+                      placeholder="Gender"
+                      label="Gender"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: ACTIONS.ONCHANGE,
+                          payload: e.target.value,
+                          fieldName: "Gender",
+                        })
+                      }
+                      fullWidth
+                      margin="dense"
+                    >
+                      {genderData.map((val: any) => (
+                        <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                ) : null}
+
+                {clientType === "I" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      select
+                      id="Salutation"
+                      name="Salutation"
+                      value={state.Salutation}
+                      placeholder="Salutation"
+                      label="Salutation"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: ACTIONS.ONCHANGE,
+                          payload: e.target.value,
+                          fieldName: "Salutation",
+                        })
+                      }
+                      fullWidth
+                      margin="dense"
+                    >
+                      {salutationData.map((val: any) => (
+                        <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                ) : null}
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
@@ -367,7 +415,7 @@ function ClientFullModal({
                     name="ClientEmail"
                     value={state.ClientEmail}
                     placeholder="ClientEmail"
-                    label="ClientEmail"
+                    label={clientType === "I" ? "Client Email" : "Office Mail"}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -385,7 +433,9 @@ function ClientFullModal({
                     name="ClientMobile"
                     value={state.ClientMobile}
                     placeholder="ClientMobile"
-                    label="ClientMobile"
+                    label={
+                      clientType === "I" ? "Client Mobile" : "Office Mobile"
+                    }
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">+91</InputAdornment>
@@ -398,6 +448,18 @@ function ClientFullModal({
                         fieldName: "ClientMobile",
                       })
                     }
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="ClientType"
+                    name="ClientType"
+                    value={clientType}
+                    placeholder="Client Type"
+                    label="Client Type"
+                    inputProps={{ readOnly: true }}
                     fullWidth
                     margin="dense"
                   />
@@ -431,7 +493,11 @@ function ClientFullModal({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly={state.infoOpen}
-                        label="Client Dob"
+                        label={
+                          clientType === "I"
+                            ? "Client Dob"
+                            : "Date of incorporation"
+                        }
                         inputFormat="DD/MM/YYYY"
                         value={state.ClientDob}
                         onChange={(
@@ -454,7 +520,11 @@ function ClientFullModal({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly={state.infoOpen}
-                        label="Client Dod"
+                        label={
+                          clientType === "I"
+                            ? "Client Dod"
+                            : "Date Of Termination"
+                        }
                         inputFormat="DD/MM/YYYY"
                         value={state.ClientDod}
                         onChange={(

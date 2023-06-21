@@ -1,0 +1,16 @@
+@font-face {
+  font-family: MerriWeather;
+  src: url("../../fonts/Merriweather/Merriweather-Regular.ttf");
+}
+
+.container {
+  font-family: MerriWeather;
+  background-color: rgb(246, 244, 244);
+  border: 5px solid black;
+  border-radius: 20%;
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  z-index: 2;
+  padding: 2rem;
+}

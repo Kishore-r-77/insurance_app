@@ -124,6 +124,11 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
     }
   };
 
+  const [clientType, setclientType] = useState(record.ClientType);
+  const handleradiochange = (event: any) => {
+    setclientType(event.target.value);
+  };
+
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
 
@@ -315,6 +320,8 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
         record={record}
         dispatch={dispatch}
         handleFormSubmit={editFormSubmit}
+        clientType={clientType}
+        handleradiochange={handleradiochange}
         ACTIONS={ACTIONS}
       />
       <ClientFullModal

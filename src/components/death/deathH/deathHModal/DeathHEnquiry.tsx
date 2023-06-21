@@ -170,7 +170,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
           >
             <TreeItem
               nodeId="1"
-              label={`Enquiry for Death Header Number-${record.ID}`}
+              label={`Enquiry for Death Header Number-${record.PolicyID}`}
             >
               <Grid2
                 container
@@ -215,7 +215,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -318,7 +318,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }

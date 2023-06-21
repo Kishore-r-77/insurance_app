@@ -11,6 +11,7 @@ export type ClientStateType = {
   ClientEmail: string;
   ClientMobile: string;
   ClientStatus: string;
+  ClientType: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;

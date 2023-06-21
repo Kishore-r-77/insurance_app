@@ -18,58 +18,58 @@ function ResultModal({ open, handleClose, record, completed }: any) {
           "Success"
         ) : (
           <Grid2 container spacing={2}>
-            <Grid2 lg={6}>
-              <TextField
-                id="Frequency"
-                name="Frequency"
-                value={record?.Frequency}
-                placeholder="Frequency"
-                label="Frequency"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                InputLabelProps={{ shrink: true }}
-                margin="dense"
-              ></TextField>
-            </Grid2>
-            <Grid2 lg={6}>
-              <TextField
-                id="Function"
-                name="Function"
-                value={record?.Function}
-                placeholder="Function"
-                label="Function"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                InputLabelProps={{ shrink: true }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 lg={6}>
-              <TextField
-                id="PolicyID"
-                name="PolicyID"
-                value={record?.PolicyID}
-                placeholder="PolicyID"
-                label="PolicyID"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                InputLabelProps={{ shrink: true }}
-                margin="dense"
-              />
-            </Grid2>
-            <Grid2 lg={6}>
-              <TextField
-                id="Premium"
-                name="Premium"
-                value={record?.Premium}
-                placeholder="Premium"
-                label="Premium"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                InputLabelProps={{ shrink: true }}
-                margin="dense"
-              />
-            </Grid2>
+            <Grid2 lg={4}>
+            <TextField
+              id="No Of Dues"
+              name="No Of Dues"
+              value={record?.NoOfDues}
+              placeholder="No Of Dues"
+              label="No Of Dues"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="Total Premium"
+              name="Total Premium"
+              value={record?.TotalPrem}
+              placeholder="Total Premium"
+              label="Total Premium"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="GST"
+              name="GST"
+              value={record?.TotalGST}
+              placeholder="GST"
+              label="GST"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="Total Amount"
+              name="Total Amount"
+              value={record?.TotalAmount}
+              placeholder="Total Amount"
+              label="Total Amount"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
           </Grid2>
         )}
       </CustomModal>

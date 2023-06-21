@@ -30,6 +30,7 @@ export const initialValues: ClientStateType = {
   ClientEmail: "",
   ClientMobile: "",
   ClientStatus: "",
+  ClientType: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
@@ -71,6 +72,11 @@ export const columns = [
     field: "ClientMobile",
     header: "Client Mobile",
     dbField: "client_mobile",
+  },
+  {
+    field: "ClientType",
+    header: "Client Type",
+    dbField: "client_type",
   },
   {
     field: "ClientStatus",

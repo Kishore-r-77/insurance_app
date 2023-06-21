@@ -201,23 +201,8 @@ const routes = [
     icon: <EditRoadRoundedIcon />,
     subRoutes: [
       {
-        path: "/qBenIllValues",
-        name: "QBenIllValues",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
-        path: "/qDetails",
-        name: "QDetails",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
-        path: "/qHeader",
-        name: "QHeader",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
-        path: "/quotations",
-        name: "Quotations",
+        path: "/qHeaderqDetail",
+        name: "Quotation",
         icon: <ArrowRightAltIcon />,
       },
     ],
