@@ -1,15 +1,15 @@
-
 export type LeadDetailsStateType = {
-  CompanyID :string;
-  LeadChannelID :string;
-  OfficeCode :string;
-  ProviderName :string;
-  ClientID :string;
-  ReceivedDate :string;
-  CampaignCode :string;
-  ProductType :string;
-  ProductCode :string;
-// *** Attention: Check the lookup table open below ***
+  CompanyID: string;
+  LeadChannelID: string;
+  OfficeCode: string;
+  ProviderName: string;
+  ClientID: string;
+  ClientName: string;
+  ReceivedDate: string;
+  CampaignCode: string;
+  ProductType: string;
+  ProductCode: string;
+  // *** Attention: Check the lookup table open below ***
   leadChannelsOpen: boolean;
   clientOpen: boolean;
   addOpen: boolean;

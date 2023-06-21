@@ -39,13 +39,14 @@ export const paramItem = (
 export const addApi = (state: LeadDetailsStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/pacificservices/leaddetailcreate`,
+    `http://localhost:3000/api/v1/pacificservices/leaddetailcreatewithalloc`,
     {
       CompanyID: companyId,
       LeadChannelID: parseInt(state.LeadChannelID),
       OfficeCode: state.OfficeCode,
       ProviderName: state.ProviderName,
       ClientID: parseInt(state.ClientID),
+      ClientName: state.ClientName,
       ReceivedDate: moment(state.ReceivedDate).format("YYYYMMDD"),
       CampaignCode: state.CampaignCode,
       ProductType: state.ProductType,

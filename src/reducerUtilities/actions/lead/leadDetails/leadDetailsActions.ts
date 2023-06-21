@@ -29,6 +29,7 @@ export const initialValues: LeadDetailsStateType = {
   OfficeCode: "",
   ProviderName: "",
   ClientID: "",
+  ClientName: "",
   ReceivedDate: "",
   CampaignCode: "",
   ProductType: "",
