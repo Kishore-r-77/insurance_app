@@ -1,0 +1,98 @@
+import { SurrenderHStateType } from "../../types/surrender/surrenderType";
+
+export const ACTIONS = {
+  ONCHANGE: "ONCHANGE",
+  EDITCHANGE: "EDITCHANGE",
+  ADDOPEN: "ADDOPEN",
+  EDITOPEN: "EDITOPEN",
+  INFOOPEN: "INFOOPEN",
+  ADDCLOSE: "ADDCLOSE",
+  EDITCLOSE: "EDITCLOSE",
+  INFOCLOSE: "INFOCLOSE",
+  SORT_ASC: "SORT_ASC",
+  SORT_DESC: "SORT_DESC",
+  CLIENTOPEN: "CLIENTOPEN",
+  CLIENTCLOSE: "CLIENTCLOSE",
+  POLICYOPEN: "POLICYOPEN",
+  POLICYCLOSE: "POLICYCLOSE",
+  COMMITOPEN: "COMMITOPEN",
+  COMMITCLOSE: "COMMITCLOSE",
+};
+
+export const initialValues: SurrenderHStateType = {
+  Function: "Fill",
+  CompanyID: "",
+  PolicyID: "",
+  ClientID: "",
+  EffectiveDate: "",
+  SurrDate: "",
+  Cause: "",
+  Status: "",
+  BillDate: "",
+  PaidToDate: "",
+  Product: "",
+  AplAmount: "",
+  LoanAmount: "",
+  PolicyDepost: "",
+  CashDeposit: "",
+  RefundPrem: "",
+  PremTolerance: "",
+  TotalSurrPayable: "",
+  AdjustedAmount: "",
+  ReasonDescription: "",
+  RequestedDate: "",
+  addOpen: false,
+  editOpen: false,
+  infoOpen: false,
+  clientOpen: false,
+  policyOpen: false,
+  commitOpen: false,
+  searchString: "",
+  searchCriteria: "",
+  sortColumn: "",
+  sortAsc: false,
+  sortDesc: false,
+};
+
+export const columns = [
+  { field: "ID", header: "ID", dbField: "id" },
+  // { field: "CompanyID", header: "Company ID", dbField: "company_id" },
+  {
+    field: "PolicyID",
+    header: "Policy ID",
+    dbField: "policy_id",
+  },
+  {
+    field: "ClientID",
+    header: "Client ID",
+    dbField: "client_id",
+  },
+
+  {
+    field: "EffectiveDate",
+    header: "Effective Date",
+    dbField: "effective_date",
+    type: "date",
+  },
+  {
+    field: "BillDate",
+    header: "Bill Date",
+    dbField: "bill_date",
+    type: "date",
+  },
+  {
+    field: "Cause",
+    header: "Cause",
+    dbField: "cause",
+  },
+  {
+    field: "Product",
+    header: "Product",
+    dbField: "product",
+  },
+  {
+    field: "Status",
+    header: "Status",
+    dbField: "status",
+  },
+];

@@ -134,10 +134,10 @@ function LeadAllocations({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All LeadAllocationss"]);
+        setData(resp.data["All LeadAllocations"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All LeadAllocationss"]?.length === 0);
+        setisLast(resp.data["All LeadAllocations"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
