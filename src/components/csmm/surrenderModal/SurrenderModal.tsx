@@ -485,6 +485,20 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
                       margin="dense"
                     />
                   </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      id="CashDeposit"
+                      name="CashDeposit"
+                      value={surrHData?.CashDeposit}
+                      placeholder="CashDeposit"
+                      label="CashDeposit"
+                      inputProps={{ readOnly: true }}
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      margin="dense"
+                    />
+                  </Grid2>
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
                       id="RefundPrem"
@@ -511,13 +525,14 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
                       margin="dense"
                     />
                   </Grid2>
+
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
-                      id="TotalSurrPayable"
-                      name="TotalSurrPayable"
-                      value={surrHData?.TotalSurrPayable}
-                      placeholder="TotalSurrPayable"
-                      label="TotalSurrPayable"
+                      id="AdjustedAmount"
+                      name="AdjustedAmount"
+                      value={surrHData?.AdjustedAmount}
+                      placeholder="AdjustedAmount"
+                      label="AdjustedAmount"
                       inputProps={{ readOnly: true }}
                       InputLabelProps={{ shrink: true }}
                       fullWidth
@@ -526,11 +541,11 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
                   </Grid2>
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
-                      id="AdjustedAmount"
-                      name="AdjustedAmount"
-                      value={surrHData?.AdjustedAmount}
-                      placeholder="AdjustedAmount"
-                      label="AdjustedAmount"
+                      id="TotalSurrPayable"
+                      name="TotalSurrPayable"
+                      value={surrHData?.TotalSurrPayable}
+                      placeholder="TotalSurrPayable"
+                      label="TotalSurrPayable"
                       inputProps={{ readOnly: true }}
                       InputLabelProps={{ shrink: true }}
                       fullWidth
@@ -728,14 +743,30 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
                                 margin="dense"
                               />
                             </Grid2>
+
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
                                 type="number"
-                                id="TotalSurrAmounts"
-                                name="TotalSurrAmounts"
-                                value={SurrDdata.TotalSurrAmounts}
-                                placeholder="TotalSurrAmounts"
-                                label="TotalSurrAmounts"
+                                id="SurrAmount"
+                                name="SurrAmount"
+                                value={SurrDdata.SurrAmount}
+                                placeholder="SurrAmount"
+                                label="SurrAmount"
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => handleChange(e, index)}
+                                fullWidth
+                                margin="dense"
+                              />
+                            </Grid2>
+                            <Grid2 xs={8} md={6} lg={4}>
+                              <TextField
+                                type="number"
+                                id="TotalSurrAmount"
+                                name="TotalSurrAmount"
+                                value={SurrDdata.TotalSurrAmount}
+                                placeholder="TotalSurrAmount"
+                                label="TotalSurrAmount"
                                 onChange={(
                                   e: React.ChangeEvent<HTMLInputElement>
                                 ) => handleChange(e, index)}
