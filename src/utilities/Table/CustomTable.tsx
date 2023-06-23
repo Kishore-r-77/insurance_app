@@ -104,16 +104,14 @@ function CustomTable({
               className={styles["table-cell"]}
             >
               {columns.map((col: { field: string; type: string }) => {
-                if (col.type === "date") {
+                if (col?.type === "date") {
                   return (
-                    <td key={col.field}>
-                      {row[col.field]?.length === 0
-                        ? ""
-                        : moment(row[col.field]).format("DD-MM-YYYY")}
+                    <td key={col?.field}>
+                      {moment(row[col?.field]).format("DD-MM-YYYY")}
                     </td>
                   );
                 }
-                return <td key={col.field}>{row[col.field]}</td>;
+                return <td key={col?.field}>{row[col?.field]}</td>;
               })}
 
               <td>
