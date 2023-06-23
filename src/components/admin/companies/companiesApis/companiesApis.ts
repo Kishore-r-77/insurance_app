@@ -55,9 +55,11 @@ export const addApi = (state: CompaniesStateType) => {
       CompanyIncorporationDate: moment(state.CompanyIncorporationDate).format(
         "YYYYMMDD"
       ),
-      CompanyTerminationDate: moment(state.CompanyTerminationDate).format(
-        "YYYYMMDD"
-      ),
+
+      CompanyTerminationDate:
+        state.CompanyTerminationDate.length === 0
+          ? ""
+          : moment(state.CompanyTerminationDate).format("YYYYMMDD"),
     },
     {
       withCredentials: true,

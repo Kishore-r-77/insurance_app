@@ -59,16 +59,24 @@ function Companies({ userORGroupFunc }: any) {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         if (action.fieldName === "CompanyLogo") {
-          const base64 = convertBase64(action.payload);
-          return {
-            ...state,
-            [action.fieldName]: base64,
-          };
+          convertBase64(action.payload).then((resp) => {
+            console.log(resp, "Logo");
+            return {
+              ...state,
+              CompanyLogo: resp,
+            };
+          });
         } else
           return {
             ...state,
             [action.fieldName]: action.payload,
           };
+
+        return {
+          ...state,
+          addOpen: true,
+        };
+
       case ACTIONS.EDITCHANGE:
         if (action.fieldName === "CompanyLogo") {
           convertBase64(action.payload).then((base64) => {
