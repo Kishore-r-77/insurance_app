@@ -15,6 +15,7 @@ export type CompaniesStateType = {
   CompanyIncorporationDate: string;
   CompanyTerminationDate: string;
   CompanyStatusID: string;
+  CurrencyID: string;
   ContHeaders: string;
   Users: any;
   addOpen: boolean;
@@ -46,4 +47,6 @@ export type CompaniesModalType = {
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;
   ACTIONS: ActionConstantsType;
+  currencydata: any;
+  cmpStatusdata: any;
 };

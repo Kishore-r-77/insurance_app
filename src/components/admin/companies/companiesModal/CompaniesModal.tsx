@@ -1,4 +1,4 @@
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -15,6 +15,8 @@ function CompaniesModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  currencydata,
+  cmpStatusdata,
 }: CompaniesModalType) {
   const addTitle: string = "Company Add";
   const editTitle: string = "Company Edit";
@@ -299,6 +301,33 @@ function CompaniesModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                select
+                id="CurrencyID"
+                name="CurrencyID"
+                value={state.addOpen ? state.CurrencyID : record.CurrencyID}
+                placeholder="Company Currency Id"
+                label="Company Currency Id"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "CurrencyID",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              >
+                {currencydata.map((val: any) => (
+                  <MenuItem key={val.ID} value={val.ID}>
+                    {val.CurrencyLongName}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                select
                 id="CompanyStatusID"
                 name="CompanyStatusID"
                 value={
@@ -316,7 +345,13 @@ function CompaniesModal({
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
-              />
+              >
+                {cmpStatusdata.map((val: any) => (
+                  <MenuItem key={val.ID} value={val.ID}>
+                    {val.ClientStatusLongName}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
@@ -338,7 +373,7 @@ function CompaniesModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload:date?.$d,
+                        payload: date?.$d,
                         fieldName: "CompanyIncorporationDate",
                       })
                     }
@@ -367,7 +402,7 @@ function CompaniesModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload:date?.$d,
+                        payload: date?.$d,
                         fieldName: "CompanyTerminationDate",
                       })
                     }

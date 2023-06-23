@@ -17,6 +17,8 @@ import {
   deleteApi,
   editApi,
   getAllApi,
+  getAllCurrencyApi,
+  getAllCompStatusApi,
 } from "./companiesApis/companiesApis";
 import CompaniesModal from "./companiesModal/CompaniesModal";
 import Notification from "../../../utilities/Notification/Notification";
@@ -24,6 +26,8 @@ import Notification from "../../../utilities/Notification/Notification";
 function Companies({ userORGroupFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
+  const [currencydata, setcurrencyData] = useState([]);
+  const [cmpStatusdata, setcmpStatusData] = useState([]);
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
@@ -163,6 +167,25 @@ function Companies({ userORGroupFunc }: any) {
       })
       .catch((err) => console.log(err.message));
   };
+  //Get Currency all Api
+  const getCurrencyData = () => {
+    return getAllCurrencyApi()
+      .then((resp) => {
+        console.log(resp);
+        setcurrencyData(resp.data["currencies"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  //Get CompanyStatus all Api
+  const getCompStatusData = () => {
+    return getAllCompStatusApi()
+      .then((resp) => {
+        console.log(resp);
+        setcmpStatusData(resp.data["All Status"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   //Add Api
   const handleFormSubmit = () => {
@@ -234,6 +257,12 @@ function Companies({ userORGroupFunc }: any) {
     getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
+
+  useEffect(() => {
+    getCurrencyData();
+    getCompStatusData();
+    return () => {};
+  }, []);
 
   return (
     <div>
@@ -336,6 +365,8 @@ function Companies({ userORGroupFunc }: any) {
         dispatch={dispatch}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
+        currencydata={currencydata}
+        cmpStatusdata={cmpStatusdata}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>
