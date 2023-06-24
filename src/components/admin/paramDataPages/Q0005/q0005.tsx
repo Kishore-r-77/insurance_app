@@ -1,11 +1,13 @@
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
 import  "./q0005.css";
+import Q0005Enq from "./q0005Enq";
 
 const Q0005 = forwardRef((props: any, ref) => {
   
@@ -87,8 +89,51 @@ const Q0005 = forwardRef((props: any, ref) => {
     },
   }));
 
+  const [htmlContent, setHtmlContent] = useState('');
+
+  const getHTML =()=>{
+    fetch(`/q0005.html`)
+      .then(response => response.text())
+      .then(content => setHtmlContent(content))
+      .catch(error => console.error('Error fetching HTML file:', error));
+  }
+
+  useEffect(() => {
+    getHTML();
+    return () => {}
+  }, [])
+
+  const [showHtmlContent, setShowHtmlContent] = useState(false);
+
+  const toggleHtmlContent = () => {
+    getHTML();
+    setShowHtmlContent(!showHtmlContent);
+  };
+
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+  
+
   return (
     <>
+    <InfoIcon
+        onClick={() =>enqOpen()}
+      />
+
+{/* <div>
+      <InfoIcon onClick={toggleHtmlContent}></InfoIcon>
+      {showHtmlContent && (
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+      )}
+    </div> */}
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           type="number"
@@ -403,7 +448,10 @@ const Q0005 = forwardRef((props: any, ref) => {
           margin="dense"
         />
         </Grid2>
-
+        <Q0005Enq
+        open={enq}
+        handleClose={enqClose}
+        />
 
     </>
   );

@@ -18,7 +18,8 @@ function AdjPremModal({
   completed,
   setcompleted,
   func,
-  setfunc
+  setfunc,
+  getData
 
 }: any) {
   const size: string = "xl";
@@ -71,6 +72,7 @@ function AdjPremModal({
             message: resp.data?.success,
             type: "success",
           });
+          location.reload();
         }
       })
       .catch((err) => {
