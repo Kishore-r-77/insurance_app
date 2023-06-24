@@ -32,7 +32,7 @@ function LeadDetailsModal({
   const addTitle: string = "LeadDetails Add";
   const editTitle: string = "LeadDetails Edit";
   const infoTitle: string = "LeadDetails Info";
-  const size: string = "size";
+  const size: string = "xl";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -157,10 +157,12 @@ function LeadDetailsModal({
         }
         size={size}
         handleClose={
-          state.addOpen
+          state.leadChannelsOpen
+            ? () => dispatch({ type: ACTIONS.LEADCHANNELSCLOSE })
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
-            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
+            ? () => dispatch({ type: ACTIONS.LEADCHANNELSCLOSE })
             : () => dispatch({ type: ACTIONS.INFOCLOSE })
         }
         title={
@@ -301,6 +303,28 @@ function LeadDetailsModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="ClientName"
+                    name="ClientName"
+                    value={state.addOpen ? state.ClientName : record.ClientName}
+                    placeholder="Client Name"
+                    label="Client Name"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientName",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
@@ -319,7 +343,7 @@ function LeadDetailsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "ReceivedDate",
                           })
                         }

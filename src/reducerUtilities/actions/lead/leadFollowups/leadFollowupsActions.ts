@@ -26,6 +26,10 @@ export const initialValues: LeadFollowupsStateType = {
   CountryCode: "",
   LeadDetailID: "",
   SeqNo: "",
+  ClientID: "",
+  ClientName: "",
+  SalesManager: "",
+  AgencyID: "",
   AppointmentDate: "",
   AppointmentFlag: "",
   PreferredDay: "",
@@ -57,10 +61,31 @@ export const columns = [
     dbField: "lead_detail_id",
   },
   {
-    field: "SeqNo",
+    field: "Followup SeqNo",
     header: "Auto Seq.Number",
     dbField: "seq_no",
   },
+  {
+    field: "ClientID",
+    header: "Client ID",
+    dbField: "client_id",
+  },
+  {
+    field: "ClientName",
+    header: "Client Name",
+    dbField: "client_name",
+  },
+  {
+    field: "SalesManager",
+    header: "Sales Manager",
+    dbField: "sales_manager",
+  },
+  {
+    field: "AgencyID",
+    header: "Agent ID",
+    dbField: "agency_id",
+  },
+
   {
     field: "AppointmentDate",
     header: "Scheduled Appt. Date",

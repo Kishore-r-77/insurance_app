@@ -222,7 +222,7 @@ function LeadChannels({ modalFunc }: any) {
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <header className={styles.flexStyle}>
         <span>
           <TextField

@@ -12,19 +12,20 @@ function HoverDetails({ title, data }: any) {
             BillToDate:{" "}
             {val.BillToDate === ""
               ? ""
-              : moment(val.BillToDate).format("YYYY/MM/DD")}
+              : moment(val.BillToDate).format("DD/MM/YYYY")}
           </li>
           <li>
             PaidToDate:{" "}
             {val.PaidToDate === ""
               ? ""
-              : moment(val.PaidToDate, "YYYYMMDD").format("YYYY/MM/DD")}
+              : moment(val.PaidToDate, "YYYYMMDD").format("DD/MM/YYYY")}
           </li>
           <li>Premium: {val.Premium}</li>
           <li>Status: {val.Status}</li>
           <li>GST: {val.GST}</li>
           <li>Stamp Duty: {val.StampDuty}</li>
           <li>Policy Deposit: {val.PolicyDeposit}</li>
+          <li>Net Payable: {val.Payable}</li>
         </ul>
       ))}
     </div>

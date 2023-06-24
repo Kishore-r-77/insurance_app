@@ -1,20 +1,23 @@
-
 export type LeadAllocationsStateType = {
-  CompanyID :string;
-  Office :string;
-  SalesManager :string;
-  AgencyID :string;
-  AllocationDate :string;
-  AppointmentDate :string;
-  LeadAllocStatus :string;
-  ProductType :string;
-  ProductCode :string;
-  NoofAppointment :string;
-  Priority :string;
-  Quality :string;
-  ClosureStatus :string;
-  ClosureDate :string;
-// *** Attention: Check the lookup table open below ***
+  CompanyID: string;
+  Office: string;
+  SalesManager: string;
+  AgencyID: string;
+  ClientID: string;
+  ClientName: string;
+  AllocationDate: string;
+  AppointmentDate: string;
+  LeadAllocStatus: string;
+  ProductType: string;
+  ProductCode: string;
+  NoofAppointment: string;
+  ExtractionDate: string;
+  Priority: string;
+  Quality: string;
+  ClosureStatus: string;
+  ClosureDate: string;
+  LeadChannelID: string;
+  // *** Attention: Check the lookup table open below ***
   agenciesOpen: boolean;
   addOpen: boolean;
   editOpen: boolean;

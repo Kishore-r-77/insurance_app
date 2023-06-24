@@ -212,7 +212,7 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        // readOnly={state.infoOpen}
+                        readOnly={isResult}
                         label="Next Date"
                         inputFormat="DD/MM/YYYY"
                         value={nextDate}
