@@ -23,9 +23,9 @@ function TDFEnquiry({ data, state }: any) {
       dbField: "tdf_type",
     },
     {
-      field: "TDFRuleID",
-      header: "TDF Rule ID",
-      dbField: "tdf_rule_id",
+      field: "Seqno",
+      header: "Seq No",
+      dbField: "seqno",
     },
     {
       field: "EffectiveDate",
