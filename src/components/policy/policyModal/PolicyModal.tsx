@@ -199,7 +199,7 @@ function PolicyModal({
         ClientID: 0,
         BStartDate: "",
         BTerm: 0,
-        BpTerm: 0,
+        BPTerm: 0,
         BCoverage: "",
         BSumAssured: 0,
         Interest: 0,
