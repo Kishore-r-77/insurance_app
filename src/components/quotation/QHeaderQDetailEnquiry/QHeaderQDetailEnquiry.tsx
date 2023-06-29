@@ -255,13 +255,13 @@ function QHeaderQDetailEnquiry({
   const getDetails = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/quotationservices/qdetailbyqheaderget/${record.ID}`,
+        `http://localhost:3000/api/v1/quotationservices/qdetailgetbyqheader/${record.ID}`,
         {
           withCredentials: true,
         }
       )
       .then((resp) => {
-        setDetailsData(resp.data["QDetail"]);
+        setDetailsData(resp.data["All QDetails"]);
       })
       .catch((err) => console.log(err.message));
   };
@@ -363,7 +363,6 @@ function QHeaderQDetailEnquiry({
 
   useEffect(() => {
     getDetails();
-    getQCommunicationByHeader();
 
     return () => {};
   }, [state.infoOpen]);
@@ -421,7 +420,7 @@ function QHeaderQDetailEnquiry({
                 <Client modalFunc={clientOpenFunc} />
               </CustomModal>
             ) : null}
-            <TreeItem nodeId="1" label={`Quotation Info}`}>
+            <TreeItem nodeId="1" label={`Quotation Info`}>
               <Grid2
                 container
                 spacing={2}
@@ -827,12 +826,12 @@ function QHeaderQDetailEnquiry({
                 </Grid2>
               </Grid2>
             </TreeItem>
-            {detailsData.map((qDetail: any, index: number) => (
+            {detailsData?.map((qDetail: any, index: number) => (
               <>
                 <div style={{ display: "flex" }}>
                   <TreeItem
                     nodeId={(index + 2).toString()}
-                    label={`QDetail Info-${qDetail.ID}`}
+                    label={`QDetail Info`}
                     style={{ minWidth: "95%", margin: "0px 1rem" }}
                   >
                     <Grid2 container spacing={2}>

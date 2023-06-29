@@ -12,13 +12,12 @@
 }
 
 /* .table-cell:nth-child(odd) {
-    background: rgb(241, 216, 237);
-  } */
+      background: rgb(241, 216, 237);
+    } */
 
 .flexButtons {
   display: flex;
   gap: 1rem;
-  margin-top: none;
 }
 .header {
   background-color: rgba(71, 11, 75, 1);
