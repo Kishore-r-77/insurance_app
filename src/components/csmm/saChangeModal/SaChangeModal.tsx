@@ -19,6 +19,7 @@ function SaChangeModal({
   postSaChange,
   isSave,
   saveSaChange,
+  getData,
 }: any) {
   const title: string = "Sa Change";
   const isChecked = useRef(false);
