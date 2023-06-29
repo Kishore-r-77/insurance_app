@@ -11,7 +11,7 @@ export const createQHeaderWithQDetail = (
   data: any
 ) => {
   return axios.post(
-    `http://localhost:3000/api/v1/quotationservices/qheaderanddetailcreate`,
+    `http://localhost:3000/api/v1/quotationservices/qheaderandbenefitcreate`,
     {
       CompanyID: companyId,
       QuoteDate:
@@ -59,7 +59,7 @@ export const editQHeaderAndQDeatail = (
 ) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/quotationservices/qheaderanddetailupdate`,
+    `http://localhost:3000/api/v1/quotationservices/qheaderandbenefitupdate`,
     {
       CompanyID: companyId,
       ID: parseInt(record.ID),

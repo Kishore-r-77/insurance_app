@@ -283,7 +283,7 @@ function QHeaderTable({
   const getQCommunicationByHeader = (row: number) => {
     axios
       .get(
-        `http://localhost:3000/api/v1/quotationservices/qcommidbyheader/${row}`,
+        `http://localhost:3000/api/v1/quotationservices/getcommidbyqheader/${row}`,
         {
           withCredentials: true,
         }
@@ -298,13 +298,10 @@ function QHeaderTable({
   const item = "QUOTE";
   const downloadQuotePdf = (id: any) => {
     axios
-      .get(
-        `http://localhost:3000/api/v1/basicservices/qgetReport?reportName=${item}&ID=${id}`,
-        {
-          withCredentials: true,
-          responseType: "blob",
-        }
-      )
+      .get(`http://localhost:3000/api/v1/basicservices/qgetReport?ID=${id}`, {
+        withCredentials: true,
+        responseType: "blob",
+      })
       .then((resp) => {
         const url = window.URL.createObjectURL(new Blob([resp.data]));
         const link = document.createElement("a");

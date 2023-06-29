@@ -26,6 +26,7 @@ export type SurrenderHStateType = {
   clientOpen: boolean;
   policyOpen: boolean;
   commitOpen: boolean;
+  surrenderOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -48,6 +49,8 @@ export type ActionConstantsType = {
   CLIENTCLOSE: string;
   POLICYOPEN: string;
   POLICYCLOSE: string;
+  SURRENDEROPEN: string;
+  SURRENDERCLOSE: string;
 };
 
 export type SurrenderHModalType = {

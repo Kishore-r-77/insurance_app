@@ -13,7 +13,7 @@ import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomModal from "../../utilities/modal/CustomModal";
 import NotificationModal from "../../utilities/modal/NotificationModal";
-import NewBussinessTable from "./CsmmTable";
+import CsmmTable from "./CsmmTable";
 import styles from "./csmm.module.css";
 import {
   addApi,
@@ -427,7 +427,7 @@ function Csmm({ modalFunc }: any) {
 
         <h1>Csmm Enquiry</h1>
       </header>
-      <NewBussinessTable
+      <CsmmTable
         data={data}
         issueOpen={issueOpen}
         confirmOpen={confirmOpen}
