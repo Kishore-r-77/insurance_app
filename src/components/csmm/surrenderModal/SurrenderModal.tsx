@@ -35,12 +35,14 @@ import CustomModal from "../../../utilities/modal/CustomModal";
 //   RequestedDate: "",
 // };
 
-function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
-  const [surrenderData, setsurrenderData] = useState(initialValues);
-  const onChange = (e: any) => {
-    const { value, name } = e.target;
-    setsurrenderData({ ...surrenderData, [name]: value });
-  };
+function SurrenderModal({
+  open,
+
+  policyRecord,
+  getData,
+  surrenderState,
+  surrenderDispatch,
+}: any) {
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
   //Reducer Function to be used inside UserReducer hook
@@ -51,127 +53,13 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
     type: "",
   });
   const isSave = useRef(false);
-  const reducer = (state: SurrenderHStateType, action: any) => {
-    switch (action.type) {
-      case ACTIONS.ONCHANGE:
-        return {
-          ...state,
-          [action.fieldName]: action.payload,
-        };
-      case ACTIONS.EDITCHANGE:
-        setRecord((prev: any) => ({
-          ...prev,
-          [action.fieldName]: action.payload,
-        }));
-        return {
-          ...state,
-          editOpen: true,
-        };
-      case ACTIONS.ADDOPEN:
-        return {
-          ...state,
-          addOpen: true,
-        };
-      case ACTIONS.EDITOPEN:
-        setRecord(action.payload);
-        return {
-          ...state,
-          editOpen: true,
-        };
 
-      case ACTIONS.INFOOPEN:
-        setRecord(action.payload);
-        console.log("Payload", action.payload);
-        return {
-          ...state,
-          infoOpen: true,
-        };
-
-      case ACTIONS.ADDCLOSE:
-        state = initialValues;
-        return {
-          ...state,
-          addOpen: false,
-        };
-
-      case ACTIONS.EDITCLOSE:
-        return {
-          ...state,
-          editOpen: false,
-        };
-      case ACTIONS.INFOCLOSE:
-        return {
-          ...state,
-          infoOpen: false,
-        };
-
-      case ACTIONS.CLIENTOPEN:
-        return {
-          ...state,
-          clientOpen: true,
-        };
-      case ACTIONS.CLIENTCLOSE:
-        return {
-          ...state,
-          clientOpen: false,
-        };
-      case ACTIONS.POLICYOPEN:
-        return {
-          ...state,
-          policyOpen: true,
-        };
-      case ACTIONS.POLICYCLOSE:
-        return {
-          ...state,
-          policyOpen: false,
-        };
-      case ACTIONS.COMMITOPEN:
-        setNotify({
-          isOpen: true,
-          message: "Calculated Successfully",
-          type: "success",
-        });
-        return {
-          ...state,
-          commitOpen: true,
-        };
-      case ACTIONS.COMMITCLOSE:
-        return {
-          ...state,
-          Function: "Commit",
-          commitOpen: false,
-        };
-
-      case ACTIONS.SORT_ASC:
-        const asc = !state.sortAsc;
-        if (state.sortDesc) {
-          state.sortDesc = false;
-        }
-        return {
-          ...state,
-          sortAsc: asc,
-          sortColumn: action.payload,
-        };
-      case ACTIONS.SORT_DESC:
-        const desc = !state.sortDesc;
-        if (state.sortAsc) {
-          state.sortAsc = false;
-        }
-        return {
-          ...state,
-          sortDesc: desc,
-          sortColumn: action.payload,
-        };
-      default:
-        return initialValues;
-    }
-  };
   const title: string = "Surrender";
   const isChecked = useRef(false);
   const size = "xl";
 
   //Creating useReducer Hook
-  const [state, dispatch] = useReducer(reducer, initialValues);
+
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
@@ -199,9 +87,9 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
   };
 
   useEffect(() => {
-    getLAByPolicy1(parseInt(state.PolicyID));
+    getLAByPolicy1(parseInt(surrenderState.PolicyID));
     return () => {};
-  }, [state.PolicyID]);
+  }, [surrenderState.PolicyID]);
 
   const [surrDdata, setsurrDdata] = useState<any>([{}, {}, {}, {}, {}]);
 
@@ -220,23 +108,23 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
 
   const surrenderCreate = () => {
     return postSurrender(
-      state,
+      surrenderState,
       companyId,
       policyRecord.ID,
       policyRecord.ClientID
     )
       .then((resp: any) => {
         isSave.current = true;
-        console.log("surrenderCreate");
         setsurrHData(resp.data?.SurrH);
         setsurrDdata(resp.data?.SurrDs);
-        if (state.Function === "Fill") {
-          dispatch({ type: ACTIONS.COMMITOPEN });
+        if (surrenderState.Function === "Fill") {
+          surrenderDispatch({ type: ACTIONS.COMMITOPEN });
 
-          state.Function = "Commit";
+          surrenderState.Function = "Commit";
         } else {
-          dispatch({ type: ACTIONS.COMMITCLOSE });
-          dispatch({ type: ACTIONS.ADDCLOSE });
+          surrenderDispatch({ type: ACTIONS.COMMITCLOSE });
+          surrenderDispatch({ type: ACTIONS.ADDCLOSE });
+
           setNotify({
             isOpen: true,
             message: `Surrender record  id: ${resp.data?.Created}`,
@@ -250,7 +138,7 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
     return saveSurrender(policyRecord.ID, companyId, surrHData, surrDdata)
       .then((resp: any) => {
         isSave.current = false;
-        handleClose();
+        surrenderDispatch({ type: ACTIONS.SURRENDERCLOSE });
         getData();
         setNotify({
           isOpen: false,
@@ -276,10 +164,10 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
   return (
     <div>
       <CustomSurrFullModal
-        open={open}
-        commit={state.commitOpen}
+        open={surrenderState.surrenderOpen}
+        commit={surrenderState.commitOpen}
         handleFormSubmit={isSave.current ? surrenderPolicy : surrenderCreate}
-        handleClose={handleClose}
+        handleClose={() => surrenderDispatch({ type: ACTIONS.SURRENDERCLOSE })}
         title={title}
         isSave={isSave.current}
       >
@@ -343,14 +231,14 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly={surrenderState.infoOpen}
                         label="EffectiveDate"
                         inputFormat="DD/MM/YYYY"
-                        value={state.EffectiveDate}
+                        value={surrenderState.EffectiveDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
-                          dispatch({
+                          surrenderDispatch({
                             type: ACTIONS.ONCHANGE,
                             payload: date?.$d,
                             fieldName: "EffectiveDate",
@@ -367,11 +255,11 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
                     select
                     id="Cause"
                     name="Cause"
-                    value={state.Cause}
+                    value={surrenderState.Cause}
                     placeholder="Cause"
                     label="Cause"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
+                      surrenderDispatch({
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
                         fieldName: "Cause",
@@ -392,16 +280,22 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
                     multiline
                     id="ReasonDescription"
                     name="ReasonDescription"
-                    value={surrenderData.ReasonDescription}
+                    value={surrenderState.ReasonDescription}
                     placeholder="Reason Description"
                     label="Reseon Description"
                     fullWidth
                     margin="dense"
-                    onChange={(e) => onChange(e)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      surrenderDispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ReasonDescription",
+                      })
+                    }
                   />
                 </Grid2>
               </Grid2>
-              {state.commitOpen ? (
+              {surrenderState.commitOpen ? (
                 <Grid2
                   container
                   spacing={2}
@@ -556,7 +450,7 @@ function SurrenderModal({ open, handleClose, policyRecord, getData }: any) {
               ) : null}
             </TreeItem>
 
-            {state.commitOpen ? (
+            {surrenderState.commitOpen ? (
               <>
                 {surrDdata.map((SurrDdata: any, index: number) => (
                   <>

@@ -17,6 +17,8 @@ export const ACTIONS = {
   POLICYCLOSE: "POLICYCLOSE",
   COMMITOPEN: "COMMITOPEN",
   COMMITCLOSE: "COMMITCLOSE",
+  SURRENDEROPEN: "SURRENDEROPEN",
+  SURRENDERCLOSE: "SURRENDERCLOSE",
 };
 
 export const initialValues: SurrenderHStateType = {
@@ -47,6 +49,7 @@ export const initialValues: SurrenderHStateType = {
   clientOpen: false,
   policyOpen: false,
   commitOpen: false,
+  surrenderOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",
