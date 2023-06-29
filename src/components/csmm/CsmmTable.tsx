@@ -875,7 +875,12 @@ function CsmmTable({
       <SaChangeModal
         open={isSaChange}
         handleClose={saChangeClose}
+        saChangeObj={saChangeObj}
+        saChangeBenefits={saChangeBenefits}
+        setsaChangeBenefits={setsaChangeBenefits}
+        postSaChange={postSaChange}
         isSave={isSave?.current}
+        saveSaChange={saveSaChange}
         getData={getData}
       />
       <ComponentModal
