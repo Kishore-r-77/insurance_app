@@ -1,10 +1,10 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import CustomModal from '../../../../utilities/modal/CustomModal';
 
-const Q0005Enq = forwardRef(({open, handleClose}: any) => {
+const P0027Enq = forwardRef(({open, handleClose}: any) => {
     const [htmlContent, setHtmlContent] = useState('');
     const getHTML =()=>{
-      fetch(`/q0005.html`)
+      fetch(`/p0027.html`)
 
       .then(response => response.text())
       .then(content => setHtmlContent(content))
@@ -26,4 +26,4 @@ const Q0005Enq = forwardRef(({open, handleClose}: any) => {
 });
 
 
-export default Q0005Enq;
+export default P0027Enq;

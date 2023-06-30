@@ -1,13 +1,14 @@
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0005.css";
-import Q0005Enq from "./q0005Enq";
+import Q0005Enq  from "./q0005Enq";
 
 const Q0005 = forwardRef((props: any, ref) => {
   
@@ -60,6 +61,8 @@ const Q0005 = forwardRef((props: any, ref) => {
   const componentAddAtAnyTimeRef: any = useRef();
   const futurePremAdjRef: any = useRef();
   const futurePremAdjYrsRef: any = useRef();
+  const lapsedDaysRef: any = useRef();
+  const billingLeadDaysRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -84,31 +87,33 @@ const Q0005 = forwardRef((props: any, ref) => {
       inputdata.componentAddAtAnyTime = componentAddAtAnyTimeRef.current.value;
       inputdata.futurePremAdj = futurePremAdjRef.current.value;
       inputdata.futurePremAdjYrs = Number(futurePremAdjYrsRef.current.value);
+      inputdata.lapsedDays = Number(lapsedDaysRef.current.value);
+      inputdata.billingLeadDays = Number(billingLeadDaysRef.current.value);
 
       return inputdata;
     },
   }));
 
-  const [htmlContent, setHtmlContent] = useState('');
+  // const getHTML =()=>{
+  //   fetch(`/q0005.html`)
+  //     .then(response => response.text())
+  //     .then(content => setHtmlContent(content))
+  //     .catch(error => console.error('Error fetching HTML file:', error));
+  // }
 
-  const getHTML =()=>{
-    fetch(`/q0005.html`)
-      .then(response => response.text())
-      .then(content => setHtmlContent(content))
-      .catch(error => console.error('Error fetching HTML file:', error));
-  }
+  // const [htmlContent, setHtmlContent] = useState('');
+  
+  // useEffect(() => {
+  //   getHTML();
+  //   return () => {}
+  // }, [])
 
-  useEffect(() => {
-    getHTML();
-    return () => {}
-  }, [])
+  // const [showHtmlContent, setShowHtmlContent] = useState(false);
 
-  const [showHtmlContent, setShowHtmlContent] = useState(false);
-
-  const toggleHtmlContent = () => {
-    getHTML();
-    setShowHtmlContent(!showHtmlContent);
-  };
+  // const toggleHtmlContent = () => {
+  //   getHTML();
+  //   setShowHtmlContent(!showHtmlContent);
+  // };
 
   const [enq, setEnq] = useState(false)
 
@@ -120,20 +125,11 @@ const Q0005 = forwardRef((props: any, ref) => {
     setEnq(false)
   }
   
-
   return (
     <>
     <InfoIcon
         onClick={() =>enqOpen()}
       />
-
-{/* <div>
-      <InfoIcon onClick={toggleHtmlContent}></InfoIcon>
-      {showHtmlContent && (
-        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      )}
-    </div> */}
-
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           type="number"
@@ -279,8 +275,8 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="single"
           name="single"
           inputRef={singleRef}
-          placeholder="Single "
-          label="Single "
+          placeholder="Single life"
+          label="Single life"
           defaultValue={inputdata.single}
           fullWidth
           variant="outlined"
@@ -387,8 +383,8 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="componentAddAtAnyTime"
           name="componentAddAtAnyTime"
           inputRef={componentAddAtAnyTimeRef}
-          placeholder="Componen tAdd A tAnyTime"
-          label="Componen tAdd A tAnyTime"
+          placeholder="Component Add At AnyTime flag"
+          label="Component Add At AnyTime flag"
           defaultValue={inputdata.componentAddAtAnyTime}
           fullWidth
           variant="outlined"
@@ -441,16 +437,53 @@ const Q0005 = forwardRef((props: any, ref) => {
           id="futurePremAdjYrs"
           name="futurePremAdjYrs"
           inputRef={futurePremAdjYrsRef}
-          placeholder="FuturePremAdjYrs"
-          label="FuturePremAdjYrs"
+          placeholder="Future Premium Adj (in years)"
+          label="Future Premium Adj (in years)"
           defaultValue={inputdata.futurePremAdjYrs}
           fullWidth
           margin="dense"
         />
         </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="lapsedDays"
+          name="lapsedDays"
+          inputRef={lapsedDaysRef}
+          placeholder="Grace period (in Days) "
+          label="Grace period (in Days) "
+          defaultValue={inputdata.lapsedDays}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="billingLeadDays"
+          name="billingLeadDays"
+          inputRef={billingLeadDaysRef}
+          placeholder="Billing Lead Days (Before Due date)"
+          label="Billing Lead Days (Before Due date)"
+          defaultValue={inputdata.billingLeadDays}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+
         <Q0005Enq
         open={enq}
         handleClose={enqClose}
+
         />
 
     </>
