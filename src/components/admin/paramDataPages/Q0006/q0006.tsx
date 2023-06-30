@@ -5,7 +5,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0006.css";
+import Q0006Enq  from "./q0006Enq";
 
 const Q0006 = forwardRef((props: any, ref) => {
   
@@ -15,14 +18,17 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendCommismRequest , status: getCommismResponseStatus ,  data: getCommismResponse , error:getCommismResponseError} = useHttp(getData, true); 
   const {sendRequest : sendDeathtypRequest , status: getDeathtypResponseStatus ,  data: getDeathtypResponse , error:getDeathtypResponseError} = useHttp(getData, true); 
   const {sendRequest : sendDeathmRequest , status: getDeathmResponseStatus ,  data: getDeathmResponse , error:getDeathmResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendGuabonmethRequest , status: getGuabonmethResponseStatus ,  data: getGuabonmethResponse , error:getGuabonmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendInterimbonmRequest , status: getInterimbonmResponseStatus ,  data: getInterimbonmResponse , error:getInterimbonmResponseError} = useHttp(getData, true); 
   const {sendRequest : sendLoanmethRequest , status: getLoanmethResponseStatus ,  data: getLoanmethResponse , error:getLoanmethResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendLoyalbonmethRequest , status: getLoyalbonmethResponseStatus ,  data: getLoyalbonmethResponse , error:getLoyalbonmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMaturitymRequest , status: getMaturitymResponseStatus ,  data: getMaturitymResponse , error:getMaturitymResponseError} = useHttp(getData, true); 
   const {sendRequest : sendAgeallRequest , status: getAgeallResponseStatus ,  data: getAgeallResponse , error:getAgeallResponseError} = useHttp(getData, true); 
   const {sendRequest : sendPrptRequest , status: getPrptResponseStatus ,  data: getPrptResponse , error:getPrptResponseError} = useHttp(getData, true); 
   const {sendRequest : sendTermRequest , status: getTermResponseStatus ,  data: getTermResponse , error:getTermResponseError} = useHttp(getData, true); 
   const {sendRequest : sendNfomethRequest , status: getNfomethResponseStatus ,  data: getNfomethResponse , error:getNfomethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendPartsurrmRequest , status: getPartsurrmResponseStatus ,  data: getPartsurrmResponse , error:getPartsurrmResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendP0046Request , status: getP0046ResponseStatus ,  data: getP0046Response , error:getP0046ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendPremmethRequest , status: getPremmethResponseStatus ,  data: getPremmethResponse , error:getPremmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendRevbonmRequest , status: getRevbonmResponseStatus ,  data: getRevbonmResponse , error:getRevbonmResponseError} = useHttp(getData, true); 
   const {sendRequest : sendSurvbentypRequest , status: getSurvbentypResponseStatus ,  data: getSurvbentypResponse , error:getSurvbentypResponseError} = useHttp(getData, true); 
@@ -79,8 +85,17 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "DEATHM";
         sendDeathmRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "GUABONMETH";
+        sendGuabonmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "INTERIMBONM";
+        sendInterimbonmRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
         getDataParams.item = "LOANMETH";
         sendLoanmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "LOYALBONMETH";
+        sendLoyalbonmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "MATURITYM";
         sendMaturitymRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
@@ -313,8 +328,42 @@ const Q0006 = forwardRef((props: any, ref) => {
     },
   }));
 
+  // const getHTML =()=>{
+  //   fetch(`/q0006.html`)
+  //     .then(response => response.text())
+  //     .then(content => setHtmlContent(content))
+  //     .catch(error => console.error('Error fetching HTML file:', error));
+  // }
+
+  // const [htmlContent, setHtmlContent] = useState('');
+  
+  // useEffect(() => {
+  //   getHTML();
+  //   return () => {}
+  // }, [])
+
+  // const [showHtmlContent, setShowHtmlContent] = useState(false);
+
+  // const toggleHtmlContent = () => {
+  //   getHTML();
+  //   setShowHtmlContent(!showHtmlContent);
+  // };
+
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+  
   return (
     <>
+    <InfoIcon
+        onClick={() =>enqOpen()}
+      />
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           select
@@ -492,10 +541,13 @@ const Q0006 = forwardRef((props: any, ref) => {
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getGuabonmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -516,10 +568,13 @@ const Q0006 = forwardRef((props: any, ref) => {
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getInterimbonmResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -567,10 +622,13 @@ const Q0006 = forwardRef((props: any, ref) => {
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getP0046Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getLoyalbonmethResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -1642,6 +1700,12 @@ const Q0006 = forwardRef((props: any, ref) => {
         </TextField>
             </Grid2> 
 
+
+        <Q0006Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
 
     </>
   );
