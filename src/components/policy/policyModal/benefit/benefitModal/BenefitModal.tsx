@@ -81,6 +81,40 @@ function BenefitModal({
     return () => {};
   }, [state.benefitOpen]);
 
+  const [termRangeMenu, settermRangeMenu] = useState([]);
+  const [pptRangeMenu, setpptRangeMenu] = useState([]);
+
+  const termRange = () => {
+    return extraParams(
+      companyId,
+      "Q0006",
+      state.addOpen ? state.BCoverage : record.BCoverage,
+      "TermRange"
+    )
+      .then((resp) => {
+        settermRangeMenu(resp.data.AllowedTermRange);
+      })
+      .catch((err) => err.message);
+  };
+  const pptRange = () => {
+    return extraParams(
+      companyId,
+      "Q0006",
+      state.addOpen ? state.BCoverage : record.BCoverage,
+      "PptRange"
+    )
+      .then((resp) => {
+        setpptRangeMenu(resp.data.AllowedPptRange);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    termRange();
+    pptRange();
+    return () => {};
+  }, [state.addOpen ? state.BCoverage : record.BCoverage]);
+
   return (
     <div className={styles.modal}>
       <CustomModal
@@ -212,6 +246,7 @@ function BenefitModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                select
                 id="BTerm"
                 name="BTerm"
                 value={state.addOpen ? state.BTerm : record.BTerm}
@@ -227,10 +262,17 @@ function BenefitModal({
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
-              />
+              >
+                {termRangeMenu.map((val, index) => (
+                  <MenuItem key={val} value={val}>
+                    {val}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                select
                 id="BPTerm"
                 name="BPTerm"
                 value={state.addOpen ? state.BPTerm : record.BPTerm}
@@ -246,7 +288,13 @@ function BenefitModal({
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
-              />
+              >
+                {pptRangeMenu.map((val, index) => (
+                  <MenuItem key={val} value={val}>
+                    {val}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
