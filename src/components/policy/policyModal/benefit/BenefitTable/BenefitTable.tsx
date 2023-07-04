@@ -107,7 +107,7 @@ function BenefitTable({
               )
             )}
             <th>Actions</th>
-            <th>Schedule</th>
+            {data[0]?.BCoverage === "MRTA"?<th>Schedule</th>:"" }
             <th>Extras</th>
           </tr>
         </thead>
@@ -147,9 +147,11 @@ function BenefitTable({
                   /> */}
                 </span>
               </td>
+              {data[0]?.BCoverage === "MRTA"?
               <td onClick={() => mrtaOpen()}>
                 <EventAvailableIcon color="success" />
               </td>
+              :"" }
               <td>
                 <IconButton
                   onClick={() =>

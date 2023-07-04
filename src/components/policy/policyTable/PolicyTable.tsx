@@ -138,10 +138,10 @@ function PolicyTable({
                       dispatch({ type: ACTIONS.EDITOPEN, payload: row })
                     }
                   /> */}
-                      <DeleteIcon
+                      {/* <DeleteIcon
                         color="error"
                         onClick={() => hardDelete(row.ID)}
-                      />
+                      /> */}
                       <InfoIcon
                         onClick={() =>
                           dispatch({ type: ACTIONS.INFOOPEN, payload: row })

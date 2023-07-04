@@ -110,7 +110,7 @@ const BenefitEnquiry = ({
 
     {
       field: "BAge",
-      header: "Beneficiary Age",
+      header: "Policy Maturity Age",
       dbField: "b_age",
     },
 

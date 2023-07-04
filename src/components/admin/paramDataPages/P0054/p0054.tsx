@@ -8,10 +8,30 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./p0054.css";
+import P0054Enq  from "./p0054Enq";
 
 
 const P0054 = forwardRef((props: any, ref) => {
+
+  const {sendRequest : sendTranrevexclRequest , status: getTranrevexclResponseStatus ,  data: getTranrevexclResponse , error:getTranrevexclResponseError} = useHttp(getData, true); 
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "TRANREVEXCL";
+        sendTranrevexclRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+    },[]);
+
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -58,8 +78,21 @@ const P0054 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -71,7 +104,7 @@ const P0054 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>Transaction</th> 
+          <th>Transaction Code</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.trancodes?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
@@ -100,6 +133,7 @@ const P0054 = forwardRef((props: any, ref) => {
           <tr key={index}>
             <td>
               <TextField
+                select
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
@@ -113,8 +147,17 @@ const P0054 = forwardRef((props: any, ref) => {
                 size="small"
                 type="text"
                 margin="dense"
-              />
-            </td>
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getTranrevexclResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             {(props.mode === "update" || props.mode === "create") && (
               <td>
@@ -159,7 +202,17 @@ const P0054 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <P0054Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default P0054;
 
