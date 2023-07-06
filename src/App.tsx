@@ -36,6 +36,8 @@ import Assignee from "./components/assignee/Assignee";
 import Csmm from "./components/csmm/Csmm";
 import QHeaderQDetail from "./components/quotation/QHeaderQDetail";
 import QBenIllValue from "./components/qBenIllValues/QBenIllValue";
+import BusinessDates from "./components/admin/businessDate/BusinessDates";
+import TdfParams from "./components/admin/tdfParam/TdfParams";
 function App() {
   const { pathname } = useLocation();
 
@@ -82,6 +84,8 @@ function App() {
                 <Route path="/nominee" element={<Nominee />} />
                 <Route path="/assignee" element={<Assignee />} />
                 <Route path="/csmm" element={<Csmm />} />
+                <Route path="/businessDate" element={<BusinessDates />} />
+                <Route path="/tdfParam" element={<TdfParams />} />
               </Route>
               {/* </Route> */}
             </Route>

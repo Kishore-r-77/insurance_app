@@ -62,6 +62,16 @@ const routes = [
         name: "Transaction",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/businessDate",
+        name: "BusinessDate",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
+        path: "/tdfParam",
+        name: "TDFParam",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
