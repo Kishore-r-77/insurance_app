@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0021.css";
+import Q0021Enq  from "./q0021Enq";
 
 
 const Q0021 = forwardRef((props: any, ref) => {
@@ -16,13 +19,13 @@ const Q0021 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.alBand = retData.alBand.filter(
+      retData.aLBand = retData.aLBand.filter(
         (value: any) => value.months !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        alBand: inputdata.alBand.filter(
+        aLBand: inputdata.aLBand.filter(
           (value: any) => value.months !== ""
         ),
       }));
@@ -33,7 +36,7 @@ const Q0021 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      alBand: inputdata.alBand.filter(
+      aLBand: inputdata.aLBand.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -42,7 +45,7 @@ const Q0021 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      alBand: inputdata.alBand.map((val: any, ind: number) => {
+      aLBand: inputdata.aLBand.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -58,8 +61,21 @@ const Q0021 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -74,16 +90,16 @@ const Q0021 = forwardRef((props: any, ref) => {
           <th>Months</th> 
           <th>Percentage</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.alBand?.length > 0 && <th>Actions</th>}
+            inputdata.aLBand?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.alBand || inputdata.alBand?.length === 0) && (
+            (!inputdata.aLBand || inputdata.aLBand?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        alBand: [
+                        aLBand: [
                           {
                             months: 0,
                             percentage: 0,
@@ -98,7 +114,7 @@ const Q0021 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.alBand?.map((value: any, index: number) => (
+        {inputdata.aLBand?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -154,14 +170,14 @@ const Q0021 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.alBand.length - 1 && (
+                  {index === inputdata.aLBand.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            alBand: [
-                              ...inputdata.alBand,
+                            aLBand: [
+                              ...inputdata.aLBand,
                               {
                                 months: 0,
                                 percentage: 0,
@@ -180,7 +196,17 @@ const Q0021 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0021Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0021;
 
