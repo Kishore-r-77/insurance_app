@@ -8,11 +8,14 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0011.css";
+import Q0011Enq  from "./q0011Enq";
 
 
 const Q0011 = forwardRef((props: any, ref) => {
-
+  const {sendRequest : sendCoverRequest , status: getCoverResponseStatus ,  data: getCoverResponse , error:getCoverResponseError} = useHttp(getData, true); 
   const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBasridRequest , status: getBasridResponseStatus ,  data: getBasridResponse , error:getBasridResponseError} = useHttp(getData, true); 
 
@@ -23,6 +26,9 @@ const Q0011 = forwardRef((props: any, ref) => {
         getDataParams.seqno =  0;
 
         getDataParams.name =  "P0050";
+
+        getDataParams.item = "COVR";
+        sendCoverRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "YESNO";
         sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
@@ -79,8 +85,21 @@ const Q0011 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -130,7 +149,8 @@ const Q0011 = forwardRef((props: any, ref) => {
         {inputdata.coverages?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
-              <TextField
+            <TextField
+                select
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
@@ -144,7 +164,16 @@ const Q0011 = forwardRef((props: any, ref) => {
                 size="small"
                 type="text"
                 margin="dense"
-              />
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getCoverResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
             </td>
 
             <td>
@@ -192,7 +221,7 @@ const Q0011 = forwardRef((props: any, ref) => {
                 type="text"
                 margin="dense"
                 SelectProps={{
-                  multiple: false,
+                  multiple: true,
                 }}
               >
                 {getBasridResponse?.param.data.dataPairs.map((value:any) => (
@@ -335,7 +364,17 @@ const Q0011 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0011Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0011;
 

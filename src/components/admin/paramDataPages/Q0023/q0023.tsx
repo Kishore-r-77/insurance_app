@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0023.css";
+import Q0023Enq  from "./q0023Enq";
 
 
 const Q0023 = forwardRef((props: any, ref) => {
@@ -16,13 +19,13 @@ const Q0023 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.gst = retData.gst.filter(
+      retData.gST = retData.gST.filter(
         (value: any) => value.month !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        gst: inputdata.gst.filter(
+        gST: inputdata.gST.filter(
           (value: any) => value.month !== ""
         ),
       }));
@@ -33,7 +36,7 @@ const Q0023 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      gst: inputdata.gst.filter(
+      gST: inputdata.gST.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -42,7 +45,7 @@ const Q0023 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      gst: inputdata.gst.map((val: any, ind: number) => {
+      gST: inputdata.gST.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -58,8 +61,21 @@ const Q0023 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -74,16 +90,16 @@ const Q0023 = forwardRef((props: any, ref) => {
           <th>Month</th> 
           <th>Rate</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.gst?.length > 0 && <th>Actions</th>}
+            inputdata.gST?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.gst || inputdata.gst?.length === 0) && (
+            (!inputdata.gST || inputdata.gST?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        gst: [
+                        gST: [
                           {
                             month: 0,
                             rate: 0,
@@ -98,7 +114,7 @@ const Q0023 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.gst?.map((value: any, index: number) => (
+        {inputdata.gST?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -154,14 +170,14 @@ const Q0023 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.gst.length - 1 && (
+                  {index === inputdata.gST.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            gst: [
-                              ...inputdata.gst,
+                            gST: [
+                              ...inputdata.gST,
                               {
                                 month: 0,
                                 rate: 0,
@@ -180,7 +196,17 @@ const Q0023 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0023Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0023;
 

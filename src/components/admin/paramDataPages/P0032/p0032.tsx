@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./p0032.css";
+import P0032Enq  from "./p0032Enq";
 
 
 const P0032 = forwardRef((props: any, ref) => {
@@ -16,13 +19,13 @@ const P0032 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.uwRules = retData.uwRules.filter(
+      retData.uWRules = retData.uWRules.filter(
         (value: any) => value.noOfMonths !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        uwRules: inputdata.uwRules.filter(
+        uWRules: inputdata.uWRules.filter(
           (value: any) => value.noOfMonths !== ""
         ),
       }));
@@ -33,7 +36,7 @@ const P0032 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      uwRules: inputdata.uwRules.filter(
+      uWRules: inputdata.uWRules.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -42,7 +45,7 @@ const P0032 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      uwRules: inputdata.uwRules.map((val: any, ind: number) => {
+      uWRules: inputdata.uWRules.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -58,8 +61,21 @@ const P0032 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -74,16 +90,16 @@ const P0032 = forwardRef((props: any, ref) => {
           <th>No Of Months</th> 
           <th>Factor</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.uwRules?.length > 0 && <th>Actions</th>}
+            inputdata.uWRules?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.uwRules || inputdata.uwRules?.length === 0) && (
+            (!inputdata.uWRules || inputdata.uWRules?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        uwRules: [
+                        uWRules: [
                           {
                             noOfMonths: 0,
                             factor: 0,
@@ -98,7 +114,7 @@ const P0032 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.uwRules?.map((value: any, index: number) => (
+        {inputdata.uWRules?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -154,14 +170,14 @@ const P0032 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.uwRules.length - 1 && (
+                  {index === inputdata.uWRules.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            uwRules: [
-                              ...inputdata.uwRules,
+                            uWRules: [
+                              ...inputdata.uWRules,
                               {
                                 noOfMonths: 0,
                                 factor: 0,
@@ -180,7 +196,17 @@ const P0032 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <P0032Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default P0032;
 

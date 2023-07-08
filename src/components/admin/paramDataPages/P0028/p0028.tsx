@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./p0028.css";
+import P0028Enq  from "./p0028Enq";
 
 
 const P0028 = forwardRef((props: any, ref) => {
@@ -17,13 +20,13 @@ const P0028 = forwardRef((props: any, ref) => {
     getData() {
       let retData = inputdata;
       retData.commissions = retData.commissions.filter(
-        (value: any) => value.ppt !== ""
+        (value: any) => value.pPT !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         commissions: inputdata.commissions.filter(
-          (value: any) => value.ppt !== ""
+          (value: any) => value.pPT !== ""
         ),
       }));
       return retData;
@@ -58,8 +61,21 @@ const P0028 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -85,7 +101,7 @@ const P0028 = forwardRef((props: any, ref) => {
                         ...inputdata,
                         commissions: [
                           {
-                            ppt: 0,
+                            pPT: 0,
                             rate: 0,
                           },
                         ],
@@ -105,11 +121,11 @@ const P0028 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="ppt"
-                name="ppt"
-                value={value.ppt}
+                id="pPT"
+                name="pPT"
+                value={value.pPT}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "ppt", e.target.value,true)
+                  fieldChangeHandler(index, "pPT", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -163,7 +179,7 @@ const P0028 = forwardRef((props: any, ref) => {
                             commissions: [
                               ...inputdata.commissions,
                               {
-                                ppt: 0,
+                                pPT: 0,
                                 rate: 0,
 
                               },
@@ -180,7 +196,17 @@ const P0028 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <P0028Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default P0028;
 

@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0013.css";
+import Q0013Enq  from "./q0013Enq";
 
 
 const Q0013 = forwardRef((props: any, ref) => {
@@ -16,13 +19,13 @@ const Q0013 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.sbRates = retData.sbRates.filter(
+      retData.sBRates = retData.sBRates.filter(
         (value: any) => value.age !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        sbRates: inputdata.sbRates.filter(
+        sBRates: inputdata.sBRates.filter(
           (value: any) => value.age !== ""
         ),
       }));
@@ -33,7 +36,7 @@ const Q0013 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      sbRates: inputdata.sbRates.filter(
+      sBRates: inputdata.sBRates.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -42,7 +45,7 @@ const Q0013 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      sbRates: inputdata.sbRates.map((val: any, ind: number) => {
+      sBRates: inputdata.sBRates.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -58,8 +61,21 @@ const Q0013 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -74,16 +90,16 @@ const Q0013 = forwardRef((props: any, ref) => {
           <th>Age</th> 
           <th>Percentage</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.sbRates?.length > 0 && <th>Actions</th>}
+            inputdata.sBRates?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.sbRates || inputdata.sbRates?.length === 0) && (
+            (!inputdata.sBRates || inputdata.sBRates?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        sbRates: [
+                        sBRates: [
                           {
                             age: 0,
                             percentage: 0,
@@ -98,7 +114,7 @@ const Q0013 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.sbRates?.map((value: any, index: number) => (
+        {inputdata.sBRates?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -154,14 +170,14 @@ const Q0013 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.sbRates.length - 1 && (
+                  {index === inputdata.sBRates.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            sbRates: [
-                              ...inputdata.sbRates,
+                            sBRates: [
+                              ...inputdata.sBRates,
                               {
                                 age: 0,
                                 percentage: 0,
@@ -180,7 +196,17 @@ const Q0013 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0013Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0013;
 

@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0017.css";
+import Q0017Enq  from "./q0017Enq";
 
 
 const Q0017 = forwardRef((props: any, ref) => {
@@ -16,14 +19,14 @@ const Q0017 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.saBand = retData.saBand.filter(
-        (value: any) => value.sa !== ""
+      retData.sABand = retData.sABand.filter(
+        (value: any) => value.sA !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        saBand: inputdata.saBand.filter(
-          (value: any) => value.sa !== ""
+        sABand: inputdata.sABand.filter(
+          (value: any) => value.sA !== ""
         ),
       }));
       return retData;
@@ -33,7 +36,7 @@ const Q0017 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      saBand: inputdata.saBand.filter(
+      sABand: inputdata.sABand.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -42,7 +45,7 @@ const Q0017 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      saBand: inputdata.saBand.map((val: any, ind: number) => {
+      sABand: inputdata.sABand.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -58,8 +61,21 @@ const Q0017 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -74,18 +90,18 @@ const Q0017 = forwardRef((props: any, ref) => {
           <th>Sum Assured</th> 
           <th>Discount</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.saBand?.length > 0 && <th>Actions</th>}
+            inputdata.sABand?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.saBand || inputdata.saBand?.length === 0) && (
+            (!inputdata.sABand || inputdata.sABand?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        saBand: [
+                        sABand: [
                           {
-                            sa: 0,
+                            sA: 0,
                             discount: 0,
                           },
                         ],
@@ -98,18 +114,18 @@ const Q0017 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.saBand?.map((value: any, index: number) => (
+        {inputdata.sABand?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="sa"
-                name="sa"
-                value={value.sa}
+                id="sA"
+                name="sA"
+                value={value.sA}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "sa", e.target.value,true)
+                  fieldChangeHandler(index, "sA", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -154,16 +170,16 @@ const Q0017 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.saBand.length - 1 && (
+                  {index === inputdata.sABand.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            saBand: [
-                              ...inputdata.saBand,
+                            sABand: [
+                              ...inputdata.sABand,
                               {
-                                sa: 0,
+                                sA: 0,
                                 discount: 0,
 
                               },
@@ -180,7 +196,17 @@ const Q0017 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0017Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0017;
 
