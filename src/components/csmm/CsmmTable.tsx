@@ -30,6 +30,7 @@ import SurrenderModal from "./surrenderModal/SurrenderModal";
 import { initialValues } from "../../reducerUtilities/actions/surrender/surrenderActions";
 import { SurrenderHStateType } from "../../reducerUtilities/types/surrender/surrenderType";
 import { ACTIONS as SURRENDERACTIONS } from "../../reducerUtilities/actions/surrender/surrenderActions";
+import PolReinModal from "./polReinModal/PolReinModal";
 
 function CsmmTable({
   issueOpen,
@@ -305,6 +306,7 @@ function CsmmTable({
   const [isFreqChange, setIsFreqChange] = useState(false);
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
+  const [isPolRein, setIsPolRein] = useState(false);
   //const [isSurrender, setIsSurrender] = useState(false);
   const [completed, setcompleted] = useState(false);
   const [func, setfunc] = useState<any>("Calculate");
@@ -333,6 +335,15 @@ function CsmmTable({
   const adjPremClose = () => {
     setIsAdjPrem(false);
   };
+
+  const polReinOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setIsPolRein(true);
+  };
+  const polReinClose = () => {
+    setIsPolRein(false);
+  };
+
   // const surrenderOpen = (policyId: number) => {
   //   setPolicyID(policyId);
   //   setIsSurrender(true);
@@ -361,7 +372,7 @@ function CsmmTable({
   useEffect(() => {
     getPolEnq(PolicyID);
     return () => {};
-  }, [isAdjPrem]);
+  }, [isAdjPrem, isPolRein]);
 
   const clientMenuClick = (value: any) => {
     console.log(value.Action, "****");
@@ -413,6 +424,10 @@ function CsmmTable({
         break;
       case "Surrender":
         surrenderDispatch({ type: SURRENDERACTIONS.SURRENDEROPEN });
+        handleClose();
+        break;
+      case "Reinstatement":
+        polReinOpen(policyId.current, value);
         handleClose();
         break;
       default:
@@ -923,6 +938,15 @@ function CsmmTable({
       <AdjPremModal
         open={isAdjPrem}
         handleClose={adjPremClose}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
+        data={polenqData}
+      />
+      <PolReinModal
+        open={isPolRein}
+        handleClose={polReinClose}
         completed={completed}
         setcompleted={setcompleted}
         func={func}

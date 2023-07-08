@@ -3,14 +3,15 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import {  FormControl, TextField } from "@mui/material";
 import axios from "axios";
 import { useAppSelector } from "../../../redux/app/hooks";
-import CustomAdjPremModal from "./CustomAdjPremModal";
+// import CustomAdjPremModal from "./CustomAdjPremModal";
 
 import Notification from "../../../utilities/Notification/Notification";
 import moment from "moment";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import CustomPolReinModal from "./CustomPolReinModal";
 
-function AdjPremModal({
+function PolReinModal({
   open,
   handleClose,
   data,
@@ -43,13 +44,11 @@ function AdjPremModal({
   };
 
   
-  const doPremAdj = () => {
+  const doPolRein = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/premadj/${data?.PolicyId}`,
+        `http://localhost:3000/api/v1/nbservices/polreinst/${data?.PolicyId}`,
         {
-          PolicyID: data?.PolicyId,
-          NextDate: moment(nextDate).format('YYYYMMDD'),
           Function: func, 
         },
         {
@@ -108,10 +107,10 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
 
   return (
     <div>
-      <CustomAdjPremModal
+      <CustomPolReinModal
         open={open}
         handleClose={handleClose}
-        handleFormSubmit={doPremAdj}
+        handleFormSubmit={doPolRein}
         size={size}
         title={title}
         completed={completed}
@@ -208,7 +207,7 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
               margin="dense"
             ></TextField>
           </Grid2>
-          <hr style={{color: "black", height:"20px"}}/>
+          {/* <hr style={{color: "black", height:"20px"}}/>
           <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -222,18 +221,18 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
                       />
                     </LocalizationProvider>
                   </FormControl>
-            </Grid2>
+            </Grid2> */}
 
             </Grid2>
             
             <Grid2 container spacing={2}>
             <Grid2 lg={4}>
             <TextField
-              id="No Of Dues"
-              name="No Of Dues"
-              value={result?.NoOfDues}
-              placeholder="No Of Dues"
-              label="No Of Dues"
+              id="Interest"
+              name="Interest"
+              value={result?.Interest}
+              placeholder="Interest"
+              label="Interest"
               fullWidth
               inputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
@@ -242,11 +241,11 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
           </Grid2>
           <Grid2 lg={4}>
             <TextField
-              id="Total Premium"
-              name="Total Premium"
-              value={result?.TotalPrem}
-              placeholder="Total Premium"
-              label="Total Premium"
+              id="Installment"
+              name="Installment"
+              value={result?.Installment}
+              placeholder="Installment"
+              label="Installment"
               fullWidth
               inputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
@@ -255,11 +254,11 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
           </Grid2>
           <Grid2 lg={4}>
             <TextField
-              id="GST"
-              name="GST"
-              value={result?.TotalGST}
-              placeholder="GST"
-              label="GST"
+              id="Premium Amount"
+              name="Premium Amount"
+              value={result?.PremAmount}
+              placeholder="Premium Amount"
+              label="Premium Amount"
               fullWidth
               inputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
@@ -268,11 +267,37 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
           </Grid2>
           <Grid2 lg={4}>
             <TextField
-              id="Total Amount"
-              name="Total Amount"
-              value={result?.TotalAmount}
-              placeholder="Total Amount"
-              label="Total Amount"
+              id="Deposite"
+              name="Deposite"
+              value={result?.Deposite}
+              placeholder="Deposite"
+              label="Deposite"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="Net Payable"
+              name="Net Payable"
+              value={result?.NetPayable}
+              placeholder="Net Payable"
+              label="Net Payable"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
+          </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="Paid Up To"
+              name="Paid Up To"
+              value={result?.PaidUpTo}
+              placeholder="Paid Up To"
+              label="Paid Up To"
               fullWidth
               inputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
@@ -280,10 +305,10 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
             ></TextField>
           </Grid2>
         </Grid2>
-      </CustomAdjPremModal>
+      </CustomPolReinModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
 
-export default AdjPremModal;
+export default PolReinModal;
