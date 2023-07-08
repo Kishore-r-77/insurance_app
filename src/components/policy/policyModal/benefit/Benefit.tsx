@@ -1,7 +1,7 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import {
   ACTIONS,
   columns,
@@ -30,7 +30,6 @@ function Benefit({
   getBenefitsByPolicies1,
   getPolicies,
   policyRecord,
-  interest,
 }: any) {
   //data from getall api
   const [data, setData] = useState([]);
@@ -40,6 +39,8 @@ function Benefit({
     message: "",
     type: "",
   });
+
+  const interest = useRef<any>();
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
@@ -54,7 +55,7 @@ function Benefit({
         };
       case ACTIONS.EDITCHANGE:
         if (action.fieldName === "Interest") {
-          interest = action.payload;
+          interest.current = action.payload;
         } else {
           setRecord((prev: any) => ({
             ...prev,
@@ -206,7 +207,7 @@ function Benefit({
 
   //Edit Api
   const editFormSubmit = async () => {
-    editApi(record)
+    editApi(record, interest.current)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
@@ -376,7 +377,7 @@ function Benefit({
         record={record}
         policyRecord={policyRecord}
         dispatch={dispatch}
-        interest={interest}
+        interest={interest.current}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />

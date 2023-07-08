@@ -20,7 +20,7 @@ export const getAllApi = (
   });
 };
 
-export const editApi = (record: any) => {
+export const editApi = (record: any, interest: any) => {
   return axios.put(
     `http://localhost:3000/api/v1/nbservices/benefitupdate`,
 
@@ -44,7 +44,7 @@ export const editApi = (record: any) => {
       BMortality: record.BMortality,
       BStatus: record.BStatus,
       BAge: parseInt(record.BAge),
-      Interest: record.BCoverage !== "MRTA" ? 0 : parseFloat(record.Interest),
+      Interest: record.BCoverage !== "MRTA" ? 0 : parseFloat(interest),
       BRerate: record.BRerate,
       ClientID: parseInt(record.ClientID),
       PolicyID: parseInt(record.PolicyID),
