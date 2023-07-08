@@ -71,7 +71,7 @@ function BenefitModal({
   const [intrestData, setintrestData] = useState([]);
 
   const mrtaDropdown = () => {
-    return extraParams(companyId, "Q0006", "MRTA", "MRTA")
+    return extraParams(companyId, "Q0006", "MRTA", "MrtaInterest")
       .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
       .catch((err) => err.message);
   };
