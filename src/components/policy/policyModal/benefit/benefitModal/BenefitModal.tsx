@@ -339,7 +339,7 @@ function BenefitModal({
                   fullWidth
                   margin="dense"
                 >
-                  {intrestData.map((val, index) => (
+                  {intrestData?.map((val, index) => (
                     <MenuItem value={val} key={val}>
                       {val}
                     </MenuItem>
