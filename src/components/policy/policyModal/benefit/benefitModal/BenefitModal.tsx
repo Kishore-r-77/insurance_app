@@ -13,6 +13,7 @@ import { getApi } from "../../../../admin/companies/companiesApis/companiesApis"
 import { extraParamItem } from "../../../../clientDetails/client/clientApis/clientApis";
 import Client from "../../../../clientDetails/client/Client";
 import { extraParams } from "../../../policyApis/policyApis";
+import axios from "axios";
 
 function BenefitModal({
   state,
@@ -23,6 +24,7 @@ function BenefitModal({
   policyRecord,
   interest,
 }: BenefitModalType) {
+  console.log(interest, "Interest Inside benefit modal");
   const addTitle: string = "Benefit Add";
   const editTitle: string = "Benefit Edit";
   const infoTitle: string = "Benefit Info";

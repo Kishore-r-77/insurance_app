@@ -22,6 +22,7 @@ import CustomModal from "../../../../utilities/modal/CustomModal";
 import Extra from "../../../extra/Extra";
 import BenefitModal from "./benefitModal/BenefitModal";
 import Notification from "../../../../utilities/Notification/Notification";
+import axios from "axios";
 
 function Benefit({
   modalFunc,
@@ -40,7 +41,8 @@ function Benefit({
     type: "",
   });
 
-  const interest = useRef<any>();
+  //const interest = useRef<any>();
+  const [interest, setinterest] = useState(0.0);
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
@@ -55,7 +57,8 @@ function Benefit({
         };
       case ACTIONS.EDITCHANGE:
         if (action.fieldName === "Interest") {
-          interest.current = action.payload;
+          //interest.current = action.payload;
+          setinterest(action.payload);
         } else {
           setRecord((prev: any) => ({
             ...prev,
@@ -207,7 +210,7 @@ function Benefit({
 
   //Edit Api
   const editFormSubmit = async () => {
-    editApi(record, interest.current)
+    editApi(record, interest)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
@@ -271,6 +274,28 @@ function Benefit({
     getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
+
+  // MRTA Benefit Interest
+
+  const getBenefit = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/nbservices/benefitget/${record.ID}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        //interest.current = res.data.Interest;
+        setinterest(res.data.Interest);
+        console.log(res.data.Interest, "Interest ");
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+
+  useEffect(() => {
+    getBenefit();
+    return () => {};
+  }, [state.editOpen]);
 
   return (
     <div style={{ width: "100%" }}>
@@ -377,7 +402,7 @@ function Benefit({
         record={record}
         policyRecord={policyRecord}
         dispatch={dispatch}
-        interest={interest.current}
+        interest={interest}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />

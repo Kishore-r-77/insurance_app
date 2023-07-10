@@ -127,7 +127,7 @@ export const modifyPolicyWithBenefits = (
         BTerm: parseInt(benefits?.BTerm),
         BPTerm: parseInt(benefits?.BPTerm),
         BSumAssured: parseInt(benefits?.BSumAssured),
-        Interest: parseInt(benefits?.Interest),
+        Interest: parseFloat(benefits?.Interest),
       })),
     },
     {
