@@ -943,6 +943,7 @@ function CsmmTable({
         func={func}
         setfunc={setfunc}
         data={polenqData}
+        getData={getData}
       />
       <PolReinModal
         open={isPolRein}
@@ -952,6 +953,7 @@ function CsmmTable({
         func={func}
         setfunc={setfunc}
         data={polenqData}
+        getData={getData}
       />
       <SurrenderModal
         policyId={policyId}

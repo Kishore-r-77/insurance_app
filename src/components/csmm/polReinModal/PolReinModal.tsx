@@ -65,12 +65,12 @@ function PolReinModal({
         setIsResult(true);
         if (func === "Save") {
           handleClose();
+          getData();
           setNotify({
             isOpen: true,
             message: resp.data?.success,
             type: "success",
           });
-          location.reload();
         }
       })
       .catch((err) => {
