@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../redux/app/hooks";
 import { onChangeLogOut } from "../../redux/features/siginin/signinSlice";
 import styles from "./homepage.module.css";
 
+//Homepage
 function Hompage() {
   const navigate = useNavigate();
 
