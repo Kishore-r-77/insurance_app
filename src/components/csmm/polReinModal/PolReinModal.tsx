@@ -22,7 +22,7 @@ function PolReinModal({
   getData,
 }: any) {
   const size: string = "xl";
-  const title: string = "Premium Adjustment";
+  const title: string = "Policy Reinstatement";
   const [nextDate, setNextDate] = useState<any>(null);
   const [result, setresult] = useState<any>("");
   const [notify, setNotify] = useState({
