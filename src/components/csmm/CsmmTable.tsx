@@ -356,7 +356,7 @@ function CsmmTable({
   const [polenqData, setPolenqData] = useState("");
   const getPolEnq = (id: number) => {
     axios
-      .get(`http://localhost:3000/api/v1/deathservices/polheaderenq/${id}`, {
+      .get(`http://localhost:3000/api/v1/customerservice/polheaderenq/${id}`, {
         withCredentials: true,
       })
       .then((resp) => {
@@ -474,7 +474,7 @@ function CsmmTable({
   const postSaChange = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/changesa/${PolicyID}`,
+        `http://localhost:3000/api/v1/customerservice/changesa/${PolicyID}`,
         {
           Benefits: saChangeBenefits,
           BillToDate: saChangeObj.BillToDate,
@@ -512,7 +512,7 @@ function CsmmTable({
   const saveSaChange = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/changesa/${PolicyID}`,
+        `http://localhost:3000/api/v1/customerservice/changesa/${PolicyID}`,
         {
           Benefits: saChangeBenefits,
           Function: "Save",
@@ -543,7 +543,7 @@ function CsmmTable({
   const invalidatesa = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/invalidatesa/${PolicyID}`,
+        `http://localhost:3000/api/v1/customerservice/invalidatesa/${PolicyID}`,
         {},
         { withCredentials: true }
       )
@@ -583,7 +583,7 @@ function CsmmTable({
   const postComponentAdd = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
+        `http://localhost:3000/api/v1/customerservice/addcomponent/${PolicyID}`,
         {
           Benefits: componentBenefits.map((benefit: any) => ({
             ...benefit,
@@ -621,7 +621,7 @@ function CsmmTable({
   const saveComponent = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
+        `http://localhost:3000/api/v1/customerservice/addcomponent/${PolicyID}`,
         {
           Benefits: componentBenefits.map((benefit: any) => ({
             ...benefit,
@@ -709,7 +709,7 @@ function CsmmTable({
   const invalidatca = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/invalidateca/${PolicyID}`,
+        `http://localhost:3000/api/v1/customerservice/invalidateca/${PolicyID}`,
         {},
         { withCredentials: true }
       )

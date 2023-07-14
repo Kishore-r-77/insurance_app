@@ -12,7 +12,7 @@ function FreqQuoteModal({ open, handleClose, policyId }: any) {
   const getFreqQuote = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/deathservices/quotefrequencies/${policyId}`,
+        `http://localhost:3000/api/v1/customerservice/quotefrequencies/${policyId}`,
         { withCredentials: true }
       )
       .then((resp) => {

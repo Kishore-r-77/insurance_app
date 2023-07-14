@@ -57,7 +57,7 @@ function FreqChangeModal({
   const getFreqChange = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/changefreq`,
+        `http://localhost:3000/api/v1/customerservice/changefreq`,
         {
           PolicyID: policyId,
           Frequency: frequency,

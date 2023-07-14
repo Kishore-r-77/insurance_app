@@ -1,6 +1,6 @@
-import {useState } from "react";
+import { useState } from "react";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import {  FormControl, TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import axios from "axios";
 import { useAppSelector } from "../../../redux/app/hooks";
 // import CustomAdjPremModal from "./CustomAdjPremModal";
@@ -19,8 +19,7 @@ function PolReinModal({
   setcompleted,
   func,
   setfunc,
-  getData
-
+  getData,
 }: any) {
   const size: string = "xl";
   const title: string = "Premium Adjustment";
@@ -43,13 +42,12 @@ function PolReinModal({
     setfunc("Save");
   };
 
-  
   const doPolRein = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/nbservices/polreinst/${data?.PolicyId}`,
+        `http://localhost:3000/api/v1/customerservice/polreinst/${data?.PolicyId}`,
         {
-          Function: func, 
+          Function: func,
         },
         {
           withCredentials: true,
@@ -85,22 +83,21 @@ function PolReinModal({
 
   // moment(data?.NxtBillDate,"DD/MM/YYYY").format("YYYYMMDD").toString()
 
-  const billToDatechange = (date: any) =>{
-    console.log("Date",date)
-    setNextDate(date+1)
-  }
+  const billToDatechange = (date: any) => {
+    console.log("Date", date);
+    setNextDate(date + 1);
+  };
 
   const today = new Date();
-const yyyy = today.getFullYear();
-let mm: any = today.getMonth() + 1; // Months start at 0!
-let dd: any = today.getDate();
+  const yyyy = today.getFullYear();
+  let mm: any = today.getMonth() + 1; // Months start at 0!
+  let dd: any = today.getDate();
 
-if (dd < 10) dd = '0' + dd;
-if (mm < 10) mm = '0' + mm;
+  if (dd < 10) dd = "0" + dd;
+  if (mm < 10) mm = "0" + mm;
 
-const formattedToday = dd + '/' + mm + '/' + yyyy;
+  const formattedToday = dd + "/" + mm + "/" + yyyy;
 
- 
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
   );
@@ -114,9 +111,9 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
         size={size}
         title={title}
         completed={completed}
-      > 
-      <Grid2 container spacing={2}>
-        <Grid2 lg={4}>
+      >
+        <Grid2 container spacing={2}>
+          <Grid2 lg={4}>
             <TextField
               id="PolicyID"
               name="PolicyID"
@@ -222,11 +219,10 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
                     </LocalizationProvider>
                   </FormControl>
             </Grid2> */}
+        </Grid2>
 
-            </Grid2>
-            
-            <Grid2 container spacing={2}>
-            <Grid2 lg={4}>
+        <Grid2 container spacing={2}>
+          <Grid2 lg={4}>
             <TextField
               id="Interest"
               name="Interest"
