@@ -221,7 +221,7 @@ const Q0011 = forwardRef((props: any, ref) => {
                 type="text"
                 margin="dense"
                 SelectProps={{
-                  multiple: true,
+                  multiple: false,
                 }}
               >
                 {getBasridResponse?.param.data.dataPairs.map((value:any) => (

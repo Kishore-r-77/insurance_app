@@ -19,13 +19,13 @@ const Q0023 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.gST = retData.gST.filter(
+      retData.gst = retData.gst.filter(
         (value: any) => value.month !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        gST: inputdata.gST.filter(
+        gst: inputdata.gst.filter(
           (value: any) => value.month !== ""
         ),
       }));
@@ -36,7 +36,7 @@ const Q0023 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      gST: inputdata.gST.filter(
+      gst: inputdata.gst.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -45,7 +45,7 @@ const Q0023 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      gST: inputdata.gST.map((val: any, ind: number) => {
+      gst: inputdata.gst.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -90,16 +90,16 @@ const Q0023 = forwardRef((props: any, ref) => {
           <th>Month</th> 
           <th>Rate</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.gST?.length > 0 && <th>Actions</th>}
+            inputdata.gst?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.gST || inputdata.gST?.length === 0) && (
+            (!inputdata.gst || inputdata.gst?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        gST: [
+                        gst: [
                           {
                             month: 0,
                             rate: 0,
@@ -114,7 +114,7 @@ const Q0023 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.gST?.map((value: any, index: number) => (
+        {inputdata.gst?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -170,14 +170,14 @@ const Q0023 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.gST.length - 1 && (
+                  {index === inputdata.gst.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            gST: [
-                              ...inputdata.gST,
+                            gst: [
+                              ...inputdata.gst,
                               {
                                 month: 0,
                                 rate: 0,
