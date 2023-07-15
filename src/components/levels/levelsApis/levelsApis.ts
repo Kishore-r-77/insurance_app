@@ -9,17 +9,20 @@ export const getAllApi = (
   state: LevelsStateType
 ) => {
   // Attention : Check and update the below API, if required
-  return axios.get(`http://localhost:3000/api/v1/pacificservices/levels`, {
-    withCredentials: true,
-    params: {
-      pageNum: pageNum,
-      pageSize: pageSize,
-      searchString: state.searchString,
-      searchCriteria: state.searchCriteria,
-      sortColumn: state.sortColumn,
-      sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
-    },
-  });
+  return axios.get(
+    `http://localhost:3000/api/v1/pacificservices/levelsbylevelcode`,
+    {
+      withCredentials: true,
+      params: {
+        pageNum: pageNum,
+        pageSize: pageSize,
+        searchString: state.searchString,
+        searchCriteria: state.searchCriteria,
+        sortColumn: state.sortColumn,
+        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+      },
+    }
+  );
 };
 export const paramItem = (
   companyId: number,

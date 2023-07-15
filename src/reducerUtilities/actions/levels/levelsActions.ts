@@ -58,7 +58,7 @@ export const columns = [
     dbField: "level_code",
   },
   {
-    field: "LevelID",
+    field: "LevelId",
     header: "Parent Level ID",
     dbField: "level_id",
   },

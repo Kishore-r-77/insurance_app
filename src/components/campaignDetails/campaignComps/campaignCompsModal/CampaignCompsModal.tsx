@@ -92,7 +92,9 @@ function CampaignCompsModal({
         }
         size={size}
         handleClose={
-          state.addOpen
+          state.campaignsOpen
+            ? () => dispatch({ type: ACTIONS.CAMPAIGNSCLOSE })
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
@@ -112,7 +114,6 @@ function CampaignCompsModal({
       >
         <form>
           <Grid2 container spacing={2}>
-            // *** Attention: Check the below Lookup modal function details ***
             {state.campaignsOpen ? (
               <Campaigns modalFunc={campaignsOpenFunc} />
             ) : (
@@ -274,7 +275,7 @@ function CampaignCompsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "StartDate",
                           })
                         }
@@ -299,7 +300,7 @@ function CampaignCompsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "EndDate",
                           })
                         }

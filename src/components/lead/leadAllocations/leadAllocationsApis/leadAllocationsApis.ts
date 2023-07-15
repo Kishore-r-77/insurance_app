@@ -53,7 +53,7 @@ export const addApi = (state: LeadAllocationsStateType, companyId: number) => {
       LeadAllocStatus: state.LeadAllocStatus,
       ProductType: state.ProductType,
       ProductCode: state.ProductCode,
-      NoofAppointment: null,
+      NoofAppointment: state.NoofAppointment,
       Priority: state.Priority,
       Quality: state.Quality,
       ClosureStatus: state.ClosureStatus,

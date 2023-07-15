@@ -194,7 +194,6 @@ function LevelsModal({
                 name="LevelID"
                 placeholder="Parent Level ID"
                 label="Parent Level ID"
-                // Attention: *** Check the value details  ***
                 onClick={() => dispatch({ type: ACTIONS.LEVELSOPEN })}
                 value={state.addOpen ? state.LevelID : record.LevelID}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

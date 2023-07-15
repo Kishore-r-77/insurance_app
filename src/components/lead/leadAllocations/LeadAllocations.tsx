@@ -111,6 +111,16 @@ function LeadAllocations({ modalFunc }: any) {
           ...state,
           agenciesOpen: false,
         };
+      case ACTIONS.CLIENTOPEN:
+        return {
+          ...state,
+          clientOpen: true,
+        };
+      case ACTIONS.CLIENTCLOSE:
+        return {
+          ...state,
+          clientOpen: false,
+        };
         return {
           ...state,
           sortDesc: desc,

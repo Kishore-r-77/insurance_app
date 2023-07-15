@@ -159,6 +159,8 @@ function LeadDetailsModal({
         handleClose={
           state.leadChannelsOpen
             ? () => dispatch({ type: ACTIONS.LEADCHANNELSCLOSE })
+            : state.clientOpen
+            ? () => dispatch({ type: ACTIONS.CLIENTCLOSE })
             : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen

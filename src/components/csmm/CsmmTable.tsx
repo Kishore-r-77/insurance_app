@@ -30,7 +30,11 @@ import SurrenderModal from "./surrenderModal/SurrenderModal";
 import { initialValues } from "../../reducerUtilities/actions/surrender/surrenderActions";
 import { SurrenderHStateType } from "../../reducerUtilities/types/surrender/surrenderType";
 import { ACTIONS as SURRENDERACTIONS } from "../../reducerUtilities/actions/surrender/surrenderActions";
+import { maturityInitialValue } from "../../reducerUtilities/actions/maturity/maturityAction";
+import { MaturityStateType } from "../../reducerUtilities/types/maturity/maturityTypes";
+import { ACTIONS as MATURITYACTIONS } from "../../reducerUtilities/actions/maturity/maturityAction";
 import PolReinModal from "./polReinModal/PolReinModal";
+import MaturityModal from "./maturityModal/MaturityModal";
 
 function CsmmTable({
   issueOpen,
@@ -260,6 +264,68 @@ function CsmmTable({
 
   let [surrenderState, surrenderDispatch] = useReducer(reducer, initialValues);
 
+  const maturity = (state: any, action: any) => {
+    switch (action.type) {
+      case ACTIONS.ONCHANGE:
+        return {
+          ...state,
+          [action.fieldName]: action.payload,
+        };
+
+      case MATURITYACTIONS.COMMITOPEN:
+        return {
+          ...state,
+          commitOpen: true,
+        };
+      case MATURITYACTIONS.COMMITCLOSE:
+        return {
+          ...state,
+          Function: "Commit",
+          commitOpen: false,
+        };
+      case MATURITYACTIONS.MATURITYOPEN:
+        setPolicyID(action.payload);
+        return {
+          ...state,
+          maturityOpen: true,
+        };
+      case MATURITYACTIONS.MATURITYCLOSE:
+        state = maturityInitialValue;
+        getData();
+        return {
+          ...state,
+          maturityOpen: false,
+        };
+
+      case ACTIONS.SORT_ASC:
+        const asc = !state.sortAsc;
+        if (state.sortDesc) {
+          state.sortDesc = false;
+        }
+        return {
+          ...state,
+          sortAsc: asc,
+          sortColumn: action.payload,
+        };
+      case ACTIONS.SORT_DESC:
+        const desc = !state.sortDesc;
+        if (state.sortAsc) {
+          state.sortAsc = false;
+        }
+        return {
+          ...state,
+          sortDesc: desc,
+          sortColumn: action.payload,
+        };
+      default:
+        return initialValues;
+    }
+  };
+  let [maturityState, maturityDispatch] = useReducer(
+    maturity,
+    maturityInitialValue
+  );
+
   const [isAssignee, setisAssignee] = useState(false);
   const [assigneeObj, setassigneeObj] = useState<any>({});
   const assigneeOpen = (policyId: number, value: any) => {
@@ -356,7 +422,7 @@ function CsmmTable({
   const [polenqData, setPolenqData] = useState("");
   const getPolEnq = (id: number) => {
     axios
-      .get(`http://localhost:3000/api/v1/customerservice/polheaderenq/${id}`, {
+      .get(`http://localhost:3000/api/v1/deathservices/polheaderenq/${id}`, {
         withCredentials: true,
       })
       .then((resp) => {
@@ -430,6 +496,10 @@ function CsmmTable({
         polReinOpen(policyId.current, value);
         handleClose();
         break;
+      case "Maturity":
+        maturityDispatch({ type: MATURITYACTIONS.MATURITYOPEN });
+        handleClose();
+        break;
       default:
         return;
     }
@@ -444,6 +514,7 @@ function CsmmTable({
   const [saChangeObj, setsaChangeObj] = useState<any>("");
   const [saChangeBenefits, setsaChangeBenefits] = useState<any>([]);
   const [surrenderBenefits, setsurrenderBenefits] = useState<any>([]);
+  const [maturityBenefits, setmaturityBenefits] = useState<any>([]);
 
   const isSave = useRef(false);
 
@@ -474,7 +545,7 @@ function CsmmTable({
   const postSaChange = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/customerservice/changesa/${PolicyID}`,
+        `http://localhost:3000/api/v1/deathservices/changesa/${PolicyID}`,
         {
           Benefits: saChangeBenefits,
           BillToDate: saChangeObj.BillToDate,
@@ -512,7 +583,7 @@ function CsmmTable({
   const saveSaChange = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/customerservice/changesa/${PolicyID}`,
+        `http://localhost:3000/api/v1/deathservices/changesa/${PolicyID}`,
         {
           Benefits: saChangeBenefits,
           Function: "Save",
@@ -543,7 +614,7 @@ function CsmmTable({
   const invalidatesa = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/customerservice/invalidatesa/${PolicyID}`,
+        `http://localhost:3000/api/v1/deathservices/invalidatesa/${PolicyID}`,
         {},
         { withCredentials: true }
       )
@@ -583,7 +654,7 @@ function CsmmTable({
   const postComponentAdd = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/customerservice/addcomponent/${PolicyID}`,
+        `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
         {
           Benefits: componentBenefits.map((benefit: any) => ({
             ...benefit,
@@ -621,7 +692,7 @@ function CsmmTable({
   const saveComponent = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/customerservice/addcomponent/${PolicyID}`,
+        `http://localhost:3000/api/v1/deathservices/addcomponent/${PolicyID}`,
         {
           Benefits: componentBenefits.map((benefit: any) => ({
             ...benefit,
@@ -709,7 +780,7 @@ function CsmmTable({
   const invalidatca = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/customerservice/invalidateca/${PolicyID}`,
+        `http://localhost:3000/api/v1/deathservices/invalidateca/${PolicyID}`,
         {},
         { withCredentials: true }
       )
@@ -963,6 +1034,16 @@ function CsmmTable({
         policyRecord={enquiryRecord.current}
         surrenderState={surrenderState}
         surrenderDispatch={surrenderDispatch}
+        getData={getData}
+      />
+      <MaturityModal
+        policyId={policyId}
+        maturityBenefits={maturityBenefits}
+        setmaturityBenefits={setmaturityBenefits}
+        isSave={isSave?.current}
+        policyRecord={enquiryRecord.current}
+        maturityState={maturityState}
+        maturityDispatch={maturityDispatch}
         getData={getData}
       />
       <SaChangeModal
