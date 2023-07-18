@@ -15,19 +15,6 @@ import Q0019Enq  from "./q0019Enq";
 
 
 const Q0019 = forwardRef((props: any, ref) => {
-
-  const {sendRequest : sendFreqRequest , status: getFreqResponseStatus ,  data: getFreqResponse , error:getFreqResponseError} = useHttp(getData, true);
-
-  useEffect(() => {
-    let getDataParams:any = {}
-        getDataParams.name =  "P0050";
-
-        getDataParams.item = "FREQ";
-        sendFreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-
-    },[]);
-
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -130,14 +117,13 @@ const Q0019 = forwardRef((props: any, ref) => {
         {inputdata.freqFactor?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
-            <TextField
-                select
+              <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="frequency"
-                name="frequency"
-                value={value.frequency}
+                id="FrequenCY"
+                name="FrequenCY"
+                value={value.FrequenCY}
                 onChange={(e) =>
                   fieldChangeHandler(index, "frequency", e.target.value,false)
                 }
@@ -145,16 +131,7 @@ const Q0019 = forwardRef((props: any, ref) => {
                 size="small"
                 type="text"
                 margin="dense"
-                SelectProps={{
-                  multiple: false,
-                }}
-              >
-                {getFreqResponse?.param.data.dataPairs.map((value:any) => (
-                  <MenuItem key={value.code} value={value.code}>
-                {value.code} - {value.description}
-                  </MenuItem>
-                ))}
-              </TextField>
+              />
             </td>
 
             <td>

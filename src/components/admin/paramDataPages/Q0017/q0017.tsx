@@ -19,13 +19,13 @@ const Q0017 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.sABand = retData.sABand.filter(
+      retData.saBand = retData.saBand.filter(
         (value: any) => value.sA !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        sABand: inputdata.sABand.filter(
+        saBand: inputdata.saBand.filter(
           (value: any) => value.sA !== ""
         ),
       }));
@@ -36,7 +36,7 @@ const Q0017 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      sABand: inputdata.sABand.filter(
+      saBand: inputdata.saBand.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -45,7 +45,7 @@ const Q0017 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      sABand: inputdata.sABand.map((val: any, ind: number) => {
+      saBand: inputdata.saBand.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -90,16 +90,16 @@ const Q0017 = forwardRef((props: any, ref) => {
           <th>Sum Assured</th> 
           <th>Discount</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.sABand?.length > 0 && <th>Actions</th>}
+            inputdata.saBand?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.sABand || inputdata.sABand?.length === 0) && (
+            (!inputdata.saBand || inputdata.saBand?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        sABand: [
+                        saBand: [
                           {
                             sA: 0,
                             discount: 0,
@@ -114,7 +114,7 @@ const Q0017 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.sABand?.map((value: any, index: number) => (
+        {inputdata.saBand?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -170,14 +170,14 @@ const Q0017 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.sABand.length - 1 && (
+                  {index === inputdata.saBand.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            sABand: [
-                              ...inputdata.sABand,
+                            saBand: [
+                              ...inputdata.saBand,
                               {
                                 sA: 0,
                                 discount: 0,

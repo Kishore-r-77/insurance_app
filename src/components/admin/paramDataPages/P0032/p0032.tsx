@@ -19,13 +19,13 @@ const P0032 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.uWRules = retData.uWRules.filter(
+      retData.uwRules = retData.uwRules.filter(
         (value: any) => value.noOfMonths !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        uWRules: inputdata.uWRules.filter(
+        uwRules: inputdata.uwRules.filter(
           (value: any) => value.noOfMonths !== ""
         ),
       }));
@@ -36,7 +36,7 @@ const P0032 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      uWRules: inputdata.uWRules.filter(
+      uwRules: inputdata.uwRules.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -45,7 +45,7 @@ const P0032 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      uWRules: inputdata.uWRules.map((val: any, ind: number) => {
+      uwRules: inputdata.uwRules.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -90,16 +90,16 @@ const P0032 = forwardRef((props: any, ref) => {
           <th>No Of Months</th> 
           <th>Factor</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.uWRules?.length > 0 && <th>Actions</th>}
+            inputdata.uwRules?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.uWRules || inputdata.uWRules?.length === 0) && (
+            (!inputdata.uwRules || inputdata.uwRules?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        uWRules: [
+                        uwRules: [
                           {
                             noOfMonths: 0,
                             factor: 0,
@@ -114,7 +114,7 @@ const P0032 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.uWRules?.map((value: any, index: number) => (
+        {inputdata.uwRules?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -170,14 +170,14 @@ const P0032 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.uWRules.length - 1 && (
+                  {index === inputdata.uwRules.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            uWRules: [
-                              ...inputdata.uWRules,
+                            uwRules: [
+                              ...inputdata.uwRules,
                               {
                                 noOfMonths: 0,
                                 factor: 0,
