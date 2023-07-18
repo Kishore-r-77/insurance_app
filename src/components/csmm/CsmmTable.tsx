@@ -422,7 +422,7 @@ function CsmmTable({
   const [polenqData, setPolenqData] = useState("");
   const getPolEnq = (id: number) => {
     axios
-      .get(`http://localhost:3000/api/v1/deathservices/polheaderenq/${id}`, {
+      .get(`http://localhost:3000/api/v1/customerservice/polheaderenq/${id}`, {
         withCredentials: true,
       })
       .then((resp) => {
