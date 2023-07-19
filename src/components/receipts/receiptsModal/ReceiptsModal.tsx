@@ -139,7 +139,6 @@ function ReceiptsModal({
     getPolicy(parseInt(record.PolicyID));
     return () => {};
   }, [state.infoOpen]);
-
   useEffect(() => {
     getACur("BillingCurr", policyData?.PProduct);
   }, [toggle]);

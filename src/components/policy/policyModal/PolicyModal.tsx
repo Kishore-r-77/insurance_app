@@ -46,11 +46,14 @@ function PolicyModal({
   validatePolicy,
   setbenefitsData,
   benefitsData,
+  interest,
 }: any) {
   const addTitle: string = "Policy Add";
   const editTitle: string = "Policy Edit";
   const infoTitle: string = "Policy Info";
   const size = "xl";
+
+  console.log(benefitsData, "Policy record");
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -1074,7 +1077,9 @@ function PolicyModal({
                               select
                               id="Interest"
                               name="Interest"
-                              value={benefits.Interest}
+                              value={
+                                state.addOpen ? benefits.Interest : interest
+                              }
                               placeholder="Interest"
                               label="Interest"
                               onChange={(

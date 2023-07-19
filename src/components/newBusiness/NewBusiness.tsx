@@ -366,14 +366,16 @@ function NewBusiness({ modalFunc }: any) {
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
-  const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState([]);
-  const interest = useRef(0);
+  const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState<any>([]);
+
+  //const interest = useRef<any>();
+  const [interest, setinterest] = useState(0.0);
 
   const getBenefitsByPolicies1 = (policyId: number) => {
     getBenefitsByPolicies(policyId)
       .then((resp) => {
         setbenefitsByPoliciesData(resp.data?.Benefit);
-        interest.current = resp.data?.Interest;
+        setinterest(resp.data?.Interest);
       })
       .catch((err) => err.message);
   };
@@ -382,6 +384,29 @@ function NewBusiness({ modalFunc }: any) {
     getBenefitsByPolicies1(record.ID);
     return () => {};
   }, [state.benefitOpen, state.editOpen]);
+
+  const getBenefit = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/nbservices/benefitget/${benefitsByPoliciesData[0].ID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        //interest.current = res.data.Interest;
+        setinterest(res.data.Interest);
+        console.log(res.data.Interest, "Interest ");
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+
+  useEffect(() => {
+    getBenefit();
+    return () => {};
+  }, [state.editOpen]);
 
   return (
     <div>
@@ -506,6 +531,7 @@ function NewBusiness({ modalFunc }: any) {
         validatePolicy={validatePolicy}
         ACTIONS={ACTIONS}
         benefitsData={state.addOpen ? benefitsData : benefitsByPoliciesData}
+        interest={interest}
         setbenefitsData={
           state.addOpen ? setbenefitsData : setbenefitsByPoliciesData
         }
@@ -521,7 +547,7 @@ function NewBusiness({ modalFunc }: any) {
           getBenefitsByPolicies1={getBenefitsByPolicies1}
           getPolicies={getData}
           policyRecord={record}
-          interest={interest.current}
+          interest={interest}
           lookup={state.benefitOpen}
         />
       </CustomModal>
