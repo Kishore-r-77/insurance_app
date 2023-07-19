@@ -242,6 +242,7 @@ function BenefitModal({
                       })
                     }
                     renderInput={(params) => <TextField {...params} />}
+                    disabled={state.editOpen}
                   />
                 </LocalizationProvider>
               </FormControl>

@@ -960,7 +960,7 @@ function PolicyModal({
                                 label="b_start_date"
                                 inputFormat="DD/MM/YYYY"
                                 value={
-                                  state.addOpen ? state.PRCD : benefits.PRCD
+                                  state.addOpen ? state.PRCD : record?.PRCD
                                 }
                                 onChange={(date) =>
                                   handleBStartDate(date, index)
