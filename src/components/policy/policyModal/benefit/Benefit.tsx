@@ -57,6 +57,7 @@ function Benefit({
         };
       case ACTIONS.EDITCHANGE:
         if (action.fieldName === "Interest") {
+          console.log(action.payload, "On change interest");
           //interest.current = action.payload;
           setinterest(action.payload);
         } else {

@@ -65,10 +65,16 @@ function NewBusiness({ modalFunc }: any) {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        setRecord((prev: any) => ({
-          ...prev,
-          [action.fieldName]: action.payload,
-        }));
+        if (action.fieldName === "Interest") {
+          console.log(action.payload, "On change interest");
+          //interest.current = action.payload;
+          setinterest(action.payload);
+        } else {
+          setRecord((prev: any) => ({
+            ...prev,
+            [action.fieldName]: action.payload,
+          }));
+        }
         return {
           ...state,
           editOpen: true,
@@ -388,7 +394,7 @@ function NewBusiness({ modalFunc }: any) {
   const getBenefit = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/nbservices/benefitget/${benefitsByPoliciesData[0].ID}`,
+        `http://localhost:3000/api/v1/nbservices/benefitget/${benefitsByPoliciesData[0]?.ID}`,
         {
           withCredentials: true,
         }
@@ -404,9 +410,10 @@ function NewBusiness({ modalFunc }: any) {
   };
 
   useEffect(() => {
+    console.log(benefitsByPoliciesData[0]?.ID, "benefit data");
     getBenefit();
     return () => {};
-  }, [state.editOpen]);
+  }, [state.editOpen && record.PProduct === "MRT"]);
 
   return (
     <div>
