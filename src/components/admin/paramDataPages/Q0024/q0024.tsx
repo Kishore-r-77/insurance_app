@@ -19,14 +19,14 @@ const Q0024 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.bIRates = retData.bIRates.filter(
-        (value: any) => value.bIType !== ""
+      retData.biRates = retData.biRates.filter(
+        (value: any) => value.biType !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        bIRates: inputdata.bIRates.filter(
-          (value: any) => value.bIType !== ""
+        biRates: inputdata.biRates.filter(
+          (value: any) => value.biType !== ""
         ),
       }));
       return retData;
@@ -36,7 +36,7 @@ const Q0024 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      bIRates: inputdata.bIRates.filter(
+      biRates: inputdata.biRates.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -45,7 +45,7 @@ const Q0024 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      bIRates: inputdata.bIRates.map((val: any, ind: number) => {
+      biRates: inputdata.biRates.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -90,18 +90,18 @@ const Q0024 = forwardRef((props: any, ref) => {
           <th>Bonus Interest Type</th> 
           <th>Rate</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.bIRates?.length > 0 && <th>Actions</th>}
+            inputdata.biRates?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.bIRates || inputdata.bIRates?.length === 0) && (
+            (!inputdata.biRates || inputdata.biRates?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        bIRates: [
+                        biRates: [
                           {
-                            bIType: "",
+                            biType: "",
                             rate: 0,
                           },
                         ],
@@ -114,18 +114,18 @@ const Q0024 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.bIRates?.map((value: any, index: number) => (
+        {inputdata.biRates?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="bIType"
-                name="bIType"
-                value={value.bIType}
+                id="biType"
+                name="biType"
+                value={value.biType}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "bIType", e.target.value,false)
+                  fieldChangeHandler(index, "biType", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -170,16 +170,16 @@ const Q0024 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.bIRates.length - 1 && (
+                  {index === inputdata.biRates.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            bIRates: [
-                              ...inputdata.bIRates,
+                            biRates: [
+                              ...inputdata.biRates,
                               {
-                                bIType: "",
+                                biType: "",
                                 rate: 0,
 
                               },

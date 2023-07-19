@@ -20,13 +20,13 @@ const P0028 = forwardRef((props: any, ref) => {
     getData() {
       let retData = inputdata;
       retData.commissions = retData.commissions.filter(
-        (value: any) => value.pPT !== ""
+        (value: any) => value.ppt !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         commissions: inputdata.commissions.filter(
-          (value: any) => value.pPT !== ""
+          (value: any) => value.ppt !== ""
         ),
       }));
       return retData;
@@ -101,7 +101,7 @@ const P0028 = forwardRef((props: any, ref) => {
                         ...inputdata,
                         commissions: [
                           {
-                            pPT: 0,
+                            ppt: 0,
                             rate: 0,
                           },
                         ],
@@ -121,11 +121,11 @@ const P0028 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="pPT"
-                name="pPT"
-                value={value.pPT}
+                id="ppt"
+                name="ppt"
+                value={value.ppt}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "pPT", e.target.value,true)
+                  fieldChangeHandler(index, "ppt", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -179,7 +179,7 @@ const P0028 = forwardRef((props: any, ref) => {
                             commissions: [
                               ...inputdata.commissions,
                               {
-                                pPT: 0,
+                                ppt: 0,
                                 rate: 0,
 
                               },

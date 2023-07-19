@@ -19,13 +19,13 @@ const Q0013 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.sBRates = retData.sBRates.filter(
+      retData.sbRates = retData.sbRates.filter(
         (value: any) => value.age !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        sBRates: inputdata.sBRates.filter(
+        sbRates: inputdata.sbRates.filter(
           (value: any) => value.age !== ""
         ),
       }));
@@ -36,7 +36,7 @@ const Q0013 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      sBRates: inputdata.sBRates.filter(
+      sbRates: inputdata.sbRates.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -45,7 +45,7 @@ const Q0013 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      sBRates: inputdata.sBRates.map((val: any, ind: number) => {
+      sbRates: inputdata.sbRates.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -90,16 +90,16 @@ const Q0013 = forwardRef((props: any, ref) => {
           <th>Age</th> 
           <th>Percentage</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.sBRates?.length > 0 && <th>Actions</th>}
+            inputdata.sbRates?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.sBRates || inputdata.sBRates?.length === 0) && (
+            (!inputdata.sbRates || inputdata.sbRates?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        sBRates: [
+                        sbRates: [
                           {
                             age: 0,
                             percentage: 0,
@@ -114,7 +114,7 @@ const Q0013 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.sBRates?.map((value: any, index: number) => (
+        {inputdata.sbRates?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -170,14 +170,14 @@ const Q0013 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.sBRates.length - 1 && (
+                  {index === inputdata.sbRates.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            sBRates: [
-                              ...inputdata.sBRates,
+                            sbRates: [
+                              ...inputdata.sbRates,
                               {
                                 age: 0,
                                 percentage: 0,

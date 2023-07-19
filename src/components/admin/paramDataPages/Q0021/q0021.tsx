@@ -19,13 +19,13 @@ const Q0021 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.aLBand = retData.aLBand.filter(
+      retData.alBand = retData.alBand.filter(
         (value: any) => value.months !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        aLBand: inputdata.aLBand.filter(
+        alBand: inputdata.alBand.filter(
           (value: any) => value.months !== ""
         ),
       }));
@@ -36,7 +36,7 @@ const Q0021 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      aLBand: inputdata.aLBand.filter(
+      alBand: inputdata.alBand.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -45,7 +45,7 @@ const Q0021 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      aLBand: inputdata.aLBand.map((val: any, ind: number) => {
+      alBand: inputdata.alBand.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -90,16 +90,16 @@ const Q0021 = forwardRef((props: any, ref) => {
           <th>Months</th> 
           <th>Percentage</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.aLBand?.length > 0 && <th>Actions</th>}
+            inputdata.alBand?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.aLBand || inputdata.aLBand?.length === 0) && (
+            (!inputdata.alBand || inputdata.alBand?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        aLBand: [
+                        alBand: [
                           {
                             months: 0,
                             percentage: 0,
@@ -114,7 +114,7 @@ const Q0021 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.aLBand?.map((value: any, index: number) => (
+        {inputdata.alBand?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -170,14 +170,14 @@ const Q0021 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.aLBand.length - 1 && (
+                  {index === inputdata.alBand.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            aLBand: [
-                              ...inputdata.aLBand,
+                            alBand: [
+                              ...inputdata.alBand,
                               {
                                 months: 0,
                                 percentage: 0,

@@ -15,7 +15,7 @@ const P0030 = forwardRef((props: any, ref) => {
 
 
   const bankAccountRef: any = useRef();
-  const gLAccountRef: any = useRef();
+  const glAccountRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -27,7 +27,7 @@ const P0030 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       inputdata.bankAccount = bankAccountRef.current.value;
-      inputdata.gLAccount = gLAccountRef.current.value;
+      inputdata.glAccount = glAccountRef.current.value;
 
       return inputdata;
     },
@@ -92,12 +92,12 @@ const P0030 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="gLAccount"
-          name="gLAccount"
-          inputRef={gLAccountRef}
+          id="glAccount"
+          name="glAccount"
+          inputRef={glAccountRef}
           placeholder="GL Account"
           label="GL Account"
-          defaultValue={inputdata.gLAccount}
+          defaultValue={inputdata.glAccount}
           fullWidth
           margin="dense"
         />
