@@ -178,7 +178,7 @@ function Campaigns({ modalFunc }: any) {
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <header className={styles.flexStyle}>
         <span>
           <TextField
@@ -236,7 +236,7 @@ function Campaigns({ modalFunc }: any) {
             <SearchIcon />
           </Button>
         </span>
-        <h1>Campaignss</h1>
+        <h1>Campaigns</h1>
         <Button
           id={styles["add-btn"]}
           style={{

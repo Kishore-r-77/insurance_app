@@ -63,7 +63,8 @@ export const paramTermItem = (
   name: string,
   languageId: number,
   item: string,
-  date: string
+  date: string,
+  func: string
 ) => {
   return axios.get(
     `http://localhost:3000/api/v1/basicservices/paramextradata`,
@@ -75,6 +76,7 @@ export const paramTermItem = (
         languageId,
         item,
         date,
+        function: func,
       },
     }
   );

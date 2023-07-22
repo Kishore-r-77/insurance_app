@@ -28,6 +28,7 @@ import PolicyTable from "./policyTable/PolicyTable";
 import CustomModal from "../../utilities/modal/CustomModal";
 import PolicyEnquiry from "./policyModal/PolicyEnquiry";
 import Notification from "../../utilities/Notification/Notification";
+import axios from "axios";
 
 function Policy({
   modalFunc,

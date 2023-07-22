@@ -2,7 +2,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import InfoIcon from "@mui/icons-material/Info";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { IconButton, Paper } from "@mui/material";
+import { IconButton, Paper, Tooltip } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import moment from "moment";
 import { Button, MenuItem, TextField } from "@mui/material";
@@ -20,6 +20,8 @@ import { useAppSelector } from "../../../redux/app/hooks";
 import { current } from "@reduxjs/toolkit";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { getQheader } from "../qHeaderApis/qHeaderApis";
+import FinalizeModal from "../QHeaderQDetailEnquiry/FinalizeModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function QHeaderTable({
   issueOpen,
@@ -34,7 +36,6 @@ function QHeaderTable({
   hardDelete,
   modalFunc,
   initialValues,
-  setNotify,
   state,
 }: any) {
   const [sort, setsort] = useState(
@@ -47,6 +48,12 @@ function QHeaderTable({
     (state) => state.users.user.message.companyId
   );
 
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -54,6 +61,7 @@ function QHeaderTable({
 
   const qheaderid = useRef<any>(0);
   const editpayload = useRef();
+
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement>,
     value: any
@@ -68,6 +76,9 @@ function QHeaderTable({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const header = qheaderid.current;
+
   const [allowedMenuRecord, setAllowedMenuRecord] = useState<any>("");
   const editClickOpen = (item: any, payload: any) => {
     setAllowedMenuRecord(item);
@@ -87,6 +98,11 @@ function QHeaderTable({
       setAcceptOpen(true);
     } else if (item.Action === "Cancel") {
       setCancelOpen(true);
+    } else if (item.Action === "Finalize") {
+      dispatch({
+        type: ACTIONS.POLICYCREATEOPEN,
+        payload: editpayload.current,
+      });
     }
     handleClose();
   };
@@ -220,6 +236,15 @@ function QHeaderTable({
   const handlePostponeWithdrawnClose = () => {
     setPostponeWithdrawnOpen(false);
   };
+  // const [finalizeOpen, setFinalizeOpen] = useState(false);
+  // const handleFinalizeOpen = (ID: any) => {
+  //   setFinalizeOpen(true);
+  //   //setpolicyId(ID);
+  //   handleClose();
+  // };
+  // const handleFinalizeClose = () => {
+  //   setFinalizeOpen(false);
+  // };
 
   const [p0044SQMMData, setP0044SQMMData] = useState<any>();
   const p0044SQMM = () => {
@@ -250,11 +275,15 @@ function QHeaderTable({
         } else if (allowedMenuRecord.Action === "Cancel") {
           handleCancelClose();
         }
+        setNotify({
+          isOpen: true,
+          message: `Successfully`,
+          type: "success",
+        });
         getData();
         getQHeader();
       })
       .catch((err) => {
-        handleClose();
         console.log(err.message);
       });
   };
@@ -283,7 +312,7 @@ function QHeaderTable({
   const getQCommunicationByHeader = (row: number) => {
     axios
       .get(
-        `http://localhost:3000/api/v1/quotationservices/qcommidbyheader/${row}`,
+        `http://localhost:3000/api/v1/quotationservices/getcommidbyqheader/${row}`,
         {
           withCredentials: true,
         }
@@ -298,13 +327,10 @@ function QHeaderTable({
   const item = "QUOTE";
   const downloadQuotePdf = (id: any) => {
     axios
-      .get(
-        `http://localhost:3000/api/v1/basicservices/qgetReport?reportName=${item}&ID=${id}`,
-        {
-          withCredentials: true,
-          responseType: "blob",
-        }
-      )
+      .get(`http://localhost:3000/api/v1/basicservices/qgetReport?ID=${id}`, {
+        withCredentials: true,
+        responseType: "blob",
+      })
       .then((resp) => {
         const url = window.URL.createObjectURL(new Blob([resp.data]));
         const link = document.createElement("a");
@@ -418,8 +444,18 @@ function QHeaderTable({
                     </td>
                   );
                 }
-                return <td key={col.field}>{row[col.field]}</td>;
+                return (
+                  <td key={col.field}>
+                    {row[col.field]}
+                    {col.field === "QStatus" && row[col.field] === "QF" ? (
+                      <Tooltip title={"PolicyNumber :  " + row.Policy}>
+                        <InfoIcon />
+                      </Tooltip>
+                    ) : null}
+                  </td>
+                );
               })}
+
               {ACTIONS.EDITOPEN && (
                 <td>
                   <span className={styles.flexButtons}>
@@ -441,7 +477,9 @@ function QHeaderTable({
                     >
                       <MoreVertIcon />
                     </IconButton>
-                    {row.QStatus === "QP" || row.QStatus === "QA" ? (
+                    {row.QStatus === "QP" ||
+                    row.QStatus === "QA" ||
+                    row.QStatus === "QF" ? (
                       <IconButton
                         onClick={() => getQCommunicationByHeader(row.ID)}
                       >
@@ -499,6 +537,15 @@ function QHeaderTable({
         handleClose={handleValidateClose}
         handleFormSubmit={p0044SQMM}
       />
+      {/* <FinalizeModal
+        open={finalizeOpen}
+        handleClose={handleFinalizeClose}
+        handleFormSubmit={p0044SQMM}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+      /> */}
+      <FinalizeModal header={header} />
+      <Notification notify={notify} setNotify={setNotify} />
     </Paper>
   );
 }

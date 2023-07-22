@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./p0041.css";
+import P0041Enq  from "./p0041Enq";
 
 
 const P0041 = forwardRef((props: any, ref) => {
@@ -75,8 +78,21 @@ const P0041 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -177,7 +193,7 @@ const P0041 = forwardRef((props: any, ref) => {
               >
                 {getMedrResponse?.param.data.dataPairs.map((value:any) => (
                   <MenuItem key={value.code} value={value.code}>
-                {value.description}
+                {value.code} - {value.description}
                   </MenuItem>
                 ))}
               </TextField>
@@ -228,7 +244,17 @@ const P0041 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <P0041Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default P0041;
 

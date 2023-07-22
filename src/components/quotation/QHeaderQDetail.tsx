@@ -29,6 +29,7 @@ import QHeaderTable from "./qHeaderTable/QHeaderTable";
 import QHeaderQDetailModal from "./qHeaderqDetailModal/QHeaderQDetailModal";
 import QHeaderQDetailEnquiry from "./QHeaderQDetailEnquiry/QHeaderQDetailEnquiry";
 import axios from "axios";
+import FinalizeModal from "./QHeaderQDetailEnquiry/FinalizeModal";
 //import QHeaderQDetailModal  from "./QHeaderQDetailModal/QHeaderQDetailModal";
 //import QHeader FullModal from "./qHeaderFullModal/QHeaderFullModal";
 
@@ -37,6 +38,12 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+  const [clntData, setClntData] = useState<any>([]);
+  const [clntRecordData, setClntRecordData] = useState<any>([]);
+  const [qcoverageData, setQcoverageData] = useState([]);
+  const [qriskcesstermData, setQriskcesstermData] = useState([]);
+  const [qpremcesstermData, setQpremcesstermData] = useState([]);
+  const [qproductData, setQproductData] = useState([]);
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: QHeaderStateType, action: any) => {
     switch (action.type) {
@@ -75,6 +82,12 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
+        setQcoverageData([]);
+        setClntData([]);
+        setClntRecordData([]);
+        setQriskcesstermData([]);
+        setQpremcesstermData([]);
+        setQproductData([]);
         return {
           ...state,
           addOpen: false,
@@ -142,6 +155,17 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         return {
           ...state,
           clientOpen: false,
+        };
+      case ACTIONS.POLICYCREATEOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          policycreateOpen: true,
+        };
+      case ACTIONS.POLICYCREATECLOSE:
+        return {
+          ...state,
+          policycreateOpen: false,
         };
 
       case ACTIONS.SORT_ASC:
@@ -388,8 +412,29 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         dispatch={dispatch}
         getData={getData}
         record={record}
+        clntData={clntData}
+        setClntData={setClntData}
+        clntRecordData={clntRecordData}
+        setClntRecordData={setClntRecordData}
+        qcoverageData={qcoverageData}
+        setQcoverageData={setQcoverageData}
+        qriskcesstermData={qriskcesstermData}
+        setQriskcesstermData={setQriskcesstermData}
+        qpremcesstermData={qpremcesstermData}
+        setQpremcesstermData={setQpremcesstermData}
+        qproductData={qproductData}
+        setQproductData={setQproductData}
       />
       <QHeaderQDetailEnquiry
+        state={state}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        getData={getData}
+        record={record}
+        getQheader={getQheader}
+        getAllQDetail={getAllQDetailByQheaderApi}
+      />
+      <FinalizeModal
         state={state}
         ACTIONS={ACTIONS}
         dispatch={dispatch}

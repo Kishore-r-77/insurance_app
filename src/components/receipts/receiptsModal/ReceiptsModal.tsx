@@ -136,6 +136,10 @@ function ReceiptsModal({
   }, [state.PolicyID]);
 
   useEffect(() => {
+    getPolicy(parseInt(record.PolicyID));
+    return () => {};
+  }, [state.infoOpen]);
+  useEffect(() => {
     getACur("BillingCurr", policyData?.PProduct);
   }, [toggle]);
   // *** Attention: Check the Lookup table  OPenFunc details below ***
@@ -237,7 +241,7 @@ function ReceiptsModal({
             : null
         }
         ACTIONS={ACTIONS}
-        handleFormSubmit={() => handleFormSubmit()}
+        handleFormSubmit={state.addOpen ? () => handleFormSubmit() : null}
       >
         <form>
           <Grid2 container spacing={2}>

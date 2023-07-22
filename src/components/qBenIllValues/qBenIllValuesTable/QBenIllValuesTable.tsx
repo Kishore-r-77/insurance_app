@@ -10,6 +10,7 @@ import moment from "moment";
 import { useState } from "react";
 import BusinessIcon from "@mui/icons-material/Business";
 import { useNavigate } from "react-router-dom";
+import { grey } from "@mui/material/colors";
 function QBenIllValuesTable({
   data,
   dataIndex,
@@ -161,12 +162,12 @@ function QBenIllValuesTable({
         style={{
           display: "flex",
           marginRight: 10,
-          marginLeft: 520,
+          marginLeft: 1100,
           maxWidth: "40px",
           maxHeight: "40px",
           minWidth: "60px",
           minHeight: "40px",
-          backgroundColor: "brown",
+          backgroundColor: "grey",
         }}
         variant="contained"
         onClick={() => navigate("/qHeaderqDetail")}

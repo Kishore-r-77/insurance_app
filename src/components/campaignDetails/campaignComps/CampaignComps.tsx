@@ -21,6 +21,7 @@ import {
   getAllApi,
 } from "./campaignCompsApis/campaignCompsApis";
 import CampaignCompsModal from "./campaignCompsModal/CampaignCompsModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function CampaignComps({ modalFunc }: any) {
   //data from getall api
@@ -124,6 +125,11 @@ function CampaignComps({ modalFunc }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
@@ -147,6 +153,11 @@ function CampaignComps({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created:${resp.data?.Created}`,
+          type: "success",
+        });
         getData();
       })
       .catch((err) => console.log(err.message));
@@ -191,7 +202,7 @@ function CampaignComps({ modalFunc }: any) {
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <header className={styles.flexStyle}>
         <span>
           <TextField
@@ -291,6 +302,7 @@ function CampaignComps({ modalFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

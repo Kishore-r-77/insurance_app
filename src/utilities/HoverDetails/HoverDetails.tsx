@@ -25,6 +25,9 @@ function HoverDetails({ title, data }: any) {
           <li>GST: {val.GST}</li>
           <li>Stamp Duty: {val.StampDuty}</li>
           <li>Policy Deposit: {val.PolicyDeposit}</li>
+          {val.Status === "LA"
+          ? <li>Interest: {val.Interest}</li>
+          :null}
           <li>Net Payable: {val.Payable}</li>
         </ul>
       ))}

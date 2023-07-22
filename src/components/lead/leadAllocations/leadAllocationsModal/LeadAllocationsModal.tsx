@@ -20,6 +20,7 @@ import styles from "./leadAllocationsModal.module.css";
 import { paramItem } from "../leadAllocationsApis/leadAllocationsApis";
 // *** Attention: Check the path and change it if required ***
 import Agency from "../../../agency/Agency";
+import Client from "../../../clientDetails/client/Client";
 import { LeadAllocationsModalType } from "../../../../reducerUtilities/types/lead/leadAllocations/leadAllocationsTypes";
 function LeadAllocationsModal({
   state,
@@ -161,6 +162,12 @@ function LeadAllocationsModal({
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCIESCLOSE });
   };
+  const clientOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.ClientID = item.ID;
+    } else record.ClientID = item.ID;
+    dispatch({ type: ACTIONS.CLIENTCLOSE });
+  };
   console.log(state.infoOpen, "**8");
   return (
     <div className={styles.modal}>
@@ -174,7 +181,11 @@ function LeadAllocationsModal({
             : state.infoOpen
         }
         handleClose={
-          state.addOpen
+          state.agenciesOpen
+            ? () => dispatch({ type: ACTIONS.AGENCIESCLOSE })
+            : state.clientOpen
+            ? () => dispatch({ type: ACTIONS.CLIENTCLOSE })
+            : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
             ? () => dispatch({ type: ACTIONS.EDITCLOSE })
@@ -196,6 +207,8 @@ function LeadAllocationsModal({
           <Grid2 container spacing={2}>
             {state.agenciesOpen ? (
               <Agency modalFunc={agenciesOpenFunc} />
+            ) : state.clientOpen ? (
+              <Client modalFunc={clientOpenFunc} />
             ) : (
               <>
                 <Grid2 xs={8} md={6} lg={4}>
@@ -296,7 +309,7 @@ function LeadAllocationsModal({
                     placeholder="Client ID"
                     label="Client ID"
                     // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.AGENCIESOPEN })}
+                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     value={state.addOpen ? state.ClientID : record.ClientID}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({

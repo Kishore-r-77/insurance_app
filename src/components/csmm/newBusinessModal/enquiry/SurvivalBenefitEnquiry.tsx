@@ -7,7 +7,6 @@ const SurvivalBenefitEnquiry = ({ survivalbenefitenquiryData, state }: any) => {
           field: "Tranno",
           header: "Transaction No.",
           dbField: "tranno",
-          type: "date",
         },
 
         {

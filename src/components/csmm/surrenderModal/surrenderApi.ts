@@ -66,7 +66,7 @@ export const postSurrender = (
   ClientID: number
 ) => {
   return axios.post(
-    `http://localhost:3000/api/v1/deathservices/surrcreate/${policyId}`,
+    `http://localhost:3000/api/v1/customerservice/surrcreate/${policyId}`,
     {
       Function: "Fill",
       CompanyID: CompanyID,
@@ -124,7 +124,7 @@ export const saveSurrender = (
   surrDdata: any
 ) => {
   return axios.post(
-    `http://localhost:3000/api/v1/deathservices/surrcreate/${policyId}`,
+    `http://localhost:3000/api/v1/customerservice/surrcreate/${policyId}`,
     {
       Function: "Commit",
       CompanyID: CompanyID,

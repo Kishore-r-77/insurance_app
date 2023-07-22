@@ -126,7 +126,7 @@ function Levels({ modalFunc }: any) {
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All Levelss"]);
+        setData(resp.data["All Levels"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         // ***  Attention : Check the API and modify it, if required   ***
         setisLast(resp.data["All Levels"]?.length === 0);

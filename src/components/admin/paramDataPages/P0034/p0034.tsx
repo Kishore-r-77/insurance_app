@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./p0034.css";
+import P0034Enq  from "./p0034Enq";
 
 
 const P0034 = forwardRef((props: any, ref) => {
@@ -58,8 +61,21 @@ const P0034 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -88,7 +104,7 @@ const P0034 = forwardRef((props: any, ref) => {
                           {
                             templates: "",
                             reportTemplateLocation: "",
-                            pdflocation: "",
+                            pdfLocation: "",
                           },
                         ],
                       }));
@@ -143,11 +159,11 @@ const P0034 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="pdflocation"
-                name="pdflocation"
-                value={value.pdflocation}
+                id="pdfLocation"
+                name="pdfLocation"
+                value={value.pdfLocation}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "pdflocation", e.target.value,false)
+                  fieldChangeHandler(index, "pdfLocation", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -185,7 +201,7 @@ const P0034 = forwardRef((props: any, ref) => {
                               {
                                 templates: "",
                                 reportTemplateLocation: "",
-                                pdflocation: "",
+                                pdfLocation: "",
 
                               },
                             ],
@@ -201,7 +217,17 @@ const P0034 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <P0034Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default P0034;
 

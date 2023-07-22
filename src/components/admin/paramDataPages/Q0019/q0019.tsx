@@ -8,10 +8,30 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0019.css";
+import Q0019Enq  from "./q0019Enq";
 
 
 const Q0019 = forwardRef((props: any, ref) => {
+
+  const {sendRequest : sendFreqRequest , status: getFreqResponseStatus ,  data: getFreqResponse , error:getFreqResponseError} = useHttp(getData, true); 
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "FREQ";
+        sendFreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+    },[]);
+
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -58,8 +78,21 @@ const Q0019 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -71,7 +104,7 @@ const Q0019 = forwardRef((props: any, ref) => {
       >
 
         <tr>
-          <th>frequency</th> 
+          <th>Frequency</th> 
           <th>Factor</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.freqFactor?.length > 0 && <th>Actions</th>}
@@ -102,6 +135,7 @@ const Q0019 = forwardRef((props: any, ref) => {
           <tr key={index}>
             <td>
               <TextField
+                select
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
@@ -115,8 +149,17 @@ const Q0019 = forwardRef((props: any, ref) => {
                 size="small"
                 type="text"
                 margin="dense"
-              />
-            </td>
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getFreqResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             <td>
               <TextField
@@ -180,7 +223,17 @@ const Q0019 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0019Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0019;
 

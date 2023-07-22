@@ -13,6 +13,7 @@ import { getApi } from "../../../../admin/companies/companiesApis/companiesApis"
 import { extraParamItem } from "../../../../clientDetails/client/clientApis/clientApis";
 import Client from "../../../../clientDetails/client/Client";
 import { extraParams } from "../../../policyApis/policyApis";
+import axios from "axios";
 
 function BenefitModal({
   state,
@@ -23,6 +24,7 @@ function BenefitModal({
   policyRecord,
   interest,
 }: BenefitModalType) {
+  console.log(interest, "Interest Inside benefit modal");
   const addTitle: string = "Benefit Add";
   const editTitle: string = "Benefit Edit";
   const infoTitle: string = "Benefit Info";
@@ -71,7 +73,7 @@ function BenefitModal({
   const [intrestData, setintrestData] = useState([]);
 
   const mrtaDropdown = () => {
-    return extraParams(companyId, "Q0006", "MRTA", "MRTA")
+    return extraParams(companyId, "Q0006", "MRTA", "MrtaInterest")
       .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
       .catch((err) => err.message);
   };
@@ -80,6 +82,40 @@ function BenefitModal({
     mrtaDropdown();
     return () => {};
   }, [state.benefitOpen]);
+
+  const [termRangeMenu, settermRangeMenu] = useState([]);
+  const [pptRangeMenu, setpptRangeMenu] = useState([]);
+
+  const termRange = () => {
+    return extraParams(
+      companyId,
+      "Q0006",
+      state.addOpen ? state.BCoverage : record.BCoverage,
+      "TermRange"
+    )
+      .then((resp) => {
+        settermRangeMenu(resp.data.AllowedTermRange);
+      })
+      .catch((err) => err.message);
+  };
+  const pptRange = () => {
+    return extraParams(
+      companyId,
+      "Q0006",
+      state.addOpen ? state.BCoverage : record.BCoverage,
+      "PptRange"
+    )
+      .then((resp) => {
+        setpptRangeMenu(resp.data.AllowedPptRange);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    termRange();
+    pptRange();
+    return () => {};
+  }, [state.addOpen ? state.BCoverage : record.BCoverage]);
 
   return (
     <div className={styles.modal}>
@@ -206,12 +242,14 @@ function BenefitModal({
                       })
                     }
                     renderInput={(params) => <TextField {...params} />}
+                    disabled={state.editOpen}
                   />
                 </LocalizationProvider>
               </FormControl>
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                select
                 id="BTerm"
                 name="BTerm"
                 value={state.addOpen ? state.BTerm : record.BTerm}
@@ -227,10 +265,17 @@ function BenefitModal({
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
-              />
+              >
+                {termRangeMenu.map((val, index) => (
+                  <MenuItem key={val} value={val}>
+                    {val}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                select
                 id="BPTerm"
                 name="BPTerm"
                 value={state.addOpen ? state.BPTerm : record.BPTerm}
@@ -246,7 +291,13 @@ function BenefitModal({
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
-              />
+              >
+                {pptRangeMenu.map((val, index) => (
+                  <MenuItem key={val} value={val}>
+                    {val}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
@@ -291,7 +342,7 @@ function BenefitModal({
                   fullWidth
                   margin="dense"
                 >
-                  {intrestData.map((val, index) => (
+                  {intrestData?.map((val, index) => (
                     <MenuItem value={val} key={val}>
                       {val}
                     </MenuItem>

@@ -49,6 +49,18 @@ function QHeaderQDetailModal({
   getData,
   setNotify,
   initialValues,
+  clntData,
+  setClntData,
+  clntRecordData,
+  setClntRecordData,
+  qcoverageData,
+  setQcoverageData,
+  qriskcesstermData,
+  setQriskcesstermData,
+  qpremcesstermData,
+  setQpremcesstermData,
+  qproductData,
+  setQproductData,
 }: any) {
   const title = state.addOpen ? "Quotation Add" : "Quotation Edit";
 
@@ -67,7 +79,7 @@ function QHeaderQDetailModal({
     });
   };
 
-  const [qproductData, setQproductData] = useState([]);
+  //const [qproductData, setQproductData] = useState([]);
   const getQproduct = (companyId: number, name: string, languageId: number) => {
     paramItem(companyId, name, languageId)
       .then((resp) => {
@@ -125,7 +137,7 @@ function QHeaderQDetailModal({
       .catch((err) => err);
   };
 
-  const [qcoverageData, setQcoverageData] = useState([]);
+  // const [qcoverageData, setQcoverageData] = useState([]);
   const getQcoverage = (
     companyId: number,
     name: string,
@@ -141,34 +153,36 @@ function QHeaderQDetailModal({
       .catch((err) => err);
   };
 
-  const [qriskcesstermData, setQriskcesstermData] = useState([]);
+  //const [qriskcesstermData, setQriskcesstermData] = useState([]);
   const getQriskcessterm = (
     companyId: number,
     name: string,
     languageId: number,
     item: string,
-    date: string
+    date: string,
+    func: string
   ) => {
-    paramTermItem(companyId, name, languageId, item, date)
+    paramTermItem(companyId, name, languageId, item, date, func)
       .then((resp) => {
-        setQriskcesstermData(resp.data["ppt"]);
-        return resp.data["ppt"];
+        setQriskcesstermData(resp.data["AllowedTermRange"]);
+        return resp.data["AllowedTermRange"];
       })
       .catch((err) => err);
   };
 
-  const [qpremcesstermData, setQpremcesstermData] = useState([]);
+  //const [qpremcesstermData, setQpremcesstermData] = useState([]);
   const getQpremcessterm = (
     companyId: number,
     name: string,
     languageId: number,
     item: string,
-    date: string
+    date: string,
+    func: string
   ) => {
-    paramTermItem(companyId, name, languageId, item, date)
+    paramTermItem(companyId, name, languageId, item, date, func)
       .then((resp) => {
-        setQpremcesstermData(resp.data["ppt"]);
-        return resp.data["ppt"];
+        setQpremcesstermData(resp.data["AllowedPptRange"]);
+        return resp.data["AllowedPptRange"];
       })
       .catch((err) => err);
   };
@@ -212,12 +226,13 @@ function QHeaderQDetailModal({
     name: string,
     languageId: number,
     item: string,
-    date: string
+    date: string,
+    func: string
   ) => {
-    paramTermItem(companyId, name, languageId, item, date)
+    paramTermItem(companyId, name, languageId, item, date, func)
       .then((resp) => {
-        setEditQriskcesstermData(resp.data["ppt"]);
-        return resp.data["ppt"];
+        setEditQriskcesstermData(resp.data["AllowedTermRange"]);
+        return resp.data["AllowedTermRange"];
       })
       .catch((err) => err);
   };
@@ -228,12 +243,22 @@ function QHeaderQDetailModal({
     name: string,
     languageId: number,
     item: string,
-    date: string
+    date: string,
+    func: string
   ) => {
-    paramTermItem(companyId, name, languageId, item, date)
+    paramTermItem(companyId, name, languageId, item, date, func)
       .then((resp) => {
-        setEditQpremcesstermData(resp.data["ppt"]);
-        return resp.data["ppt"];
+        setEditQpremcesstermData(resp.data["AllowedPptRange"]);
+        return resp.data["AllowedPptRange"];
+      })
+      .catch((err) => err);
+  };
+  const [pOfficeData, setPOfficeData] = useState([]);
+  const getPOffice = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setPOfficeData(resp.data.data);
+        return resp.data.data;
       })
       .catch((err) => err);
   };
@@ -245,6 +270,7 @@ function QHeaderQDetailModal({
     getQoccgroup(companyId, "Q0007", languageId);
     getQoccsect(companyId, "Q0008", languageId);
     getQageadmitted(companyId, "P0046", languageId);
+    getPOffice(companyId, "P0018", languageId);
 
     return () => {};
   }, []);
@@ -259,21 +285,36 @@ function QHeaderQDetailModal({
   useEffect(() => {
     getQriskcessterm(
       companyId,
-      "Q0015",
+      "Q0006",
       languageId,
       qcoverage.current,
-      "20220101"
+      "20220101",
+      "TermRange"
     );
     getQpremcessterm(
       companyId,
-      "Q0016",
+      "Q0006",
       languageId,
       qcoverage.current,
-      "20220101"
+      "20220101",
+      "PptRange"
     );
 
     return () => {};
   }, [qcoverage.current]);
+
+  // useEffect(() => {
+  //   getQproduct(companyId, "Q0005", languageId);
+  //   getEditQcoverage(
+  //     companyId,
+  //     "Q0011",
+  //     record?.QProduct,
+  //     "20220101",
+  //     languageId
+  //   );
+
+  //   return () => {};
+  // }, [state.editOpen]);
 
   useEffect(() => {
     getQproduct(companyId, "Q0005", languageId);
@@ -284,28 +325,25 @@ function QHeaderQDetailModal({
       "20220101",
       languageId
     );
-
-    return () => {};
-  }, [state.editOpen]);
-
-  useEffect(() => {
     getEditQriskcessterm(
       companyId,
-      "Q0015",
+      "Q0006",
       languageId,
       QCoverage.current,
-      "20220101"
+      "20220101",
+      "TermRange"
     );
     getEditQpremcessterm(
       companyId,
-      "Q0016",
+      "Q0006",
       languageId,
       QCoverage.current,
-      "20220101"
+      "20220101",
+      "PptRange"
     );
 
     return () => {};
-  }, [state.editOpen]);
+  }, [QCoverage.current]);
 
   const [qDetailData, setqDetailData] = useState([
     {
@@ -349,7 +387,6 @@ function QHeaderQDetailModal({
       .catch((err) => console.log(err.message));
   };
 
-  const [clntData, setClntData] = useState<any>([]);
   const getClient = () => {
     axios
       .get(
@@ -363,7 +400,7 @@ function QHeaderQDetailModal({
       })
       .catch((err) => console.log(err.message));
   };
-  const [clntRecordData, setClntRecordData] = useState<any>([]);
+  //const [clntRecordData, setClntRecordData] = useState<any>([]);
   const getClientRecord = () => {
     axios
       .get(
@@ -377,6 +414,7 @@ function QHeaderQDetailModal({
       })
       .catch((err) => console.log(err.message));
   };
+
   //const [detailsData, setDetailsData] = useState<any>([]);
   const [detailsData, setqDetailsData] = useState([
     {
@@ -407,13 +445,13 @@ function QHeaderQDetailModal({
   const getDetails = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/quotationservices/qdetailbyqheaderget/${record?.ID}`,
+        `http://localhost:3000/api/v1/quotationservices/qdetailgetbyqheader/${record?.ID}`,
         {
           withCredentials: true,
         }
       )
       .then((resp) => {
-        setqDetailsData(resp.data["QDetail"]);
+        setqDetailsData(resp.data["All QDetails"]);
       })
       .catch((err) => console.log(err.message));
   };
@@ -647,7 +685,6 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
                     id="ClientID"
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="ClientID"
@@ -668,6 +705,8 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputProps={{ readOnly: true }}
+                    style={{ backgroundColor: "#E1E1E1" }}
                     InputLabelProps={{ shrink: true }}
                     id="Qfirstname"
                     name="Qfirstname"
@@ -678,13 +717,13 @@ function QHeaderQDetailModal({
                     }
                     placeholder="First Name"
                     label="First Name"
-                    onChange={(e) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AddressID",
-                      })
-                    }
+                    // onChange={(e) =>
+                    //   dispatch({
+                    //     type: ACTIONS.ONCHANGE,
+                    //     payload: e.target.value,
+                    //     fieldName: "Qfirstname",
+                    //   })
+                    // }
                     fullWidth
                     margin="dense"
                   />
@@ -692,6 +731,8 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputProps={{ readOnly: true }}
+                    style={{ backgroundColor: "#E1E1E1" }}
                     InputLabelProps={{ shrink: true }}
                     id="Qlastname"
                     name="Qlastname"
@@ -715,9 +756,13 @@ function QHeaderQDetailModal({
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                  <FormControl
+                    style={{ marginTop: "0.5rem", backgroundColor: "#E1E1E1" }}
+                    fullWidth
+                  >
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
+                        InputProps={{ readOnly: true }}
                         readOnly={state.infoOpen}
                         label="Date of Birth"
                         inputFormat="DD/MM/YYYY"
@@ -743,6 +788,8 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputProps={{ readOnly: true }}
+                    style={{ backgroundColor: "#E1E1E1" }}
                     InputLabelProps={{ shrink: true }}
                     id="Qgender"
                     name="Qgender"
@@ -765,6 +812,8 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputProps={{ readOnly: true }}
+                    style={{ backgroundColor: "#E1E1E1" }}
                     InputLabelProps={{ shrink: true }}
                     id="Qemail"
                     name="Qemail"
@@ -789,6 +838,8 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputProps={{ readOnly: true }}
+                    style={{ backgroundColor: "#E1E1E1" }}
                     InputLabelProps={{ shrink: true }}
                     id="Qmobile"
                     name="Qmobile"
@@ -813,7 +864,6 @@ function QHeaderQDetailModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
                     id="AddressID"
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     name="AddressID"
@@ -854,6 +904,29 @@ function QHeaderQDetailModal({
                     margin="dense"
                   >
                     {qcontractcurrData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="POffice"
+                    name="POffice"
+                    value={state.addOpen ? state.POffice : record.POffice}
+                    placeholder="POffice"
+                    label="POffice"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "POffice",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {pOfficeData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
@@ -954,7 +1027,7 @@ function QHeaderQDetailModal({
                     margin="dense"
                   >
                     {qoccsectData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      <MenuItem value={val.item}>{val.longdesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
@@ -1106,7 +1179,7 @@ function QHeaderQDetailModal({
                                 fullWidth
                                 margin="dense"
                               >
-                                {qcoverageData.map((val: any) => (
+                                {qcoverageData?.map((val: any) => (
                                   <MenuItem value={val.Coverage}>
                                     {val.Coverage}
                                   </MenuItem>
@@ -1152,7 +1225,7 @@ function QHeaderQDetailModal({
                                 fullWidth
                                 margin="dense"
                               >
-                                {qriskcesstermData.map((val: any) => (
+                                {qriskcesstermData?.map((val: any) => (
                                   <MenuItem value={val}>{val}</MenuItem>
                                 ))}
                               </TextField>
@@ -1176,7 +1249,7 @@ function QHeaderQDetailModal({
                                 fullWidth
                                 margin="dense"
                               >
-                                {qpremcesstermData.map((val: any) => (
+                                {qpremcesstermData?.map((val: any) => (
                                   <MenuItem value={val}>{val}</MenuItem>
                                 ))}
                               </TextField>
@@ -1359,8 +1432,21 @@ function QHeaderQDetailModal({
                     </>
                   );
                 })
-              : detailsData.map((qDetail: any, index: number) => {
+              : detailsData?.map((qDetail: any, index: number) => {
                   QCoverage.current = qDetail.QCoverage;
+                  const deleteqdetail = () => {
+                    axios
+                      .delete(
+                        `http://localhost:3000/api/v1/quotationservices/qdetaildelete/${qDetail?.ID}`,
+                        {
+                          withCredentials: true,
+                        }
+                      )
+                      .then((resp) => {
+                        getDetails();
+                      })
+                      .catch((err) => console.log(err.message));
+                  };
                   return (
                     <>
                       <div style={{ display: "flex" }}>
@@ -1375,6 +1461,7 @@ function QHeaderQDetailModal({
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
                                 InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 id="CompanyID"
                                 name="CompanyID"
                                 value={companyData?.CompanyName}
@@ -1387,6 +1474,7 @@ function QHeaderQDetailModal({
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
                                 InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 id="DetailID"
                                 name="DetailID"
                                 value={qDetail.ID}
@@ -1399,6 +1487,7 @@ function QHeaderQDetailModal({
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
                                 InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 id="QRiskSeqNo"
                                 name="QRiskSeqNo"
                                 value={qDetail.QRiskSeqNo}
@@ -1412,6 +1501,7 @@ function QHeaderQDetailModal({
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
                                 InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 id="ClientID"
                                 name="ClientID"
                                 // Attention: *** Check the value details  ***
@@ -1429,6 +1519,8 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
+                                InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 type="number"
                                 id="Qage"
                                 name="Qage"
@@ -1522,6 +1614,8 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
+                                InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 type="number"
                                 id="Qriskcessage"
                                 name="Qriskcessage"
@@ -1538,6 +1632,8 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
+                                InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 type="number"
                                 id="Qpremcessage"
                                 name="Qpremcessage"
@@ -1554,13 +1650,17 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <FormControl
-                                style={{ marginTop: "0.5rem" }}
+                                style={{
+                                  marginTop: "0.5rem",
+                                  backgroundColor: "#E1E1E1",
+                                }}
                                 fullWidth
                               >
                                 <LocalizationProvider
                                   dateAdapter={AdapterDayjs}
                                 >
                                   <DesktopDatePicker
+                                    InputProps={{ readOnly: true }}
                                     label="Risk Cess Date"
                                     inputFormat="DD/MM/YYYY"
                                     value={qDetail.QRiskCessDate}
@@ -1577,13 +1677,17 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <FormControl
-                                style={{ marginTop: "0.5rem" }}
+                                style={{
+                                  marginTop: "0.5rem",
+                                  backgroundColor: "#E1E1E1",
+                                }}
                                 fullWidth
                               >
                                 <LocalizationProvider
                                   dateAdapter={AdapterDayjs}
                                 >
                                   <DesktopDatePicker
+                                    InputProps={{ readOnly: true }}
                                     label="Prem Cess Date"
                                     inputFormat="DD/MM/YYYY"
                                     value={qDetail.QPremCessDate}
@@ -1622,6 +1726,8 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
+                                InputProps={{ readOnly: true }}
+                                style={{ backgroundColor: "#E1E1E1" }}
                                 type="number"
                                 id="Qemrrating"
                                 name="Qemrrating"
@@ -1638,6 +1744,8 @@ function QHeaderQDetailModal({
 
                             <Grid2 xs={8} md={6} lg={4}>
                               <TextField
+                                style={{ backgroundColor: "#E1E1E1" }}
+                                InputProps={{ readOnly: true }}
                                 type="number"
                                 id="QAnnualPremium"
                                 name="QAnnualPremium"
@@ -1679,7 +1787,11 @@ function QHeaderQDetailModal({
 
                           {detailsData.length !== 1 && (
                             <Button
-                              onClick={() => handleQDetailEditRemove(index)}
+                              onClick={() => {
+                                qDetail.ID != ""
+                                  ? deleteqdetail()
+                                  : handleQDetailEditRemove(index);
+                              }}
                               variant="contained"
                               style={{
                                 maxWidth: "40px",

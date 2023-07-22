@@ -1,6 +1,6 @@
-import {useState } from "react";
+import { useState } from "react";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import {  FormControl, TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import axios from "axios";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomAdjPremModal from "./CustomAdjPremModal";
@@ -9,7 +9,6 @@ import Notification from "../../../utilities/Notification/Notification";
 import moment from "moment";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import ResultModal from "./ResultModal";
 
 function AdjPremModal({
   open,
@@ -18,8 +17,8 @@ function AdjPremModal({
   completed,
   setcompleted,
   func,
-  setfunc
-
+  setfunc,
+  getData,
 }: any) {
   const size: string = "xl";
   const title: string = "Premium Adjustment";
@@ -42,15 +41,14 @@ function AdjPremModal({
     setfunc("Save");
   };
 
-  
   const doPremAdj = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/deathservices/premadj/${data?.PolicyId}`,
+        `http://localhost:3000/api/v1/customerservice/premadj/${data?.PolicyId}`,
         {
           PolicyID: data?.PolicyId,
-          NextDate: moment(nextDate).format('YYYYMMDD'),
-          Function: func, 
+          NextDate: moment(nextDate).format("YYYYMMDD"),
+          Function: func,
         },
         {
           withCredentials: true,
@@ -66,6 +64,7 @@ function AdjPremModal({
         setIsResult(true);
         if (func === "Save") {
           handleClose();
+          getData();
           setNotify({
             isOpen: true,
             message: resp.data?.success,
@@ -85,22 +84,21 @@ function AdjPremModal({
 
   // moment(data?.NxtBillDate,"DD/MM/YYYY").format("YYYYMMDD").toString()
 
-  const billToDatechange = (date: any) =>{
-    console.log("Date",date)
-    setNextDate(date+1)
-  }
+  const billToDatechange = (date: any) => {
+    console.log("Date", date);
+    setNextDate(date + 1);
+  };
 
   const today = new Date();
-const yyyy = today.getFullYear();
-let mm: any = today.getMonth() + 1; // Months start at 0!
-let dd: any = today.getDate();
+  const yyyy = today.getFullYear();
+  let mm: any = today.getMonth() + 1; // Months start at 0!
+  let dd: any = today.getDate();
 
-if (dd < 10) dd = '0' + dd;
-if (mm < 10) mm = '0' + mm;
+  if (dd < 10) dd = "0" + dd;
+  if (mm < 10) mm = "0" + mm;
 
-const formattedToday = dd + '/' + mm + '/' + yyyy;
+  const formattedToday = dd + "/" + mm + "/" + yyyy;
 
- 
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
   );
@@ -114,9 +112,9 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
         size={size}
         title={title}
         completed={completed}
-      > 
-      <Grid2 container spacing={2}>
-        <Grid2 lg={4}>
+      >
+        <Grid2 container spacing={2}>
+          <Grid2 lg={4}>
             <TextField
               id="PolicyID"
               name="PolicyID"
@@ -207,26 +205,25 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
               margin="dense"
             ></TextField>
           </Grid2>
-          <hr style={{color: "black", height:"20px"}}/>
+          <hr style={{ color: "black", height: "20px" }} />
           <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={isResult}
-                        label="Next Date"
-                        inputFormat="DD/MM/YYYY"
-                        value={nextDate}
-                        onChange={(date)=>billToDatechange(date)}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-            </Grid2>
+            <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  readOnly={isResult}
+                  label="Next Date"
+                  inputFormat="DD/MM/YYYY"
+                  value={nextDate}
+                  onChange={(date) => billToDatechange(date)}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </Grid2>
+        </Grid2>
 
-            </Grid2>
-            
-            <Grid2 container spacing={2}>
-            <Grid2 lg={4}>
+        <Grid2 container spacing={2}>
+          <Grid2 lg={4}>
             <TextField
               id="No Of Dues"
               name="No Of Dues"
@@ -280,12 +277,6 @@ const formattedToday = dd + '/' + mm + '/' + yyyy;
           </Grid2>
         </Grid2>
       </CustomAdjPremModal>
-      {/* <ResultModal
-        open={isResult}
-        handleClose={resultClose}
-        record={result}
-        completed={completed}
-      /> */}
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );

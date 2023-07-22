@@ -102,8 +102,8 @@ function QBenIllValuesModal({
                 id="CompanyID"
                 name="CompanyID"
                 value={companyData?.CompanyName}
-                placeholder="Company "
-                label="Company "
+                placeholder="Company"
+                label="Company"
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
@@ -117,8 +117,8 @@ function QBenIllValuesModal({
                 name="QDetailID"
                 // Attention: *** Check the value details  ***
                 value={record.QDetailID}
-                placeholder="q_detail_id"
-                label="q_detail_id"
+                placeholder="QDetailID"
+                label="QDetailID"
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
@@ -131,8 +131,8 @@ function QBenIllValuesModal({
                 id="QCoverage"
                 name="QCoverage"
                 value={state.addOpen ? state.QCoverage : record.QCoverage}
-                placeholder="q_coverage"
-                label="q_coverage"
+                placeholder="Coverage"
+                label="Coverage"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -161,8 +161,8 @@ function QBenIllValuesModal({
                 id="QPolicyYear"
                 name="QPolicyYear"
                 value={state.addOpen ? state.QPolicyYear : record.QPolicyYear}
-                placeholder="q_policy_year"
-                label="q_policy_year"
+                placeholder="Policy Year"
+                label="Policy Year"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -189,8 +189,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QLifeAssuredAge : record.QLifeAssuredAge
                 }
-                placeholder="q_life_assured_age"
-                label="q_life_assured_age"
+                placeholder="Life Assured Age"
+                label="Life Assured Age"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -209,7 +209,7 @@ function QBenIllValuesModal({
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDatePicker
                     readOnly={state.infoOpen}
-                    label="q_pol_anniv_date"
+                    label="Pol. Anniversary Date"
                     inputFormat="DD/MM/YYYY"
                     value={
                       state.addOpen ? state.QPolAnnivDate : record.QPolAnnivDate
@@ -244,8 +244,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QTotalPremPaid : record.QTotalPremPaid
                 }
-                placeholder="q_total_prem_paid"
-                label="q_total_prem_paid"
+                placeholder="Total Premium Paid"
+                label="Total Premium Paid"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -270,8 +270,8 @@ function QBenIllValuesModal({
                 id="QSumAssured"
                 name="QSumAssured"
                 value={state.addOpen ? state.QSumAssured : record.QSumAssured}
-                placeholder="q_sum_assured"
-                label="q_sum_assured"
+                placeholder="Sum Assured"
+                label="Sum Assured"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -296,8 +296,8 @@ function QBenIllValuesModal({
                 id="QRevBonusAmt"
                 name="QRevBonusAmt"
                 value={state.addOpen ? state.QRevBonusAmt : record.QRevBonusAmt}
-                placeholder="q_rev_bonus_amt"
-                label="q_rev_bonus_amt"
+                placeholder="Reversionary Bonus"
+                label="Reversionary Bonus"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -322,8 +322,8 @@ function QBenIllValuesModal({
                 id="QTerBonusAmt"
                 name="QTerBonusAmt"
                 value={state.addOpen ? state.QTerBonusAmt : record.QTerBonusAmt}
-                placeholder="q_ter_bonus_amt"
-                label="q_ter_bonus_amt"
+                placeholder="Terminal Bonus"
+                label="Terminal Bonus"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -350,8 +350,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QAntiSurBenAmt : record.QAntiSurBenAmt
                 }
-                placeholder="q_anti_sur_ben_amt"
-                label="q_anti_sur_ben_amt"
+                placeholder="Survival Benefit Amount"
+                label="Survival Benefit Amount"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -378,8 +378,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QGuarAdditions : record.QGuarAdditions
                 }
-                placeholder="q_guar_additions"
-                label="q_guar_additions"
+                placeholder="Guaranteed Additions"
+                label="Guaranteed Additions"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -408,8 +408,8 @@ function QBenIllValuesModal({
                     ? state.QLoyaltyAdditions
                     : record.QLoyaltyAdditions
                 }
-                placeholder="q_loyalty_additions"
-                label="q_loyalty_additions"
+                placeholder="Loyalty Bonus"
+                label="Loyalty Bonus"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -438,8 +438,8 @@ function QBenIllValuesModal({
                     ? state.QDeathBenefitAmt
                     : record.QDeathBenefitAmt
                 }
-                placeholder="q_death_benefit_amt"
-                label="q_death_benefit_amt"
+                placeholder="Death Benefit Amount"
+                label="Death Benefit Amount"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -466,8 +466,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QGuarSurrValue : record.QGuarSurrValue
                 }
-                placeholder="q_guar_surr_value"
-                label="q_guar_surr_value"
+                placeholder="Guaranteed SV"
+                label="Guaranteed SV"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -494,8 +494,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QSplSurrValue : record.QSplSurrValue
                 }
-                placeholder="q_spl_surr_value"
-                label="q_spl_surr_value"
+                placeholder="Special SV"
+                label="Special SV"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -522,8 +522,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QBonusSurValue : record.QBonusSurValue
                 }
-                placeholder="q_bonus_sur_value"
-                label="q_bonus_sur_value"
+                placeholder="Bonus SV"
+                label="Bonus SV"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -550,8 +550,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QAccuDividend : record.QAccuDividend
                 }
-                placeholder="q_accu_dividend"
-                label="q_accu_dividend"
+                placeholder="Accumulated Dividend"
+                label="Accumulated Dividend"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -580,8 +580,8 @@ function QBenIllValuesModal({
                     ? state.QAccuDivInterest
                     : record.QAccuDivInterest
                 }
-                placeholder="q_accu_div_interest"
-                label="q_accu_div_interest"
+                placeholder="Acc Dividend Interest"
+                label="Acc Dividend Interest"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -608,8 +608,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QallocatedAmt : record.QallocatedAmt
                 }
-                placeholder="qallocated_amt"
-                label="qallocated_amt"
+                placeholder="Allocated Amount"
+                label="Allocated Amount"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -636,8 +636,8 @@ function QBenIllValuesModal({
                 value={
                   state.addOpen ? state.QUnallocedAmt : record.QUnallocedAmt
                 }
-                placeholder="q_unalloced_amt"
-                label="q_unalloced_amt"
+                placeholder="Unallocated Amount"
+                label="Unallocated Amount"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -662,8 +662,8 @@ function QBenIllValuesModal({
                 id="QPesValamt"
                 name="QPesValamt"
                 value={state.addOpen ? state.QPesValamt : record.QPesValamt}
-                placeholder="q_pes_valamt"
-                label="q_pes_valamt"
+                placeholder="Pessimistic Value"
+                label="Pessimistic Value"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -688,8 +688,8 @@ function QBenIllValuesModal({
                 id="QNorValamt"
                 name="QNorValamt"
                 value={state.addOpen ? state.QNorValamt : record.QNorValamt}
-                placeholder="q_nor_valamt"
-                label="q_nor_valamt"
+                placeholder="Normal Value"
+                label="Normal Value"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -714,8 +714,8 @@ function QBenIllValuesModal({
                 id="QOptValamt"
                 name="QOptValamt"
                 value={state.addOpen ? state.QOptValamt : record.QOptValamt}
-                placeholder="q_opt_valamt"
-                label="q_opt_valamt"
+                placeholder="Optimistic Value"
+                label="Optimistic Value"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
@@ -734,7 +734,7 @@ function QBenIllValuesModal({
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDatePicker
                     readOnly={state.infoOpen}
-                    label="q_maturity_date"
+                    label="Maturity Date"
                     inputFormat="DD/MM/YYYY"
                     value={
                       state.addOpen ? state.QMaturityDate : record.QMaturityDate
@@ -767,8 +767,8 @@ function QBenIllValuesModal({
                 id="QMaturityAmt"
                 name="QMaturityAmt"
                 value={state.addOpen ? state.QMaturityAmt : record.QMaturityAmt}
-                placeholder="q_maturity_amt"
-                label="q_maturity_amt"
+                placeholder="Maturity Amount"
+                label="Maturity Amount"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,

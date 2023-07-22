@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0013.css";
+import Q0013Enq  from "./q0013Enq";
 
 
 const Q0013 = forwardRef((props: any, ref) => {
@@ -58,8 +61,21 @@ const Q0013 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -180,7 +196,17 @@ const Q0013 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0013Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0013;
 

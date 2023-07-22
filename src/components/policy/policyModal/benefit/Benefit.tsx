@@ -1,7 +1,7 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import {
   ACTIONS,
   columns,
@@ -22,6 +22,7 @@ import CustomModal from "../../../../utilities/modal/CustomModal";
 import Extra from "../../../extra/Extra";
 import BenefitModal from "./benefitModal/BenefitModal";
 import Notification from "../../../../utilities/Notification/Notification";
+import axios from "axios";
 
 function Benefit({
   modalFunc,
@@ -30,7 +31,6 @@ function Benefit({
   getBenefitsByPolicies1,
   getPolicies,
   policyRecord,
-  interest,
 }: any) {
   //data from getall api
   const [data, setData] = useState([]);
@@ -40,6 +40,9 @@ function Benefit({
     message: "",
     type: "",
   });
+
+  //const interest = useRef<any>();
+  const [interest, setinterest] = useState(0.0);
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
@@ -54,7 +57,9 @@ function Benefit({
         };
       case ACTIONS.EDITCHANGE:
         if (action.fieldName === "Interest") {
-          interest = action.payload;
+          console.log(action.payload, "On change interest");
+          //interest.current = action.payload;
+          setinterest(action.payload);
         } else {
           setRecord((prev: any) => ({
             ...prev,
@@ -206,7 +211,7 @@ function Benefit({
 
   //Edit Api
   const editFormSubmit = async () => {
-    editApi(record)
+    editApi(record, interest)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
@@ -270,6 +275,28 @@ function Benefit({
     getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
+
+  // MRTA Benefit Interest
+
+  const getBenefit = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/nbservices/benefitget/${record.ID}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        //interest.current = res.data.Interest;
+        setinterest(res.data.Interest);
+        console.log(res.data.Interest, "Interest ");
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+
+  useEffect(() => {
+    getBenefit();
+    return () => {};
+  }, [state.editOpen]);
 
   return (
     <div style={{ width: "100%" }}>

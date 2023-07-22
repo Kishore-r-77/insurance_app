@@ -8,6 +8,7 @@ function CustomSurrFullModal({
   children,
   handleFormSubmit,
   isSave,
+  commit,
 }: any) {
   return (
     <div>
@@ -22,7 +23,7 @@ function CustomSurrFullModal({
           </Button>
           {!!handleFormSubmit && (
             <>
-              {isSave ? (
+              {commit ? (
                 <Button variant="primary" onClick={() => handleFormSubmit()}>
                   Surrender
                 </Button>

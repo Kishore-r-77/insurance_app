@@ -32,6 +32,7 @@ export const initialValues: CompaniesStateType = {
   CompanyIncorporationDate: "",
   CompanyTerminationDate: "",
   CompanyStatusID: "",
+  CurrencyID: "",
   ContHeaders: "",
   Users: null,
   addOpen: false,

@@ -16,13 +16,23 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import Notification from "../../../../utilities/Notification/Notification";
 
-var initialValues = {
-  ReasonDescription: "",
-  RequestedDate: "",
-};
+function AfiScrModal({
+  open,
+  handleClose,
+  policyId,
+  getData,
+  initialValues,
+  AfiData,
+  setAfiData,
+}: any) {
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
-function AfiScrModal({ open, handleClose, policyId, getData }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -33,7 +43,7 @@ function AfiScrModal({ open, handleClose, policyId, getData }: any) {
     });
   };
 
-  const [AfiData, setAfiData] = useState(initialValues);
+  // const [AfiData, setAfiData] = useState(initialValues);
 
   const onChange = (e: any) => {
     const { value, name } = e.target;
@@ -45,11 +55,20 @@ function AfiScrModal({ open, handleClose, policyId, getData }: any) {
   };
 
   const handleFormSubmit = () => {
-    return addApi(AfiData, companyId, policyId).then((resp) => {
-      setAfiData(initialValues);
-      handleClose();
-      getData();
-    });
+    return addApi(AfiData, companyId, policyId)
+      .then((resp) => {
+        setAfiData(initialValues);
+        handleClose();
+        getData();
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   useEffect(() => {
@@ -128,13 +147,14 @@ function AfiScrModal({ open, handleClose, policyId, getData }: any) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Cancel
           </Button>
           <Button variant="primary" onClick={() => handleFormSubmit()}>
             Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

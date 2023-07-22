@@ -8,7 +8,10 @@ import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 
+import InfoIcon from "@mui/icons-material/Info";
+
 import  "./q0017.css";
+import Q0017Enq  from "./q0017Enq";
 
 
 const Q0017 = forwardRef((props: any, ref) => {
@@ -17,13 +20,13 @@ const Q0017 = forwardRef((props: any, ref) => {
     getData() {
       let retData = inputdata;
       retData.saBand = retData.saBand.filter(
-        (value: any) => value.sa !== ""
+        (value: any) => value.sA !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
         saBand: inputdata.saBand.filter(
-          (value: any) => value.sa !== ""
+          (value: any) => value.sA !== ""
         ),
       }));
       return retData;
@@ -58,8 +61,21 @@ const Q0017 = forwardRef((props: any, ref) => {
     }));
   };
 
+  const [enq, setEnq] = useState(false)
+
+  const enqOpen = () =>{
+    setEnq(true)
+  }
+
+  const enqClose = () =>{
+    setEnq(false)
+  }
+
   return (
-  
+    <>
+    <InfoIcon
+      onClick={() => enqOpen()} />
+	  
     <Table striped bordered hover>
       <thead
         style={{
@@ -85,7 +101,7 @@ const Q0017 = forwardRef((props: any, ref) => {
                         ...inputdata,
                         saBand: [
                           {
-                            sa: 0,
+                            sA: 0,
                             discount: 0,
                           },
                         ],
@@ -105,11 +121,11 @@ const Q0017 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="sa"
-                name="sa"
-                value={value.sa}
+                id="sA"
+                name="sA"
+                value={value.sA}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "sa", e.target.value,true)
+                  fieldChangeHandler(index, "sA", e.target.value,true)
                 }
                 fullWidth
                 size="small"
@@ -163,7 +179,7 @@ const Q0017 = forwardRef((props: any, ref) => {
                             saBand: [
                               ...inputdata.saBand,
                               {
-                                sa: 0,
+                                sA: 0,
                                 discount: 0,
 
                               },
@@ -180,7 +196,17 @@ const Q0017 = forwardRef((props: any, ref) => {
         ))}
       </tbody>
     </Table>
+
+
+        <Q0017Enq
+        open={enq}
+        handleClose={enqClose}
+
+        />
+
+    </>
   );
 });
+
 export default Q0017;
 

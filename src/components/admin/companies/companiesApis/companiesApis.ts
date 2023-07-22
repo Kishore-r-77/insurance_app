@@ -21,6 +21,18 @@ export const getAllApi = (
   });
 };
 
+export const getAllCurrencyApi = () => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/currencies`, {
+    withCredentials: true,
+  });
+};
+
+export const getAllCompStatusApi = () => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/companystatus`, {
+    withCredentials: true,
+  });
+};
+
 export const addApi = (state: CompaniesStateType) => {
   return axios.post(
     `http://localhost:3000/api/v1/basicservices/companycreate`,
@@ -38,13 +50,16 @@ export const addApi = (state: CompaniesStateType) => {
       CompanyPan: state.CompanyPan,
       CompanyTan: state.CompanyTan,
       CompanyStatusID: parseInt(state.CompanyStatusID),
+      CurrencyID: parseInt(state.CurrencyID),
       CompanyLogo: state.CompanyLogo,
       CompanyIncorporationDate: moment(state.CompanyIncorporationDate).format(
         "YYYYMMDD"
       ),
-      CompanyTerminationDate: moment(state.CompanyTerminationDate).format(
-        "YYYYMMDD"
-      ),
+
+      CompanyTerminationDate:
+        state.CompanyTerminationDate.length === 0
+          ? ""
+          : moment(state.CompanyTerminationDate).format("YYYYMMDD"),
     },
     {
       withCredentials: true,
@@ -71,6 +86,7 @@ export const editApi = (record: any) => {
       CompanyPan: record.CompanyPan,
       CompanyTan: record.CompanyTan,
       CompanyStatusID: parseInt(record.CompanyStatusID),
+      CurrencyID: parseInt(record.CurrencyID),
       CompanyLogo: record.CompanyLogo,
       CompanyIncorporationDate: moment(record.CompanyIncorporationDate).format(
         "YYYYMMDD"

@@ -22,6 +22,11 @@ import DeclineScrModal from "./nbmmModal/DeclineModel/DeclineScrModal";
 import WithdrawnScrModal from "./nbmmModal/WithdrawnModel/WithdrawnScrModal";
 import PostponeWithdrawnScrModal from "./nbmmModal/PostponeWithdrawnModel/PostponeWithdrawnScrModal";
 
+var initialValues = {
+  ReasonDescription: "",
+  RequestedDate: "",
+};
+
 function NbmmTable({
   issueOpen,
   confirmOpen,
@@ -53,6 +58,7 @@ function NbmmTable({
 
   const [afiOpen, setafiOpen] = useState(false);
   const [policyId, setpolicyId] = useState(0);
+  const [AfiData, setAfiData] = useState(initialValues);
   const handleAfiOpen = (ID: any) => {
     setafiOpen(true);
     setpolicyId(ID);
@@ -61,6 +67,7 @@ function NbmmTable({
 
   const handleAfiClose = () => {
     setafiOpen(false);
+    setAfiData(initialValues);
   };
 
   const [cfiOpen, setcfiOpen] = useState(false);
@@ -288,6 +295,9 @@ function NbmmTable({
         handleClose={handleAfiClose}
         policyId={policyId}
         getData={getData}
+        initialValues={initialValues}
+        AfiData={AfiData}
+        setAfiData={setAfiData}
       />
 
       <CfiScrModal

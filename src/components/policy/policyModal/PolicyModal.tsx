@@ -46,11 +46,14 @@ function PolicyModal({
   validatePolicy,
   setbenefitsData,
   benefitsData,
+  interest,
 }: any) {
   const addTitle: string = "Policy Add";
   const editTitle: string = "Policy Edit";
   const infoTitle: string = "Policy Info";
   const size = "xl";
+
+  console.log(benefitsData, "Policy record");
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -199,7 +202,7 @@ function PolicyModal({
         ClientID: 0,
         BStartDate: "",
         BTerm: 0,
-        BpTerm: 0,
+        BPTerm: 0,
         BCoverage: "",
         BSumAssured: 0,
         Interest: 0,
@@ -957,7 +960,7 @@ function PolicyModal({
                                 label="b_start_date"
                                 inputFormat="DD/MM/YYYY"
                                 value={
-                                  state.addOpen ? state.PRCD : benefits.PRCD
+                                  state.addOpen ? state.PRCD : record?.PRCD
                                 }
                                 onChange={(date) =>
                                   handleBStartDate(date, index)
@@ -1074,7 +1077,9 @@ function PolicyModal({
                               select
                               id="Interest"
                               name="Interest"
-                              value={benefits.Interest}
+                              value={
+                                state.addOpen ? benefits.Interest : interest
+                              }
                               placeholder="Interest"
                               label="Interest"
                               onChange={(
