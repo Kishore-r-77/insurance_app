@@ -4,6 +4,7 @@ export type QHeaderStateType = {
   QStatus: string;
   QProduct: string;
   QContractCurr: string;
+  POffice: string;
   ClientID: string;
   QFirstName: string;
   QLastName: string;
@@ -18,6 +19,7 @@ export type QHeaderStateType = {
   QOccupation: string;
   QAnnualIncome: string;
   AgencyID: string;
+  PProduct: string;
   // *** Attention: Check the lookup table open below ***
   clientOpen: boolean;
   addressOpen: boolean;
@@ -25,6 +27,7 @@ export type QHeaderStateType = {
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
+  policycreateOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -38,9 +41,11 @@ export type ActionConstantsType = {
   ADDOPEN: string;
   EDITOPEN: string;
   INFOOPEN: string;
+  POLICYCREATEOPEN: string;
   ADDCLOSE: string;
   EDITCLOSE: string;
   INFOCLOSE: string;
+  POLICYCREATECLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
   // *** Attention: Check the Lookup table Open/close below ***

@@ -29,6 +29,7 @@ import QHeaderTable from "./qHeaderTable/QHeaderTable";
 import QHeaderQDetailModal from "./qHeaderqDetailModal/QHeaderQDetailModal";
 import QHeaderQDetailEnquiry from "./QHeaderQDetailEnquiry/QHeaderQDetailEnquiry";
 import axios from "axios";
+import FinalizeModal from "./QHeaderQDetailEnquiry/FinalizeModal";
 //import QHeaderQDetailModal  from "./QHeaderQDetailModal/QHeaderQDetailModal";
 //import QHeader FullModal from "./qHeaderFullModal/QHeaderFullModal";
 
@@ -154,6 +155,17 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         return {
           ...state,
           clientOpen: false,
+        };
+      case ACTIONS.POLICYCREATEOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          policycreateOpen: true,
+        };
+      case ACTIONS.POLICYCREATECLOSE:
+        return {
+          ...state,
+          policycreateOpen: false,
         };
 
       case ACTIONS.SORT_ASC:
@@ -414,6 +426,15 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         setQproductData={setQproductData}
       />
       <QHeaderQDetailEnquiry
+        state={state}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        getData={getData}
+        record={record}
+        getQheader={getQheader}
+        getAllQDetail={getAllQDetailByQheaderApi}
+      />
+      <FinalizeModal
         state={state}
         ACTIONS={ACTIONS}
         dispatch={dispatch}

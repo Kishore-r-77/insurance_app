@@ -253,6 +253,15 @@ function QHeaderQDetailModal({
       })
       .catch((err) => err);
   };
+  const [pOfficeData, setPOfficeData] = useState([]);
+  const getPOffice = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setPOfficeData(resp.data.data);
+        return resp.data.data;
+      })
+      .catch((err) => err);
+  };
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -261,6 +270,7 @@ function QHeaderQDetailModal({
     getQoccgroup(companyId, "Q0007", languageId);
     getQoccsect(companyId, "Q0008", languageId);
     getQageadmitted(companyId, "P0046", languageId);
+    getPOffice(companyId, "P0018", languageId);
 
     return () => {};
   }, []);
@@ -894,6 +904,29 @@ function QHeaderQDetailModal({
                     margin="dense"
                   >
                     {qcontractcurrData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="POffice"
+                    name="POffice"
+                    value={state.addOpen ? state.POffice : record.POffice}
+                    placeholder="POffice"
+                    label="POffice"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "POffice",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {pOfficeData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>

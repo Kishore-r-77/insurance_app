@@ -107,6 +107,15 @@ function QHeaderQDetailEnquiry({
       })
       .catch((err) => err);
   };
+  const [pOfficeData, setPOfficeData] = useState([]);
+  const getPOffice = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setPOfficeData(resp.data.data);
+        return resp.data.data;
+      })
+      .catch((err) => err);
+  };
 
   const [qcoverageData, setQcoverageData] = useState([]);
   const getQcoverage = (
@@ -130,9 +139,10 @@ function QHeaderQDetailEnquiry({
     name: string,
     languageId: number,
     item: string,
-    date: string
+    date: string,
+    func: string
   ) => {
-    paramTermItem(companyId, name, languageId, item, date)
+    paramTermItem(companyId, name, languageId, item, date, func)
       .then((resp) => {
         setQriskcesstermData(resp.data["ppt"]);
         return resp.data["ppt"];
@@ -146,9 +156,10 @@ function QHeaderQDetailEnquiry({
     name: string,
     languageId: number,
     item: string,
-    date: string
+    date: string,
+    func: string
   ) => {
-    paramTermItem(companyId, name, languageId, item, date)
+    paramTermItem(companyId, name, languageId, item, date, func)
       .then((resp) => {
         setQpremcesstermData(resp.data["ppt"]);
         return resp.data["ppt"];
@@ -179,6 +190,7 @@ function QHeaderQDetailEnquiry({
     getQoccgroup(companyId, "Q0007", languageId);
     getQoccsect(companyId, "Q0008", languageId);
     getQageadmitted(companyId, "P0046", languageId);
+    getPOffice(companyId, "P0018", languageId);
 
     return () => {};
   }, []);
@@ -196,14 +208,16 @@ function QHeaderQDetailEnquiry({
       "Q0015",
       languageId,
       qcoverage.current,
-      "20220101"
+      "20220101",
+      "TermRange"
     );
     getQpremcessterm(
       companyId,
       "Q0016",
       languageId,
       qcoverage.current,
-      "20220101"
+      "20220101",
+      "PptRange"
     );
 
     return () => {};
@@ -666,6 +680,30 @@ function QHeaderQDetailEnquiry({
                     margin="dense"
                   >
                     {qcontractcurrData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    select
+                    id="POffice"
+                    name="POffice"
+                    value={record?.POffice}
+                    placeholder="POffice"
+                    label="POffice"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "POffice",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {pOfficeData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
