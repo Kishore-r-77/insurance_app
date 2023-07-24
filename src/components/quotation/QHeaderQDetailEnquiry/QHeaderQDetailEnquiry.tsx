@@ -266,16 +266,18 @@ function QHeaderQDetailEnquiry({
   };
 
   const [detailsData, setDetailsData] = useState<any>([]);
+  const [headerData, setHeaderData] = useState<any>([]);
   const getDetails = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/quotationservices/qdetailgetbyqheader/${record.ID}`,
+        `http://localhost:3000/api/v1/quotationservices/qheaderanddetailget/${record.ID}`,
         {
           withCredentials: true,
         }
       )
       .then((resp) => {
-        setDetailsData(resp.data["All QDetails"]);
+        setDetailsData(resp.data["QDetails"]);
+        setHeaderData(resp.data["QHeader"]);
       })
       .catch((err) => console.log(err.message));
   };
@@ -457,10 +459,10 @@ function QHeaderQDetailEnquiry({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        InputProps={{ readOnly: true }}
                         label="Quote Date"
                         inputFormat="DD/MM/YYYY"
-                        value={record?.QuoteDate}
+                        value={headerData?.QuoteDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -479,10 +481,11 @@ function QHeaderQDetailEnquiry({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="QHeaderID"
                     //onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="QHeaderID"
-                    value={record?.ID}
+                    value={headerData?.ID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -499,10 +502,11 @@ function QHeaderQDetailEnquiry({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="ClientID"
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="ClientID"
-                    value={record?.ClientID}
+                    value={headerData?.ClientID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -519,10 +523,11 @@ function QHeaderQDetailEnquiry({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="Qfirstname"
                     name="Qfirstname"
-                    value={record?.QFirstName}
+                    value={headerData?.QFirstName}
                     placeholder="First Name"
                     label="First Name"
                     // onChange={(e) =>
@@ -539,10 +544,11 @@ function QHeaderQDetailEnquiry({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="Qlastname"
                     name="Qlastname"
-                    value={record?.QLastName}
+                    value={headerData?.QLastName}
                     placeholder="Last Name"
                     label="Last Name"
                     // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -561,10 +567,10 @@ function QHeaderQDetailEnquiry({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        InputProps={{ readOnly: true }}
                         label="Date of Birth"
                         inputFormat="DD/MM/YYYY"
-                        value={record?.QDob}
+                        value={headerData?.QDob}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
@@ -582,10 +588,11 @@ function QHeaderQDetailEnquiry({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="Qgender"
                     name="Qgender"
-                    value={record?.QGender}
+                    value={headerData?.QGender}
                     placeholder="Gender"
                     label="Gender"
                     // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -602,10 +609,11 @@ function QHeaderQDetailEnquiry({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="Qemail"
                     name="Qemail"
-                    value={record?.QEmail}
+                    value={headerData?.QEmail}
                     placeholder="Email"
                     label="Email"
                     // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -622,10 +630,11 @@ function QHeaderQDetailEnquiry({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="Qmobile"
                     name="Qmobile"
-                    value={record?.QMobile}
+                    value={headerData?.QMobile}
                     placeholder="Mobile"
                     label="Mobile"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -642,11 +651,11 @@ function QHeaderQDetailEnquiry({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="AddressID"
-                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     name="AddressID"
-                    value={record?.AddressID}
+                    value={headerData?.AddressID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -662,11 +671,12 @@ function QHeaderQDetailEnquiry({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
-                    select
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
+                    // select
                     id="Qcontractcurr"
                     name="Qcontractcurr"
-                    value={record?.QContractCurr}
+                    value={headerData?.QContractCurr}
                     placeholder="Contract Currency"
                     label="Contract Currency"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -679,18 +689,19 @@ function QHeaderQDetailEnquiry({
                     fullWidth
                     margin="dense"
                   >
-                    {qcontractcurrData.map((val: any) => (
+                    {/* {qcontractcurrData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
-                    select
+                    InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
+                    // select
                     id="POffice"
                     name="POffice"
-                    value={record?.POffice}
+                    value={headerData?.POffice}
                     placeholder="POffice"
                     label="POffice"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -703,17 +714,18 @@ function QHeaderQDetailEnquiry({
                     fullWidth
                     margin="dense"
                   >
-                    {pOfficeData.map((val: any) => (
+                    {/* {pOfficeData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
+                    //select
                     id="Qproduct"
                     name="Qproduct"
-                    value={record?.QProduct}
+                    InputLabelProps={{ shrink: true }}
+                    value={headerData?.QProduct}
                     placeholder="Product"
                     label="Product"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -726,17 +738,18 @@ function QHeaderQDetailEnquiry({
                     fullWidth
                     margin="dense"
                   >
-                    {qproductData.map((val: any) => (
+                    {/* {qproductData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
+                    // select
                     id="Qnri"
                     name="Qnri"
-                    value={record?.QNri}
+                    InputLabelProps={{ shrink: true }}
+                    value={headerData?.QNri}
                     placeholder="NRI"
                     label="NRI"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -749,18 +762,19 @@ function QHeaderQDetailEnquiry({
                     fullWidth
                     margin="dense"
                   >
-                    {qnriData.map((val: any) => (
+                    {/* {qnriData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
+                    //select
                     id="Qoccgroup"
                     name="Qoccgroup"
-                    value={record?.QOccGroup}
+                    InputLabelProps={{ shrink: true }}
+                    value={headerData?.QOccGroup}
                     placeholder="Occ Group"
                     label="Occ Group"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -773,18 +787,19 @@ function QHeaderQDetailEnquiry({
                     fullWidth
                     margin="dense"
                   >
-                    {qoccgroupData.map((val: any) => (
+                    {/* {qoccgroupData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
+                    //select
                     id="Qoccsect"
                     name="Qoccsect"
-                    value={record?.QOccSect}
+                    InputLabelProps={{ shrink: true }}
+                    value={headerData?.QOccSect}
                     placeholder="Occ Sector"
                     label="Occ Sector"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -797,9 +812,9 @@ function QHeaderQDetailEnquiry({
                     fullWidth
                     margin="dense"
                   >
-                    {qoccsectData.map((val: any) => (
+                    {/* {qoccsectData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
 
@@ -807,7 +822,8 @@ function QHeaderQDetailEnquiry({
                   <TextField
                     id="Qoccupation"
                     name="Qoccupation"
-                    value={record?.QOccupation}
+                    InputLabelProps={{ shrink: true }}
+                    value={headerData?.QOccupation}
                     placeholder="Occupation"
                     label="Occupation"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -827,7 +843,8 @@ function QHeaderQDetailEnquiry({
                     type="number"
                     id="Qannualincome"
                     name="Qannualincome"
-                    value={record?.QAnnualIncome}
+                    InputLabelProps={{ shrink: true }}
+                    value={headerData?.QAnnualIncome}
                     placeholder="Annual Income"
                     label="Annual Income"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -845,10 +862,10 @@ function QHeaderQDetailEnquiry({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="AgencyID"
-                    onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     name="AgencyID"
-                    value={record?.AgencyID}
+                    value={headerData?.AgencyID}
                     onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -914,6 +931,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           type="number"
                           id="Qage"
                           name="Qage"
@@ -931,6 +949,7 @@ function QHeaderQDetailEnquiry({
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
                           // select
+                          InputProps={{ readOnly: true }}
                           id="Qcoverage"
                           name="Qcoverage"
                           value={qDetail.QCoverage}
@@ -952,6 +971,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           type="number"
                           id="Qsumassured"
                           name="Qsumassured"
@@ -968,6 +988,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           //select
                           id="Qriskcessterm"
                           name="Qriskcessterm"
@@ -990,6 +1011,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           //select
                           id="Qpremcessterm"
                           name="Qpremcessterm"
@@ -1012,6 +1034,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           type="number"
                           id="Qriskcessage"
                           name="Qriskcessage"
@@ -1028,6 +1051,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           type="number"
                           id="Qpremcessage"
                           name="Qpremcessage"
@@ -1047,6 +1071,7 @@ function QHeaderQDetailEnquiry({
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
                               label="Risk Cess Date"
+                              InputProps={{ readOnly: true }}
                               inputFormat="DD/MM/YYYY"
                               value={qDetail.QRiskCessDate}
                               onChange={(date) =>
@@ -1066,6 +1091,7 @@ function QHeaderQDetailEnquiry({
                             <DesktopDatePicker
                               label="Prem Cess Date"
                               inputFormat="DD/MM/YYYY"
+                              InputProps={{ readOnly: true }}
                               value={qDetail.QPremCessDate}
                               onChange={(date) =>
                                 handleQpremcessdate(date, index)
@@ -1080,6 +1106,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           //select
                           id="Qageadmitted"
                           name="Qageadmitted"
@@ -1102,6 +1129,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           type="number"
                           id="Qemrrating"
                           name="Qemrrating"
@@ -1118,6 +1146,7 @@ function QHeaderQDetailEnquiry({
 
                       <Grid2 xs={8} md={6} lg={4}>
                         <TextField
+                          InputProps={{ readOnly: true }}
                           type="number"
                           id="Qannualpremium"
                           name="Qannualpremium"
