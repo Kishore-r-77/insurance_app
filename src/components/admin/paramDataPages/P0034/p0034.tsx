@@ -15,6 +15,23 @@ import P0034Enq  from "./p0034Enq";
 
 
 const P0034 = forwardRef((props: any, ref) => {
+
+  const {sendRequest : sendLettypeRequest , status: getLettypeResponseStatus ,  data: getLettypeResponse , error:getLettypeResponseError} = useHttp(getData, true); 
+
+  useEffect(() => {
+    let getDataParams:any = {}
+        getDataParams.companyId = 1;
+        getDataParams.languageId =  1;
+        getDataParams.seqno =  0;
+
+        getDataParams.name =  "P0050";
+
+        getDataParams.item = "LETTYPE";
+        sendLettypeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+
+    },[]);
+
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -90,6 +107,7 @@ const P0034 = forwardRef((props: any, ref) => {
           <th>Templates</th> 
           <th>Report Template Location</th> 
           <th>PDF Location</th> 
+          <th>Letter Tytpes</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.letters?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
@@ -104,7 +122,8 @@ const P0034 = forwardRef((props: any, ref) => {
                           {
                             templates: "",
                             reportTemplateLocation: "",
-                            pdfLocation: "",
+                            pDFLocation: "",
+                            letType: [],
                           },
                         ],
                       }));
@@ -159,11 +178,11 @@ const P0034 = forwardRef((props: any, ref) => {
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="pdfLocation"
-                name="pdfLocation"
-                value={value.pdfLocation}
+                id="pDFLocation"
+                name="pDFLocation"
+                value={value.pDFLocation}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "pdfLocation", e.target.value,false)
+                  fieldChangeHandler(index, "pDFLocation", e.target.value,false)
                 }
                 fullWidth
                 size="small"
@@ -171,6 +190,34 @@ const P0034 = forwardRef((props: any, ref) => {
                 margin="dense"
               />
             </td>
+
+            <td>
+              <TextField
+                select
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="letType"
+                name="letType"
+                value={value.letType}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "letType", e.target.value,false)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+                SelectProps={{
+                  multiple: true,
+                }}
+              >
+                {getLettypeResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
 
             {(props.mode === "update" || props.mode === "create") && (
               <td>
@@ -201,7 +248,8 @@ const P0034 = forwardRef((props: any, ref) => {
                               {
                                 templates: "",
                                 reportTemplateLocation: "",
-                                pdfLocation: "",
+                                pDFLocation: "",
+                                letType: [],
 
                               },
                             ],
