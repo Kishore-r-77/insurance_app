@@ -684,7 +684,7 @@ function PolicyEnquiry({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly
-                        label="Next Bill To Date"
+                        label="Next Billing Date"
                         inputFormat="DD/MM/YYYY"
                         value={record.NxtBTDate}
                         onChange={(
