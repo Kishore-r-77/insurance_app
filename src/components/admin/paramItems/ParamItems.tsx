@@ -20,6 +20,7 @@ import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./paramitems.module.css";
 import ParamItemModal from "./ParamItemModal";
+import CustomHeaderTable from "../../../utilities/Table/customHeaderTable";
 
 function ParamItems() {
   //data from getall api
@@ -348,7 +349,7 @@ function ParamItems() {
           </Button>
         </span>
 
-        <h1>Params</h1>
+        <h1>Param Items</h1>
         {getScreenResponse?.paramType === "D" &&
         <FormControlLabel
         style={{
@@ -441,6 +442,10 @@ function ParamItems() {
           <AddBoxIcon />
         </Button>
       </header>
+
+      <CustomHeaderTable  data={new Array("Company: "+ searchparams.get("companyId"), "Param Name: "+ searchparams.get("name"), "Param Description: "+getScreenResponse?.paramLongDesc) } />
+
+
       {screenGetStatus === "completed" && !screenGetError && (
         <>
           <CustomTable
