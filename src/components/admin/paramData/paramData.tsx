@@ -65,6 +65,7 @@ import Q0025 from "../paramDataPages/Q0025/q0025";
 import P0053 from "../paramDataPages/P0053/p0053";
 import P0054 from "../paramDataPages/P0054/p0054";
 import P0055 from "../paramDataPages/P0055/p0055";
+import CustomHeaderTable from "../../../utilities/Table/customHeaderTable";
 
 const ParamData = () => {
   const {
@@ -741,6 +742,7 @@ const ParamData = () => {
           </Button>
         </CustomTooltip>
       </header>
+      <CustomHeaderTable data={new Array("Company: "+ searchparams.get("companyId"), "Param Name: "+ searchparams.get("name"), "Param Item: "+ searchparams.get("item"), "Item Description: "+ getDataResponse?.param.longdesc )} />
 
       {!getDataResponseError &&
         getDataResponseStatus === "completed" &&
