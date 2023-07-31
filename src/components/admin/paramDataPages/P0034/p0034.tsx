@@ -199,7 +199,7 @@ const P0034 = forwardRef((props: any, ref) => {
                 }}
                 id="letType"
                 name="letType"
-                value={value.letType}
+                value={value.letType?value.letType:[]}
                 onChange={(e) =>
                   fieldChangeHandler(index, "letType", e.target.value,false)
                 }
