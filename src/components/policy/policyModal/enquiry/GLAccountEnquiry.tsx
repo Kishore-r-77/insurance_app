@@ -79,7 +79,7 @@ function GLAccountEnquiry({
     },
     {
       field: "CurrentDate",
-      header: "Current Date",
+      header: "Processed Date",
       dbField: "currenct_date",
       type: "date",
     },

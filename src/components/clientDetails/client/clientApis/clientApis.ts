@@ -94,7 +94,7 @@ export const addApi = (state: ClientStateType, companyId: number) => {
           : moment(state.ClientDob).format("YYYYMMDD").toString(),
 
       ClientEmail: state.ClientEmail,
-      ClientMobile: `+91${state.ClientMobile}`,
+      ClientMobile: state.ClientMobile,
       ClientStatus: state.ClientStatus,
       ClientDod:
         state.ClientDod?.length === 0
@@ -126,7 +126,7 @@ export const editApi = (record: any) => {
           : moment(record.ClientDob).format("YYYYMMDD").toString(),
 
       ClientEmail: record.ClientEmail,
-      ClientMobile: `+91${record.ClientMobile}`,
+      ClientMobile: record.ClientMobile,
       ClientStatus: record.ClientStatus,
       ClientDod:
         record.ClientDod?.length === 0

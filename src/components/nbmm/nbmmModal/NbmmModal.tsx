@@ -561,7 +561,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -760,7 +760,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -785,7 +785,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "BTDate",
                           })
                         }
@@ -812,7 +812,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -827,7 +827,7 @@ function NewBusinessModal({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly
-                        label="Next Bill To Date"
+                        label="Next Billing Date"
                         inputFormat="DD/MM/YYYY"
                         value={
                           state.addOpen ? state.NxtBTDate : record.NxtBTDate
@@ -839,7 +839,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "NxtBTDate",
                           })
                         }
@@ -866,7 +866,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "AnnivDate",
                           })
                         }
