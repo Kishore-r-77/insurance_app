@@ -102,6 +102,17 @@ function Nbmm({ modalFunc }: any) {
           ...state,
           addressOpen: false,
         };
+      
+      case ACTIONS.BANKOPEN:
+          return {
+            ...state,
+            bankOpen: true,
+          };
+        case ACTIONS.BANKCLOSE:
+          return {
+            ...state,
+            bankOpen: false,
+          };
       case ACTIONS.AGENCYOPEN:
         return {
           ...state,

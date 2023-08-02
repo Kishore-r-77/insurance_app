@@ -27,6 +27,7 @@ import {
   paramItem,
 } from "../../clientDetails/client/clientApis/clientApis";
 import { createPoliciesWithBenefits } from "../../policy/policyApis/policyApis";
+import Bank from "../../clientDetails/bank/Bank";
 
 function NewBusinessModal({
   state,
@@ -142,6 +143,16 @@ function NewBusinessModal({
       .catch((err) => err);
   };
 
+  const [billingData, setbillingData] = useState([]);
+  const getBilling = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setbillingData(resp.data.data);
+        return resp.data.data;
+      })
+      .catch((err) => err);
+  };
+
   useEffect(() => {
     getCompanyData(companyId);
     getPProduct(companyId, "Q0005", languageId);
@@ -150,6 +161,7 @@ function NewBusinessModal({
     getPBillCurr(companyId, "P0023", languageId);
     getPOffice(companyId, "P0018", languageId);
     getPolStatus(companyId, "P0024", languageId);
+    getBilling(companyId ,"P0055", languageId);
 
     return () => {};
   }, []);
@@ -240,6 +252,22 @@ function NewBusinessModal({
       .catch((err) => console.log(err.message));
   };
 
+  const [bankClntData, setbankClntData] = useState([]);
+  console.log("Bank Open", state.bankOpen)
+  const getBankByClient = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/clientbankget/${state.ClientID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setbankClntData(resp.data?.BankByClient);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   const clientOpenFunc = (item: any) => {
     console.log(item.ID, "clientId");
     if (state.addOpen) {
@@ -263,10 +291,23 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
 
+  const bankOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.BankID = item.ID;
+    } else record.BankID = item.ID;
+    dispatch({ type: ACTIONS.BANKCLOSE });
+  };
+
   useEffect(() => {
     getAddressByClient();
+    getBankByClient();
     return () => {};
   }, [state.ClientID]);
+
+  // useEffect(() => {
+    
+  //   return () => {};
+  // }, [state.ClientID]);
 
   return (
     <div>
@@ -311,6 +352,18 @@ function NewBusinessModal({
                 handleClose={() => dispatch({ type: ACTIONS.AGENCYCLOSE })}
               >
                 <Agency modalFunc={agencyOpenFunc} />
+              </CustomModal>
+            ) : state.bankOpen ? (
+              <CustomModal
+                size={size}
+                open={state.bankOpen}
+                handleClose={() => dispatch({ type: ACTIONS.BANKCLOSE })}
+              >
+                <Bank
+                  modalFunc={bankOpenFunc}
+                  bankClntData={bankClntData}
+                  lookup={state.bankOpen}
+                />
               </CustomModal>
             ) : null}
             <TreeItem nodeId="1" label={`Policies Add`}>
@@ -725,6 +778,54 @@ function NewBusinessModal({
                       })
                     }
                     fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="BillingType"
+                    name="BillingType"
+                    value={state.BillingType}
+                    placeholder="billing_type"
+                    label="billing_type"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BillingType",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {billingData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
+                    id="BankID"
+                    name="BankID"
+                    value={state.addOpen ? state.BankID : record.BankID}
+                    placeholder="Bank Id"
+                    label="Bank Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BankID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
                 </Grid2>
