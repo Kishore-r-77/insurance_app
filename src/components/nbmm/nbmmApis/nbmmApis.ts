@@ -137,3 +137,14 @@ export const p0024 = (companyId: number, languageId: number) => {
     },
   });
 };
+
+export const p0055 = (companyId: number, languageId: number) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name: "P0055",
+      languageId,
+    },
+  });
+};
