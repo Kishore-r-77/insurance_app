@@ -305,6 +305,7 @@ function FinalizeModal({
       )
       .then((resp) => {
         setQHeaderData(resp.data);
+        getData();
       })
       .catch((err) => console.log(err.message));
   };
@@ -450,6 +451,7 @@ function FinalizeModal({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
+                    InputLabelProps={{ shrink: true }}
                     id="CompanyID"
                     name="CompanyID"
                     value={companyData?.CompanyName}
@@ -484,6 +486,7 @@ function FinalizeModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: true }}
                     id="ClientID"
                     //onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
@@ -504,6 +507,7 @@ function FinalizeModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: state?.poicycreateOpen }}
                     id="AddressID"
                     onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
@@ -524,6 +528,7 @@ function FinalizeModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: state?.poicycreateOpen }}
                     //select
                     id="PContractCurr"
@@ -548,6 +553,7 @@ function FinalizeModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: true }}
                     id="PBillCurr"
                     //onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
@@ -568,6 +574,7 @@ function FinalizeModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: state?.poicycreateOpen }}
                     //select
                     id="Office"
@@ -592,6 +599,7 @@ function FinalizeModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     //select
                     id="PProduct"
                     name="PProduct"
@@ -681,6 +689,7 @@ function FinalizeModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     id="PFreq"
                     name="PFreq"
                     value={policyData?.PFreq}
@@ -700,6 +709,7 @@ function FinalizeModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: true }}
                     id="AgencyID"
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
