@@ -782,30 +782,6 @@ function NewBusinessModal({
                   />
                 </Grid2>
 
-                <Grid2 xs={8} md={6} lg={3}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
-                    id="BankID"
-                    name="BankID"
-                    value={state.addOpen ? state.BankID : record.BankID}
-                    placeholder="Bank Id"
-                    label="Bank Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "BankID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
@@ -828,6 +804,30 @@ function NewBusinessModal({
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
+                    id="BankID"
+                    name="BankID"
+                    value={state.addOpen ? state.BankID : record.BankID}
+                    placeholder="Bank Id"
+                    label="Bank Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BankID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
                 </Grid2>
               </Grid2>
             </TreeItem>

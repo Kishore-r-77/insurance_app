@@ -959,30 +959,6 @@ function PolicyModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
-                    id="BankID"
-                    onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
-                    name="BankID"
-                    // Attention: *** Check the value details  ***
-                    value={state.addOpen ? state.BankID : record?.BankID}
-                    onChange={(e) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "BankID",
-                      })
-                    }
-                    placeholder="bank_id"
-                    label="bank_id"
-                    fullWidth
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
                     select
                     id="BillingType"
                     name="BillingType"
@@ -1005,6 +981,30 @@ function PolicyModal({
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="BankID"
+                    onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
+                    name="BankID"
+                    // Attention: *** Check the value details  ***
+                    value={state.addOpen ? state.BankID : record?.BankID}
+                    onChange={(e) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BankID",
+                      })
+                    }
+                    placeholder="bank_id"
+                    label="bank_id"
+                    fullWidth
+                    margin="dense"
+                  />
                 </Grid2>
               </Grid2>
             </TreeItem>
