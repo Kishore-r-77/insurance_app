@@ -311,7 +311,7 @@ function Params() {
           </Button>
         </span>
 
-        <h1>Params</h1>
+        <h1>Business Rules</h1>
         <Button
           id={styles["add-btn"]}
           style={{

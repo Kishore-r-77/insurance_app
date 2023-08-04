@@ -54,7 +54,7 @@ const routes = [
 
       {
         path: "/params",
-        name: "Params",
+        name: "Business Rules",
         icon: <ArrowRightAltIcon />,
       },
       {
