@@ -30,7 +30,7 @@ export const addApi = (state: BankStateType, companyId: number) => {
       BankType: state.BankType,
       BankAccountStatus: state.BankAccountStatus,
       ClientID: state.ClientID,
-      AgnecyID: parseInt(state.AgnecyID),
+      AgencyID: parseInt(state.AgencyID),
 
       StartDate: moment(state.StartDate).format("YYYYMMDD"),
       EndDate: moment(state.EndDate).format("YYYYMMDD"),

@@ -171,6 +171,8 @@ export const createPoliciesWithBenefits = (
       PBillCurr: state.PBillCurr,
       POffice: state.POffice,
       PolStatus: state.PolStatus,
+      BankID: state.BankID,
+      BillingType: state.BillingType,
       PReceivedDate:
         state.PReceivedDate?.length === 0
           ? ""

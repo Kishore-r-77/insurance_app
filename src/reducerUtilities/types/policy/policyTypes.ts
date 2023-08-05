@@ -12,16 +12,19 @@ export type PolicyStateType = {
   ClientID: string;
   AgencyID: string;
   AddressID: string;
+  BankID: string;
   BTDate: string;
   PaidToDate: string;
   NxtBTDate: string;
   AnnivDate: string;
   InstalmentPrem: string;
+  BillingType: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
   clientOpen: boolean;
   addressOpen: boolean;
+  bankOpen: boolean;
   agencyOpen: boolean;
   benefitOpen: boolean;
   nomineeOpen: boolean;
@@ -45,6 +48,8 @@ export type ActionConstantsType = {
   CLIENTCLOSE: string;
   ADDRESSOPEN: string;
   ADDRESSCLOSE: string;
+  BANKOPEN:string;
+  BANKCLOSE: string;
   AGENCYOPEN: string;
   AGENCYCLOSE: string;
   BENEFITOPEN: string;

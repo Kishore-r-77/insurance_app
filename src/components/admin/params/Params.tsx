@@ -354,8 +354,7 @@ function Params() {
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>Params</h1>
+        <h1>Business Rules</h1>
         <CustomTooltip text="Reports">
           <Button
             id={styles["add-btn"]}
