@@ -1,6 +1,14 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import ReportIcon from "@mui/icons-material/Summarize";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, MenuItem, TextField, FormControlLabel, Checkbox } from "@mui/material";
+import {
+  Button,
+  MenuItem,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Menu,
+} from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
 import useHttp from "../../../hooks/use-http";
 import { getData } from "../../../services/http-service";
@@ -21,6 +29,7 @@ import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./paramitems.module.css";
 import ParamItemModal from "./ParamItemModal";
 import CustomHeaderTable from "../../../utilities/Table/customHeaderTable";
+import CustomTooltip from "../../../utilities/cutomToolTip/customTooltip";
 
 function ParamItems() {
   //data from getall api
@@ -32,6 +41,13 @@ function ParamItems() {
     error: screenGetError,
   } = useHttp(getData, true);
 
+  const {
+    sendRequest: sendReportGetRequest,
+    status: reportGetStatus,
+    data: getReportResponse,
+    error: reportGetError,
+  } = useHttp(getData, true);
+
   const [pageAndSearch, setPageAndSearch] = useState({
     pageNum: 1,
     pageSize: 15,
@@ -40,14 +56,15 @@ function ParamItems() {
     sortColumn: "item",
     sortDirection: "asc",
     firstTime: true,
-    getAllInstances : false,
+    getAllInstances: false,
   });
 
   const [tableColumns, setTableColumns] = useState(columns);
 
-  
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [searchparams] = useSearchParams();
 
+  const reportMenuopen = Boolean(anchorEl);
   useEffect(() => {
     let getDataParams = {
       ...pageAndSearch,
@@ -219,7 +236,15 @@ function ParamItems() {
       ? getScreenResponse.data.map((ob: any) => ({
           ...ob,
           ID:
-            ob.companyId + "," + ob.name + "," + ob.item + "," + ob.languageId+","+ob.seqno,
+            ob.companyId +
+            "," +
+            ob.name +
+            "," +
+            ob.item +
+            "," +
+            ob.languageId +
+            "," +
+            ob.seqno,
         }))
       : [];
 
@@ -284,10 +309,48 @@ function ParamItems() {
         name: record.name,
         languageId: record.languageId,
         item: record.item,
-        seqno: record.seqno
+        seqno: record.seqno,
       },
     });
   }
+
+  const getReport = async (type: any) => {
+    let getDataParams = {
+      ...pageAndSearch,
+      companyId: searchparams.get("companyId"),
+      name: searchparams.get("name"),
+      languageId: searchparams.get("languageId"),
+      reportType: type,
+    };
+
+    sendReportGetRequest({
+      apiUrlPathSuffix: "/basicservices/paramItems",
+      getDataParams: getDataParams,
+      isBlob: true,
+    });
+  };
+
+  const handleReportMenuPop = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleReportMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    if (reportGetStatus === "completed" && !reportGetError) {
+      const url = window.URL.createObjectURL(
+        new Blob([getReportResponse.data])
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      const filename =
+        getReportResponse.headers["content-disposition"].split("filename=")[1];
+      link.setAttribute("download", filename);
+      link.click();
+    }
+  }, [reportGetStatus, reportGetError]);
 
   return (
     <div>
@@ -350,63 +413,60 @@ function ParamItems() {
         </span>
 
         <h1>Param Items</h1>
-        {getScreenResponse?.paramType === "D" &&
-        <FormControlLabel
-        style={{
-          marginTop: ".9rem",
-         
-        }}
-        control={
-          <Checkbox
-           checked = {pageAndSearch.getAllInstances}
+        {getScreenResponse?.paramType === "D" && (
+          <FormControlLabel
+            style={{
+              marginTop: ".9rem",
+            }}
+            control={
+              <Checkbox
+                checked={pageAndSearch.getAllInstances}
+                onChange={(e) => {
+                  setPageAndSearch((prevState) => ({
+                    ...prevState,
+                    getAllInstances: e.target.checked,
+                  }));
+                  if (e.target.checked) {
+                    setTableColumns((prevState) => [
+                      ...prevState,
+                      {
+                        field: "startDate",
+                        header: "Start Date",
+                        dbField: "start_date",
+                        sortable: true,
+                      },
 
-           onChange={e => {
-            setPageAndSearch((prevState) => ({ ...prevState, getAllInstances: e.target.checked }));
-            if(e.target.checked)
-            {
-            setTableColumns((prevState) => ([ ...prevState, 
-              {
-                field: "startDate",
-                header: "Start Date",
-                dbField: "start_date",
-                sortable: true,
-              },
-            
-              {
-                field: "endDate",
-                header: "End Date",
-                dbField: "end_date",
-                sortable: true,
-              },
-            
-              {
-                field: "seqno",
-                header: "Seq Num",
-                dbField: "seqno",
-                sortable: true,
-              }
-            
-            ]))
+                      {
+                        field: "endDate",
+                        header: "End Date",
+                        dbField: "end_date",
+                        sortable: true,
+                      },
+
+                      {
+                        field: "seqno",
+                        header: "Seq Num",
+                        dbField: "seqno",
+                        sortable: true,
+                      },
+                    ]);
+                  } else {
+                    setTableColumns((prevState) =>
+                      prevState.filter(
+                        (value: any) =>
+                          value.field !== "startDate" &&
+                          value.field !== "endDate" &&
+                          value.field !== "seqno"
+                      )
+                    );
+                  }
+                }}
+              />
             }
-            else
-            {
-
-              setTableColumns((prevState) => (
-                prevState.filter(
-                  (value: any) => value.field !== "startDate" && value.field !== "endDate" && value.field !== "seqno"
-                )
-
-              ))
-            }
-
-
-          }}
-           
+            label="Show All Dates"
           />
-        }
-        label="Show All Dates"
-      />
-}
+        )}
+         <CustomTooltip text="Go Back">
         <Button
           id={styles["add-btn"]}
           style={{
@@ -425,6 +485,62 @@ function ParamItems() {
         >
           <ArrowBackIcon />
         </Button>
+        </CustomTooltip>
+        <CustomTooltip text="Reports">
+        <Button
+          id={styles["add-btn"]}
+          style={{
+            marginTop: "1rem",
+            maxWidth: "40px",
+            maxHeight: "40px",
+            minWidth: "40px",
+            minHeight: "40px",
+            backgroundColor: "#0a3161",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={handleReportMenuPop}
+        >
+          <ReportIcon />
+        </Button>
+
+        </CustomTooltip>
+
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={reportMenuopen}
+          onClose={handleReportMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+          elevation={0}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <MenuItem
+            onClick={() => {
+              getReport("excel");
+            }}
+          >
+            <span style={{ fontSize: ".8em" }}>Excel Report</span>
+          </MenuItem>
+
+          <MenuItem
+            onClick={() => {
+              getReport("pdf");
+            }}
+          >
+            <span style={{ fontSize: ".8em" }}>Pdf Report</span>
+          </MenuItem>
+        </Menu>
+        <CustomTooltip text="Add Item">
         <Button
           id={styles["add-btn"]}
           style={{
@@ -441,10 +557,18 @@ function ParamItems() {
         >
           <AddBoxIcon />
         </Button>
+        </CustomTooltip>
       </header>
 
-      <CustomHeaderTable  data={new Array("Company: "+ searchparams.get("companyId"), "Param Name: "+ searchparams.get("name"), "Param Description: "+getScreenResponse?.paramLongDesc) } />
-
+      <CustomHeaderTable
+        data={
+          new Array(
+            "Company: " + searchparams.get("companyId"),
+            "Param Name: " + searchparams.get("name"),
+            "Param Description: " + getScreenResponse?.paramLongDesc
+          )
+        }
+      />
 
       {screenGetStatus === "completed" && !screenGetError && (
         <>
@@ -510,6 +634,16 @@ function ParamItems() {
         >
           <strong>Failed to get data!</strong>
           <span className="pl-1">{screenGetError}</span>
+        </div>
+      )}
+
+      {reportGetError && reportGetStatus === "completed" && (
+        <div
+          className="alert alert-danger"
+          style={{ fontSize: "95%", padding: "0rem" }}
+        >
+          <strong>Failed to generate report!</strong>
+          <span className="pl-1">{reportGetError}</span>
         </div>
       )}
     </div>
