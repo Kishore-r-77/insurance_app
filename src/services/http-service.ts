@@ -89,7 +89,7 @@ function handleErrors1 (ok ,status , data)
 */
 
 export async function getData(params: any) {
-  const { apiUrlPathSuffix, getDataParams, isBlob } = params;
+  const { apiUrlPathSuffix, getDataParams } = params;
 
   const urlparams = new URLSearchParams([]);
 
@@ -97,31 +97,13 @@ export async function getData(params: any) {
     urlparams.append(key, getDataParams[key])
   );
 
-  let options: any = null;
-  if (isBlob) {
-    options = {
-      params: urlparams,
-      withCredentials: true,
-      responseType: "blob",
-    };
-  } else {
-    options = {
-      params: urlparams,
-      withCredentials: true,
-    };
-  }
-
   try {
-    const response = await axios.get(apiUrlPathSuffix, options);
+    const response = await axios.get(apiUrlPathSuffix, {
+      params: urlparams,
+      withCredentials: true,
+    });
 
-    if(isBlob)
-    {
-      return response
-    }
-    else
-    {
     return response.data;
-    }
   } catch (error) {
     handleErrors(error);
   }
