@@ -1,7 +1,8 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import ReportIcon from "@mui/icons-material/Summarize";
 
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button, Menu, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
 import useHttp from "../../../hooks/use-http";
 import { getData } from "../../../services/http-service";
@@ -16,6 +17,7 @@ import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./params.module.css";
 import ParamModal from "./ParamModal";
 import { ParamsStateType } from "../../../reducerUtilities/types/admin/params/parameterTypes";
+import CustomTooltip from "../../../utilities/cutomToolTip/customTooltip";
 
 function Params() {
   //data from getall api
@@ -27,6 +29,13 @@ function Params() {
     error: screenGetError,
   } = useHttp(getData, true);
 
+  const {
+    sendRequest: sendReportGetRequest,
+    status: reportGetStatus,
+    data: getReportResponse,
+    error: reportGetError,
+  } = useHttp(getData, true);
+
   const [pageAndSearch, setPageAndSearch] = useState({
     pageNum: 1,
     pageSize: 5,
@@ -36,6 +45,8 @@ function Params() {
     sortDirection: "asc",
     firstTime: true,
   });
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const reportMenuopen = Boolean(anchorEl);
 
   useEffect(() => {
     sendScreenGetRequest({
@@ -251,6 +262,39 @@ function Params() {
     }
   };
 
+  const getReport = async (type: any) => {
+    sendReportGetRequest({
+      apiUrlPathSuffix: "/basicservices/params",
+      getDataParams: {
+        ...pageAndSearch,
+        reportType: type,
+      },
+      isBlob: true,
+    });
+  };
+
+  const handleReportMenuPop = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleReportMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    if (reportGetStatus === "completed" && !reportGetError) {
+      const url = window.URL.createObjectURL(
+        new Blob([getReportResponse.data])
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      const filename =
+        getReportResponse.headers["content-disposition"].split("filename=")[1];
+      link.setAttribute("download", filename);
+      link.click();
+    }
+  }, [reportGetStatus, reportGetError]);
+
   return (
     <div>
       <header className={styles.flexStyle}>
@@ -310,24 +354,78 @@ function Params() {
             <SearchIcon />
           </Button>
         </span>
-
         <h1>Business Rules</h1>
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
+        <CustomTooltip text="Reports">
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={handleReportMenuPop}
+          >
+            <ReportIcon />
+          </Button>
+          </CustomTooltip>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={reportMenuopen}
+            onClose={handleReportMenuClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+            elevation={0}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                getReport("excel");
+              }}
+            >
+              <span style={{ fontSize: ".8em" }}>Excel Report</span>
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                getReport("pdf");
+              }}
+            >
+              <span style={{ fontSize: ".8em" }}>Pdf Report</span>
+            </MenuItem>
+          </Menu>
+       
+        <CustomTooltip text="Create Param">
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+          >
+            <AddBoxIcon />
+          </Button>
+        </CustomTooltip>
       </header>
       {screenGetStatus === "completed" && !screenGetError && (
         <>

@@ -36,7 +36,8 @@ const P0055 = forwardRef((props: any, ref) => {
 
 
   const bankRequiredRef: any = useRef();
-  const bankExtractionRef: any = useRef();
+  const bankCodeRef: any = useRef();
+  const bankAccountRef: any = useRef();
   const extractionDatesRef: any = useRef();
 
   let inputdata: any = {};
@@ -49,7 +50,8 @@ const P0055 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       inputdata.bankRequired = bankRequiredRef.current.value;
-      inputdata.bankExtraction = bankExtractionRef.current.value;
+      inputdata.bankCode = bankCodeRef.current.value;
+      inputdata.bankAccount = bankAccountRef.current.value;
       inputdata.extractionDates = extractionDatesRef.current.value;
 
       return inputdata;
@@ -125,12 +127,29 @@ const P0055 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="bankExtraction"
-          name="bankExtraction"
-          inputRef={bankExtractionRef}
-          placeholder="Bank Extraction"
-          label="Bank Extraction"
-          defaultValue={inputdata.bankExtraction}
+          id="bankCode"
+          name="bankCode"
+          inputRef={bankCodeRef}
+          placeholder="Bank Code"
+          label="Bank Code"
+          defaultValue={inputdata.bankCode}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="bankAccount"
+          name="bankAccount"
+          inputRef={bankAccountRef}
+          placeholder="Bank Account"
+          label="Bank Account"
+          defaultValue={inputdata.bankAccount}
           fullWidth
           margin="dense"
         />
