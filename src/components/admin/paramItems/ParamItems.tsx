@@ -412,7 +412,7 @@ function ParamItems() {
           </Button>
         </span>
 
-        <h1>Param Items</h1>
+        <h1>Business Rules Items</h1>
         {getScreenResponse?.paramType === "D" && (
           <FormControlLabel
             style={{
@@ -466,44 +466,43 @@ function ParamItems() {
             label="Show All Dates"
           />
         )}
-         <CustomTooltip text="Go Back">
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            navigateToLink({ link: "/params" });
-          }}
-        >
-          <ArrowBackIcon />
-        </Button>
+        <CustomTooltip text="Go Back">
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              navigateToLink({ link: "/params" });
+            }}
+          >
+            <ArrowBackIcon />
+          </Button>
         </CustomTooltip>
         <CustomTooltip text="Reports">
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={handleReportMenuPop}
-        >
-          <ReportIcon />
-        </Button>
-
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={handleReportMenuPop}
+          >
+            <ReportIcon />
+          </Button>
         </CustomTooltip>
 
         <Menu
@@ -541,22 +540,22 @@ function ParamItems() {
           </MenuItem>
         </Menu>
         <CustomTooltip text="Add Item">
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+          >
+            <AddBoxIcon />
+          </Button>
         </CustomTooltip>
       </header>
 

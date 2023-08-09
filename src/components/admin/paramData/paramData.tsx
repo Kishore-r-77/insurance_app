@@ -690,33 +690,34 @@ const ParamData = () => {
   return (
     <div>
       <header className={styles.flexStyle}>
-        <h1>Param Item Data</h1>
+        <h1>Business Rules Item Data</h1>
         {mode === "display" &&
           getDataResponseStatus === "completed" &&
-          !getDataResponseError && (<>
-            <CustomTooltip text="Edit">
-              <Button
-                id={styles["add-btn"]}
-                style={{
-                  marginTop: "1rem",
-                  maxWidth: "40px",
-                  maxHeight: "40px",
-                  minWidth: "40px",
-                  minHeight: "40px",
-                  backgroundColor: "#0a3161",
-                }}
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  resetModDataRequestStatus();
-                  setMode("update");
-                }}
-              >
-                <EditIcon />
-              </Button>
-            </CustomTooltip>
+          !getDataResponseError && (
+            <>
+              <CustomTooltip text="Edit">
+                <Button
+                  id={styles["add-btn"]}
+                  style={{
+                    marginTop: "1rem",
+                    maxWidth: "40px",
+                    maxHeight: "40px",
+                    minWidth: "40px",
+                    minHeight: "40px",
+                    backgroundColor: "#0a3161",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    resetModDataRequestStatus();
+                    setMode("update");
+                  }}
+                >
+                  <EditIcon />
+                </Button>
+              </CustomTooltip>
 
-            <CustomTooltip text="Report">
+              <CustomTooltip text="Report">
                 <Button
                   id={styles["add-btn"]}
                   style={{
@@ -768,8 +769,8 @@ const ParamData = () => {
                   <span style={{ fontSize: ".8em" }}>Pdf Report</span>
                 </MenuItem>
               </Menu>
-
-        </>  )}
+            </>
+          )}
 
         {pagination.pageNum === totalRecords &&
           mode == "display" &&
