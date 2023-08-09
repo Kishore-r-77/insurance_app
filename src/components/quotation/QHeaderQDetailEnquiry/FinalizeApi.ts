@@ -51,6 +51,12 @@ export const createPoliciesWithBenefits = (
           ? ""
           : moment(policyData.AnnivDate).format("YYYYMMDD").toString(),
       InstalmentPrem: parseInt(policyData.InstalmentPrem),
+      ProposalDate:
+        policyData.PRCD?.length === 0
+          ? ""
+          : moment(policyData.PRCD).format("YYYYMMDD").toString(),
+      BillingType: "CASH",
+      BankID: "0",
       Benefits: data.map((benefit: any) => ({
         ...benefit,
         ClientID: parseInt(benefit?.ClientID),

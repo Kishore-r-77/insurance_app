@@ -11,7 +11,7 @@ import Address from "../../clientDetails/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Client from "../../clientDetails/client/Client";
-import { p0018, p0023, p0024, q0005, frequency } from "../nbmmApis/nbmmApis";
+import { p0018, p0023, p0024, q0005, frequency, p0055 } from "../nbmmApis/nbmmApis";
 import styles from "./nbmm.module.css";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -33,6 +33,7 @@ import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBen
 import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
 import TDFEnquiry from "./enquiry/TDFEnquiry";
 import UWEnquiry from "../../policy/policyModal/enquiry/UWEnquiry";
+import Bank from "../../clientDetails/bank/Bank";
 
 function NewBusinessModal({
   state,
@@ -112,6 +113,16 @@ function NewBusinessModal({
     return p0024(companyId, languageId)
       .then((resp) => {
         setp0024Data(resp.data.data);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  const [p0055Data, setp0055Data] = useState([]);
+
+  const getP0055 = () => {
+    return p0055(companyId, languageId)
+      .then((resp) => {
+        setp0055Data(resp.data.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -235,6 +246,22 @@ function NewBusinessModal({
       .catch((err) => console.log(err.message));
   };
 
+  const [bankClntData, setbankClntData] = useState([]);
+  console.log("Bank Open", state.bankOpen)
+  const getBankByClient = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/clientbankget/${state.ClientID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setbankClntData(resp.data?.BankByClient);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   const [historyData, sethistoryData] = useState([]);
   const getHistoryByPolicy = () => {
     axios
@@ -321,6 +348,11 @@ function NewBusinessModal({
 
   useEffect(() => {
     getAddressByClient();
+    return () => {};
+  }, [state.ClientID]);
+
+  useEffect(() => {
+    getBankByClient();
     return () => {};
   }, [state.ClientID]);
 
@@ -411,6 +443,7 @@ function NewBusinessModal({
     getQ0023Ccur("ContractCurr");
     getQ0023Bcur("BillingCurr");
     getQ0024();
+    getP0055();
 
     return () => {};
   }, []);
@@ -449,6 +482,12 @@ function NewBusinessModal({
       state.AgencyID = item.ID;
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCYCLOSE });
+  };
+  const bankOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.BankID = item.ID;
+    } else record.BankID = item.ID;
+    dispatch({ type: ACTIONS.BANKCLOSE });
   };
 
   console.log(benefitData, "benefitData");
@@ -517,6 +556,18 @@ function NewBusinessModal({
               >
                 <Agency modalFunc={agencyOpenFunc} />
               </CustomModal>
+            ) : state.bankOpen ? (
+              <CustomModal
+                size={size}
+                open={state.bankOpen}
+                handleClose={() => dispatch({ type: ACTIONS.BANKCLOSE })}
+              >
+                <Bank
+                  modalFunc={bankOpenFunc}
+                  bankClntData={bankClntData}
+                  lookup={state.bankOpen}
+                />
+              </CustomModal>
             ) : null}
             <TreeItem nodeId="1" label="Policy Form">
               <Grid2
@@ -561,7 +612,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -760,7 +811,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -785,7 +836,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "BTDate",
                           })
                         }
@@ -812,7 +863,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -827,7 +878,7 @@ function NewBusinessModal({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly
-                        label="Next Bill To Date"
+                        label="Next Billing Date"
                         inputFormat="DD/MM/YYYY"
                         value={
                           state.addOpen ? state.NxtBTDate : record.NxtBTDate
@@ -839,7 +890,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "NxtBTDate",
                           })
                         }
@@ -866,7 +917,7 @@ function NewBusinessModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "AnnivDate",
                           })
                         }
@@ -961,6 +1012,58 @@ function NewBusinessModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
+                    id="BankID"
+                    name="BankID"
+                    value={state.addOpen ? state.BankID : record.BankID}
+                    placeholder="Bank Id"
+                    label="Bank Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BankID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    select
+                    disabled
+                    id="PolStatus"
+                    name="PolStatus"
+                    value={state.addOpen ? state.PolStatus : record.PolStatus}
+                    placeholder="Policy Status"
+                    label="Policy Status"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PolStatus",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {p0024Data.map((val: any) => (
+                      <MenuItem key={val.item} value={val.item}>
+                        {val.longdesc}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
               </Grid2>
             </TreeItem>

@@ -11,7 +11,8 @@ import styles from "./paramdata.module.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button, FormControl, TextField } from "@mui/material";
+import ReportIcon from "@mui/icons-material/Summarize";
+import { Button, FormControl, Menu, MenuItem, TextField } from "@mui/material";
 import JsonView from "../paramDataPages/jsonView/jsonView";
 import CustomTooltip from "../../../utilities/cutomToolTip/customTooltip";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
@@ -64,6 +65,9 @@ import P0043 from "../paramDataPages/P0043/p0043";
 import Q0025 from "../paramDataPages/Q0025/q0025";
 import P0053 from "../paramDataPages/P0053/p0053";
 import P0054 from "../paramDataPages/P0054/p0054";
+import P0055 from "../paramDataPages/P0055/p0055";
+import CustomHeaderTable from "../../../utilities/Table/customHeaderTable";
+import P0056 from "../paramDataPages/P0056/p0056";
 
 const ParamData = () => {
   const {
@@ -72,6 +76,14 @@ const ParamData = () => {
     data: getDataResponse,
     error: getDataResponseError,
   } = useHttp(getData, true);
+
+  const {
+    sendRequest: sendReportGetRequest,
+    status: reportGetStatus,
+    data: getReportResponse,
+    error: reportGetError,
+  } = useHttp(getData, true);
+
   const {
     sendRequest: sendModDataRequest,
     status: modDataResponseStatus,
@@ -89,6 +101,8 @@ const ParamData = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const extraDataRef: any = useRef();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const reportMenuopen = Boolean(anchorEl);
 
   useEffect(() => {
     if (pagination.fetchData) {
@@ -262,6 +276,44 @@ const ParamData = () => {
     }
   };
 
+  const getReport = async (type: any) => {
+    let getDataParams: any = {};
+    getDataParams.companyId = searchparams.get("companyId");
+    getDataParams.name = searchparams.get("name");
+    getDataParams.languageId = searchparams.get("languageId");
+    getDataParams.item = searchparams.get("item");
+    getDataParams.seqno = pagination.pageNum - 1;
+    getDataParams.reportType = type;
+
+    sendReportGetRequest({
+      apiUrlPathSuffix: "/basicservices/paramItem",
+      getDataParams: getDataParams,
+      isBlob: true,
+    });
+  };
+
+  const handleReportMenuPop = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleReportMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    if (reportGetStatus === "completed" && !reportGetError) {
+      const url = window.URL.createObjectURL(
+        new Blob([getReportResponse.data])
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      const filename =
+        getReportResponse.headers["content-disposition"].split("filename=")[1];
+      link.setAttribute("download", filename);
+      link.click();
+    }
+  }, [reportGetStatus, reportGetError]);
+
   const getExtraDataComponent = (paramName: string) => {
     switch (paramName) {
       case "1-Test":
@@ -432,20 +484,37 @@ const ParamData = () => {
         );
       case "1-P0053":
         return (
-           <P0053
+          <P0053
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}
           />
         );
-        case "1-P0054":
-          return (
-             <P0054
-              ref={extraDataRef}
-              data={getDataResponse.param.data}
-              mode={mode}
-            />
-          );
+      case "1-P0054":
+        return (
+          <P0054
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+
+      case "1-P0055":
+        return (
+          <P0055
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0056":
+        return (
+          <P0056
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
       case "1-Q0010":
         return (
           <Q0010
@@ -621,31 +690,86 @@ const ParamData = () => {
   return (
     <div>
       <header className={styles.flexStyle}>
-        <h1>Param Item Data</h1>
+        <h1>Business Rules Item Data</h1>
         {mode === "display" &&
           getDataResponseStatus === "completed" &&
           !getDataResponseError && (
-            <CustomTooltip text="Edit">
-              <Button
-                id={styles["add-btn"]}
-                style={{
-                  marginTop: "1rem",
-                  maxWidth: "40px",
-                  maxHeight: "40px",
-                  minWidth: "40px",
-                  minHeight: "40px",
-                  backgroundColor: "#0a3161",
+            <>
+              <CustomTooltip text="Edit">
+                <Button
+                  id={styles["add-btn"]}
+                  style={{
+                    marginTop: "1rem",
+                    maxWidth: "40px",
+                    maxHeight: "40px",
+                    minWidth: "40px",
+                    minHeight: "40px",
+                    backgroundColor: "#0a3161",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    resetModDataRequestStatus();
+                    setMode("update");
+                  }}
+                >
+                  <EditIcon />
+                </Button>
+              </CustomTooltip>
+
+              <CustomTooltip text="Report">
+                <Button
+                  id={styles["add-btn"]}
+                  style={{
+                    marginTop: "1rem",
+                    maxWidth: "40px",
+                    maxHeight: "40px",
+                    minWidth: "40px",
+                    minHeight: "40px",
+                    backgroundColor: "#0a3161",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleReportMenuPop}
+                >
+                  <ReportIcon />
+                </Button>
+              </CustomTooltip>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={reportMenuopen}
+                onClose={handleReportMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
                 }}
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  resetModDataRequestStatus();
-                  setMode("update");
+                elevation={0}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
                 }}
               >
-                <EditIcon />
-              </Button>
-            </CustomTooltip>
+                <MenuItem
+                  onClick={() => {
+                    getReport("excel");
+                  }}
+                >
+                  <span style={{ fontSize: ".8em" }}>Excel Report</span>
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    getReport("pdf");
+                  }}
+                >
+                  <span style={{ fontSize: ".8em" }}>Pdf Report</span>
+                </MenuItem>
+              </Menu>
+            </>
           )}
 
         {pagination.pageNum === totalRecords &&
@@ -731,6 +855,16 @@ const ParamData = () => {
           </Button>
         </CustomTooltip>
       </header>
+      <CustomHeaderTable
+        data={
+          new Array(
+            "Company: " + searchparams.get("companyId"),
+            "Param Name: " + searchparams.get("name"),
+            "Param Item: " + searchparams.get("item"),
+            "Item Description: " + getDataResponse?.param.longdesc
+          )
+        }
+      />
 
       {!getDataResponseError &&
         getDataResponseStatus === "completed" &&

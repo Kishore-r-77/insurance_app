@@ -15,7 +15,7 @@ import {
 } from "../../../reducerUtilities/actions/clientDetails/bank/bankActions";
 import { useAppSelector } from "../../../redux/app/hooks";
 
-function Bank({ modalFunc }: any) {
+function Bank({ modalFunc, bankClntData, lookup }: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -262,7 +262,7 @@ function Bank({ modalFunc }: any) {
         </Button>
       </header>
       <CustomTable
-        data={data}
+        data={lookup ? bankClntData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}

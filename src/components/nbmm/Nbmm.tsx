@@ -102,6 +102,17 @@ function Nbmm({ modalFunc }: any) {
           ...state,
           addressOpen: false,
         };
+      
+      case ACTIONS.BANKOPEN:
+          return {
+            ...state,
+            bankOpen: true,
+          };
+        case ACTIONS.BANKCLOSE:
+          return {
+            ...state,
+            bankOpen: false,
+          };
       case ACTIONS.AGENCYOPEN:
         return {
           ...state,
@@ -312,7 +323,7 @@ function Nbmm({ modalFunc }: any) {
         </span>
 
         <h1>NBMM</h1>
-        <Button
+        {/* <Button
           id={styles["add-btn"]}
           style={{
             marginTop: "1rem",
@@ -327,7 +338,7 @@ function Nbmm({ modalFunc }: any) {
           onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
         >
           <AddBoxIcon />
-        </Button>
+        </Button> */}
       </header>
       <NbmmTable
         data={data}

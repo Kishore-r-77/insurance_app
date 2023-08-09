@@ -1,0 +1,26 @@
+@font-face {
+  font-family: Poppins Medium;
+  src: url("../../fonts/Poppins/Poppins-Medium.ttf");
+}
+
+.paperStyle {
+  width: 90%;
+  margin: 20px auto;
+  
+  max-height: 350px;
+  font-family: Poppins Medium;
+}
+
+/* .table-cell:nth-child(odd) {
+  background: rgb(241, 216, 237);
+} */
+
+
+.header {
+  background-color: rgba(71, 11, 75, 1);
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+
