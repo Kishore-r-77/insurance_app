@@ -73,3 +73,17 @@ export const deleteApi = (id: number) => {
     }
   );
 };
+export const paramItem = (
+  companyId: number,
+  name: string,
+  languageId: number
+) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name,
+      languageId,
+    },
+  });
+};

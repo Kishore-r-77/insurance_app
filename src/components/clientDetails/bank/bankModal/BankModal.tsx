@@ -1,4 +1,9 @@
-import { FormControl, InputAdornment, TextField } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -10,6 +15,7 @@ import CustomModal from "../../../../utilities/modal/CustomModal";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import Client from "../../client/Client";
 import styles from "./bankModal.module.css";
+import { paramItem } from "../bankApis/bankApis";
 
 function BankModal({
   state,
@@ -27,14 +33,46 @@ function BankModal({
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+  const languageId = useAppSelector(
+    (state) => state.users.user.message.languageId
+  );
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {
       setCompanyData(resp.data["Company"]);
     });
   };
+  const [bankTypeData, setbanktypeData] = useState([]);
+  const getAccountType = (
+    companyId: number,
+    name: string,
+    languageId: number
+  ) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setbanktypeData(resp.data.data);
+        return resp.data.data;
+      })
+      .catch((err) => err);
+  };
+  //
+  const [bankaccountstausData, setbankaccountstausData] = useState([]);
+  const getbankaccountstaus = (
+    companyId: number,
+    name: string,
+    languageId: number
+  ) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setbankaccountstausData(resp.data.data);
+        return resp.data.data;
+      })
+      .catch((err) => err);
+  };
 
   useEffect(() => {
     getCompanyData(companyId);
+    getAccountType(companyId, "P0020", languageId);
+    getbankaccountstaus(companyId, "P0021", languageId);
 
     return () => {};
   }, []);
@@ -143,6 +181,7 @@ function BankModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="BankType"
                     name="BankType"
                     value={state.addOpen ? state.BankType : record.BankType}
@@ -160,10 +199,15 @@ function BankModal({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
+                  >
+                    {bankTypeData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="BankAccountStatus"
                     name="BankAccountStatus"
                     value={
@@ -185,7 +229,11 @@ function BankModal({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
+                  >
+                    {bankaccountstausData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
@@ -205,7 +253,7 @@ function BankModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "StartDate",
                           })
                         }
@@ -229,7 +277,7 @@ function BankModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "EndDate",
                           })
                         }
