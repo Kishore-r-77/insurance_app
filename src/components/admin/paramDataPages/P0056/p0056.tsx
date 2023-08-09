@@ -12,7 +12,7 @@ import P0056Enq  from "./p0056Enq";
 
 const P0056 = forwardRef((props: any, ref) => {
   
-  const {sendRequest : sendP0056Request , status: getP0056ResponseStatus ,  data: getP0056Response , error:getP0056ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendCaldaysRequest , status: getCaldaysResponseStatus ,  data: getCaldaysResponse , error:getCaldaysResponseError} = useHttp(getData, true); 
   const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
 
 
@@ -24,12 +24,12 @@ const P0056 = forwardRef((props: any, ref) => {
 
         getDataParams.name =  "P0050";
 
+        getDataParams.item = "CALDAYS";
+        sendCaldaysRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
         getDataParams.item = "YESNO";
         sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-
-        getDataParams.name = "P0056";
-        sendP0056Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
 
 
     },[]);
@@ -149,10 +149,13 @@ const P0056 = forwardRef((props: any, ref) => {
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
         >
-          {getP0056Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getCaldaysResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
