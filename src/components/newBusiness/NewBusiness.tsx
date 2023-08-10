@@ -544,6 +544,7 @@ function NewBusiness({ modalFunc }: any) {
         ACTIONS={ACTIONS}
         benefitsData={state.addOpen ? benefitsData : benefitsByPoliciesData}
         interest={interest}
+        setinterest={setinterest}
         setbenefitsData={
           state.addOpen ? setbenefitsData : setbenefitsByPoliciesData
         }
