@@ -65,16 +65,11 @@ function NewBusiness({ modalFunc }: any) {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        if (action.fieldName === "Interest") {
-          console.log(action.payload, "On change interest");
-          //interest.current = action.payload;
-          setinterest(action.payload);
-        } else {
-          setRecord((prev: any) => ({
-            ...prev,
-            [action.fieldName]: action.payload,
-          }));
-        }
+        setRecord((prev: any) => ({
+          ...prev,
+          [action.fieldName]: action.payload,
+        }));
+
         return {
           ...state,
           editOpen: true,
@@ -146,16 +141,16 @@ function NewBusiness({ modalFunc }: any) {
           ...state,
           addressOpen: false,
         };
-        case ACTIONS.BANKOPEN:
-          return {
-            ...state,
-            bankOpen: true,
-          };
-        case ACTIONS.BANKCLOSE:
-          return {
-            ...state,
-            bankOpen: false,
-          };
+      case ACTIONS.BANKOPEN:
+        return {
+          ...state,
+          bankOpen: true,
+        };
+      case ACTIONS.BANKCLOSE:
+        return {
+          ...state,
+          bankOpen: false,
+        };
       case ACTIONS.AGENCYOPEN:
         return {
           ...state,
