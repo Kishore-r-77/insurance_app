@@ -192,7 +192,7 @@ function PolicyModal({
     getPBillCurr(companyId, "P0023", languageId);
     getPOffice(companyId, "P0018", languageId);
     getPolStatus(companyId, "P0024", languageId);
-    getBilling(companyId ,"P0055", languageId);
+    getBilling(companyId, "P0055", languageId);
 
     return () => {};
   }, []);
@@ -316,7 +316,7 @@ function PolicyModal({
   };
 
   const [bankClntData, setbankClntData] = useState([]);
-  console.log("Bank Open", state.bankOpen)
+  console.log("Bank Open", state.bankOpen);
   const getBankByClient = () => {
     axios
       .get(
@@ -962,7 +962,9 @@ function PolicyModal({
                     select
                     id="BillingType"
                     name="BillingType"
-                    value={state.addOpen ? state.BillingType : record?.BillingType}
+                    value={
+                      state.addOpen ? state.BillingType : record?.BillingType
+                    }
                     placeholder="billing_type"
                     label="billing_type"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

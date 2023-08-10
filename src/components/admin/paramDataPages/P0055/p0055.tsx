@@ -13,6 +13,7 @@ import P0055Enq  from "./p0055Enq";
 const P0055 = forwardRef((props: any, ref) => {
   
   const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendBankgroupRequest , status: getBankgroupResponseStatus ,  data: getBankgroupResponse , error:getBankgroupResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -26,6 +27,9 @@ const P0055 = forwardRef((props: any, ref) => {
         getDataParams.item = "YESNO";
         sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "BANKGROUP";
+        sendBankgroupRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
 
 
     },[]);
@@ -34,6 +38,7 @@ const P0055 = forwardRef((props: any, ref) => {
   const bankRequiredRef: any = useRef();
   const bankCodeRef: any = useRef();
   const bankAccountRef: any = useRef();
+  const bankGroupRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -47,6 +52,7 @@ const P0055 = forwardRef((props: any, ref) => {
       inputdata.bankRequired = bankRequiredRef.current.value;
       inputdata.bankCode = bankCodeRef.current.value;
       inputdata.bankAccount = bankAccountRef.current.value;
+      inputdata.bankGroup = bankGroupRef.current.value;
 
       return inputdata;
     },
@@ -148,6 +154,33 @@ const P0055 = forwardRef((props: any, ref) => {
           margin="dense"
         />
         </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="bankGroup"
+          name="bankGroup"
+          inputRef={bankGroupRef}
+          placeholder="Bank Group"
+          label="Bank Group"
+          defaultValue={inputdata.bankGroup}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getBankgroupResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
 
         <P0055Enq
