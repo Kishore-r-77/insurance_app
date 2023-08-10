@@ -34,6 +34,7 @@ export const addApi = (state: BankStateType, companyId: number) => {
 
       StartDate: moment(state.StartDate).format("YYYYMMDD"),
       EndDate: moment(state.EndDate).format("YYYYMMDD"),
+      BankGroup: state.BankGroup,
     },
     {
       withCredentials: true,
@@ -58,6 +59,7 @@ export const editApi = (record: any) => {
 
       StartDate: moment(record.StartDate).format("YYYYMMDD"),
       EndDate: moment(record.EndDate).format("YYYYMMDD"),
+      BankGroup: record.BankGroup,
     },
     {
       withCredentials: true,
@@ -86,4 +88,23 @@ export const paramItem = (
       languageId,
     },
   });
+};
+export const p0050 = (
+  companyId: number,
+  name: string,
+  languageId: number,
+  item: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramItem?companyId=${companyId}&name=${name}&languageId=${languageId}&item=${item}`,
+    {
+      withCredentials: true,
+      params: {
+        companyId,
+        name,
+        languageId,
+        item,
+      },
+    }
+  );
 };

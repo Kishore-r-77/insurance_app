@@ -15,7 +15,7 @@ import CustomModal from "../../../../utilities/modal/CustomModal";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import Client from "../../client/Client";
 import styles from "./bankModal.module.css";
-import { paramItem } from "../bankApis/bankApis";
+import { p0050, paramItem } from "../bankApis/bankApis";
 
 function BankModal({
   state,
@@ -68,12 +68,27 @@ function BankModal({
       })
       .catch((err) => err);
   };
+  //
+  const [bankgroupData, setbankgroupData] = useState([]);
+  const getbankgroupType = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    p0050(companyId, name, languageId, item)
+      .then((resp) => {
+        setbankgroupData(resp.data.param.data.dataPairs);
+        return resp.data.param.data.dataPairs;
+      })
+      .catch((err) => err);
+  };
 
   useEffect(() => {
     getCompanyData(companyId);
     getAccountType(companyId, "P0020", languageId);
     getbankaccountstaus(companyId, "P0021", languageId);
-
+    getbankgroupType(companyId, "P0050", languageId, "BANKGROUP");
     return () => {};
   }, []);
 
@@ -308,6 +323,32 @@ function BankModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="BankGroup"
+                    name="BankGroup"
+                    value={state.addOpen ? state.BankGroup : record.BankGroup}
+                    placeholder="Bank Group"
+                    label="Bank Group"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BankGroup",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {bankgroupData.map((val: any) => (
+                      <MenuItem value={val.code}>{val.description}</MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
               </>
             )}
