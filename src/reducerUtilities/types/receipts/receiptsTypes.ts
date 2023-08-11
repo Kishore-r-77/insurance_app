@@ -22,6 +22,7 @@ export type ReceiptsStateType = {
   sortColumn: string;
   sortAsc: boolean;
   sortDesc: boolean;
+  BankIFSC: string;
 };
 
 export type ActionConstantsType = {
