@@ -48,6 +48,7 @@ function PolicyModal({
   setbenefitsData,
   benefitsData,
   interest,
+  setinterest,
 }: any) {
   const addTitle: string = "Policy Add";
   const editTitle: string = "Policy Edit";
@@ -1182,9 +1183,12 @@ function PolicyModal({
                               }
                               placeholder="Interest"
                               label="Interest"
-                              onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                              ) => handleChange(e, index)}
+                              onChange={
+                                state.addOpen
+                                  ? (e: React.ChangeEvent<HTMLInputElement>) =>
+                                      handleChange(e, index)
+                                  : (e) => setinterest(e.target.value)
+                              }
                               fullWidth
                               margin="dense"
                             >

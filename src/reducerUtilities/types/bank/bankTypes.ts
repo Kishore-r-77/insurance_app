@@ -16,6 +16,7 @@ export type BankStateType = {
   sortColumn: string;
   sortAsc: boolean;
   sortDesc: boolean;
+  BankGroup: string;
 };
 
 export type ActionConstantsType = {

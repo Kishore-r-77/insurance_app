@@ -520,6 +520,27 @@ function ReceiptsModal({
                     margin="dense"
                   />
                 </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="BankIFSC"
+                    name="BankIFSC"
+                    value={state.addOpen ? state.BankIFSC : record.BankIFSC}
+                    placeholder="Bank IFSC"
+                    label="Bank IFSC"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BankIFSC",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
               </>
             )}
           </Grid2>

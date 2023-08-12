@@ -62,6 +62,7 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
       AccCurry: state.AccCurry,
       AccAmount: parseInt(state.AccAmount),
       PolicyID: parseInt(state.PolicyID),
+      BankIFSC: state.BankIFSC,
 
       // ReconciledDate: moment(state.ReconciledDate).format("YYYYMMDD").toString(),
     },
