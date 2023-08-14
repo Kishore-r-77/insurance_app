@@ -478,6 +478,7 @@ function DeathHModal({
                       margin="dense"
                     />
                   </Grid2>
+               
                 </Grid2>
               ) : null}
             </TreeItem>
