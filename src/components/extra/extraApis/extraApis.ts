@@ -48,14 +48,15 @@ export const paramItem = (
 export const addApi = (
   state: ExtraStateType,
   companyId: number,
-  benefitId: number
+  benefitId: number,
+  policyId: any
 ) => {
   // Attention : Check and update the below API, if required
   return axios.post(
     `http://localhost:3000/api/v1/nbservices/extracreate`,
     {
       CompanyID: companyId,
-      PolicyID: parseInt(state.PolicyID),
+      PolicyID: parseInt(policyId),
       BCoverage: state.BCoverage,
       BenefitID: benefitId,
       EReason: state.EReason,

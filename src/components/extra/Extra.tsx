@@ -165,7 +165,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   );
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId, benefitState.ID)
+    return addApi(state, companyId, benefitState.ID, benefitState.PolicyID)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });

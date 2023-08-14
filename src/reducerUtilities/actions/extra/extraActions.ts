@@ -57,7 +57,7 @@ export const columns = [
   { field: "ID", header: "ID", dbField: "id" },
   // { field: "CompanyID", header: "Company ID", dbField: "company_id" },
   {
-    field: "BCoverage",
+    field: "PolicyID",
     header: "Policy Id",
     dbField: "policy_id",
   },
