@@ -34,6 +34,7 @@ const P0055 = forwardRef((props: any, ref) => {
   const bankRequiredRef: any = useRef();
   const bankCodeRef: any = useRef();
   const bankAccountRef: any = useRef();
+  const gLAccountRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -47,6 +48,7 @@ const P0055 = forwardRef((props: any, ref) => {
       inputdata.bankRequired = bankRequiredRef.current.value;
       inputdata.bankCode = bankCodeRef.current.value;
       inputdata.bankAccount = bankAccountRef.current.value;
+      inputdata.gLAccount = gLAccountRef.current.value;
 
       return inputdata;
     },
@@ -144,6 +146,23 @@ const P0055 = forwardRef((props: any, ref) => {
           placeholder="Bank Account"
           label="Bank Account"
           defaultValue={inputdata.bankAccount}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="gLAccount"
+          name="gLAccount"
+          inputRef={gLAccountRef}
+          placeholder="GL Account"
+          label="GL Account"
+          defaultValue={inputdata.gLAccount}
           fullWidth
           margin="dense"
         />

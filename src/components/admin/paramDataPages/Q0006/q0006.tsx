@@ -57,6 +57,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendUlfundruleRequest , status: getUlfundruleResponseStatus ,  data: getUlfundruleResponse , error:getUlfundruleResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendBenefittypeRequest , status: getBenefittypeResponseStatus ,  data: getBenefittypeResponse , error:getBenefittypeResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -187,6 +188,9 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "MRTINT";
         sendMrtintRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "BENEFITTYPE";
+        sendBenefittypeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
 
         getDataParams.name = "P0046";
         sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
@@ -260,6 +264,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const uLFundRulesRef: any = useRef();
   const mrtaMethodRef: any = useRef();
   const mrtaInterestRef: any = useRef();
+  const benefitTypeRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -323,31 +328,32 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.uLFundRules = uLFundRulesRef.current.value;
       inputdata.mrtaMethod = mrtaMethodRef.current.value;
       inputdata.mrtaInterest = mrtaInterestRef.current.value;
+      inputdata.benefitType = benefitTypeRef.current.value;
 
       return inputdata;
     },
   }));
 
-  // const getHTML =()=>{
-  //   fetch(`/q0006.html`)
-  //     .then(response => response.text())
-  //     .then(content => setHtmlContent(content))
-  //     .catch(error => console.error('Error fetching HTML file:', error));
-  // }
+  const getHTML =()=>{
+    fetch(`/q0006.html`)
+      .then(response => response.text())
+      .then(content => setHtmlContent(content))
+      .catch(error => console.error('Error fetching HTML file:', error));
+  }
 
-  // const [htmlContent, setHtmlContent] = useState('');
+  const [htmlContent, setHtmlContent] = useState('');
   
-  // useEffect(() => {
-  //   getHTML();
-  //   return () => {}
-  // }, [])
+  useEffect(() => {
+    getHTML();
+    return () => {}
+  }, [])
 
-  // const [showHtmlContent, setShowHtmlContent] = useState(false);
+  const [showHtmlContent, setShowHtmlContent] = useState(false);
 
-  // const toggleHtmlContent = () => {
-  //   getHTML();
-  //   setShowHtmlContent(!showHtmlContent);
-  // };
+  const toggleHtmlContent = () => {
+    getHTML();
+    setShowHtmlContent(!showHtmlContent);
+  };
 
   const [enq, setEnq] = useState(false)
 
@@ -1693,6 +1699,33 @@ const Q0006 = forwardRef((props: any, ref) => {
           }}
         >
           {getMrtintResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="benefitType"
+          name="benefitType"
+          inputRef={benefitTypeRef}
+          placeholder="Benefit Type"
+          label="Benefit Type"
+          defaultValue={inputdata.benefitType}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getBenefittypeResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.code} - {value.description}
             </MenuItem>
