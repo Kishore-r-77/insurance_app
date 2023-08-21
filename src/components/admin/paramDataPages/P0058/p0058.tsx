@@ -159,7 +159,7 @@ const P0058 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -170,9 +170,19 @@ const P0058 = forwardRef((props: any, ref) => {
           label="Liability Posting"
           defaultValue={inputdata.liabilityPosting}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
