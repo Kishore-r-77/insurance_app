@@ -23,7 +23,7 @@ export const ACTIONS = {
 //Initial State defined
 export const initialValues: AgencyStateType = {
   CompanyID: "",
-  AgencyChannelSt: "",
+  AgencyChannel: "",
   Office: "",
   AgencySt: "",
   LicenseNo: "",
