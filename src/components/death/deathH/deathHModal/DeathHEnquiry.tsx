@@ -367,6 +367,30 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
                     margin="dense"
                   />
                 </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    id="BillingType"
+                    name="BillingType"
+                    value={policy.BillingType}
+                    placeholder="Billing Type"
+                    label="Billing Type"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    id="BankID"
+                    name="BankID"
+                    value={policy.BankID}
+                    placeholder="Bank ID"
+                    label="Bank ID"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
               </Grid2>
             </TreeItem>
 

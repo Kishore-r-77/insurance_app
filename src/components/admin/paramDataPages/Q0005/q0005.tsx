@@ -17,6 +17,7 @@ const Q0005 = forwardRef((props: any, ref) => {
   const {sendRequest : sendFreqRequest , status: getFreqResponseStatus ,  data: getFreqResponse , error:getFreqResponseError} = useHttp(getData, true); 
   const {sendRequest : sendCcurRequest , status: getCcurResponseStatus ,  data: getCcurResponse , error:getCcurResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBcurRequest , status: getBcurResponseStatus ,  data: getBcurResponse , error:getBcurResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendAgencychannelRequest , status: getAgencychannelResponseStatus ,  data: getAgencychannelResponse , error:getAgencychannelResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -38,6 +39,9 @@ const Q0005 = forwardRef((props: any, ref) => {
 
         getDataParams.item = "BCUR";
         sendBcurRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "AGENCYCHANNEL";
+        sendAgencychannelRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
 
         getDataParams.name = "Q0004";
@@ -63,6 +67,8 @@ const Q0005 = forwardRef((props: any, ref) => {
   const futurePremAdjYrsRef: any = useRef();
   const lapsedDaysRef: any = useRef();
   const billingLeadDaysRef: any = useRef();
+  const lapseInterestRef: any = useRef();
+  const agencyChannelRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -89,31 +95,33 @@ const Q0005 = forwardRef((props: any, ref) => {
       inputdata.futurePremAdjYrs = Number(futurePremAdjYrsRef.current.value);
       inputdata.lapsedDays = Number(lapsedDaysRef.current.value);
       inputdata.billingLeadDays = Number(billingLeadDaysRef.current.value);
+      inputdata.lapseInterest = Number(lapseInterestRef.current.value);
+      inputdata.agencyChannel = agencyChannelRef.current.value;
 
       return inputdata;
     },
   }));
 
-  // const getHTML =()=>{
-  //   fetch(`/q0005.html`)
-  //     .then(response => response.text())
-  //     .then(content => setHtmlContent(content))
-  //     .catch(error => console.error('Error fetching HTML file:', error));
-  // }
+  const getHTML =()=>{
+    fetch(`/q0005.html`)
+      .then(response => response.text())
+      .then(content => setHtmlContent(content))
+      .catch(error => console.error('Error fetching HTML file:', error));
+  }
 
-  // const [htmlContent, setHtmlContent] = useState('');
+  const [htmlContent, setHtmlContent] = useState('');
   
-  // useEffect(() => {
-  //   getHTML();
-  //   return () => {}
-  // }, [])
+  useEffect(() => {
+    getHTML();
+    return () => {}
+  }, [])
 
-  // const [showHtmlContent, setShowHtmlContent] = useState(false);
+  const [showHtmlContent, setShowHtmlContent] = useState(false);
 
-  // const toggleHtmlContent = () => {
-  //   getHTML();
-  //   setShowHtmlContent(!showHtmlContent);
-  // };
+  const toggleHtmlContent = () => {
+    getHTML();
+    setShowHtmlContent(!showHtmlContent);
+  };
 
   const [enq, setEnq] = useState(false)
 
@@ -478,6 +486,50 @@ const Q0005 = forwardRef((props: any, ref) => {
           margin="dense"
         />
         </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="lapseInterest"
+          name="lapseInterest"
+          inputRef={lapseInterestRef}
+          placeholder="Lapse Interest"
+          label="Lapse Interest"
+          defaultValue={inputdata.lapseInterest}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="agencyChannel"
+          name="agencyChannel"
+          inputRef={agencyChannelRef}
+          placeholder="Agency Channel"
+          label="Agency Channel"
+          defaultValue={inputdata.agencyChannel&&Array.isArray(inputdata.agencyChannel)?inputdata.agencyChannel:[]}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getAgencychannelResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
 
         <Q0005Enq

@@ -68,6 +68,8 @@ import P0054 from "../paramDataPages/P0054/p0054";
 import P0055 from "../paramDataPages/P0055/p0055";
 import CustomHeaderTable from "../../../utilities/Table/customHeaderTable";
 import P0056 from "../paramDataPages/P0056/p0056";
+import P0057 from "../paramDataPages/P0057/p0057";
+import P0058 from "../paramDataPages/P0058/p0058";
 
 const ParamData = () => {
   const {
@@ -510,6 +512,22 @@ const ParamData = () => {
       case "1-P0056":
         return (
           <P0056
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0057":
+        return (
+          <P0057
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0058":
+        return (
+          <P0058
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}

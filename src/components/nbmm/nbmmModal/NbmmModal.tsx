@@ -1013,6 +1013,29 @@ function NewBusinessModal({
                     margin="dense"
                   />
                 </Grid2>
+               <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
+                    id="BillingType"
+                    name="BillingType"
+                    value={state.addOpen ? state.BankID : record.BillingType}
+                    placeholder="Billing Type"
+                    label="Billing Type"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "BillingType",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     InputProps={{ readOnly: true }}
@@ -1036,36 +1059,7 @@ function NewBusinessModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={3}>
-                  <TextField
-                    select
-                    disabled
-                    id="PolStatus"
-                    name="PolStatus"
-                    value={state.addOpen ? state.PolStatus : record.PolStatus}
-                    placeholder="Policy Status"
-                    label="Policy Status"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PolStatus",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  >
-                    {p0024Data.map((val: any) => (
-                      <MenuItem key={val.item} value={val.item}>
-                        {val.longdesc}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
-              </Grid2>
+               </Grid2>
             </TreeItem>
             {state.infoOpen ? (
               <>

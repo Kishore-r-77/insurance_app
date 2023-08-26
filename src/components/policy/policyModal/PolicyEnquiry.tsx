@@ -778,6 +778,30 @@ function PolicyEnquiry({
                     margin="dense"
                   />
                 </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    id="BillingType"
+                    name="BillingType"
+                    value={record.BillingType}
+                    placeholder="Billing Type"
+                    label="Billing Type"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    id="BankID"
+                    name="BankID"
+                    value={record.BankID}
+                    placeholder="Bank ID"
+                    label="Bank ID"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
               </Grid2>
             </TreeItem>
 

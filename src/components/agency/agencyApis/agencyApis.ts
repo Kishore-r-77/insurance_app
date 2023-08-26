@@ -26,7 +26,7 @@ export const addApi = (state: AgencyStateType, companyId: number) => {
     `http://localhost:3000/api/v1/pacificservices/agencycreate`,
     {
       CompanyID: companyId,
-      AgencyChannelSt: state.AgencyChannelSt,
+      AgencyChannel: state.AgencyChannel,
       Office: state.Office,
       AgencySt: state.AgencySt,
       LicenseNo: state.LicenseNo,
@@ -54,7 +54,7 @@ export const editApi = (record: any) => {
     {
       ID: parseInt(record.ID),
       CompanyID: parseInt(record.CompanyID),
-      AgencyChannelSt: record.AgencyChannelSt,
+      AgencyChannel: record.AgencyChannel,
       Office: record.Office,
       AgencySt: record.AgencySt,
       LicenseNo: record.LicenseNo,
@@ -82,4 +82,26 @@ export const deleteApi = (id: number) => {
       withCredentials: true,
     }
   );
+};
+
+export const p0018 = (companyId: number, languageId: number) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name: "P0018",
+      languageId,
+    },
+  });
+};
+
+export const p0019 = (companyId: number, languageId: number) => {
+  return axios.get(`http://localhost:3000/api/v1/basicservices/paramItems`, {
+    withCredentials: true,
+    params: {
+      companyId,
+      name: "P0019",
+      languageId,
+    },
+  });
 };
