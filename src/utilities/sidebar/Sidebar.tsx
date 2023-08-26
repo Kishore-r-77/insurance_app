@@ -12,6 +12,7 @@ import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import EditRoadRoundedIcon from "@mui/icons-material/EditRoadRounded";
+import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
 import { GiCoffin } from "react-icons/gi";
 
 const routes = [
@@ -213,6 +214,18 @@ const routes = [
       {
         path: "/qHeaderqDetail",
         name: "Quotation",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Batch",
+    icon: <BatchPredictionIcon />,
+    subRoutes: [
+      {
+        path: "/batch",
+        name: "Batch",
         icon: <ArrowRightAltIcon />,
       },
     ],
