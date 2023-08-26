@@ -1,15 +1,17 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function CustomAdjPremModal({
+function CustomSavefuneral({
   open,
+  isnext,
+  infoOpen,
   handleClose,
   size,
   title,
   children,
   handleFormSubmit,
-  completed,
 }: any) {
+  console.log(isnext, "isnexttttttttt");
   return (
     <div>
       <Modal show={open} onHide={handleClose} centered size={size}>
@@ -22,9 +24,17 @@ function CustomAdjPremModal({
             Close
           </Button>
           {!!handleFormSubmit && (
-            <Button variant="primary" onClick={() => handleFormSubmit()}>
-              {completed ? "Save" : "Calculate"}
-            </Button>
+            <>
+              {isnext ? (
+                <Button variant="primary" onClick={() => handleFormSubmit()}>
+                  Check
+                </Button>
+              ) : (
+                <Button variant="primary" onClick={() => handleFormSubmit()}>
+                  Save
+                </Button>
+              )}
+            </>
           )}
         </Modal.Footer>
       </Modal>
@@ -32,4 +42,4 @@ function CustomAdjPremModal({
   );
 }
 
-export default CustomAdjPremModal;
+export default CustomSavefuneral;
