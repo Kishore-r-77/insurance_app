@@ -3,6 +3,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { Portal } from "@mui/material";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -29,20 +30,22 @@ export default function Notification(props: any) {
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
-      <Snackbar
-        open={notify.isOpen}
-        autoHideDuration={5000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
+      <Portal>
+        <Snackbar
+          open={notify.isOpen}
+          autoHideDuration={5000}
           onClose={handleClose}
-          severity={notify.type}
-          sx={{ width: "100%" }}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
         >
-          {notify.message}
-        </Alert>
-      </Snackbar>
+          <Alert
+            onClose={handleClose}
+            severity={notify.type}
+            sx={{ width: "100%" }}
+          >
+            {notify.message}
+          </Alert>
+        </Snackbar>
+      </Portal>
     </Stack>
   );
 }

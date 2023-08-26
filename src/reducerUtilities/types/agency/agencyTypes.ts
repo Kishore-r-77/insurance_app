@@ -1,6 +1,6 @@
 export type AgencyStateType = {
   CompanyID: string;
-  AgencyChannelSt: string;
+  AgencyChannel: string;
   Office: string;
   AgencySt: string;
   LicenseNo: string;

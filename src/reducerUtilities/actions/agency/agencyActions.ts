@@ -23,7 +23,7 @@ export const ACTIONS = {
 //Initial State defined
 export const initialValues: AgencyStateType = {
   CompanyID: "",
-  AgencyChannelSt: "",
+  AgencyChannel: "",
   Office: "",
   AgencySt: "",
   LicenseNo: "",
@@ -55,9 +55,9 @@ export const columns = [
   { field: "ID", header: "ID", dbField: "id" },
   // { field: "CompanyID", header: "Company ID", dbField: "company_id" },
   {
-    field: "AgencyChannelSt",
-    header: "Agency Channel St",
-    dbField: "agency_channel_st",
+    field: "AgencyChannel",
+    header: "Agency Channel",
+    dbField: "agency_channel",
   },
   {
     field: "Office",
