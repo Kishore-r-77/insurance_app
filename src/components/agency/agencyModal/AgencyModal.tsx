@@ -1,4 +1,9 @@
-import { FormControl, InputAdornment, TextField } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -13,7 +18,13 @@ import { useAppSelector } from "../../../redux/app/hooks";
 import Client from "../../clientDetails/client/Client";
 import Address from "../../clientDetails/address/Address";
 import Bank from "../../clientDetails/bank/Bank";
-
+import {
+  extraParamItem,
+  freqItems,
+  paramItem,
+} from "../../clientDetails/client/clientApis/clientApis";
+import useHttp from "../../../hooks/use-http";
+import { getData } from "../../../services/http-service";
 function AgencyModal({
   state,
   record,
@@ -30,10 +41,41 @@ function AgencyModal({
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+
+  const languageId = useAppSelector(
+    (state) => state.users.user.message.languageId
+  );
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {
       setCompanyData(resp.data["Company"]);
     });
+  };
+
+  const {
+    sendRequest: sendAgencyChannelRequest,
+    status: getAgencyChannelResponseStatus,
+    data: getAgencyChannelResponse,
+    error: getAgencyChannelResponseError,
+  } = useHttp(getData, true);
+
+  const [officeData, setofficeData] = useState([]);
+  const getPOffice = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setofficeData(resp.data.data);
+        return resp.data.data;
+      })
+      .catch((err) => err);
+  };
+
+  const [agencyStData, setagencyStData] = useState([]);
+  const getagencySt = (companyId: number, name: string, languageId: number) => {
+    paramItem(companyId, name, languageId)
+      .then((resp) => {
+        setagencyStData(resp.data.data);
+        return resp.data.data;
+      })
+      .catch((err) => err);
   };
 
   const clientOpenFunc = (item: any) => {
@@ -54,6 +96,37 @@ function AgencyModal({
     } else record.BankID = item.ID;
     dispatch({ type: ACTIONS.BANKCLOSE });
   };
+
+  useEffect(() => {
+    getCompanyData(companyId);
+
+    getPOffice(companyId, "P0018", languageId);
+    getagencySt(companyId, "P0019", languageId);
+    return () => {};
+  }, []);
+  useEffect(() => {
+    let getDataParams: any = {};
+    getDataParams.companyId = 1;
+    getDataParams.languageId = 1;
+    getDataParams.seqno = 0;
+
+    getDataParams.name = "P0050";
+
+    getDataParams.item = "AgencyChannel";
+    sendAgencyChannelRequest({
+      apiUrlPathSuffix: "/basicservices/paramItem",
+      getDataParams: getDataParams,
+    });
+  }, []);
+  // useEffect(() => {
+  //   getBCoverage(
+  //     companyId,
+  //     "Q0011",
+  //     state.addOpen ? state?.PProduct : record?.PProduct,
+  //     "20220101"
+  //   );
+  //   return () => {};
+  // }, [state.addOpen ? state?.PProduct : record?.PProduct]);
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -131,34 +204,42 @@ function AgencyModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    id="AgencyChannelSt"
-                    name="AgencyChannelSt"
+                    select
+                    id="AgencyChannel"
+                    name="AgencyChannel"
                     value={
-                      state.addOpen
-                        ? state.AgencyChannelSt
-                        : record.AgencyChannelSt
+                      state.addOpen ? state.AgencyChannel : record.AgencyChannel
                     }
-                    placeholder="Agency Channel St"
-                    label="Agency Channel St"
+                    placeholder="AgencyChannel"
+                    label="AgencyChannel"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
                         payload: e.target.value,
-                        fieldName: "AgencyChannelSt",
+                        fieldName: "AgencyChannel",
                       })
                     }
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
+                  >
+                    {getAgencyChannelResponse?.param.data.dataPairs.map(
+                      (value: any) => (
+                        <MenuItem key={value.code} value={value.code}>
+                          {value.description}
+                        </MenuItem>
+                      )
+                    )}
+                  </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="Office"
                     name="Office"
-                    value={state.addOpen ? state.Office : record.Office}
+                    value={state.addOpen ? state.Office : record?.Office}
                     placeholder="Office"
                     label="Office"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -171,17 +252,22 @@ function AgencyModal({
                       })
                     }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
+                  >
+                    {officeData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
                     id="AgencySt"
                     name="AgencySt"
-                    value={state.addOpen ? state.AgencySt : record.AgencySt}
-                    placeholder="Agency St"
-                    label="Agency St"
+                    value={state.addOpen ? state.AgencySt : record?.AgencySt}
+                    placeholder="Agency Status"
+                    label="Agency Status"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: state.addOpen
@@ -192,10 +278,14 @@ function AgencyModal({
                       })
                     }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
+                  >
+                    {agencyStData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.longdesc}</MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="Aadhar"
@@ -278,7 +368,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "LicenseStartDate",
                           })
                         }
@@ -307,7 +397,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "LicenseEndDate",
                           })
                         }
@@ -333,7 +423,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "Startdate",
                           })
                         }
@@ -358,7 +448,7 @@ function AgencyModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "EndDate",
                           })
                         }
