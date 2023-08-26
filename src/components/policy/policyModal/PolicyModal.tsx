@@ -287,7 +287,7 @@ function PolicyModal({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err.message,
+          message: err.response.data.error,
           type: "error",
         });
       });
