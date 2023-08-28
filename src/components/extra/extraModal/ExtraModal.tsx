@@ -110,6 +110,8 @@ function ExtraModal({
 
   console.log(benefitState, lookup, "benefitState");
 
+  const eMethod = record.EMethod as '01' | '02' | '03' | '04' | '05';
+
   return (
     <div className={styles.modal}>
       <CustomModal
@@ -312,7 +314,6 @@ function ExtraModal({
                     ))}
                   </TextField>
                 </Grid2>
-
                 {
                   {
                     '05':
@@ -458,6 +459,153 @@ function ExtraModal({
                     />
                   </Grid2>
                   }[state.EMethod]
+                }
+
+                {
+                  {
+                    '05':
+                    <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="EPrem"
+                      name="EPrem"
+                      value={state.addOpen ? state.EPrem : record.EPrem}
+                      placeholder="Extra Premium per Mille"
+                      label="Extra Premium per Mille"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EPrem",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>,
+                  '02':
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="EAmt"
+                      name="EAmt"
+                      value={state.addOpen ? state.EAmt : record.EAmt}
+                      placeholder="Extra by Flat Amount"
+                      label="Extra by Flat Amount"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EAmt",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>,
+                  '04':
+                  <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    type="number"
+                    //InputProps={{
+                    //startAdornment: (
+                    //<InputAdornment position="start">+91</InputAdornment>
+                    // ),
+                    //}}
+                    id="ETerm"
+                    name="ETerm"
+                    value={state.addOpen ? state.ETerm : record.ETerm}
+                    placeholder="Extra for Fixed Term"
+                    label="Extra for Fixed Term"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ETerm",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>,
+                '01':
+                <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  type="number"
+                  //InputProps={{
+                  //startAdornment: (
+                  //<InputAdornment position="start">+91</InputAdornment>
+                  // ),
+                  //}}
+                  id="EAge"
+                  name="EAge"
+                  value={state.addOpen ? state.EAge : record.EAge}
+                  placeholder="Extra for Age"
+                  label="Extra for Age"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: state.addOpen
+                        ? ACTIONS.ONCHANGE
+                        : ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "EAge",
+                    })
+                  }
+                  fullWidth
+                  inputProps={{ readOnly: state.infoOpen }}
+                  margin="dense"
+                />
+              </Grid2>,
+              '03':
+              <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      //InputProps={{
+                      //startAdornment: (
+                      //<InputAdornment position="start">+91</InputAdornment>
+                      // ),
+                      //}}
+                      id="EPercentage"
+                      name="EPercentage"
+                      value={
+                        state.addOpen ? state.EPercentage : record.EPercentage
+                      }
+                      placeholder="Extra by Percentage"
+                      label="Extra by Percentage"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EPercentage",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                  }[eMethod]
                 }
 
                 <Grid2 xs={8} md={6} lg={4}>
