@@ -164,3 +164,38 @@ export async function modData(params: any) {
     handleErrors(error);
   }
 }
+
+
+
+export async function uploadFiles(params: any) {
+  const { apiUrlPathSuffix, getDataParams, files } = params;
+
+  try {
+    const formData = new FormData();
+    for (var val of files) {
+      formData.append('file', val);
+    }
+
+    const urlparams = new URLSearchParams([]);
+    if(getDataParams) {
+    Object.keys(getDataParams).forEach((key) =>
+      urlparams.append(key, getDataParams[key])
+    );
+    }
+  
+      const response = await axios.post(apiUrlPathSuffix, formData, {
+        withCredentials: true,
+        params: urlparams,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data;
+
+  
+  } catch (error) {
+    console.log(error)
+    handleErrors(error);
+  }
+}
