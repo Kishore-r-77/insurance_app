@@ -220,12 +220,12 @@ const routes = [
   },
   {
     path: "#",
-    name: "Batch",
+    name: "Batch Jobs",
     icon: <BatchPredictionIcon />,
     subRoutes: [
       {
         path: "/batch",
-        name: "Batch",
+        name: "Allocate Rev Bonus by Date",
         icon: <ArrowRightAltIcon />,
       },
     ],

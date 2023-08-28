@@ -12,7 +12,7 @@ function CustomBatchFullModal({
 }: any) {
   return (
     <div>
-      <Modal show={open} onHide={handleClose}>
+      <Modal show={open} onHide={handleClose} fullscreen={true}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
