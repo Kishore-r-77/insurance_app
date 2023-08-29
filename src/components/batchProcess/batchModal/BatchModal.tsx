@@ -28,9 +28,10 @@ import {
 } from "../../../reducerUtilities/actions/batch/batchAction";
 import Notification from "../../../utilities/Notification/Notification";
 import CustomBatchFullModal from "./BatchFullModal";
+import axios from "axios";
 
 function BatchModal(BatchModalType: any) {
-  const addTitle: string = "AllocRBonusByDate";
+  const addTitle: string = "AllocateRevBonusByDate";
   const size: string = "xl";
 
   //   const companyId = useAppSelector(
@@ -125,6 +126,24 @@ function BatchModal(BatchModalType: any) {
   };
   const [state, dispatch] = useReducer(reducer, initialValues);
 
+  const [businessDate, setBusinessDate] = useState<any>([]);
+  const getBusinessDate = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/basicservices/businessdateget/1`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        setBusinessDate(resp.data["BusinessDate"]);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getBusinessDate();
+    console.log(businessDate.Date, "========");
+    return () => {};
+  }, []);
+
   return (
     <div className={styles.modal}>
       <CustomBatchFullModal
@@ -199,6 +218,28 @@ function BatchModal(BatchModalType: any) {
                         type: state.addOpen ? ACTIONS.ONCHANGE : null,
                         payload: date.$d,
                         fieldName: "RevBonusDate",
+                      })
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </FormControl>
+            </Grid2>
+            <Grid2 xs={8} md={6}>
+              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    readOnly={state.addOpen}
+                    label="Business Date"
+                    inputFormat="DD/MM/YYYY"
+                    value={businessDate?.Date}
+                    onChange={(
+                      date: React.ChangeEvent<HTMLInputElement> | any
+                    ) =>
+                      dispatch({
+                        type: state.addOpen ? ACTIONS.ONCHANGE : null,
+                        payload: date.$d,
+                        fieldName: "Date",
                       })
                     }
                     renderInput={(params) => <TextField {...params} />}

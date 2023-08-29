@@ -2,6 +2,7 @@ export type BatchStateType = {
   RevBonusDate: string;
   FromPolicy: string;
   ToPolicy: string;
+  Date: string;
   addOpen: boolean;
   searchString: string;
   searchCriteria: string;

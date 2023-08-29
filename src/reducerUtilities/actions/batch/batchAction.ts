@@ -15,6 +15,7 @@ export const initialValues: BatchStateType = {
   FromPolicy: "",
   ToPolicy: "",
   RevBonusDate: "",
+  Date: "",
   addOpen: true,
   searchString: "",
   searchCriteria: "",
