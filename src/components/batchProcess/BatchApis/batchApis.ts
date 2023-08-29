@@ -9,8 +9,8 @@ export const addApi = (state: BatchStateType, companyId: number) => {
     `http://localhost:3000/api/v1/batchservices/allocrbonusbydate`,
     {
       RevBonusDate: moment(state.RevBonusDate).format("YYYYMMDD"),
-      FromPolicy: parseInt(state.FromPolicy),
-      ToPolicy: parseInt(state.ToPolicy),
+      FromPolicy: state.FromPolicy,
+      ToPolicy: state.ToPolicy,
     },
     {
       withCredentials: true,
