@@ -15,6 +15,7 @@ import EditRoadRoundedIcon from "@mui/icons-material/EditRoadRounded";
 import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { GiCoffin } from "react-icons/gi";
+import RedeemIcon from "@mui/icons-material/Redeem";
 
 const routes = [
   {
@@ -240,6 +241,18 @@ const routes = [
       {
         path: "/batch",
         name: "Allocate Rev Bonus by Date",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Claims",
+    icon: <RedeemIcon />,
+    subRoutes: [
+      {
+        path: "claims",
+        name: "Claims",
         icon: <ArrowRightAltIcon />,
       },
     ],

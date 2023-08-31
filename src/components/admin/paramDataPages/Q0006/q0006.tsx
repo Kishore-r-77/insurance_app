@@ -58,6 +58,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBenefittypeRequest , status: getBenefittypeResponseStatus ,  data: getBenefittypeResponse , error:getBenefittypeResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -191,6 +192,9 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "BENEFITTYPE";
         sendBenefittypeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "YESNO";
+        sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
 
         getDataParams.name = "P0046";
         sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
@@ -265,6 +269,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const mrtaMethodRef: any = useRef();
   const mrtaInterestRef: any = useRef();
   const benefitTypeRef: any = useRef();
+  const commissionOnExtraIndRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -329,6 +334,7 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.mrtaMethod = mrtaMethodRef.current.value;
       inputdata.mrtaInterest = mrtaInterestRef.current.value;
       inputdata.benefitType = benefitTypeRef.current.value;
+      inputdata.commissionOnExtraInd = commissionOnExtraIndRef.current.value;
 
       return inputdata;
     },
@@ -1726,6 +1732,33 @@ const Q0006 = forwardRef((props: any, ref) => {
           }}
         >
           {getBenefittypeResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="commissionOnExtraInd"
+          name="commissionOnExtraInd"
+          inputRef={commissionOnExtraIndRef}
+          placeholder="Commission On Extra Ind"
+          label="Commission On Extra Ind"
+          defaultValue={inputdata.commissionOnExtraInd}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.code} - {value.description}
             </MenuItem>

@@ -34,6 +34,8 @@ export const initialValues: ExtraStateType = {
   EAmt: "",
   ETerm: "",
   EAge: "",
+  EMillie:"",
+  EEmr:"",
   FromDate: "",
   ToDate: "",
   ReasonDescription: "",
@@ -83,7 +85,7 @@ export const columns = [
     dbField: "e_percentage",
   },
   {
-    field: "  EAmt",
+    field: "EAmt",
     header: "EAmt",
     dbField: "e_amt",
   },
@@ -96,6 +98,16 @@ export const columns = [
     field: "EAge",
     header: "EAge",
     dbField: "e_age",
+  },
+  {
+    field: "EMillie",
+    header: "EMillie",
+    dbField: "e_millie",
+  },
+  {
+    field: "EEmr",
+    header: "EEmr",
+    dbField: "e_emr",
   },
   {
     field: "FromDate",
