@@ -10,6 +10,8 @@ export type ExtraStateType = {
   EAmt: string;
   ETerm: string;
   EAge: string;
+  EMillie: string;
+  EEmr: string;
   FromDate: string;
   ToDate: string;
   ReasonDescription: string;

@@ -18,7 +18,7 @@ import styles from "./extraModal.module.css";
 
 //Attention: Check the path below
 import { ExtraModalType } from "../../../reducerUtilities/types/extra/extraTypes";
-import { paramItem } from "../extraApis/extraApis";
+import { p0050, paramItem } from "../extraApis/extraApis";
 // *** Attention: Check the path and change it if required ***
 import Policy from "../../policy/Policy";
 import Benefit from "../../policy/policyModal/benefit/Benefit";
@@ -84,12 +84,22 @@ function ExtraModal({
       .catch((err) => err);
   };
 
+  const [eMortalityData, setEMortalityData] = useState([]);
+  const getEMortality = (companyId: number, name: string, languageId: number, item: string) => {
+    p0050(companyId, name, languageId, item)
+      .then((resp) => {
+        setEMortalityData(resp.data.param.data.dataPairs);
+        return resp.data.data;
+      })
+      .catch((err) => err);
+  };
+
   useEffect(() => {
     getCompanyData(companyId);
     getBCoverage(companyId, "Q0006", languageId);
     getEReason(companyId, "P0026", languageId);
     getEMethod(companyId, "P0025", languageId);
-
+    getEMortality(companyId, "P0050", languageId, "UWEMR");
     return () => {};
   }, []);
 
@@ -110,7 +120,7 @@ function ExtraModal({
 
   console.log(benefitState, lookup, "benefitState");
 
-  const eMethod = record.EMethod as '01' | '02' | '03' | '04' | '05';
+  const eMethod = record.EMethod as '01' | '02' | '03' | '04' | '05' | '06';
 
   return (
     <div className={styles.modal}>
@@ -457,6 +467,33 @@ function ExtraModal({
                       inputProps={{ readOnly: state.infoOpen }}
                       margin="dense"
                     />
+                  </Grid2>,
+              '06':
+              <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                    select
+                    id="EEmr"
+                    name="EEmr"
+                    value={state.addOpen ? state.EEmr : record.EEmr}
+                    placeholder="Method for Extra"
+                    label="Method for Extra"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "EEmr",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {eMortalityData.map((val: any) => (
+                      <MenuItem value={val.code}>{val.description}</MenuItem>
+                    ))}
+                  </TextField>
                   </Grid2>
                   }[state.EMethod]
                 }
@@ -604,6 +641,33 @@ function ExtraModal({
                       inputProps={{ readOnly: state.infoOpen }}
                       margin="dense"
                     />
+                  </Grid2>,
+              '06':
+              <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                    select
+                    id="EEmr"
+                    name="EEmr"
+                    value={state.addOpen ? state.EEmr : record.EEmr}
+                    placeholder="Method for Extra"
+                    label="Method for Extra"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "EEmr",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {eMortalityData.map((val: any) => (
+                      <MenuItem value={val.code}>{val.description}</MenuItem>
+                    ))}
+                  </TextField>
                   </Grid2>
                   }[eMethod]
                 }

@@ -45,6 +45,26 @@ export const paramItem = (
   });
 };
 
+export const p0050 = (
+  companyId: number,
+  name: string,
+  languageId: number,
+  item: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramItem`,
+    {
+      withCredentials: true,
+      params: {
+        companyId,
+        name,
+        languageId,
+        item,
+      },
+    }
+  );
+};
+
 export const addApi = (
   state: ExtraStateType,
   companyId: number,
