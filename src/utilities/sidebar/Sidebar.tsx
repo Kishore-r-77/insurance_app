@@ -13,6 +13,7 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import EditRoadRoundedIcon from "@mui/icons-material/EditRoadRounded";
 import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { GiCoffin } from "react-icons/gi";
 
 const routes = [
@@ -156,6 +157,19 @@ const routes = [
       {
         path: "/receipts",
         name: "Receipts",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+
+  {
+    path: "#",
+    name: "Payments",
+    icon: <PaymentIcon />,
+    subRoutes: [
+      {
+        path: "/payments",
+        name: "Payments",
         icon: <ArrowRightAltIcon />,
       },
     ],

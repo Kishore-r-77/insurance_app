@@ -39,7 +39,7 @@ import QBenIllValue from "./components/qBenIllValues/QBenIllValue";
 import BusinessDates from "./components/admin/businessDate/BusinessDates";
 import TdfParams from "./components/admin/tdfParam/TdfParams";
 import BatchModal from "./components/batchProcess/batchModal/BatchModal";
-import Batch from "./components/batchProcess/Batch";
+import Payments from "./components/payments/Payments";
 
 function App() {
   const { pathname } = useLocation();
@@ -90,6 +90,7 @@ function App() {
                 <Route path="/businessDate" element={<BusinessDates />} />
                 <Route path="/tdfParam" element={<TdfParams />} />
                 <Route path="/batch" element={<BatchModal />} />
+                <Route path="/payments" element={<Payments />} />
               </Route>
               {/* </Route> */}
             </Route>
