@@ -1,21 +1,27 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
+import BusinessDates from "./components/admin/businessDate/BusinessDates";
 import Companies from "./components/admin/companies/Companies";
 import Errors from "./components/admin/errors/Errors";
 import ParamData from "./components/admin/paramData/paramData";
 import ParamItems from "./components/admin/paramItems/ParamItems";
 import Params from "./components/admin/params/Params";
 import Permission from "./components/admin/permission/Permission";
+import TdfParams from "./components/admin/tdfParam/TdfParams";
 import UserGroup from "./components/admin/usergroup/UserGroup";
 import Users from "./components/admin/users/Users";
 import Agency from "./components/agency/Agency";
+import Assignee from "./components/assignee/Assignee";
 import Signin from "./components/auth/signin/Signin";
 import Signup from "./components/auth/signup/Signup";
+import BatchModal from "./components/batchProcess/batchModal/BatchModal";
 import CampaignComps from "./components/campaignDetails/campaignComps/CampaignComps";
 import Campaigns from "./components/campaignDetails/campaigns/Campaigns";
+import Claims from "./components/claims/Claims";
 import Address from "./components/clientDetails/address/Address";
 import Bank from "./components/clientDetails/bank/Bank";
 import Client from "./components/clientDetails/client/Client";
+import Csmm from "./components/csmm/Csmm";
 import DeathH from "./components/death/deathH/DeathH";
 import Hompage from "./components/homepage/Hompage";
 import LeadAllocations from "./components/lead/leadAllocations/LeadAllocations";
@@ -27,19 +33,13 @@ import Nbmm from "./components/nbmm/Nbmm";
 import NewBusiness from "./components/newBusiness/NewBusiness";
 import Nominee from "./components/nominee/nomineeTable/Nominee";
 import Policy from "./components/policy/Policy";
+import QBenIllValue from "./components/qBenIllValues/QBenIllValue";
+import QHeaderQDetail from "./components/quotation/QHeaderQDetail";
 import Receipts from "./components/receipts/Receipts";
 import Transaction from "./components/transaction/Transaction";
 import Footer from "./utilities/footer/Footer";
 import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
-import Assignee from "./components/assignee/Assignee";
-import Csmm from "./components/csmm/Csmm";
-import QHeaderQDetail from "./components/quotation/QHeaderQDetail";
-import QBenIllValue from "./components/qBenIllValues/QBenIllValue";
-import BusinessDates from "./components/admin/businessDate/BusinessDates";
-import TdfParams from "./components/admin/tdfParam/TdfParams";
-import BatchModal from "./components/batchProcess/batchModal/BatchModal";
-import Batch from "./components/batchProcess/Batch";
 
 function App() {
   const { pathname } = useLocation();
@@ -90,6 +90,7 @@ function App() {
                 <Route path="/businessDate" element={<BusinessDates />} />
                 <Route path="/tdfParam" element={<TdfParams />} />
                 <Route path="/batch" element={<BatchModal />} />
+                <Route path="/claims" element={<Claims />} />
               </Route>
               {/* </Route> */}
             </Route>
