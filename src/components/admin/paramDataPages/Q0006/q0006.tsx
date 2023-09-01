@@ -58,6 +58,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBenefittypeRequest , status: getBenefittypeResponseStatus ,  data: getBenefittypeResponse , error:getBenefittypeResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -191,6 +192,9 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "BENEFITTYPE";
         sendBenefittypeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "YESNO";
+        sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
 
         getDataParams.name = "P0046";
         sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
@@ -232,7 +236,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const maxPremCessAgeRef: any = useRef();
   const maxTermBeyondTermRef: any = useRef();
   const minSARef: any = useRef();
-  const nFOMethodRef: any = useRef();
+  const nofMethodRef: any = useRef();
   const partSurrMethodRef: any = useRef();
   const premIncRef: any = useRef();
   const premIncYrsRef: any = useRef();
@@ -242,10 +246,10 @@ const Q0006 = forwardRef((props: any, ref) => {
   const sBMethodRef: any = useRef();
   const surrMethodRef: any = useRef();
   const tBonusRef: any = useRef();
-  const uLDeductFrequencyRef: any = useRef();
-  const gSVMethodRef: any = useRef();
-  const sSVMethodRef: any = useRef();
-  const bSVMethodRef: any = useRef();
+  const ulDeductFrequencyRef: any = useRef();
+  const gsvMethodRef: any = useRef();
+  const ssvMethodRef: any = useRef();
+  const bsvMethodRef: any = useRef();
   const divMethodRef: any = useRef();
   const divIMethodRef: any = useRef();
   const mortalitiesRef: any = useRef();
@@ -254,17 +258,18 @@ const Q0006 = forwardRef((props: any, ref) => {
   const discMethodRef: any = useRef();
   const frqMethodRef: any = useRef();
   const waivMethodRef: any = useRef();
-  const uLALMethodRef: any = useRef();
-  const uLMortFreqRef: any = useRef();
-  const uLMortCalcTypeRef: any = useRef();
-  const uLMortDeductMethodRef: any = useRef();
-  const uLFeeFreqRef: any = useRef();
-  const uLFeeTypeRef: any = useRef();
-  const uLFeeMethodRef: any = useRef();
-  const uLFundRulesRef: any = useRef();
+  const ulAlMethodRef: any = useRef();
+  const ulMortFreqRef: any = useRef();
+  const ulMortCalcTypeRef: any = useRef();
+  const ulMortDeductMethodRef: any = useRef();
+  const ulFeeFreqRef: any = useRef();
+  const ulFeeTypeRef: any = useRef();
+  const ulFeeMethodRef: any = useRef();
+  const ulFundRulesRef: any = useRef();
   const mrtaMethodRef: any = useRef();
   const mrtaInterestRef: any = useRef();
   const benefitTypeRef: any = useRef();
+  const commissionOnExtraIndRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -296,7 +301,7 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.maxPremCessAge = Number(maxPremCessAgeRef.current.value);
       inputdata.maxTermBeyondTerm = Number(maxTermBeyondTermRef.current.value);
       inputdata.minSA = Number(minSARef.current.value);
-      inputdata.nFOMethod = nFOMethodRef.current.value;
+      inputdata.nofMethod = nofMethodRef.current.value;
       inputdata.partSurrMethod = partSurrMethodRef.current.value;
       inputdata.premInc = premIncRef.current.value;
       inputdata.premIncYrs = Number(premIncYrsRef.current.value);
@@ -306,10 +311,10 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.sBMethod = sBMethodRef.current.value;
       inputdata.surrMethod = surrMethodRef.current.value;
       inputdata.tBonus = tBonusRef.current.value;
-      inputdata.uLDeductFrequency = uLDeductFrequencyRef.current.value;
-      inputdata.gSVMethod = gSVMethodRef.current.value;
-      inputdata.sSVMethod = sSVMethodRef.current.value;
-      inputdata.bSVMethod = bSVMethodRef.current.value;
+      inputdata.ulDeductFrequency = ulDeductFrequencyRef.current.value;
+      inputdata.gsvMethod = gsvMethodRef.current.value;
+      inputdata.ssvMethod = ssvMethodRef.current.value;
+      inputdata.bsvMethod = bsvMethodRef.current.value;
       inputdata.divMethod = divMethodRef.current.value;
       inputdata.divIMethod = divIMethodRef.current.value;
       inputdata.mortalities = mortalitiesRef.current.value;
@@ -318,17 +323,18 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.discMethod = discMethodRef.current.value;
       inputdata.frqMethod = frqMethodRef.current.value;
       inputdata.waivMethod = waivMethodRef.current.value;
-      inputdata.uLALMethod = uLALMethodRef.current.value;
-      inputdata.uLMortFreq = uLMortFreqRef.current.value;
-      inputdata.uLMortCalcType = uLMortCalcTypeRef.current.value;
-      inputdata.uLMortDeductMethod = uLMortDeductMethodRef.current.value;
-      inputdata.uLFeeFreq = uLFeeFreqRef.current.value;
-      inputdata.uLFeeType = uLFeeTypeRef.current.value;
-      inputdata.uLFeeMethod = uLFeeMethodRef.current.value;
-      inputdata.uLFundRules = uLFundRulesRef.current.value;
+      inputdata.ulAlMethod = ulAlMethodRef.current.value;
+      inputdata.ulMortFreq = ulMortFreqRef.current.value;
+      inputdata.ulMortCalcType = ulMortCalcTypeRef.current.value;
+      inputdata.ulMortDeductMethod = ulMortDeductMethodRef.current.value;
+      inputdata.ulFeeFreq = ulFeeFreqRef.current.value;
+      inputdata.ulFeeType = ulFeeTypeRef.current.value;
+      inputdata.ulFeeMethod = ulFeeMethodRef.current.value;
+      inputdata.ulFundRules = ulFundRulesRef.current.value;
       inputdata.mrtaMethod = mrtaMethodRef.current.value;
       inputdata.mrtaInterest = mrtaInterestRef.current.value;
       inputdata.benefitType = benefitTypeRef.current.value;
+      inputdata.commissionOnExtraInd = commissionOnExtraIndRef.current.value;
 
       return inputdata;
     },
@@ -873,12 +879,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="nFOMethod"
-          name="nFOMethod"
-          inputRef={nFOMethodRef}
+          id="nofMethod"
+          name="nofMethod"
+          inputRef={nofMethodRef}
           placeholder="NFO Method"
           label="NFO Method"
-          defaultValue={inputdata.nFOMethod}
+          defaultValue={inputdata.nofMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1130,12 +1136,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLDeductFrequency"
-          name="uLDeductFrequency"
-          inputRef={uLDeductFrequencyRef}
+          id="ulDeductFrequency"
+          name="ulDeductFrequency"
+          inputRef={ulDeductFrequencyRef}
           placeholder="UL Deduction Frequency"
           label="UL Deduction Frequency"
-          defaultValue={inputdata.uLDeductFrequency}
+          defaultValue={inputdata.ulDeductFrequency}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1157,12 +1163,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="gSVMethod"
-          name="gSVMethod"
-          inputRef={gSVMethodRef}
+          id="gsvMethod"
+          name="gsvMethod"
+          inputRef={gsvMethodRef}
           placeholder="GSV Method"
           label="GSV Method"
-          defaultValue={inputdata.gSVMethod}
+          defaultValue={inputdata.gsvMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1184,12 +1190,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="sSVMethod"
-          name="sSVMethod"
-          inputRef={sSVMethodRef}
+          id="ssvMethod"
+          name="ssvMethod"
+          inputRef={ssvMethodRef}
           placeholder="SSV Method"
           label="SSV Method"
-          defaultValue={inputdata.sSVMethod}
+          defaultValue={inputdata.ssvMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1211,12 +1217,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="bSVMethod"
-          name="bSVMethod"
-          inputRef={bSVMethodRef}
+          id="bsvMethod"
+          name="bsvMethod"
+          inputRef={bsvMethodRef}
           placeholder="Bonus Surr.Value Method"
           label="Bonus Surr.Value Method"
-          defaultValue={inputdata.bSVMethod}
+          defaultValue={inputdata.bsvMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1445,12 +1451,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLALMethod"
-          name="uLALMethod"
-          inputRef={uLALMethodRef}
+          id="ulAlMethod"
+          name="ulAlMethod"
+          inputRef={ulAlMethodRef}
           placeholder="UL Allocation Method"
           label="UL Allocation Method"
-          defaultValue={inputdata.uLALMethod}
+          defaultValue={inputdata.ulAlMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1469,12 +1475,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLMortFreq"
-          name="uLMortFreq"
-          inputRef={uLMortFreqRef}
+          id="ulMortFreq"
+          name="ulMortFreq"
+          inputRef={ulMortFreqRef}
           placeholder="UL Mortality Freqencies"
           label="UL Mortality Freqencies"
-          defaultValue={inputdata.uLMortFreq}
+          defaultValue={inputdata.ulMortFreq}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1496,12 +1502,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLMortCalcType"
-          name="uLMortCalcType"
-          inputRef={uLMortCalcTypeRef}
+          id="ulMortCalcType"
+          name="ulMortCalcType"
+          inputRef={ulMortCalcTypeRef}
           placeholder="UL Mortality Calc Type"
           label="UL Mortality Calc Type"
-          defaultValue={inputdata.uLMortCalcType}
+          defaultValue={inputdata.ulMortCalcType}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1523,12 +1529,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLMortDeductMethod"
-          name="uLMortDeductMethod"
-          inputRef={uLMortDeductMethodRef}
+          id="ulMortDeductMethod"
+          name="ulMortDeductMethod"
+          inputRef={ulMortDeductMethodRef}
           placeholder="UL Mortality Dedn. Method"
           label="UL Mortality Dedn. Method"
-          defaultValue={inputdata.uLMortDeductMethod}
+          defaultValue={inputdata.ulMortDeductMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1550,12 +1556,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLFeeFreq"
-          name="uLFeeFreq"
-          inputRef={uLFeeFreqRef}
+          id="ulFeeFreq"
+          name="ulFeeFreq"
+          inputRef={ulFeeFreqRef}
           placeholder="UL Fee Frequency"
           label="UL Fee Frequency"
-          defaultValue={inputdata.uLFeeFreq}
+          defaultValue={inputdata.ulFeeFreq}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1577,12 +1583,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLFeeType"
-          name="uLFeeType"
-          inputRef={uLFeeTypeRef}
+          id="ulFeeType"
+          name="ulFeeType"
+          inputRef={ulFeeTypeRef}
           placeholder="UL Fee Type"
           label="UL Fee Type"
-          defaultValue={inputdata.uLFeeType}
+          defaultValue={inputdata.ulFeeType}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1604,12 +1610,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLFeeMethod"
-          name="uLFeeMethod"
-          inputRef={uLFeeMethodRef}
+          id="ulFeeMethod"
+          name="ulFeeMethod"
+          inputRef={ulFeeMethodRef}
           placeholder="UL Fee Method"
           label="UL Fee Method"
-          defaultValue={inputdata.uLFeeMethod}
+          defaultValue={inputdata.ulFeeMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1631,12 +1637,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="uLFundRules"
-          name="uLFundRules"
-          inputRef={uLFundRulesRef}
+          id="ulFundRules"
+          name="ulFundRules"
+          inputRef={ulFundRulesRef}
           placeholder="UL Fund Rules"
           label="UL Fund Rules"
-          defaultValue={inputdata.uLFundRules}
+          defaultValue={inputdata.ulFundRules}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1726,6 +1732,33 @@ const Q0006 = forwardRef((props: any, ref) => {
           }}
         >
           {getBenefittypeResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="commissionOnExtraInd"
+          name="commissionOnExtraInd"
+          inputRef={commissionOnExtraIndRef}
+          placeholder="Commission On Extra Ind"
+          label="Commission On Extra Ind"
+          defaultValue={inputdata.commissionOnExtraInd}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.code} - {value.description}
             </MenuItem>

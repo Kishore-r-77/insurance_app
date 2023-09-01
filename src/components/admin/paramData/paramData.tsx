@@ -12,6 +12,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
 import ReportIcon from "@mui/icons-material/Summarize";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { Button, FormControl, Menu, MenuItem, TextField } from "@mui/material";
 import JsonView from "../paramDataPages/jsonView/jsonView";
 import CustomTooltip from "../../../utilities/cutomToolTip/customTooltip";
@@ -70,6 +71,8 @@ import CustomHeaderTable from "../../../utilities/Table/customHeaderTable";
 import P0056 from "../paramDataPages/P0056/p0056";
 import P0057 from "../paramDataPages/P0057/p0057";
 import P0058 from "../paramDataPages/P0058/p0058";
+import ParamDataUploadModal from "./ParamDataUploadModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 const ParamData = () => {
   const {
@@ -101,10 +104,18 @@ const ParamData = () => {
   const [mode, setMode] = useState("display");
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
+
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
   const extraDataRef: any = useRef();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const reportMenuopen = Boolean(anchorEl);
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   useEffect(() => {
     if (pagination.fetchData) {
@@ -315,6 +326,37 @@ const ParamData = () => {
       link.click();
     }
   }, [reportGetStatus, reportGetError]);
+
+  const handleUploadModal = (params: any) => {
+
+    if (params.operation ==='cancel')
+    {
+      setUploadModalOpen(false);
+    }
+
+    if (params.operation ==='success')
+    {
+      setUploadModalOpen(false);
+      setNotify({
+        isOpen: true,
+        message: `Data Uploaded Successfully`,
+        type: "success",
+      });
+
+      refreshData();
+
+    }
+   
+  }
+
+  const refreshData = () => {
+
+    setPagination((prevState) => ({
+      ...prevState,      
+      fetchData: true,
+    }));
+
+  }
 
   const getExtraDataComponent = (paramName: string) => {
     switch (paramName) {
@@ -706,6 +748,7 @@ const ParamData = () => {
   };
 
   return (
+    <>
     <div>
       <header className={styles.flexStyle}>
         <h1>Business Rules Item Data</h1>
@@ -787,6 +830,27 @@ const ParamData = () => {
                   <span style={{ fontSize: ".8em" }}>Pdf Report</span>
                 </MenuItem>
               </Menu>
+
+              <CustomTooltip text="Upload">
+                <Button
+                  id={styles["add-btn"]}
+                  style={{
+                    marginTop: "1rem",
+                    maxWidth: "40px",
+                    maxHeight: "40px",
+                    minWidth: "40px",
+                    minHeight: "40px",
+                    backgroundColor: "#0a3161",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    setUploadModalOpen(true)
+                  }}
+                >
+                  <FileUploadIcon />
+                </Button>
+              </CustomTooltip>
             </>
           )}
 
@@ -1077,6 +1141,14 @@ const ParamData = () => {
         )}
       </div>
     </div>
+    <Notification notify={notify} setNotify={setNotify} />
+    <ParamDataUploadModal
+            show={uploadModalOpen}
+            handleModal={handleUploadModal}
+        
+          />
+    </>
+
   );
 };
 

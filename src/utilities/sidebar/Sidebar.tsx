@@ -12,7 +12,10 @@ import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import EditRoadRoundedIcon from "@mui/icons-material/EditRoadRounded";
+import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { GiCoffin } from "react-icons/gi";
+import RedeemIcon from "@mui/icons-material/Redeem";
 
 const routes = [
   {
@@ -162,6 +165,19 @@ const routes = [
 
   {
     path: "#",
+    name: "Payments",
+    icon: <PaymentIcon />,
+    subRoutes: [
+      {
+        path: "/payments",
+        name: "Payments",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+
+  {
+    path: "#",
     name: "Lead Management",
     icon: <ManageAccountsIcon />,
     subRoutes: [
@@ -213,6 +229,30 @@ const routes = [
       {
         path: "/qHeaderqDetail",
         name: "Quotation",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Batch Jobs",
+    icon: <BatchPredictionIcon />,
+    subRoutes: [
+      {
+        path: "/batch",
+        name: "Allocate Rev Bonus by Date",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
+    name: "Claims",
+    icon: <RedeemIcon />,
+    subRoutes: [
+      {
+        path: "claims",
+        name: "Claims",
         icon: <ArrowRightAltIcon />,
       },
     ],

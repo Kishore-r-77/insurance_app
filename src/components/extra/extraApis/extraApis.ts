@@ -45,6 +45,26 @@ export const paramItem = (
   });
 };
 
+export const p0050 = (
+  companyId: number,
+  name: string,
+  languageId: number,
+  item: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramItem`,
+    {
+      withCredentials: true,
+      params: {
+        companyId,
+        name,
+        languageId,
+        item,
+      },
+    }
+  );
+};
+
 export const addApi = (
   state: ExtraStateType,
   companyId: number,
@@ -66,6 +86,8 @@ export const addApi = (
       EAmt: parseInt(state.EAmt),
       ETerm: parseInt(state.ETerm),
       EAge: parseInt(state.EAge),
+      EMillie: parseInt(state.EMillie),
+      EEmr: state.EEmr,
       ToDate: moment(state.ToDate).format("YYYYMMDD").toString(),
       ReasonDescription: state.ReasonDescription,
     },
@@ -92,6 +114,8 @@ export const editApi = (record: any) => {
       EAmt: parseInt(record.EAmt),
       ETerm: parseInt(record.ETerm),
       EAge: parseInt(record.EAge),
+      EMillie: parseInt(record.EMillie),
+      EEmr: record.EEmr,
       ToDate: moment(record.ToDate).format("YYYYMMDD"),
       ReasonDescription: record.ReasonDescription,
     },

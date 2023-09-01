@@ -1212,7 +1212,7 @@ function PolicyModal({
                       }}
                     >
                       {benefitsData?.length - 1 === index &&
-                        benefitsData?.length < 5 && (
+                        benefitsData?.length < 10 && (
                           <Button
                             variant="contained"
                             onClick={() => handleBenefitsAdd()}
