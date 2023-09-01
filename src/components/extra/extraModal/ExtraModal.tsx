@@ -672,12 +672,47 @@ function ExtraModal({
                   }[eMethod]
                 }
 
+              <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={true}
+                        label="From Date"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          lookup
+                            ? benefitState.BStartDate
+                            : state.addOpen
+                            ? state.BCoverage
+                            : record.BCoverage
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload:date?.$d,
+                            fieldName: "FromDate",
+                          })
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly={state.infoOpen}
-                        label="Effective To Date"
+                        label="To Date"
                         inputFormat="DD/MM/YYYY"
                         value={state.addOpen ? state.ToDate : record.ToDate}
                         onChange={(
