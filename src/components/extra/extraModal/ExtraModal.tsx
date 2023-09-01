@@ -335,9 +335,9 @@ function ExtraModal({
                       //<InputAdornment position="start">+91</InputAdornment>
                       // ),
                       //}}
-                      id="EPrem"
-                      name="EPrem"
-                      value={state.addOpen ? state.EPrem : record.EPrem}
+                      id="EMillie"
+                      name="EMillie"
+                      value={state.addOpen ? state.EMillie : record.EMillie}
                       placeholder="Extra Premium per Mille"
                       label="Extra Premium per Mille"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -346,7 +346,7 @@ function ExtraModal({
                             ? ACTIONS.ONCHANGE
                             : ACTIONS.EDITCHANGE,
                           payload: e.target.value,
-                          fieldName: "EPrem",
+                          fieldName: "EMillie",
                         })
                       }
                       fullWidth
