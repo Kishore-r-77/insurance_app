@@ -1,7 +1,16 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { Button, MenuItem, Paper, Select, TextField } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
@@ -13,6 +22,10 @@ import { p0050 } from "../../clientDetails/bank/bankApis/bankApis";
 import { useAppSelector } from "../../../redux/app/hooks";
 import { WidthFull } from "@mui/icons-material";
 import SaveFuneral from "./SaveFuneral";
+// import DoneIcon from "@mui/icons-material/Done";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import NotificationModal from "../../../utilities/modal/NotificationModal";
+import FuneralApprovalModel from "../approvalFXModel/FuneralApprovalModel";
 
 function FuneralModal({
   open,
@@ -33,21 +46,85 @@ function FuneralModal({
   handleReceivedDate,
   handleIncidentDate,
   savefuneralOpen,
-  saveisfuneralOpen,
   savefuneralClose,
+  saveisfuneralOpen,
+  criticalIllness,
+  setNotify,
 }: any) {
   const title: string = "Funeral";
   const isChecked = useRef(false);
+  // const [isnotificationOpen, setisnotificationOpen] = useState(false);
+  // const [criticalbenefit, setcriticalbenefit] = useState<any>({});
+  // const [isfuneralapprovalOpen, issetfuneralapprovalOpen] = useState(false);
+  // const funeralapprovalOpen = (val: any) => {
+  //   issetfuneralapprovalOpen(true);
+  // };
+  // const funeralapprovalClose = () => {
+  //   issetfuneralapprovalOpen(false);
+  // };
+
+  // const notificationOpen = (val: any) => {
+  //   setisnotificationOpen(true);
+  //   setcriticalbenefit(val);
+  // };
+  // const notificationClose = () => {
+  //   setisnotificationOpen(false);
+  // };
+  // const aprrovefexr = () => {
+  //   axios
+  //     .post(
+  //       `http://localhost:3000/api/v1/customerservice/fxapprove/${criticalbenefit.PolicyID}/${criticalbenefit.BenefitID}`,
+  //       {},
+  //       { withCredentials: true }
+  //     )
+  //     .then((resp) => {
+  //       funeralapprovalClose();
+  //       handleClose();
+  //       setNotify({
+  //         isOpen: true,
+  //         message: "Approved Successfully",
+  //         type: "success",
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       setNotify({
+  //         isOpen: true,
+  //         message: err?.error,
+  //         type: "error",
+  //       });
+  //     });
+  // };
+  // const rejectfexr = () => {
+  //   axios
+  //     .post(
+  //       `http://localhost:3000/api/v1/customerservice/fxreject/${criticalbenefit.PolicyID}/${criticalbenefit.BenefitID}`,
+  //       {},
+  //       { withCredentials: true }
+  //     )
+  //     .then((resp) => {
+  //       funeralapprovalClose();
+  //       handleClose();
+  //       setNotify({
+  //         isOpen: true,
+  //         message: "Rejected Successfully",
+  //         type: "success",
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       setNotify({
+  //         isOpen: true,
+  //         message: err?.error,
+  //         type: "error",
+  //       });
+  //     });
+  // };
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
     funeralval: any
   ) => {
     const { name, value } = e.target;
-
-    console.log(e.target.checked, "checked");
     setfuneralcheck(funeralval);
-
     isChecked.current = e.target.checked;
   };
 
@@ -71,14 +148,12 @@ function FuneralModal({
       )
       .then((resp) => {
         setcriticaltypeData(resp.data?.param?.data?.dataPairs);
-        // return resp.data.param.data.dataPairs;
       })
       .catch((err) => err);
   };
 
   useEffect(() => {
     getcriticalTypeData(companyId, "P0050", languageId, "CRITICAL");
-    console.log("qqqqqqqqqqqqqq");
     return () => {};
   }, []);
   return (
@@ -88,7 +163,6 @@ function FuneralModal({
         handleClose={handleClose}
         title={title}
         isSave={isSave}
-        // handleFormSubmit={isSave ? savefuneral : postfuneral}
         handleFormSubmit={savefuneralOpen}
       >
         <TreeView
@@ -259,8 +333,6 @@ function FuneralModal({
                         }}
                         type="checkbox"
                         name="Select"
-                        // defaultChecked={val.Select === "X"}
-                        //value={val.Select[index]}
                         onChange={(e) => handleCheck(e, index, val)}
                       />
                     </td>

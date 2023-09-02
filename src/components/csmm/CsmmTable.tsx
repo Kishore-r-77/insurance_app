@@ -21,7 +21,6 @@ import Assignee from "../assignee/Assignee";
 import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
 import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-import FuneralModel from "./funeralModel/FuneralModel";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
 import Notification from "../../utilities/Notification/Notification";
 import ComponentModal from "./componentModal/ComponentModal";
@@ -37,7 +36,8 @@ import { ACTIONS as MATURITYACTIONS } from "../../reducerUtilities/actions/matur
 import PolReinModal from "./polReinModal/PolReinModal";
 import MaturityModal from "./maturityModal/MaturityModal";
 import Benefit from "../policy/policyModal/benefit/Benefit";
-import SaveFuneral from "./funeralModel/SaveFuneral";
+// import SaveFuneral from "./funeralModel/SaveFuneral";
+// import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
 function CsmmTable({
   issueOpen,
@@ -480,12 +480,6 @@ function CsmmTable({
         saChangeOpen(policyId.current, value);
         handleClose();
         break;
-      //Funeral modification
-      case "Funeral":
-        funeralOpen(policyId.current, value);
-        handleClose();
-        break;
-      //Funeral modification
       case "ComponentAdd":
         componentOpen(policyId.current, value);
         handleClose();
@@ -518,32 +512,6 @@ function CsmmTable({
   console.log(surrenderState.surrenderOpen, "surrenderOpen");
 
   const [isSaChange, setisSaChange] = useState(false);
-  //Funeral modification
-  const [isFuneral, setisFuneral] = useState(false);
-  const [funeralObj, setfuneralobj] = useState<any>("");
-  const [funeralMenu, setfuneralMenu] = useState<any>("");
-  const [nomineeObj, setnomineeobj] = useState<any>([]);
-  const [funeralBenefits, setfuneralBenefits] = useState<any>([]);
-  const [funeralcheck, setfuneralcheck] = useState<any>({});
-  const initialfuneralentry = {
-    CriticalType: "",
-    IncidentDate: "",
-    ReceivedDate: "",
-  };
-  const [funeralentry, setfuneralentry] = useState(initialfuneralentry);
-  const [isnext, setisnext] = useState(false);
-  const [saveisfuneralOpen, setsaveisfuneralOpen] = useState(false);
-
-  const savefuneralOpen = () => {
-    setsaveisfuneralOpen(true);
-    setisnext(true);
-  };
-
-  const savefuneralClose = () => {
-    setsaveisfuneralOpen(false);
-    setisnext(false);
-  };
-  //Funeral modification
   const [isComponent, setisComponent] = useState(false);
   const [saChangeMenu, setsaChangeMenu] = useState<any>("");
   const [componentMenu, setcomponentMenu] = useState<any>("");
@@ -591,7 +559,7 @@ function CsmmTable({
           PolicyID: saChangeObj.PolicyID,
           Product: saChangeObj.Product,
           Frequency: saChangeObj.Frequency,
-          Function: "Calculate",
+          unction: "Calculate",
         },
         { withCredentials: true }
       )
@@ -670,161 +638,7 @@ function CsmmTable({
         });
       });
   };
-  //Funeral modification
-  // const [policyWithBenefitData, setpolicyWithBenefitData] = useState([]);
-  const handleIncidentDate = (date: any) => {
-    setfuneralentry((prev) => ({ ...prev, IncidentDate: date }));
-    console.log(date, "handleIncidentDate");
-  };
-  const handleReceivedDate = (date: any) => {
-    setfuneralentry((prev) => ({ ...prev, ReceivedDate: date }));
-  };
 
-  const handlefuneralchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setfuneralentry((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const getPolicywithBenefit = (policyId: any) => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/deathservices/getpolwithbenefits/${policyId}`,
-        { withCredentials: true }
-      )
-      .then((resp) => {
-        setfuneralobj(resp.data?.Policy);
-        setfuneralBenefits(resp?.data?.Policy?.Benefits);
-      })
-      .catch((err) => err.message);
-  };
-  const getnomineebypolicy = (policyId: any) => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/deathservices/nomineesbypol/${policyId}`,
-        { withCredentials: true }
-      )
-      .then((resp) => {
-        setnomineeobj(resp.data?.Nominees);
-      })
-      .catch((err) => err.message);
-  };
-  const [savefuneralobj, setsavefuneralobj] = useState<any>({});
-  const postfuneral = () => {
-    axios
-      .post(
-        `http://localhost:3000/api/v1/customerservice/fxcreate/${PolicyID}/${funeralcheck.ID}`,
-        {
-          BenefitID: funeralcheck.ID,
-          CompanyID: companyId,
-          PolicyID: funeralObj.ID,
-          CriticalType: funeralentry.CriticalType,
-          BSumAssured: funeralcheck.BSumAssured,
-          IncidentDate:
-            funeralentry.IncidentDate.length === 0
-              ? ""
-              : moment(funeralentry.IncidentDate).format("YYYYMMDD").toString(),
-          ReceivedDate:
-            funeralentry.ReceivedDate.length === 0
-              ? ""
-              : moment(funeralentry.ReceivedDate).format("YYYYMMDD").toString(),
-          BStatusCode: funeralcheck.BStatusCode,
-          Percentage: nomineeObj[0].NomineePercentage,
-          ClientID: nomineeObj[0].ClientID,
-          Function: "Check",
-        },
-        { withCredentials: true }
-      )
-      .then((resp) => {
-        setisnext(false);
-        setsavefuneralobj(resp.data.FE);
-        isSave.current = true;
-        // savefuneralOpen();
-        // funeralClose();
-        getData();
-        setNotify({
-          isOpen: true,
-          message: "Calculated Successfully",
-          type: "success",
-        });
-      })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
-  };
-  const savefuneral = () => {
-    axios
-      .post(
-        `http://localhost:3000/api/v1/customerservice/fxcreate/${PolicyID}/${funeralcheck.ID}`,
-        {
-          CompanyID: companyId,
-          PolicyID: savefuneralobj.PolicyID,
-          BenefitID: savefuneralobj.BenefitID,
-          CriticalType: savefuneralobj.CriticalType,
-          BSumAssured: savefuneralobj.BSumAssured,
-          EffectiveDate: savefuneralobj.EffectiveDate,
-          IncidentDate: moment(savefuneralobj.IncidentDate).format("YYYYMMDD"),
-          ReceivedDate: moment(savefuneralobj.ReceivedDate).format("YYYYMMDD"),
-          PaidToDate: moment(savefuneralobj.ReceivedDate).format("YYYYMMDD"),
-          BStatusCode: savefuneralobj.BStatusCode,
-          ApprovalFlag: savefuneralobj.ApprovalFlag,
-          ClaimAmount: savefuneralobj.ClaimAmount,
-          Percentage: savefuneralobj.NomineePercentage,
-          ClientID: savefuneralobj.ClientID,
-          Function: "Save",
-        },
-        { withCredentials: true }
-      )
-      .then((resp) => {
-        isSave.current = false;
-        funeralClose();
-        savefuneralClose();
-        setfuneralentry(initialfuneralentry);
-        getData();
-        setNotify({
-          isOpen: true,
-          message: "Saved Successfully",
-          type: "success",
-        });
-      })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
-  };
-  // const invalidatefx = () => {
-  //   axios
-  //     .post(
-  //       `http://localhost:3000/api/v1/customerservice/invalidatefx/${PolicyID}`,
-  //       {},
-  //       { withCredentials: true }
-  //     )
-  //     .then((resp) => {
-  //       setNotify({
-  //         isOpen: true,
-  //         message: resp?.data?.success,
-  //         type: "error",
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       setNotify({
-  //         isOpen: true,
-  //         message: err?.data?.error,
-  //         type: "error",
-  //       });
-  //     });
-  // };
-
-  //Funeral modification
   const [componentData, setcomponentData] = useState("");
   const [componentBenefits, setcomponentBenefits] = useState([]);
   const getComponentInit = () => {
@@ -917,7 +731,6 @@ function CsmmTable({
           message: "Saved Successfully",
           type: "success",
         });
-
         componentClose();
         getData();
       })
@@ -949,21 +762,7 @@ function CsmmTable({
       invalidatesa();
     }
   };
-  //Funeral modification
-  const funeralOpen = (policyId: number, value: any) => {
-    setisFuneral(true);
-    setfuneralMenu(value);
-    setPolicyID(policyId);
-    getPolicywithBenefit(policyId);
-    getnomineebypolicy(policyId);
-  };
-  const funeralClose = () => {
-    setisFuneral(false);
-    setfuneralentry(initialfuneralentry);
-    console.log(isSave, "isSave");
-  };
 
-  //Funeral modification
   const componentOpen = (policyId: number, value: any) => {
     setisComponent(true);
     setcomponentMenu(value);
@@ -1263,40 +1062,6 @@ function CsmmTable({
         saveSaChange={saveSaChange}
         getData={getData}
       />
-      {/* //Funeral modification */}
-      <FuneralModel
-        open={isFuneral}
-        handleClose={funeralClose}
-        funeralObj={funeralObj}
-        nomineeObj={nomineeObj}
-        funeralBenefits={funeralBenefits}
-        setfuneralBenefits={setfuneralBenefits}
-        postfuneral={postfuneral}
-        isSave={isSave?.current}
-        // savefuneral={savefuneral}
-        getData={getData}
-        setfuneralcheck={setfuneralcheck}
-        handlefuneralchange={handlefuneralchange}
-        funeralentry={funeralentry}
-        isnext={isnext}
-        savefuneralobj={savefuneralobj}
-        funeralcheck={funeralcheck}
-        savefuneral={savefuneral}
-        setisnext={setisnext}
-        handleIncidentDate={handleIncidentDate}
-        handleReceivedDate={handleReceivedDate}
-        savefuneralOpen={savefuneralOpen}
-        saveisfuneralOpen={saveisfuneralOpen}
-        savefuneralClose={savefuneralClose}
-      />
-      {/* <SaveFuneral
-        open={saveisfuneralOpen}
-        handleClose={savefuneralClose}
-        savefuneralobj={savefuneralobj}
-        handleFormSubmit={savefuneral}
-        setfuneralcheck={setfuneralcheck}
-      /> */}
-      {/* Funeral modification */}
       <ComponentModal
         open={isComponent}
         handleClose={componentClose}

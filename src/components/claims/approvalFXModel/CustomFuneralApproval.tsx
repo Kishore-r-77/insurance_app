@@ -1,17 +1,15 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function CustomSavefuneral({
+function CustomFuneralApproval({
   open,
-  isnext,
-  infoOpen,
   handleClose,
   size,
   title,
+  handlereject,
   children,
   handleFormSubmit,
 }: any) {
-  console.log(isnext, "isnexttttttttt");
   return (
     <div>
       <Modal show={open} onHide={handleClose} centered size={size}>
@@ -20,21 +18,20 @@ function CustomSavefuneral({
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            style={{ marginRight: "auto" }}
+          >
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handlereject}>
+            Reject
           </Button>
           {!!handleFormSubmit && (
-            <>
-              {isnext ? (
-                <Button variant="primary" onClick={() => handleFormSubmit()}>
-                  Check
-                </Button>
-              ) : (
-                <Button variant="primary" onClick={() => handleFormSubmit()}>
-                  Save
-                </Button>
-              )}
-            </>
+            <Button variant="primary" onClick={() => handleFormSubmit()}>
+              Approve
+            </Button>
           )}
         </Modal.Footer>
       </Modal>
@@ -42,4 +39,4 @@ function CustomSavefuneral({
   );
 }
 
-export default CustomSavefuneral;
+export default CustomFuneralApproval;

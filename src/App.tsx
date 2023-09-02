@@ -40,6 +40,7 @@ import BusinessDates from "./components/admin/businessDate/BusinessDates";
 import TdfParams from "./components/admin/tdfParam/TdfParams";
 import BatchModal from "./components/batchProcess/batchModal/BatchModal";
 import Payments from "./components/payments/Payments";
+import Claims from "./components/claims/Claims";
 
 function App() {
   const { pathname } = useLocation();
@@ -91,6 +92,7 @@ function App() {
                 <Route path="/tdfParam" element={<TdfParams />} />
                 <Route path="/batch" element={<BatchModal />} />
                 <Route path="/payments" element={<Payments />} />
+                <Route path="/claims" element={<Claims />} />
               </Route>
               {/* </Route> */}
             </Route>

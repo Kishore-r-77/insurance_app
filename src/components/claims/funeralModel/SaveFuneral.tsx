@@ -17,19 +17,15 @@ function SaveFuneral({
   funeralentry,
   isnext,
   criticaltypeData,
-  funeralObj,
   handleIncidentDate,
   handleReceivedDate,
   funeralcheck,
 }: any) {
-  console.log(isnext, "isnextinsavefuneralmodel");
+  // console.log(isnext, "isnextinsavefuneralmodel");
   const infoTitle: string = "Funeral Reason";
   const size: string = "xl";
+  // console.log(funeralObj, "funeralObj");
 
-  // useEffect(() => {
-  //   return () => {};
-  // }, []);
-  console.log(funeralObj, "funeralObj");
   return (
     <div>
       <CustomSavefuneral
@@ -78,22 +74,6 @@ function SaveFuneral({
                 margin="dense"
               />
             </Grid2>
-
-            {/* <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="BSumAssured"
-                name="BSumAssured"
-                value={
-                  isnext ? funeralcheck.BSumAssured : savefuneralobj.BSumAssured
-                }
-                placeholder="BSumAssured"
-                label="BSumAssured"
-                fullWidth
-                inputProps={{ readOnly: true }}
-                margin="dense"
-              />
-            </Grid2> */}
-
             <Grid2 xs={8} md={6} lg={4}>
               <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -105,7 +85,7 @@ function SaveFuneral({
                         ? funeralentry.IncidentDate
                         : savefuneralobj.IncidentDate
                     }
-                    onChange={(date: any) => handleIncidentDate(date)}
+                    onChange={(date: any) => handleIncidentDate(date?.$d)}
                     renderInput={(params) => (
                       <TextField {...params} error={false} />
                     )}
@@ -124,7 +104,7 @@ function SaveFuneral({
                         ? funeralentry.ReceivedDate
                         : savefuneralobj.ReceivedDate
                     }
-                    onChange={(date: any) => handleReceivedDate(date)}
+                    onChange={(date: any) => handleReceivedDate(date?.$d)}
                     renderInput={(params) => (
                       <TextField {...params} error={false} />
                     )}
