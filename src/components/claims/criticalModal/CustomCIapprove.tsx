@@ -1,20 +1,22 @@
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Modal } from "react-bootstrap";
 
-function CustomApproveBenefit({
+function CustomCIapprove({
   open,
+  size,
   infoOpen,
   handleClose,
-  size,
   title,
-  isAPnext,
   children,
   handleFormSubmit,
-  handleFormReject,
+  isSave,
+  modalFunc,
+  handleReject,
+
+  RejectCI,
 }: any) {
   return (
     <div>
-      <Modal show={open} onHide={handleClose} centered size={size}>
+      <Modal show={open} centered size={size} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
@@ -25,20 +27,18 @@ function CustomApproveBenefit({
             onClick={handleClose}
             style={{ marginRight: "auto" }}
           >
-            Close
+            Cancel
           </Button>
-          <Button variant="danger" onClick={handleFormReject}>
+          <Button variant="danger" onClick={handleReject}>
             Reject
           </Button>
-          {!!handleFormSubmit && (
-            <Button variant="primary" onClick={() => handleFormSubmit()}>
-              Approve
-            </Button>
-          )}
+          <Button variant="primary" onClick={() => handleFormSubmit()}>
+            Approve
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
   );
 }
 
-export default CustomApproveBenefit;
+export default CustomCIapprove;

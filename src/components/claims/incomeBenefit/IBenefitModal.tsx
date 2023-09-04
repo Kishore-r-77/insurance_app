@@ -50,8 +50,8 @@ function IBenefitModal({
 }: any) {
   const title: string = "Income Benefit";
   const isChecked = useRef(false);
-  console.log(IBenefitData, "IBenefitData");
-  console.log(IBenefits, "IBenefits");
+  // console.log(IBenefitData, "IBenefitData");
+  // console.log(IBenefits, "IBenefits");
   const [isNotifiyopen, setisNotifiyopen] = useState(false);
   const [IBapprovebenefit, setIBapprovebenefit] = useState<any>({});
   const notifyopen = (valu: any) => {

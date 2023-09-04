@@ -1,19 +1,20 @@
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Modal } from "react-bootstrap";
 
-function CustomSaveBenefit({
+function CustomSaveCritical({
   open,
+  size,
   infoOpen,
   handleClose,
-  size,
   title,
-  isIBnext,
   children,
   handleFormSubmit,
+  isSave,
+  modalFunc,
+  isCInext,
 }: any) {
   return (
     <div>
-      <Modal show={open} onHide={handleClose} centered size={size}>
+      <Modal show={open} centered size={size} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
@@ -22,9 +23,10 @@ function CustomSaveBenefit({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+          
           {!!handleFormSubmit && (
             <>
-              {isIBnext ? (
+              {isCInext ? (
                 <Button variant="primary" onClick={() => handleFormSubmit()}>
                   Check
                 </Button>
@@ -32,13 +34,18 @@ function CustomSaveBenefit({
                 <Button variant="primary" onClick={() => handleFormSubmit()}>
                   Save
                 </Button>
+                
               )}
             </>
           )}
+              
+              
+            
+          
         </Modal.Footer>
       </Modal>
     </div>
   );
 }
 
-export default CustomSaveBenefit;
+export default CustomSaveCritical;
