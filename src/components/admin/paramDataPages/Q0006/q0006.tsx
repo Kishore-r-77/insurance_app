@@ -45,7 +45,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendQ0018Request , status: getQ0018ResponseStatus ,  data: getQ0018Response , error:getQ0018ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0019Request , status: getQ0019ResponseStatus ,  data: getQ0019Response , error:getQ0019ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0020Request , status: getQ0020ResponseStatus ,  data: getQ0020Response , error:getQ0020ResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendQ0021Request , status: getQ0021ResponseStatus ,  data: getQ0021Response , error:getQ0021ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendP0060Request , status: getP0060ResponseStatus ,  data: getP0060Response , error:getP0060ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlmortfreqRequest , status: getUlmortfreqResponseStatus ,  data: getUlmortfreqResponse , error:getUlmortfreqResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlmortdednmethRequest , status: getUlmortdednmethResponseStatus ,  data: getUlmortdednmethResponse , error:getUlmortdednmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlfeefreqRequest , status: getUlfeefreqResponseStatus ,  data: getUlfeefreqResponse , error:getUlfeefreqResponseError} = useHttp(getData, true); 
@@ -196,8 +196,8 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.name = "Q0020";
         sendQ0020Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
 
-        getDataParams.name = "Q0021";
-        sendQ0021Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
+        getDataParams.name = "P0060";
+        sendP0060Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
 
 
     },[]);
@@ -1393,7 +1393,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           variant="outlined"
           margin="dense"
         >
-          {getQ0021Response?.data.map((value:any) => (
+          {getP0060Response?.data.map((value:any) => (
             <MenuItem key={value.item} value={value.item}>
               {value.longdesc}
             </MenuItem>
