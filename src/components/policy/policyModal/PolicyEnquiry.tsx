@@ -34,6 +34,7 @@ import SurvivalBenefitEnquiry from "./enquiry/SurvivalBenefitEnquiry";
 import TDFEnquiry from "./enquiry/TDFEnquiry";
 import UWEnquiry from "./enquiry/UWEnquiry";
 import "./policyModal.css";
+import ILPSummaryEnquiry from "./enquiry/ILPSummaryEnquiry";
 
 function PolicyEnquiry({
   state,
@@ -279,6 +280,21 @@ function PolicyEnquiry({
       .catch((err) => console.log(err.message));
   };
 
+  const [ilpSummaryData, setilpSummaryData] = useState([]);
+  const getIlpSummaryByPolicy = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/ilpservices/ilpsummarybypol/${record.ID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setilpSummaryData(resp.data?.IlpSummary);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   useEffect(() => {
     getCoverage();
 
@@ -297,6 +313,7 @@ function PolicyEnquiry({
     getCommunicationByPolicy();
     getextraByPolicy();
     getSurvivalBenefitByPolicy();
+    getIlpSummaryByPolicy();
     return () => {};
   }, [state.infoOpen]);
 
@@ -906,6 +923,17 @@ function PolicyEnquiry({
                 style={{ backgroundColor: "white" }}
               >
                 <ExtraEnquiry data={extraData} state={state} />
+              </Tab>
+              <Tab
+                eventKey="ILP Summary"
+                title="ILP Summary"
+                style={{ backgroundColor: "white" }}
+              >
+                <ILPSummaryEnquiry
+                  ilpSummaryData={ilpSummaryData}
+                  state={state}
+                  policyNo={record.ID}
+                />
               </Tab>
             </Tabs>
           </TreeView>
