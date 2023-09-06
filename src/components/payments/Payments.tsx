@@ -14,9 +14,11 @@ import {
 import styles from "./payments.module.css";
 import {
   addApi,
+  approveApi,
   //deleteApi,
   //editApi,
   getAllApi,
+  rejectionApi,
 } from "./paymentsApis/paymentsApis";
 import Notification from "../../utilities/Notification/Notification";
 import PaymentsTable from "./paymentsTable/PaymentsTable";
@@ -39,6 +41,20 @@ function Payments({ modalFunc }: any) {
     searchString: "",
     searchCriteria: "",
   });
+  //Get all Api
+  const getData = () => {
+    return getAllApi(pageNum, pageSize, state)
+      .then((resp) => {
+        console.log(resp);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["All Payments"]);
+        settotalRecords(resp.data.paginationData.totalRecords);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All Payments"]?.length === 0);
+        setfieldMap(resp.data["Field Map"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PaymentsStateType, action: any) => {
     switch (action.type) {
@@ -47,15 +63,16 @@ function Payments({ modalFunc }: any) {
           ...state,
           [action.fieldName]: action.payload,
         };
-      // case ACTIONS.EDITCHANGE:
-      //   setRecord((prev: any) => ({
-      //     ...prev,
-      //     [action.fieldName]: action.payload,
-      //   }));
-      //   return {
-      //     ...state,
-      //     editOpen: true,
-      //   };
+
+      case ACTIONS.APPROVECHANGE:
+        setRecord((prev: any) => ({
+          ...prev,
+          [action.fieldName]: action.payload,
+        }));
+        return {
+          ...state,
+          approveOpen: true,
+        };
       case ACTIONS.ADDOPEN:
         return {
           ...state,
@@ -168,26 +185,14 @@ function Payments({ modalFunc }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-  //Get all Api
-  const getData = () => {
-    return getAllApi(pageNum, pageSize, state)
-      .then((resp) => {
-        console.log(resp);
-        // ***  Attention : Check the API and modify it, if required  ***
-        setData(resp.data["All Payments"]);
-        settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
-        setisLast(resp.data["All Payments"]?.length === 0);
-        setfieldMap(resp.data["Field Map"]);
-      })
-      .catch((err) => console.log(err.message));
-  };
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+  const id = useAppSelector((state) => state.users.user.message.id);
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId)
+    return addApi(state, companyId, id)
       .then((resp) => {
         console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
@@ -208,50 +213,51 @@ function Payments({ modalFunc }: any) {
       });
   };
 
-  //Edit Api
-  // const editFormSubmit = async () => {
-  //   editApi(record)
-  //     .then((resp) => {
-  //       console.log(resp);
-  //       dispatch({ type: ACTIONS.EDITCLOSE });
-  //       setNotify({
-  //         isOpen: true,
-  //         message: `Updated Successfully`,
-  //         type: "success",
-  //       });
-  //       getData();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //       setNotify({
-  //         isOpen: true,
-  //         message: err?.response?.data?.error,
-  //         type: "error",
-  //       });
-  //     });
-  // };
+  //ApproveApi
+  const ApproveSubmit = async () => {
+    approveApi(record, id)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.APPROVECLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated Successfully`,
+          type: "success",
+        });
+        getData();
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
+  };
 
-  // //Hard Delete Api
-  // const hardDelete = async (id: number) => {
-  //   deleteApi(id)
-  //     .then((resp) => {
-  //       console.log(resp);
-  //       setNotify({
-  //         isOpen: true,
-  //         message: `Deleted Successfully`,
-  //         type: "success",
-  //       });
-  //       getData();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //       setNotify({
-  //         isOpen: true,
-  //         message: err?.response?.data?.error,
-  //         type: "error",
-  //       });
-  //     });
-  // };
+  //RejectionApi
+  const RejectSubmit = async () => {
+    rejectionApi(record, id)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.APPROVECLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Updated Successfully`,
+          type: "success",
+        });
+        getData();
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
+  };
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
@@ -380,6 +386,8 @@ function Payments({ modalFunc }: any) {
         ACTIONS={ACTIONS}
         searchContent={searchContent}
         handleSearchChange={handleSearchChange}
+        RejectSubmit={RejectSubmit}
+        ApproveSubmit={ApproveSubmit}
       />
       <ApprovalModal
         state={state}
@@ -389,6 +397,9 @@ function Payments({ modalFunc }: any) {
         ACTIONS={ACTIONS}
         searchContent={searchContent}
         handleSearchChange={handleSearchChange}
+        RejectSubmit={RejectSubmit}
+        ApproveSubmit={ApproveSubmit}
+        //getData={getData}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>

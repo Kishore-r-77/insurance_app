@@ -5,6 +5,7 @@ import { PaymentsStateType } from "../../types/payments/paymentsTypes";
 //Storing Actions into a Variable for Reducer
 export const ACTIONS = {
   ONCHANGE: "ONCHANGE",
+  APPROVECHANGE: "APPROVECHANGE",
   EDITCHANGE: "EDITCHANGE",
   ADDOPEN: "ADDOPEN",
   // EDITOPEN: "EDITOPEN",
@@ -36,6 +37,7 @@ export const initialValues: PaymentsStateType = {
   PolicyID: "",
   ClientID: "",
   DateOfPayment: "",
+  PaymentAccount: "",
   ReconciledDate: "",
   BankIFSC: "",
   BankAccountNo: "",
@@ -45,6 +47,9 @@ export const initialValues: PaymentsStateType = {
   InsurerBankAccNo: "",
   AddressID: "",
   Status: "",
+  MakerUserID: "",
+  CheckerUserID: "",
+  Reason: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,

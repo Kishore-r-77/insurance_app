@@ -18,7 +18,13 @@ import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import styles from "./paymentsModal.module.css";
 //Attention: Check the path below
 import { PaymentsModalType } from "../../../reducerUtilities/types/payments/paymentsTypes";
-import { q0005, paramItem } from "../paymentsApis/paymentsApis";
+import {
+  q0005,
+  paramItem,
+  approveApi,
+  rejectionApi,
+  getAllApi,
+} from "../paymentsApis/paymentsApis";
 import Client from "../../clientDetails/client/Client";
 import Policy from "../../policy/Policy";
 import Address from "../../clientDetails/address/Address";
@@ -30,6 +36,7 @@ import { AccountCircle } from "@mui/icons-material";
 import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
 import axios from "axios";
 import ApprovalFullModal from "./approvalFullModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function ApprovalModal({
   state,
@@ -39,6 +46,8 @@ function ApprovalModal({
   handleFormSubmit,
   searchContent,
   handleSearchChange,
+  RejectSubmit,
+  ApproveSubmit,
 }: PaymentsModalType) {
   //   const addTitle: string = "Payments Add";
   //   const editTitle: string = "Payments Edit";
@@ -53,10 +62,26 @@ function ApprovalModal({
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+  const [data, setData] = useState([]);
 
+  const getData = () => {
+    return getAllApi(pageNum, pageSize, state)
+      .then((resp) => {
+        console.log(resp);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["All Payments"]);
+        settotalRecords(resp.data.paginationData.totalRecords);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All Payments"]?.length === 0);
+        setfieldMap(resp.data["Field Map"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+
+  const id = useAppSelector((state) => state.users.user.message.id);
 
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
@@ -209,6 +234,12 @@ function ApprovalModal({
   //   });
   // };
 
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
   const [isShown, setisShown] = useState(false);
 
   const handleHover = () => {
@@ -237,6 +268,11 @@ function ApprovalModal({
     return () => {};
   }, [state.ClientID]);
 
+  useEffect(() => {
+    getData();
+    return () => {};
+  }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
+
   return (
     <div className={styles.modal}>
       <ApprovalFullModal
@@ -249,7 +285,8 @@ function ApprovalModal({
         }
         title={approvalTitle}
         ACTIONS={ACTIONS}
-        handleFormSubmit={state.approveOpen ? () => handleFormSubmit() : null}
+        handleApproveSubmit={ApproveSubmit}
+        handleRejectSubmit={RejectSubmit}
       >
         <form>
           <Grid2 container spacing={2}>
@@ -292,7 +329,26 @@ function ApprovalModal({
                     margin="dense"
                   />
                 </Grid2>
-
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="ID"
+                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
+                    name="ID"
+                    // Attention: *** Check the value details  ***
+                    value={record.ID}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ID",
+                      })
+                    }
+                    placeholder="ID"
+                    label="ID"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
@@ -324,10 +380,12 @@ function ApprovalModal({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly={state.approveOpen}
-                        label="Date Of Collection"
+                        label="Date Of Payment"
                         inputFormat="DD/MM/YYYY"
                         value={
-                          state.addOpen ? state.CurrentDate : record.CurrentDate
+                          state.addOpen
+                            ? state.DateOfPayment
+                            : record.DateOfPayment
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
@@ -337,7 +395,7 @@ function ApprovalModal({
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
                             payload: date?.$d?.$d,
-                            fieldName: "CurrentDate",
+                            fieldName: "DateOfPayment",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -404,16 +462,16 @@ function ApprovalModal({
                     label="Policy Number"
                     // Attention: *** Check the value details  ***
                     onClick={() => dispatch({ type: ACTIONS.POLICIESOPEN })}
-                    value={record.PolicyID}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PolicyID",
-                      })
-                    }
+                    value={record?.PolicyID}
+                    // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    //   dispatch({
+                    //     type: state.addOpen
+                    //       ? ACTIONS.ONCHANGE
+                    //       : ACTIONS.EDITCHANGE,
+                    //     payload: e.target.value,
+                    //     fieldName: "PolicyID",
+                    //   })
+                    // }
                     fullWidth
                     inputProps={{ readOnly: state.approveOpen }}
                     margin="dense"
@@ -449,7 +507,7 @@ function ApprovalModal({
                  </Grid2> */}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
+                    //select
                     id="AccCurry"
                     name="AccCurry"
                     value={record.AccCurry}
@@ -468,11 +526,11 @@ function ApprovalModal({
                     inputProps={{ readOnly: state.approveOpen }}
                     margin="dense"
                   >
-                    {aCur.map((val: string) => (
+                    {/* {aCur.map((val: string) => (
                       <MenuItem key={val} value={val}>
                         {val}
                       </MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
 
@@ -501,32 +559,38 @@ function ApprovalModal({
                   />
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={state.approveOpen}
-                        label="Date Of Payment"
-                        inputFormat="DD/MM/YYYY"
-                        value={
-                          state.addOpen
-                            ? state.DateOfPayment
-                            : record.DateOfPayment
-                        }
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date?.$d?.$d,
-                            fieldName: "DateOfPayment",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
+                  <TextField
+                    //select
+                    id="PaymentAccount"
+                    name="PaymentAccount"
+                    value={
+                      state.addOpen
+                        ? state.PaymentAccount
+                        : record.PaymentAccount
+                    }
+                    placeholder="PaymentAccount"
+                    label="PaymentAccount"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PaymentAccount",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {/* {getPaymentResponse?.param.data.dataPairs.map(
+                      (value: any) => (
+                        <MenuItem key={value.code} value={value.code}>
+                          {value.description}
+                        </MenuItem>
+                      )
+                    )} */}
+                  </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
@@ -687,6 +751,39 @@ function ApprovalModal({
                     margin="dense"
                   />
                 </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="CheckerUserID"
+                    name="CheckerUserID"
+                    value={id}
+                    placeholder="CheckerUserID"
+                    label="CheckerUserID"
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="Reason"
+                    name="Reason"
+                    value={record.Reason}
+                    placeholder="Reason"
+                    label="Reason"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.approveOpen
+                          ? ACTIONS.APPROVECHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "Reason",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
                 {/* <Grid2 xs={8} md={6} lg={4}>
                    <TextField
                      id="Status"
@@ -713,6 +810,7 @@ function ApprovalModal({
           </Grid2>
         </form>
       </ApprovalFullModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
