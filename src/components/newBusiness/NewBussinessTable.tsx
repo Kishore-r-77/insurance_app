@@ -484,7 +484,7 @@ function NewBussinessTable({
                     color="primary"
                     onClick={() => confirmOpen(row.ID)}
                   />
-                  <SendIcon color="success" onClick={() => issueOpen(row.ID)} />
+                  <SendIcon color="success" onClick={() => issueOpen(row.ID, row.versionId)} />
                 </span>
               </td>
             </tr>
