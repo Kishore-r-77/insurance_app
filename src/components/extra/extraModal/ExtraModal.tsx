@@ -94,12 +94,15 @@ function ExtraModal({
       .catch((err) => err);
   };
 
+  
+
   useEffect(() => {
     getCompanyData(companyId);
     getBCoverage(companyId, "Q0006", languageId);
     getEReason(companyId, "P0026", languageId);
     getEMethod(companyId, "P0025", languageId);
     getEMortality(companyId, "P0050", languageId, "UWEMR");
+    state.FromDate = lookup ? benefitState.BStartDate: "";
     return () => {};
   }, []);
 
@@ -676,15 +679,10 @@ function ExtraModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={true}
+                        // readOnly={true}
                         label="From Date"
                         inputFormat="DD/MM/YYYY"
-                        value={
-                          lookup
-                            ? benefitState.BStartDate
-                            : state.addOpen
-                            ? state.FromDate
-                            : record.FromDate
+                        value={state.addOpen ? state.FromDate : record.FromDate
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
