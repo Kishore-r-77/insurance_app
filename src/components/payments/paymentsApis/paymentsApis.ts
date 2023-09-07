@@ -71,7 +71,7 @@ export const addApi = (
       InsurerBankIFSC: state.InsurerBankIFSC,
       InsurerBankAccNo: state.InsurerBankAccNo,
       AddressID: parseInt(state.AddressID),
-      Status: "PA",
+      Status: "PN",
       MakerUserID: id,
       // CheckerUserID: parseInt(state.CheckerUserID),
       // Reason: state.Reason,

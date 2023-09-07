@@ -331,8 +331,9 @@ function ApprovalModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputProps={{ readOnly: true }}
                     id="ID"
-                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
+                    //onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     name="ID"
                     // Attention: *** Check the value details  ***
                     value={record.ID}
@@ -405,13 +406,13 @@ function ApprovalModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
+                    InputProps={{ readOnly: state.approveOpen }}
                     id="ClientID"
                     name="ClientID"
                     placeholder="Client ID"
                     label="Client ID"
                     // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
+                    //onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
                     value={record.ClientID}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
@@ -429,7 +430,8 @@ function ApprovalModal({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="AddressID"
-                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
+                    InputProps={{ readOnly: state.approveOpen }}
+                    //onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
                     name="AddressID"
                     // Attention: *** Check the value details  ***
                     value={record.AddressID}
@@ -446,65 +448,31 @@ function ApprovalModal({
                     margin="dense"
                   />
                 </Grid2>
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    // InputProps={{
-                    //   readOnly: true,
-                    //   endAdornment: (
-                    //     <InputAdornment position="start">
-                    //       <AccountCircle />
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
+                    InputProps={{ readOnly: true }}
                     id="PolicyID"
                     name="PolicyID"
-                    placeholder="Policy Number"
-                    label="Policy Number"
+                    placeholder="Policy ID"
+                    label="Policy ID"
                     // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.POLICIESOPEN })}
-                    value={record?.PolicyID}
-                    // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    //   dispatch({
-                    //     type: state.addOpen
-                    //       ? ACTIONS.ONCHANGE
-                    //       : ACTIONS.EDITCHANGE,
-                    //     payload: e.target.value,
-                    //     fieldName: "PolicyID",
-                    //   })
-                    // }
+                    //onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
+                    value={record.PolicyID}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PolicyID",
+                      })
+                    }
                     fullWidth
-                    inputProps={{ readOnly: state.approveOpen }}
+                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
-
-                  {/* {isShown && state.PolicyID ? (
-                      <HoverDetails data={snapShot} />
-                    ) : null} */}
                 </Grid2>
-                {/* <Grid2 xs={8} md={6} lg={4}>
-                   <TextField
-                     InputProps={{ readOnly: true }}
-                     id="AddressID"
-                     name="AddressID"
-                     placeholder="Address ID"
-                     label="Address ID"
-                     // Attention: *** Check the value details  ***
-                     onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
-                     value={state.addOpen ? state.ClientID : record.ClientID}
-                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                       dispatch({
-                         type: state.addOpen
-                           ? ACTIONS.ONCHANGE
-                           : ACTIONS.EDITCHANGE,
-                         payload: e.target.value,
-                         fieldName: "ClientID",
-                       })
-                     }
-                     fullWidth
-                     inputProps={{ readOnly: state.infoOpen }}
-                     margin="dense"
-                   />
-                 </Grid2> */}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     //select
@@ -685,7 +653,7 @@ function ApprovalModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
+                    //select
                     id="TypeOfPayment"
                     name="TypeOfPayment"
                     value={record.TypeOfPayment}

@@ -19,7 +19,13 @@ function ApprovalFullModal({
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="secondary" onClick={handleRejectSubmit}>
+          <Button
+            style={{
+              backgroundColor: "red",
+            }}
+            variant="contained"
+            onClick={handleRejectSubmit}
+          >
             Rejection
           </Button>
           <Button variant="primary" onClick={handleApproveSubmit}>
