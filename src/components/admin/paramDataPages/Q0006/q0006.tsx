@@ -1588,12 +1588,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputRef={fUNDCODERef}
           placeholder="Fund Code"
           label="Fund Code"
-          defaultValue={inputdata.fUNDCODE}
+          defaultValue={inputdata.fUNDCODE&&Array.isArray(inputdata.fUNDCODE)?inputdata.fUNDCODE:[]}
           fullWidth
           variant="outlined"
           margin="dense"
           SelectProps={{
-            multiple: false,
+            multiple: true,
           }}
         >
           {getFundcodeResponse?.param.data.dataPairs.map((value:any) => (
