@@ -121,7 +121,7 @@ export const approveApi = (record: any, id: number) => {
 export const rejectionApi = (record: any, id: number) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/acservices/approvepayment`,
+    `http://localhost:3000/api/v1/acservices/rejectpayment`,
     {
       ID: parseInt(record.ID),
       CompanyID: parseInt(record.CompanyID),
