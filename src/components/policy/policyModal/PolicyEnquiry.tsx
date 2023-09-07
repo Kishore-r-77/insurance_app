@@ -925,8 +925,8 @@ function PolicyEnquiry({
                 <ExtraEnquiry data={extraData} state={state} />
               </Tab>
               <Tab
-                eventKey="ILP Summary"
-                title="ILP Summary"
+                eventKey="Invest"
+                title="Invest"
                 style={{ backgroundColor: "white" }}
               >
                 <ILPSummaryEnquiry
