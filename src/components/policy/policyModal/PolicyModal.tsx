@@ -219,6 +219,7 @@ function PolicyModal({
         BCoverage: "",
         BSumAssured: 0,
         Interest: 0,
+        BPrem: 0,
       },
     ]);
   };
@@ -238,8 +239,13 @@ function PolicyModal({
       : null;
   };
 
+  const [capturedCovg, setcapturedCovg] = useState("");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
+    if (name === "BCoverage") {
+      setcapturedCovg(value);
+    }
     setbenefitsData(
       benefitsData?.map((benefits: any, index: number) => {
         if (index === i) {
@@ -373,7 +379,7 @@ function PolicyModal({
   const [intrestData, setintrestData] = useState([]);
 
   const mrtaDropdown = () => {
-    return extraParams(companyId, "Q0006", "MRTA", "MrtaInterest")
+    return extraParams(companyId, "Q0006", capturedCovg, "MrtaInterest")
       .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
       .catch((err) => err.message);
   };
@@ -381,7 +387,20 @@ function PolicyModal({
   useEffect(() => {
     mrtaDropdown();
     return () => {};
-  }, [state.PProduct]);
+  }, [capturedCovg]);
+
+  const [bpremData, setbPremData] = useState([]);
+
+  const ilpExtra = () => {
+    return extraParams(companyId, "Q0006", capturedCovg, "UlAlMethod")
+      .then((resp) => setbPremData(resp.data?.AllowedUlAlMethod))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    ilpExtra();
+    return () => {};
+  }, [capturedCovg]);
 
   const [termRangeMenu, settermRangeMenu] = useState([]);
   const [pptRangeMenu, setpptRangeMenu] = useState([]);
@@ -1174,7 +1193,7 @@ function PolicyModal({
                             margin="dense"
                           ></TextField>
                         </Grid2>
-                        {benefits.BCoverage === "MRTA" ? (
+                        {intrestData.length !== 0 ? (
                           <Grid2 xs={8} md={6} lg={4}>
                             <TextField
                               select
@@ -1199,6 +1218,31 @@ function PolicyModal({
                                   {val}
                                 </MenuItem>
                               ))}
+                            </TextField>
+                          </Grid2>
+                        ) : null}
+                        {bpremData.length !== 0 ? (
+                          <Grid2 xs={8} md={6} lg={4}>
+                            <TextField
+                              // select
+                              id="BPrem"
+                              name="BPrem"
+                              type="number"
+                              // value={benefits.BPrem}
+                              value={benefits.BPrem}
+                              placeholder="Premium"
+                              label="Premium"
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => handleChange(e, index)}
+                              fullWidth
+                              margin="dense"
+                            >
+                              {/* {premiumData?.map((val, index) => (
+                                <MenuItem value={val} key={val}>
+                                  {val}
+                                </MenuItem>
+                              ))} */}
                             </TextField>
                           </Grid2>
                         ) : null}
