@@ -51,7 +51,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendUlfeefreqRequest , status: getUlfeefreqResponseStatus ,  data: getUlfeefreqResponse , error:getUlfeefreqResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlfeemethRequest , status: getUlfeemethResponseStatus ,  data: getUlfeemethResponse , error:getUlfeemethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlfundruleRequest , status: getUlfundruleResponseStatus ,  data: getUlfundruleResponse , error:getUlfundruleResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendUlpfundsRequest , status: getUlpfundsResponseStatus ,  data: getUlpfundsResponse , error:getUlpfundsResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendFundcodeRequest , status: getFundcodeResponseStatus ,  data: getFundcodeResponse , error:getFundcodeResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBenefittypeRequest , status: getBenefittypeResponseStatus ,  data: getBenefittypeResponse , error:getBenefittypeResponseError} = useHttp(getData, true); 
@@ -171,8 +171,8 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "ULFUNDRULE";
         sendUlfundruleRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "ULPFUNDS";
-        sendUlpfundsRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+        getDataParams.item = "FUNDCODE";
+        sendFundcodeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "MRTMETH";
         sendMrtmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
@@ -252,7 +252,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const ulFundMethodRef: any = useRef();
   const ulMinPremRef: any = useRef();
   const ulMaxPremRef: any = useRef();
-  const ulpFundsRef: any = useRef();
+  const fUNDCODERef: any = useRef();
   const ulTopUpMethodRef: any = useRef();
   const ulWithdrawMethodRef: any = useRef();
   const mrtaMethodRef: any = useRef();
@@ -318,7 +318,7 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.ulFundMethod = ulFundMethodRef.current.value;
       inputdata.ulMinPrem = Number(ulMinPremRef.current.value);
       inputdata.ulMaxPrem = Number(ulMaxPremRef.current.value);
-      inputdata.ulpFunds = ulpFundsRef.current.value;
+      inputdata.fUNDCODE = fUNDCODERef.current.value;
       inputdata.ulTopUpMethod = ulTopUpMethodRef.current.value;
       inputdata.ulWithdrawMethod = ulWithdrawMethodRef.current.value;
       inputdata.mrtaMethod = mrtaMethodRef.current.value;
@@ -1583,12 +1583,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="ulpFunds"
-          name="ulpFunds"
-          inputRef={ulpFundsRef}
-          placeholder="Ulp Funds"
-          label="Ulp Funds"
-          defaultValue={inputdata.ulpFunds}
+          id="fUNDCODE"
+          name="fUNDCODE"
+          inputRef={fUNDCODERef}
+          placeholder="Fund Code"
+          label="Fund Code"
+          defaultValue={inputdata.fUNDCODE}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1596,7 +1596,7 @@ const Q0006 = forwardRef((props: any, ref) => {
             multiple: false,
           }}
         >
-          {getUlpfundsResponse?.param.data.dataPairs.map((value:any) => (
+          {getFundcodeResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.code} - {value.description}
             </MenuItem>
