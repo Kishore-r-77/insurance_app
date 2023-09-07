@@ -74,6 +74,7 @@ import ParamDataUploadModal from "./ParamDataUploadModal";
 import Notification from "../../../utilities/Notification/Notification";
 import P0059 from "../paramDataPages/P0059/p0059";
 import P0060 from "../paramDataPages/P0060/p0060";
+import P0061 from "../paramDataPages/P0061/p0061";
 
 const ParamData = () => {
   const {
@@ -592,6 +593,14 @@ const ParamData = () => {
               mode={mode}
             />
           );
+          case "1-P0061":
+            return (
+              <P0061
+                ref={extraDataRef}
+                data={getDataResponse.param.data}
+                mode={mode}
+              />
+            );
       case "1-Q0010":
         return (
           <Q0010
