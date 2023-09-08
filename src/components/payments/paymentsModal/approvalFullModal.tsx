@@ -23,7 +23,7 @@ function ApprovalFullModal({
             style={{
               backgroundColor: "red",
             }}
-            variant="contained"
+            variant="error"
             onClick={handleRejectSubmit}
           >
             Rejection

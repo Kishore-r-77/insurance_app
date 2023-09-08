@@ -1272,7 +1272,7 @@ function QHeaderQDetailModal({
                           }}
                         >
                           {qDetailData.length - 1 === index &&
-                            qDetailData.length < 5 && (
+                            qDetailData.length < 10 && (
                               <Button
                                 variant="contained"
                                 onClick={() => handleQDetailAdd()}
@@ -1645,7 +1645,7 @@ function QHeaderQDetailModal({
                           }}
                         >
                           {detailsData.length - 1 === index &&
-                            detailsData.length < 5 && (
+                            detailsData.length < 10 && (
                               <Button
                                 variant="contained"
                                 onClick={() => handleQDetailEditAdd()}
