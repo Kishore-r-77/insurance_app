@@ -53,6 +53,7 @@ function NewBusiness({ modalFunc }: any) {
       BCoverage: "",
       BSumAssured: 0,
       Interest: 0,
+      BPrem: 0,
     },
   ]);
 
@@ -104,6 +105,7 @@ function NewBusiness({ modalFunc }: any) {
             BCoverage: "",
             BSumAssured: 0,
             Interest: 0,
+            BPrem: 0,
           },
         ]);
         return {
@@ -219,7 +221,6 @@ function NewBusiness({ modalFunc }: any) {
   const [fieldMap, setfieldMap] = useState([]);
   const [isConfirm, setisConfirm] = useState(false);
   const [policyId, setPolicyId] = useState(0);
-  const [versionId, setVersionId] = useState("");
   const [validateData, setvalidateData] = useState([]);
   const [summaryData, setsummaryData] = useState([]);
   const [isPolicyValidate, setisPolicyValidate] = useState(false);
@@ -246,9 +247,8 @@ function NewBusiness({ modalFunc }: any) {
     setisConfirm(false);
   };
 
-  const issueOpen = (id: number, verId :string) => {
+  const issueOpen = (id: number) => {
     setPolicyId(id);
-     setVersionId(verId)
     setisIssue(true);
   };
 
@@ -328,7 +328,7 @@ function NewBusiness({ modalFunc }: any) {
     axios
       .post(
         `http://localhost:3000/api/v1/nbservices/policyissue/${policyId}`,
-        {"VersionId" : versionId },
+        {},
         {
           withCredentials: true,
         }

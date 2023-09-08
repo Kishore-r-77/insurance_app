@@ -206,6 +206,7 @@ export const createPoliciesWithBenefits = (
         BPTerm: parseInt(benefits?.BPTerm),
         BSumAssured: parseInt(benefits?.BSumAssured),
         Interest: parseFloat(benefits?.Interest),
+        BPrem: parseFloat(benefits?.BPrem),
       })),
     },
 
