@@ -8,6 +8,7 @@ import GLAccountEnquiry from "./GLAccountEnquiry";
 import GLHistoryEnquiry from "./GLHistoryEnquiry";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
+import ILPTransactionEnquiry from "./ILPTransactionEnquiry";
 
 function EnquiryTable({
   data,
@@ -15,17 +16,25 @@ function EnquiryTable({
   policyNo,
   infoOpen,
   historyOpen,
+  ilpTOpen,
   isCommunication,
 }: any) {
   console.log(policyNo, "Policy No in Enq");
   const [glEnquiry, setglEnquiry] = useState(false);
   const [GLAcctNo, setGLAcctNo] = useState("");
   const [contAmnt, setcontAmnt] = useState("");
+  const [fund, setfund] = useState("");
   const infoClickOpen = (value: any, value1: any) => {
     console.log(value, "acct no value");
     setGLAcctNo(value);
     setcontAmnt(value1);
     setglEnquiry(true);
+  };
+
+  const ilptClickOpen = (fcode: any) => {
+    console.log("fund: ",fcode)
+    setfund(fcode);
+    setilpT(true);
   };
 
   const handleClickClose = () => {
@@ -34,6 +43,7 @@ function EnquiryTable({
   console.log(data, "data");
 
   const [glHistory, setglHistory] = useState(false);
+  const [ilpT, setilpT] = useState(false);
   const [Tranno, setTranno] = useState("");
   const glhClickOpen = (value: any) => {
     console.log(value, "tranno");
@@ -43,6 +53,10 @@ function EnquiryTable({
 
   const glhClickClose = () => {
     setglHistory(false);
+  };
+
+  const ilptClickClose = () => {
+    setilpT(false);
   };
 
   const communicationClickOpen = (Id: any, temp: any) => {
@@ -140,7 +154,14 @@ function EnquiryTable({
                       >
                         {row[col.field]}
                       </td>
-                    ) : (
+                    ) : ilpTOpen ? (
+                      <td
+                        key={col.field}
+                        onClick={() => ilptClickOpen(row?.FundCode)}
+                      >
+                        {row[col.field]}
+                      </td>
+                    ): (
                       <td key={col.field}>{row[col.field]}</td>
                     )}
                   </>
@@ -173,6 +194,13 @@ function EnquiryTable({
         handleClose={glhClickClose}
         policyNo={policyNo}
         TransactionNo={Tranno}
+      />
+
+      <ILPTransactionEnquiry
+        open={ilpT}
+        handleClose={ilptClickClose}
+        policyNo={policyNo}
+        fundCode={fund}
       />
     </Paper>
   );

@@ -5,15 +5,9 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
   console.log(ilpSummaryData, "Inside ilp summmary enquiry");
   const columns = [
     {
-      field: "PolicyID",
-      header: "Policy ID",
-      dbField: "policy_id",
-    },
-
-    {
-      field: "CompanyID",
-      header: "Company ID",
-      dbField: "company_id",
+      field: "BenefitID",
+      header: "Benefit ID",
+      dbField: "benefit_id",
     },
 
     {
@@ -35,12 +29,15 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
     },
   ];
 
+  const [ilpTranOpen, setilpTranOpen] = useState(true);
+
   return (
     <div>
       <form>
         <EnquiryTable
           data={ilpSummaryData}
           columns={columns}
+          ilpTOpen={ilpTranOpen}
           policyNo={policyNo}
         />
       </form>
