@@ -1,0 +1,28 @@
+@font-face {
+  font-family: Merriweather-Regular;
+  src: url("../../../fonts/Merriweather/Merriweather-Regular.ttf");
+}
+
+.flexStyle {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 5rem;
+  gap: 1rem;
+}
+
+.text-fields {
+  flex: 1 1 20rem;
+}
+
+.flexStyle h1 {
+  flex: 4 1 20rem;
+  font-family: Merriweather-Regular;
+  letter-spacing: 2px;
+  font-weight: bolder;
+  color: rgb(42, 6, 45);
+}
+
+#add-btn {
+  flex: 2 1 20rem;
+  margin-right: 1rem;
+}
