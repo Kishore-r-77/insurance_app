@@ -40,6 +40,7 @@ import BusinessDates from "./components/admin/businessDate/BusinessDates";
 import TdfParams from "./components/admin/tdfParam/TdfParams";
 import BatchModal from "./components/batchProcess/batchModal/BatchModal";
 import Payments from "./components/payments/Payments";
+import IlpPrices from "./components/ilpPrices/IlpPrices";
 import Claims from "./components/claims/Claims";
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
                 <Route path="/tdfParam" element={<TdfParams />} />
                 <Route path="/batch" element={<BatchModal />} />
                 <Route path="/payments" element={<Payments />} />
+                <Route path="/ilpPrices" element={<IlpPrices />} />
                 <Route path="/claims" element={<Claims />} />
               </Route>
               {/* </Route> */}
