@@ -172,3 +172,24 @@ export const getAllQDetailByQheaderApi = (id: number) => {
     }
   );
 };
+
+export const extraParams = (
+  companyId: number,
+  name: string,
+  item: string,
+  func: string
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/paramextradata`,
+    {
+      withCredentials: true,
+      params: {
+        company_id: companyId,
+        name,
+        item,
+        function: func,
+        date: "20220101",
+      },
+    }
+  );
+};
