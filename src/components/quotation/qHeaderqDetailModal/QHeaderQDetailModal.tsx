@@ -61,6 +61,8 @@ function QHeaderQDetailModal({
   setQpremcesstermData,
   qproductData,
   setQproductData,
+  qDetailData,
+  setqDetailData,
 }: any) {
   const title = state.addOpen ? "Quotation Add" : "Quotation Edit";
 
@@ -342,18 +344,6 @@ function QHeaderQDetailModal({
     return () => {};
   }, [QCoverage.current]);
 
-  const [qDetailData, setqDetailData] = useState([
-    {
-      CompanyID: companyId,
-      ClientID: 0,
-      QCoverage: "",
-      QSumAssured: "",
-      QRiskCessTerm: "",
-      QPremCessTerm: "",
-      QAgeAdmitted: "",
-    },
-  ]);
-
   const handleQDetailAdd = () => {
     setqDetailData([
       ...qDetailData,
@@ -464,7 +454,7 @@ function QHeaderQDetailModal({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
     setqDetailData(
-      qDetailData.map((qDetail, index) => {
+      qDetailData.map((qDetail: any, index: number) => {
         if (index === i) {
           return { ...qDetail, [name]: value };
         } else return qDetail;
@@ -502,6 +492,7 @@ function QHeaderQDetailModal({
           type: "success",
         });
         getData();
+        setqDetailData;
       })
       .catch((err) => {
         setNotify({
@@ -534,7 +525,7 @@ function QHeaderQDetailModal({
 
   const handleQriskcessdate = (date: any, i: number) => {
     setqDetailData(
-      qDetailData.map((qDetail, index) => {
+      qDetailData.map((qDetail: any, index: number) => {
         if (index === i) {
           return { ...qDetail, Qriskcessdate: date };
         } else return qDetail;
@@ -543,7 +534,7 @@ function QHeaderQDetailModal({
   };
   const handleQpremcessdate = (date: any, i: number) => {
     setqDetailData(
-      qDetailData.map((qDetail, index) => {
+      qDetailData.map((qDetail: any, index: number) => {
         if (index === i) {
           return { ...qDetail, Qpremcessdate: date };
         } else return qDetail;
@@ -1095,7 +1086,7 @@ function QHeaderQDetailModal({
               </Grid2>
             </TreeItem>
             {state.addOpen
-              ? qDetailData.map((qDetail, index) => {
+              ? qDetailData.map((qDetail: any, index: number) => {
                   qcoverage.current = qDetail.QCoverage;
                   return (
                     <>
@@ -1281,7 +1272,7 @@ function QHeaderQDetailModal({
                           }}
                         >
                           {qDetailData.length - 1 === index &&
-                            qDetailData.length < 5 && (
+                            qDetailData.length < 10 && (
                               <Button
                                 variant="contained"
                                 onClick={() => handleQDetailAdd()}
@@ -1654,7 +1645,7 @@ function QHeaderQDetailModal({
                           }}
                         >
                           {detailsData.length - 1 === index &&
-                            detailsData.length < 5 && (
+                            detailsData.length < 10 && (
                               <Button
                                 variant="contained"
                                 onClick={() => handleQDetailEditAdd()}

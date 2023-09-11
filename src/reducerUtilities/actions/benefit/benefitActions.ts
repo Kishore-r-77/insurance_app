@@ -20,6 +20,8 @@ export const ACTIONS = {
   BENEFITCLOSE: "BENEFITCLOSE",
   EXTRAOPEN: "EXTRAOPEN",
   EXTRACLOSE: "EXTRACLOSE",
+  FUNDOPEN: "FUNDOPEN",
+  FUNDCLOSE: "FUNDCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
 };
@@ -56,6 +58,7 @@ export const initialValues: BenefitStateType = {
   agencyOpen: false,
   benefitOpen: false,
   extraOpen: false,
+  fundOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",

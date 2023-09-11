@@ -121,6 +121,7 @@ export const modifyPolicyWithBenefits = (
           ? ""
           : moment(state.AnnivDate).format("YYYYMMDD").toString(),
       InstalmentPrem: parseInt(state.InstalmentPrem),
+      VersionId: state.versionId,
       Benefits: data.map((benefits: any) => ({
         ...benefits,
         ID: parseInt(benefits.ID),
@@ -130,6 +131,7 @@ export const modifyPolicyWithBenefits = (
         BPTerm: parseInt(benefits?.BPTerm),
         BSumAssured: parseInt(benefits?.BSumAssured),
         Interest: parseFloat(benefits?.Interest),
+        BPrem: parseFloat(benefits?.BPrem),
       })),
     },
     {

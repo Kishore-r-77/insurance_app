@@ -44,14 +44,17 @@ export const paramItem = (
 //   );
 // };
 
-export const addApi = (state: PaymentsStateType, companyId: number) => {
+export const addApi = (
+  state: PaymentsStateType,
+  companyId: number,
+  id: number
+) => {
   // Attention : Check and update the below API, if required
   return axios.post(
     `http://localhost:3000/api/v1/acservices/createpayment`,
     {
       CompanyID: companyId,
       Branch: state.Branch,
-      CurrentDate: moment(state.CurrentDate).format("YYYYMMDD").toString(),
       AccCurry: state.AccCurry,
       AccAmount: parseInt(state.AccAmount),
       ClientID: parseInt(state.ClientID),
@@ -61,14 +64,89 @@ export const addApi = (state: PaymentsStateType, companyId: number) => {
         .format("YYYYMMDD")
         .toString(),
       BankIFSC: state.BankIFSC,
+      PaymentAccount: state.PaymentAccount,
       BankAccountNo: state.BankAccountNo,
       BankReferenceNo: state.BankReferenceNo,
       TypeOfPayment: state.TypeOfPayment,
       InsurerBankIFSC: state.InsurerBankIFSC,
       InsurerBankAccNo: state.InsurerBankAccNo,
       AddressID: parseInt(state.AddressID),
-      Status: "AC",
+      Status: "PN",
+      MakerUserID: id,
+      // CheckerUserID: parseInt(state.CheckerUserID),
+      // Reason: state.Reason,
       // ReconciledDate: moment(state.ReconciledDate).format("YYYYMMDD").toString(),
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+export const approveApi = (record: any, id: number) => {
+  // Attention : Check and update the below API, if required
+  return axios.post(
+    `http://localhost:3000/api/v1/acservices/approvepayment`,
+    {
+      ID: parseInt(record?.ID),
+      CompanyID: parseInt(record.CompanyID),
+      Branch: record?.Branch,
+      AccCurry: record?.AccCurry,
+      AccAmount: parseInt(record.AccAmount),
+      ClientID: parseInt(record.ClientID),
+      PolicyID: parseInt(record.PolicyID),
+      DateOfPayment: moment(record.DateOfPayment).format("YYYYMMDD").toString(),
+      ReconciledDate: moment(record.ReconciledDate)
+        .format("YYYYMMDD")
+        .toString(),
+      BankIFSC: record.BankIFSC,
+      PaymentAccount: record.PaymentAccount,
+      BankAccountNo: record.BankAccountNo,
+      BankReferenceNo: record.BankReferenceNo,
+      TypeOfPayment: record.TypeOfPayment,
+      InsurerBankIFSC: record.InsurerBankIFSC,
+      InsurerBankAccNo: record.InsurerBankAccNo,
+      AddressID: parseInt(record.AddressID),
+      Status: "AP",
+      //MakerUserID: parseInt(record.MakerUserID),
+      CheckerUserID: id,
+      Reason: record.Reason,
+      // ReconciledDate: moment(record.ReconciledDate).format("YYYYMMDD").toString(),
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+export const rejectionApi = (record: any, id: number) => {
+  // Attention : Check and update the below API, if required
+  return axios.post(
+    `http://localhost:3000/api/v1/acservices/rejectpayment`,
+    {
+      ID: parseInt(record.ID),
+      CompanyID: parseInt(record.CompanyID),
+      Branch: record.Branch,
+      AccCurry: record.AccCurry,
+      AccAmount: parseInt(record.AccAmount),
+      ClientID: parseInt(record.ClientID),
+      PolicyID: parseInt(record.PolicyID),
+      DateOfPayment: moment(record.DateOfPayment).format("YYYYMMDD").toString(),
+      ReconciledDate: moment(record.ReconciledDate)
+        .format("YYYYMMDD")
+        .toString(),
+      BankIFSC: record.BankIFSC,
+      PaymentAccount: record.PaymentAccount,
+      BankAccountNo: record.BankAccountNo,
+      BankReferenceNo: record.BankReferenceNo,
+      TypeOfPayment: record.TypeOfPayment,
+      InsurerBankIFSC: record.InsurerBankIFSC,
+      InsurerBankAccNo: record.InsurerBankAccNo,
+      AddressID: parseInt(record.AddressID),
+      Status: "RJ",
+      //MakerUserID: parseInt(record.MakerUserID),
+      CheckerUserID: id,
+      Reason: record.Reason,
+      // ReconciledDate: moment(record.ReconciledDate).format("YYYYMMDD").toString(),
     },
     {
       withCredentials: true,

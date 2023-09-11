@@ -35,6 +35,9 @@ import { MaturityStateType } from "../../reducerUtilities/types/maturity/maturit
 import { ACTIONS as MATURITYACTIONS } from "../../reducerUtilities/actions/maturity/maturityAction";
 import PolReinModal from "./polReinModal/PolReinModal";
 import MaturityModal from "./maturityModal/MaturityModal";
+import Benefit from "../policy/policyModal/benefit/Benefit";
+// import SaveFuneral from "./funeralModel/SaveFuneral";
+// import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
 function CsmmTable({
   issueOpen,
@@ -372,6 +375,7 @@ function CsmmTable({
   const [isFreqChange, setIsFreqChange] = useState(false);
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
+
   const [isPolRein, setIsPolRein] = useState(false);
   //const [isSurrender, setIsSurrender] = useState(false);
   const [completed, setcompleted] = useState(false);
@@ -555,7 +559,7 @@ function CsmmTable({
           PolicyID: saChangeObj.PolicyID,
           Product: saChangeObj.Product,
           Frequency: saChangeObj.Frequency,
-          Function: "Calculate",
+          unction: "Calculate",
         },
         { withCredentials: true }
       )
@@ -564,7 +568,7 @@ function CsmmTable({
         setsaChangeBenefits(resp?.data?.Benefits);
         modifiedPremium.current = resp?.data?.ModifiedPrem;
         isSave.current = true;
-        //saChangeClose();
+        saChangeClose();
         getData();
         setNotify({
           isOpen: true,
@@ -580,6 +584,7 @@ function CsmmTable({
         })
       );
   };
+
   const saveSaChange = () => {
     axios
       .post(
@@ -633,6 +638,7 @@ function CsmmTable({
         });
       });
   };
+
   const [componentData, setcomponentData] = useState("");
   const [componentBenefits, setcomponentBenefits] = useState([]);
   const getComponentInit = () => {
@@ -725,7 +731,6 @@ function CsmmTable({
           message: "Saved Successfully",
           type: "success",
         });
-
         componentClose();
         getData();
       })

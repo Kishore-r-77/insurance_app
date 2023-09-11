@@ -2,13 +2,11 @@ import { Button, Modal } from "react-bootstrap";
 
 function ApprovalFullModal({
   open,
-  infoOpen,
   handleClose,
   title,
   children,
-  handleFormSubmit,
-  isSave,
-  commit,
+  handleApproveSubmit,
+  handleRejectSubmit,
 }: any) {
   return (
     <div>
@@ -21,10 +19,16 @@ function ApprovalFullModal({
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            style={{
+              backgroundColor: "red",
+            }}
+            variant="error"
+            onClick={handleRejectSubmit}
+          >
             Rejection
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleApproveSubmit}>
             Approval
           </Button>
         </Modal.Footer>

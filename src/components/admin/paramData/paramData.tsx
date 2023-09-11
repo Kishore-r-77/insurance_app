@@ -48,7 +48,6 @@ import Q0017 from "../paramDataPages/Q0017/q0017";
 import Q0018 from "../paramDataPages/Q0018/q0018";
 import Q0019 from "../paramDataPages/Q0019/q0019";
 import Q0020 from "../paramDataPages/Q0020/q0020";
-import Q0021 from "../paramDataPages/Q0021/q0021";
 import Q0022 from "../paramDataPages/Q0022/q0022";
 import Q0023 from "../paramDataPages/Q0023/q0023";
 import Q0024 from "../paramDataPages/Q0024/q0024";
@@ -73,6 +72,9 @@ import P0057 from "../paramDataPages/P0057/p0057";
 import P0058 from "../paramDataPages/P0058/p0058";
 import ParamDataUploadModal from "./ParamDataUploadModal";
 import Notification from "../../../utilities/Notification/Notification";
+import P0059 from "../paramDataPages/P0059/p0059";
+import P0060 from "../paramDataPages/P0060/p0060";
+import P0061 from "../paramDataPages/P0061/p0061";
 
 const ParamData = () => {
   const {
@@ -575,6 +577,30 @@ const ParamData = () => {
             mode={mode}
           />
         );
+      case "1-P0059":
+        return (
+          <P0059
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+        case "1-P0060":
+          return (
+            <P0060
+              ref={extraDataRef}
+              data={getDataResponse.param.data}
+              mode={mode}
+            />
+          );
+          case "1-P0061":
+            return (
+              <P0061
+                ref={extraDataRef}
+                data={getDataResponse.param.data}
+                mode={mode}
+              />
+            );
       case "1-Q0010":
         return (
           <Q0010
@@ -650,14 +676,6 @@ const ParamData = () => {
       case "1-Q0020":
         return (
           <Q0020
-            ref={extraDataRef}
-            data={getDataResponse.param.data}
-            mode={mode}
-          />
-        );
-      case "1-Q0021":
-        return (
-          <Q0021
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}

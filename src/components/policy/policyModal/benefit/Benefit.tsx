@@ -23,6 +23,7 @@ import Extra from "../../../extra/Extra";
 import BenefitModal from "./benefitModal/BenefitModal";
 import Notification from "../../../../utilities/Notification/Notification";
 import axios from "axios";
+import IlpFunds from "../../../ilpFund/IlpFunds";
 
 function Benefit({
   modalFunc,
@@ -126,6 +127,18 @@ function Benefit({
         return {
           ...state,
           extraOpen: false,
+        };
+
+      case ACTIONS.FUNDOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          fundOpen: true,
+        };
+      case ACTIONS.FUNDCLOSE:
+        return {
+          ...state,
+          fundOpen: false,
         };
 
       case ACTIONS.SORT_ASC:
@@ -413,6 +426,14 @@ function Benefit({
         handleClose={() => dispatch({ type: ACTIONS.EXTRACLOSE })}
       >
         <Extra benefitState={record} lookup={state.extraOpen} />
+      </CustomModal>
+
+      <CustomModal
+        open={state.fundOpen}
+        size="xl"
+        handleClose={() => dispatch({ type: ACTIONS.FUNDCLOSE })}
+      >
+        <IlpFunds benefitState={record} lookup={state.fundOpen} />
       </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>

@@ -11,6 +11,7 @@ import axios from "axios";
 import SAChangeEnquiry from "./SAChangeEnquiry";
 import ComponentAddEnquiry from "./ComponentAddEnquiry";
 import MRTAEnquiry from "./MRTAEnquiry";
+import ILPTransactionEnquiry from "./ILPTransactionEnquiry";
 
 function EnquiryTable({
   data,
@@ -19,6 +20,7 @@ function EnquiryTable({
   infoOpen,
   historyOpen,
   mrtaOpen,
+  ilpTOpen,
   isCommunication,
 }: any) {
   console.log(policyNo, "Policy No in Enq");
@@ -39,9 +41,11 @@ function EnquiryTable({
 
   const [glHistory, setglHistory] = useState(false);
   const [mrta, setmrta] = useState(false);
+  const [ilpT, setilpT] = useState(false);
 
   const [policyId, setpolicyId] = useState("");
   const [Tranno, setTranno] = useState("");
+  const [fund, setfund] = useState("");
   const [isSachange, setisSachange] = useState(false);
   const [isComponentAdd, setisComponentAdd] = useState(false);
 
@@ -56,6 +60,12 @@ function EnquiryTable({
     } else {
       setglHistory(true);
     }
+  };
+
+  const ilptClickOpen = (fcode: any) => {
+    console.log("fund: ",fcode)
+    setfund(fcode);
+    setilpT(true);
   };
 
   const mrtaClickOpen = (pid: any, tno: any, cov: any) => {
@@ -80,6 +90,10 @@ function EnquiryTable({
 
   const glhClickClose = () => {
     setglHistory(false);
+  };
+
+  const ilptClickClose = () => {
+    setilpT(false);
   };
 
   const mrtaClickClose = () => {
@@ -227,7 +241,14 @@ function EnquiryTable({
                       >
                         {row[col.field]}
                       </td>
-                    ) : (
+                    ) : ilpTOpen ? (
+                      <td
+                        key={col.field}
+                        onClick={() => ilptClickOpen(row?.FundCode)}
+                      >
+                        {row[col.field]}
+                      </td>
+                    ) :(
                       <td key={col.field}>{row[col.field]}</td>
                     )}
                   </>
@@ -281,6 +302,13 @@ function EnquiryTable({
         handleClose={mrtaClickClose}
         policyNo={policyNo}
         TransactionNo={Tranno}
+      />
+
+      <ILPTransactionEnquiry
+        open={ilpT}
+        handleClose={ilptClickClose}
+        policyNo={policyNo}
+        fundCode={fund}
       />
     </Paper>
   );

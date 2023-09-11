@@ -8,7 +8,7 @@ function CustomAdjPremModal({
   title,
   children,
   handleFormSubmit,
-  completed
+  completed,
 }: any) {
   return (
     <div>
@@ -23,8 +23,8 @@ function CustomAdjPremModal({
           </Button>
           {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
-            {completed ? "Save" : "Calculate"}
-          </Button>
+              {completed ? "Save" : "Calculate"}
+            </Button>
           )}
         </Modal.Footer>
       </Modal>

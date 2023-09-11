@@ -34,6 +34,12 @@ import PolReinModal from "./polReinModal/PolReinModal";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
 import SurrenderModal from "./surrenderModal/SurrenderModal";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
+import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
+import FuneralModel from "./funeralModel/FuneralModel";
+import IBenefitModal from "./incomeBenefit/IBenefitModal";
+import APModal from "./incomeBenefit/Apmodal";
+import CIapprove from "./criticalModal/CIapprove";
+import CriticalModal from "./criticalModal/Critical";
 
 function ClaimsTable({
   issueOpen,
@@ -499,13 +505,618 @@ function ClaimsTable({
         maturityDispatch({ type: MATURITYACTIONS.MATURITYOPEN });
         handleClose();
         break;
+      //Funeral modification
+      case "Funeral":
+        funeralOpen(policyId.current, value);
+        handleClose();
+        break;
+      case "ApprovalFX":
+        ApprovalfuneralOpen(policyId.current, value);
+        handleClose();
+        break;
+      //Funeral modification
+      case "IBenefit":
+        IBenefitOpen(policyId.current, value);
+        handleClose();
+        break;
+      case "IBApprove":
+        IBapOpen(policyId.current, value);
+        handleClose();
+        break;
+      case "CriticalIllness":
+        criticalOpen(policyId.current, value);
+        handleClose();
+        break;
+      case "ApprovalCI":
+        ApproveCIopen(policyId.current, value);
+        handleClose();
+        break;
       default:
         return;
     }
   };
+  ///open ib
+
+  const [isIBenefit, setisIBenefit] = useState(false);
+  const [IBenefitData, setIBenefitData] = useState<any>("");
+  const [IBenefits, setIBenefits] = useState<any>([]);
+  const [IbBenefits, setIbBenefits] = useState<any>([]);
+  const [benefitcheck, setbenefitcheck] = useState<any>({});
+  const [apBenefits, setapBenefits] = useState<any>([]);
+  const initialbenefitentry = {
+    PayFrequency: "",
+    IncidentDate: "",
+    ReceivedDate: "",
+  };
+  const [benefitentry, setbenefitentry] = useState(initialbenefitentry);
+  const [isIBnext, setisIBnext] = useState(false);
+  const [saveisIBopen, setsaveisIBopen] = useState(false);
+
+  const saveibenefitOpen = () => {
+    setsaveisIBopen(true);
+    setisIBnext(true);
+  };
+  const saveibenefitClose = () => {
+    setsaveisIBopen(false);
+    setisIBnext(false);
+  };
+  ////////
+
+  //incomebenefit
+
+  const [savebenefitobj, setsavebenefitobj] = useState<any>({});
+  const postIBenefit = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/ibcreate/${PolicyID}/${benefitcheck.ID}`,
+        {
+          CompanyID: companyId,
+          BenefitID: benefitcheck.ID,
+
+          //PaidDate: moment(benefitentry.PaidDate).format("YYYYMMDD").toString(),
+          IncidentDate: moment(benefitentry.IncidentDate)
+            .format("YYYYMMDD")
+            .toString(),
+          ReceivedDate: moment(benefitentry.ReceivedDate)
+            .format("YYYYMMDD")
+            .toString(),
+          PolicyID: IBenefitData.ID,
+
+          PayFrequency: IBenefitData.PFreq,
+          BCoverage: benefitcheck.BCoverage,
+
+          BSumAssured: benefitcheck.BSumAssured,
+
+          Function: "Check",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setsavebenefitobj(resp.data.IB);
+        isSave.current = true;
+        setisIBnext(false);
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+  // save incomebenefit
+  const saveIBenefit = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/ibcreate/${PolicyID}/${benefitcheck.ID}`,
+        {
+          CompanyID: companyId,
+          PolicyID: savebenefitobj.PolicyID,
+          BenefitID: savebenefitobj.BenefitID,
+          BCoverage: savebenefitobj.BCoverage,
+          Seqno: savebenefitobj.Seqno,
+          PayFrequency: savebenefitobj.PayFrequency,
+          Percentage: savebenefitobj.Percentage,
+          BSumAssured: savebenefitobj.BSumAssured,
+          EffectiveDate: savebenefitobj.EffectiveDate,
+          IncidentDate: savebenefitobj.IncidentDate,
+          ReceivedDate: savebenefitobj.ReceivedDate,
+          PaidToDate: savebenefitobj.PaidToDate,
+          BStatusCode: savebenefitobj.BStatusCode,
+          ApprovalFlag: savebenefitobj.ApprovalFlag,
+          CertificateExistranceFlag: savebenefitobj.CertificateExistranceFlag,
+          CertificateExistranceDate: savebenefitobj.CertificateExistranceDate,
+          CertificateExistranceRevDate:
+            savebenefitobj.CertificateExistranceRevDate,
+          NextPayDate: savebenefitobj.NextPayDate,
+          ClaimAmount: savebenefitobj.ClaimAmount,
+          BStartDate: savebenefitobj.BStartDate,
+          TotalAmount: savebenefitobj.TotalAmount,
+          PaidDate: savebenefitobj.PaidDate,
+          Function: "Save",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        isSave.current = false;
+        IBenefitClose();
+        saveibenefitClose();
+        setbenefitentry(initialbenefitentry);
+
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Saved Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+  //
+  const handleIBIncidentDate = (date: any) => {
+    setbenefitentry((prev) => ({ ...prev, IncidentDate: date }));
+  };
+  const handleIBReceivedDate = (date: any) => {
+    setbenefitentry((prev) => ({ ...prev, ReceivedDate: date }));
+  };
+
+  // const [policyWithBenefitData, setpolicyWithBenefitData] = useState([]);
+  const handleIBenefitchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setbenefitentry((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  //get policy
+  // const getPolicywithBenefit = (policyId: any) => {
+  //   axios
+  //     .get(
+  //       `http://localhost:3000/api/v1/deathservices/getpolwithbenefits/${policyId}`,
+  //       { withCredentials: true }
+  //     )
+  //     .then((resp) => {
+  //       setIBenefitData(resp.data?.Policy);
+  //       setIBenefits(resp?.data?.Policy?.Benefits);
+  //       setapBenefits(resp?.data?.Policy?.IBenefits);
+  //     })
+  //     .catch((err) => err.message);
+  // };
+  const [ibclaimType, setibclaimType] = useState("");
+  const getPolicywithBenefit = (policyId: any, claimType: any) => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/deathservices/getpolwithbenefitstest/${policyId}/${ibclaimType}`,
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setIBenefitData(resp.data?.Policy);
+        setIBenefits(resp.data?.Claims);
+        setapBenefits(resp?.data?.Policy?.IBenefits);
+      })
+      .catch((err) => err.message);
+  };
+  useEffect(() => {
+    getPolicywithBenefit(PolicyID, ibclaimType);
+
+    return () => {};
+  }, [isIBenefit]);
+
+  // open/close
+  const IBenefitOpen = (policyId: number, value: any) => {
+    setisIBenefit(true);
+    setPolicyID(policyId);
+    setibclaimType("I");
+    getPolicywithBenefit(policyId, ibclaimType);
+  };
+  const IBenefitClose = () => {
+    setisIBenefit(false);
+    setbenefitentry(initialbenefitentry);
+  };
+
+  const [isapopen, setisapopen] = useState(false);
+
+  //approval function
+  const IBapOpen = (policyId: number, value: any) => {
+    setisapopen(true);
+    setPolicyID(policyId);
+    setibclaimType("I");
+    getPolicywithBenefit(policyId, ibclaimType);
+  };
+  const IBapClose = () => {
+    setisapopen(false);
+    setbenefitentry(initialbenefitentry);
+
+    if (isSave.current) {
+      //invalidateIB();
+    }
+  };
+
+  useEffect(() => {
+    getPolicywithBenefit(PolicyID, claimType);
+
+    return () => {};
+  }, [isapopen]);
+  // close ib
+  //Funeral modification
+  const [isFuneral, setisFuneral] = useState(false);
+  const [isApprovalFuneral, setisApprovalFuneral] = useState(false);
+  const [funeralObj, setfuneralobj] = useState<any>("");
+  const [funeralMenu, setfuneralMenu] = useState<any>("");
+  const [nomineeObj, setnomineeobj] = useState<any>([]);
+  const [funeralBenefits, setfuneralBenefits] = useState<any>([]);
+  const [funeralcheck, setfuneralcheck] = useState<any>({});
+  const initialfuneralentry = {
+    CriticalType: "",
+    IncidentDate: "",
+    ReceivedDate: "",
+  };
+  const [criticalIllness, setcriticalIllness] = useState<any>([]);
+  const [funeralentry, setfuneralentry] = useState(initialfuneralentry);
+  const [isnext, setisnext] = useState(false);
+  const [saveisfuneralOpen, setsaveisfuneralOpen] = useState(false);
+
+  const savefuneralOpen = () => {
+    setsaveisfuneralOpen(true);
+    setisnext(true);
+  };
+
+  const savefuneralClose = () => {
+    setsaveisfuneralOpen(false);
+    setisnext(false);
+  };
+  //Funeral modification
+  const funeralOpen = (policyId: number, value: any) => {
+    setisFuneral(true);
+    setfuneralMenu(value);
+    setPolicyID(policyId);
+    setclaimType("F");
+    getnomineebypolicy(policyId);
+  };
+  useEffect(() => {
+    getpolicywithclaimbenefit(PolicyID, claimType);
+
+    return () => {};
+  }, [isFuneral]);
+  const handleIncidentDate = (date: any) => {
+    setfuneralentry((prev) => ({ ...prev, IncidentDate: date }));
+  };
+  const handleReceivedDate = (date: any) => {
+    setfuneralentry((prev) => ({ ...prev, ReceivedDate: date }));
+  };
+
+  const handlefuneralchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setfuneralentry((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const funeralClose = () => {
+    setisFuneral(false);
+    setfuneralentry(initialfuneralentry);
+  };
+  const ApprovalfuneralOpen = (policyId: number, value: any) => {
+    setisApprovalFuneral(true);
+    setfuneralMenu(value);
+    setPolicyID(policyId);
+    setclaimType("F");
+    getpolicywithclaimbenefit(policyId, claimType);
+    // getpolicywithbenefit(policyId);
+    getnomineebypolicy(policyId);
+  };
+  const ApprovalfuneralClose = () => {
+    setisApprovalFuneral(false);
+    setfuneralentry(initialfuneralentry);
+  };
+  useEffect(() => {
+    getpolicywithclaimbenefit(PolicyID, claimType);
+
+    return () => {};
+  }, [isApprovalFuneral]);
+  const [claimType, setclaimType] = useState("");
+  const getpolicywithclaimbenefit = (policyId: any, claimType: any) => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/deathservices/getpolwithbenefitstest/${policyId}/${claimType}`,
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setfuneralobj(resp.data?.Policy);
+        setfuneralBenefits(resp?.data?.Claims);
+        setcriticalIllness(resp?.data?.Policy?.CriticalIllnesss);
+      })
+      .catch((err) => err.message);
+  };
+  const getnomineebypolicy = (policyId: any) => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/deathservices/nomineesbypol/${policyId}`,
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setnomineeobj(resp.data?.Nominees);
+      })
+      .catch((err) => err.message);
+  };
+  const [savefuneralobj, setsavefuneralobj] = useState<any>({});
+  const postfuneral = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/fxcreate/${PolicyID}/${funeralcheck.ID}`,
+        {
+          BenefitID: funeralcheck.ID,
+          CompanyID: companyId,
+          PolicyID: funeralObj.ID,
+          CriticalType: funeralentry.CriticalType,
+          BSumAssured: funeralcheck.BSumAssured,
+          IncidentDate:
+            funeralentry.IncidentDate.length === 0
+              ? ""
+              : moment(funeralentry.IncidentDate).format("YYYYMMDD").toString(),
+          ReceivedDate:
+            funeralentry.ReceivedDate.length === 0
+              ? ""
+              : moment(funeralentry.ReceivedDate).format("YYYYMMDD").toString(),
+          BStatusCode: funeralcheck.BStatusCode,
+          // Percentage: nomineeObj[0].NomineePercentage,
+          ClientID: nomineeObj[0]?.ClientID,
+          Function: "Check",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setisnext(false);
+        setsavefuneralobj(resp.data.FE);
+        isSave.current = true;
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+  const savefuneral = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/fxcreate/${PolicyID}/${funeralcheck.ID}`,
+        {
+          CompanyID: companyId,
+          PolicyID: savefuneralobj.PolicyID,
+          BenefitID: savefuneralobj.BenefitID,
+          CriticalType: savefuneralobj.CriticalType,
+          BSumAssured: savefuneralobj.BSumAssured,
+          EffectiveDate: savefuneralobj.EffectiveDate,
+          IncidentDate: moment(savefuneralobj.IncidentDate).format("YYYYMMDD"),
+          ReceivedDate: moment(savefuneralobj.ReceivedDate).format("YYYYMMDD"),
+          PaidToDate: moment(savefuneralobj.ReceivedDate).format("YYYYMMDD"),
+          BStatusCode: savefuneralobj.BStatusCode,
+          ApprovalFlag: savefuneralobj.ApprovalFlag,
+          ClaimAmount: savefuneralobj.ClaimAmount,
+          Percentage: savefuneralobj.NomineePercentage,
+          ClientID: savefuneralobj.ClientID,
+          Function: "Save",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        isSave.current = false;
+        funeralClose();
+        savefuneralClose();
+        setfuneralentry(initialfuneralentry);
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Saved Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+
+  /// CRITICAL ILLNESS
+  const [isCritical, setisCritical] = useState(false);
+  const [isApproveCI, setisApproveCI] = useState(false);
+  const [saveisCIopen, setsaveisCIopen] = useState(false);
+  const [isCInext, setisCInext] = useState(false);
+  const [criticalData, setcriticalData] = useState<any>("");
+  const [criticalMenu, setcriticalMenu] = useState<any>("");
+  const [checkResponse, setcheckResponse] = useState<any>({});
+  const [criticalBenefits, setcriticalBenefits] = useState<any>([]);
+  const [policyWithBenefitData, setpolicyWithBenefitData] = useState([]);
+  const [apCIBenefits, setapCIBenefits] = useState<any>([]);
+  const [checkbody, setcheckbody] = useState<any>("");
+  const initialcriticalentry = {
+    CriticalType: "",
+    IncidentDate: "",
+    ReceivedDate: "",
+  };
+  const [criticalentry, setcriticalentry] = useState(initialcriticalentry);
+  const [ciclaimtype, setciclaimtype] = useState("");
+  const [isSaveopen, setissaveopen] = useState(false);
+  const [BenefitID, setBenefitID] = useState();
+
+  const saveCriticalopen = () => {
+    setsaveisCIopen(true);
+    setisCInext(true);
+  };
+  const saveCriticalclose = () => {
+    setsaveisCIopen(false);
+  };
+
+  const handleadditional = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setcriticalentry((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const postcritical = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/cicreate/${PolicyID}/${checkbody.ID}`,
+        {
+          CompanyID: parseInt(criticalData.CompanyID),
+          BenefitID: parseInt(checkbody.ID),
+          CriticalType: criticalentry.CriticalType,
+          BSumAssured: parseInt(checkbody.BSumAssured),
+          IncidentDate: moment(criticalentry.IncidentDate).format("YYYYMMDD"),
+          PolicyID: parseInt(criticalData.ID),
+          ReceivedDate: moment(criticalentry.ReceivedDate).format("YYYYMMDD"),
+          PaidToDate: moment(criticalData.PaidToDate).format("YYYYMMDD"),
+          BStatusCode: checkbody.BStatus,
+
+          Function: "Check",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setcheckResponse(resp.data.CI);
+        isSave.current = true;
+        setisCInext(false);
+        Saveopen();
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+
+  const Saveopen = () => {
+    setissaveopen(true);
+  };
+  const Saveclose = () => {
+    setissaveopen(false);
+  };
+  const savecritical = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/cicreate/${PolicyID}/${checkbody.ID}`,
+        {
+          CompanyID: checkResponse.CompanyID,
+          PolicyID: checkResponse.PolicyID,
+          BenefitID: checkResponse.BenefitID,
+          CriticalType: checkResponse.CriticalType,
+          BSumAssured: checkResponse.BSumAssured,
+          EffectiveDate: checkResponse.EffectiveDate,
+          IncidentDate: checkResponse.IncidentDate,
+          ReceivedDate: checkResponse.ReceivedDate,
+          PaidToDate: checkResponse.PaidToDate,
+          BStatusCode: checkResponse.BStatusCode,
+          ApprovalFlag: checkResponse.ApprovalFlag,
+          ClaimAmount: checkResponse.ClaimAmount,
+          Percentage: checkResponse.Percentage,
+          Function: "Save",
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setcriticalData(resp.data?.Policy);
+        setcriticalBenefits(resp?.data?.Benefits);
+        saveCriticalclose();
+        criticalClose();
+        setcriticalentry(initialcriticalentry);
+
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Saved Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+  const criticalOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setBenefitID(BenefitID);
+    setisCritical(true);
+    setciclaimtype("C");
+    getPolicywithBenefitCI(policyId, ciclaimtype);
+  };
+  const criticalClose = () => {
+    setisCritical(false);
+  };
+  const ApproveCIopen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setBenefitID(BenefitID);
+    setisApproveCI(true);
+    getPolicywithBenefitCI(policyId, ciclaimtype);
+  };
+  const ApproveCIclose = () => {
+    setisApproveCI(false);
+  };
+  // invalid want to change approval
+
+  const getPolicywithBenefitCI = (policyId: any, ciclaimtype: any) => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/deathservices/getpolwithbenefitstest/${policyId}/${ciclaimtype}`,
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setcriticalData(resp.data?.Policy);
+        // setcriticalBenefits(resp?.data?.Policy?.Benefits);
+        setcriticalBenefits(resp?.data?.Claims);
+        setapCIBenefits(resp?.data?.Policy?.CriticalIllnesss);
+      })
+      .catch((err) => err.message);
+  };
+  useEffect(() => {
+    getPolicywithBenefitCI(PolicyID, ciclaimtype);
+
+    return () => {};
+  }, [isCritical]);
+
+  const handleCIIncidentDate = (date: any) => {
+    setcriticalentry((prev) => ({ ...prev, IncidentDate: date }));
+  };
+  const handleCIReceivedDate = (date: any) => {
+    setcriticalentry((prev) => ({ ...prev, ReceivedDate: date }));
+    console.log("handleCIReceivedDate", date);
+  };
+  ///////CLOSE CI
 
   console.log(surrenderState.surrenderOpen, "surrenderOpen");
-
   const [isSaChange, setisSaChange] = useState(false);
   const [isComponent, setisComponent] = useState(false);
   const [saChangeMenu, setsaChangeMenu] = useState<any>("");
@@ -966,6 +1577,163 @@ function ClaimsTable({
         handleClose={tranReversalClose}
         policyId={PolicyID}
         getPolicyData={getData}
+        setNotify={setNotify}
+      />
+      <IBenefitModal
+        open={isIBenefit}
+        handleClose={IBenefitClose}
+        IBenefitData={IBenefitData}
+        IBenefits={IBenefits}
+        setIBenefits={setIBenefits}
+        postIBenefit={postIBenefit}
+        isSave={isSave?.current}
+        saveIBenefit={saveIBenefit} // save func
+        getData={getData}
+        setbenefitcheck={setbenefitcheck}
+        benefitentry={benefitentry}
+        handleIBenefitchange={handleIBenefitchange}
+        setisIBnext={setisIBnext}
+        handleIBIncidentDate={handleIBIncidentDate}
+        handleIBReceivedDate={handleIBReceivedDate}
+        isIBnext={isIBnext}
+        savebenefitobj={savebenefitobj}
+        benefitcheck={benefitcheck}
+        saveibenefitOpen={saveibenefitOpen} //ls
+        saveibenefitClose={saveibenefitClose} //
+        saveisIBopen={saveisIBopen} //
+        apBenefits={apBenefits}
+        setNotify={setNotify}
+      />
+      <APModal
+        open={isapopen}
+        handleClose={IBapClose}
+        IBenefitData={IBenefitData}
+        IBenefits={IBenefits}
+        setIBenefits={setIBenefits}
+        postIBenefit={postIBenefit}
+        isSave={isSave?.current}
+        saveIBenefit={saveIBenefit} // save func
+        getData={getData}
+        setbenefitcheck={setbenefitcheck}
+        benefitentry={benefitentry}
+        handleIBenefitchange={handleIBenefitchange}
+        setisIBnext={setisIBnext}
+        handleIBIncidentDate={handleIBIncidentDate}
+        handleIBReceivedDate={handleIBReceivedDate}
+        isIBnext={isIBnext}
+        savebenefitobj={savebenefitobj}
+        benefitcheck={benefitcheck}
+        saveibenefitOpen={saveibenefitOpen} //ls
+        saveibenefitClose={saveibenefitClose} //
+        saveisIBopen={saveisIBopen} //
+        apBenefits={apBenefits}
+        setNotify={setNotify}
+      />
+      {/* //Funeral modification */}
+      <FuneralModel
+        open={isFuneral}
+        handleClose={funeralClose}
+        funeralObj={funeralObj}
+        nomineeObj={nomineeObj}
+        funeralBenefits={funeralBenefits}
+        setfuneralBenefits={setfuneralBenefits}
+        postfuneral={postfuneral}
+        isSave={isSave?.current}
+        // savefuneral={savefuneral}
+        getData={getData}
+        setfuneralcheck={setfuneralcheck}
+        handlefuneralchange={handlefuneralchange}
+        funeralentry={funeralentry}
+        isnext={isnext}
+        savefuneralobj={savefuneralobj}
+        funeralcheck={funeralcheck}
+        savefuneral={savefuneral}
+        setisnext={setisnext}
+        handleIncidentDate={handleIncidentDate}
+        handleReceivedDate={handleReceivedDate}
+        savefuneralOpen={savefuneralOpen}
+        saveisfuneralOpen={saveisfuneralOpen}
+        savefuneralClose={savefuneralClose}
+        criticalIllness={criticalIllness}
+        setNotify={setNotify}
+      />
+      <ApprovalFuneralModal
+        open={isApprovalFuneral}
+        handleClose={ApprovalfuneralClose}
+        funeralObj={funeralObj}
+        nomineeObj={nomineeObj}
+        funeralBenefits={funeralBenefits}
+        setfuneralBenefits={setfuneralBenefits}
+        postfuneral={postfuneral}
+        isSave={isSave?.current}
+        getData={getData}
+        setfuneralcheck={setfuneralcheck}
+        handlefuneralchange={handlefuneralchange}
+        funeralentry={funeralentry}
+        isnext={isnext}
+        savefuneralobj={savefuneralobj}
+        funeralcheck={funeralcheck}
+        savefuneral={savefuneral}
+        setisnext={setisnext}
+        handleIncidentDate={handleIncidentDate}
+        handleReceivedDate={handleReceivedDate}
+        savefuneralOpen={savefuneralOpen}
+        saveisfuneralOpen={saveisfuneralOpen}
+        savefuneralClose={savefuneralClose}
+        criticalIllness={criticalIllness}
+        setNotify={setNotify}
+      />
+      {/* Funeral modification */}
+      <CriticalModal
+        open={isCritical}
+        handleClose={criticalClose}
+        criticalData={criticalData}
+        criticalBenefits={criticalBenefits}
+        setcriticalBenefits={setcriticalBenefits}
+        postcritical={postcritical}
+        isSave={isSave?.current}
+        savecritical={savecritical}
+        criticalentry={criticalentry}
+        getData={getData}
+        policyWithBenefitData={policyWithBenefitData}
+        setcheckbody={setcheckbody}
+        handleadditional={handleadditional}
+        setisCInext={setisCInext}
+        handleCIIncidentDate={handleCIIncidentDate}
+        handleCIReceivedDate={handleCIReceivedDate}
+        isCInext={isCInext}
+        checkResponse={checkResponse}
+        checkbody={checkbody}
+        saveCriticalopen={saveCriticalopen}
+        saveCriticalClose={saveCriticalclose}
+        saveisCIopen={saveisCIopen}
+        apCIBenefits={apCIBenefits}
+        setNotify={setNotify}
+      />
+      <CIapprove
+        open={isApproveCI}
+        handleClose={ApproveCIclose}
+        criticalData={criticalData}
+        criticalBenefits={criticalBenefits}
+        setcriticalBenefits={setcriticalBenefits}
+        postcritical={postcritical}
+        isSave={isSave?.current}
+        savecritical={savecritical}
+        criticalentry={criticalentry}
+        getData={getData}
+        policyWithBenefitData={policyWithBenefitData}
+        setcheckbody={setcheckbody}
+        handleadditional={handleadditional}
+        setisCInext={setisCInext}
+        handleCIIncidentDate={handleCIIncidentDate}
+        handleCIReceivedDate={handleCIReceivedDate}
+        isCInext={isCInext}
+        checkResponse={checkResponse}
+        checkbody={checkbody}
+        saveCriticalopen={saveCriticalopen}
+        saveCriticalClose={saveCriticalclose}
+        saveisCIopen={saveisCIopen}
+        apCIBenefits={apCIBenefits}
         setNotify={setNotify}
       />
       <AdjPremModal

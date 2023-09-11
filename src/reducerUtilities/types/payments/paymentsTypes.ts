@@ -8,6 +8,7 @@ export type PaymentsStateType = {
   ClientID: string;
   DateOfPayment: string;
   ReconciledDate: string;
+  PaymentAccount: string;
   BankIFSC: string;
   BankAccountNo: string;
   BankReferenceNo: string;
@@ -16,6 +17,9 @@ export type PaymentsStateType = {
   InsurerBankAccNo: string;
   AddressID: string;
   Status: string;
+  MakerUserID: string;
+  CheckerUserID: string;
+  Reason: string;
   // *** Attention: Check the lookup table open below ***
   clientsOpen: boolean;
   addressOpen: boolean;
@@ -33,6 +37,7 @@ export type PaymentsStateType = {
 
 export type ActionConstantsType = {
   ONCHANGE: string;
+  APPROVECHANGE: string;
   EDITCHANGE: string;
   ADDOPEN: string;
   // EDITOPEN: string;
@@ -57,6 +62,8 @@ export type PaymentsModalType = {
   record: any;
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;
+  ApproveSubmit: () => Promise<void>;
+  RejectSubmit: () => Promise<void>;
   ACTIONS: ActionConstantsType;
   handleSearchChange: any;
   searchContent: any;

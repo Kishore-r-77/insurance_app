@@ -11,6 +11,7 @@ import { useState } from "react";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import MRTAEnquiry from "../../enquiry/MRTAEnquiry";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
 
 function BenefitTable({
   data,
@@ -107,8 +108,9 @@ function BenefitTable({
               )
             )}
             <th>Actions</th>
-            {data[0]?.BCoverage === "MRTA"?<th>Schedule</th>:"" }
+            {data[0]?.BCoverage === "MRTA" ? <th>Schedule</th> : ""}
             <th>Extras</th>
+            <th>Funds</th>
           </tr>
         </thead>
         <tbody>
@@ -147,11 +149,13 @@ function BenefitTable({
                   /> */}
                 </span>
               </td>
-              {data[0]?.BCoverage === "MRTA"?
-              <td onClick={() => mrtaOpen()}>
-                <EventAvailableIcon color="success" />
-              </td>
-              :"" }
+              {data[0]?.BCoverage === "MRTA" ? (
+                <td onClick={() => mrtaOpen()}>
+                  <EventAvailableIcon color="success" />
+                </td>
+              ) : (
+                ""
+              )}
               <td>
                 <IconButton
                   onClick={() =>
@@ -159,6 +163,18 @@ function BenefitTable({
                   }
                 >
                   <PlaylistAddIcon />
+                </IconButton>
+              </td>
+
+              <td>
+                <IconButton
+                  onClick={() =>
+                    dispatch({ type: ACTIONS.FUNDOPEN, payload: row })
+                  }
+                  color="success"
+                  disabled={row.BCoverage !== "ILP1"}
+                >
+                  <CreditScoreIcon />
                 </IconButton>
               </td>
             </tr>

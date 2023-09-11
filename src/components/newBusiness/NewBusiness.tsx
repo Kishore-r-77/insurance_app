@@ -53,6 +53,7 @@ function NewBusiness({ modalFunc }: any) {
       BCoverage: "",
       BSumAssured: 0,
       Interest: 0,
+      BPrem: 0,
     },
   ]);
 
@@ -104,6 +105,7 @@ function NewBusiness({ modalFunc }: any) {
             BCoverage: "",
             BSumAssured: 0,
             Interest: 0,
+            BPrem: 0,
           },
         ]);
         return {

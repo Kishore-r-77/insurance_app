@@ -29,6 +29,8 @@ import {
 import { AccountCircle } from "@mui/icons-material";
 import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
 import axios from "axios";
+import useHttp from "../../../hooks/use-http";
+import { getData } from "../../../services/http-service";
 import ApprovalFullModal from "./approvalFullModal";
 
 function PaymentsModal({
@@ -43,7 +45,6 @@ function PaymentsModal({
   const addTitle: string = "Payments Add";
   const editTitle: string = "Payments Edit";
   const infoTitle: string = "Payments Info";
-  const approvalTitle: string = "Payment Approval&Rejection";
   const size: string = "xl";
 
   //Creating useReducer Hook
@@ -58,6 +59,8 @@ function PaymentsModal({
     (state) => state.users.user.message.companyId
   );
 
+  const id = useAppSelector((state) => state.users.user.message.id);
+
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
   );
@@ -67,6 +70,28 @@ function PaymentsModal({
       setCompanyData(resp.data["Company"]);
     });
   };
+
+  const {
+    sendRequest: sendPaymentRequest,
+    status: getPaymentResponseStatus,
+    data: getPaymentResponse,
+    error: getPaymentResponseError,
+  } = useHttp(getData, true);
+
+  useEffect(() => {
+    let getDataParams: any = {};
+    getDataParams.companyId = 1;
+    getDataParams.languageId = 1;
+    getDataParams.seqno = 0;
+
+    getDataParams.name = "P0050";
+
+    getDataParams.item = "PaymentAccount";
+    sendPaymentRequest({
+      apiUrlPathSuffix: "/basicservices/paramItem",
+      getDataParams: getDataParams,
+    });
+  }, []);
 
   const [branchData, setBranchData] = useState([]);
   const getBranch = (companyId: number, name: string, languageId: number) => {
@@ -346,10 +371,12 @@ function PaymentsModal({
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                         readOnly={state.infoOpen}
-                        label="Date Of Collection"
+                        label="Date Of Payment"
                         inputFormat="DD/MM/YYYY"
                         value={
-                          state.addOpen ? state.CurrentDate : record.CurrentDate
+                          state.addOpen
+                            ? state.DateOfPayment
+                            : record.DateOfPayment
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
@@ -358,8 +385,8 @@ function PaymentsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date?.$d?.$d,
-                            fieldName: "CurrentDate",
+                            payload: date.$d,
+                            fieldName: "DateOfPayment",
                           })
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -525,32 +552,38 @@ function PaymentsModal({
                   />
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={state.infoOpen}
-                        label="Date Of Payment"
-                        inputFormat="DD/MM/YYYY"
-                        value={
-                          state.addOpen
-                            ? state.DateOfPayment
-                            : record.DateOfPayment
-                        }
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date?.$d?.$d,
-                            fieldName: "DateOfPayment",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
+                  <TextField
+                    select
+                    id="PaymentAccount"
+                    name="PaymentAccount"
+                    value={
+                      state.addOpen
+                        ? state.PaymentAccount
+                        : record.PaymentAccount
+                    }
+                    placeholder="PaymentAccount"
+                    label="PaymentAccount"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PaymentAccount",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  >
+                    {getPaymentResponse?.param.data.dataPairs.map(
+                      (value: any) => (
+                        <MenuItem key={value.code} value={value.code}>
+                          {value.description}
+                        </MenuItem>
+                      )
+                    )}
+                  </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
@@ -562,16 +595,14 @@ function PaymentsModal({
                         value={
                           state.addOpen
                             ? state.ReconciledDate
-                            : record.ReconciledDate
+                            : record?.ReconciledDate
                         }
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>
                           dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date?.$d?.$d,
+                            type: ACTIONS.ONCHANGE,
+                            payload: date.$d,
                             fieldName: "ReconciledDate",
                           })
                         }
@@ -727,6 +758,19 @@ function PaymentsModal({
                     margin="dense"
                   />
                 </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="MakerUserID"
+                    name="MakerUserID"
+                    value={state.addOpen ? id : record.MakerUserID}
+                    placeholder="MakerUserID"
+                    label="MakerUserID"
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
                 {/* <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="Status"
@@ -750,6 +794,52 @@ function PaymentsModal({
                 </Grid2> */}
               </>
             )}
+            {state.infoOpen ? (
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  id="CheckerUserID"
+                  name="CheckerUserID"
+                  value={record.CheckerUserID}
+                  placeholder="CheckerUserID"
+                  label="CheckerUserID"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: state.addOpen
+                        ? ACTIONS.ONCHANGE
+                        : ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "CheckerUserID",
+                    })
+                  }
+                  fullWidth
+                  inputProps={{ readOnly: state.infoOpen }}
+                  margin="dense"
+                />
+              </Grid2>
+            ) : null}
+            {state.infoOpen ? (
+              <Grid2 xs={8} md={6} lg={4}>
+                <TextField
+                  id="Reason"
+                  name="Reason"
+                  value={record?.Reason}
+                  placeholder="Reason"
+                  label="Reason"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch({
+                      type: state.addOpen
+                        ? ACTIONS.ONCHANGE
+                        : ACTIONS.EDITCHANGE,
+                      payload: e.target.value,
+                      fieldName: "Reason",
+                    })
+                  }
+                  fullWidth
+                  inputProps={{ readOnly: state.infoOpen }}
+                  margin="dense"
+                />
+              </Grid2>
+            ) : null}
           </Grid2>
         </form>
       </CustomModal>

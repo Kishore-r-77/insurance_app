@@ -44,6 +44,20 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const [qriskcesstermData, setQriskcesstermData] = useState([]);
   const [qpremcesstermData, setQpremcesstermData] = useState([]);
   const [qproductData, setQproductData] = useState([]);
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+  const [qDetailData, setqDetailData] = useState([
+    {
+      CompanyID: companyId,
+      ClientID: 0,
+      QCoverage: "",
+      QSumAssured: "",
+      QRiskCessTerm: "",
+      QPremCessTerm: "",
+      QAgeAdmitted: "",
+    },
+  ]);
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: QHeaderStateType, action: any) => {
     switch (action.type) {
@@ -88,6 +102,17 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         setQriskcesstermData([]);
         setQpremcesstermData([]);
         setQproductData([]);
+        setqDetailData([
+          {
+            CompanyID: companyId,
+            ClientID: 0,
+            QCoverage: "",
+            QSumAssured: "",
+            QRiskCessTerm: "",
+            QPremCessTerm: "",
+            QAgeAdmitted: "",
+          },
+        ]);
         return {
           ...state,
           addOpen: false,
@@ -200,9 +225,7 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-  const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
-  );
+
   //Add Api
   const handleFormSubmit = async () => {
     const resp = addApi(state, companyId);
@@ -424,6 +447,8 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         setQpremcesstermData={setQpremcesstermData}
         qproductData={qproductData}
         setQproductData={setQproductData}
+        qDetailData={qDetailData}
+        setqDetailData={setqDetailData}
       />
       <QHeaderQDetailEnquiry
         state={state}

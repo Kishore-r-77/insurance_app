@@ -11,7 +11,14 @@ import Address from "../../clientDetails/address/Address";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Client from "../../clientDetails/client/Client";
-import { p0018, p0023, p0024, q0005, frequency, p0055 } from "../nbmmApis/nbmmApis";
+import {
+  p0018,
+  p0023,
+  p0024,
+  q0005,
+  frequency,
+  p0055,
+} from "../nbmmApis/nbmmApis";
 import styles from "./nbmm.module.css";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -34,6 +41,7 @@ import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
 import TDFEnquiry from "./enquiry/TDFEnquiry";
 import UWEnquiry from "../../policy/policyModal/enquiry/UWEnquiry";
 import Bank from "../../clientDetails/bank/Bank";
+import ILPSummaryEnquiry from "./enquiry/ILPSummaryEnquiry";
 
 function NewBusinessModal({
   state,
@@ -247,7 +255,7 @@ function NewBusinessModal({
   };
 
   const [bankClntData, setbankClntData] = useState([]);
-  console.log("Bank Open", state.bankOpen)
+  console.log("Bank Open", state.bankOpen);
   const getBankByClient = () => {
     axios
       .get(
@@ -324,6 +332,21 @@ function NewBusinessModal({
       .catch((err) => console.log(err.message));
   };
 
+  const [ilpSummaryData, setilpSummaryData] = useState([]);
+  const getIlpSummaryByPolicy = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/ilpservices/ilpsummarybypol/${record.ID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setilpSummaryData(resp.data?.IlpSummary);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   useEffect(() => {
     getCoverage();
 
@@ -342,7 +365,7 @@ function NewBusinessModal({
     getCommunicationByPolicy();
     getextraByPolicy();
     getSurvivalBenefitByPolicy();
-
+    getIlpSummaryByPolicy();
     return () => {};
   }, [state.infoOpen]);
 
@@ -1013,7 +1036,7 @@ function NewBusinessModal({
                     margin="dense"
                   />
                 </Grid2>
-               <Grid2 xs={8} md={6} lg={3}>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     InputProps={{ readOnly: true }}
                     onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
@@ -1059,7 +1082,7 @@ function NewBusinessModal({
                     margin="dense"
                   />
                 </Grid2>
-               </Grid2>
+              </Grid2>
             </TreeItem>
             {state.infoOpen ? (
               <>
@@ -1158,6 +1181,17 @@ function NewBusinessModal({
                     style={{ backgroundColor: "white" }}
                   >
                     <ExtraEnquiry data={extraData} state={state} />
+                  </Tab>
+                  <Tab
+                    eventKey="ILP Summary"
+                    title="ILP Summary"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <ILPSummaryEnquiry
+                      ilpSummaryData={ilpSummaryData}
+                      state={state}
+                      policyNo={record.ID}
+                    />
                   </Tab>
                 </Tabs>
               </>

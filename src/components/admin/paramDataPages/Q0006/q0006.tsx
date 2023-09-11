@@ -16,7 +16,6 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendAnnivermRequest , status: getAnnivermResponseStatus ,  data: getAnnivermResponse , error:getAnnivermResponseError} = useHttp(getData, true); 
   const {sendRequest : sendAnnuitymRequest , status: getAnnuitymResponseStatus ,  data: getAnnuitymResponse , error:getAnnuitymResponseError} = useHttp(getData, true); 
   const {sendRequest : sendCommismRequest , status: getCommismResponseStatus ,  data: getCommismResponse , error:getCommismResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendDeathtypRequest , status: getDeathtypResponseStatus ,  data: getDeathtypResponse , error:getDeathtypResponseError} = useHttp(getData, true); 
   const {sendRequest : sendDeathmRequest , status: getDeathmResponseStatus ,  data: getDeathmResponse , error:getDeathmResponseError} = useHttp(getData, true); 
   const {sendRequest : sendGuabonmethRequest , status: getGuabonmethResponseStatus ,  data: getGuabonmethResponse , error:getGuabonmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendInterimbonmRequest , status: getInterimbonmResponseStatus ,  data: getInterimbonmResponse , error:getInterimbonmResponseError} = useHttp(getData, true); 
@@ -35,7 +34,6 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendSurvbenmethRequest , status: getSurvbenmethResponseStatus ,  data: getSurvbenmethResponse , error:getSurvbenmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendSurrendmethRequest , status: getSurrendmethResponseStatus ,  data: getSurrendmethResponse , error:getSurrendmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendTermlbonmethRequest , status: getTermlbonmethResponseStatus ,  data: getTermlbonmethResponse , error:getTermlbonmethResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendUldednfreqRequest , status: getUldednfreqResponseStatus ,  data: getUldednfreqResponse , error:getUldednfreqResponseError} = useHttp(getData, true); 
   const {sendRequest : sendGsvmethRequest , status: getGsvmethResponseStatus ,  data: getGsvmethResponse , error:getGsvmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendSsvmethRequest , status: getSsvmethResponseStatus ,  data: getSsvmethResponse , error:getSsvmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBonsurrmethRequest , status: getBonsurrmethResponseStatus ,  data: getBonsurrmethResponse , error:getBonsurrmethResponseError} = useHttp(getData, true); 
@@ -47,14 +45,13 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendQ0018Request , status: getQ0018ResponseStatus ,  data: getQ0018Response , error:getQ0018ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0019Request , status: getQ0019ResponseStatus ,  data: getQ0019Response , error:getQ0019ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0020Request , status: getQ0020ResponseStatus ,  data: getQ0020Response , error:getQ0020ResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendQ0021Request , status: getQ0021ResponseStatus ,  data: getQ0021Response , error:getQ0021ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlalmethodRequest , status: getUlalmethodResponseStatus ,  data: getUlalmethodResponse , error:getUlalmethodResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlmortfreqRequest , status: getUlmortfreqResponseStatus ,  data: getUlmortfreqResponse , error:getUlmortfreqResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendUlmortcalctypRequest , status: getUlmortcalctypResponseStatus ,  data: getUlmortcalctypResponse , error:getUlmortcalctypResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlmortdednmethRequest , status: getUlmortdednmethResponseStatus ,  data: getUlmortdednmethResponse , error:getUlmortdednmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlfeefreqRequest , status: getUlfeefreqResponseStatus ,  data: getUlfeefreqResponse , error:getUlfeefreqResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendUlfeetypRequest , status: getUlfeetypResponseStatus ,  data: getUlfeetypResponse , error:getUlfeetypResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlfeemethRequest , status: getUlfeemethResponseStatus ,  data: getUlfeemethResponse , error:getUlfeemethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlfundruleRequest , status: getUlfundruleResponseStatus ,  data: getUlfundruleResponse , error:getUlfundruleResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendFundcodeRequest , status: getFundcodeResponseStatus ,  data: getFundcodeResponse , error:getFundcodeResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBenefittypeRequest , status: getBenefittypeResponseStatus ,  data: getBenefittypeResponse , error:getBenefittypeResponseError} = useHttp(getData, true); 
@@ -80,9 +77,6 @@ const Q0006 = forwardRef((props: any, ref) => {
 
         getDataParams.item = "COMMISM";
         sendCommismRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-        getDataParams.item = "DEATHTYP";
-        sendDeathtypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "DEATHM";
         sendDeathmRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
@@ -135,9 +129,6 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "TERMLBONMETH";
         sendTermlbonmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "ULDEDNFREQ";
-        sendUldednfreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
         getDataParams.item = "GSVMETH";
         sendGsvmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
@@ -162,11 +153,11 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "PREMDISCTYP";
         sendPremdisctypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "ULALMETHOD";
+        sendUlalmethodRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
         getDataParams.item = "ULMORTFREQ";
         sendUlmortfreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-        getDataParams.item = "ULMORTCALCTYP";
-        sendUlmortcalctypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "ULMORTDEDNMETH";
         sendUlmortdednmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
@@ -174,14 +165,14 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "ULFEEFREQ";
         sendUlfeefreqRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "ULFEETYP";
-        sendUlfeetypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
         getDataParams.item = "ULFEEMETH";
         sendUlfeemethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "ULFUNDRULE";
         sendUlfundruleRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "FUNDCODE";
+        sendFundcodeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "MRTMETH";
         sendMrtmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
@@ -208,9 +199,6 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.name = "Q0020";
         sendQ0020Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
 
-        getDataParams.name = "Q0021";
-        sendQ0021Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
-
 
     },[]);
 
@@ -219,7 +207,6 @@ const Q0006 = forwardRef((props: any, ref) => {
   const annMethodRef: any = useRef();
   const annuityMethodRef: any = useRef();
   const commMethodRef: any = useRef();
-  const deathTypeRef: any = useRef();
   const deathMethodRef: any = useRef();
   const gBonusRef: any = useRef();
   const iBonusRef: any = useRef();
@@ -242,11 +229,10 @@ const Q0006 = forwardRef((props: any, ref) => {
   const premIncYrsRef: any = useRef();
   const premiumMethodRef: any = useRef();
   const revBonusRef: any = useRef();
-  const sBTypeRef: any = useRef();
-  const sBMethodRef: any = useRef();
+  const sbTypeRef: any = useRef();
+  const sbMethodRef: any = useRef();
   const surrMethodRef: any = useRef();
   const tBonusRef: any = useRef();
-  const ulDeductFrequencyRef: any = useRef();
   const gsvMethodRef: any = useRef();
   const ssvMethodRef: any = useRef();
   const bsvMethodRef: any = useRef();
@@ -260,12 +246,15 @@ const Q0006 = forwardRef((props: any, ref) => {
   const waivMethodRef: any = useRef();
   const ulAlMethodRef: any = useRef();
   const ulMortFreqRef: any = useRef();
-  const ulMortCalcTypeRef: any = useRef();
-  const ulMortDeductMethodRef: any = useRef();
+  const ulMorttMethodRef: any = useRef();
   const ulFeeFreqRef: any = useRef();
-  const ulFeeTypeRef: any = useRef();
   const ulFeeMethodRef: any = useRef();
-  const ulFundRulesRef: any = useRef();
+  const ulFundMethodRef: any = useRef();
+  const ulMinPremRef: any = useRef();
+  const ulMaxPremRef: any = useRef();
+  const fUNDCODERef: any = useRef();
+  const ulTopUpMethodRef: any = useRef();
+  const ulWithdrawMethodRef: any = useRef();
   const mrtaMethodRef: any = useRef();
   const mrtaInterestRef: any = useRef();
   const benefitTypeRef: any = useRef();
@@ -284,7 +273,6 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.annMethod = annMethodRef.current.value;
       inputdata.annuityMethod = annuityMethodRef.current.value;
       inputdata.commMethod = commMethodRef.current.value;
-      inputdata.deathType = deathTypeRef.current.value;
       inputdata.deathMethod = deathMethodRef.current.value;
       inputdata.gBonus = gBonusRef.current.value;
       inputdata.iBonus = iBonusRef.current.value;
@@ -307,11 +295,10 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.premIncYrs = Number(premIncYrsRef.current.value);
       inputdata.premiumMethod = premiumMethodRef.current.value;
       inputdata.revBonus = revBonusRef.current.value;
-      inputdata.sBType = sBTypeRef.current.value;
-      inputdata.sBMethod = sBMethodRef.current.value;
+      inputdata.sbType = sbTypeRef.current.value;
+      inputdata.sbMethod = sbMethodRef.current.value;
       inputdata.surrMethod = surrMethodRef.current.value;
       inputdata.tBonus = tBonusRef.current.value;
-      inputdata.ulDeductFrequency = ulDeductFrequencyRef.current.value;
       inputdata.gsvMethod = gsvMethodRef.current.value;
       inputdata.ssvMethod = ssvMethodRef.current.value;
       inputdata.bsvMethod = bsvMethodRef.current.value;
@@ -325,12 +312,15 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.waivMethod = waivMethodRef.current.value;
       inputdata.ulAlMethod = ulAlMethodRef.current.value;
       inputdata.ulMortFreq = ulMortFreqRef.current.value;
-      inputdata.ulMortCalcType = ulMortCalcTypeRef.current.value;
-      inputdata.ulMortDeductMethod = ulMortDeductMethodRef.current.value;
+      inputdata.ulMorttMethod = ulMorttMethodRef.current.value;
       inputdata.ulFeeFreq = ulFeeFreqRef.current.value;
-      inputdata.ulFeeType = ulFeeTypeRef.current.value;
       inputdata.ulFeeMethod = ulFeeMethodRef.current.value;
-      inputdata.ulFundRules = ulFundRulesRef.current.value;
+      inputdata.ulFundMethod = ulFundMethodRef.current.value;
+      inputdata.ulMinPrem = Number(ulMinPremRef.current.value);
+      inputdata.ulMaxPrem = Number(ulMaxPremRef.current.value);
+      inputdata.fUNDCODE = fUNDCODERef.current.value;
+      inputdata.ulTopUpMethod = ulTopUpMethodRef.current.value;
+      inputdata.ulWithdrawMethod = ulWithdrawMethodRef.current.value;
       inputdata.mrtaMethod = mrtaMethodRef.current.value;
       inputdata.mrtaInterest = mrtaInterestRef.current.value;
       inputdata.benefitType = benefitTypeRef.current.value;
@@ -477,33 +467,6 @@ const Q0006 = forwardRef((props: any, ref) => {
           }}
         >
           {getCommismResponse?.param.data.dataPairs.map((value:any) => (
-            <MenuItem key={value.code} value={value.code}>
-              {value.code} - {value.description}
-            </MenuItem>
-            ))}
-        </TextField>
-            </Grid2> 
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          select
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="deathType"
-          name="deathType"
-          inputRef={deathTypeRef}
-          placeholder="Death Type"
-          label="Death Type"
-          defaultValue={inputdata.deathType&&Array.isArray(inputdata.deathType)?inputdata.deathType:[]}
-          fullWidth
-          variant="outlined"
-          margin="dense"
-          SelectProps={{
-            multiple: true,
-          }}
-        >
-          {getDeathtypResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.code} - {value.description}
             </MenuItem>
@@ -1028,12 +991,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="sBType"
-          name="sBType"
-          inputRef={sBTypeRef}
+          id="sbType"
+          name="sbType"
+          inputRef={sbTypeRef}
           placeholder="Survival Benefit Type"
           label="Survival Benefit Type"
-          defaultValue={inputdata.sBType}
+          defaultValue={inputdata.sbType}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1055,12 +1018,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="sBMethod"
-          name="sBMethod"
-          inputRef={sBMethodRef}
+          id="sbMethod"
+          name="sbMethod"
+          inputRef={sbMethodRef}
           placeholder="Survival Benefit Method"
           label="Survival Benefit Method"
-          defaultValue={inputdata.sBMethod}
+          defaultValue={inputdata.sbMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1123,33 +1086,6 @@ const Q0006 = forwardRef((props: any, ref) => {
           }}
         >
           {getTermlbonmethResponse?.param.data.dataPairs.map((value:any) => (
-            <MenuItem key={value.code} value={value.code}>
-              {value.code} - {value.description}
-            </MenuItem>
-            ))}
-        </TextField>
-            </Grid2> 
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          select
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulDeductFrequency"
-          name="ulDeductFrequency"
-          inputRef={ulDeductFrequencyRef}
-          placeholder="UL Deduction Frequency"
-          label="UL Deduction Frequency"
-          defaultValue={inputdata.ulDeductFrequency}
-          fullWidth
-          variant="outlined"
-          margin="dense"
-          SelectProps={{
-            multiple: false,
-          }}
-        >
-          {getUldednfreqResponse?.param.data.dataPairs.map((value:any) => (
             <MenuItem key={value.code} value={value.code}>
               {value.code} - {value.description}
             </MenuItem>
@@ -1460,10 +1396,13 @@ const Q0006 = forwardRef((props: any, ref) => {
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
         >
-          {getQ0021Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getUlalmethodResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
@@ -1502,39 +1441,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="ulMortCalcType"
-          name="ulMortCalcType"
-          inputRef={ulMortCalcTypeRef}
-          placeholder="UL Mortality Calc Type"
-          label="UL Mortality Calc Type"
-          defaultValue={inputdata.ulMortCalcType}
-          fullWidth
-          variant="outlined"
-          margin="dense"
-          SelectProps={{
-            multiple: false,
-          }}
-        >
-          {getUlmortcalctypResponse?.param.data.dataPairs.map((value:any) => (
-            <MenuItem key={value.code} value={value.code}>
-              {value.code} - {value.description}
-            </MenuItem>
-            ))}
-        </TextField>
-            </Grid2> 
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          select
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulMortDeductMethod"
-          name="ulMortDeductMethod"
-          inputRef={ulMortDeductMethodRef}
+          id="ulMorttMethod"
+          name="ulMorttMethod"
+          inputRef={ulMorttMethodRef}
           placeholder="UL Mortality Dedn. Method"
           label="UL Mortality Dedn. Method"
-          defaultValue={inputdata.ulMortDeductMethod}
+          defaultValue={inputdata.ulMorttMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1583,33 +1495,6 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="ulFeeType"
-          name="ulFeeType"
-          inputRef={ulFeeTypeRef}
-          placeholder="UL Fee Type"
-          label="UL Fee Type"
-          defaultValue={inputdata.ulFeeType}
-          fullWidth
-          variant="outlined"
-          margin="dense"
-          SelectProps={{
-            multiple: false,
-          }}
-        >
-          {getUlfeetypResponse?.param.data.dataPairs.map((value:any) => (
-            <MenuItem key={value.code} value={value.code}>
-              {value.code} - {value.description}
-            </MenuItem>
-            ))}
-        </TextField>
-            </Grid2> 
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          select
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
           id="ulFeeMethod"
           name="ulFeeMethod"
           inputRef={ulFeeMethodRef}
@@ -1637,12 +1522,12 @@ const Q0006 = forwardRef((props: any, ref) => {
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
-          id="ulFundRules"
-          name="ulFundRules"
-          inputRef={ulFundRulesRef}
-          placeholder="UL Fund Rules"
-          label="UL Fund Rules"
-          defaultValue={inputdata.ulFundRules}
+          id="ulFundMethod"
+          name="ulFundMethod"
+          inputRef={ulFundMethodRef}
+          placeholder="UL Fund Method"
+          label="UL Fund Method"
+          defaultValue={inputdata.ulFundMethod}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -1657,6 +1542,101 @@ const Q0006 = forwardRef((props: any, ref) => {
             ))}
         </TextField>
             </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="ulMinPrem"
+          name="ulMinPrem"
+          inputRef={ulMinPremRef}
+          placeholder="Ul Minimum Premium"
+          label="Ul Minimum Premium"
+          defaultValue={inputdata.ulMinPrem}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="ulMaxPrem"
+          name="ulMaxPrem"
+          inputRef={ulMaxPremRef}
+          placeholder="Ul Maximum Premium"
+          label="Ul Maximum Premium"
+          defaultValue={inputdata.ulMaxPrem}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="fUNDCODE"
+          name="fUNDCODE"
+          inputRef={fUNDCODERef}
+          placeholder="Fund Code"
+          label="Fund Code"
+          defaultValue={inputdata.fUNDCODE&&Array.isArray(inputdata.fUNDCODE)?inputdata.fUNDCODE:[]}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getFundcodeResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="ulTopUpMethod"
+          name="ulTopUpMethod"
+          inputRef={ulTopUpMethodRef}
+          placeholder="Ul Top Up Method"
+          label="Ul Top Up Method"
+          defaultValue={inputdata.ulTopUpMethod}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="ulWithdrawMethod"
+          name="ulWithdrawMethod"
+          inputRef={ulWithdrawMethodRef}
+          placeholder="UlWithdrawMethod"
+          label="UlWithdrawMethod"
+          defaultValue={inputdata.ulWithdrawMethod}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField

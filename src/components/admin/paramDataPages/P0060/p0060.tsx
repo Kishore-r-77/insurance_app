@@ -10,11 +10,11 @@ import { getData } from "../../../../services/http-service";
 
 import InfoIcon from "@mui/icons-material/Info";
 
-import  "./q0021.css";
-import Q0021Enq  from "./q0021Enq";
+import  "./p0060.css";
+import P0060Enq  from "./p0060Enq";
 
 
-const Q0021 = forwardRef((props: any, ref) => {
+const P0060 = forwardRef((props: any, ref) => {
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -198,7 +198,7 @@ const Q0021 = forwardRef((props: any, ref) => {
     </Table>
 
 
-        <Q0021Enq
+        <P0060Enq
         open={enq}
         handleClose={enqClose}
 
@@ -208,5 +208,5 @@ const Q0021 = forwardRef((props: any, ref) => {
   );
 });
 
-export default Q0021;
+export default P0060;
 
