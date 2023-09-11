@@ -29,6 +29,7 @@ export type BenefitStateType = {
   agencyOpen: boolean;
   benefitOpen: boolean;
   extraOpen: boolean;
+  fundOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;

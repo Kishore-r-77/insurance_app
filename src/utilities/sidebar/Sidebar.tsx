@@ -257,6 +257,18 @@ const routes = [
       },
     ],
   },
+  {
+    path: "#",
+    name: "Ilp",
+    icon: <RedeemIcon />,
+    subRoutes: [
+      {
+        path: "ilpPrices",
+        name: "Ilp Prices",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
 ];
 
 const SideBar = ({ children }: any) => {

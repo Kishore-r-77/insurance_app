@@ -1101,6 +1101,7 @@ function NewBusinessModal({
                     <BenefitEnquiry
                       benefitenquiryData={benefitenquiryData}
                       state={state}
+                      policyNo={record.ID}
                     />
                   </Tab>
                   <Tab

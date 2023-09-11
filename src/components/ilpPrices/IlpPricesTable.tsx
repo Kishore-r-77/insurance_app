@@ -1,19 +1,16 @@
-import { Button, IconButton, Paper } from "@mui/material";
+import { Button, IconButton, Paper, Tooltip } from "@mui/material";
 import Table from "react-bootstrap/Table";
-import styles from "./benefitTable.module.css";
+import styles from "./ilpPricesTable.module.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import moment from "moment";
 import { useState } from "react";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import MRTAEnquiry from "../../enquiry/MRTAEnquiry";
-import EventAvailableIcon from "@mui/icons-material/EventAvailable";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
 
-function BenefitTable({
+function IlpPricesTable({
   data,
   dataIndex,
   columns,
@@ -22,22 +19,12 @@ function BenefitTable({
   sortParam,
   hardDelete,
   modalFunc,
-  policyRecord,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
       ? sortParam
       : { fieldName: columns[0].dbField, order: "asc" }
   );
-
-  const [isMrta, setisMrta] = useState(false);
-
-  const mrtaOpen = () => {
-    setisMrta(true);
-  };
-  const mrtaClose = () => {
-    setisMrta(false);
-  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -108,9 +95,6 @@ function BenefitTable({
               )
             )}
             <th>Actions</th>
-            {data[0]?.BCoverage === "MRTA" ? <th>Schedule</th> : ""}
-            <th>Extras</th>
-            <th>Funds</th>
           </tr>
         </thead>
         <tbody>
@@ -121,73 +105,60 @@ function BenefitTable({
               className={styles["table-cell"]}
             >
               {columns.map((col: { field: string; type: string }) => {
-                if (col.type === "date") {
+                if (col?.type === "date") {
                   return (
-                    <td key={col.field}>
-                      {moment(row[col.field]).format("DD-MM-YYYY")}
+                    <td key={col?.field}>
+                      {moment(row[col?.field]).format("DD-MM-YYYY")}
                     </td>
                   );
                 }
-                return <td key={col.field}>{row[col.field]}</td>;
+                return <td key={col?.field}>{row[col?.field]}</td>;
               })}
-              <td>
-                <span className={styles.flexButtons}>
-                  <EditIcon
-                    color="primary"
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                    }
-                  />
-                  {/* <DeleteIcon
-                    color="error"
-                    onClick={() => hardDelete(row.ID)}
-                  />
-                  <InfoIcon
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                    }
-                  /> */}
-                </span>
-              </td>
-              {data[0]?.BCoverage === "MRTA" ? (
-                <td onClick={() => mrtaOpen()}>
-                  <EventAvailableIcon color="success" />
-                </td>
-              ) : (
-                ""
-              )}
-              <td>
-                <IconButton
-                  onClick={() =>
-                    dispatch({ type: ACTIONS.EXTRAOPEN, payload: row })
-                  }
-                >
-                  <PlaylistAddIcon />
-                </IconButton>
-              </td>
 
               <td>
-                <IconButton
-                  onClick={() =>
-                    dispatch({ type: ACTIONS.FUNDOPEN, payload: row })
-                  }
-                  color="success"
-                  disabled={row.BCoverage !== "ILP1"}
-                >
-                  <CreditScoreIcon />
-                </IconButton>
+                <span className={styles.flexButtons}>
+                  {!!ACTIONS.EDITOPEN && (
+                    <>
+                      {" "}
+                      <Tooltip title="Edit">
+                        <EditIcon
+                          color="primary"
+                          onClick={() =>
+                            dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                          }
+                        />
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <DeleteIcon
+                          color="error"
+                          onClick={() => hardDelete(row.ID)}
+                        />
+                      </Tooltip>
+                    </>
+                  )}
+                  <Tooltip title="Info">
+                    <InfoIcon
+                      onClick={() =>
+                        dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                      }
+                    />
+                  </Tooltip>
+                  <Tooltip title="Approve">
+                    <AssignmentTurnedInIcon
+                      color="success"
+                      onClick={() =>
+                        dispatch({ type: ACTIONS.APPROVEOPEN, payload: row })
+                      }
+                    />
+                  </Tooltip>
+                </span>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
-      <MRTAEnquiry
-        open={isMrta}
-        handleClose={mrtaClose}
-        policyNo={policyRecord.ID}
-      />
     </Paper>
   );
 }
 
-export default BenefitTable;
+export default IlpPricesTable;

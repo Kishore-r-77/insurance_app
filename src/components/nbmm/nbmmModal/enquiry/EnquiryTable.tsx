@@ -9,6 +9,8 @@ import GLHistoryEnquiry from "./GLHistoryEnquiry";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
 import ILPTransactionEnquiry from "./ILPTransactionEnquiry";
+import BenefitFundEnquiry from "./BenefitFundEnquiry";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 function EnquiryTable({
   data,
@@ -17,6 +19,7 @@ function EnquiryTable({
   infoOpen,
   historyOpen,
   ilpTOpen,
+  benOpen,
   isCommunication,
 }: any) {
   console.log(policyNo, "Policy No in Enq");
@@ -32,7 +35,7 @@ function EnquiryTable({
   };
 
   const ilptClickOpen = (fcode: any) => {
-    console.log("fund: ",fcode)
+    console.log("fund: ", fcode);
     setfund(fcode);
     setilpT(true);
   };
@@ -57,6 +60,16 @@ function EnquiryTable({
 
   const ilptClickClose = () => {
     setilpT(false);
+  };
+
+  const [fundOpen, setfundOpen] = useState(false);
+  const fundClickOpen = (benid: any) => {
+    setfundOpen(true);
+    getFundsByBen(benid);
+  };
+
+  const fundClickClose = () => {
+    setfundOpen(false);
   };
 
   const communicationClickOpen = (Id: any, temp: any) => {
@@ -95,6 +108,21 @@ function EnquiryTable({
     });
   }
 
+  const [fundBenefitData, setfundBenefitData] = useState([]);
+  const getFundsByBen = (id: any) => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/ilpservices/ilpfundbypolandben/${policyNo}/${id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setfundBenefitData(resp.data["Ilp Funds"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   return (
     <Paper className={styles.paperStyle}>
       <Table striped bordered hover>
@@ -114,6 +142,7 @@ function EnquiryTable({
               )
             )}
             {isCommunication ? <th>PDF</th> : null}
+            {benOpen ? <th>ILP Fund</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -161,7 +190,7 @@ function EnquiryTable({
                       >
                         {row[col.field]}
                       </td>
-                    ): (
+                    ) : (
                       <td key={col.field}>{row[col.field]}</td>
                     )}
                   </>
@@ -174,6 +203,11 @@ function EnquiryTable({
                   }
                 >
                   <PictureAsPdfIcon />
+                </td>
+              ) : null}
+              {benOpen ? (
+                <td onClick={() => fundClickOpen(row.ID)}>
+                  <AccountBalanceWalletIcon color="success" />
                 </td>
               ) : null}
             </tr>
@@ -194,6 +228,13 @@ function EnquiryTable({
         handleClose={glhClickClose}
         policyNo={policyNo}
         TransactionNo={Tranno}
+      />
+
+      <BenefitFundEnquiry
+        open={fundOpen}
+        handleClose={fundClickClose}
+        policyNo={policyNo}
+        fundBenefitData={fundBenefitData}
       />
 
       <ILPTransactionEnquiry

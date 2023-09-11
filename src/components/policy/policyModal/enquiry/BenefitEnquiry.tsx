@@ -1,11 +1,12 @@
 import { useState } from "react";
 import EnquiryTable from "./EnquiryTable";
 
-const BenefitEnquiry = ({ 
-  benefitenquiryData, 
+const BenefitEnquiry = ({
+  benefitenquiryData,
   policyNo,
   TransactionNo,
-  state }: any) => {
+  state,
+}: any) => {
   const columns = [
     { field: "ID", header: "Benefit ID", dbField: "id" },
 
@@ -123,15 +124,18 @@ const BenefitEnquiry = ({
   ];
 
   const [MrtaOpen, setMrtaOpen] = useState(true);
+  const [benOpen, setbenOpen] = useState(true);
 
   return (
     <div>
       <form>
-        <EnquiryTable 
-        data={benefitenquiryData} 
-        columns={columns} 
-        mrtaOpen={MrtaOpen}
-        policyNo={policyNo}/>
+        <EnquiryTable
+          data={benefitenquiryData}
+          columns={columns}
+          mrtaOpen={MrtaOpen}
+          policyNo={policyNo}
+          benOpen={benOpen}
+        />
       </form>
     </div>
   );

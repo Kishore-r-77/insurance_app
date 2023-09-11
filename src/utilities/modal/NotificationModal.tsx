@@ -7,10 +7,16 @@ const NotificationModal = ({
   title,
   children,
   handleFormSubmit,
+  isCentered,
 }: any) => {
   return (
     <div>
-      <Modal show={open} onHide={handleClose} centered size="xl">
+      <Modal
+        show={open}
+        onHide={handleClose}
+        centered={isCentered ?? false}
+        size="lg"
+      >
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
