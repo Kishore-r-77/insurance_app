@@ -93,7 +93,7 @@ export const deleteApi = (id: number) => {
 };
 
 export const approveApi = (id: number, effDate: string) => {
-  return axios.post(
+  return axios.put(
     `http://localhost:3000/api/v1/ilpservices/approvalIlpPrice/${effDate}/${id}`,
     {},
     {
