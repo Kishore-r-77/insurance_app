@@ -226,6 +226,7 @@ function IlpPrices({ modalFunc }: any) {
           type: "success",
         });
         dispatch({ type: ACTIONS.APPROVECLOSE });
+        getData();
       })
       .catch((err) => {
         setNotify({

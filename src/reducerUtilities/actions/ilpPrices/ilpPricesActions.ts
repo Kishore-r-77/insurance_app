@@ -24,7 +24,7 @@ export const initialValues: IlpPricesStateType = {
   FundType: "",
   FundDate: "",
   FundEffDate: "",
-  FundCurrency: "",
+  FundCurr: "",
   FundBidPrice: "",
   FundOfferPrice: "",
   FundSeqNo: "",

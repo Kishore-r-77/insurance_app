@@ -121,35 +121,45 @@ function IlpPricesTable({
                     <>
                       {" "}
                       <Tooltip title="Edit">
-                        <EditIcon
-                          color="primary"
-                          onClick={() =>
-                            dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                          }
-                        />
+                        <IconButton>
+                          <EditIcon
+                            color="primary"
+                            onClick={() =>
+                              dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                            }
+                          />
+                        </IconButton>
                       </Tooltip>
-                      <Tooltip title="Delete">
+                      {/* <Tooltip title="Delete">
                         <DeleteIcon
                           color="error"
                           onClick={() => hardDelete(row.ID)}
                         />
-                      </Tooltip>
+                      </Tooltip> */}
                     </>
                   )}
                   <Tooltip title="Info">
-                    <InfoIcon
+                    <IconButton
                       onClick={() =>
                         dispatch({ type: ACTIONS.INFOOPEN, payload: row })
                       }
-                    />
+                    >
+                      <InfoIcon />
+                    </IconButton>
                   </Tooltip>
                   <Tooltip title="Approve">
-                    <AssignmentTurnedInIcon
-                      color="success"
+                    <IconButton
+                      disabled={row.ApprovalFlag === "AP" ? true : false}
                       onClick={() =>
                         dispatch({ type: ACTIONS.APPROVEOPEN, payload: row })
                       }
-                    />
+                    >
+                      <AssignmentTurnedInIcon
+                        color={
+                          row.ApprovalFlag === "AP" ? "secondary" : "success"
+                        }
+                      />
+                    </IconButton>
                   </Tooltip>
                 </span>
               </td>

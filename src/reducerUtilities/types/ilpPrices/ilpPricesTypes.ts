@@ -4,7 +4,7 @@ export type IlpPricesStateType = {
   FundType: string;
   FundDate: string;
   FundEffDate: string;
-  FundCurrency: string;
+  FundCurr: string;
   FundBidPrice: string;
   FundOfferPrice: string;
   FundSeqNo: string;
