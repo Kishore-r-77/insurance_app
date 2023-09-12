@@ -133,7 +133,7 @@ function IlpFundsModal({
             : null
         }
         ACTIONS={ACTIONS}
-        handleFormSubmit={() => handleFormSubmit()}
+        handleFormSubmit={state.infoOpen ? null : () => handleFormSubmit()}
       >
         <form>
           <Grid2 container spacing={2}>

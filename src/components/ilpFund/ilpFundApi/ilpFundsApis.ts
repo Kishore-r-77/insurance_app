@@ -63,14 +63,13 @@ export const addApi = (
 export const editApi = (record: any) => {
   // Attention : Check and update the below API, if required
   return axios.put(
-    `http://localhost:3000/api/v1/ilpservices/ilpFundsupdate`,
+    `http://localhost:3000/api/v1/ilpservices/ilpfundModify`,
     {
       ID: parseInt(record.ID),
-
       CompanyID: parseInt(record.CompanyID),
       PolicyID: parseInt(record.PolicyID),
       BenefitID: parseInt(record.BenefitID),
-      FundCode: parseInt(record.FundCode),
+      FundCode: record.FundCode,
       FundType: parseInt(record.FundType),
       EffectiveDate: moment(record.EffectiveDate).format("YYYYMMDD"),
       FundCurr: record.FundCurr,
@@ -85,7 +84,7 @@ export const editApi = (record: any) => {
 export const deleteApi = (id: number) => {
   return axios.delete(
     //Attention: Check the path below,if required
-    `http://localhost:3000/api/v1/ilpservices/ilpFundsdelete/${id}`,
+    `http://localhost:3000/api/v1/ilpservices/ilpfunddel/${id}`,
     {
       withCredentials: true,
     }
@@ -95,12 +94,13 @@ export const deleteApi = (id: number) => {
 export const getAllApiByPolAndBen = (
   pageNum: number,
   pageSize: number,
-  benefitState: any,
+  PolicyID: any,
+  benefitID: any,
   state: IlpFundsStateType
 ) => {
   // Attention : Check and update the below API, if required
   return axios.get(
-    `http://localhost:3000/api/v1/ilpservices/ilpfundbypolandben/${benefitState.PolicyID}/${benefitState.ID}`,
+    `http://localhost:3000/api/v1/ilpservices/ilpfundbypolandben/${PolicyID}/${benefitID}`,
     {
       withCredentials: true,
       params: {

@@ -75,6 +75,7 @@ import Notification from "../../../utilities/Notification/Notification";
 import P0059 from "../paramDataPages/P0059/p0059";
 import P0060 from "../paramDataPages/P0060/p0060";
 import P0061 from "../paramDataPages/P0061/p0061";
+import P0062 from "../paramDataPages/P0062/p0062";
 
 const ParamData = () => {
   const {
@@ -585,22 +586,30 @@ const ParamData = () => {
             mode={mode}
           />
         );
-        case "1-P0060":
+      case "1-P0060":
+        return (
+          <P0060
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+            />
+        );
+        case "1-P0061":
           return (
-            <P0060
+            <P0061
               ref={extraDataRef}
               data={getDataResponse.param.data}
               mode={mode}
             />
           );
-          case "1-P0061":
-            return (
-              <P0061
-                ref={extraDataRef}
-                data={getDataResponse.param.data}
-                mode={mode}
+        case "1-P0062":
+          return (
+            <P0062
+              ref={extraDataRef}
+              data={getDataResponse.param.data}
+               mode={mode}
               />
-            );
+           );         
       case "1-Q0010":
         return (
           <Q0010

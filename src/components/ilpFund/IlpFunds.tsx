@@ -127,7 +127,13 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const [fieldMap, setfieldMap] = useState([]);
   //Get all Api
   const getData = () => {
-    return getAllApiByPolAndBen(pageNum, pageSize, benefitState, state)
+    return getAllApiByPolAndBen(
+      pageNum,
+      pageSize,
+      benefitState.PolicyID,
+      benefitState.ID,
+      state
+    )
       .then((resp) => {
         console.log(resp);
         // ***  Attention : Check the API and modify it, if required  ***

@@ -33,6 +33,7 @@ import {
   paramItem,
   paramCoverageItem,
   paramTermItem,
+  extraParams,
 } from "../qHeaderApis/qHeaderApis";
 import {
   createQHeaderWithQDetail,
@@ -287,7 +288,7 @@ function QHeaderQDetailModal({
     getQproduct(companyId, "Q0005", languageId);
 
     return () => {};
-  }, [state.addOpen]);
+  }, [state.addOpen, state.editOpen]);
 
   useEffect(() => {
     getQcoverage(companyId, "Q0011", state.QProduct, "20220101", languageId);
@@ -314,7 +315,7 @@ function QHeaderQDetailModal({
     );
 
     return () => {};
-  }, [qcoverage.current]);
+  }, [qcoverage.current, state.editOpen]);
   useEffect(() => {
     getQproduct(companyId, "Q0005", languageId);
     getEditQcoverage(
@@ -342,7 +343,48 @@ function QHeaderQDetailModal({
     );
 
     return () => {};
-  }, [QCoverage.current]);
+  }, [QCoverage.current, record.QProduct]);
+
+  const [capturedCovg, setcapturedCovg] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
+    const { name, value } = e.target;
+    if (name === "QCoverage") {
+      setcapturedCovg(value);
+    }
+    setqDetailData(
+      qDetailData.map((qDetail: any, index: number) => {
+        if (index === i) {
+          return { ...qDetail, [name]: value };
+        } else return qDetail;
+      })
+    );
+  };
+
+  const [intrestData, setintrestData] = useState([]);
+
+  const mrtaDropdown = () => {
+    return extraParams(companyId, "Q0006", capturedCovg, "MrtaInterest")
+      .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    mrtaDropdown();
+    return () => {};
+  }, [capturedCovg]);
+
+  const [bpremData, setbPremData] = useState([]);
+
+  const ilpExtra = () => {
+    return extraParams(companyId, "Q0006", capturedCovg, "UlAlMethod")
+      .then((resp) => setbPremData(resp.data?.AllowedUlAlMethod))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    ilpExtra();
+    return () => {};
+  }, [capturedCovg]);
 
   const handleQDetailAdd = () => {
     setqDetailData([
@@ -449,17 +491,6 @@ function QHeaderQDetailModal({
     const list = [...qDetailData];
     list.splice(index, 1);
     setqDetailData(list);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-    const { name, value } = e.target;
-    setqDetailData(
-      qDetailData.map((qDetail: any, index: number) => {
-        if (index === i) {
-          return { ...qDetail, [name]: value };
-        } else return qDetail;
-      })
-    );
   };
 
   const handleEditChange = (
@@ -923,7 +954,9 @@ function QHeaderQDetailModal({
                     label="Product"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
-                        type: ACTIONS.ONCHANGE,
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
                         payload: e.target.value,
                         fieldName: "QProduct",
                       })
@@ -1262,6 +1295,60 @@ function QHeaderQDetailModal({
                                 ))}
                               </TextField>
                             </Grid2>
+                            {intrestData.length !== 0 ? (
+                              <Grid2 xs={8} md={6} lg={4}>
+                                <TextField
+                                  select
+                                  id="Interest"
+                                  name="Interest"
+                                  value={
+                                    state.addOpen
+                                      ? qDetail.Interest
+                                      : record.interest
+                                  }
+                                  placeholder="Interest"
+                                  label="Interest"
+                                  onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                  ) => handleChange(e, index)}
+                                  fullWidth
+                                  margin="dense"
+                                >
+                                  {intrestData?.map((val, index) => (
+                                    <MenuItem value={val} key={val}>
+                                      {val}
+                                    </MenuItem>
+                                  ))}
+                                </TextField>
+                              </Grid2>
+                            ) : null}
+                            {bpremData.length !== 0 ? (
+                              <Grid2 xs={8} md={6} lg={4}>
+                                <TextField
+                                  // select
+                                  id="BPrem"
+                                  name="BPrem"
+                                  type="number"
+                                  // value={benefits.BPrem}
+                                  value={
+                                    state.addOpen ? qDetail.BPrem : record.BPrem
+                                  }
+                                  placeholder="Premium"
+                                  label="Premium"
+                                  onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                  ) => handleChange(e, index)}
+                                  fullWidth
+                                  margin="dense"
+                                >
+                                  {/* {premiumData?.map((val, index) => (
+                                <MenuItem value={val} key={val}>
+                                  {val}
+                                </MenuItem>
+                              ))} */}
+                                </TextField>
+                              </Grid2>
+                            ) : null}
                           </Grid2>
                         </TreeItem>
                         <div
@@ -1635,6 +1722,54 @@ function QHeaderQDetailModal({
                                 margin="dense"
                               />
                             </Grid2>
+                            {intrestData.length !== 0 ? (
+                              <Grid2 xs={8} md={6} lg={4}>
+                                <TextField
+                                  select
+                                  id="Interest"
+                                  name="Interest"
+                                  value={qDetail.Interest}
+                                  placeholder="Interest"
+                                  label="Interest"
+                                  onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                  ) => handleChange(e, index)}
+                                  fullWidth
+                                  margin="dense"
+                                >
+                                  {intrestData?.map((val, index) => (
+                                    <MenuItem value={val} key={val}>
+                                      {val}
+                                    </MenuItem>
+                                  ))}
+                                </TextField>
+                              </Grid2>
+                            ) : null}
+                            {bpremData.length !== 0 ? (
+                              <Grid2 xs={8} md={6} lg={4}>
+                                <TextField
+                                  // select
+                                  id="BPrem"
+                                  name="BPrem"
+                                  type="number"
+                                  // value={benefits.BPrem}
+                                  value={qDetail.BPrem}
+                                  placeholder="Premium"
+                                  label="Premium"
+                                  onChange={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                  ) => handleChange(e, index)}
+                                  fullWidth
+                                  margin="dense"
+                                >
+                                  {/* {premiumData?.map((val, index) => (
+                                <MenuItem value={val} key={val}>
+                                  {val}
+                                </MenuItem>
+                              ))} */}
+                                </TextField>
+                              </Grid2>
+                            ) : null}
                           </Grid2>
                         </TreeItem>
                         <div
