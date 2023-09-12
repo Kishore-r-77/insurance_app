@@ -30,6 +30,7 @@ import {
 } from "../../policy/policyApis/policyApis";
 import { AccountCircle } from "@mui/icons-material";
 import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
+import NewBusiness from "../../newBusiness/NewBusiness";
 
 function ReceiptsModal({
   state,
@@ -248,7 +249,7 @@ function ReceiptsModal({
             {state.clientsOpen ? (
               <Client modalFunc={clientsOpenFunc} />
             ) : state.policiesOpen ? (
-              <Policy
+              <NewBusiness
                 receiptLookup={state.policiesOpen}
                 modalFunc={policiesOpenFunc}
                 getByTable={policiesByClient}
