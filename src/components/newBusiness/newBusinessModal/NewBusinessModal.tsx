@@ -35,6 +35,7 @@ import { modifyPolicyWithBenefits } from "../../newBusiness/newBusinessApis/newB
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
 import Bank from "../../clientDetails/bank/Bank";
 import Benefit from "../../policy/policyModal/benefit/Benefit";
+import moment from "moment";
 
 function NewBusinessModal({
   state,
@@ -83,21 +84,25 @@ function NewBusinessModal({
   };
 
   const [pFreqData, setPFreqData] = useState([]);
-  const getPFreq = (
-    companyId: number,
-    name: string,
-    item: string,
-    languageId: number,
-    func: string
-  ) => {
-    freqItems(companyId, name, item, languageId, func)
+  const getPFreq = (companyId: number, date: string) => {
+    axios
+      .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
+        withCredentials: true,
+        params: {
+          company_id: companyId,
+          name: "Q0005",
+          item: state.PProduct,
+          function: "Frequencies",
+          date: moment(date).format("YYYYMMDD"),
+        },
+      })
       .then((resp) => {
         setPFreqData(resp.data?.AllowedFrequencies);
+        console.log(resp, "Freq Data ");
         return resp.data?.AllowedFrequencies;
       })
       .catch((err) => err);
   };
-
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
     companyId: number,
@@ -176,13 +181,7 @@ function NewBusinessModal({
   };
 
   useEffect(() => {
-    getPFreq(
-      companyId,
-      "Q0005",
-      state.addOpen ? state.PProduct : record?.PProduct,
-      languageId,
-      "Frequencies"
-    );
+    getPFreq(companyId, state.addOpen ? state?.PRCD : record?.PRCD);
     return () => {};
   }, [state.addOpen ? state?.PProduct : record?.PProduct]);
 
@@ -685,7 +684,7 @@ function NewBusinessModal({
                     margin="dense"
                   >
                     {pFreqData?.map((val: any) => (
-                      <MenuItem value={val}>{val}</MenuItem>
+                      <MenuItem value={val.Item}>{val.LongDesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
