@@ -69,7 +69,7 @@ export const editApi = (record: any) => {
       CompanyID: parseInt(record.CompanyID),
       PolicyID: parseInt(record.PolicyID),
       BenefitID: parseInt(record.BenefitID),
-      FundCode: parseInt(record.FundCode),
+      FundCode: record.FundCode,
       FundType: parseInt(record.FundType),
       EffectiveDate: moment(record.EffectiveDate).format("YYYYMMDD"),
       FundCurr: record.FundCurr,
