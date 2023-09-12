@@ -1160,6 +1160,22 @@ function QHeaderQDetailEnquiry({
                           margin="dense"
                         />
                       </Grid2>
+                      <Grid2 xs={8} md={6} lg={4}>
+                        <TextField
+                          InputProps={{ readOnly: true }}
+                          type="number"
+                          id="Interest"
+                          name="Interest"
+                          value={qDetail.Interest}
+                          placeholder="Interest"
+                          label="Interest"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          fullWidth
+                          margin="dense"
+                        />
+                      </Grid2>
                     </Grid2>
                   </TreeItem>
                 </div>

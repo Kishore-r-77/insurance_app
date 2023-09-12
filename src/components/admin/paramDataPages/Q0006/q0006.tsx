@@ -250,8 +250,6 @@ const Q0006 = forwardRef((props: any, ref) => {
   const ulFeeFreqRef: any = useRef();
   const ulFeeMethodRef: any = useRef();
   const ulFundMethodRef: any = useRef();
-  const ulMinPremRef: any = useRef();
-  const ulMaxPremRef: any = useRef();
   const fUNDCODERef: any = useRef();
   const ulTopUpMethodRef: any = useRef();
   const ulWithdrawMethodRef: any = useRef();
@@ -316,8 +314,6 @@ const Q0006 = forwardRef((props: any, ref) => {
       inputdata.ulFeeFreq = ulFeeFreqRef.current.value;
       inputdata.ulFeeMethod = ulFeeMethodRef.current.value;
       inputdata.ulFundMethod = ulFundMethodRef.current.value;
-      inputdata.ulMinPrem = Number(ulMinPremRef.current.value);
-      inputdata.ulMaxPrem = Number(ulMaxPremRef.current.value);
       inputdata.fUNDCODE = fUNDCODERef.current.value;
       inputdata.ulTopUpMethod = ulTopUpMethodRef.current.value;
       inputdata.ulWithdrawMethod = ulWithdrawMethodRef.current.value;
@@ -1542,40 +1538,6 @@ const Q0006 = forwardRef((props: any, ref) => {
             ))}
         </TextField>
             </Grid2> 
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          type="number"
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulMinPrem"
-          name="ulMinPrem"
-          inputRef={ulMinPremRef}
-          placeholder="Ul Minimum Premium"
-          label="Ul Minimum Premium"
-          defaultValue={inputdata.ulMinPrem}
-          fullWidth
-          margin="dense"
-        />
-        </Grid2>
-
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          type="number"
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="ulMaxPrem"
-          name="ulMaxPrem"
-          inputRef={ulMaxPremRef}
-          placeholder="Ul Maximum Premium"
-          label="Ul Maximum Premium"
-          defaultValue={inputdata.ulMaxPrem}
-          fullWidth
-          margin="dense"
-        />
-        </Grid2>
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
