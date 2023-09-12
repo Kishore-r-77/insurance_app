@@ -70,11 +70,10 @@ function BenefitModal({
     return () => {};
   }, []);
 
-  const [capturedCovg, setcapturedCovg] = useState("");
   const [intrestData, setintrestData] = useState([]);
 
   const mrtaDropdown = () => {
-    return extraParams(companyId, "Q0006", record.BCoverage, "MrtaInterest")
+    return extraParams(companyId, "Q0006", "MRTA", "MrtaInterest")
       .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
       .catch((err) => err.message);
   };
@@ -82,20 +81,8 @@ function BenefitModal({
   useEffect(() => {
     mrtaDropdown();
     return () => {};
-  }, [state.addOpen ? state.addOpen : state.editOpen]);
+  }, [state.benefitOpen]);
 
-  const [bpremData, setbPremData] = useState([]);
-
-  const ilpExtra = () => {
-    return extraParams(companyId, "Q0006", record.BCoverage, "UlAlMethod")
-      .then((resp) => setbPremData(resp.data?.AllowedUlAlMethod))
-      .catch((err) => err.message);
-  };
-
-  useEffect(() => {
-    ilpExtra();
-    return () => {};
-  }, [state.addOpen ? state.addOpen : state.editOpen]);
   const [termRangeMenu, settermRangeMenu] = useState([]);
   const [pptRangeMenu, setpptRangeMenu] = useState([]);
 
@@ -333,8 +320,8 @@ function BenefitModal({
               />
             </Grid2>
             {state.addOpen ? (
-              intrestData.length !== 0
-            ) : intrestData.length !== 0 ? (
+              state.BCoverage === "MRTA"
+            ) : record.BCoverage === "MRTA" ? (
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   select
@@ -361,30 +348,6 @@ function BenefitModal({
                     </MenuItem>
                   ))}
                 </TextField>
-              </Grid2>
-            ) : null}
-            {state.addOpen ? (
-              bpremData.length !== 0
-            ) : bpremData.length !== 0 ? (
-              <Grid2 xs={8} md={6} lg={4}>
-                <TextField
-                  id="BPrem"
-                  name="BPrem"
-                  value={state.addOpen ? state.BPrem : record.BPrem}
-                  placeholder="Premium"
-                  label="Premium"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    dispatch({
-                      type: state.addOpen
-                        ? ACTIONS.ONCHANGE
-                        : ACTIONS.EDITCHANGE,
-                      payload: e.target.value,
-                      fieldName: "BPrem",
-                    })
-                  }
-                  fullWidth
-                  margin="dense"
-                ></TextField>
               </Grid2>
             ) : null}
           </Grid2>

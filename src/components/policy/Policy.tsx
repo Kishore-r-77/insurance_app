@@ -1,10 +1,8 @@
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
 // ***  Attention : Check the import below and change it if required ***
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 
@@ -13,6 +11,8 @@ import {
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/policy/policyActions";
+import Notification from "../../utilities/Notification/Notification";
+import CustomModal from "../../utilities/modal/CustomModal";
 import styles from "./policy.module.css";
 import {
   addApi,
@@ -21,14 +21,9 @@ import {
   getAllApi,
   getBenefitsByPolicies,
 } from "./policyApis/policyApis";
-import PolicyModal from "./policyModal/PolicyModal";
-import { getAddressByClient } from "../clientDetails/client/clientApis/clientAddressApis";
+import PolicyEnquiry from "./policyModal/PolicyEnquiry";
 import Benefit from "./policyModal/benefit/Benefit";
 import PolicyTable from "./policyTable/PolicyTable";
-import CustomModal from "../../utilities/modal/CustomModal";
-import PolicyEnquiry from "./policyModal/PolicyEnquiry";
-import Notification from "../../utilities/Notification/Notification";
-import axios from "axios";
 
 function Policy({
   modalFunc,
@@ -421,14 +416,14 @@ function Policy({
         dispatch={dispatch}
         handleFormSubmit={editFormSubmit}
       />
-      <PolicyModal
+      {/* <PolicyModal
         state={state}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
         notify={notify}
         setNotify={setNotify}
         getData={getData}
-      />
+      /> */}
       <CustomModal
         size={size}
         open={state.benefitOpen}

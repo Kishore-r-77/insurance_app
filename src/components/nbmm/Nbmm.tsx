@@ -1,4 +1,3 @@
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
@@ -12,9 +11,10 @@ import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import styles from "./nbmm.module.css";
 import { addApi, deleteApi, editApi, getAllApi } from "./nbmmApis/nbmmApis";
-import PolicyModal from "./nbmmModal/NbmmModal";
-import NbmmTable from "./NbmmTable";
+// import PolicyModal from "./nbmmModal/NbmmModal";
 import Notification from "../../utilities/Notification/Notification";
+import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
+import NbmmTable from "./NbmmTable";
 
 function Nbmm({ modalFunc }: any) {
   //data from getall api
@@ -102,17 +102,17 @@ function Nbmm({ modalFunc }: any) {
           ...state,
           addressOpen: false,
         };
-      
+
       case ACTIONS.BANKOPEN:
-          return {
-            ...state,
-            bankOpen: true,
-          };
-        case ACTIONS.BANKCLOSE:
-          return {
-            ...state,
-            bankOpen: false,
-          };
+        return {
+          ...state,
+          bankOpen: true,
+        };
+      case ACTIONS.BANKCLOSE:
+        return {
+          ...state,
+          bankOpen: false,
+        };
       case ACTIONS.AGENCYOPEN:
         return {
           ...state,
@@ -359,12 +359,19 @@ function Nbmm({ modalFunc }: any) {
         nexPage={nexPage}
       />
 
-      <PolicyModal
+      {/* <PolicyModal
         state={state}
         record={record}
         dispatch={dispatch}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
+      /> */}
+      <PolicyEnquiry
+        state={state}
+        record={record}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        handleFormSubmit={editFormSubmit}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>

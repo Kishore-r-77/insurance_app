@@ -1,4 +1,3 @@
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
@@ -10,20 +9,19 @@ import {
 } from "../../reducerUtilities/actions/policy/policyActions";
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../redux/app/hooks";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomModal from "../../utilities/modal/CustomModal";
 import NotificationModal from "../../utilities/modal/NotificationModal";
-import ClaimsTable from "./ClaimsTable";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import Nominee from "../nominee/nomineeTable/Nominee";
 import styles from "./claims.module.css";
+import ClaimsTable from "./ClaimsTable";
 import {
   addApi,
   deleteApi,
   editApi,
   getAllApi,
 } from "./newBusinessApis/newBusinessApis";
-import PolicyModal from "../policy/policyModal/PolicyModal";
 import PolicyValidate from "./policyValidate/PolicyValidate";
-import Nominee from "../nominee/nomineeTable/Nominee";
 
 import Notification from "../../utilities/Notification/Notification";
 import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
@@ -456,7 +454,7 @@ function Claims({ modalFunc }: any) {
         handleFormSubmit={editFormSubmit}
       />
 
-      <PolicyModal
+      {/* <PolicyModal
         getData={getData}
         state={state}
         record={record}
@@ -465,7 +463,7 @@ function Claims({ modalFunc }: any) {
         validatePolicy={validatePolicy}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
-      />
+      /> */}
 
       <CustomModal
         size={size}

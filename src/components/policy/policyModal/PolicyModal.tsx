@@ -34,7 +34,6 @@ import {
 import { modifyPolicyWithBenefits } from "../../newBusiness/newBusinessApis/newBusinessApis";
 import { deleteApi } from "./benefit/benefitApis/benefitApis";
 import Bank from "../../clientDetails/bank/Bank";
-import Benefit from "./benefit/Benefit";
 
 function PolicyModal({
   state,
@@ -380,12 +379,7 @@ function PolicyModal({
   const [intrestData, setintrestData] = useState([]);
 
   const mrtaDropdown = () => {
-    return extraParams(
-      companyId,
-      "Q0006",
-      state.addOpen ? capturedCovg : benefitsData[0]?.BCoverage,
-      "MrtaInterest"
-    )
+    return extraParams(companyId, "Q0006", capturedCovg, "MrtaInterest")
       .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
       .catch((err) => err.message);
   };
@@ -393,23 +387,12 @@ function PolicyModal({
   useEffect(() => {
     mrtaDropdown();
     return () => {};
-  }, [
-    state.addOpen
-      ? capturedCovg
-      : state.editOpen
-      ? benefitsData[0]?.BCoverage
-      : null,
-  ]);
+  }, [capturedCovg]);
 
   const [bpremData, setbPremData] = useState([]);
 
   const ilpExtra = () => {
-    return extraParams(
-      companyId,
-      "Q0006",
-      state.addOpen ? capturedCovg : benefitsData[0]?.BCoverage,
-      "UlAlMethod"
-    )
+    return extraParams(companyId, "Q0006", capturedCovg, "UlAlMethod")
       .then((resp) => setbPremData(resp.data?.AllowedUlAlMethod))
       .catch((err) => err.message);
   };
@@ -417,20 +400,8 @@ function PolicyModal({
   useEffect(() => {
     ilpExtra();
     return () => {};
-  }, [
-    state.addOpen
-      ? capturedCovg
-      : state.editOpen
-      ? benefitsData[0]?.BCoverage
-      : null,
-  ]);
+  }, [capturedCovg]);
 
-  // useEffect(() => {
-  //   setcapturedCovg(benefitsData[0]?.BCoverage);
-
-  //   return () => {};
-  // }, [state.editOpen]);
-  // console.log(benefitsData[0]?.BCoverage, "BCoverage");
   const [termRangeMenu, settermRangeMenu] = useState([]);
   const [pptRangeMenu, setpptRangeMenu] = useState([]);
   const bcoverage = useRef("");

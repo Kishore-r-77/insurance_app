@@ -2,7 +2,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
   ACTIONS,
   columns,
@@ -10,10 +10,10 @@ import {
 } from "../../reducerUtilities/actions/policy/policyActions";
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../redux/app/hooks";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomModal from "../../utilities/modal/CustomModal";
 import NotificationModal from "../../utilities/modal/NotificationModal";
-import NewBussinessTable from "./NewBussinessTable";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import Nominee from "../nominee/nomineeTable/Nominee";
 import styles from "./newBusiness.module.css";
 import {
   addApi,
@@ -21,14 +21,14 @@ import {
   editApi,
   getAllApi,
 } from "./newBusinessApis/newBusinessApis";
-import PolicyModal from "../policy/policyModal/PolicyModal";
+import NewBussinessTable from "./NewBussinessTable";
 import PolicyValidate from "./policyValidate/PolicyValidate";
-import Nominee from "../nominee/nomineeTable/Nominee";
 
 import Notification from "../../utilities/Notification/Notification";
 import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
 import Benefit from "../policy/policyModal/benefit/Benefit";
 import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
+import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
 
 function NewBusiness({ modalFunc }: any) {
   const size = "xl";
@@ -536,7 +536,7 @@ function NewBusiness({ modalFunc }: any) {
         handleFormSubmit={editFormSubmit}
       />
 
-      <PolicyModal
+      <NewBusinessModal
         getData={getData}
         state={state}
         record={record}

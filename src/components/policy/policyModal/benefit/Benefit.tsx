@@ -48,21 +48,15 @@ function Benefit({
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
 
-  const [capturedCovg, setcapturedCovg] = useState("");
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: BenefitStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
-        // if (action.fieldName === "BCoverage") {
-        //   setcapturedCovg(action.payload);
-        // }
         return {
           ...state,
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.payload);
-
         if (action.fieldName === "Interest") {
           console.log(action.payload, "On change interest");
           //interest.current = action.payload;
@@ -174,6 +168,7 @@ function Benefit({
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
+
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
