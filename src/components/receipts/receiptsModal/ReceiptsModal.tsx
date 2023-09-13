@@ -31,6 +31,8 @@ import {
 import { AccountCircle } from "@mui/icons-material";
 import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
 import NewBusiness from "../../newBusiness/NewBusiness";
+import axios from "axios";
+import moment from "moment";
 
 function ReceiptsModal({
   state,
@@ -111,14 +113,16 @@ function ReceiptsModal({
       .catch((err) => err.message);
   };
 
-  const [aCur, setaCur] = useState([]);
-  const getACur = (Acur: string, product: string) => {
-    return q0005(companyId, languageId, Acur, product)
-      .then((resp) => {
-        setaCur(resp.data?.AllowedBillingCurriencies);
-      })
-      .catch((err) => console.log(err.message));
-  };
+  // old currency dropdown
+
+  // const [aCur, setaCur] = useState([]);
+  // const getACur = (Acur: string, product: string) => {
+  //   return q0005(companyId, languageId, Acur, product)
+  //     .then((resp) => {
+  //       setaCur(resp.data?.AllowedBillingCurriencies);
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -131,8 +135,30 @@ function ReceiptsModal({
     return () => {};
   }, []);
 
+  const [pFreqData, setPFreqData] = useState([]);
+  const getPFreq = (companyId: number, policyData: any) => {
+    axios
+      .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
+        withCredentials: true,
+        params: {
+          company_id: companyId,
+          name: "Q0005",
+          item: policyData.PProduct,
+          function: "BillingCurr",
+          date: moment(policyData?.PRCD).format("YYYYMMDD"),
+        },
+      })
+      .then((resp) => {
+        setPFreqData(resp.data?.AllowedBillingCurriencies);
+        console.log(resp, "Freq Data ");
+        return resp.data?.AllowedFrequencies;
+      })
+      .catch((err) => err);
+  };
+
   useEffect(() => {
     getPolicy(parseInt(state.PolicyID));
+    // getPFreq(companyId);
     return () => {};
   }, [state.PolicyID]);
 
@@ -140,10 +166,13 @@ function ReceiptsModal({
     getPolicy(parseInt(record.PolicyID));
     return () => {};
   }, [state.infoOpen]);
+
+  // old currency dropdown
+
   useEffect(() => {
-    getACur("BillingCurr", policyData?.PProduct);
+    getPFreq(companyId, policyData);
   }, [toggle]);
-  // *** Attention: Check the Lookup table  OPenFunc details below ***
+
   const clientsOpenFunc = (item: any) => {
     if (state.addOpen) {
       state.ClientID = item.ID;
@@ -411,9 +440,9 @@ function ReceiptsModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {aCur.map((val: string) => (
-                      <MenuItem key={val} value={val}>
-                        {val}
+                    {pFreqData.map((val: any) => (
+                      <MenuItem key={val.Item} value={val.Item}>
+                        {val.Item}
                       </MenuItem>
                     ))}
                   </TextField>
