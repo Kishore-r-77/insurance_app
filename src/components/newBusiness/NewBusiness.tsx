@@ -30,7 +30,17 @@ import Benefit from "../policy/policyModal/benefit/Benefit";
 import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
 
-function NewBusiness({ modalFunc }: any) {
+function NewBusiness({
+  modalFunc,
+  dataIndex,
+  lookup,
+  getByTable,
+  getByFunction,
+  receiptLookup,
+  searchContent,
+  handleSearchChange,
+  receiptFieldMap,
+}: any) {
   const size = "xl";
   //data from getall api
   const [data, setData] = useState([]);
@@ -438,42 +448,61 @@ function NewBusiness({ modalFunc }: any) {
             value={state.searchCriteria}
             placeholder="Search Criteria"
             label="Search Criteria"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchCriteria",
-              })
+            onChange={
+              receiptLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchCriteria",
+                    })
             }
             style={{ width: "12rem" }}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {fieldMap.map((value: any) => (
-              <MenuItem key={value.fieldName} value={value.fieldName}>
-                {value.displayName}
-              </MenuItem>
-            ))}
+            {receiptLookup
+              ? receiptFieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))
+              : fieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))}
           </TextField>
         </span>
         <span className={styles["text-fields"]}>
           <TextField
-            value={state.searchString}
+            value={
+              receiptLookup ? searchContent.searchString : state.searchString
+            }
             placeholder="Search String"
             label="Search String"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchString",
-              })
+            name="searchString"
+            onChange={
+              receiptLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchString",
+                    })
             }
             style={{ width: "12rem" }}
           />
           <Button
             variant="contained"
-            onClick={getData}
+            onClick={
+              receiptLookup
+                ? () => getByFunction(pageNum, pageSize, searchContent)
+                : getData
+            }
             color="primary"
             style={{
               marginTop: "0.5rem",
@@ -508,7 +537,8 @@ function NewBusiness({ modalFunc }: any) {
         </Button>
       </header>
       <NewBussinessTable
-        data={data}
+        data={receiptLookup ? getByTable : data}
+        dataIndex={dataIndex}
         issueOpen={issueOpen}
         confirmOpen={confirmOpen}
         modalFunc={modalFunc}

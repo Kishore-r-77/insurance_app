@@ -212,6 +212,7 @@ function BenefitModal({
 
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                InputProps={{ readOnly: state.editOpen || state.infoOpen }}
                 select
                 id="BCoverage"
                 name="BCoverage"

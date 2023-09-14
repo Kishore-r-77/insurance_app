@@ -75,6 +75,8 @@ function NewBusinessModal({
       .catch((err) => err);
   };
 
+  console.log("Frequency", pFreqData)
+
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
     companyId: number,

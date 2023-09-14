@@ -23,6 +23,11 @@ function TDFEnquiry({ data, state }: any) {
       dbField: "tdf_type",
     },
     {
+      field: "TDFDescription",
+      header: "TDF Description",
+      dbField: "tdf_description",
+    },
+    {
       field: "Seqno",
       header: "Seq No",
       dbField: "seqno",
