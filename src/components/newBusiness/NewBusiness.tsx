@@ -445,7 +445,12 @@ function NewBusiness({
         <span>
           <TextField
             select
-            value={state.searchCriteria}
+            name="searchCriteria"
+            value={
+              receiptLookup
+                ? searchContent.searchCriteria
+                : state.searchCriteria
+            }
             placeholder="Search Criteria"
             label="Search Criteria"
             onChange={

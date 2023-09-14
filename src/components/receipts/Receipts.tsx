@@ -245,6 +245,7 @@ function Receipts({ modalFunc }: any) {
 
   const handleSearchChange = (e: any) => {
     const { value, name } = e.target;
+    console.log(name, value);
     setsearchContent((prev) => ({
       ...prev,
       [name]: value,
