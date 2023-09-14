@@ -89,7 +89,7 @@ const P0063 = forwardRef((props: any, ref) => {
   
   return (
     <>
-    <InfoIcon
+      <InfoIcon
         onClick={() =>enqOpen()}
       />
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
@@ -101,8 +101,8 @@ const P0063 = forwardRef((props: any, ref) => {
           id="flatAmount"
           name="flatAmount"
           inputRef={flatAmountRef}
-          placeholder="Flat Amount"
-          label="Flat Amount"
+          placeholder="Flat Amount Per Year"
+          label="Flat Amount Per Year"
           defaultValue={inputdata.flatAmount}
           fullWidth
           margin="dense"
@@ -179,8 +179,8 @@ const P0063 = forwardRef((props: any, ref) => {
           id="capAmount"
           name="capAmount"
           inputRef={capAmountRef}
-          placeholder="Cap Amount"
-          label="Cap Amount"
+          placeholder="Cap Amount Per Year"
+          label="Cap Amount Per Year"
           defaultValue={inputdata.capAmount}
           fullWidth
           margin="dense"
