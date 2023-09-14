@@ -121,6 +121,32 @@ const BenefitEnquiry = ({
       dbField: "b_rerate",
       type: "date",
     },
+
+    {
+      field: "IlpMortality",
+      header: "Ilp Mortality",
+      dbField: "ilp_mortality",
+    },
+
+    {
+      field: "IlpMortalityDate",
+      header: "Ilp Mortality Date",
+      dbField: "ilp_mortality_date",
+      type: "date",
+    },
+
+    {
+      field: "IlpFee",
+      header: "Ilp Fee",
+      dbField: "ilp_fee",
+    },
+
+    {
+      field: "IlpFeeDate",
+      header: "Ilp Fee Date",
+      dbField: "ilp_fee_date",
+      type: "date",
+    },
   ];
 
   const [MrtaOpen, setMrtaOpen] = useState(true);
