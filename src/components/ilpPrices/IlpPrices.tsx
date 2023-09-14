@@ -39,6 +39,8 @@ function IlpPrices({ modalFunc }: any) {
     type: "",
   });
 
+  const [p0061Data, setp0061Data] = useState<any>({});
+
   const reducer = (state: IlpPricesStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
@@ -154,7 +156,7 @@ function IlpPrices({ modalFunc }: any) {
   );
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId)
+    return addApi(state, companyId, p0061Data)
       .then((resp) => {
         console.log(resp);
         setNotify({
@@ -163,6 +165,7 @@ function IlpPrices({ modalFunc }: any) {
           type: "success",
         });
         dispatch({ type: ACTIONS.ADDCLOSE });
+        setp0061Data({});
         getData();
       })
       .catch((err) => {
@@ -355,6 +358,8 @@ function IlpPrices({ modalFunc }: any) {
       <IlpPricesModal
         state={state}
         record={record}
+        p0061Data={p0061Data}
+        setp0061Data={setp0061Data}
         dispatch={dispatch}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}

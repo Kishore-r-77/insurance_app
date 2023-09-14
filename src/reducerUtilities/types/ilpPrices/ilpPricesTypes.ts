@@ -40,4 +40,6 @@ export type IlpPricesModalType = {
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;
   ACTIONS: ActionConstantsType;
+  p0061Data: any;
+  setp0061Data: any;
 };

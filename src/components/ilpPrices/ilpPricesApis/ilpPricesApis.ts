@@ -36,19 +36,23 @@ export const paramItem = (
   });
 };
 
-export const addApi = (state: IlpPricesStateType, companyId: number) => {
+export const addApi = (
+  state: IlpPricesStateType,
+  companyId: number,
+  p0061Data: any
+) => {
   // Attention : Check and update the below API, if required
   return axios.post(
     `http://localhost:3000/api/v1/ilpservices/ilppricesCreate`,
     {
       CompanyID: companyId,
       FundCode: state.FundCode,
-      FundType: state.FundType,
+      FundType: p0061Data.FundType,
       FundDate: moment(state.FundDate).format("YYYYMMDD"),
       FundEffDate: moment(state.FundEffDate).format("YYYYMMDD"),
-      FundCurr: state.FundCurr,
-      FundBidPrice: parseInt(state.FundBidPrice),
-      FundOfferPrice: parseInt(state.FundOfferPrice),
+      FundCurr: p0061Data.FundCurr,
+      FundBidPrice: parseFloat(state.FundBidPrice),
+      FundOfferPrice: parseFloat(state.FundOfferPrice),
       // FundSeqNo: parseInt(state.FundSeqNo),
       // ApprovalFlag: state.ApprovalFlag,
     },
@@ -71,8 +75,8 @@ export const editApi = (record: any) => {
       FundDate: moment(record.FundDate).format("YYYYMMDD"),
       FundEffDate: moment(record.FundEffDate).format("YYYYMMDD"),
       FundCurr: record.FundCurr,
-      FundBidPrice: parseInt(record.FundBidPrice),
-      FundOfferPrice: parseInt(record.FundOfferPrice),
+      FundBidPrice: parseFloat(record.FundBidPrice),
+      FundOfferPrice: parseFloat(record.FundOfferPrice),
       // FundSeqNo: parseInt(record.FundSeqNo),
       // ApprovalFlag: record.ApprovalFlag,
     },

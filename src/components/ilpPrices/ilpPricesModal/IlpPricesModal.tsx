@@ -27,6 +27,8 @@ function IlpPricesModal({
   dispatch,
   ACTIONS,
   handleFormSubmit,
+  p0061Data,
+  setp0061Data,
 }: IlpPricesModalType) {
   const addTitle: string = "IlpPrices Add";
   const editTitle: string = "IlpPrices Edit";
@@ -93,7 +95,7 @@ function IlpPricesModal({
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
   );
-  const [p0061Data, setp0061Data] = useState<any>({});
+
   const getP0061 = () => {
     axios
       .get(`http://localhost:3000/api/v1/basicservices/paramextradata`, {
