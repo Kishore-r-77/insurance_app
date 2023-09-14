@@ -28,7 +28,6 @@ function NewBussinessTable({
   dispatch,
   ACTIONS,
   sortParam,
-  hardDelete,
   modalFunc,
   getData,
 }: any) {
