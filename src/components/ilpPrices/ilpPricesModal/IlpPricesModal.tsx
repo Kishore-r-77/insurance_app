@@ -20,6 +20,7 @@ import { paramItem } from "../ilpPricesApis/ilpPricesApis";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import useHttp from "../../../hooks/use-http";
 import { getData } from "../../../services/http-service";
+import axios from "axios";
 function IlpPricesModal({
   state,
   record,
@@ -92,6 +93,29 @@ function IlpPricesModal({
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
   );
+  const [p0061Data, setp0061Data] = useState<any>({});
+  const getP0061 = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/basicservices/paramextradata`, {
+        withCredentials: true,
+        params: {
+          name: "P0061",
+          date: "20230101",
+          company_id: companyId,
+          item: state.FundCode,
+          function: "P0061",
+        },
+      })
+      .then((resp) => {
+        setp0061Data(resp.data.P0061[0]);
+      })
+      .catch((err) => err);
+  };
+
+  useEffect(() => {
+    getP0061();
+    return () => {};
+  }, [state.FundCode]);
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -133,6 +157,7 @@ function IlpPricesModal({
           <Grid2 container spacing={2}>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                InputLabelProps={{ shrink: true }}
                 InputProps={{ readOnly: true }}
                 id="CompanyID"
                 name="CompanyID"
@@ -149,6 +174,7 @@ function IlpPricesModal({
               <TextField
                 select
                 id="FundCode"
+                InputLabelProps={{ shrink: true }}
                 name="FundCode"
                 value={state.addOpen ? state.FundCode : record.FundCode}
                 placeholder="Fund Code"
@@ -177,10 +203,12 @@ function IlpPricesModal({
 
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                select
+                // select
+                InputLabelProps={{ shrink: true }}
+                InputProps={{ readOnly: true }}
                 id="FundType"
                 name="FundType"
-                value={state.addOpen ? state.FundType : record.FundType}
+                value={state.addOpen ? p0061Data?.FundType : record.FundType}
                 placeholder="Fund Type"
                 label="Fund Type"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -197,11 +225,11 @@ function IlpPricesModal({
                   multiple: false,
                 }}
               >
-                {getFundtypeResponse?.param.data.dataPairs.map((value: any) => (
+                {/* {getFundtypeResponse?.param.data.dataPairs.map((value: any) => (
                   <MenuItem key={value.code} value={value.code}>
                     {value.code} - {value.description}
                   </MenuItem>
-                ))}
+                ))} */}
               </TextField>
             </Grid2>
 
@@ -259,10 +287,12 @@ function IlpPricesModal({
 
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                select
+                // select
+                InputProps={{ readOnly: true }}
+                InputLabelProps={{ shrink: true }}
                 id="FundCurr"
                 name="FundCurr"
-                value={state.addOpen ? state.FundCurr : record.FundCurr}
+                value={state.addOpen ? p0061Data.FundCurr : record.FundCurr}
                 placeholder="Fund Currency"
                 label="Fund Currency"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -279,11 +309,11 @@ function IlpPricesModal({
                   multiple: false,
                 }}
               >
-                {getFcurResponse?.param.data.dataPairs.map((value: any) => (
+                {/* {getFcurResponse?.param.data.dataPairs.map((value: any) => (
                   <MenuItem key={value.code} value={value.code}>
                     {value.code} - {value.description}
                   </MenuItem>
-                ))}
+                ))} */}
               </TextField>
             </Grid2>
 
@@ -292,6 +322,7 @@ function IlpPricesModal({
                 type="number"
                 id="FundBidPrice"
                 name="FundBidPrice"
+                InputLabelProps={{ shrink: true }}
                 value={state.addOpen ? state.FundBidPrice : record.FundBidPrice}
                 placeholder="Fund Bid Price"
                 label="Fund Bid Price"
@@ -313,6 +344,7 @@ function IlpPricesModal({
                 type="number"
                 id="FundOfferPrice"
                 name="FundOfferPrice"
+                InputLabelProps={{ shrink: true }}
                 value={
                   state.addOpen ? state.FundOfferPrice : record.FundOfferPrice
                 }
@@ -332,7 +364,7 @@ function IlpPricesModal({
             </Grid2>
 
             {/* <Grid2 xs={8} md={6} lg={4}>
-              <TextField
+              <TextField 
                 type="number"
                 id="FundSeqNo"
                 name="FundSeqNo"
@@ -353,7 +385,7 @@ function IlpPricesModal({
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
-              <TextField
+              <TextField 
                 id="ApprovalFlag"
                 name="ApprovalFlag"
                 value={state.addOpen ? state.ApprovalFlag : record.ApprovalFlag}

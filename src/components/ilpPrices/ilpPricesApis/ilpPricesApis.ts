@@ -92,9 +92,9 @@ export const deleteApi = (id: number) => {
   );
 };
 
-export const approveApi = (id: number, effDate: string) => {
+export const approveApi = (effDate: string, id: number, fundCode: string) => {
   return axios.put(
-    `http://localhost:3000/api/v1/ilpservices/approvalIlpPrice/${effDate}/${id}`,
+    `http://localhost:3000/api/v1/ilpservices/approvalIlpPrice/${effDate}/${id}/${fundCode}`,
     {},
     {
       withCredentials: true,

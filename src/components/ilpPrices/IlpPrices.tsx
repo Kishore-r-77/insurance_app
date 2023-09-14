@@ -218,7 +218,11 @@ function IlpPrices({ modalFunc }: any) {
   };
 
   const IlpPriceApproval = () => {
-    return approveApi(record.ID, record.FundEffDate)
+    return approveApi(
+      record.FundEffDate,
+      parseInt(record.FundSeqno),
+      record.FundCode
+    )
       .then((resp) => {
         setNotify({
           isOpen: true,
