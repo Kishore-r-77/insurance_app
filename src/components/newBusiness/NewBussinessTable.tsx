@@ -1,29 +1,25 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import BusinessIcon from "@mui/icons-material/Business";
+import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SendIcon from "@mui/icons-material/Send";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { IconButton, Paper } from "@mui/material";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { useAppSelector } from "../../redux/app/hooks";
-import styles from "./newbussinesstable.module.css";
-import CustomModal from "../../utilities/modal/CustomModal";
-import OwnerModal from "./ownerModal/OwnerModal";
-import Payer from "../payer/Payer";
-import Assignee from "../assignee/Assignee";
-import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
-import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
-import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-import SaChangeModal from "./saChangeModal/SaChangeModal";
 import Notification from "../../utilities/Notification/Notification";
-import EditIcon from "@mui/icons-material/Edit";
+import CustomModal from "../../utilities/modal/CustomModal";
+import Assignee from "../assignee/Assignee";
+import Payer from "../payer/Payer";
+import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
+import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
+import styles from "./newbussinesstable.module.css";
+import OwnerModal from "./ownerModal/OwnerModal";
+import SaChangeModal from "./saChangeModal/SaChangeModal";
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -484,7 +480,10 @@ function NewBussinessTable({
                     color="primary"
                     onClick={() => confirmOpen(row.ID)}
                   />
-                  <SendIcon color="success" onClick={() => issueOpen(row.ID, row.versionId)} />
+                  <SendIcon
+                    color="success"
+                    onClick={() => issueOpen(row.ID, row.versionId)}
+                  />
                 </span>
               </td>
             </tr>
