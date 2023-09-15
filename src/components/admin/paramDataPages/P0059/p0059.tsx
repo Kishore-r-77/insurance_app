@@ -13,6 +13,7 @@ import P0059Enq  from "./p0059Enq";
 const P0059 = forwardRef((props: any, ref) => {
   
   const {sendRequest : sendCurrentorfutureRequest , status: getCurrentorfutureResponseStatus ,  data: getCurrentorfutureResponse , error:getCurrentorfutureResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendAllocationcategoryRequest , status: getAllocationcategoryResponseStatus ,  data: getAllocationcategoryResponse , error:getAllocationcategoryResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -26,6 +27,9 @@ const P0059 = forwardRef((props: any, ref) => {
         getDataParams.item = "CURRENTORFUTURE";
         sendCurrentorfutureRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "ALLOCATIONCATEGORY";
+        sendAllocationcategoryRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
 
 
     },[]);
@@ -33,6 +37,7 @@ const P0059 = forwardRef((props: any, ref) => {
 
   const currentOrFutureRef: any = useRef();
   const seqNoRef: any = useRef();
+  const allocationCategoryRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -45,6 +50,7 @@ const P0059 = forwardRef((props: any, ref) => {
     getData() {
       inputdata.currentOrFuture = currentOrFutureRef.current.value;
       inputdata.seqNo = Number(seqNoRef.current.value);
+      inputdata.allocationCategory = allocationCategoryRef.current.value;
 
       return inputdata;
     },
@@ -129,6 +135,33 @@ const P0059 = forwardRef((props: any, ref) => {
           margin="dense"
         />
         </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="allocationCategory"
+          name="allocationCategory"
+          inputRef={allocationCategoryRef}
+          placeholder="Allocation Category"
+          label="Allocation Category"
+          defaultValue={inputdata.allocationCategory&&Array.isArray(inputdata.allocationCategory)?inputdata.allocationCategory:[]}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
+        >
+          {getAllocationcategoryResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
 
         <P0059Enq
