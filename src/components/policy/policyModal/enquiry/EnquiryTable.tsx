@@ -183,7 +183,7 @@ function EnquiryTable({
               )
             )}
             {isCommunication ? <th>PDF</th> : null}
-            {benOpen ? <th>ILP Fund</th> : null}
+            {benOpen && data[0]?.BCoverage == 'ILP1' ? <th>ILP Fund</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -293,7 +293,7 @@ function EnquiryTable({
                 </td>
               ) : null}
 
-              {benOpen ? (
+              {benOpen && data[0]?.BCoverage == 'ILP1' ? (
                 <td onClick={() => fundClickOpen(row.ID)}>
                   <AccountBalanceWalletIcon color="success" />
                 </td>
