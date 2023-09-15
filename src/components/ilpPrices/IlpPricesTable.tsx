@@ -102,7 +102,9 @@ function IlpPricesTable({
             <tr
               onClick={() => modalFunc(row, dataIndex?.index)}
               key={row.ID}
-              className={styles["table-cell"]}
+              style={{
+                backgroundColor: row.ApprovalFlag === "AP" ? "#ccffda" : "red",
+              }}
             >
               {columns.map((col: { field: string; type: string }) => {
                 if (col?.type === "date") {
