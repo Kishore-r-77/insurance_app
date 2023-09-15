@@ -16,6 +16,7 @@ import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { GiCoffin } from "react-icons/gi";
 import RedeemIcon from "@mui/icons-material/Redeem";
+import SafetyCheckIcon from "@mui/icons-material/SafetyCheck";
 
 const routes = [
   {
@@ -260,7 +261,7 @@ const routes = [
   {
     path: "#",
     name: "Ilp",
-    icon: <RedeemIcon />,
+    icon: <SafetyCheckIcon />,
     subRoutes: [
       {
         path: "ilpPrices",
