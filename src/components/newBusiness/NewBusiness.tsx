@@ -384,8 +384,14 @@ function NewBusiness({
   };
 
   //UseEffect Function to render data on Screen Based on Dependencies
+  //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
-    getData();
+    if (receiptLookup) {
+      getByFunction(pageNum, pageSize, searchContent);
+    } else {
+      getData();
+    }
+
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
