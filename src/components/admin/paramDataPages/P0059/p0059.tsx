@@ -147,12 +147,12 @@ const P0059 = forwardRef((props: any, ref) => {
           inputRef={allocationCategoryRef}
           placeholder="Allocation Category"
           label="Allocation Category"
-          defaultValue={inputdata.allocationCategory&&Array.isArray(inputdata.allocationCategory)?inputdata.allocationCategory:[]}
+          defaultValue={inputdata.allocationCategory}
           fullWidth
           variant="outlined"
           margin="dense"
           SelectProps={{
-            multiple: true,
+            multiple: false,
           }}
         >
           {getAllocationcategoryResponse?.param.data.dataPairs.map((value:any) => (
