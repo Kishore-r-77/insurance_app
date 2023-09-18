@@ -103,7 +103,8 @@ function IlpPricesTable({
               onClick={() => modalFunc(row, dataIndex?.index)}
               key={row.ID}
               style={{
-                backgroundColor: row.ApprovalFlag === "AP" ? "#ccffda" : "red",
+                backgroundColor:
+                  row.ApprovalFlag === "AP" ? "#ccffda" : "#fad4d8",
               }}
             >
               {columns.map((col: { field: string; type: string }) => {
