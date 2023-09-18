@@ -27,6 +27,14 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
       header: "Fund Units",
       dbField: "fund_units",
     },
+    {
+      field: "FundPrice",
+      header: "Fund Price",
+    },
+    {
+      field: "opfundvalue",
+      header: "Offer Price",
+    },
   ];
 
   const [ilpTranOpen, setilpTranOpen] = useState(true);
