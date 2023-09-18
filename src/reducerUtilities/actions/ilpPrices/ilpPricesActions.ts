@@ -57,14 +57,25 @@ export const columns = [
   },
   {
     field: "FundDate",
-    header: "Fund Date Date",
+    header: "Fund Date",
     dbField: "fund_date",
+    type: "date",
+  },
+  {
+    field: "FundEffDate",
+    header: "Effective Date",
+    dbField: "fund_eff_date",
     type: "date",
   },
   {
     field: "FundBidPrice",
     header: "Fund Bid Price",
     dbField: "fund_bid_price",
+  },
+  {
+    field: "FundOfferPrice",
+    header: "Fund Offer Price",
+    dbField: "fund_offer_price",
   },
   {
     field: "ApprovalFlag",

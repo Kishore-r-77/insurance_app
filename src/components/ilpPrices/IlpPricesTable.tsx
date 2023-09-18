@@ -1,14 +1,13 @@
-import { Button, IconButton, Paper, Tooltip } from "@mui/material";
-import Table from "react-bootstrap/Table";
-import styles from "./ilpPricesTable.module.css";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from "@mui/icons-material/Info";
+import { IconButton, Paper, Tooltip } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
+import Table from "react-bootstrap/Table";
+import styles from "./ilpPricesTable.module.css";
 
 function IlpPricesTable({
   data,
@@ -103,7 +102,8 @@ function IlpPricesTable({
               onClick={() => modalFunc(row, dataIndex?.index)}
               key={row.ID}
               style={{
-                backgroundColor: row.ApprovalFlag === "AP" ? "#ccffda" : "red",
+                backgroundColor:
+                  row?.ApprovalFlag === "AP" ? "#ccffda" : "#fad4d8",
               }}
             >
               {columns.map((col: { field: string; type: string }) => {
