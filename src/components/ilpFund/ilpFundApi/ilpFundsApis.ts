@@ -52,7 +52,7 @@ export const addApi = (
       // FundType: parseInt(state.FundType),
       // EffectiveDate: moment(state.EffectiveDate).format("YYYYMMDD"),
       // FundCurr: state.FundCurr,
-      FundPercentage: parseInt(state.FundPercentage),
+      FundPercentage: parseFloat(state.FundPercentage),
     },
     {
       withCredentials: true,
@@ -73,7 +73,7 @@ export const editApi = (record: any) => {
       FundType: parseInt(record.FundType),
       EffectiveDate: moment(record.EffectiveDate).format("YYYYMMDD"),
       FundCurr: record.FundCurr,
-      FundPercentage: parseInt(record.FundPercentage),
+      FundPercentage: parseFloat(record.FundPercentage),
     },
     {
       withCredentials: true,
