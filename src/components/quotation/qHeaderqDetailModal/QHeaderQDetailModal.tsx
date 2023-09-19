@@ -68,7 +68,8 @@ function QHeaderQDetailModal({
   const title = state.addOpen ? "Quotation Add" : "Quotation Edit";
 
   const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
+    (state: { users: { user: { message: { companyId: any } } } }) =>
+      state.users.user.message.companyId
   );
 
   const languageId = useAppSelector(
@@ -1304,7 +1305,7 @@ function QHeaderQDetailModal({
                                   value={
                                     state.addOpen
                                       ? qDetail.Interest
-                                      : record.interest
+                                      : record.Interest
                                   }
                                   placeholder="Interest"
                                   label="Interest"
@@ -1326,12 +1327,14 @@ function QHeaderQDetailModal({
                               <Grid2 xs={8} md={6} lg={4}>
                                 <TextField
                                   // select
-                                  id="BPrem"
-                                  name="BPrem"
+                                  id="QAnnualPremium"
+                                  name="QAnnualPremium"
                                   type="number"
-                                  // value={benefits.BPrem}
+                                  // value={benefits.QAnnualPremium}
                                   value={
-                                    state.addOpen ? qDetail.BPrem : record.BPrem
+                                    state.addOpen
+                                      ? qDetail.QAnnualPremium
+                                      : record.QAnnualPremium
                                   }
                                   placeholder="Premium"
                                   label="Premium"
@@ -1749,11 +1752,11 @@ function QHeaderQDetailModal({
                               <Grid2 xs={8} md={6} lg={4}>
                                 <TextField
                                   // select
-                                  id="BPrem"
-                                  name="BPrem"
+                                  id="QAnnualPremium"
+                                  name="QAnnualPremium"
                                   type="number"
-                                  // value={benefits.BPrem}
-                                  value={qDetail.BPrem}
+                                  // value={benefits.QAnnualPremium}
+                                  value={qDetail.QAnnualPremium}
                                   placeholder="Premium"
                                   label="Premium"
                                   onChange={(

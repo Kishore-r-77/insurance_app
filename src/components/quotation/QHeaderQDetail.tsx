@@ -58,6 +58,18 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
       QAgeAdmitted: "",
     },
   ]);
+  const [benefitData, setBenefitData] = useState([
+    {
+      CompanyID: companyId,
+      ClientID: 0,
+      BCoverage: "",
+      BSumAssured: "",
+      BPTerm: "",
+      BTerm: "",
+      BStartDate: "",
+      Intrest: "",
+    },
+  ]);
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: QHeaderStateType, action: any) => {
     switch (action.type) {
@@ -467,6 +479,8 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         record={record}
         getQheader={getQheader}
         getAllQDetail={getAllQDetailByQheaderApi}
+        benefitData={benefitData}
+        setBenefitData={setBenefitData}
       />
       {/* <CustomModal
         open={state.qDetailOpen}

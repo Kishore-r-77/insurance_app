@@ -17,6 +17,7 @@ import CustomModal from "../../../utilities/modal/CustomModal";
 
 //Attention: Check the path below
 import {
+  extraParams,
   paramCoverageItem,
   paramItem,
   paramTermItem,
@@ -33,6 +34,8 @@ function FinalizeModal({
   handleFormSubmit,
   record,
   getData,
+  benefitData,
+  setBenefitData,
 }: any) {
   const title = "Policy Quotation";
 
@@ -230,17 +233,45 @@ function FinalizeModal({
     return () => {};
   }, [qcoverage.current]);
 
-  const [benefitData, setBenefitData] = useState([
-    {
-      CompanyID: companyId,
-      ClientID: 0,
-      BCoverage: "",
-      BSumAssured: "",
-      BPTerm: "",
-      BTerm: "",
-      BStartDate: "",
-    },
-  ]);
+  const [capturedCovg, setcapturedCovg] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
+    const { name, value } = e.target;
+    if (name === "BCoverage") {
+      setcapturedCovg(value);
+    }
+    setBenefitData(
+      benefitsData.map((benefit: any, index: number) => {
+        if (index === i) {
+          return { ...benefit, [name]: value };
+        } else return benefit;
+      })
+    );
+  };
+  const [intrestData, setintrestData] = useState([]);
+
+  const mrtaDropdown = () => {
+    return extraParams(companyId, "Q0006", qcoverage.current, "MrtaInterest")
+      .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    mrtaDropdown();
+    return () => {};
+  }, [qcoverage.current]);
+
+  const [bpremData, setbPremData] = useState([]);
+
+  const ilpExtra = () => {
+    return extraParams(companyId, "Q0006", qcoverage.current, "UlAlMethod")
+      .then((resp) => setbPremData(resp.data?.AllowedUlAlMethod))
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    ilpExtra();
+    return () => {};
+  }, [qcoverage.current]);
 
   const handleQDetailAdd = () => {
     setBenefitData([
@@ -253,6 +284,7 @@ function FinalizeModal({
         BPTerm: "",
         BTerm: "",
         BStartDate: "",
+        Intrest: "",
       },
     ]);
   };
@@ -730,156 +762,210 @@ function FinalizeModal({
                 </Grid2>
               </Grid2>
             </TreeItem>
-            {benefitsData?.map((benefit: any, index: number) => (
-              <>
-                <div style={{ display: "flex" }}>
-                  <TreeItem
-                    nodeId={(index + 2).toString()}
-                    label={`Benefits`}
-                    style={{ minWidth: "95%", margin: "0px 1rem" }}
-                  >
-                    <Grid2 container spacing={2}>
-                      <Grid2 xs={8} md={6} lg={4}>
+            {benefitsData?.map((benefit: any, index: number) => {
+              qcoverage.current = benefit.BCoverage;
+              return (
+                <>
+                  <div style={{ display: "flex" }}>
+                    <TreeItem
+                      nodeId={(index + 2).toString()}
+                      label={`Benefits`}
+                      style={{ minWidth: "95%", margin: "0px 1rem" }}
+                    >
+                      <Grid2 container spacing={2}>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="CompanyID"
+                            name="CompanyID"
+                            value={companyData?.CompanyName}
+                            placeholder="company_id"
+                            label="company_id"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="ClientID"
+                            name="ClientID"
+                            // Attention: *** Check the value details  ***
+                            value={benefit?.ClientID}
+                            placeholder="ClientID"
+                            label="ClientID"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            // select
+                            id="BCoverage"
+                            name="BCoverage"
+                            value={benefit?.BCoverage}
+                            placeholder="Coverage"
+                            label="Coverage"
+                            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            //   handleChange(e, index)
+                            // }
+                            fullWidth
+                            margin="dense"
+                          >
+                            {/* {qcoverageData.map((val: any) => (
+                            <MenuItem value={val.item}>
+                              {val.shortdesc}
+                            </MenuItem>
+                          ))} */}
+                          </TextField>
+                        </Grid2>
+
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            type="number"
+                            id="BSumAssured"
+                            name="BSumAssured"
+                            value={benefit?.BSumAssured}
+                            placeholder="Sum Assured"
+                            label="Sum Assured"
+                            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            //   handleChange(e, index)
+                            // }
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            //select
+                            id="BTerm"
+                            name="BTerm"
+                            value={benefit.BTerm}
+                            placeholder="Risk Cess Term"
+                            label="Risk Cess Term"
+                            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            //   handleChange(e, index)
+                            // }
+                            fullWidth
+                            margin="dense"
+                          >
+                            {/* {qpremcesstermData.map((val: any) => (
+                            <MenuItem value={val.item}>
+                              {val.shortdesc}
+                            </MenuItem>
+                          ))} */}
+                          </TextField>
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            //select
+                            id="BPTerm"
+                            name="BPTerm"
+                            value={benefit.BPTerm}
+                            placeholder="Prem Cess Term"
+                            label="Prem Cess Term"
+                            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            //   handleChange(e, index)
+                            // }
+                            fullWidth
+                            margin="dense"
+                          >
+                            {/* {qriskcesstermData.map((val: any) => (
+                            <MenuItem value={val.item}>
+                              {val.shortdesc}
+                            </MenuItem>
+                          ))} */}
+                          </TextField>
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <FormControl
+                            style={{ marginTop: "0.5rem" }}
+                            fullWidth
+                          >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DesktopDatePicker
+                                label="Start Date"
+                                inputFormat="DD/MM/YYYY"
+                                value={benefit.BStartDate}
+                                onChange={(date) => index}
+                                renderInput={(params) => (
+                                  <TextField {...params} />
+                                )}
+                              />
+                            </LocalizationProvider>
+                          </FormControl>
+                        </Grid2>
+                        {/* <Grid2 xs={8} md={6} lg={4}>
                         <TextField
                           InputProps={{ readOnly: true }}
-                          id="CompanyID"
-                          name="CompanyID"
-                          value={companyData?.CompanyName}
-                          placeholder="company_id"
-                          label="company_id"
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          InputProps={{ readOnly: true }}
-                          id="ClientID"
-                          name="ClientID"
-                          // Attention: *** Check the value details  ***
-                          value={benefit?.ClientID}
-                          placeholder="ClientID"
-                          label="ClientID"
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          // select
-                          id="BCoverage"
-                          name="BCoverage"
-                          value={benefit?.BCoverage}
-                          placeholder="Coverage"
-                          label="Coverage"
-                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          //   handleChange(e, index)
-                          // }
-                          fullWidth
-                          margin="dense"
-                        >
-                          {/* {qcoverageData.map((val: any) => (
-                            <MenuItem value={val.item}>
-                              {val.shortdesc}
-                            </MenuItem>
-                          ))} */}
-                        </TextField>
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          type="number"
-                          id="BSumAssured"
-                          name="BSumAssured"
-                          value={benefit?.BSumAssured}
-                          placeholder="Sum Assured"
-                          label="Sum Assured"
-                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          //   handleChange(e, index)
-                          // }
-                          fullWidth
-                          margin="dense"
-                        />
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          //select
-                          id="BPTerm"
-                          name="BPTerm"
-                          value={benefit.BPTerm}
-                          placeholder="Risk Cess Term"
-                          label="Risk Cess Term"
-                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          //   handleChange(e, index)
-                          // }
-                          fullWidth
-                          margin="dense"
-                        >
-                          {/* {qriskcesstermData.map((val: any) => (
-                            <MenuItem value={val.item}>
-                              {val.shortdesc}
-                            </MenuItem>
-                          ))} */}
-                        </TextField>
-                      </Grid2>
-
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
-                          //select
-                          id="BTerm"
-                          name="BTerm"
-                          value={benefit.BTerm}
-                          placeholder="Prem Cess Term"
-                          label="Prem Cess Term"
-                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          //   handleChange(e, index)
-                          // }
-                          fullWidth
-                          margin="dense"
-                        >
-                          {/* {qpremcesstermData.map((val: any) => (
-                            <MenuItem value={val.item}>
-                              {val.shortdesc}
-                            </MenuItem>
-                          ))} */}
-                        </TextField>
-                      </Grid2>
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DesktopDatePicker
-                              label="Start Date"
-                              inputFormat="DD/MM/YYYY"
-                              value={benefit.BStartDate}
-                              onChange={(date) => index}
-                              renderInput={(params) => (
-                                <TextField {...params} />
-                              )}
-                            />
-                          </LocalizationProvider>
-                        </FormControl>
-                      </Grid2>
-                      <Grid2 xs={8} md={6} lg={4}>
-                        <TextField
                           type="number"
                           id="Interest"
                           name="Interest"
-                          value={benefit.Interest}
+                          value={benefit?.Interest}
                           placeholder="Interest"
                           label="Interest"
-                          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          //   handleChange(e, index)
-                          // }
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
                           fullWidth
                           margin="dense"
                         />
+                      </Grid2> */}
+                        {intrestData.length !== 0 ? (
+                          <Grid2 xs={8} md={6} lg={4}>
+                            <TextField
+                              //select
+                              id="Interest"
+                              name="Interest"
+                              value={benefit.Interest}
+                              placeholder="Interest"
+                              label="Interest"
+                              // onChange={(
+                              //   e: React.ChangeEvent<HTMLInputElement>
+                              // ) => handleChange(e, index)}
+                              fullWidth
+                              margin="dense"
+                            >
+                              {/* {intrestData?.map((val, index) => (
+                                <MenuItem value={val} key={val}>
+                                  {val}
+                                </MenuItem>
+                              ))} */}
+                            </TextField>
+                          </Grid2>
+                        ) : null}
+                        {bpremData.length !== 0 ? (
+                          <Grid2 xs={8} md={6} lg={4}>
+                            <TextField
+                              // select
+                              id="QAnnualPremium"
+                              name="QAnnualPremium"
+                              type="number"
+                              // value={benefits.QAnnualPremium}
+                              value={benefit.QAnnualPremium}
+                              placeholder="Premium"
+                              label="Premium"
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => handleChange(e, index)}
+                              fullWidth
+                              margin="dense"
+                            >
+                              {/* {premiumData?.map((val, index) => (
+                                <MenuItem value={val} key={val}>
+                                  {val}
+                                </MenuItem>
+                              ))} */}
+                            </TextField>
+                          </Grid2>
+                        ) : null}
                       </Grid2>
-                    </Grid2>
-                  </TreeItem>
-                </div>
-              </>
-            ))}
+                    </TreeItem>
+                  </div>
+                </>
+              );
+            })}
           </TreeView>
         </form>
       </CustomFullModal>
