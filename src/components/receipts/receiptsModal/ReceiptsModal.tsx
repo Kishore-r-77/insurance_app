@@ -113,22 +113,6 @@ function ReceiptsModal({
       .catch((err) => err.message);
   };
 
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = () => {
-    return getBusinessDateApi()
-      .then((resp) => {
-        setBusinessData(resp.data?.BusinessDate);
-      })
-      .catch((err) => err.message);
-  };
-  console.log(businessData, "Date");
-
-  useEffect(() => {
-    getBusinessDate();
-
-    return () => {};
-  }, []);
-
   // old currency dropdown
 
   // const [aCur, setaCur] = useState([]);
@@ -416,7 +400,7 @@ function ReceiptsModal({
                         inputFormat="DD/MM/YYYY"
                         value={
                           state.addOpen
-                            ? businessData.Date
+                            ? state.DateOfCollection
                             : record.DateOfCollection
                         }
                         onChange={(
@@ -426,7 +410,7 @@ function ReceiptsModal({
                             type: state.addOpen
                               ? ACTIONS.ONCHANGE
                               : ACTIONS.EDITCHANGE,
-                            payload: date?.$d?.$d,
+                            payload: date?.$d,
                             fieldName: "DateOfCollection",
                           })
                         }

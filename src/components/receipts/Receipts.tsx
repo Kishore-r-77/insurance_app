@@ -19,6 +19,7 @@ import {
   deleteApi,
   editApi,
   getAllApi,
+  getBusinessDateApi,
 } from "./receiptsApis/receiptsApis";
 import ReceiptsModal from "./receiptsModal/ReceiptsModal";
 import Notification from "../../utilities/Notification/Notification";
@@ -59,6 +60,7 @@ function Receipts({ modalFunc }: any) {
       case ACTIONS.ADDOPEN:
         return {
           ...state,
+          DateOfCollection: businessData.Date,
           addOpen: true,
         };
       // case ACTIONS.EDITOPEN:
@@ -139,6 +141,21 @@ function Receipts({ modalFunc }: any) {
         return initialValues;
     }
   };
+
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = () => {
+    return getBusinessDateApi()
+      .then((resp) => {
+        setBusinessData(resp.data?.BusinessDate);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate();
+
+    return () => {};
+  }, []);
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
