@@ -84,14 +84,14 @@ function NewBusinessModal({
   };
 
   const [pFreqData, setPFreqData] = useState([]);
-  const getPFreq = (companyId: number, date: string) => {
+  const getPFreq = (companyId: number, PProduct: string, date: string) => {
     axios
       .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
         withCredentials: true,
         params: {
           company_id: companyId,
           name: "Q0005",
-          item: state.PProduct,
+          item: PProduct,
           function: "Frequencies",
           date: moment(date).format("YYYYMMDD"),
         },
@@ -181,9 +181,15 @@ function NewBusinessModal({
   };
 
   useEffect(() => {
-    getPFreq(companyId, state.addOpen ? state?.PRCD : record?.PRCD);
+    getPFreq(companyId, state?.PProduct, state?.PRCD);
     return () => {};
-  }, [state.addOpen ? state?.PProduct : record?.PProduct]);
+  }, [state.addOpen && state?.PProduct]);
+
+  console.log(state.editOpen, record, "******State*****");
+  useEffect(() => {
+    getPFreq(companyId, record.PProduct, record?.PRCD);
+    return () => {};
+  }, [state.editOpen && record.PProduct]);
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -668,7 +674,7 @@ function NewBusinessModal({
                     select
                     id="PFreq"
                     name="PFreq"
-                    value={state.addOpen ? state.PFreq : record?.PFreq}
+                    value={state.addOpen ? state.PFreq : record.PFreq}
                     placeholder="p_freq"
                     label="p_freq"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
