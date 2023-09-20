@@ -33,7 +33,7 @@ import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
 import NewBusiness from "../../newBusiness/NewBusiness";
 import axios from "axios";
 import moment from "moment";
-
+import { getBusinessDateApi } from "../receiptsApis/receiptsApis";
 function ReceiptsModal({
   state,
   record,
@@ -113,6 +113,22 @@ function ReceiptsModal({
       .catch((err) => err.message);
   };
 
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = () => {
+    return getBusinessDateApi()
+      .then((resp) => {
+        setBusinessData(resp.data?.BusinessDate);
+      })
+      .catch((err) => err.message);
+  };
+  console.log(businessData, "Date");
+
+  useEffect(() => {
+    getBusinessDate();
+
+    return () => {};
+  }, []);
+
   // old currency dropdown
 
   // const [aCur, setaCur] = useState([]);
@@ -131,7 +147,7 @@ function ReceiptsModal({
     getTypeOfReceipt(companyId, "P0030", languageId);
 
     //getPolicyData(policyId);
-
+    // state.DateOfCollection = businessData.Date;
     return () => {};
   }, []);
 
@@ -400,7 +416,7 @@ function ReceiptsModal({
                         inputFormat="DD/MM/YYYY"
                         value={
                           state.addOpen
-                            ? state.DateOfCollection
+                            ? businessData.Date
                             : record.DateOfCollection
                         }
                         onChange={(

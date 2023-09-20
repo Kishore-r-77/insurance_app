@@ -128,3 +128,12 @@ export const q0005 = (
     }
   );
 };
+
+export const getBusinessDateApi = () => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/businessdateget/1`,
+    {
+      withCredentials: true,
+    }
+  );
+};
