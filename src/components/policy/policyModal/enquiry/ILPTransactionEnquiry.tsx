@@ -67,6 +67,66 @@ const ILPTransactionEnquiry = ({ open,
       header: "History Code",
       dbField: "history_code",
     },
+
+    {
+      field: "InvNonInvFlag",
+      header: "Investment/ Non-Investment Flag",
+      dbField: "inv_non_inv_flag",
+    },
+
+    {
+      field: "InvNonInvPercentage",
+      header: "Investment/ Non-Investment Percentage",
+      dbField: "inv_non_inv_percentage",
+    },
+
+    {
+      field: "AccountCode",
+      header: "Account Code",
+      dbField: "account_code",
+    },
+
+    {
+      field: "CurrencyRate",
+      header: "Currency Rate",
+      dbField: "currency_rate",
+    },
+
+    {
+      field: "MortalityIndicator",
+      header: "Mortality Indicator",
+      dbField: "mortality_indicator",
+    },
+
+    {
+      field: "SurrenderPercentage",
+      header: "Surrender Percentage",
+      dbField: "surrender_percentage",
+    },
+
+    {
+      field: "Seqno",
+      header: "Seq No",
+      dbField: "seqno",
+    },
+
+    {
+      field: "UlProcessFlag",
+      header: "Ul Process Flag",
+      dbField: "ul_process_flag",
+    },
+
+    {
+      field: "UlpPriceDate",
+      header: "Ulp Price Date",
+      dbField: "ulp_price_date",
+    },
+
+    {
+      field: "AllocationCategory",
+      header: "Allocation Category",
+      dbField: "allocation_category",
+    },
   ];
 
   const [ilpTransactionData, setilpTransactionData] = useState([]);
