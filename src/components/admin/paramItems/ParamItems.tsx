@@ -98,8 +98,6 @@ function ParamItems() {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.fieldName, "fieldName");
-        console.log(action.payload, "payload");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,

@@ -60,7 +60,6 @@ function Companies({ userORGroupFunc }: any) {
       case ACTIONS.ONCHANGE:
         if (action.fieldName === "CompanyLogo") {
           convertBase64(action.payload).then((resp) => {
-            console.log(resp, "Logo");
             return {
               ...state,
               CompanyLogo: resp,
