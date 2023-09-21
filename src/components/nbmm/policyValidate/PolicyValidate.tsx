@@ -118,7 +118,7 @@ function PolicyValidate({ data, modalFunc }: any) {
 //   const getData = () => {
 //     return getAllApi(pageNum, pageSize, state)
 //     .then((resp) => {
-//       console.log(resp);
+//       
 // // ***  Attention : Check the API and modify it, if required  ***
 //       setData(resp.data["All PolicyValidates"]);
 //       settotalRecords(resp.data.paginationData.totalRecords);

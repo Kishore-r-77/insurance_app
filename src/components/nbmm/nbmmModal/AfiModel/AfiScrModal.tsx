@@ -62,7 +62,7 @@ function AfiScrModal({
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

@@ -142,7 +142,7 @@ function LeadAllocations({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All LeadAllocations"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -159,7 +159,7 @@ function LeadAllocations({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -169,7 +169,7 @@ function LeadAllocations({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -182,7 +182,7 @@ function LeadAllocations({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -192,7 +192,7 @@ function LeadAllocations({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -205,7 +205,7 @@ function LeadAllocations({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -214,7 +214,7 @@ function LeadAllocations({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

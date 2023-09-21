@@ -142,7 +142,7 @@ function CsmmTable({
         setclientMenuData(resp.data?.AllowedMenus);
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
@@ -165,7 +165,7 @@ function CsmmTable({
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
 

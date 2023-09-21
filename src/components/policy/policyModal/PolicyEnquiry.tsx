@@ -389,7 +389,7 @@ function PolicyEnquiry({
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -547,7 +547,7 @@ function PolicyEnquiry({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    select
+                    // select
                     id="PContractCurr"
                     name="PContractCurr"
                     value={record.PContractCurr}
@@ -557,16 +557,16 @@ function PolicyEnquiry({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {cCurData.map((val: any) => (
+                    {/* {cCurData.map((val: any) => (
                       <MenuItem key={val} value={val}>
                         {val}
                       </MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
                   <TextField
-                    select
+                    // select
                     id="PBillCurr"
                     name="PBillCurr"
                     value={record.PBillCurr}
@@ -576,11 +576,11 @@ function PolicyEnquiry({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {bCurData.map((val: any) => (
+                    {/* {bCurData.map((val: any) => (
                       <MenuItem key={val} value={val}>
                         {val}
                       </MenuItem>
-                    ))}
+                    ))} */}
                   </TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>

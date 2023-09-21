@@ -124,7 +124,7 @@ function Transaction({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         setData(resp.data["All Transactions"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Transactions"]?.length === 0);
@@ -141,7 +141,7 @@ function Transaction({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -151,7 +151,7 @@ function Transaction({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -164,7 +164,7 @@ function Transaction({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -174,7 +174,7 @@ function Transaction({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -187,7 +187,7 @@ function Transaction({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -196,7 +196,7 @@ function Transaction({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

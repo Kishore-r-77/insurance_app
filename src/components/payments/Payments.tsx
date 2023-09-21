@@ -45,7 +45,7 @@ function Payments({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Payments"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -194,7 +194,7 @@ function Payments({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId, id)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -204,7 +204,7 @@ function Payments({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -217,7 +217,7 @@ function Payments({ modalFunc }: any) {
   const ApproveSubmit = async () => {
     approveApi(record, id)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.APPROVECLOSE });
         setNotify({
           isOpen: true,
@@ -227,7 +227,7 @@ function Payments({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -240,7 +240,7 @@ function Payments({ modalFunc }: any) {
   const RejectSubmit = async () => {
     rejectionApi(record, id)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.APPROVECLOSE });
         setNotify({
           isOpen: true,
@@ -250,7 +250,7 @@ function Payments({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

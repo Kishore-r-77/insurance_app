@@ -23,7 +23,7 @@ function Hompage() {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
 

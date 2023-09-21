@@ -31,8 +31,6 @@ function Errors({ userORGroupFunc }: any) {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.fieldName, "fieldName");
-        console.log(action.payload, "payload");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,
@@ -114,7 +112,6 @@ function Errors({ userORGroupFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
         setData(resp.data["All Errors"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Errors"]?.length === 0);
@@ -131,7 +128,6 @@ function Errors({ userORGroupFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
@@ -142,7 +138,6 @@ function Errors({ userORGroupFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -153,7 +148,6 @@ function Errors({ userORGroupFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
         getData();
       })
       .catch((err) => console.log(err.message));

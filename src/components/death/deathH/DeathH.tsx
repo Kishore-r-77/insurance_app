@@ -164,7 +164,7 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["AllDeath"]);
         settotalRecords(resp.data.paginationData.totalRecords);

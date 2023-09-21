@@ -117,7 +117,7 @@ function UserGroup({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         setData(resp.data["All UserGroups"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All UserGroups"]?.length === 0);
@@ -134,7 +134,7 @@ function UserGroup({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
@@ -145,7 +145,7 @@ function UserGroup({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -156,7 +156,7 @@ function UserGroup({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         getData();
       })
       .catch((err) => console.log(err.message));

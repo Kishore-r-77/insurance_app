@@ -141,7 +141,7 @@ function IlpPrices({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["Ilp Prices"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -158,7 +158,7 @@ function IlpPrices({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId, p0061Data)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: `${resp?.data?.Result}`,
@@ -181,7 +181,7 @@ function IlpPrices({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -203,7 +203,7 @@ function IlpPrices({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: resp.data,

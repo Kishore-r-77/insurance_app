@@ -150,7 +150,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["Extra"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -167,7 +167,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId, benefitState.ID, benefitState.PolicyID)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -180,7 +180,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         }
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err.message,
@@ -193,7 +193,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -206,7 +206,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         }
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err.message,
@@ -234,7 +234,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: resp.data,

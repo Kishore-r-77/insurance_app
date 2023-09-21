@@ -144,7 +144,7 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
@@ -165,7 +165,7 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         getData();
       })
       .catch((err) => console.log(err.message));

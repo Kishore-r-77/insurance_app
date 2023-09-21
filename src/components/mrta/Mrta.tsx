@@ -137,7 +137,7 @@
 //   const getData = () => {
 //     return getAllApi(pageNum, pageSize, state)
 //     .then((resp) => {
-//       console.log(resp);
+//       
 // // ***  Attention : Check the API and modify it, if required  ***
 //       setData(resp.data["All Mrtaben"]);
 //       settotalRecords(resp.data.paginationData.totalRecords);
@@ -154,7 +154,7 @@
 //   const handleFormSubmit = () => {
 //     return addApi(state, companyId)
 //       .then((resp) => {
-//         console.log(resp);
+//         
 //         dispatch({ type: ACTIONS.ADDCLOSE });
 //         getData();
 //       })
@@ -165,7 +165,7 @@
 //   const editFormSubmit = async () => {
 //     editApi(record)
 //       .then((resp) => {
-//         console.log(resp);
+//         
 //         dispatch({ type: ACTIONS.EDITCLOSE });
 //         getData();
 //       })
@@ -176,7 +176,7 @@
 //   const hardDelete = async (id: number) => {
 //     deleteApi(id)
 //       .then((resp) => {
-//         console.log(resp);
+//         
 //         getData();
 //       })
 //       .catch((err) => console.log(err.message));

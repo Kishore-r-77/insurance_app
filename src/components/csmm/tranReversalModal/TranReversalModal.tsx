@@ -92,7 +92,7 @@ const TranReversalModal = ({
       policyId
     )
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["History"]);
         settotalRecords(resp.data.paginationData.totalRecords);

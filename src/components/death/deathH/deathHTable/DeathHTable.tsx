@@ -120,7 +120,7 @@ function DeathHTable({
         setdeathMenuData(resp.data?.AllowedMenus);
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
 

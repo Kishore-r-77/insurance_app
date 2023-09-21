@@ -19,7 +19,7 @@ function FreqQuoteModal({ open, handleClose, policyId }: any) {
         setRecord(resp.data?.Frequencies);
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setRecord("");
       });
   };

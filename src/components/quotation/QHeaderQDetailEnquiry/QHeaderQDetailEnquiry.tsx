@@ -326,7 +326,7 @@ function QHeaderQDetailEnquiry({
   //   const getById = async (id: number) => {
   //     getQheader(id)
   //       .then((resp) => {
-  //         console.log(resp);
+  //         
   //         dispatch({ type: ACTIONS.EDITCLOSE });
   //         getData();
   //       })
