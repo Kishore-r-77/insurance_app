@@ -122,7 +122,7 @@ function NewBussinessTable({
         setclientMenuData(resp.data?.AllowedMenus);
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
@@ -145,7 +145,7 @@ function NewBussinessTable({
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
 

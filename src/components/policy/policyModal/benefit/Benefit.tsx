@@ -194,7 +194,7 @@ function Benefit({
   const handleFormSubmit = () => {
     return addApi(state, companyId, policyRecord)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -213,7 +213,7 @@ function Benefit({
         getPolicies();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -226,7 +226,7 @@ function Benefit({
   const editFormSubmit = async () => {
     editApi(record, interest)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -253,7 +253,7 @@ function Benefit({
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: `Deleted  Successfully`,
@@ -262,7 +262,7 @@ function Benefit({
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

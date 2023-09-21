@@ -171,7 +171,7 @@ function Nbmm({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         setData(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Policies"]?.length === 0);
@@ -204,7 +204,7 @@ function Nbmm({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -214,7 +214,7 @@ function Nbmm({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -227,7 +227,7 @@ function Nbmm({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -236,7 +236,7 @@ function Nbmm({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

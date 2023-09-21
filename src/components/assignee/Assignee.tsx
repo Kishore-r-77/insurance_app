@@ -151,7 +151,7 @@ function Assignee({
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         setData(resp.data["GetAllasignee"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["GetAllasignee"]?.length === 0);
@@ -166,7 +166,7 @@ function Assignee({
   const handleFormSubmit = () => {
     return addApi(state, companyId, policyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         if (lookup) {
           getAssigneeByPolicy(policyId);
@@ -186,7 +186,7 @@ function Assignee({
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         if (lookup) {
           getAssigneeByPolicy(policyId);
@@ -206,7 +206,7 @@ function Assignee({
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         if (lookup) {
           getAssigneeByPolicy(policyId);
         }

@@ -135,7 +135,7 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
       state
     )
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["Ilp Funds"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -152,7 +152,7 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const handleFormSubmit = () => {
     return addApi(state, benefitState, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -162,7 +162,7 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -175,7 +175,7 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -185,7 +185,7 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -198,7 +198,7 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -207,7 +207,7 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

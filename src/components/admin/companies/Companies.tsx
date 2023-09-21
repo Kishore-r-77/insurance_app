@@ -167,7 +167,6 @@ function Companies({ userORGroupFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
         setData(resp.data["All Companies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Companies"]?.length === 0);
@@ -179,7 +178,6 @@ function Companies({ userORGroupFunc }: any) {
   const getCurrencyData = () => {
     return getAllCurrencyApi()
       .then((resp) => {
-        console.log(resp);
         setcurrencyData(resp.data["currencies"]);
       })
       .catch((err) => console.log(err.message));
@@ -189,7 +187,6 @@ function Companies({ userORGroupFunc }: any) {
   const getCompStatusData = () => {
     return getAllCompStatusApi()
       .then((resp) => {
-        console.log(resp);
         setcmpStatusData(resp.data["All Status"]);
       })
       .catch((err) => console.log(err.message));
@@ -199,7 +196,6 @@ function Companies({ userORGroupFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state)
       .then((resp) => {
-        console.log(resp);
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -221,7 +217,6 @@ function Companies({ userORGroupFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
         setNotify({
           isOpen: true,
           message: `Updated:${resp.data?.outputs?.ID}`,
@@ -243,7 +238,6 @@ function Companies({ userORGroupFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
         getData();
       })
       .catch((err) => console.log(err.message));

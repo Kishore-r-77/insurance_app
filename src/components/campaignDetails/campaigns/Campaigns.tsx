@@ -115,7 +115,7 @@ function Campaigns({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Campaigns"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -132,7 +132,7 @@ function Campaigns({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
@@ -143,7 +143,7 @@ function Campaigns({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -154,7 +154,7 @@ function Campaigns({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         getData();
       })
       .catch((err) => console.log(err.message));

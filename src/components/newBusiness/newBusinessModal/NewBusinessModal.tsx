@@ -237,10 +237,10 @@ function NewBusinessModal({
     state.editOpen && benefitID
       ? deleteApi(benefitID)
           .then((resp) => {
-            console.log(resp);
+            
           })
           .catch((err) => {
-            console.log(err.message);
+            
           })
       : null;
   };

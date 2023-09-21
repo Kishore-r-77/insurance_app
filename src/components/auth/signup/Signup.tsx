@@ -80,7 +80,7 @@ function Signup() {
       navigate("/");
       return response;
     } catch (err: any) {
-      console.log(err.message);
+      
 
       return err.message;
     }

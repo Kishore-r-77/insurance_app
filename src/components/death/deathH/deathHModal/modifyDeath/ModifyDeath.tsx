@@ -32,7 +32,7 @@ function ModifyDeath({
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp);
+        
         handleClose();
         setNotify({
           isOpen: true,

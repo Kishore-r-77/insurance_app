@@ -134,7 +134,7 @@ function BusinessDates({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["AllBusinessDate"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -151,7 +151,7 @@ function BusinessDates({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -161,7 +161,7 @@ function BusinessDates({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -174,7 +174,7 @@ function BusinessDates({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -184,7 +184,7 @@ function BusinessDates({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -197,7 +197,7 @@ function BusinessDates({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         getData();
       })
       .catch((err) => console.log(err.message));

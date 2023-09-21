@@ -118,7 +118,7 @@ function QHeaderTable({
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp);
+        
         handleClickClose();
         setCreateQBenIllValuesData(initialValues);
         setNotify({
@@ -148,7 +148,7 @@ function QHeaderTable({
       getData();
       getQHeader();
     } catch (err: any) {
-      console.log(err.message);
+      
       handleClose();
     }
   };
@@ -284,7 +284,7 @@ function QHeaderTable({
         getQHeader();
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
 

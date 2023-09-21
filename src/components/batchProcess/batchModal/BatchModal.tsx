@@ -58,7 +58,7 @@ function BatchModal(BatchModalType: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -67,7 +67,7 @@ function BatchModal(BatchModalType: any) {
         });
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

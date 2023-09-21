@@ -144,7 +144,7 @@ function ClaimsTable({
         setclaimMenuData(resp.data?.AllowedMenus);
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
@@ -167,7 +167,7 @@ function ClaimsTable({
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
       .catch((err) => {
-        console.log(err.message);
+        
       });
   };
 

@@ -255,7 +255,7 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const editFormSubmit = async () => {
     editApi(record.ID)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -267,7 +267,7 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         getData();
       })
       .catch((err) => console.log(err.message));
@@ -276,7 +276,7 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All QHeaders"]);
         settotalRecords(resp.data.paginationData.totalRecords);

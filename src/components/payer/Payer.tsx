@@ -163,7 +163,7 @@ function Payer({
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["GetAllPayer"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -180,7 +180,7 @@ function Payer({
   const handleFormSubmit = () => {
     return addApi(state, companyId, policyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         if (lookup) {
           getPayerByPolicy(policyId);
@@ -200,7 +200,7 @@ function Payer({
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         if (lookup) {
           getPayerByPolicy(policyId);
@@ -220,7 +220,7 @@ function Payer({
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         if (lookup) {
           getPayerByPolicy(policyId);
         }

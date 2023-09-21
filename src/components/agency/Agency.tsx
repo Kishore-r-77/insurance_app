@@ -143,7 +143,7 @@ function Agency({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        console.log(resp);
+        
         setData(resp.data["All Agencies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Agencies"]?.length === 0);
@@ -159,7 +159,7 @@ function Agency({ modalFunc }: any) {
     console.log(companyId, "yyyyyyy");
     return addApi(state, companyId)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
@@ -170,7 +170,7 @@ function Agency({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        console.log(resp);
+        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -181,7 +181,7 @@ function Agency({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        console.log(resp);
+        
         getData();
       })
       .catch((err) => console.log(err.message));
