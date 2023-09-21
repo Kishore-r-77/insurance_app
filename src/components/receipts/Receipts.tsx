@@ -40,6 +40,25 @@ function Receipts({ modalFunc }: any) {
     searchString: "",
     searchCriteria: "",
   });
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = (companyId: number) => {
+    return getBusinessDateApi(companyId)
+      .then((resp) => {
+        setBusinessData(resp.data);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate(companyId);
+
+    return () => {};
+  }, []);
+  console.log(businessData, "Business");
+
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: ReceiptsStateType, action: any) => {
     switch (action.type) {
@@ -60,7 +79,7 @@ function Receipts({ modalFunc }: any) {
       case ACTIONS.ADDOPEN:
         return {
           ...state,
-          DateOfCollection: businessData.Date,
+          DateOfCollection: businessData.BusinessDate,
           addOpen: true,
         };
       // case ACTIONS.EDITOPEN:
@@ -142,21 +161,6 @@ function Receipts({ modalFunc }: any) {
     }
   };
 
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = () => {
-    return getBusinessDateApi()
-      .then((resp) => {
-        setBusinessData(resp.data?.BusinessDate);
-      })
-      .catch((err) => err.message);
-  };
-
-  useEffect(() => {
-    getBusinessDate();
-
-    return () => {};
-  }, []);
-
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
   const [pageNum, setpageNum] = useState(1);
@@ -178,9 +182,7 @@ function Receipts({ modalFunc }: any) {
       })
       .catch((err) => console.log(err.message));
   };
-  const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
-  );
+
   //Add Api
   const handleFormSubmit = () => {
     return addApi(state, companyId)

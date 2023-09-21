@@ -129,9 +129,9 @@ export const q0005 = (
   );
 };
 
-export const getBusinessDateApi = () => {
+export const getBusinessDateApi = (companyId: number) => {
   return axios.get(
-    `http://localhost:3000/api/v1/basicservices/businessdateget/1`,
+    `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}`,
     {
       withCredentials: true,
     }
