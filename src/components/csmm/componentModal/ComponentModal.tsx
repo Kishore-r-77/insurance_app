@@ -42,8 +42,6 @@ function ComponentModal({
   };
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-    console.log(e.target.checked, "checked");
-
     isChecked.current = e.target.checked;
     setcomponentBenefits(
       componentBenefits.map((benefits: any, index: number) => {
