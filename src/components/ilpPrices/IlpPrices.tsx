@@ -1,19 +1,23 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField, Tooltip } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
-import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
 import { IlpPricesStateType } from "../../reducerUtilities/types/ilpPrices/ilpPricesTypes";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import GradingIcon from "@mui/icons-material/Grading";
+import axios from "axios";
+import moment from "moment";
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/ilpPrices/ilpPricesActions";
+import Notification from "../../utilities/Notification/Notification";
+import NotificationModal from "../../utilities/modal/NotificationModal";
+import IlpPricesTable from "./IlpPricesTable";
+import BulkApprovalModal from "./approvalModal/BulkApprovalModal";
 import styles from "./ilpPrices.module.css";
 import {
   addApi,
@@ -23,13 +27,6 @@ import {
   getAllApi,
 } from "./ilpPricesApis/ilpPricesApis";
 import IlpPricesModal from "./ilpPricesModal/IlpPricesModal";
-import IlpPricesTable from "./IlpPricesTable";
-import NotificationModal from "../../utilities/modal/NotificationModal";
-import Notification from "../../utilities/Notification/Notification";
-import GradingIcon from "@mui/icons-material/Grading";
-import BulkApprovalModal from "./approvalModal/BulkApprovalModal";
-import moment from "moment";
-import axios from "axios";
 
 function IlpPrices({ modalFunc }: any) {
   //data from getall api
@@ -163,10 +160,8 @@ function IlpPrices({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["Ilp Prices"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
         setisLast(resp.data["Ilp Prices"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
