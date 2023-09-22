@@ -14,6 +14,8 @@ export const ACTIONS = {
   SORT_DESC: "SORT_DESC",
   APPROVEOPEN: "APPROVEOPEN",
   APPROVECLOSE: "APPROVECLOSE",
+  BULK_APPROVEOPEN: "BULK_APPROVEOPEN",
+  BULK_APPROVECLOSE: "BULK_APPROVECLOSE",
 };
 
 //Initial State defined
@@ -33,6 +35,7 @@ export const initialValues: IlpPricesStateType = {
   editOpen: false,
   infoOpen: false,
   approveOpen: false,
+  bulkApproveOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",
