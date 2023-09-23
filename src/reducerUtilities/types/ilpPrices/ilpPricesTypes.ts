@@ -13,6 +13,7 @@ export type IlpPricesStateType = {
   editOpen: boolean;
   infoOpen: boolean;
   approveOpen: boolean;
+  bulkApproveOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -31,6 +32,8 @@ export type ActionConstantsType = {
   INFOCLOSE: string;
   APPROVEOPEN: string;
   APPROVECLOSE: string;
+  BULK_APPROVEOPEN: string;
+  BULK_APPROVECLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
 };

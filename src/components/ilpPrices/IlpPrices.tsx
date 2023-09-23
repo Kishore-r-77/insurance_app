@@ -1,19 +1,23 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import SearchIcon from "@mui/icons-material/Search";
-import { Button, MenuItem, TextField } from "@mui/material";
-import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
-import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
-import { IlpPricesStateType } from "../../reducerUtilities/types/ilpPrices/ilpPricesTypes";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import SearchIcon from "@mui/icons-material/Search";
+import { Button, MenuItem, TextField, Tooltip } from "@mui/material";
+import { useEffect, useReducer, useState } from "react";
+import { IlpPricesStateType } from "../../reducerUtilities/types/ilpPrices/ilpPricesTypes";
+import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import GradingIcon from "@mui/icons-material/Grading";
+import axios from "axios";
+import moment from "moment";
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/ilpPrices/ilpPricesActions";
+import Notification from "../../utilities/Notification/Notification";
+import NotificationModal from "../../utilities/modal/NotificationModal";
+import IlpPricesTable from "./IlpPricesTable";
+import BulkApprovalModal from "./approvalModal/BulkApprovalModal";
 import styles from "./ilpPrices.module.css";
 import {
   addApi,
@@ -23,9 +27,6 @@ import {
   getAllApi,
 } from "./ilpPricesApis/ilpPricesApis";
 import IlpPricesModal from "./ilpPricesModal/IlpPricesModal";
-import IlpPricesTable from "./IlpPricesTable";
-import NotificationModal from "../../utilities/modal/NotificationModal";
-import Notification from "../../utilities/Notification/Notification";
 
 function IlpPrices({ modalFunc }: any) {
   //data from getall api
@@ -40,6 +41,10 @@ function IlpPrices({ modalFunc }: any) {
   });
 
   const [p0061Data, setp0061Data] = useState<any>({});
+  const [effectiveDate, seteffectiveDate] = useState("");
+  const [ilpPriceData, setilpPriceData] = useState([]);
+  const [ilpPriceArray, setilpPriceArray] = useState<any>([]);
+  const [isApprove, setisApprove] = useState(false);
 
   const reducer = (state: IlpPricesStateType, action: any) => {
     switch (action.type) {
@@ -104,6 +109,20 @@ function IlpPrices({ modalFunc }: any) {
           ...state,
           approveOpen: false,
         };
+      case ACTIONS.BULK_APPROVEOPEN:
+        // setRecord(action.payload);
+        return {
+          ...state,
+          bulkApproveOpen: true,
+        };
+      case ACTIONS.BULK_APPROVECLOSE:
+        seteffectiveDate("");
+        setilpPriceData([]);
+        setisApprove(false);
+        return {
+          ...state,
+          bulkApproveOpen: false,
+        };
 
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
@@ -141,11 +160,8 @@ function IlpPrices({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
-        // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["Ilp Prices"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
         setisLast(resp.data["Ilp Prices"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
@@ -158,7 +174,6 @@ function IlpPrices({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId, p0061Data)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: `${resp?.data?.Result}`,
@@ -181,7 +196,6 @@ function IlpPrices({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -203,7 +217,6 @@ function IlpPrices({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: resp.data,
@@ -239,6 +252,61 @@ function IlpPrices({ modalFunc }: any) {
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
+  };
+
+  const approvalCheck = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/ilpservices/ilpPricesApproval`,
+        {
+          Function: "Check",
+          EffDate: moment(effectiveDate).format("YYYYMMDD"),
+          IlpPrices: [],
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setilpPriceData(resp.data?.IlpPrices);
+        setisApprove(true);
+      })
+      .catch((err) => err.message);
+  };
+
+  const approvalSave = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/ilpservices/ilpPricesApproval`,
+        {
+          Function: "Approve",
+          EffDate: moment(effectiveDate).format("YYYYMMDD"),
+          IlpPrices: ilpPriceArray,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setisApprove(false);
+        seteffectiveDate("");
+        setilpPriceArray([]);
+        setNotify({
+          isOpen: true,
+          message: resp.data.Result,
+          type: "success",
+        });
+
+        getData();
+        dispatch({ type: ACTIONS.BULK_APPROVECLOSE });
+      })
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err.response.data.error,
           type: "error",
         });
       });
@@ -321,6 +389,22 @@ function IlpPrices({ modalFunc }: any) {
           </Button>
         </span>
         <h1>IlpPrices</h1>
+        <Tooltip title="Bulk Approval">
+          <Button
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+            }}
+            variant="contained"
+            color="success"
+            onClick={() => dispatch({ type: ACTIONS.BULK_APPROVEOPEN })}
+          >
+            <GradingIcon />
+          </Button>
+        </Tooltip>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -377,6 +461,19 @@ function IlpPrices({ modalFunc }: any) {
         </div>
       </NotificationModal>
       <Notification notify={notify} setNotify={setNotify} />
+      <BulkApprovalModal
+        handleClose={() => dispatch({ type: ACTIONS.BULK_APPROVECLOSE })}
+        open={state.bulkApproveOpen}
+        getData={getData}
+        effectiveDate={effectiveDate}
+        ilpPriceData={ilpPriceData}
+        ilpPriceArray={ilpPriceArray}
+        isApprove={isApprove}
+        approvalCheck={approvalCheck}
+        approvalSave={approvalSave}
+        setilpPriceArray={setilpPriceArray}
+        seteffectiveDate={seteffectiveDate}
+      />
     </div>
   );
 }

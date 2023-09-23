@@ -1,26 +1,19 @@
-import {
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../redux/app/hooks";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 import styles from "./ilpPricesModal.module.css";
 
-//Attention: Check the path below
-import { IlpPricesModalType } from "../../../reducerUtilities/types/ilpPrices/ilpPricesTypes";
-import { paramItem } from "../ilpPricesApis/ilpPricesApis";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import useHttp from "../../../hooks/use-http";
-import { getData } from "../../../services/http-service";
 import axios from "axios";
+import useHttp from "../../../hooks/use-http";
+import { IlpPricesModalType } from "../../../reducerUtilities/types/ilpPrices/ilpPricesTypes";
+import { getData } from "../../../services/http-service";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 function IlpPricesModal({
   state,
   record,
@@ -364,47 +357,6 @@ function IlpPricesModal({
                 margin="dense"
               />
             </Grid2>
-
-            {/* <Grid2 xs={8} md={6} lg={4}>
-              <TextField 
-                type="number"
-                id="FundSeqNo"
-                name="FundSeqNo"
-                value={state.addOpen ? state.FundSeqNo : record.FundSeqNo}
-                placeholder="Fund Seq No"
-                label="Fund Seq No"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "FundSeqNo",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField 
-                id="ApprovalFlag"
-                name="ApprovalFlag"
-                value={state.addOpen ? state.ApprovalFlag : record.ApprovalFlag}
-                placeholder="Approval Flag"
-                label="Approval Flag"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "ApprovalFlag",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2> */}
           </Grid2>
         </form>
       </CustomModal>
