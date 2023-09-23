@@ -20,6 +20,7 @@ import {
   deleteApi,
   editApi,
   getAllApi,
+  getBusinessDateApi,
 } from "./newBusinessApis/newBusinessApis";
 import NewBussinessTable from "./NewBussinessTable";
 import PolicyValidate from "./policyValidate/PolicyValidate";
@@ -66,7 +67,24 @@ function NewBusiness({
       BPrem: 0,
     },
   ]);
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+  const userId = useAppSelector((state) => state.users.user.message.id);
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = (companyId: number, userId: number) => {
+    return getBusinessDateApi(companyId, userId)
+      .then((resp) => {
+        setBusinessData(resp.data);
+      })
+      .catch((err) => err.message);
+  };
 
+  useEffect(() => {
+    getBusinessDate(companyId, userId);
+
+    return () => {};
+  }, []);
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
@@ -88,6 +106,8 @@ function NewBusiness({
       case ACTIONS.ADDOPEN:
         return {
           ...state,
+          PRCD: businessData.BusinessDate,
+          PReceivedDate: businessData.BusinessDate,
           addOpen: true,
         };
       case ACTIONS.EDITOPEN:
@@ -279,7 +299,6 @@ function NewBusiness({
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         setData(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Policies"]?.length === 0);
@@ -287,9 +306,7 @@ function NewBusiness({
       })
       .catch((err) => console.log(err.message));
   };
-  const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
-  );
+
   //Add Api
   const handleFormSubmit = async () => {
     try {
@@ -355,7 +372,6 @@ function NewBusiness({
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -366,7 +382,6 @@ function NewBusiness({
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));
