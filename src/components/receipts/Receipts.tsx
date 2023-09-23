@@ -43,9 +43,10 @@ function Receipts({ modalFunc }: any) {
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+  const userId = useAppSelector((state) => state.users.user.message.id);
   const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number) => {
-    return getBusinessDateApi(companyId)
+  const getBusinessDate = (companyId: number, userId: number) => {
+    return getBusinessDateApi(companyId, userId)
       .then((resp) => {
         setBusinessData(resp.data);
       })
@@ -53,7 +54,7 @@ function Receipts({ modalFunc }: any) {
   };
 
   useEffect(() => {
-    getBusinessDate(companyId);
+    getBusinessDate(companyId, userId);
 
     return () => {};
   }, []);
@@ -172,7 +173,6 @@ function Receipts({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Receipts"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -187,7 +187,6 @@ function Receipts({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -197,7 +196,6 @@ function Receipts({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -210,7 +208,7 @@ function Receipts({ modalFunc }: any) {
   // const editFormSubmit = async () => {
   //   editApi(record)
   //     .then((resp) => {
-  //       
+  //
   //       dispatch({ type: ACTIONS.EDITCLOSE });
   //       setNotify({
   //         isOpen: true,
@@ -220,7 +218,7 @@ function Receipts({ modalFunc }: any) {
   //       getData();
   //     })
   //     .catch((err) => {
-  //       
+  //
   //       setNotify({
   //         isOpen: true,
   //         message: err?.response?.data?.error,
@@ -233,7 +231,7 @@ function Receipts({ modalFunc }: any) {
   // const hardDelete = async (id: number) => {
   //   deleteApi(id)
   //     .then((resp) => {
-  //       
+  //
   //       setNotify({
   //         isOpen: true,
   //         message: `Deleted Successfully`,
@@ -242,7 +240,7 @@ function Receipts({ modalFunc }: any) {
   //       getData();
   //     })
   //     .catch((err) => {
-  //       
+  //
   //       setNotify({
   //         isOpen: true,
   //         message: err?.response?.data?.error,
