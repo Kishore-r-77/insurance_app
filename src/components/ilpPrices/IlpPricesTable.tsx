@@ -158,7 +158,7 @@ function IlpPricesTable({
                     >
                       <AssignmentTurnedInIcon
                         color={
-                          row.ApprovalFlag === "AP" ? "secondary" : "success"
+                          row.ApprovalFlag === "AP" ? "success" : "secondary"
                         }
                       />
                     </IconButton>
