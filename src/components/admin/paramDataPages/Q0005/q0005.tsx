@@ -70,6 +70,7 @@ const Q0005 = forwardRef((props: any, ref) => {
   const lapseInterestRef: any = useRef();
   const agencyChannelRef: any = useRef();
   const backDateAllowedRef: any = useRef();
+  const noLapseGuaranteeRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -99,6 +100,7 @@ const Q0005 = forwardRef((props: any, ref) => {
       inputdata.lapseInterest = Number(lapseInterestRef.current.value);
       inputdata.agencyChannel = agencyChannelRef.current.value;
       inputdata.backDateAllowed = backDateAllowedRef.current.value;
+      inputdata.noLapseGuarantee = noLapseGuaranteeRef.current.value;
 
       return inputdata;
     },
@@ -545,6 +547,33 @@ const Q0005 = forwardRef((props: any, ref) => {
           placeholder="Back Date Allowed"
           label="Back Date Allowed"
           defaultValue={inputdata.backDateAllowed}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="noLapseGuarantee"
+          name="noLapseGuarantee"
+          inputRef={noLapseGuaranteeRef}
+          placeholder="No Lapse Guarantee"
+          label="No Lapse Guarantee"
+          defaultValue={inputdata.noLapseGuarantee}
           fullWidth
           variant="outlined"
           margin="dense"
