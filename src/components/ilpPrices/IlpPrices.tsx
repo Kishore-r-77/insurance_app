@@ -260,7 +260,7 @@ function IlpPrices({ modalFunc }: any) {
   const approvalCheck = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/ilpservices/ilpPricesApproval`,
+        `http://localhost:3000/api/v1/ilpservices/ilpPricesBulkApproval`,
         {
           Function: "Check",
           EffDate: moment(effectiveDate).format("YYYYMMDD"),
