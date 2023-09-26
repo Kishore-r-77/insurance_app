@@ -73,7 +73,6 @@ function AdjPremModal({
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
