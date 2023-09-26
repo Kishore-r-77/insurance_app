@@ -71,6 +71,7 @@ const Q0005 = forwardRef((props: any, ref) => {
   const agencyChannelRef: any = useRef();
   const backDateAllowedRef: any = useRef();
   const noLapseGuaranteeRef: any = useRef();
+  const noLapseGuaranteeMonthsRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -101,6 +102,7 @@ const Q0005 = forwardRef((props: any, ref) => {
       inputdata.agencyChannel = agencyChannelRef.current.value;
       inputdata.backDateAllowed = backDateAllowedRef.current.value;
       inputdata.noLapseGuarantee = noLapseGuaranteeRef.current.value;
+      inputdata.noLapseGuaranteeMonths = Number(noLapseGuaranteeMonthsRef.current.value);
 
       return inputdata;
     },
@@ -588,6 +590,23 @@ const Q0005 = forwardRef((props: any, ref) => {
             ))}
         </TextField>
             </Grid2> 
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          type="number"
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="noLapseGuaranteeMonths"
+          name="noLapseGuaranteeMonths"
+          inputRef={noLapseGuaranteeMonthsRef}
+          placeholder="No Lapse Guarantee Months"
+          label="No Lapse Guarantee Months"
+          defaultValue={inputdata.noLapseGuaranteeMonths}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
 
 
         <Q0005Enq
