@@ -4,7 +4,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IlpPriceFullModal from "./IlpPriceFullModal";
 import { Table } from "react-bootstrap";
 import styles from "./bulkApprovalModal.module.css";
@@ -23,6 +23,8 @@ function BulkApprovalModal({
   seteffectiveDate,
 }: any) {
   const title = "ILP Prices Approval";
+
+  const [selectAll, setSelectAll] = useState(false);
 
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -43,6 +45,20 @@ function BulkApprovalModal({
   };
 
   console.log(ilpPriceArray, "handleCheck");
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setSelectAll(isChecked);
+
+    // Update the ilpPriceArray based on whether "Select All" is checked
+    if (isChecked) {
+      // Add all values to ilpPriceArray
+      setilpPriceArray(ilpPriceData.map((value: any) => value));
+    } else {
+      // Clear ilpPriceArray
+      setilpPriceArray([]);
+    }
+  };
 
   return (
     <div>
@@ -105,6 +121,8 @@ function BulkApprovalModal({
                     }}
                   >
                     Selected
+                    <br />
+                    <input type="checkbox" onChange={handleSelectAll} />
                   </th>
 
                   <th>Fund Code</th>
@@ -120,6 +138,7 @@ function BulkApprovalModal({
                     <td>
                       <input
                         type="checkbox"
+                        checked={selectAll || ilpPriceArray.includes(value)}
                         onChange={(e) => handleCheck(e, value, index)}
                       />
                     </td>

@@ -272,6 +272,7 @@ function IlpPrices({ modalFunc }: any) {
       )
       .then((resp) => {
         setilpPriceData(resp.data?.IlpPrices);
+        setilpPriceArray(resp.data?.IlpPrices);
         setisApprove(true);
       })
       .catch((err) => err.message);
