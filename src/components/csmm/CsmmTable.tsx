@@ -36,6 +36,7 @@ import { ACTIONS as MATURITYACTIONS } from "../../reducerUtilities/actions/matur
 import PolReinModal from "./polReinModal/PolReinModal";
 import MaturityModal from "./maturityModal/MaturityModal";
 import Benefit from "../policy/policyModal/benefit/Benefit";
+import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -141,9 +142,7 @@ function CsmmTable({
       .then((resp) => {
         setclientMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
   const clientServiceMenu = () => {
@@ -164,9 +163,7 @@ function CsmmTable({
       .then((resp) => {
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const [isPayer, setisPayer] = useState(false);
@@ -203,6 +200,23 @@ function CsmmTable({
     getPayerByPolicy(PolicyID);
     return () => {};
   }, [isPayer]);
+  // const companyId = useAppSelector(
+  //   (state) => state.users.user.message.companyId
+  // );
+  const userId = useAppSelector((state) => state.users.user.message.id);
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = (companyId: number, userId: number) => {
+    return getBusinessDateApi(companyId, userId)
+      .then((resp) => {
+        setBusinessData(resp.data);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate(companyId, userId);
+    return () => {};
+  }, []);
 
   const reducer = (state: SurrenderHStateType, action: any) => {
     console.log(state, "surrender State");
@@ -230,6 +244,7 @@ function CsmmTable({
         setPolicyID(action.payload);
         return {
           ...state,
+          EffectiveDate: businessData.BusinessDate,
           surrenderOpen: true,
         };
       case SURRENDERACTIONS.SURRENDERCLOSE:
@@ -290,6 +305,7 @@ function CsmmTable({
         setPolicyID(action.payload);
         return {
           ...state,
+          EffectiveDate: businessData.BusinessDate,
           maturityOpen: true,
         };
       case MATURITYACTIONS.MATURITYCLOSE:
