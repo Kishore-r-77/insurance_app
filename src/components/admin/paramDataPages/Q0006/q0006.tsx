@@ -52,6 +52,8 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendUlfeemethRequest , status: getUlfeemethResponseStatus ,  data: getUlfeemethResponse , error:getUlfeemethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlfundruleRequest , status: getUlfundruleResponseStatus ,  data: getUlfundruleResponse , error:getUlfundruleResponseError} = useHttp(getData, true); 
   const {sendRequest : sendFundcodeRequest , status: getFundcodeResponseStatus ,  data: getFundcodeResponse , error:getFundcodeResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUltopupmethodRequest , status: getUltopupmethodResponseStatus ,  data: getUltopupmethodResponse , error:getUltopupmethodResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendUlwithdrawmethodRequest , status: getUlwithdrawmethodResponseStatus ,  data: getUlwithdrawmethodResponse , error:getUlwithdrawmethodResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtmethRequest , status: getMrtmethResponseStatus ,  data: getMrtmethResponse , error:getMrtmethResponseError} = useHttp(getData, true); 
   const {sendRequest : sendMrtintRequest , status: getMrtintResponseStatus ,  data: getMrtintResponse , error:getMrtintResponseError} = useHttp(getData, true); 
   const {sendRequest : sendBenefittypeRequest , status: getBenefittypeResponseStatus ,  data: getBenefittypeResponse , error:getBenefittypeResponseError} = useHttp(getData, true); 
@@ -173,6 +175,12 @@ const Q0006 = forwardRef((props: any, ref) => {
 
         getDataParams.item = "FUNDCODE";
         sendFundcodeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULTOPUPMETHOD";
+        sendUltopupmethodRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "ULWITHDRAWMETHOD";
+        sendUlwithdrawmethodRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.item = "MRTMETH";
         sendMrtmethRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
@@ -1568,7 +1576,7 @@ const Q0006 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1579,13 +1587,23 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="Ul Top Up Method"
           defaultValue={inputdata.ulTopUpMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUltopupmethodResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          
+          select
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -1596,9 +1614,19 @@ const Q0006 = forwardRef((props: any, ref) => {
           label="UlWithdrawMethod"
           defaultValue={inputdata.ulWithdrawMethod}
           fullWidth
+          variant="outlined"
           margin="dense"
-        />
-        </Grid2>
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getUlwithdrawmethodResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField

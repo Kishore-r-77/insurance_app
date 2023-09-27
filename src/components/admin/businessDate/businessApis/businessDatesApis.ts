@@ -46,7 +46,7 @@ export const addApi = (state: BusinessDatesStateType, companyId: number) => {
     {
       CompanyID: companyId,
       UserID: parseInt(state.UserID),
-      Department: state.Department,
+      Department: parseInt(state.Department),
       Date: moment(state.Date).format("YYYYMMDD"),
     },
     {
