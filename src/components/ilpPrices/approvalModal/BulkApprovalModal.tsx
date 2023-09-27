@@ -24,6 +24,8 @@ function BulkApprovalModal({
 }: any) {
   const title = "ILP Prices Approval";
 
+  const [selectAll, setSelectAll] = useState(false);
+
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
     value: any,
@@ -43,6 +45,20 @@ function BulkApprovalModal({
   };
 
   console.log(ilpPriceArray, "handleCheck");
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setSelectAll(isChecked);
+
+    // Update the ilpPriceArray based on whether "Select All" is checked
+    if (isChecked) {
+      // Add all values to ilpPriceArray
+      setilpPriceArray(ilpPriceData.map((value: any) => value));
+    } else {
+      // Clear ilpPriceArray
+      setilpPriceArray([]);
+    }
+  };
 
   return (
     <div>
@@ -106,7 +122,7 @@ function BulkApprovalModal({
                   >
                     Selected
                     <br />
-                    {/* <input type="checkbox" /> */}
+                    <input type="checkbox" onChange={handleSelectAll} />
                   </th>
 
                   <th>Fund Code</th>
@@ -122,7 +138,7 @@ function BulkApprovalModal({
                     <td>
                       <input
                         type="checkbox"
-                        checked={ilpPriceArray.includes(value)}
+                        checked={selectAll || ilpPriceArray.includes(value)}
                         onChange={(e) => handleCheck(e, value, index)}
                       />
                     </td>
