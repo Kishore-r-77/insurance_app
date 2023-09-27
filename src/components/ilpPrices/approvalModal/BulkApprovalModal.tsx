@@ -133,7 +133,9 @@ function BulkApprovalModal({
                   <th>Offer Price</th>
                   <th>Approval Flag</th>
                 </tr>
-                {ilpPriceData.map((value: any, index: number) => (
+              </thead>
+              {ilpPriceData.map((value: any, index: number) => (
+                <tbody>
                   <tr>
                     <td>
                       <input
@@ -159,8 +161,8 @@ function BulkApprovalModal({
                     <td>{value?.FundOfferPrice}</td>
                     <td>{value?.ApprovalFlag}</td>
                   </tr>
-                ))}
-              </thead>
+                </tbody>
+              ))}
             </Table>
           )}
         </Paper>
