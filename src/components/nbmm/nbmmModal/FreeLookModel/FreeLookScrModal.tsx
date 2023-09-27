@@ -17,7 +17,13 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function FreeLookScrModal({ open, handleClose, policyId, getData }: any) {
+function FreeLookScrModal({
+  open,
+  handleClose,
+  policyId,
+  getData,
+  businessData,
+}: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -48,8 +54,13 @@ function FreeLookScrModal({ open, handleClose, policyId, getData }: any) {
 
   useEffect(() => {
     getCompanyData(companyId);
+    // FreeLookData.RequestedDate = businessData.BusinessDate;
+    setFreeLookData((prev) => ({
+      ...prev,
+      RequestedDate: businessData.BusinessDate,
+    }));
     return () => {};
-  }, []);
+  }, [businessData.BusinessDate]);
 
   return (
     <div>

@@ -17,7 +17,13 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function PostponeWithdrawnScrModal({ open, handleClose, policyId, getData }: any) {
+function PostponeWithdrawnScrModal({
+  open,
+  handleClose,
+  policyId,
+  getData,
+  businessData,
+}: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -48,8 +54,13 @@ function PostponeWithdrawnScrModal({ open, handleClose, policyId, getData }: any
 
   useEffect(() => {
     getCompanyData(companyId);
+    // PostponeWithdrawnData.RequestedDate = businessData.BusinessDate;
+    setPostponeWithdrawnData((prev) => ({
+      ...prev,
+      RequestedDate: businessData.BusinessDate,
+    }));
     return () => {};
-  }, []);
+  }, [businessData.BusinessDate]);
 
   return (
     <div>

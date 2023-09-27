@@ -22,7 +22,13 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function CfiScrModal({ open, handleClose, policyId, getData }: any) {
+function CfiScrModal({
+  open,
+  handleClose,
+  policyId,
+  getData,
+  businessData,
+}: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -54,9 +60,13 @@ function CfiScrModal({ open, handleClose, policyId, getData }: any) {
 
   useEffect(() => {
     getCompanyData(companyId);
+    // CfiData.RequestedDate = businessData.BusinessDate;
+    setCfiData((prev) => ({
+      ...prev,
+      RequestedDate: businessData.BusinessDate,
+    }));
     return () => {};
-  }, []);
-
+  }, [businessData.BusinessDate]);
   return (
     <div>
       <Modal show={open} onHide={handleClose} centered size="xl">
