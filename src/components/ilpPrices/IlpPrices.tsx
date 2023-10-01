@@ -256,6 +256,7 @@ function IlpPrices({ modalFunc }: any) {
         });
       });
   };
+
   //Bulk Approval Check
   const approvalCheck = () => {
     axios
