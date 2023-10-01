@@ -463,6 +463,8 @@ function IlpPrices({ modalFunc }: any) {
         </div>
       </NotificationModal>
       <Notification notify={notify} setNotify={setNotify} />
+
+      {/* Calling the Bulk Approval Modal */}
       <BulkApprovalModal
         handleClose={() => dispatch({ type: ACTIONS.BULK_APPROVECLOSE })}
         open={state.bulkApproveOpen}
