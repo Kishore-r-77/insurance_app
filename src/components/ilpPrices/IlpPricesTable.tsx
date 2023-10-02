@@ -16,7 +16,6 @@ function IlpPricesTable({
   dispatch,
   ACTIONS,
   sortParam,
-  hardDelete,
   modalFunc,
 }: any) {
   const [sort, setsort] = useState(
