@@ -233,6 +233,7 @@ function IlpPrices({ modalFunc }: any) {
       });
   };
 
+  //Ilp Single Approval
   const IlpPriceApproval = () => {
     return approveApi(
       record.FundEffDate,
