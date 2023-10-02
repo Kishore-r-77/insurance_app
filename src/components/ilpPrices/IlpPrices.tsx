@@ -315,6 +315,7 @@ function IlpPrices({ modalFunc }: any) {
       });
   };
 
+  //Pagination Function to navigate to Next page
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
   };
