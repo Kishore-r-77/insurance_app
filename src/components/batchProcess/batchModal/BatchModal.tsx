@@ -8,7 +8,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useLayoutEffect } from "react";
 import CustomModal from "../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../redux/app/hooks";
 
@@ -19,7 +19,7 @@ import styles from "./batchModal.module.css";
 //Attention: Check the path below
 import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
 import { BatchStateType } from "../../../reducerUtilities/types/batch/batchTypes";
-import { addApi } from "../BatchApis/batchApis";
+import { addApi, getBusinessDateApi } from "../BatchApis/batchApis";
 
 import {
   ACTIONS,
@@ -54,11 +54,20 @@ function BatchModal(BatchModalType: any) {
     (state) => state.users.user.message.companyId
   );
 
+  const userId = useAppSelector((state) => state.users.user.message.id);
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate1 = (companyId: number, userId: number) => {
+    return getBusinessDateApi(companyId, userId)
+      .then((resp) => {
+        setBusinessData(resp.data);
+      })
+      .catch((err) => err.message);
+  };
+
   //Add Api
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -67,7 +76,6 @@ function BatchModal(BatchModalType: any) {
         });
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -124,7 +132,17 @@ function BatchModal(BatchModalType: any) {
         return initialValues;
     }
   };
-  const [state, dispatch] = useReducer(reducer, initialValues);
+  useEffect(() => {
+    getBusinessDate1(companyId, userId);
+    state.RevBonusDate = businessData.BusinessDate;
+    return () => {};
+  }, []);
+  // useEffect(() => {
+  //   state = { ...state, RevBonusDate: businessData.BusinessDate };
+
+  //   return () => {};
+  // }, []);
+  let [state, dispatch] = useReducer(reducer, initialValues);
 
   const [businessDate, setBusinessDate] = useState<any>([]);
   const getBusinessDate = () => {
@@ -143,7 +161,6 @@ function BatchModal(BatchModalType: any) {
     console.log(businessDate.Date, "========");
     return () => {};
   }, []);
-
   return (
     <div className={styles.modal}>
       <CustomBatchFullModal
@@ -216,7 +233,7 @@ function BatchModal(BatchModalType: any) {
                     ) =>
                       dispatch({
                         type: state.addOpen ? ACTIONS.ONCHANGE : null,
-                        payload: date.$d,
+                        payload: date?.$d,
                         fieldName: "RevBonusDate",
                       })
                     }

@@ -203,7 +203,7 @@ function ClaimsTable({
   }, [isPayer]);
   const getBusinessDateApi = (companyId: number, userId: number) => {
     return axios.get(
-      `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/01/${userId}`,
+      `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/05/${userId}`,
       {
         withCredentials: true,
       }

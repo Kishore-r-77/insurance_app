@@ -18,6 +18,7 @@ import {
   //deleteApi,
   //editApi,
   getAllApi,
+  getBusinessDateApi,
   rejectionApi,
 } from "./paymentsApis/paymentsApis";
 import Notification from "../../utilities/Notification/Notification";
@@ -45,7 +46,6 @@ function Payments({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Payments"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -55,6 +55,21 @@ function Payments({ modalFunc }: any) {
       })
       .catch((err) => console.log(err.message));
   };
+  const userId = useAppSelector((state) => state.users.user.message.id);
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = (companyId: number, userId: number) => {
+    return getBusinessDateApi(companyId, userId)
+      .then((resp) => {
+        setBusinessData(resp.data);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate(companyId, userId);
+    return () => {};
+  }, []);
+
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PaymentsStateType, action: any) => {
     switch (action.type) {
@@ -76,6 +91,7 @@ function Payments({ modalFunc }: any) {
       case ACTIONS.ADDOPEN:
         return {
           ...state,
+          ReconciledDate: businessData.BusinessDate,
           addOpen: true,
         };
       // case ACTIONS.EDITOPEN:
@@ -194,7 +210,6 @@ function Payments({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId, id)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -204,7 +219,6 @@ function Payments({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -217,7 +231,6 @@ function Payments({ modalFunc }: any) {
   const ApproveSubmit = async () => {
     approveApi(record, id)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.APPROVECLOSE });
         setNotify({
           isOpen: true,
@@ -227,7 +240,6 @@ function Payments({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -240,7 +252,6 @@ function Payments({ modalFunc }: any) {
   const RejectSubmit = async () => {
     rejectionApi(record, id)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.APPROVECLOSE });
         setNotify({
           isOpen: true,
@@ -250,7 +261,6 @@ function Payments({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
