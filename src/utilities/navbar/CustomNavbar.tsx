@@ -3,6 +3,8 @@ import { Outlet } from "react-router-dom";
 import { getApi } from "../../components/admin/companies/companiesApis/companiesApis";
 import { useAppSelector } from "../../redux/app/hooks";
 import styles from "./customNavbar.module.css";
+import axios from "axios";
+import moment from "moment";
 
 function CustomNavbar() {
   const companyId = useAppSelector(
@@ -17,7 +19,23 @@ function CustomNavbar() {
       .catch((err) => console.log(err.message));
   };
 
+  const [businessDate, setbusinessDate] = useState("");
+
+  const getBusinessDate = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/0/0`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setbusinessDate(resp.data.BusinessDate);
+      })
+      .catch((err) => err);
+  };
   useEffect(() => {
+    getBusinessDate();
     getCompanyData(companyId);
 
     return () => {};
@@ -38,7 +56,11 @@ function CustomNavbar() {
               }}
               src={companyData?.CompanyLogo}
             ></img>
+            <h4>
+              <b>Business Date: {moment(businessDate).format("DD-MM-YYYY")}</b>
+            </h4>
           </h1>
+
           <ul>
             <li>Home</li>
             <li>Profile</li>
