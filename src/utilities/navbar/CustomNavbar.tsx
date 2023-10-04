@@ -56,8 +56,11 @@ function CustomNavbar() {
               }}
               src={companyData?.CompanyLogo}
             ></img>
-            <h4>
-              <b>Business Date: {moment(businessDate).format("DD-MM-YYYY")}</b>
+            <h4 style={{ padding: ".5rem" }}>
+              <b>Business Date: </b>
+              <span style={{ padding: ".5rem" }}>
+                {moment(businessDate).format("DD-MM-YYYY")}
+              </span>
             </h4>
           </h1>
 
