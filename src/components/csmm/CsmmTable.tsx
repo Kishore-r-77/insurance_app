@@ -24,6 +24,7 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
 import Notification from "../../utilities/Notification/Notification";
 import ComponentModal from "./componentModal/ComponentModal";
+import DirectInvPrem from "./DirectInvPrem/DirectInvPrem";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import AdjPremModal from "./adjPremModal/AdjPremModal";
 import SurrenderModal from "./surrenderModal/SurrenderModal";
@@ -141,9 +142,7 @@ function CsmmTable({
       .then((resp) => {
         setclientMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
   const clientServiceMenu = () => {
@@ -164,9 +163,7 @@ function CsmmTable({
       .then((resp) => {
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const [isPayer, setisPayer] = useState(false);
@@ -504,6 +501,10 @@ function CsmmTable({
         maturityDispatch({ type: MATURITYACTIONS.MATURITYOPEN });
         handleClose();
         break;
+      case "DirectInvPrem":
+        directInvPremOpen(policyId.current, value);
+        handleClose();
+        break;
       default:
         return;
     }
@@ -513,8 +514,10 @@ function CsmmTable({
 
   const [isSaChange, setisSaChange] = useState(false);
   const [isComponent, setisComponent] = useState(false);
+  const [isDirectInvPrem, setisDirectInvPrem] = useState(false);
   const [saChangeMenu, setsaChangeMenu] = useState<any>("");
   const [componentMenu, setcomponentMenu] = useState<any>("");
+  const [ilpMenu, setilpMenu] = useState<any>("");
   const [saChangeObj, setsaChangeObj] = useState<any>("");
   const [saChangeBenefits, setsaChangeBenefits] = useState<any>([]);
   const [surrenderBenefits, setsurrenderBenefits] = useState<any>([]);
@@ -762,6 +765,138 @@ function CsmmTable({
       invalidatesa();
     }
   };
+  const [premCalcType, setpremCalcType] = useState("");
+  const [inverstPremData, setinverstPremData] = useState<any>({});
+  const [iplBenefits, setilpBenefits] = useState<any>([]);
+  const [iplFundData, setilpFundData] = useState<any>([]);
+  const getPolicyWithBenefitAndFund = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/ilpservices/getpolwithbenefunds/${PolicyID}/${premCalcType}`,
+
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setinverstPremData(resp.data?.Policy);
+        setilpBenefits(resp.data?.Policy.Benefits);
+        setilpFundData(resp.data?.Policy.IlpFunds);
+        // isSave.current = false;
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+
+  const [ilpAllowed, setilpAllowed] = useState([]);
+  const getilpAllowedFunds = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/ilpservices/ilpallowedfundsget`,
+        {
+          CompanyID: parseInt(companyId),
+
+          BCoverage: "ILP1",
+
+          EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
+            .format("YYYYMMDD")
+            .toString(),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setilpAllowed(resp.data?.ILP1);
+        // isSave.current = false;
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+
+  const [ilpSelectedFund, setilpSelectedFund] = useState([]);
+  const [percentageData, setpercentageData] = useState([]);
+  const checkIlpFunds = () => {
+    return axios
+      .post(
+        `http://localhost:3000/api/v1/ilpservices/invpremiumdirect`,
+        {
+          Function: "Check",
+          CompanyID: companyId,
+          PolicyID: inverstPremData.ID,
+          BenefitID: iplBenefits[0]?.ID,
+          ClientID: inverstPremData.ClientID,
+          EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
+            .format("YYYYMMDD")
+            .toString(),
+          Funds: ilpSelectedFund.map((data: any) => ({
+            ...data,
+            FundCode: data.FundCode,
+            FundType: data.FundType,
+            FundPercentage: parseFloat(data?.FundPercentage),
+            FundCurr: data.FundCurr,
+          })),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        isSave.current = true;
+
+        setNotify({
+          isOpen: true,
+          message: `changed IlpFund equal to 100`,
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+
+  const saveIlpFunds = () => {
+    return axios
+      .post(
+        `http://localhost:3000/api/v1/ilpservices/invpremiumdirect`,
+        {
+          Function: "Save",
+          CompanyID: companyId,
+          PolicyID: inverstPremData.ID,
+          BenefitID: iplBenefits[0]?.ID,
+          ClientID: inverstPremData.ClientID,
+          EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
+            .format("YYYYMMDD")
+            .toString(),
+          Funds: ilpSelectedFund.map((data: any) => ({
+            ...data,
+            FundCode: data.FundCode,
+            FundType: data.FundType,
+            FundPercentage: parseFloat(data?.FundPercentage),
+            FundCurr: data.FundCurr,
+          })),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        isSave.current = false;
+        // setilpSelectedFund(resp.data?.result);
+        setNotify({
+          isOpen: true,
+          message: `Ilp Fund Changed Successfully`,
+          type: "success",
+        });
+        directInvPremClose();
+        getData();
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
 
   const componentOpen = (policyId: number, value: any) => {
     setisComponent(true);
@@ -774,7 +909,27 @@ function CsmmTable({
       invalidatca();
     }
   };
+  console.log();
 
+  const directInvPremOpen = (policyId: number, value: any) => {
+    setisDirectInvPrem(true);
+    setilpMenu(value);
+    setPolicyID(policyId);
+    setpremCalcType("U");
+  };
+  const directInvPremClose = () => {
+    setisDirectInvPrem(false);
+    setilpSelectedFund([]);
+    if (isSave.current) {
+      invalidatca();
+    }
+  };
+  useEffect(() => {
+    getPolicyWithBenefitAndFund();
+    getilpAllowedFunds();
+    return () => {};
+  }, [isDirectInvPrem]);
+  console.log(inverstPremData, "ILP");
   useEffect(() => {
     if (isSaChange) {
       getSaChange();
@@ -1072,6 +1227,24 @@ function CsmmTable({
         premium={premium}
         isSave={isSave?.current}
         saveComponent={saveComponent}
+      />
+      <DirectInvPrem
+        open={isDirectInvPrem}
+        handleClose={directInvPremClose}
+        inverstPremData={inverstPremData}
+        iplBenefits={iplBenefits}
+        setilpBenefits={setilpBenefits}
+        iplFundData={iplFundData}
+        setilpFundData={setilpFundData}
+        setilpAllowed={setilpAllowed}
+        ilpAllowed={ilpAllowed}
+        ilpSelectedFund={ilpSelectedFund}
+        setilpSelectedFund={setilpSelectedFund}
+        checkIlpFunds={checkIlpFunds}
+        saveIlpFunds={saveIlpFunds}
+        percentageData={percentageData}
+        setpercentageData={setpercentageData}
+        isSave={isSave?.current}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer
