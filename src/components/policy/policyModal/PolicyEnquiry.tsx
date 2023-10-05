@@ -388,9 +388,7 @@ function PolicyEnquiry({
         },
         { withCredentials: true }
       )
-      .then((resp) => {
-        
-      })
+      .then((resp) => {})
       .catch((err) => {
         console.log(err);
       });

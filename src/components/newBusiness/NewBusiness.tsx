@@ -30,6 +30,7 @@ import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
 import Benefit from "../policy/policyModal/benefit/Benefit";
 import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
+import PolicyInformation from "./newBusinessEnquiry/PolicyInformation";
 
 function NewBusiness({
   modalFunc,
@@ -584,7 +585,15 @@ function NewBusiness({
         nexPage={nexPage}
       />
 
-      <PolicyEnquiry
+      {/* <PolicyEnquiry
+        state={state}
+        record={record}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        handleFormSubmit={editFormSubmit}
+      /> */}
+
+      <PolicyInformation
         state={state}
         record={record}
         ACTIONS={ACTIONS}
