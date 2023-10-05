@@ -165,6 +165,13 @@ function BusinessDatesModal({
                 fullWidth
                 inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
+                required={!!state.UserID}
+                helperText={
+                  state.UserID && !state.Department
+                    ? "Department is required"
+                    : ""
+                }
+                error={!!state.UserID}
               >
                 {getDeptResponse?.param.data.dataPairs.map((value: any) => (
                   <MenuItem key={value.code} value={value.code}>
@@ -173,6 +180,7 @@ function BusinessDatesModal({
                 ))}
               </TextField>
             </Grid2>
+
             <Grid2 xs={8} md={6}>
               <TextField
                 id="UserID"
@@ -207,7 +215,7 @@ function BusinessDatesModal({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: date.$d,
+                        payload: date?.$d,
                         fieldName: "Date",
                       })
                     }

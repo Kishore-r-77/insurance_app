@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { FormControl, TextField } from "@mui/material";
 import axios from "axios";
@@ -41,6 +41,11 @@ function AdjPremModal({
     setfunc("Save");
   };
 
+  useEffect(() => {
+    setNextDate("");
+    return () => {};
+  }, [open === false]);
+
   const doPremAdj = () => {
     axios
       .post(
@@ -73,7 +78,6 @@ function AdjPremModal({
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -219,6 +223,19 @@ function AdjPremModal({
                 />
               </LocalizationProvider>
             </FormControl>
+          </Grid2>
+          <Grid2 lg={4}>
+            <TextField
+              id="PolicyDeposit"
+              name="PolicyDeposit"
+              value={data?.PolicyDeposit}
+              placeholder="PolicyDeposit"
+              label="PolicyDeposit"
+              fullWidth
+              inputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              margin="dense"
+            ></TextField>
           </Grid2>
         </Grid2>
 

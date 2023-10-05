@@ -16,7 +16,6 @@ function IlpPricesTable({
   dispatch,
   ACTIONS,
   sortParam,
-  hardDelete,
   modalFunc,
 }: any) {
   const [sort, setsort] = useState(
@@ -158,7 +157,7 @@ function IlpPricesTable({
                     >
                       <AssignmentTurnedInIcon
                         color={
-                          row.ApprovalFlag === "AP" ? "secondary" : "success"
+                          row.ApprovalFlag === "AP" ? "success" : "secondary"
                         }
                       />
                     </IconButton>

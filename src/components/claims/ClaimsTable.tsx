@@ -143,9 +143,7 @@ function ClaimsTable({
       .then((resp) => {
         setclaimMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
   const clientServiceMenu = () => {
@@ -166,9 +164,7 @@ function ClaimsTable({
       .then((resp) => {
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const [isPayer, setisPayer] = useState(false);
@@ -205,6 +201,28 @@ function ClaimsTable({
     getPayerByPolicy(PolicyID);
     return () => {};
   }, [isPayer]);
+  const getBusinessDateApi = (companyId: number, userId: number) => {
+    return axios.get(
+      `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/05/${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
+  };
+  const userId = useAppSelector((state) => state.users.user.message.id);
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = (companyId: number, userId: number) => {
+    return getBusinessDateApi(companyId, userId)
+      .then((resp) => {
+        setBusinessData(resp.data);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate(companyId, userId);
+    return () => {};
+  }, []);
 
   const reducer = (state: SurrenderHStateType, action: any) => {
     console.log(state, "surrender State");
@@ -232,6 +250,7 @@ function ClaimsTable({
         setPolicyID(action.payload);
         return {
           ...state,
+          EffectiveDate: businessData.BusinessDate,
           surrenderOpen: true,
         };
       case SURRENDERACTIONS.SURRENDERCLOSE:
@@ -292,6 +311,7 @@ function ClaimsTable({
         setPolicyID(action.payload);
         return {
           ...state,
+          EffectiveDate: businessData.BusinessDate,
           maturityOpen: true,
         };
       case MATURITYACTIONS.MATURITYCLOSE:

@@ -40,9 +40,12 @@
 }
 
 #logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   flex: 2 1 10rem;
-  font-family: Great Vibe Regular;
-  letter-spacing: 1rem;
+  /* font-family: Great Vibe Regular; */
+  /* letter-spacing: 1rem; */
   font-weight: bolder;
 }
 

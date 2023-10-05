@@ -174,3 +174,11 @@ export const q0005 = (
     }
   );
 };
+export const getBusinessDateApi = (companyId: number, userId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/02/${userId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};

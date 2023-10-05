@@ -233,6 +233,7 @@ function IlpPrices({ modalFunc }: any) {
       });
   };
 
+  //Ilp Single Approval
   const IlpPriceApproval = () => {
     return approveApi(
       record.FundEffDate,
@@ -257,10 +258,11 @@ function IlpPrices({ modalFunc }: any) {
       });
   };
 
+  //Bulk Approval Check
   const approvalCheck = () => {
     axios
       .post(
-        `http://localhost:3000/api/v1/ilpservices/ilpPricesApproval`,
+        `http://localhost:3000/api/v1/ilpservices/ilpPricesBulkApproval`,
         {
           Function: "Check",
           EffDate: moment(effectiveDate).format("YYYYMMDD"),
@@ -272,6 +274,7 @@ function IlpPrices({ modalFunc }: any) {
       )
       .then((resp) => {
         setilpPriceData(resp.data?.IlpPrices);
+        setilpPriceArray(resp.data?.IlpPrices);
         setisApprove(true);
       })
       .catch((err) => err.message);
@@ -312,6 +315,7 @@ function IlpPrices({ modalFunc }: any) {
       });
   };
 
+  //Pagination Function to navigate to Next page
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
   };
@@ -461,6 +465,8 @@ function IlpPrices({ modalFunc }: any) {
         </div>
       </NotificationModal>
       <Notification notify={notify} setNotify={setNotify} />
+
+      {/* Calling the Bulk Approval Modal */}
       <BulkApprovalModal
         handleClose={() => dispatch({ type: ACTIONS.BULK_APPROVECLOSE })}
         open={state.bulkApproveOpen}

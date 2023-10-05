@@ -17,7 +17,13 @@ var initialValues = {
   RequestedDate: "",
 };
 
-function WithdrawnScrModal({ open, handleClose, policyId, getData }: any) {
+function WithdrawnScrModal({
+  open,
+  handleClose,
+  policyId,
+  getData,
+  businessData,
+}: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -47,8 +53,13 @@ function WithdrawnScrModal({ open, handleClose, policyId, getData }: any) {
 
   useEffect(() => {
     getCompanyData(companyId);
+    // WithdrawnData.RequestedDate = businessData.BusinessDate;
+    setWithdrawnData((prev) => ({
+      ...prev,
+      RequestedDate: businessData.BusinessDate,
+    }));
     return () => {};
-  }, []);
+  }, [businessData.BusinessDate]);
 
   return (
     <div>

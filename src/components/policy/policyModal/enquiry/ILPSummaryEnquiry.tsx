@@ -109,58 +109,58 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
 
   return (
     <div>
-      <CustomTooltip text="Reports">
-          <Button
-            //id={styles["add-btn"]}
-            style={{
-              marginTop: "1rem",
-              maxWidth: "40px",
-              maxHeight: "40px",
-              minWidth: "40px",
-              minHeight: "40px",
-              backgroundColor: "#0a3161",
-            }}
-            variant="contained"
-            color="primary"
-            onClick={handleReportMenuPop}
-          >
-            <ReportIcon />
-          </Button>
-        </CustomTooltip>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={reportMenuopen}
-          onClose={handleReportMenuClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
+    <CustomTooltip text="Reports">
+        <Button
+          //id={styles["add-btn"]}
+          style={{
+            marginTop: "1rem",
+            maxWidth: "40px",
+            maxHeight: "40px",
+            minWidth: "40px",
+            minHeight: "40px",
+            backgroundColor: "#0a3161",
           }}
-          elevation={0}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
+          variant="contained"
+          color="primary"
+          onClick={handleReportMenuPop}
+        >
+          <ReportIcon />
+        </Button>
+      </CustomTooltip>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={reportMenuopen}
+        onClose={handleReportMenuClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        elevation={0}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            getReport("excel");
           }}
         >
-          <MenuItem
-            onClick={() => {
-              getReport("excel");
-            }}
-          >
-            <span style={{ fontSize: ".8em" }}>Excel Report</span>
-          </MenuItem>
+          <span style={{ fontSize: ".8em" }}>Excel Report</span>
+        </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              getReport("pdf");
-            }}
-          >
-            <span style={{ fontSize: ".8em" }}>Pdf Report</span>
-          </MenuItem>
-        </Menu>
+        <MenuItem
+          onClick={() => {
+            getReport("pdf");
+          }}
+        >
+          <span style={{ fontSize: ".8em" }}>Pdf Report</span>
+        </MenuItem>
+      </Menu>
       <form>
         <EnquiryTable
           data={ilpSummaryData}
