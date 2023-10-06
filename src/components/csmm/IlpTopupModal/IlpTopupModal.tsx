@@ -203,10 +203,6 @@ function IlpTopupModal({
   const [percents, setPercents] = useState([]);
   const [editableRowId, setEditableRowId] = useState();
 
-  // function onEditRow(id: any) {
-  //   setEditableRowId(id);
-  // }
-
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
     value: any,
