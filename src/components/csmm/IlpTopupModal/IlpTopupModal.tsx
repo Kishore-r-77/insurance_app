@@ -200,16 +200,12 @@ function IlpTopupModal({
 
   const [selectAll, setSelectAll] = useState(false);
 
-  const [percents, setPercents] = useState([]);
-  const [editableRowId, setEditableRowId] = useState();
-
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
     value: any,
     index: number
   ) => {
     if (e.target.checked) {
-      setEditableRowId(value.FundCode);
       console.log(value, index, "val", "ind");
       const updateArr = [...ilpPriceArray, value];
       setilpPriceArray(updateArr);
