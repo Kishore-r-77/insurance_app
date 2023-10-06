@@ -205,7 +205,13 @@ function ClientFullModal({
         });
         getData();
       })
-      .catch((err) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const [clientType, setclientType] = useState("I");
