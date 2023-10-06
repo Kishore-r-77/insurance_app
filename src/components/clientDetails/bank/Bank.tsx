@@ -14,6 +14,7 @@ import {
   initialValues,
 } from "../../../reducerUtilities/actions/clientDetails/bank/bankActions";
 import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
 
 function Bank({ modalFunc, bankClntData, lookup }: any) {
   //data from getall api
@@ -120,6 +121,11 @@ function Bank({ modalFunc, bankClntData, lookup }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   //Get all Api
   const getData = () => {
@@ -139,11 +145,16 @@ function Bank({ modalFunc, bankClntData, lookup }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Edit Api
@@ -153,14 +164,19 @@ function Bank({ modalFunc, bankClntData, lookup }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));
@@ -285,6 +301,7 @@ function Bank({ modalFunc, bankClntData, lookup }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

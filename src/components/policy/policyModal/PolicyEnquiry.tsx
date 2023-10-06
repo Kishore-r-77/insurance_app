@@ -301,21 +301,21 @@ function PolicyEnquiry({
     return () => {};
   }, []);
 
-  useEffect(() => {
-    getClientByPolicy();
-    getbankByPolicy();
-    geTDFByPolicy();
-    getBenefitByPolicy();
-    getAddressByPolicy();
-    getHistoryByPolicy();
-    geBALByPolicy();
-    getUWByPolicy();
-    getCommunicationByPolicy();
-    getextraByPolicy();
-    getSurvivalBenefitByPolicy();
-    getIlpSummaryByPolicy();
-    return () => {};
-  }, [state.infoOpen]);
+  // useEffect(() => {
+  //   getClientByPolicy();
+  //   getbankByPolicy();
+  //   geTDFByPolicy();
+  //   getBenefitByPolicy();
+  //   getAddressByPolicy();
+  //   getHistoryByPolicy();
+  //   geBALByPolicy();
+  //   getUWByPolicy();
+  //   getCommunicationByPolicy();
+  //   getextraByPolicy();
+  //   getSurvivalBenefitByPolicy();
+  //   getIlpSummaryByPolicy();
+  //   return () => {};
+  // }, [state.infoOpen]);
 
   var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
@@ -388,9 +388,7 @@ function PolicyEnquiry({
         },
         { withCredentials: true }
       )
-      .then((resp) => {
-        
-      })
+      .then((resp) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -443,6 +441,39 @@ function PolicyEnquiry({
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
+  const [TabClicked, serTabClicked] = useState<any>("");
+  useEffect(() => {
+    if (TabClicked === "Client") {
+      getClientByPolicy();
+    } else if (TabClicked === "Benefit") {
+      getBenefitByPolicy();
+    } else if (TabClicked === "Bank") {
+      getbankByPolicy();
+    } else if (TabClicked === "Address") {
+      getAddressByPolicy();
+    } else if (TabClicked === "Policy History") {
+      getHistoryByPolicy();
+    } else if (TabClicked === "Communication") {
+      getCommunicationByPolicy();
+    } else if (TabClicked === "Survival Benefit") {
+      getSurvivalBenefitByPolicy();
+    } else if (TabClicked === "Invest Summary") {
+      getIlpSummaryByPolicy();
+    } else if (TabClicked === "TDF") {
+      geTDFByPolicy();
+    } else if (TabClicked === "UW Enquiry") {
+      getUWByPolicy();
+    } else if (TabClicked === "Extra") {
+      getextraByPolicy();
+    } else if (TabClicked === "Account Balance") {
+      geBALByPolicy();
+    }
+    return () => {};
+  }, [TabClicked]);
+  useEffect(() => {
+    getBenefitByPolicy();
+    return () => {};
+  }, [state.infoOpen]);
 
   return (
     <div>
@@ -823,7 +854,8 @@ function PolicyEnquiry({
             </TreeItem>
 
             <Tabs
-              defaultActiveKey="Benefit"
+              // defaultActiveKey="Benefit"
+              onSelect={serTabClicked}
               id="justify-tab-example"
               className="mb-3"
               justify

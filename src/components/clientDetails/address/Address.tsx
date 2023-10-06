@@ -19,6 +19,7 @@ import {
   initialValues,
 } from "../../../reducerUtilities/actions/clientDetails/address/addressActions";
 import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
 
 function Address({ modalFunc, addressByClientData, lookup }: any) {
   //data from getall api
@@ -140,15 +141,25 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   //Add Api
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Edit Api
@@ -158,14 +169,19 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));
@@ -298,6 +314,7 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
