@@ -1,20 +1,16 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { FormControl, MenuItem, TextField } from "@mui/material";
-import axios from "axios";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomIlpTopupModal from "./CustomIlpTopupModal";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import Notification from "../../../utilities/Notification/Notification";
+import { MenuItem, TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import axios from "axios";
 import moment from "moment";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
+import CustomIlpTopupModal from "./CustomIlpTopupModal";
 import styles from "./ilptopupModal.module.css";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { getBenefitsByPolicies } from "../../policy/policyApis/policyApis";
-import { SelectAll } from "@mui/icons-material";
 
 function IlpTopupModal({
   open,
@@ -27,7 +23,6 @@ function IlpTopupModal({
 }: any) {
   const size: string = "xl";
   const title: string = "ILP Topup";
-  const [nextDate, setNextDate] = useState<any>(null);
   const [ilpfunc, setilpfunc] = useState<any>("Init");
   const [result, setresult] = useState<any>("");
   const [notify, setNotify] = useState({
@@ -41,19 +36,8 @@ function IlpTopupModal({
   const [isResult, setIsResult] = useState(false);
   const [ilpTopupBenefits, setilpTopupBenefits] = useState([]);
   const [exfunds, setexfunds] = useState([]);
-  const isChecked = useRef(false);
-
-  const resultOpen = () => {
-    setIsResult(true);
-  };
-  const resultClose = () => {
-    setIsResult(false);
-    setcompleted(true);
-    setilpfunc("Save");
-  };
 
   useEffect(() => {
-    setNextDate("");
     return () => {};
   }, [open === false]);
 
