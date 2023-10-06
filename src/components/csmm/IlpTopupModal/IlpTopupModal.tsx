@@ -207,27 +207,6 @@ function IlpTopupModal({
   //   setEditableRowId(id);
   // }
 
-  // const handlePercentChange = (index, value) => {
-  //   // Create a copy of the percents array to avoid mutating state directly
-  //   const newPercents = [...percents];
-  //   newPercents[index] = value;
-
-  //   // Set the new percents array in the state
-  //   setPercents(newPercents);
-
-  //   // Map over ilpPriceData and update the percentage values
-  //   const updatedData = ilpPriceArray.map((item, i) => {
-  //     if (i === index) {
-  //       // Update the percentage value for the corresponding index
-  //       return { ...item, FundPercentage: value };
-  //     }
-  //     return item;
-  //   });
-
-  //   // Set the updated ilpPriceData in the state
-  //   setilpPriceArray(updatedData);
-  // };
-
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
     value: any,
