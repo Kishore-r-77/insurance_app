@@ -156,15 +156,6 @@ function IlpTopupModal({
       });
   };
 
-  console.log(ilpPriceArray, "IlpPriceArray");
-  console.log(ilpPriceData, "ilpPriceData");
-
-  //moment(data?.NxtBillDate,"DD/MM/YYYY").format("YYYYMMDD").toString()
-
-  // const billToDatechange = (date: any) => {
-  //   console.log("Date", date);
-  //   setNextDate(date + 1);
-  // };
   const [benId, setbenId] = useState("");
   const handleBenChange = (e: any) => {
     setbenId(e.target.value);
