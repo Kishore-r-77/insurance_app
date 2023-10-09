@@ -11,7 +11,6 @@ function GLAccountEnquiry({
   policyNo,
   GLAccountNo,
   contractAmnt,
-  state,
 }: any) {
   console.log(policyNo, "Policy No");
   console.log(GLAccountNo, "Account No");
