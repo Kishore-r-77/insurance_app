@@ -122,7 +122,7 @@ function EnquiryTable({
         link.setAttribute("download", `${temp}.pdf`);
         link.click();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err.message);
   };
 
   function downloadReceiptPdf(val: any) {
@@ -154,7 +154,7 @@ function EnquiryTable({
       .then((resp) => {
         setfundBenefitData(resp.data["Ilp Funds"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err.message);
   };
 
   return (
