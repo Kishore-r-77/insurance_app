@@ -26,7 +26,6 @@ function EnquiryTable({
   ilpTOpen,
   isCommunication,
 }: any) {
-  console.log(policyNo, "Policy No in Enq");
   const [glEnquiry, setglEnquiry] = useState(false);
   const [GLAcctNo, setGLAcctNo] = useState("");
   const [contAmnt, setcontAmnt] = useState("");
