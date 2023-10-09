@@ -31,7 +31,6 @@ function EnquiryTable({
   const [GLAcctNo, setGLAcctNo] = useState("");
   const [contAmnt, setcontAmnt] = useState("");
   const infoClickOpen = (value: any, value1: any) => {
-    console.log(value, "acct no value");
     setGLAcctNo(value);
     setcontAmnt(value1);
     setglEnquiry(true);
@@ -183,7 +182,7 @@ function EnquiryTable({
               )
             )}
             {isCommunication ? <th>PDF</th> : null}
-            {benOpen && data[0]?.BCoverage == 'ILP1' ? <th>ILP Fund</th> : null}
+            {benOpen && data[0]?.BCoverage == "ILP1" ? <th>ILP Fund</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -293,7 +292,7 @@ function EnquiryTable({
                 </td>
               ) : null}
 
-              {benOpen && data[0]?.BCoverage == 'ILP1' ? (
+              {benOpen && data[0]?.BCoverage == "ILP1" ? (
                 <td onClick={() => fundClickOpen(row.ID)}>
                   <AccountBalanceWalletIcon color="success" />
                 </td>
