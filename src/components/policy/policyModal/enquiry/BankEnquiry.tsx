@@ -1,7 +1,3 @@
-import { TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import React from "react";
-import CustomTable from "../../../../utilities/Table/CustomTable";
 import EnquiryTable from "./EnquiryTable";
 
 function BankEnquiry({ bankData, state }: any) {
