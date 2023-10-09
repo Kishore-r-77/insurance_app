@@ -52,7 +52,6 @@ function EnquiryTable({
   const glhClickOpen = (value: any, hcode: any) => {
     setTranno(value);
     if (hcode === "H0091") {
-      console.log(hcode, "History");
       setisSachange(true);
     } else if (hcode === "H0093") {
       setisComponentAdd(true);
@@ -62,7 +61,6 @@ function EnquiryTable({
   };
 
   const ilptClickOpen = (fcode: any) => {
-    console.log("fund: ", fcode);
     setfund(fcode);
     setilpT(true);
   };
@@ -81,7 +79,6 @@ function EnquiryTable({
     setpolicyId(pid);
     setTranno(tno);
     if (cov === "MRTA") {
-      console.log(cov, "Coverage");
       setmrta(true);
     }
     // else {
