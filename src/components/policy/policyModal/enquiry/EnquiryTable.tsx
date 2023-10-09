@@ -50,7 +50,6 @@ function EnquiryTable({
   const [isComponentAdd, setisComponentAdd] = useState(false);
 
   const glhClickOpen = (value: any, hcode: any) => {
-    console.log(value, "tranno");
     setTranno(value);
     if (hcode === "H0091") {
       console.log(hcode, "History");
