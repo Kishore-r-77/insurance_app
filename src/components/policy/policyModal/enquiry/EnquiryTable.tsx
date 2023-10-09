@@ -38,7 +38,6 @@ function EnquiryTable({
   const handleClickClose = () => {
     setglEnquiry(false);
   };
-  console.log(mrtaOpen, "Benefit open in enquiry");
 
   const [glHistory, setglHistory] = useState(false);
   const [mrta, setmrta] = useState(false);
