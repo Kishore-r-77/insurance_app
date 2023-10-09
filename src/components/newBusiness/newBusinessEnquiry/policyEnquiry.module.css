@@ -19,13 +19,15 @@
   box-shadow: 1px 0px 5px 0px;
 }
 
-.nav-tabs {
+.navtabs {
   background-color: rgb(237, 234, 234);
-  padding: 1rem;
   grid-area: tabs;
   border: solid 3px rgba(0, 0, 0, 1);
   border-radius: 20px;
   box-shadow: 1px 0px 5px 0px;
+}
+.navtabs ul {
+  padding-left: 0;
 }
 
 .tabs-enquiry {
@@ -49,5 +51,5 @@
 }
 
 .active {
-  background-color: red;
+  background-color: rgb(135, 245, 135);
 }

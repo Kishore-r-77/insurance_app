@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import styles from "./policyEnquiry.module.css";
 import { useAppSelector } from "../../../redux/app/hooks";
@@ -17,6 +17,8 @@ import {
   p0024,
   q0005,
 } from "../../policy/policyApis/policyApis";
+import BenefitEnquiry from "../../policy/policyModal/enquiry/BenefitEnquiry";
+import ClientEnquiry from "../../policy/policyModal/enquiry/ClientEnquiry";
 
 function PolicyInformation({
   state,
@@ -170,6 +172,7 @@ function PolicyInformation({
   };
 
   const [benefitenquiryData, setbenefitenquiryData] = useState([]);
+
   const getBenefitByPolicy = () => {
     axios
       .get(
@@ -183,6 +186,11 @@ function PolicyInformation({
       })
       .catch((err) => console.log(err.message));
   };
+
+  useEffect(() => {
+    getBenefitByPolicy();
+    return () => {};
+  }, []);
 
   const [addressData, setaddressData] = useState([]);
   const getAddressByPolicy = () => {
@@ -283,10 +291,9 @@ function PolicyInformation({
   }, []);
 
   useEffect(() => {
-    getClientByPolicy();
     getbankByPolicy();
     geTDFByPolicy();
-    getBenefitByPolicy();
+
     getAddressByPolicy();
     getHistoryByPolicy();
     geBALByPolicy();
@@ -321,7 +328,6 @@ function PolicyInformation({
           }
         });
       case ACTIONS.CLIENTOPEN:
-        console.log(state);
         return state.map((value: any, index: number) => {
           if ((index = action.index)) {
             return {
@@ -383,7 +389,6 @@ function PolicyInformation({
     getQ0023Ccur("ContractCurr");
     getQ0023Bcur("BillingCurr");
     getQ0024();
-
     return () => {};
   }, []);
 
@@ -394,8 +399,7 @@ function PolicyInformation({
 
   const policyAndModalAddSubmit = async () => {
     const response = await handleFormSubmit();
-    console.log(response?.response?.data?.Created, "Response");
-    console.log(response?.status, "Status");
+
     if (response.status === 200) {
       for (let i = 0; i < coverage.length; i++) {
         handleBenefitFormSubmit(i, response?.response?.data?.Created);
@@ -423,7 +427,76 @@ function PolicyInformation({
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
 
-  const [isActive, setisActive] = useState(false);
+  const tabsArray = [
+    {
+      tabName: "Benefits",
+      tabIcon: "",
+    },
+    {
+      tabName: "Clients",
+      tabIcon: "",
+    },
+    {
+      tabName: "Address",
+      tabIcon: "",
+    },
+    {
+      tabName: "Bank",
+      tabIcon: "",
+    },
+    {
+      tabName: "Policy History",
+      tabIcon: "",
+    },
+    {
+      tabName: "Account Balance",
+      tabIcon: "",
+    },
+    {
+      tabName: "Tdf",
+      tabIcon: "",
+    },
+    {
+      tabName: "Uw Enquiry",
+      tabIcon: "",
+    },
+    {
+      tabName: "Communication",
+      tabIcon: "",
+    },
+    {
+      tabName: "Survival Benfit",
+      tabIcon: "",
+    },
+    {
+      tabName: "Extra",
+      tabIcon: "",
+    },
+    {
+      tabName: "Invest Summary",
+      tabIcon: "",
+    },
+  ];
+
+  const [activeTab, setActiveTab] = useState("Benefits"); // Initialize with the default active tab
+
+  const handleTabClick = async (tabName: string) => {
+    setActiveTab(tabName);
+    switch (tabName) {
+      case "Benefits":
+        getBenefitByPolicy(); // Await data retrieval
+
+        break;
+      case "Clients":
+        getClientByPolicy(); // Await data retrieval
+
+        break;
+      // Add cases for other tabs
+      default:
+        getBenefitByPolicy(); // Await data retrieval
+    }
+  };
+
   return (
     <div>
       <CustomFullModal
@@ -792,78 +865,36 @@ function PolicyInformation({
               </Grid2>
             </Grid2>
           </form>
-          <nav className={styles["nav-tabs"]}>
+          <nav className={styles["navtabs"]}>
             <ul>
-              <li className={styles[`tabs-li`]}>
-                <span>Benefits</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Clients</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Address</span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Bank</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Policy History</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Account Balance</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Tdf</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Uw Enquiry</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Communication</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Survival Benfit</span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Extra</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
-              <li className={styles["tabs-li"]}>
-                <span>Invest Summary</span>
-                <span>
-                  <PersonIcon />
-                </span>
-              </li>
+              {tabsArray.map((tabsObj) => (
+                <li
+                  key={tabsObj.tabName}
+                  className={`${styles["tabs-li"]} ${
+                    activeTab === tabsObj.tabName ? styles.active : ""
+                  }`}
+                  onClick={() => handleTabClick(tabsObj.tabName)}
+                >
+                  <span>{tabsObj.tabName}</span>
+                  <span>
+                    <PersonIcon />
+                  </span>
+                </li>
+              ))}
             </ul>
           </nav>
           <section className={styles["tabs-enquiry"]}>
-            <h1>Tabs Enquiry</h1>
+            <h1>{activeTab}</h1>
+            {activeTab === "Benefits" ? (
+              <BenefitEnquiry
+                benefitenquiryData={benefitenquiryData}
+                state={state}
+                policyNo={record.ID}
+                TransactionNo={record.Tranno}
+              />
+            ) : (
+              <ClientEnquiry clientData={clientData} state={state} />
+            )}
           </section>
         </main>
       </CustomFullModal>
