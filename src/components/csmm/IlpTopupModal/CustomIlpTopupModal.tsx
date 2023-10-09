@@ -24,7 +24,7 @@ function CustomIlpTopupModal({
           </Button>
           {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
-              {completed ? "Save" : "Process"}
+              {completed && isResult ? "Save" : completed ? "Check" : "Initialize"}
             </Button>
           )}
         </Modal.Footer>
