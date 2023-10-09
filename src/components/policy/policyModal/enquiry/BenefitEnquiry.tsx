@@ -1,12 +1,7 @@
 import { useState } from "react";
 import EnquiryTable from "./EnquiryTable";
 
-const BenefitEnquiry = ({
-  benefitenquiryData,
-  policyNo,
-  TransactionNo,
-  state,
-}: any) => {
+const BenefitEnquiry = ({ benefitenquiryData, policyNo }: any) => {
   const columns = [
     { field: "ID", header: "Benefit ID", dbField: "id" },
 
