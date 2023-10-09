@@ -447,6 +447,25 @@ function ClientModal({
                 </LocalizationProvider>
               </FormControl>
             </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                id="NationalId"
+                name="NationalId"
+                value={record.NationalId}
+                placeholder="National Id"
+                label="National Id"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "NationalId",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
           </Grid2>
         </form>
       </CustomModal>
