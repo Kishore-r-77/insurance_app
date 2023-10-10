@@ -1,14 +1,12 @@
-import { Button, IconButton, Paper } from "@mui/material";
-import Table from "react-bootstrap/Table";
-import styles from "./policyTable.module.css";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import BusinessIcon from "@mui/icons-material/Business";
+import InfoIcon from "@mui/icons-material/Info";
+import { IconButton, Paper } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
-import BusinessIcon from "@mui/icons-material/Business";
+import Table from "react-bootstrap/Table";
+import styles from "./policyTable.module.css";
 function PolicyTable({
   data,
   dataIndex,
@@ -16,7 +14,6 @@ function PolicyTable({
   dispatch,
   ACTIONS,
   sortParam,
-  hardDelete,
   modalFunc,
 }: any) {
   const [sort, setsort] = useState(
@@ -132,16 +129,6 @@ function PolicyTable({
                   </td>
                   <td>
                     <span className={styles.flexButtons}>
-                      {/* <EditIcon
-                    color="primary"
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                    }
-                  /> */}
-                      {/* <DeleteIcon
-                        color="error"
-                        onClick={() => hardDelete(row.ID)}
-                      /> */}
                       <InfoIcon
                         onClick={() =>
                           dispatch({ type: ACTIONS.INFOOPEN, payload: row })
