@@ -2,16 +2,12 @@ import { useEffect, useState } from "react";
 import EnquiryTable from "./EnquiryTable";
 import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 import ReportIcon from "@mui/icons-material/Summarize";
-import { Button,Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem } from "@mui/material";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 import Notification from "../../../../utilities/Notification/Notification";
 
 const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
-  console.log(ilpSummaryData, "Inside ilp summmary enquiry");
-
-
-
   const columns = [
     {
       field: "BenefitID",
@@ -69,7 +65,7 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
     let getDataParams = {
       reportType: type,
       reportFunction: "ilpSummary",
-      policyid: policyNo
+      policyid: policyNo,
     };
 
     sendReportGetRequest({
@@ -85,7 +81,6 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
     type: "",
   });
 
-
   useEffect(() => {
     if (reportGetStatus === "completed" && !reportGetError) {
       const url = window.URL.createObjectURL(
@@ -98,7 +93,7 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
       link.setAttribute("download", filename);
       link.click();
     }
-    if(reportGetStatus === "completed" && reportGetError){
+    if (reportGetStatus === "completed" && reportGetError) {
       setNotify({
         isOpen: true,
         message: reportGetError,
@@ -109,7 +104,7 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
 
   return (
     <div>
-    <CustomTooltip text="Reports">
+      <CustomTooltip text="Reports">
         <Button
           //id={styles["add-btn"]}
           style={{
