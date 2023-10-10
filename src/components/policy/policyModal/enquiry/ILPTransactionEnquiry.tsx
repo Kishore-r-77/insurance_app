@@ -11,12 +11,12 @@ import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
 import Notification from "../../../../utilities/Notification/Notification";
 
-
-const ILPTransactionEnquiry = ({ open,
+const ILPTransactionEnquiry = ({
+  open,
   handleClose,
   policyNo,
   fundCode,
-  state, }: any) => {
+}: any) => {
   const columns = [
     {
       field: "FundCode",
@@ -139,83 +139,81 @@ const ILPTransactionEnquiry = ({ open,
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const reportMenuopen = Boolean(anchorEl);
 
-      const geIlptransaction = () => {
-        axios
-          .get(
-            `http://localhost:3000/api/v1/ilpservices/ilptransactionbyfundcode/${policyNo}/${fundCode}`,
-            {
-              withCredentials: true,
-            }
-          )
-          .then((resp) => {
-            setilpTransactionData(resp.data.IlpTransactions);
-            console.log(ilpTransactionData,"ilpTransactionData")
-          })
-          .catch((err) => console.log(err.message));
-      };
+  const geIlptransaction = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/ilpservices/ilptransactionbyfundcode/${policyNo}/${fundCode}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setilpTransactionData(resp.data.IlpTransactions);
+        console.log(ilpTransactionData, "ilpTransactionData");
+      })
+      .catch((err) => console.log(err.message));
+  };
 
+  const {
+    sendRequest: sendReportGetRequest,
+    status: reportGetStatus,
+    data: getReportResponse,
+    error: reportGetError,
+  } = useHttp(getData, true);
 
-      const {
-        sendRequest: sendReportGetRequest,
-        status: reportGetStatus,
-        data: getReportResponse,
-        error: reportGetError,
-      } = useHttp(getData, true);
-    
-      const handleReportMenuPop = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-      };
-    
-      const handleReportMenuClose = () => {
-        setAnchorEl(null);
-      };
-    
-      const getReport = async (type: any) => {
-        let getDataParams = {
-          reportType: type,
-          reportFunction: "ilpTransaction",
-          policyid: policyNo,
-          fundCode: fundCode
-        };
-    
-        sendReportGetRequest({
-          apiUrlPathSuffix: "/ilpservices/ilpreports",
-          getDataParams: getDataParams,
-          isBlob: true,
-        });
-      };
-    
-      const [notify, setNotify] = useState({
-        isOpen: false,
-        message: "",
-        type: "",
+  const handleReportMenuPop = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleReportMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const getReport = async (type: any) => {
+    let getDataParams = {
+      reportType: type,
+      reportFunction: "ilpTransaction",
+      policyid: policyNo,
+      fundCode: fundCode,
+    };
+
+    sendReportGetRequest({
+      apiUrlPathSuffix: "/ilpservices/ilpreports",
+      getDataParams: getDataParams,
+      isBlob: true,
+    });
+  };
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  useEffect(() => {
+    geIlptransaction();
+  }, [open]);
+
+  useEffect(() => {
+    if (reportGetStatus === "completed" && !reportGetError) {
+      const url = window.URL.createObjectURL(
+        new Blob([getReportResponse.data])
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      const filename =
+        getReportResponse.headers["content-disposition"].split("filename=")[1];
+      link.setAttribute("download", filename);
+      link.click();
+    }
+    if (reportGetStatus === "completed" && reportGetError) {
+      setNotify({
+        isOpen: true,
+        message: reportGetError,
+        type: "error",
       });
-    
-      useEffect(() => {
-        geIlptransaction();
-      }, [open]);
-
-
-      useEffect(() => {
-        if (reportGetStatus === "completed" && !reportGetError) {
-          const url = window.URL.createObjectURL(
-            new Blob([getReportResponse.data])
-          );
-          const link = document.createElement("a");
-          link.href = url;
-          const filename =
-            getReportResponse.headers["content-disposition"].split("filename=")[1];
-          link.setAttribute("download", filename);
-          link.click();
-        }
-        if(reportGetStatus === "completed" && reportGetError){
-          setNotify({
-            isOpen: true,
-            message: reportGetError,
-            type: "error",
-          });
-        }
-      }, [reportGetStatus, reportGetError]);
+    }
+  }, [reportGetStatus, reportGetError]);
 
   return (
     <div>
@@ -223,57 +221,57 @@ const ILPTransactionEnquiry = ({ open,
         <Modal.Header closeButton>
           <Modal.Title>{"ILP Transaction"}</Modal.Title>
           <CustomTooltip text="Reports">
-          <Button1
-            //id={styles["add-btn"]}
-            style={{
-              marginTop: "1rem",
-              maxWidth: "40px",
-              maxHeight: "40px",
-              minWidth: "40px",
-              minHeight: "40px",
-              backgroundColor: "#0a3161",
+            <Button1
+              //id={styles["add-btn"]}
+              style={{
+                marginTop: "1rem",
+                maxWidth: "40px",
+                maxHeight: "40px",
+                minWidth: "40px",
+                minHeight: "40px",
+                backgroundColor: "#0a3161",
+              }}
+              variant="contained"
+              color="primary"
+              onClick={handleReportMenuPop}
+            >
+              <ReportIcon />
+            </Button1>
+          </CustomTooltip>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={reportMenuopen}
+            onClose={handleReportMenuClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
             }}
-            variant="contained"
-            color="primary"
-            onClick={handleReportMenuPop}
-          >
-            <ReportIcon />
-          </Button1>
-        </CustomTooltip>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={reportMenuopen}
-          onClose={handleReportMenuClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-          elevation={0}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-        >
-          <MenuItem
-            onClick={() => {
-              getReport("excel");
+            elevation={0}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
             }}
           >
-            <span style={{ fontSize: ".8em" }}>Excel Report</span>
-          </MenuItem>
+            <MenuItem
+              onClick={() => {
+                getReport("excel");
+              }}
+            >
+              <span style={{ fontSize: ".8em" }}>Excel Report</span>
+            </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              getReport("pdf");
-            }}
-          >
-            <span style={{ fontSize: ".8em" }}>Pdf Report</span>
-          </MenuItem>
-        </Menu>
+            <MenuItem
+              onClick={() => {
+                getReport("pdf");
+              }}
+            >
+              <span style={{ fontSize: ".8em" }}>Pdf Report</span>
+            </MenuItem>
+          </Menu>
         </Modal.Header>
         <Modal.Body>
           {
