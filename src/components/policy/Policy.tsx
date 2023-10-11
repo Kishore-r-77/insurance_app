@@ -180,18 +180,6 @@ function Policy({
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
-  //Add Api
-  const handleFormSubmit = async () => {
-    const resp = addApi(state, companyId);
-
-    try {
-      dispatch({ type: ACTIONS.ADDCLOSE });
-      getData();
-      return resp;
-    } catch (err: any) {
-      err.message;
-    }
-  };
 
   //Edit Api
   const editFormSubmit = async () => {
