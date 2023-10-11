@@ -177,9 +177,6 @@ function Policy({
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-  const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
-  );
 
   //Edit Api
   const editFormSubmit = async () => {
