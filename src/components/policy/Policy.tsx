@@ -3,7 +3,7 @@ import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
 import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
-// ***  Attention : Check the import below and change it if required ***
+
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 
 import {
@@ -197,7 +197,6 @@ function Policy({
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -207,7 +206,6 @@ function Policy({
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -220,7 +218,6 @@ function Policy({
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -229,7 +226,6 @@ function Policy({
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -241,7 +237,6 @@ function Policy({
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
