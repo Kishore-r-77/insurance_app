@@ -1,7 +1,6 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
@@ -15,7 +14,6 @@ import Notification from "../../utilities/Notification/Notification";
 import CustomModal from "../../utilities/modal/CustomModal";
 import styles from "./policy.module.css";
 import {
-  addApi,
   deleteApi,
   editApi,
   getAllApi,
@@ -224,14 +222,13 @@ function Policy({
       .then((resp) => {
         setData(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
+
         setisLast(resp.data["All Policies"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
   };
 
-  // *** Attention: Check the Lookup Open /close ***
   const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState([]);
 
   const getBenefitsByPolicies1 = (policyId: number) => {
@@ -353,22 +350,6 @@ function Policy({
           </Button>
         </span>
         <h1>Policies</h1>
-        {/* <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button> */}
       </header>{" "}
       <PolicyTable
         data={receiptLookup ? getByTable : data}
@@ -382,7 +363,6 @@ function Policy({
       <CustomPagination
         pageNum={pageNum}
         setpageSize={setpageSize}
-        // totalPages={totalPages}
         totalRecords={totalRecords}
         isLast={isLast}
         prevPage={prevPage}
@@ -395,14 +375,6 @@ function Policy({
         dispatch={dispatch}
         handleFormSubmit={editFormSubmit}
       />
-      {/* <PolicyModal
-        state={state}
-        ACTIONS={ACTIONS}
-        dispatch={dispatch}
-        notify={notify}
-        setNotify={setNotify}
-        getData={getData}
-      /> */}
       <CustomModal
         size={size}
         open={state.benefitOpen}
