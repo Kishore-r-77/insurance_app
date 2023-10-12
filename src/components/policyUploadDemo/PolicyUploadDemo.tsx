@@ -152,6 +152,7 @@ function PolicyUploadDemo({
           editOpen: false,
         };
       case ACTIONS.INFOCLOSE:
+        setRecord("");
         return {
           ...state,
           infoOpen: false,
