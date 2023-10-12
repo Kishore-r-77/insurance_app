@@ -104,28 +104,46 @@ function NewBusinessModal({
   };
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
-    companyId: number,
-    name: string,
-    languageId: number
+    companyId: number, PProduct: string, date: string
   ) => {
-    paramItem(companyId, name, languageId)
+    axios
+      .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
+        withCredentials: true,
+        params: {
+          company_id: companyId,
+          name: "Q0005",
+          item: PProduct,
+          function: "ContractCurr",
+          date: moment(date).format("YYYYMMDD"),
+        },
+      })
       .then((resp) => {
-        setPContractCurrData(resp.data.data);
-        return resp.data.data;
+        setPContractCurrData(resp.data?.AllowedContractCurriencies);
+        console.log(resp, "Contract Currency");
+        return resp.data?.AllowedContractCurriencies;
       })
       .catch((err) => err);
   };
 
   const [pBillCurrData, setPBillCurrData] = useState([]);
   const getPBillCurr = (
-    companyId: number,
-    name: string,
-    languageId: number
+    companyId: number, PProduct: string, date: string
   ) => {
-    paramItem(companyId, name, languageId)
+    axios
+      .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
+        withCredentials: true,
+        params: {
+          company_id: companyId,
+          name: "Q0005",
+          item: PProduct,
+          function: "BillingCurr",
+          date: moment(date).format("YYYYMMDD"),
+        },
+      })
       .then((resp) => {
-        setPBillCurrData(resp.data.data);
-        return resp.data.data;
+        setPBillCurrData(resp.data?.AllowedBillingCurriencies);
+        console.log(resp, "Billing Currency");
+        return resp.data?.AllowedBillingCurriencies;
       })
       .catch((err) => err);
   };
@@ -181,6 +199,8 @@ function NewBusinessModal({
 
   useEffect(() => {
     getPFreq(companyId, state?.PProduct, state?.PRCD);
+    getPContractCurr(companyId, state?.PProduct, state?.PRCD);
+    getPBillCurr(companyId, state?.PProduct, state?.PRCD);
     return () => {};
   }, [state.addOpen && state?.PProduct]);
 
@@ -193,9 +213,6 @@ function NewBusinessModal({
   useEffect(() => {
     getCompanyData(companyId);
     getPProduct(companyId, "Q0005", languageId);
-
-    getPContractCurr(companyId, "P0023", languageId);
-    getPBillCurr(companyId, "P0023", languageId);
     getPOffice(companyId, "P0018", languageId);
     getPolStatus(companyId, "P0024", languageId);
     getBilling(companyId, "P0055", languageId);
@@ -719,7 +736,7 @@ function NewBusinessModal({
                     margin="dense"
                   >
                     {pContractCurrData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      <MenuItem value={val.Item}>{val.ShortDesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
@@ -745,7 +762,7 @@ function NewBusinessModal({
                     margin="dense"
                   >
                     {pBillCurrData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      <MenuItem value={val.Item}>{val.ShortDesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
