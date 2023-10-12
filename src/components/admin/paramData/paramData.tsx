@@ -12,7 +12,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
 import ReportIcon from "@mui/icons-material/Summarize";
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { Button, FormControl, Menu, MenuItem, TextField } from "@mui/material";
 import JsonView from "../paramDataPages/jsonView/jsonView";
 import CustomTooltip from "../../../utilities/cutomToolTip/customTooltip";
@@ -333,14 +333,11 @@ const ParamData = () => {
   }, [reportGetStatus, reportGetError]);
 
   const handleUploadModal = (params: any) => {
-
-    if (params.operation ==='cancel')
-    {
+    if (params.operation === "cancel") {
       setUploadModalOpen(false);
     }
 
-    if (params.operation ==='success')
-    {
+    if (params.operation === "success") {
       setUploadModalOpen(false);
       setNotify({
         isOpen: true,
@@ -349,19 +346,15 @@ const ParamData = () => {
       });
 
       refreshData();
-
     }
-   
-  }
+  };
 
   const refreshData = () => {
-
     setPagination((prevState) => ({
-      ...prevState,      
+      ...prevState,
       fetchData: true,
     }));
-
-  }
+  };
 
   const getExtraDataComponent = (paramName: string) => {
     switch (paramName) {
@@ -594,40 +587,40 @@ const ParamData = () => {
             ref={extraDataRef}
             data={getDataResponse.param.data}
             mode={mode}
-            />
+          />
         );
-        case "1-P0061":
-          return (
-            <P0061
-              ref={extraDataRef}
-              data={getDataResponse.param.data}
-              mode={mode}
-            />
-          );
-        case "1-P0062":
-          return (
-            <P0062
-              ref={extraDataRef}
-              data={getDataResponse.param.data}
-               mode={mode}
-              />
-           ); 
-           case "1-P0063":
-            return (
-              <P0063
-                ref={extraDataRef}
-                data={getDataResponse.param.data}
-                 mode={mode}
-                />
-             );  
-             case "1-P0064":
-              return (
-                <P0064
-                  ref={extraDataRef}
-                  data={getDataResponse.param.data}
-                   mode={mode}
-                  />
-               );        
+      case "1-P0061":
+        return (
+          <P0061
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0062":
+        return (
+          <P0062
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0063":
+        return (
+          <P0063
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
+      case "1-P0064":
+        return (
+          <P0064
+            ref={extraDataRef}
+            data={getDataResponse.param.data}
+            mode={mode}
+          />
+        );
       case "1-Q0010":
         return (
           <Q0010
@@ -794,143 +787,14 @@ const ParamData = () => {
 
   return (
     <>
-    <div>
-      <header className={styles.flexStyle}>
-        <h1>Business Rules Item Data</h1>
-        {mode === "display" &&
-          getDataResponseStatus === "completed" &&
-          !getDataResponseError && (
-            <>
-              <CustomTooltip text="Edit">
-                <Button
-                  id={styles["add-btn"]}
-                  style={{
-                    marginTop: "1rem",
-                    maxWidth: "40px",
-                    maxHeight: "40px",
-                    minWidth: "40px",
-                    minHeight: "40px",
-                    backgroundColor: "#0a3161",
-                  }}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    resetModDataRequestStatus();
-                    setMode("update");
-                  }}
-                >
-                  <EditIcon />
-                </Button>
-              </CustomTooltip>
-
-              <CustomTooltip text="Report">
-                <Button
-                  id={styles["add-btn"]}
-                  style={{
-                    marginTop: "1rem",
-                    maxWidth: "40px",
-                    maxHeight: "40px",
-                    minWidth: "40px",
-                    minHeight: "40px",
-                    backgroundColor: "#0a3161",
-                  }}
-                  variant="contained"
-                  color="primary"
-                  onClick={handleReportMenuPop}
-                >
-                  <ReportIcon />
-                </Button>
-              </CustomTooltip>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={reportMenuopen}
-                onClose={handleReportMenuClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-                elevation={0}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    getReport("excel");
-                  }}
-                >
-                  <span style={{ fontSize: ".8em" }}>Excel Report</span>
-                </MenuItem>
-
-                <MenuItem
-                  onClick={() => {
-                    getReport("pdf");
-                  }}
-                >
-                  <span style={{ fontSize: ".8em" }}>Pdf Report</span>
-                </MenuItem>
-              </Menu>
-
-              <CustomTooltip text="Upload">
-                <Button
-                  id={styles["add-btn"]}
-                  style={{
-                    marginTop: "1rem",
-                    maxWidth: "40px",
-                    maxHeight: "40px",
-                    minWidth: "40px",
-                    minHeight: "40px",
-                    backgroundColor: "#0a3161",
-                  }}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setUploadModalOpen(true)
-                  }}
-                >
-                  <FileUploadIcon />
-                </Button>
-              </CustomTooltip>
-            </>
-          )}
-
-        {pagination.pageNum === totalRecords &&
-          mode == "display" &&
-          getDataResponseStatus === "completed" &&
-          !getDataResponseError && (
-            <>
-              <CustomTooltip text="Add">
-                <Button
-                  id={styles["add-btn"]}
-                  style={{
-                    marginTop: "1rem",
-                    maxWidth: "40px",
-                    maxHeight: "40px",
-                    minWidth: "40px",
-                    minHeight: "40px",
-                    backgroundColor: "#0a3161",
-                  }}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    resetModDataRequestStatus();
-                    setMode("create");
-                    setPagination((prevState) => ({
-                      pageNum: prevState.pageNum + 1,
-                      fetchData: false,
-                    }));
-                  }}
-                >
-                  <AddBoxIcon />
-                </Button>
-              </CustomTooltip>
-              {pagination.pageNum > 1 && (
-                <CustomTooltip text="Delete">
+      <div>
+        <header className={styles.flexStyle}>
+          <h1>Business Rules Item Data</h1>
+          {mode === "display" &&
+            getDataResponseStatus === "completed" &&
+            !getDataResponseError && (
+              <>
+                <CustomTooltip text="Edit">
                   <Button
                     id={styles["add-btn"]}
                     style={{
@@ -939,130 +803,306 @@ const ParamData = () => {
                       maxHeight: "40px",
                       minWidth: "40px",
                       minHeight: "40px",
-                      backgroundColor: "#dc3545",
+                      backgroundColor: "#0a3161",
                     }}
                     variant="contained"
+                    color="primary"
                     onClick={() => {
                       resetModDataRequestStatus();
-                      setMode("delete");
+                      setMode("update");
                     }}
                   >
-                    <DeleteIcon />
+                    <EditIcon />
                   </Button>
                 </CustomTooltip>
-              )}
-            </>
-          )}
 
-        <CustomTooltip text="Go Back">
-          <Button
-            id={styles["add-btn"]}
-            style={{
-              marginTop: "1rem",
-              maxWidth: "40px",
-              maxHeight: "40px",
-              minWidth: "40px",
-              minHeight: "40px",
-              backgroundColor: "#0a3161",
-            }}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              navigateToLink({
-                link: "/paramItems",
-                searchParams: {
-                  companyId: searchparams.get("companyId"),
-                  name: searchparams.get("name"),
-                  languageId: searchparams.get("languageId"),
-                },
-              });
-            }}
-          >
-            <ArrowBackIcon />
-          </Button>
-        </CustomTooltip>
-      </header>
-      <CustomHeaderTable
-        data={
-          new Array(
-            "Company: " + searchparams.get("companyId"),
-            "Param Name: " + searchparams.get("name"),
-            "Param Item: " + searchparams.get("item"),
-            "Item Description: " + getDataResponse?.param.longdesc
-          )
-        }
-      />
-
-      {!getDataResponseError &&
-        getDataResponseStatus === "completed" &&
-        mode !== "pendingcancel" && (
-          <>
-            {" "}
-            <div className={styles.paperStyle}>
-              <Grid2
-                container
-                spacing={2}
-                style={{
-                  marginTop: ".5em",
-                  marginRight: ".5em",
-                }}
-              >
-                {getDataResponse.param.type === "D" && (
-                  <Grid2
-                    container
-                    spacing={2}
-                    style={{ width: "95%", margin: "10px auto" }}
+                <CustomTooltip text="Report">
+                  <Button
+                    id={styles["add-btn"]}
+                    style={{
+                      marginTop: "1rem",
+                      maxWidth: "40px",
+                      maxHeight: "40px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      backgroundColor: "#0a3161",
+                    }}
+                    variant="contained"
+                    color="primary"
+                    onClick={handleReportMenuPop}
                   >
-                    <Grid2 xs={8} md={6} lg={3}>
-                      <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DesktopDatePicker
-                            readOnly={mode === "display" || mode === "delete"}
-                            label="Start Date"
-                            inputFormat="DD/MM/YYYY"
-                            value={startDate}
-                            onChange={(
-                              date: React.ChangeEvent<HTMLInputElement> | any
-                            ) => setStartDate(date)}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </LocalizationProvider>
-                      </FormControl>
-                    </Grid2>
+                    <ReportIcon />
+                  </Button>
+                </CustomTooltip>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={reportMenuopen}
+                  onClose={handleReportMenuClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                  elevation={0}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      getReport("excel");
+                    }}
+                  >
+                    <span style={{ fontSize: ".8em" }}>Excel Report</span>
+                  </MenuItem>
 
-                    <Grid2 xs={8} md={6} lg={3}>
-                      <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DesktopDatePicker
-                            readOnly={mode === "display" || mode === "delete"}
-                            label="End Date"
-                            inputFormat="DD/MM/YYYY"
-                            value={endDate}
-                            onChange={(
-                              date: React.ChangeEvent<HTMLInputElement> | any
-                            ) => setEndDate(date)}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </LocalizationProvider>
-                      </FormControl>
-                    </Grid2>
-                  </Grid2>
+                  <MenuItem
+                    onClick={() => {
+                      getReport("pdf");
+                    }}
+                  >
+                    <span style={{ fontSize: ".8em" }}>Pdf Report</span>
+                  </MenuItem>
+                </Menu>
+
+                <CustomTooltip text="Upload">
+                  <Button
+                    id={styles["add-btn"]}
+                    style={{
+                      marginTop: "1rem",
+                      maxWidth: "40px",
+                      maxHeight: "40px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      backgroundColor: "#0a3161",
+                    }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setUploadModalOpen(true);
+                    }}
+                  >
+                    <FileUploadIcon />
+                  </Button>
+                </CustomTooltip>
+              </>
+            )}
+
+          {pagination.pageNum === totalRecords &&
+            mode == "display" &&
+            getDataResponseStatus === "completed" &&
+            !getDataResponseError && (
+              <>
+                <CustomTooltip text="Add">
+                  <Button
+                    id={styles["add-btn"]}
+                    style={{
+                      marginTop: "1rem",
+                      maxWidth: "40px",
+                      maxHeight: "40px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      backgroundColor: "#0a3161",
+                    }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      resetModDataRequestStatus();
+                      setMode("create");
+                      setPagination((prevState) => ({
+                        pageNum: prevState.pageNum + 1,
+                        fetchData: false,
+                      }));
+                    }}
+                  >
+                    <AddBoxIcon />
+                  </Button>
+                </CustomTooltip>
+                {pagination.pageNum > 1 && (
+                  <CustomTooltip text="Delete">
+                    <Button
+                      id={styles["add-btn"]}
+                      style={{
+                        marginTop: "1rem",
+                        maxWidth: "40px",
+                        maxHeight: "40px",
+                        minWidth: "40px",
+                        minHeight: "40px",
+                        backgroundColor: "#dc3545",
+                      }}
+                      variant="contained"
+                      onClick={() => {
+                        resetModDataRequestStatus();
+                        setMode("delete");
+                      }}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </CustomTooltip>
                 )}
+              </>
+            )}
 
-                {getExtraDataComponent(
-                  searchparams.get("companyId") + "-" + searchparams.get("name")
-                )}
-              </Grid2>
+          <CustomTooltip text="Go Back">
+            <Button
+              id={styles["add-btn"]}
+              style={{
+                marginTop: "1rem",
+                maxWidth: "40px",
+                maxHeight: "40px",
+                minWidth: "40px",
+                minHeight: "40px",
+                backgroundColor: "#0a3161",
+              }}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                navigateToLink({
+                  link: "/paramItems",
+                  searchParams: {
+                    companyId: searchparams.get("companyId"),
+                    name: searchparams.get("name"),
+                    languageId: searchparams.get("languageId"),
+                  },
+                });
+              }}
+            >
+              <ArrowBackIcon />
+            </Button>
+          </CustomTooltip>
+        </header>
+        <CustomHeaderTable
+          data={
+            new Array(
+              "Company: " + searchparams.get("companyId"),
+              "Param Name: " + searchparams.get("name"),
+              "Param Item: " + searchparams.get("item"),
+              "Item Description: " + getDataResponse?.param.longdesc
+            )
+          }
+        />
 
-              <div style={{ justifyContent: "flex-start", marginTop: "0.5em" }}>
-                {(mode === "update" ||
-                  mode === "create" ||
-                  mode === "delete") && (
-                  <>
-                    {mode === "update" || mode === "create" ? (
-                      <CustomTooltip
-                        text={mode === "update" ? "Update" : "Create"}
-                      >
+        {!getDataResponseError &&
+          getDataResponseStatus === "completed" &&
+          mode !== "pendingcancel" && (
+            <>
+              {" "}
+              <div className={styles.paperStyle}>
+                <Grid2
+                  container
+                  spacing={2}
+                  style={{
+                    marginTop: ".5em",
+                    marginRight: ".5em",
+                  }}
+                >
+                  {getDataResponse.param.type === "D" && (
+                    <Grid2
+                      container
+                      spacing={2}
+                      style={{ width: "95%", margin: "10px auto" }}
+                    >
+                      <Grid2 xs={8} md={6} lg={3}>
+                        <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DesktopDatePicker
+                              readOnly={mode === "display" || mode === "delete"}
+                              label="Start Date"
+                              inputFormat="DD/MM/YYYY"
+                              value={startDate}
+                              onChange={(
+                                date: React.ChangeEvent<HTMLInputElement> | any
+                              ) => setStartDate(date)}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </LocalizationProvider>
+                        </FormControl>
+                      </Grid2>
+
+                      <Grid2 xs={8} md={6} lg={3}>
+                        <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DesktopDatePicker
+                              readOnly={mode === "display" || mode === "delete"}
+                              label="End Date"
+                              inputFormat="DD/MM/YYYY"
+                              value={endDate}
+                              onChange={(
+                                date: React.ChangeEvent<HTMLInputElement> | any
+                              ) => setEndDate(date)}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </LocalizationProvider>
+                        </FormControl>
+                      </Grid2>
+                    </Grid2>
+                  )}
+
+                  {getExtraDataComponent(
+                    searchparams.get("companyId") +
+                      "-" +
+                      searchparams.get("name")
+                  )}
+                </Grid2>
+
+                <div
+                  style={{ justifyContent: "flex-start", marginTop: "0.5em" }}
+                >
+                  {(mode === "update" ||
+                    mode === "create" ||
+                    mode === "delete") && (
+                    <>
+                      {mode === "update" || mode === "create" ? (
+                        <CustomTooltip
+                          text={mode === "update" ? "Update" : "Create"}
+                        >
+                          <Button1
+                            type="button"
+                            className="btn  btn-primary "
+                            disabled={modDataResponseStatus === "pending"}
+                            style={{
+                              marginRight: "0.5em",
+                              width: "3em",
+                              height: "2.4em",
+                            }}
+                            onClick={() => {
+                              handleSubmit();
+                            }}
+                          >
+                            <CheckCircleIcon
+                              style={{ marginBottom: "0.5em" }}
+                            />
+                          </Button1>
+                        </CustomTooltip>
+                      ) : (
+                        <CustomTooltip text="Confirm Delete">
+                          <Button1
+                            type="button"
+                            className="btn  btn-danger "
+                            disabled={modDataResponseStatus === "pending"}
+                            style={{
+                              marginRight: "0.5em",
+                              width: "3em",
+                              height: "2.4em",
+                            }}
+                            onClick={() => {
+                              handleSubmit();
+                            }}
+                          >
+                            <DeleteIcon style={{ marginBottom: "0.5em" }} />
+                          </Button1>
+                        </CustomTooltip>
+                      )}
+
+                      <CustomTooltip text="Cancel">
                         <Button1
                           type="button"
                           className="btn  btn-primary "
@@ -1073,127 +1113,88 @@ const ParamData = () => {
                             height: "2.4em",
                           }}
                           onClick={() => {
-                            handleSubmit();
+                            if (modDataResponseError) {
+                              resetModDataRequestStatus();
+                            }
+                            if (mode === "create") {
+                              setPagination((prevState) => ({
+                                pageNum: prevState.pageNum - 1,
+                                fetchData: true,
+                              }));
+                            }
+
+                            setMode("pendingcancel");
+                            //this delay in rendering the form will help to restore the old values set as defaultValue in input elements
+                            setTimeout(() => {
+                              setMode("display");
+                            }, 0.1);
                           }}
                         >
-                          <CheckCircleIcon style={{ marginBottom: "0.5em" }} />
+                          <CancelIcon style={{ marginBottom: "0.5em" }} />
                         </Button1>
                       </CustomTooltip>
-                    ) : (
-                      <CustomTooltip text="Confirm Delete">
-                        <Button1
-                          type="button"
-                          className="btn  btn-danger "
-                          disabled={modDataResponseStatus === "pending"}
-                          style={{
-                            marginRight: "0.5em",
-                            width: "3em",
-                            height: "2.4em",
-                          }}
-                          onClick={() => {
-                            handleSubmit();
-                          }}
-                        >
-                          <DeleteIcon style={{ marginBottom: "0.5em" }} />
-                        </Button1>
-                      </CustomTooltip>
-                    )}
+                      <div>
+                        {modDataResponseStatus === "pending" && (
+                          <Image
+                            className="pl-3"
+                            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                          />
+                        )}
+                      </div>
 
-                    <CustomTooltip text="Cancel">
-                      <Button1
-                        type="button"
-                        className="btn  btn-primary "
-                        disabled={modDataResponseStatus === "pending"}
-                        style={{
-                          marginRight: "0.5em",
-                          width: "3em",
-                          height: "2.4em",
-                        }}
-                        onClick={() => {
-                          if (modDataResponseError) {
-                            resetModDataRequestStatus();
-                          }
-                          if (mode === "create") {
-                            setPagination((prevState) => ({
-                              pageNum: prevState.pageNum - 1,
-                              fetchData: true,
-                            }));
-                          }
-
-                          setMode("pendingcancel");
-                          //this delay in rendering the form will help to restore the old values set as defaultValue in input elements
-                          setTimeout(() => {
-                            setMode("display");
-                          }, 0.1);
-                        }}
-                      >
-                        <CancelIcon style={{ marginBottom: "0.5em" }} />
-                      </Button1>
-                    </CustomTooltip>
-                    <div>
-                      {modDataResponseStatus === "pending" && (
-                        <Image
-                          className="pl-3"
-                          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-                        />
-                      )}
-                    </div>
-
-                    {modDataResponseError &&
-                      modDataResponseStatus === "completed" && (
-                        <Alert variant="danger" className="pl-2">
-                          <span>update failed : {modDataResponseError}</span>
-                        </Alert>
-                      )}
-                  </>
-                )}
+                      {modDataResponseError &&
+                        modDataResponseStatus === "completed" && (
+                          <Alert variant="danger" className="pl-2">
+                            <span>update failed : {modDataResponseError}</span>
+                          </Alert>
+                        )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-            {getDataResponse.param.type === "D" && (
-              <CustomPagination
-                pageNum={pagination.pageNum}
-                totalRecords={totalRecords}
-                totalPages={totalRecords}
-                hidePageSizeChange={true}
-                isLast={isLast}
-                prevPage={prevPage}
-                nexPage={nexPage}
-              />
-            )}
-          </>
-        )}
-      <div className={styles.paperStyle}>
-        {getDataResponseError && getDataResponseStatus === "completed" && (
-          <Alert variant="danger">
-            <span>{getDataResponseError}</span>
-          </Alert>
-        )}
+              {getDataResponse.param.type === "D" && (
+                <CustomPagination
+                  pageNum={pagination.pageNum}
+                  totalRecords={totalRecords}
+                  totalPages={totalRecords}
+                  hidePageSizeChange={true}
+                  isLast={isLast}
+                  prevPage={prevPage}
+                  nexPage={nexPage}
+                />
+              )}
+            </>
+          )}
+        <div className={styles.paperStyle}>
+          {getDataResponseError && getDataResponseStatus === "completed" && (
+            <Alert variant="danger">
+              <span>{getDataResponseError}</span>
+            </Alert>
+          )}
 
-        {!modDataResponseError && modDataResponseStatus === "completed" && (
-          <Alert variant="success">
-            <span>success! {modDataResponse.message}</span>
-          </Alert>
-        )}
+          {!modDataResponseError && modDataResponseStatus === "completed" && (
+            <Alert variant="success">
+              <span>success! {modDataResponse.message}</span>
+            </Alert>
+          )}
 
-        {getDataResponseStatus === "pending" && (
-          <Spinner
-            animation="border"
-            role="status"
-            style={{ marginTop: "7%", marginLeft: "10%" }}
-          >
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        )}
+          {getDataResponseStatus === "pending" && (
+            <Spinner
+              animation="border"
+              role="status"
+              style={{ marginTop: "7%", marginLeft: "10%" }}
+            >
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          )}
+        </div>
       </div>
-    </div>
-    <Notification notify={notify} setNotify={setNotify} />
-    <ParamDataUploadModal
-            show={uploadModalOpen}
-            handleModal={handleUploadModal}
-        
-          />
+      <Notification notify={notify} setNotify={setNotify} />
+      <ParamDataUploadModal
+        show={uploadModalOpen}
+        handleModal={handleUploadModal}
+      />
     </>
-
   );
 };
 

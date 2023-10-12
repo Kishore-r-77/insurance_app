@@ -30,8 +30,11 @@ import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
 import Benefit from "../policy/policyModal/benefit/Benefit";
 import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
+import CustomTooltip from "../../utilities/cutomToolTip/customTooltip";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import ParamDataUploadModal from "./ParamDataUploadModal";
 
-function NewBusiness({
+function PolicyUploadDemo({
   modalFunc,
   dataIndex,
   lookup,
@@ -149,7 +152,6 @@ function NewBusiness({
           editOpen: false,
         };
       case ACTIONS.INFOCLOSE:
-        setRecord("");
         return {
           ...state,
           infoOpen: false,
@@ -259,6 +261,24 @@ function NewBusiness({
   const [issueNote, setissueNote] = useState(false);
   const [issueData, setissueData] = useState();
   const [nomineeByPolicyData, setNomineeByPolicyData] = useState();
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+
+  const handleUploadModal = (params: any) => {
+    if (params.operation === "cancel") {
+      setUploadModalOpen(false);
+    }
+
+    if (params.operation === "success") {
+      setUploadModalOpen(false);
+      setNotify({
+        isOpen: true,
+        message: `Data Uploaded Successfully`,
+        type: "success",
+      });
+
+      getData();
+    }
+  };
 
   const policyvalidateOpen = () => {
     setisPolicyValidate(true);
@@ -545,23 +565,27 @@ function NewBusiness({
           </Button>
         </span>
 
-        <h1>New Business Enquiry</h1>
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
+        <h1>Policy Upload Demo</h1>
+        <CustomTooltip text="Upload">
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setUploadModalOpen(true);
+            }}
+          >
+            <FileUploadIcon />
+          </Button>
+        </CustomTooltip>
       </header>
       <NewBussinessTable
         data={receiptLookup ? getByTable : data}
@@ -650,8 +674,12 @@ function NewBusiness({
         <Nominee lookup={state.nomineeOpen} policyRecord={record} />
       </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
+      <ParamDataUploadModal
+        show={uploadModalOpen}
+        handleModal={handleUploadModal}
+      />
     </div>
   );
 }
 
-export default NewBusiness;
+export default PolicyUploadDemo;
