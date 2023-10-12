@@ -32,10 +32,8 @@ const ParamDataUploadModal = (props: any) => {
       );
       const link = document.createElement("a");
       link.href = url;
-      const filename =
-        sendUploadResponse?.headers["Content-Disposition"]?.split(
-          "filename="
-        )[1];
+      console.log(sendUploadResponse, "send upload response");
+      const filename = "errorReport.xlsx";
       link.setAttribute("download", filename);
       link.click();
       props.handleModal({
