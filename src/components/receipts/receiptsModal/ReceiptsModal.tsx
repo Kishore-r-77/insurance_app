@@ -144,14 +144,14 @@ function ReceiptsModal({
           company_id: companyId,
           name: "Q0005",
           item: policyData.PProduct,
-          function: "BillingCurr",
+          function: "ContractCurr",
           date: moment(policyData?.PRCD).format("YYYYMMDD"),
         },
       })
       .then((resp) => {
         setPFreqData(resp.data?.AllowedBillingCurriencies);
         console.log(resp, "Freq Data ");
-        return resp.data?.AllowedFrequencies;
+        return resp.data?.AllowedBillingCurriencies;
       })
       .catch((err) => err);
   };
