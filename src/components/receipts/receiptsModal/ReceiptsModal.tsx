@@ -144,7 +144,7 @@ function ReceiptsModal({
           company_id: companyId,
           name: "Q0005",
           item: policyData.PProduct,
-          function: "ContractCurr",
+          function: "BillingCurr",
           date: moment(policyData?.PRCD).format("YYYYMMDD"),
         },
       })
