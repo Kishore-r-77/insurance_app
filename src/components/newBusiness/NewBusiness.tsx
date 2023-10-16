@@ -345,7 +345,7 @@ function NewBusiness({
         console.log(err, "Error");
         setNotify({
           isOpen: true,
-          message: err.response.data.ValidatePolicy,
+          message: err?.response?.data?.error,
           type: "error",
         });
         confirmClose();
