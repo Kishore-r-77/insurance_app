@@ -151,7 +151,7 @@ function ReceiptsModal({
       .then((resp) => {
         setPFreqData(resp.data?.AllowedBillingCurriencies);
         console.log(resp, "Freq Data ");
-        return resp.data?.AllowedFrequencies;
+        return resp.data?.AllowedBillingCurriencies;
       })
       .catch((err) => err);
   };
