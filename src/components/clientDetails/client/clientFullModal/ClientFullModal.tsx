@@ -205,7 +205,13 @@ function ClientFullModal({
         });
         getData();
       })
-      .catch((err) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const [clientType, setclientType] = useState("I");
@@ -540,6 +546,24 @@ function ClientFullModal({
                       />
                     </LocalizationProvider>
                   </FormControl>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    id="NationalId"
+                    name="NationalId"
+                    value={state.NationalId}
+                    placeholder="National Id"
+                    label="National Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "NationalId",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  ></TextField>
                 </Grid2>
               </Grid2>
             </TreeItem>

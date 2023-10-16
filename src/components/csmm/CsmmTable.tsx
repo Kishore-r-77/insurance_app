@@ -37,6 +37,7 @@ import PolReinModal from "./polReinModal/PolReinModal";
 import MaturityModal from "./maturityModal/MaturityModal";
 import Benefit from "../policy/policyModal/benefit/Benefit";
 import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
+import IlpTopupModal from "./IlpTopupModal/IlpTopupModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -391,6 +392,7 @@ function CsmmTable({
   const [isFreqChange, setIsFreqChange] = useState(false);
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
+  const [isTopup, setisTopup] = useState(false);
 
   const [isPolRein, setIsPolRein] = useState(false);
   //const [isSurrender, setIsSurrender] = useState(false);
@@ -451,14 +453,14 @@ function CsmmTable({
       .catch((err) => {
         console.log(err);
 
-        setPolenqData("");
+        
       });
   };
 
   useEffect(() => {
     getPolEnq(PolicyID);
     return () => {};
-  }, [isAdjPrem, isPolRein]);
+  }, [isAdjPrem, isPolRein, isTopup]);
 
   const clientMenuClick = (value: any) => {
     console.log(value.Action, "****");
@@ -518,6 +520,10 @@ function CsmmTable({
         break;
       case "Maturity":
         maturityDispatch({ type: MATURITYACTIONS.MATURITYOPEN });
+        handleClose();
+        break;
+      case "IlpTopup":
+        ilpTopupOpen(policyId.current, value);
         handleClose();
         break;
       default:
@@ -765,6 +771,7 @@ function CsmmTable({
     }
     return () => {};
   }, [isComponent]);
+
   const saChangeOpen = (policyId: number, value: any) => {
     setisSaChange(true);
     setsaChangeMenu(value);
@@ -789,6 +796,16 @@ function CsmmTable({
     if (isSave.current) {
       invalidatca();
     }
+  };
+
+  const ilpTopupOpen = (policyId: number, value: any) => {
+    setisTopup(true);
+    setcomponentMenu(value);
+    //setilpfunc("Init")
+    setPolicyID(policyId);
+  };
+  const ilpTopupClose = () => {
+    setisTopup(false);
   };
 
   useEffect(() => {
@@ -1037,13 +1054,22 @@ function CsmmTable({
         data={polenqData}
         getData={getData}
       />
+      <IlpTopupModal
+        open={isTopup}
+        handleClose={ilpTopupClose}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
+        data={polenqData}
+        getData={getData}
+        polid={PolicyID}
+      />
       <PolReinModal
         open={isPolRein}
         handleClose={polReinClose}
         completed={completed}
         setcompleted={setcompleted}
-        func={func}
-        setfunc={setfunc}
         data={polenqData}
         getData={getData}
       />

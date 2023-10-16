@@ -1,0 +1,30 @@
+@font-face {
+  font-family: Merriweather-Regular;
+  src: url("../../../fonts/Merriweather/Merriweather-Regular.ttf");
+}
+
+.css-1g86id8-MuiTreeItem-content .MuiTreeItem-label {
+  width: 100%;
+  position: relative;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1rem;
+  line-height: 2.5;
+  letter-spacing: 0.5rem;
+  margin-bottom: 1rem;
+  background-color: silver;
+  border-radius: 5%;
+  font-family: Merriweather-Regular !important;
+  font-size: 20px !important;
+  font-weight: bolder;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.css-1g86id8-MuiTreeItem-content.Mui-selected {
+  background: none !important;
+}
+
+.nav-tabs .nav-link.active {
+  color: white !important;
+  background-color: gray !important;
+}

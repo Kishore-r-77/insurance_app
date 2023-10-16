@@ -26,12 +26,10 @@ function EnquiryTable({
   ilpTOpen,
   isCommunication,
 }: any) {
-  console.log(policyNo, "Policy No in Enq");
   const [glEnquiry, setglEnquiry] = useState(false);
   const [GLAcctNo, setGLAcctNo] = useState("");
   const [contAmnt, setcontAmnt] = useState("");
   const infoClickOpen = (value: any, value1: any) => {
-    console.log(value, "acct no value");
     setGLAcctNo(value);
     setcontAmnt(value1);
     setglEnquiry(true);
@@ -40,7 +38,6 @@ function EnquiryTable({
   const handleClickClose = () => {
     setglEnquiry(false);
   };
-  console.log(mrtaOpen, "Benefit open in enquiry");
 
   const [glHistory, setglHistory] = useState(false);
   const [mrta, setmrta] = useState(false);
@@ -53,10 +50,8 @@ function EnquiryTable({
   const [isComponentAdd, setisComponentAdd] = useState(false);
 
   const glhClickOpen = (value: any, hcode: any) => {
-    console.log(value, "tranno");
     setTranno(value);
     if (hcode === "H0091") {
-      console.log(hcode, "History");
       setisSachange(true);
     } else if (hcode === "H0093") {
       setisComponentAdd(true);
@@ -66,7 +61,6 @@ function EnquiryTable({
   };
 
   const ilptClickOpen = (fcode: any) => {
-    console.log("fund: ", fcode);
     setfund(fcode);
     setilpT(true);
   };
@@ -85,7 +79,6 @@ function EnquiryTable({
     setpolicyId(pid);
     setTranno(tno);
     if (cov === "MRTA") {
-      console.log(cov, "Coverage");
       setmrta(true);
     }
     // else {
@@ -129,7 +122,7 @@ function EnquiryTable({
         link.setAttribute("download", `${temp}.pdf`);
         link.click();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err.message);
   };
 
   function downloadReceiptPdf(val: any) {
@@ -161,7 +154,7 @@ function EnquiryTable({
       .then((resp) => {
         setfundBenefitData(resp.data["Ilp Funds"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err.message);
   };
 
   return (
@@ -183,7 +176,7 @@ function EnquiryTable({
               )
             )}
             {isCommunication ? <th>PDF</th> : null}
-            {benOpen && data[0]?.BCoverage == 'ILP1' ? <th>ILP Fund</th> : null}
+            {benOpen && data[0]?.BCoverage == "ILP1" ? <th>ILP Fund</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -293,7 +286,7 @@ function EnquiryTable({
                 </td>
               ) : null}
 
-              {benOpen && data[0]?.BCoverage == 'ILP1' ? (
+              {benOpen && data[0]?.BCoverage == "ILP1" ? (
                 <td onClick={() => fundClickOpen(row.ID)}>
                   <AccountBalanceWalletIcon color="success" />
                 </td>

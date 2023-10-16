@@ -1,9 +1,8 @@
-import { Global } from "@emotion/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import EnquiryTable from "./EnquiryTable";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import EnquiryTable from "./EnquiryTable";
 
 function GLAccountEnquiry({
   open,
@@ -11,7 +10,6 @@ function GLAccountEnquiry({
   policyNo,
   GLAccountNo,
   contractAmnt,
-  state,
 }: any) {
   console.log(policyNo, "Policy No");
   console.log(GLAccountNo, "Account No");

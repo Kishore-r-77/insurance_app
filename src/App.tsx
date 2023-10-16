@@ -42,6 +42,7 @@ import BatchModal from "./components/batchProcess/batchModal/BatchModal";
 import Payments from "./components/payments/Payments";
 import IlpPrices from "./components/ilpPrices/IlpPrices";
 import Claims from "./components/claims/Claims";
+import PolicyUploadDemo from "./components/policyUploadDemo/PolicyUploadDemo";
 
 function App() {
   const { pathname } = useLocation();
@@ -74,6 +75,10 @@ function App() {
                 <Route path="/agency" element={<Agency />} />
                 <Route path="/transaction" element={<Transaction />} />
                 <Route path="/newBusiness" element={<NewBusiness />} />
+                <Route
+                  path="/policyUploadDemo"
+                  element={<PolicyUploadDemo />}
+                />
                 <Route path="/receipts" element={<Receipts />} />
                 <Route path="/nbmm" element={<Nbmm />} />
                 <Route path="/campaigns" element={<Campaigns />} />

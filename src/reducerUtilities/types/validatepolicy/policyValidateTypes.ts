@@ -1,15 +1,15 @@
-
 export type PolicyValidateStateType = {
-  PolicyID :string;
-  "Company ID" :string;
-  Coverage  :string;
-  Premium :string;
-  GST :string;
-  StampDuty :string;
+  PolicyID: string;
+  CompanyID: string;
+  Coverage: string;
+  Premium: string;
+  GST: string;
+  StampDuty: string;
   CumulativePrem: string;
   PolicyDeposit: string;
-  "PolicyDeposit After Adjustment": string;
-// *** Attention: Check the lookup table open below ***
+  BPrem: string;
+  CovrGst: string;
+  CovrStampduty: string;
   benefitsOpen: boolean;
   addOpen: boolean;
   editOpen: boolean;
@@ -35,7 +35,7 @@ export type ActionConstantsType = {
   // *** Attention: Check the Lookup table Open/close below ***
   BENEFITSOPEN: string;
   BENEFITSCLOSE: string;
-  POLICYCLOSE: string
+  POLICYCLOSE: string;
 };
 export type PolicyValidateModalType = {
   state: PolicyValidateStateType;

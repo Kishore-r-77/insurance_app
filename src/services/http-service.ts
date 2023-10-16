@@ -114,13 +114,10 @@ export async function getData(params: any) {
   try {
     const response = await axios.get(apiUrlPathSuffix, options);
 
-    if(isBlob)
-    {
-      return response
-    }
-    else
-    {
-    return response.data;
+    if (isBlob) {
+      return response;
+    } else {
+      return response.data;
     }
   } catch (error) {
     handleErrors(error);
@@ -165,37 +162,45 @@ export async function modData(params: any) {
   }
 }
 
-
-
 export async function uploadFiles(params: any) {
-  const { apiUrlPathSuffix, getDataParams, files } = params;
+  const { apiUrlPathSuffix, getDataParams, files, isBlob } = params;
 
   try {
     const formData = new FormData();
     for (var val of files) {
-      formData.append('file', val);
+      formData.append("file", val);
     }
 
     const urlparams = new URLSearchParams([]);
-    if(getDataParams) {
-    Object.keys(getDataParams).forEach((key) =>
-      urlparams.append(key, getDataParams[key])
-    );
+    if (getDataParams) {
+      Object.keys(getDataParams).forEach((key) =>
+        urlparams.append(key, getDataParams[key])
+      );
     }
-  
-      const response = await axios.post(apiUrlPathSuffix, formData, {
-        withCredentials: true,
+    let options: any = null;
+    if (isBlob) {
+      options = {
         params: urlparams,
+        withCredentials: true,
+        responseType: "blob",
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      });
+      };
+    } else {
+      options = {
+        params: urlparams,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+    }
+    const response = await axios.post(apiUrlPathSuffix, formData, options);
 
-      return response.data;
-
-  
+    return response.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     handleErrors(error);
   }
 }

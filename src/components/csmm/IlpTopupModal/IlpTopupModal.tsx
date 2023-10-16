@@ -108,10 +108,10 @@ function IlpTopupModal({
             type: "success",
           });
           setilpfunc("Save");
-          setilpPriceData(ilpPriceArray);
+          setilpPriceData(resp.data?.Funds);
 
           // setilpPriceArray(resp.data?.Funds);
-          // setIsResult(true);
+          setIsResult(true);
           // setresult(resp.data);
         }
         if (ilpfunc === "Save") {
@@ -127,8 +127,10 @@ function IlpTopupModal({
           setprem(0);
           setilpPriceData([]);
           setilpPriceArray([]);
+          setexfunds([]);
           setilpfunc("Init");
           setcompleted(false);
+          setIsResult(false);
         }
       })
       .catch((err) => {
@@ -174,6 +176,7 @@ function IlpTopupModal({
   );
 
   const [selectAll, setSelectAll] = useState(false);
+  const [selectOne, setSelectOne] = useState(false);
 
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -185,6 +188,7 @@ function IlpTopupModal({
       const updateArr = [...ilpPriceArray, value];
       setilpPriceArray(updateArr);
       value.selected = true;
+      setSelectOne(value.selected);
     }
     if (!e.target.checked) {
       console.log(index, "index");
@@ -193,6 +197,7 @@ function IlpTopupModal({
       updateArr.splice(itemIndex, 1);
       setilpPriceArray(updateArr);
       value.selected = false;
+      setSelectOne(value.selected);
     }
   };
 
@@ -414,58 +419,19 @@ function IlpTopupModal({
             <Table striped bordered hover>
               <thead className={styles.header}>
                 <tr>
-                  {/* <th
-                    style={{
-                      position: "sticky",
-                      left: 0,
-                      zIndex: 2,
-                      overflow: "hidden",
-                    }}
-                  >
-                    Selected
-                    <br />
-                    <input type="checkbox" onChange={handleSelectAll} />
-                  </th> */}
-
                   <th>Fund Code</th>
                   <th>Fund Currency</th>
                   <th>Fund Type</th>
                   <th>Fund Percentage</th>
-                  {/* <th>Fund Date</th>
-                  <th>Effective Date</th>
-                  <th>Bid Price</th>
-                  <th>Offer Price</th>
-                  <th>Approval Flag</th> */}
                 </tr>
               </thead>
               {exfunds.map((value: any, index: number) => (
                 <tbody>
                   <tr>
-                    {/* <td>
-                      <input
-                        type="checkbox"
-                        checked={selectAll || ilpPriceArray.includes(value)}
-                        onChange={(e) => handleCheck(e,value, index)}
-                      />
-                    </td> */}
                     <td>{value?.FundCode}</td>
                     <td>{value?.FundCurr}</td>
                     <td>{value?.FundType}</td>
                     <td>{value?.FundPercentage}</td>
-                    {/* <td>
-                      {value?.FundDate.length === 0
-                        ? ""
-                        : moment(value?.FundDate).format("DD-MM-YYYY")}
-                    </td>
-                    <td>
-                      {value?.FundDate.length === 0
-                        ? ""
-                        : moment(value?.FundEffDate).format("DD-MM-YYYY")}
-                    </td>
-
-                    <td>{value?.FundBidPrice}</td>
-                    <td>{value?.FundOfferPrice}</td>
-                    <td>{value?.ApprovalFlag}</td> */}
                   </tr>
                 </tbody>
               ))}
@@ -492,11 +458,6 @@ function IlpTopupModal({
                   <th>Fund Currency</th>
                   <th>Fund Type</th>
                   <th>Fund Percentage</th>
-                  {/* <th>Fund Date</th>
-                  <th>Effective Date</th>
-                  <th>Bid Price</th>
-                  <th>Offer Price</th>
-                  <th>Approval Flag</th> */}
                 </tr>
               </thead>
               {ilpPriceData?.map((value: any, index: number) => (
@@ -517,29 +478,13 @@ function IlpTopupModal({
                         className={styles["input-form"]}
                         type="number"
                         name="FundPercentage"
-                        disabled={!value?.selected}
-                        //value={percents[index]}
-                        //onChange={(e) => handlePercentChange(index, parseFloat(e.target.value))}
+                        disabled={!selectOne}
                         value={value?.FundPercentage}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleChange(e, index)
                         }
                       />
                     </td>
-                    {/* <td>
-                      {value?.FundDate.length === 0
-                        ? ""
-                        : moment(value?.FundDate).format("DD-MM-YYYY")}
-                    </td>
-                    <td>
-                      {value?.FundDate.length === 0
-                        ? ""
-                        : moment(value?.FundEffDate).format("DD-MM-YYYY")}
-                    </td>
-
-                    <td>{value?.FundBidPrice}</td>
-                    <td>{value?.FundOfferPrice}</td>
-                    <td>{value?.ApprovalFlag}</td> */}
                   </tr>
                 </tbody>
               ))}

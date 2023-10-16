@@ -142,7 +142,6 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         setData(resp.data["All Clients"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Clients"]?.length === 0);
@@ -170,18 +169,22 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));

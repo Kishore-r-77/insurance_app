@@ -116,6 +116,11 @@ const routes = [
         icon: <ArrowRightAltIcon />,
       },
       {
+        path: "/policyUploadDemo",
+        name: "Policy Upload Demo",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
         path: "/nbmm",
         name: "NBMM",
         icon: <ArrowRightAltIcon />,

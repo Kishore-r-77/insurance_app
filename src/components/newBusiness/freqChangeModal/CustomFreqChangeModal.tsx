@@ -3,7 +3,6 @@ import Modal from "react-bootstrap/Modal";
 
 function CustomFreqChangeModal({
   open,
-  infoOpen,
   handleClose,
   size,
   title,
