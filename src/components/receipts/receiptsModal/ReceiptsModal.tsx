@@ -1,40 +1,29 @@
-import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../redux/app/hooks";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
 import styles from "./receiptsModal.module.css";
 
 //Attention: Check the path below
+import axios from "axios";
+import moment from "moment";
 import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
-import { q0005, paramItem, getPolicySnap } from "../receiptsApis/receiptsApis";
+import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
+import Notification from "../../../utilities/Notification/Notification";
 import Client from "../../clientDetails/client/Client";
-import Policy from "../../policy/Policy";
+import NewBusiness from "../../newBusiness/NewBusiness";
 import {
   getPoliciesByClient,
   getPolicyApi,
 } from "../../policy/policyApis/policyApis";
-import { AccountCircle } from "@mui/icons-material";
-import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
-import NewBusiness from "../../newBusiness/NewBusiness";
-import axios from "axios";
-import moment from "moment";
-import { getBusinessDateApi } from "../receiptsApis/receiptsApis";
-import Notification from "../../../utilities/Notification/Notification";
+import { getPolicySnap, paramItem } from "../receiptsApis/receiptsApis";
 function ReceiptsModal({
   state,
   record,

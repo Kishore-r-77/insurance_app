@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -9,11 +9,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Notification from "../../../utilities/Notification/Notification";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
 import axios from "axios";
-import CustomModal from "../../../utilities/modal/CustomModal";
 
 //Attention: Check the path below
 import {
@@ -24,9 +23,6 @@ import {
 } from "../qHeaderApis/qHeaderApis";
 import { createPoliciesWithBenefits } from "../QHeaderQDetailEnquiry/FinalizeApi";
 
-import Agency from "../../agency/Agency";
-import Address from "../../clientDetails/address/Address";
-import Client from "../../clientDetails/client/Client";
 function FinalizeModal({
   state,
   dispatch,

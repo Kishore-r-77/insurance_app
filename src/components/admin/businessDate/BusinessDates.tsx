@@ -5,7 +5,6 @@ import { useEffect, useReducer, useState } from "react";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
 import { BusinessDatesStateType } from "../../../reducerUtilities/types/admin/businessDate/businessDatesTypes";
 
 import {
@@ -134,7 +133,6 @@ function BusinessDates({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["AllBusinessDate"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -142,11 +140,13 @@ function BusinessDates({ modalFunc }: any) {
         setisLast(resp.data["AllBusinessDate"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -155,7 +155,6 @@ function BusinessDates({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -165,7 +164,6 @@ function BusinessDates({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -178,7 +176,6 @@ function BusinessDates({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -188,7 +185,6 @@ function BusinessDates({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -201,14 +197,15 @@ function BusinessDates({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
 
   const nexPage = () => {
