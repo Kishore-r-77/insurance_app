@@ -187,7 +187,11 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
         setisLast(resp.data["AllDeath"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   //UseEffect Function to render data on Screen Based on Dependencies

@@ -82,7 +82,11 @@ const ILPTransactionEnquiry = ({ open,
             setilpTransactionData(resp.data.IlpTransactions);
             console.log(ilpTransactionData,"ilpTransactionData")
           })
-          .catch((err) => console.log(err.message));
+          .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
       };
     
       useEffect(() => {

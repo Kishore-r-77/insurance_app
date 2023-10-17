@@ -117,7 +117,11 @@ function Errors({ userORGroupFunc }: any) {
         setisLast(resp.data["All Errors"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const companyId = useAppSelector(
@@ -131,7 +135,11 @@ function Errors({ userORGroupFunc }: any) {
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   //Edit Api
@@ -141,7 +149,11 @@ function Errors({ userORGroupFunc }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   //Hard Delete Api
@@ -150,7 +162,11 @@ function Errors({ userORGroupFunc }: any) {
       .then((resp) => {
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const nexPage = () => {

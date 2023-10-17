@@ -19,10 +19,17 @@ import {
   getAllApi,
 } from "./userGroupApis/userGroupApis";
 import UserGroupModal from "./userGroupModal/UserGroupModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function UserGroup({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
@@ -117,13 +124,18 @@ function UserGroup({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         setData(resp.data["All UserGroups"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All UserGroups"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const companyId = useAppSelector(
@@ -134,32 +146,62 @@ function UserGroup({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
+        setNotify({
+          isOpen: true,
+          message: `Created: ${resp?.data?.Result}`,
+          type: "success",
+        });
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Edit Api
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
+        setNotify({
+          isOpen: true,
+          message: `${resp?.data?.Result}`,
+          type: "success",
+        });
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
+        setNotify({
+          isOpen: true,
+          message: `${resp?.data?.Result}`,
+          type: "success",
+        });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const nexPage = () => {
@@ -281,6 +323,7 @@ function UserGroup({ modalFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

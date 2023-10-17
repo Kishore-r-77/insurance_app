@@ -163,7 +163,11 @@ function Permission() {
         setisLast(resp.data["All Permissions"].length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const companyId = useAppSelector(
@@ -245,7 +249,11 @@ function Permission() {
           dispatch({ type: ACTIONS.ADDCLOSE });
           getData();
         })
-        .catch((err) => console.log(err.message));
+        .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
     } else if (state.userOrGroup === "userGroup") {
       addApi(userGroupBody)
         .then((resp) => {
@@ -253,7 +261,11 @@ function Permission() {
           dispatch({ type: ACTIONS.ADDCLOSE });
           getData();
         })
-        .catch((err) => console.log(err.message));
+        .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
     }
   };
 
@@ -266,7 +278,11 @@ function Permission() {
           dispatch({ type: ACTIONS.EDITCLOSE });
           getData();
         })
-        .catch((err) => console.log(err.message));
+        .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
     } else if (state.userOrGroup === "userGroup") {
       editApi(userGroupBodyEdit)
         .then((resp) => {
@@ -274,7 +290,11 @@ function Permission() {
           dispatch({ type: ACTIONS.EDITCLOSE });
           getData();
         })
-        .catch((err) => console.log(err.message));
+        .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
     }
   };
 
@@ -285,7 +305,11 @@ function Permission() {
         
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const nexPage = () => {

@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -9,11 +9,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Notification from "../../../utilities/Notification/Notification";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
 import axios from "axios";
-import CustomModal from "../../../utilities/modal/CustomModal";
 
 //Attention: Check the path below
 import {
@@ -24,9 +23,6 @@ import {
 } from "../qHeaderApis/qHeaderApis";
 import { createPoliciesWithBenefits } from "../QHeaderQDetailEnquiry/FinalizeApi";
 
-import Agency from "../../agency/Agency";
-import Address from "../../clientDetails/address/Address";
-import Client from "../../clientDetails/client/Client";
 function FinalizeModal({
   state,
   dispatch,
@@ -301,7 +297,13 @@ function FinalizeModal({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const [benefitsData, setBenefitsData] = useState<any>([]);
@@ -319,7 +321,13 @@ function FinalizeModal({
         setBenefitsData(resp.data["Benefits"]);
         setPolicyData(resp?.data);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
   console.log(benefitsData, "========", policyData);
   const [qHeaderData, setQHeaderData] = useState<any>([]);
@@ -339,41 +347,14 @@ function FinalizeModal({
         setQHeaderData(resp.data);
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
-  // const [policyData, setPolicyData] = useState<any>([]);
-  // const getPolicy = () => {
-  //   axios
-  //     .post(
-  //       `http://localhost:3000/api/v1/quotationservices/quotefinalize/${record?.ID}`,
-  //       {},
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     )
-  //     .then((resp) => {
-  //       setPolicyData(resp.data["Policy"]);
-  //     })
-  //     .catch((err) => console.log(err.message));
-  // };
-  // console.log(detailsData, "========", policyData);
-
-  // const handleQDetailRemove = (index: number) => {
-  //   const list = [...qDetailData];
-  //   list.splice(index, 1);
-  //   setqDetailData(list);
-  // };
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-  //   const { name, value } = e.target;
-  //   setqDetailData(
-  //     qDetailData.map((qDetail, index) => {
-  //       if (index === i) {
-  //         return { ...qDetail, [name]: value };
-  //       } else return qDetail;
-  //     })
-  //   );
-  // };
 
   const addPoliciesWithBenefits = () => {
     return createPoliciesWithBenefits(
@@ -394,56 +375,6 @@ function FinalizeModal({
       })
       .catch((err) => err.message);
   };
-
-  //   //get Api
-  //   const getById = async (id: number) => {
-  //     getQheader(id)
-  //       .then((resp) => {
-  //         
-  //         dispatch({ type: ACTIONS.EDITCLOSE });
-  //         getData();
-  //       })
-  //       .catch((err) => console.log(err.message));
-  //   };
-
-  // const handleQriskcessdate = (date: any, i: number) => {
-  //   setBenefitData(
-  //     benefitData.map((benefit, index) => {
-  //       if (index === i) {
-  //         return { ...benefit, Qriskcessdate: date };
-  //       } else return benefit;
-  //     })
-  //   );
-  // };
-  // const handleQpremcessdate = (date: any, i: number) => {
-  //   setBenefitData(
-  //     benefitData.map((benefit, index) => {
-  //       if (index === i) {
-  //         return { ...benefit, Qpremcessdate: date };
-  //       } else return benefit;
-  //     })
-  //   );
-  // };
-  // const clientOpenFunc = (item: any) => {
-  //   if (state.addOpen) {
-  //     state.ClientID = item.ID;
-  //   } else record.ClientID = item.ID;
-  //   dispatch({ type: ACTIONS.CLIENTCLOSE });
-  // };
-
-  // const addressOpenFunc = (item: any) => {
-  //   if (state.addOpen) {
-  //     state.AddressID = item.ID;
-  //   } else record.AddressID = item.ID;
-  //   dispatch({ type: ACTIONS.ADDRESSCLOSE });
-  // };
-
-  // const agencyOpenFunc = (item: any) => {
-  //   if (state.addOpen) {
-  //     state.AgencyID = item.ID;
-  //   } else record.AgencyID = item.ID;
-  //   dispatch({ type: ACTIONS.AGENCYCLOSE });
-  // };
 
   useEffect(() => {
     getAddressByClient();

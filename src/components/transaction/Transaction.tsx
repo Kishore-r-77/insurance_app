@@ -130,7 +130,11 @@ function Transaction({ modalFunc }: any) {
         setisLast(resp.data["All Transactions"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const companyId = useAppSelector(

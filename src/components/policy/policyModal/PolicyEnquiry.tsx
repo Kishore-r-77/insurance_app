@@ -65,7 +65,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setq0005Data(resp.data.data);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const [freq, setfreq] = useState([]);
 
@@ -74,7 +78,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setfreq(resp.data.AllowedFrequencies);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const [p0018Data, setp0018Data] = useState([]);
 
@@ -83,7 +91,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setp0018Data(resp.data.data);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const [cCurData, setcCurData] = useState([]);
   const [bCurData, setbCurData] = useState([]);
@@ -93,14 +105,22 @@ function PolicyEnquiry({
       .then((resp) => {
         setcCurData(resp.data.AllowedContractCurriencies);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const getQ0023Bcur = (Bcur: string) => {
     return p0023(companyId, languageId, Bcur)
       .then((resp) => {
         setbCurData(resp.data.AllowedBillingCurriencies);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [p0024Data, setp0024Data] = useState([]);
@@ -110,7 +130,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setp0024Data(resp.data.data);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [coverage, setcoverage] = useState([]);
@@ -130,7 +154,11 @@ function PolicyEnquiry({
           payload: [...resp.data["AllowedCoverages"]],
         });
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [clientData, setclientData] = useState([]);
@@ -145,7 +173,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setclientData(resp.data?.Clients);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [bankData, setbankData] = useState([]);
@@ -160,7 +192,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setbankData(resp.data?.Clients);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [TDFData, setTDFData] = useState([]);
@@ -173,7 +209,11 @@ function PolicyEnquiry({
         setTDFData(resp.data["TDFPolicy"]);
         console.log(resp.data["TDFPolicy"], "TDF Data");
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [BALData, setBALData] = useState([]);
@@ -185,7 +225,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setBALData(resp.data?.History);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [benefitenquiryData, setbenefitenquiryData] = useState([]);
@@ -200,7 +244,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setbenefitenquiryData(resp.data?.Benefit);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [addressData, setaddressData] = useState([]);
@@ -215,7 +263,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setaddressData(resp.data?.Address);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [historyData, sethistoryData] = useState([]);
@@ -227,7 +279,11 @@ function PolicyEnquiry({
       .then((resp) => {
         sethistoryData(resp.data?.History);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [uwData, setuwData] = useState([]);
@@ -239,7 +295,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setuwData(resp.data?.UWEnquiry);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [communicationData, setcommunicationData] = useState([]);
@@ -251,7 +311,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setcommunicationData(resp.data?.Comm);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [survivalbenefitenquiryData, setsurvivalbenefitenquiryData] = useState(
@@ -265,7 +329,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setsurvivalbenefitenquiryData(resp.data?.SurvivalBenefits);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [extraData, setextraData] = useState([]);
@@ -277,7 +345,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setextraData(resp.data?.Extras);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [ilpSummaryData, setilpSummaryData] = useState([]);
@@ -292,7 +364,11 @@ function PolicyEnquiry({
       .then((resp) => {
         setilpSummaryData(resp.data?.IlpSummary);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   useEffect(() => {

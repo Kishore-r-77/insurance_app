@@ -1,14 +1,6 @@
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import SearchIcon from "@mui/icons-material/Search";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
 import { useEffect, useReducer, useState } from "react";
-import styles from "./policyValidate.module.css";
-import {
-  addApi,
-  deleteApi,
-  editApi,
-  getAllApi,
-} from "../newBusinessApis/policyValidateApis";
 import {
   ACTIONS,
   columns,
@@ -16,11 +8,8 @@ import {
 } from "../../../reducerUtilities/actions/validatepolicy/policyValidateActions";
 import { PolicyValidateStateType } from "../../../reducerUtilities/types/validatepolicy/policyValidateTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
-import CustomTable from "../../../utilities/Table/CustomTable";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import PolicyValidateModal from "../newBusinessModal/PolicyValidateModal";
 import PolicyValidateTable from "./PolicyValidateTable";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import styles from "./policyValidate.module.css";
 
 function PolicyValidate({ data, summaryData, modalFunc }: any) {
   //data from getall api
@@ -106,11 +95,7 @@ function PolicyValidate({ data, summaryData, modalFunc }: any) {
           ...state,
           benefitsOpen: false,
         };
-        return {
-          ...state,
-          sortDesc: desc,
-          sortColumn: action.payload,
-        };
+
       default:
         return initialValues;
     }
@@ -120,23 +105,7 @@ function PolicyValidate({ data, summaryData, modalFunc }: any) {
   const [state, dispatch] = useReducer(reducer, initialValues);
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
-  const [totalRecords, settotalRecords] = useState(0);
-  const [isLast, setisLast] = useState(false);
-  const [fieldMap, setfieldMap] = useState([]);
-  //Get all Api
-  //   const getData = () => {
-  //     return getAllApi(pageNum, pageSize, state)
-  //     .then((resp) => {
-  //       
-  // // ***  Attention : Check the API and modify it, if required  ***
-  //       setData(resp.data["All PolicyValidates"]);
-  //       settotalRecords(resp.data.paginationData.totalRecords);
-  // // ***  Attention : Check the API and modify it, if required   ***
-  //       setisLast(resp.data["All PolicyValidates"]?.length === 0);
-  //       setfieldMap(resp.data["Field Map"]);
-  //     })
-  //     .catch((err) => console.log(err.message));
-  //   };
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
