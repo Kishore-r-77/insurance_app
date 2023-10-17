@@ -155,11 +155,7 @@ function QBenIllValue({ modalFunc }: any) {
         setisLast(resp.data["All QBenIllValues"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -172,11 +168,7 @@ function QBenIllValue({ modalFunc }: any) {
         dispatch({ type: ACTIONS.ADDCLOSE });
         // getData();
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   //Edit Api
@@ -187,11 +179,7 @@ function QBenIllValue({ modalFunc }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         // getData();
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   //Hard Delete Api
@@ -201,11 +189,7 @@ function QBenIllValue({ modalFunc }: any) {
         
         //getData();
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const nexPage = () => {

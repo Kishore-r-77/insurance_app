@@ -164,11 +164,7 @@ function QHeaderTable({
       .then((resp) => {
         setQHeaderData(resp.data?.["QHeader"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [calculateOpen, setCalculateOpen] = useState(false);
@@ -326,11 +322,7 @@ function QHeaderTable({
 
         // downloadQuotePdf(qCommunicationData);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const item = "QUOTE";
   const downloadQuotePdf = (id: any) => {
@@ -346,11 +338,7 @@ function QHeaderTable({
         link.setAttribute("download", `${item}.pdf`);
         link.click();
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {

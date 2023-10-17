@@ -82,11 +82,7 @@ function DeathApproval({
       .then((resp) => {
         setq0005Data(resp.data.data);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const [freq, setfreq] = useState([]);
 
@@ -95,11 +91,7 @@ function DeathApproval({
       .then((resp) => {
         setfreq(resp.data.AllowedFrequencies);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const [p0018Data, setp0018Data] = useState([]);
 
@@ -108,11 +100,7 @@ function DeathApproval({
       .then((resp) => {
         setp0018Data(resp.data.data);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const [cCurData, setcCurData] = useState([]);
   const [bCurData, setbCurData] = useState([]);
@@ -122,22 +110,14 @@ function DeathApproval({
       .then((resp) => {
         setcCurData(resp.data.AllowedContractCurriencies);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const getQ0023Bcur = (Bcur: string) => {
     return p0023(companyId, languageId, Bcur)
       .then((resp) => {
         setbCurData(resp.data.AllowedBillingCurriencies);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [p0024Data, setp0024Data] = useState([]);
@@ -147,11 +127,7 @@ function DeathApproval({
       .then((resp) => {
         setp0024Data(resp.data.data);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [policy, setpolicy] = useState<any>({});
@@ -172,11 +148,7 @@ function DeathApproval({
         setDeathHs(resp.data.Policy.DeathHs);
         setDeathDs(resp.data.Policy.DeathDs);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {

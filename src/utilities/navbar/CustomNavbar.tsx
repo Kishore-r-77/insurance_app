@@ -16,11 +16,7 @@ function CustomNavbar() {
       .then((resp) => {
         setCompanyData(resp.data["Company"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [businessDate, setbusinessDate] = useState("");

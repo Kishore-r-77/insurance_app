@@ -53,11 +53,7 @@ function Payments({ modalFunc }: any) {
         setisLast(resp.data["All Payments"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const userId = useAppSelector((state) => state.users.user.message.id);
   const [businessData, setBusinessData] = useState<any>({});

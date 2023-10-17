@@ -147,11 +147,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
         setisLast(resp.data["All Clients"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -191,11 +187,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
       .then((resp) => {
         getData();
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [addressByClientData, setaddressByClientData] = useState([]);

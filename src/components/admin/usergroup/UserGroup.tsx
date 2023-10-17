@@ -129,13 +129,7 @@ function UserGroup({ modalFunc }: any) {
         setisLast(resp.data["All UserGroups"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   const companyId = useAppSelector(
@@ -154,13 +148,7 @@ function UserGroup({ modalFunc }: any) {
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   //Edit Api
@@ -175,13 +163,7 @@ function UserGroup({ modalFunc }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   //Hard Delete Api
@@ -195,13 +177,7 @@ function UserGroup({ modalFunc }: any) {
         });
         getData();
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   const nexPage = () => {

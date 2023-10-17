@@ -77,11 +77,7 @@ function NewBusinessModal({
       .then((resp) => {
         setq0005Data(resp.data.data);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const [freq, setfreq] = useState([]);
 
@@ -90,11 +86,7 @@ function NewBusinessModal({
       .then((resp) => {
         setfreq(resp.data.AllowedFrequencies);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const [p0018Data, setp0018Data] = useState([]);
 
@@ -103,11 +95,7 @@ function NewBusinessModal({
       .then((resp) => {
         setp0018Data(resp.data.data);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const [cCurData, setcCurData] = useState([]);
   const [bCurData, setbCurData] = useState([]);
@@ -117,22 +105,14 @@ function NewBusinessModal({
       .then((resp) => {
         setcCurData(resp.data.AllowedContractCurriencies);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const getQ0023Bcur = (Bcur: string) => {
     return p0023(companyId, languageId, Bcur)
       .then((resp) => {
         setbCurData(resp.data.AllowedBillingCurriencies);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [p0024Data, setp0024Data] = useState([]);
@@ -142,11 +122,7 @@ function NewBusinessModal({
       .then((resp) => {
         setp0024Data(resp.data.data);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [p0055Data, setp0055Data] = useState([]);
@@ -156,11 +132,7 @@ function NewBusinessModal({
       .then((resp) => {
         setp0055Data(resp.data.data);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [coverage, setcoverage] = useState([]);
@@ -180,11 +152,7 @@ function NewBusinessModal({
           payload: [...resp.data["AllowedCoverages"]],
         });
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [clientData, setclientData] = useState([]);
@@ -199,11 +167,7 @@ function NewBusinessModal({
       .then((resp) => {
         setclientData(resp.data?.Clients);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [bankData, setbankData] = useState([]);
@@ -218,11 +182,7 @@ function NewBusinessModal({
       .then((resp) => {
         setbankData(resp.data?.Clients);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [TDFData, setTDFData] = useState([]);
@@ -235,11 +195,7 @@ function NewBusinessModal({
         setTDFData(resp.data["TDFPolicy"]);
         console.log(resp.data["TDFPolicy"], "TDF Data");
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [BALData, setBALData] = useState([]);
@@ -251,11 +207,7 @@ function NewBusinessModal({
       .then((resp) => {
         setBALData(resp.data?.History);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [benefitenquiryData, setbenefitenquiryData] = useState([]);
@@ -270,11 +222,7 @@ function NewBusinessModal({
       .then((resp) => {
         setbenefitenquiryData(resp.data?.Benefit);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [addressData, setaddressData] = useState([]);
@@ -289,11 +237,7 @@ function NewBusinessModal({
       .then((resp) => {
         setaddressData(resp.data?.Address);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const [addressClntData, setaddressClntData] = useState([]);
   const getAddressByClient = () => {
@@ -307,11 +251,7 @@ function NewBusinessModal({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [bankClntData, setbankClntData] = useState([]);
@@ -327,11 +267,7 @@ function NewBusinessModal({
       .then((resp) => {
         setbankClntData(resp.data?.BankByClient);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [historyData, sethistoryData] = useState([]);
@@ -343,11 +279,7 @@ function NewBusinessModal({
       .then((resp) => {
         sethistoryData(resp.data?.History);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [extraData, setextraData] = useState([]);
@@ -359,11 +291,7 @@ function NewBusinessModal({
       .then((resp) => {
         setextraData(resp.data?.Extras);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [uwData, setuwData] = useState([]);
@@ -375,11 +303,7 @@ function NewBusinessModal({
       .then((resp) => {
         setuwData(resp.data?.UWEnquiry);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [communicationData, setcommunicationData] = useState([]);
@@ -391,11 +315,7 @@ function NewBusinessModal({
       .then((resp) => {
         setcommunicationData(resp.data?.Comm);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [survivalbenefitenquiryData, setsurvivalbenefitenquiryData] = useState(
@@ -409,11 +329,7 @@ function NewBusinessModal({
       .then((resp) => {
         setsurvivalbenefitenquiryData(resp.data?.SurvivalBenefits);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const [ilpSummaryData, setilpSummaryData] = useState([]);
@@ -428,11 +344,7 @@ function NewBusinessModal({
       .then((resp) => {
         setilpSummaryData(resp.data?.IlpSummary);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {

@@ -1,29 +1,39 @@
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../redux/app/hooks";
 import CustomModal from "../../../utilities/modal/CustomModal";
+import { useAppSelector } from "../../../redux/app/hooks";
 
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
 import styles from "./receiptsModal.module.css";
 
 //Attention: Check the path below
-import axios from "axios";
-import moment from "moment";
 import { ReceiptsModalType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
-import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
-import Notification from "../../../utilities/Notification/Notification";
+import { q0005, paramItem, getPolicySnap } from "../receiptsApis/receiptsApis";
 import Client from "../../clientDetails/client/Client";
-import NewBusiness from "../../newBusiness/NewBusiness";
+import Policy from "../../policy/Policy";
 import {
   getPoliciesByClient,
   getPolicyApi,
 } from "../../policy/policyApis/policyApis";
-import { getPolicySnap, paramItem } from "../receiptsApis/receiptsApis";
+import { AccountCircle } from "@mui/icons-material";
+import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
+import NewBusiness from "../../newBusiness/NewBusiness";
+import axios from "axios";
+import moment from "moment";
+import { getBusinessDateApi } from "../receiptsApis/receiptsApis";
 function ReceiptsModal({
   state,
   record,
@@ -45,12 +55,6 @@ function ReceiptsModal({
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "",
-  });
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -108,6 +112,17 @@ function ReceiptsModal({
       })
       .catch((err) => err.message);
   };
+
+  // old currency dropdown
+
+  // const [aCur, setaCur] = useState([]);
+  // const getACur = (Acur: string, product: string) => {
+  //   return q0005(companyId, languageId, Acur, product)
+  //     .then((resp) => {
+  //       setaCur(resp.data?.AllowedBillingCurriencies);
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -193,6 +208,7 @@ function ReceiptsModal({
       state
     )
       .then((resp) => {
+        
         // ***  Attention : Check the API and modify it, if required  ***
         setpoliciesByClient(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -200,13 +216,7 @@ function ReceiptsModal({
         setisLast(resp.data["All Policies"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {
@@ -566,7 +576,6 @@ function ReceiptsModal({
           </Grid2>
         </form>
       </CustomModal>
-      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
