@@ -123,24 +123,7 @@ function PolicyValidate({ data, summaryData, modalFunc }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-  //Get all Api
-  //   const getData = () => {
-  //     return getAllApi(pageNum, pageSize, state)
-  //     .then((resp) => {
-  //       
-  // // ***  Attention : Check the API and modify it, if required  ***
-  //       setData(resp.data["All PolicyValidates"]);
-  //       settotalRecords(resp.data.paginationData.totalRecords);
-  // // ***  Attention : Check the API and modify it, if required   ***
-  //       setisLast(resp.data["All PolicyValidates"]?.length === 0);
-  //       setfieldMap(resp.data["Field Map"]);
-  //     })
-  //     .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
-  //   };
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );

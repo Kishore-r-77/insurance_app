@@ -301,11 +301,13 @@ function FinalizeModal({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
 
   const [benefitsData, setBenefitsData] = useState<any>([]);
@@ -323,11 +325,13 @@ function FinalizeModal({
         setBenefitsData(resp.data["Benefits"]);
         setPolicyData(resp?.data);
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
   console.log(benefitsData, "========", policyData);
   const [qHeaderData, setQHeaderData] = useState<any>([]);
@@ -347,49 +351,14 @@ function FinalizeModal({
         setQHeaderData(resp.data);
         getData();
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
-  // const [policyData, setPolicyData] = useState<any>([]);
-  // const getPolicy = () => {
-  //   axios
-  //     .post(
-  //       `http://localhost:3000/api/v1/quotationservices/quotefinalize/${record?.ID}`,
-  //       {},
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     )
-  //     .then((resp) => {
-  //       setPolicyData(resp.data["Policy"]);
-  //     })
-  //     .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
-  // };
-  // console.log(detailsData, "========", policyData);
-
-  // const handleQDetailRemove = (index: number) => {
-  //   const list = [...qDetailData];
-  //   list.splice(index, 1);
-  //   setqDetailData(list);
-  // };
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-  //   const { name, value } = e.target;
-  //   setqDetailData(
-  //     qDetailData.map((qDetail, index) => {
-  //       if (index === i) {
-  //         return { ...qDetail, [name]: value };
-  //       } else return qDetail;
-  //     })
-  //   );
-  // };
 
   const addPoliciesWithBenefits = () => {
     return createPoliciesWithBenefits(
@@ -410,60 +379,6 @@ function FinalizeModal({
       })
       .catch((err) => err.message);
   };
-
-  //   //get Api
-  //   const getById = async (id: number) => {
-  //     getQheader(id)
-  //       .then((resp) => {
-  //         
-  //         dispatch({ type: ACTIONS.EDITCLOSE });
-  //         getData();
-  //       })
-  //       .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
-  //   };
-
-  // const handleQriskcessdate = (date: any, i: number) => {
-  //   setBenefitData(
-  //     benefitData.map((benefit, index) => {
-  //       if (index === i) {
-  //         return { ...benefit, Qriskcessdate: date };
-  //       } else return benefit;
-  //     })
-  //   );
-  // };
-  // const handleQpremcessdate = (date: any, i: number) => {
-  //   setBenefitData(
-  //     benefitData.map((benefit, index) => {
-  //       if (index === i) {
-  //         return { ...benefit, Qpremcessdate: date };
-  //       } else return benefit;
-  //     })
-  //   );
-  // };
-  // const clientOpenFunc = (item: any) => {
-  //   if (state.addOpen) {
-  //     state.ClientID = item.ID;
-  //   } else record.ClientID = item.ID;
-  //   dispatch({ type: ACTIONS.CLIENTCLOSE });
-  // };
-
-  // const addressOpenFunc = (item: any) => {
-  //   if (state.addOpen) {
-  //     state.AddressID = item.ID;
-  //   } else record.AddressID = item.ID;
-  //   dispatch({ type: ACTIONS.ADDRESSCLOSE });
-  // };
-
-  // const agencyOpenFunc = (item: any) => {
-  //   if (state.addOpen) {
-  //     state.AgencyID = item.ID;
-  //   } else record.AgencyID = item.ID;
-  //   dispatch({ type: ACTIONS.AGENCYCLOSE });
-  // };
 
   useEffect(() => {
     getAddressByClient();

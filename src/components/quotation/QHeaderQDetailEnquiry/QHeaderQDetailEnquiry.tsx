@@ -25,6 +25,7 @@ import { createQHeaderWithQDetail } from "../qHeaderApis/qHeaderqDetailApis";
 import Agency from "../../agency/Agency";
 import Address from "../../clientDetails/address/Address";
 import Client from "../../clientDetails/client/Client";
+import Notification from "../../../utilities/Notification/Notification";
 function QHeaderQDetailEnquiry({
   state,
   dispatch,
@@ -34,6 +35,12 @@ function QHeaderQDetailEnquiry({
   getData,
 }: any) {
   const title = "Quotation Info";
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -262,11 +269,13 @@ function QHeaderQDetailEnquiry({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
 
   const [detailsData, setDetailsData] = useState<any>([]);
@@ -283,11 +292,13 @@ function QHeaderQDetailEnquiry({
         setDetailsData(resp.data["QDetails"]);
         setHeaderData(resp.data["QHeader"]);
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
   const [qCommunicationData, setQCommunicationData] = useState([]);
   const getQCommunicationByHeader = () => {
@@ -301,11 +312,13 @@ function QHeaderQDetailEnquiry({
       .then((resp) => {
         setQCommunicationData(resp.data?.Comm);
       })
-      .catch((err) => setNotify({
+      .catch((err) =>
+        setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
           type: "error",
-        }));
+        })
+      );
   };
 
   const handleQDetailRemove = (index: number) => {
@@ -333,21 +346,6 @@ function QHeaderQDetailEnquiry({
       })
       .catch((err) => err.message);
   };
-
-  //   //get Api
-  //   const getById = async (id: number) => {
-  //     getQheader(id)
-  //       .then((resp) => {
-  //         
-  //         dispatch({ type: ACTIONS.EDITCLOSE });
-  //         getData();
-  //       })
-  //       .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
-  //   };
 
   const handleQriskcessdate = (date: any, i: number) => {
     setqDetailData(
@@ -1200,6 +1198,7 @@ function QHeaderQDetailEnquiry({
           </TreeView>
         </form>
       </CustomFullModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
