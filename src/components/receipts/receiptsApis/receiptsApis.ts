@@ -60,7 +60,7 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
       BankReferenceNo: state.BankReferenceNo,
       BankAccountNo: state.BankAccountNo,
       AccCurry: state.AccCurry,
-      AccAmount: parseFloat(state.AccAmount),
+      AccAmount: parseInt(state.AccAmount),
       PolicyID: parseInt(state.PolicyID),
       BankIFSC: state.BankIFSC,
 
@@ -89,7 +89,7 @@ export const editApi = (record: any) => {
       BankReferenceNo: record.BankReferenceNo,
       BankAccountNo: record.BankAccountNo,
       AccCurry: record.AccCurry,
-      AccAmount: parseFloat(record.AccAmount),
+      AccAmount: record.AccAmount,
       PolicyID: parseInt(record.PolicyID),
     },
     {
