@@ -414,7 +414,11 @@ function QHeaderQDetailModal({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const getClient = () => {
@@ -428,7 +432,11 @@ function QHeaderQDetailModal({
       .then((resp) => {
         setClntData(resp.data?.Client);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   //const [clntRecordData, setClntRecordData] = useState<any>([]);
   const getClientRecord = () => {
@@ -442,7 +450,11 @@ function QHeaderQDetailModal({
       .then((resp) => {
         setClntRecordData(resp.data?.Client);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   //const [detailsData, setDetailsData] = useState<any>([]);
@@ -486,7 +498,11 @@ function QHeaderQDetailModal({
         setqDetailsData(resp.data["QDetails"]);
         setHeaderData(resp.data["QHeader"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const handleQDetailRemove = (index: number) => {
     const list = [...qDetailData];
@@ -1411,7 +1427,11 @@ function QHeaderQDetailModal({
                       .then((resp) => {
                         getDetails();
                       })
-                      .catch((err) => console.log(err.message));
+                      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
                   };
                   return (
                     <>

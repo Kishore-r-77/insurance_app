@@ -326,7 +326,11 @@ function NewBusinessModal({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [bankClntData, setbankClntData] = useState([]);
@@ -342,7 +346,11 @@ function NewBusinessModal({
       .then((resp) => {
         setbankClntData(resp.data?.BankByClient);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const clientOpenFunc = (item: any) => {

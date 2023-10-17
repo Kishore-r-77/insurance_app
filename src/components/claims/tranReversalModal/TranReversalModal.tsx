@@ -100,7 +100,11 @@ const TranReversalModal = ({
         setisLast(resp.data["History"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   console.log(data, "data");

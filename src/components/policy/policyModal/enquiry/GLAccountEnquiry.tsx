@@ -118,7 +118,11 @@ function GLAccountEnquiry({
       .then((resp) => {
         setGLAccountData(resp.data["History "]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   useEffect(() => {

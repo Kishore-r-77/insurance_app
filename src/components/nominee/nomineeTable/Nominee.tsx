@@ -159,7 +159,11 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         setisLast(resp.data["GetAllNominee"]);
         // setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId

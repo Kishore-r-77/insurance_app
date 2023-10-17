@@ -136,7 +136,11 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
         setisLast(resp.data["All Addresses"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -184,7 +188,11 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
       .then((resp) => {
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const nexPage = () => {

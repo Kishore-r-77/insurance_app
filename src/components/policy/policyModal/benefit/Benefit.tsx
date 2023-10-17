@@ -184,7 +184,11 @@ function Benefit({
         setisLast(resp.data["All Benefits"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId

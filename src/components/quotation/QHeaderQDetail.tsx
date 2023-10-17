@@ -259,7 +259,11 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   console.log(record, "record");
 
@@ -270,7 +274,11 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   //Get all Api
   const getData = () => {
@@ -284,7 +292,11 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
         setisLast(resp.data["All QHeaders"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   //UseEffect Function to render data on Screen Based on Dependencies

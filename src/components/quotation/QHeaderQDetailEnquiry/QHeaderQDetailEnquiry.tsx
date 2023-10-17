@@ -262,7 +262,11 @@ function QHeaderQDetailEnquiry({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [detailsData, setDetailsData] = useState<any>([]);
@@ -279,7 +283,11 @@ function QHeaderQDetailEnquiry({
         setDetailsData(resp.data["QDetails"]);
         setHeaderData(resp.data["QHeader"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const [qCommunicationData, setQCommunicationData] = useState([]);
   const getQCommunicationByHeader = () => {
@@ -293,7 +301,11 @@ function QHeaderQDetailEnquiry({
       .then((resp) => {
         setQCommunicationData(resp.data?.Comm);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const handleQDetailRemove = (index: number) => {
@@ -330,7 +342,11 @@ function QHeaderQDetailEnquiry({
   //         dispatch({ type: ACTIONS.EDITCLOSE });
   //         getData();
   //       })
-  //       .catch((err) => console.log(err.message));
+  //       .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   //   };
 
   const handleQriskcessdate = (date: any, i: number) => {

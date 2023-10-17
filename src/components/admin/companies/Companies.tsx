@@ -171,7 +171,11 @@ function Companies({ userORGroupFunc }: any) {
         setisLast(resp.data["All Companies"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   //Get Currency all Api
   const getCurrencyData = () => {
@@ -179,7 +183,11 @@ function Companies({ userORGroupFunc }: any) {
       .then((resp) => {
         setcurrencyData(resp.data["currencies"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   //Get CompanyStatus all Api
@@ -188,7 +196,11 @@ function Companies({ userORGroupFunc }: any) {
       .then((resp) => {
         setcmpStatusData(resp.data["All Status"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   //Add Api
@@ -239,7 +251,11 @@ function Companies({ userORGroupFunc }: any) {
       .then((resp) => {
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const nexPage = () => {

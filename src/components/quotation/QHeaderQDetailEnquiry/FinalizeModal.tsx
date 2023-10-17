@@ -301,7 +301,11 @@ function FinalizeModal({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const [benefitsData, setBenefitsData] = useState<any>([]);
@@ -319,7 +323,11 @@ function FinalizeModal({
         setBenefitsData(resp.data["Benefits"]);
         setPolicyData(resp?.data);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   console.log(benefitsData, "========", policyData);
   const [qHeaderData, setQHeaderData] = useState<any>([]);
@@ -339,7 +347,11 @@ function FinalizeModal({
         setQHeaderData(resp.data);
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   // const [policyData, setPolicyData] = useState<any>([]);
   // const getPolicy = () => {
@@ -354,7 +366,11 @@ function FinalizeModal({
   //     .then((resp) => {
   //       setPolicyData(resp.data["Policy"]);
   //     })
-  //     .catch((err) => console.log(err.message));
+  //     .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   // };
   // console.log(detailsData, "========", policyData);
 
@@ -403,7 +419,11 @@ function FinalizeModal({
   //         dispatch({ type: ACTIONS.EDITCLOSE });
   //         getData();
   //       })
-  //       .catch((err) => console.log(err.message));
+  //       .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   //   };
 
   // const handleQriskcessdate = (date: any, i: number) => {

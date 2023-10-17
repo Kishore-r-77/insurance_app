@@ -142,7 +142,11 @@ function BusinessDates({ modalFunc }: any) {
         setisLast(resp.data["AllBusinessDate"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -200,7 +204,11 @@ function BusinessDates({ modalFunc }: any) {
         
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   const nexPage = () => {

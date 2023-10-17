@@ -121,7 +121,11 @@ function ReceiptsModal({
   //     .then((resp) => {
   //       setaCur(resp.data?.AllowedBillingCurriencies);
   //     })
-  //     .catch((err) => console.log(err.message));
+  //     .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   // };
 
   useEffect(() => {
@@ -216,7 +220,11 @@ function ReceiptsModal({
         setisLast(resp.data["All Policies"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        }));
   };
 
   useEffect(() => {
