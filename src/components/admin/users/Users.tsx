@@ -71,11 +71,7 @@ function Users({ modalFunc }: any) {
         setisLast(resp.data["All Users"].length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const nexPage = () => {

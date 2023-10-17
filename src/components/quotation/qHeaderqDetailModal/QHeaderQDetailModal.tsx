@@ -414,11 +414,7 @@ function QHeaderQDetailModal({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const getClient = () => {
@@ -432,11 +428,7 @@ function QHeaderQDetailModal({
       .then((resp) => {
         setClntData(resp.data?.Client);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   //const [clntRecordData, setClntRecordData] = useState<any>([]);
   const getClientRecord = () => {
@@ -450,11 +442,7 @@ function QHeaderQDetailModal({
       .then((resp) => {
         setClntRecordData(resp.data?.Client);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   //const [detailsData, setDetailsData] = useState<any>([]);
@@ -498,11 +486,7 @@ function QHeaderQDetailModal({
         setqDetailsData(resp.data["QDetails"]);
         setHeaderData(resp.data["QHeader"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const handleQDetailRemove = (index: number) => {
     const list = [...qDetailData];
@@ -1427,11 +1411,7 @@ function QHeaderQDetailModal({
                       .then((resp) => {
                         getDetails();
                       })
-                      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+                      .catch((err) => console.log(err.message));
                   };
                   return (
                     <>

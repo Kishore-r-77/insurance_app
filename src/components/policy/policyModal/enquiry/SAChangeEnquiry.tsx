@@ -104,11 +104,7 @@ const SAChangeEnquiry = ({
         setsaChangeData(resp.data.SAChange);
         console.log(saChangeData, "DATA");
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {

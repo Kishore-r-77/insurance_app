@@ -54,11 +54,7 @@ const MRTAEnquiry = ({ open, handleClose, policyNo }: any) => {
         setmrtaData(resp.data.Mrta);
         console.log(mrtaData, "DATA");
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {

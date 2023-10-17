@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -22,7 +22,6 @@ import {
 } from "../qHeaderApis/qHeaderApis";
 import { createQHeaderWithQDetail } from "../qHeaderApis/qHeaderqDetailApis";
 
-import Notification from "../../../utilities/Notification/Notification";
 import Agency from "../../agency/Agency";
 import Address from "../../clientDetails/address/Address";
 import Client from "../../clientDetails/client/Client";
@@ -30,16 +29,11 @@ function QHeaderQDetailEnquiry({
   state,
   dispatch,
   ACTIONS,
+  handleFormSubmit,
   record,
   getData,
 }: any) {
   const title = "Quotation Info";
-
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "",
-  });
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -268,13 +262,7 @@ function QHeaderQDetailEnquiry({
       .then((resp) => {
         setaddressClntData(resp.data?.AddressByClientID);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   const [detailsData, setDetailsData] = useState<any>([]);
@@ -291,13 +279,7 @@ function QHeaderQDetailEnquiry({
         setDetailsData(resp.data["QDetails"]);
         setHeaderData(resp.data["QHeader"]);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
   const [qCommunicationData, setQCommunicationData] = useState([]);
   const getQCommunicationByHeader = () => {
@@ -311,13 +293,7 @@ function QHeaderQDetailEnquiry({
       .then((resp) => {
         setQCommunicationData(resp.data?.Comm);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   const handleQDetailRemove = (index: number) => {
@@ -345,6 +321,17 @@ function QHeaderQDetailEnquiry({
       })
       .catch((err) => err.message);
   };
+
+  //   //get Api
+  //   const getById = async (id: number) => {
+  //     getQheader(id)
+  //       .then((resp) => {
+  //         
+  //         dispatch({ type: ACTIONS.EDITCLOSE });
+  //         getData();
+  //       })
+  //       .catch((err) => console.log(err.message));
+  //   };
 
   const handleQriskcessdate = (date: any, i: number) => {
     setqDetailData(
@@ -1197,7 +1184,6 @@ function QHeaderQDetailEnquiry({
           </TreeView>
         </form>
       </CustomFullModal>
-      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

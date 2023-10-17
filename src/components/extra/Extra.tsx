@@ -158,11 +158,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         setisLast(resp.data["Extra"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -226,11 +222,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
       .then((resp) => {
         setextrasByBenefitData(resp.data?.Extra);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {

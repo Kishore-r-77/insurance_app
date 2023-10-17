@@ -1,6 +1,7 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
+import moment from "moment";
 import { useEffect, useReducer, useState } from "react";
 import {
   ACTIONS,
@@ -8,7 +9,6 @@ import {
   initialValues,
 } from "../../../reducerUtilities/actions/admin/companies/companiesActions";
 import { CompaniesStateType } from "../../../reducerUtilities/types/admin/companies/companiesTypes";
-import Notification from "../../../utilities/Notification/Notification";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./companies.module.css";
@@ -17,10 +17,11 @@ import {
   deleteApi,
   editApi,
   getAllApi,
-  getAllCompStatusApi,
   getAllCurrencyApi,
+  getAllCompStatusApi,
 } from "./companiesApis/companiesApis";
 import CompaniesModal from "./companiesModal/CompaniesModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function Companies({ userORGroupFunc }: any) {
   //data from getall api
@@ -170,13 +171,7 @@ function Companies({ userORGroupFunc }: any) {
         setisLast(resp.data["All Companies"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
   //Get Currency all Api
   const getCurrencyData = () => {
@@ -184,13 +179,7 @@ function Companies({ userORGroupFunc }: any) {
       .then((resp) => {
         setcurrencyData(resp.data["currencies"]);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   //Get CompanyStatus all Api
@@ -199,13 +188,7 @@ function Companies({ userORGroupFunc }: any) {
       .then((resp) => {
         setcmpStatusData(resp.data["All Status"]);
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   //Add Api
@@ -256,13 +239,7 @@ function Companies({ userORGroupFunc }: any) {
       .then((resp) => {
         getData();
       })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
+      .catch((err) => console.log(err.message));
   };
 
   const nexPage = () => {

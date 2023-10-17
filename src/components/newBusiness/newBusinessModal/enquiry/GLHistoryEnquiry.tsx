@@ -116,11 +116,7 @@ const GLHistoryEnquiry = ({
             setGLHistoryData(resp.data.History);
             // console.log(resp.data["History"],"DATA")
           })
-          .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+          .catch((err) => console.log(err.message));
       };
 
       console.log(GLHistoryData,"GL History")

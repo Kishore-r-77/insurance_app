@@ -100,11 +100,7 @@ const ComponentAddEnquiry = ({
         setComponentData(resp.data.ComponentAdd);
         console.log(componentAddData, "DATA");
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {

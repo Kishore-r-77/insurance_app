@@ -136,11 +136,7 @@ function Bank({ modalFunc, bankClntData, lookup }: any) {
         setisLast(resp.data["All Banks"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -183,11 +179,7 @@ function Bank({ modalFunc, bankClntData, lookup }: any) {
       .then((resp) => {
         getData();
       })
-      .catch((err) => setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        }));
+      .catch((err) => console.log(err.message));
   };
 
   const nexPage = () => {
