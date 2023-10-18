@@ -208,7 +208,6 @@ function ReceiptsModal({
       state
     )
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setpoliciesByClient(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);

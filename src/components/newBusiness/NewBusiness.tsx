@@ -566,6 +566,7 @@ function NewBusiness({
       </header>
       <NewBussinessTable
         data={receiptLookup ? getByTable : data}
+        receiptLookup={receiptLookup}
         dataIndex={dataIndex}
         issueOpen={issueOpen}
         confirmOpen={confirmOpen}
