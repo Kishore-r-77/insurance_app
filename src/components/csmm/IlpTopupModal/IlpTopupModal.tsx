@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { MenuItem, TextField } from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import axios from "axios";
 import moment from "moment";
@@ -11,6 +11,9 @@ import { useAppSelector } from "../../../redux/app/hooks";
 import Notification from "../../../utilities/Notification/Notification";
 import CustomIlpTopupModal from "./CustomIlpTopupModal";
 import styles from "./ilptopupModal.module.css";
+import { getBusinessDateApi } from "../surrenderModal/surrenderApi";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function IlpTopupModal({
   open,
@@ -36,10 +39,21 @@ function IlpTopupModal({
   const [isResult, setIsResult] = useState(false);
   const [ilpTopupBenefits, setilpTopupBenefits] = useState([]);
   const [exfunds, setexfunds] = useState([]);
+  const [effDate, setEffDate] = useState<any>(null);
 
   useEffect(() => {
     return () => {};
   }, [open === false]);
+
+  useEffect(() => {
+    setEffDate("");
+    return () => {};
+  }, [open === false]);
+
+  const effDatechange = (date: any) => {
+    console.log("Date", date);
+    setEffDate(date + 1);
+  };
 
   const getbenefitsbypol = () => {
     axios
@@ -64,7 +78,23 @@ function IlpTopupModal({
       });
   };
 
-  const effDate = moment(data?.ProposalReceivedDate, "DD/MM/YYYY");
+  const userId = useAppSelector((state) => state.users.user.message.id);
+  const companyId = useAppSelector((state) => state.users.user.message.companyId);
+  const [businessData, setBusinessData] = useState<any>({});
+  const getBusinessDate = (companyId: number, userId: number) => {
+    return getBusinessDateApi(companyId, userId)
+      .then((resp) => {
+        setBusinessData(resp.data);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate(companyId, userId);
+    return () => {};
+  }, []);
+
+  // const effDate = moment(data?.ProposalReceivedDate, "DD/MM/YYYY");
 
   const [prem, setprem] = useState<any>(0.0);
   const [ilpPriceData, setilpPriceData] = useState<any>([]);
@@ -353,7 +383,21 @@ function IlpTopupModal({
                   margin="dense"
                 ></TextField>
               </Grid2>
-              <Grid2 lg={4}>
+              <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        //readOnly={maturityState.infoOpen}
+                        label="EffectiveDate"
+                        inputFormat="DD/MM/YYYY"
+                        value={businessData?.BusinessDate!=null?businessData.BusinessDate:data?.ProposalReceivedDate}
+                        onChange={(date) => effDatechange(date)}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+              {/* <Grid2 lg={4}>
                 <TextField
                   id="Effective Date"
                   name="Effective Date"
@@ -365,7 +409,7 @@ function IlpTopupModal({
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
                 ></TextField>
-              </Grid2>
+              </Grid2> */}
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   select
