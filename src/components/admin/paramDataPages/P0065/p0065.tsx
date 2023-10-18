@@ -168,7 +168,7 @@ const P0065 = forwardRef((props: any, ref) => {
                 type="text"
                 margin="dense"
                 SelectProps={{
-                  multiple: true,
+                  multiple: false,
                 }}
               >
                 {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
