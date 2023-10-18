@@ -128,7 +128,16 @@ function BulkApprovalModal({
               />
             </>
           ) : (
-            <Table striped bordered hover>
+            <Table
+              striped
+              bordered
+              hover
+              className={styles["custom-table"]}
+              style={{
+                border: "3px solid black",
+                boxShadow: "0px 0px 0px 0px",
+              }}
+            >
               <thead className={styles.header}>
                 <tr>
                   <th
