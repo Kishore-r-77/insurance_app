@@ -207,7 +207,6 @@ function NewBusiness({
           benefitOpen: false,
         };
       case ACTIONS.NOMINEEOPEN:
-        console.log(action.payload, "EEEEEEE");
         setRecord(action.payload);
         return {
           ...state,
