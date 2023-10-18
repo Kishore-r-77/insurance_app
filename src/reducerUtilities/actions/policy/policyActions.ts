@@ -58,7 +58,7 @@ export const initialValues: PolicyStateType = {
   benefitOpen: false,
   nomineeOpen: false,
   searchString: "",
-  searchCriteria: "",
+  searchCriteria: "id",
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,

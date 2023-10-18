@@ -4,11 +4,11 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import IlpPriceFullModal from "./IlpPriceFullModal";
+import { useState } from "react";
 import { Table } from "react-bootstrap";
+import IlpPriceFullModal from "./IlpPriceFullModal";
 import styles from "./bulkApprovalModal.module.css";
-import axios from "axios";
+import SelectImage from "../../../assets/images/select-hand.png";
 
 function BulkApprovalModal({
   open,
@@ -61,7 +61,7 @@ function BulkApprovalModal({
   };
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <IlpPriceFullModal
         open={open}
         handleClose={handleClose}
@@ -105,11 +105,39 @@ function BulkApprovalModal({
 
         <Paper className={styles.paperStyle}>
           {!isApprove ? (
-            <h2 style={{ textAlign: "center", backgroundColor: "#ffcbc7" }}>
-              Select the Effective Date for Approval
-            </h2>
+            <>
+              <h2
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ffcbc7",
+                  position: "sticky",
+                  top: "10%",
+                  minWidth: "100vw",
+                }}
+              >
+                Select the Effective Date for Approval
+              </h2>
+              <img
+                src={SelectImage}
+                alt="Image"
+                style={{
+                  display: "block",
+                  margin: "0 auto",
+                  opacity: "0.6",
+                }}
+              />
+            </>
           ) : (
-            <Table striped bordered hover>
+            <Table
+              striped
+              bordered
+              hover
+              className={styles["custom-table"]}
+              style={{
+                border: "3px solid black",
+                boxShadow: "0px 0px 0px 0px",
+              }}
+            >
               <thead className={styles.header}>
                 <tr>
                   <th
