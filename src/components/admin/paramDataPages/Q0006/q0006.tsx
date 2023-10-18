@@ -1329,7 +1329,7 @@ const Q0006 = forwardRef((props: any, ref) => {
           variant="outlined"
           margin="dense"
           SelectProps={{
-            multiple: true,
+            multiple: false,
           }}
         >
           {getDiscmethodResponse?.param.data.dataPairs.map((value:any) => (
