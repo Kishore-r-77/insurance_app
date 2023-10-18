@@ -42,7 +42,7 @@ const Q0006 = forwardRef((props: any, ref) => {
   const {sendRequest : sendMrtlRequest , status: getMrtlResponseStatus ,  data: getMrtlResponse , error:getMrtlResponseError} = useHttp(getData, true); 
   const {sendRequest : sendPremcalctypRequest , status: getPremcalctypResponseStatus ,  data: getPremcalctypResponse , error:getPremcalctypResponseError} = useHttp(getData, true); 
   const {sendRequest : sendPremdisctypRequest , status: getPremdisctypResponseStatus ,  data: getPremdisctypResponse , error:getPremdisctypResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendQ0018Request , status: getQ0018ResponseStatus ,  data: getQ0018Response , error:getQ0018ResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendDiscmethodRequest , status: getDiscmethodResponseStatus ,  data: getDiscmethodResponse , error:getDiscmethodResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0019Request , status: getQ0019ResponseStatus ,  data: getQ0019Response , error:getQ0019ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendQ0020Request , status: getQ0020ResponseStatus ,  data: getQ0020Response , error:getQ0020ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendUlalmethodRequest , status: getUlalmethodResponseStatus ,  data: getUlalmethodResponse , error:getUlalmethodResponseError} = useHttp(getData, true); 
@@ -155,6 +155,9 @@ const Q0006 = forwardRef((props: any, ref) => {
         getDataParams.item = "PREMDISCTYP";
         sendPremdisctypRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "DISCMETHOD";
+        sendDiscmethodRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
         getDataParams.item = "ULALMETHOD";
         sendUlalmethodRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
@@ -197,9 +200,6 @@ const Q0006 = forwardRef((props: any, ref) => {
 
         getDataParams.name = "P0046";
         sendP0046Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
-
-        getDataParams.name = "Q0018";
-        sendQ0018Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
 
         getDataParams.name = "Q0019";
         sendQ0019Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
@@ -1328,10 +1328,13 @@ const Q0006 = forwardRef((props: any, ref) => {
           fullWidth
           variant="outlined"
           margin="dense"
+          SelectProps={{
+            multiple: true,
+          }}
         >
-          {getQ0018Response?.data.map((value:any) => (
-            <MenuItem key={value.item} value={value.item}>
-              {value.longdesc}
+          {getDiscmethodResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
             </MenuItem>
             ))}
         </TextField>
