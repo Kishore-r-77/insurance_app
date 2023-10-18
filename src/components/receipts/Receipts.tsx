@@ -38,7 +38,7 @@ function Receipts({ modalFunc }: any) {
 
   const [searchContent, setsearchContent] = useState({
     searchString: "",
-    searchCriteria: "",
+    searchCriteria: "id",
   });
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -58,7 +58,6 @@ function Receipts({ modalFunc }: any) {
 
     return () => {};
   }, []);
-  console.log(businessData, "Business");
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: ReceiptsStateType, action: any) => {
