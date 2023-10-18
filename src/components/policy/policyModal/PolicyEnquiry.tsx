@@ -441,7 +441,7 @@ function PolicyEnquiry({
     } else record.AgencyID = item.ID;
     dispatch({ type: ACTIONS.AGENCYCLOSE });
   };
-  const [TabClicked, serTabClicked] = useState<any>("");
+  const [TabClicked, setTabClicked] = useState<any>("Benefit");
   useEffect(() => {
     if (TabClicked === "Client") {
       getClientByPolicy();
@@ -474,6 +474,13 @@ function PolicyEnquiry({
     getBenefitByPolicy();
     return () => {};
   }, [state.infoOpen]);
+
+  useEffect(() => {
+    setTabClicked("Benefit");
+    return () => {
+      sethistoryData([]);
+    };
+  }, [state.infoOpen === false]);
 
   return (
     <div>
@@ -855,7 +862,7 @@ function PolicyEnquiry({
 
             <Tabs
               // defaultActiveKey="Benefit"
-              onSelect={serTabClicked}
+              onSelect={(k) => setTabClicked(k)}
               id="justify-tab-example"
               className="mb-3"
               justify
