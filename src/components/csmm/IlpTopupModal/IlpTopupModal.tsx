@@ -39,16 +39,15 @@ function IlpTopupModal({
   const [isResult, setIsResult] = useState(false);
   const [ilpTopupBenefits, setilpTopupBenefits] = useState([]);
   const [exfunds, setexfunds] = useState([]);
-  const [effDate, setEffDate] = useState<any>(null);
 
   useEffect(() => {
     return () => {};
   }, [open === false]);
 
-  useEffect(() => {
-    setEffDate("");
-    return () => {};
-  }, [open === false]);
+  // useEffect(() => {
+  //   setEffDate("");
+  //   return () => {};
+  // }, [open === false]);
 
   const effDatechange = (date: any) => {
     console.log("Date", date);
@@ -81,6 +80,7 @@ function IlpTopupModal({
   const userId = useAppSelector((state) => state.users.user.message.id);
   const companyId = useAppSelector((state) => state.users.user.message.companyId);
   const [businessData, setBusinessData] = useState<any>({});
+  const [effDate, setEffDate] = useState<any>();
   const getBusinessDate = (companyId: number, userId: number) => {
     return getBusinessDateApi(companyId, userId)
       .then((resp) => {
@@ -91,6 +91,7 @@ function IlpTopupModal({
 
   useEffect(() => {
     getBusinessDate(companyId, userId);
+    setEffDate(businessData?.BusinessDate)
     return () => {};
   }, []);
 
@@ -384,6 +385,33 @@ function IlpTopupModal({
                   margin="dense"
                 ></TextField>
               </Grid2>
+              <Grid2 lg={4}>
+                <TextField
+                  id="Bill To Date"
+                  name="Bill To Date"
+                  value={data?.Btdate}
+                  placeholder="Bill To Date"
+                  label="Bill To Date"
+                  onChange={handlePremChange}
+                  fullWidth
+                  //inputProps={{ readOnly: true }}
+                  InputLabelProps={{ shrink: true }}
+                  margin="dense"
+                ></TextField>
+              </Grid2>
+              <Grid2 lg={4}>
+                <TextField
+                  id="PolicyDeposit"
+                  name="PolicyDeposit"
+                  value={data?.PolicyDeposit}
+                  placeholder="PolicyDeposit"
+                  label="PolicyDeposit"
+                  fullWidth
+                  inputProps={{ readOnly: true }}
+                  InputLabelProps={{ shrink: true }}
+                  margin="dense"
+                ></TextField>
+              </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -391,26 +419,13 @@ function IlpTopupModal({
                         //readOnly={maturityState.infoOpen}
                         label="EffectiveDate"
                         inputFormat="DD/MM/YYYY"
-                        value={businessData?.BusinessDate!=null?businessData.BusinessDate:data?.ProposalReceivedDate}
+                        value={effDate}
                         onChange={(date) => effDatechange(date)}
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </LocalizationProvider>
                   </FormControl>
                 </Grid2>
-              {/* <Grid2 lg={4}>
-                <TextField
-                  id="Effective Date"
-                  name="Effective Date"
-                  value={data?.ProposalReceivedDate}
-                  placeholder="Effective Date"
-                  label="Effective Date"
-                  fullWidth
-                  inputProps={{ readOnly: true }}
-                  InputLabelProps={{ shrink: true }}
-                  margin="dense"
-                ></TextField>
-              </Grid2> */}
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   select
@@ -430,7 +445,6 @@ function IlpTopupModal({
                   ))}
                 </TextField>
               </Grid2>
-
               <Grid2 lg={4}>
                 <TextField
                   id="Total Premium"
@@ -441,19 +455,6 @@ function IlpTopupModal({
                   onChange={handlePremChange}
                   fullWidth
                   //inputProps={{ readOnly: true }}
-                  InputLabelProps={{ shrink: true }}
-                  margin="dense"
-                ></TextField>
-              </Grid2>
-              <Grid2 lg={4}>
-                <TextField
-                  id="PolicyDeposit"
-                  name="PolicyDeposit"
-                  value={data?.PolicyDeposit}
-                  placeholder="PolicyDeposit"
-                  label="PolicyDeposit"
-                  fullWidth
-                  inputProps={{ readOnly: true }}
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
                 ></TextField>
