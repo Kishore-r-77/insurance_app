@@ -57,7 +57,6 @@ function NewBusinessModal({
   const infoTitle: string = "Policy Info";
   const size = "xl";
 
-
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -104,7 +103,9 @@ function NewBusinessModal({
   };
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
-    companyId: number, PProduct: string, date: string
+    companyId: number,
+    PProduct: string,
+    date: string
   ) => {
     axios
       .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
@@ -126,9 +127,7 @@ function NewBusinessModal({
   };
 
   const [pBillCurrData, setPBillCurrData] = useState([]);
-  const getPBillCurr = (
-    companyId: number, PProduct: string, date: string
-  ) => {
+  const getPBillCurr = (companyId: number, PProduct: string, date: string) => {
     axios
       .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
         withCredentials: true,
@@ -252,12 +251,8 @@ function NewBusinessModal({
     setbenefitsData(list);
     state.editOpen && benefitID
       ? deleteApi(benefitID)
-          .then((resp) => {
-            
-          })
-          .catch((err) => {
-            
-          })
+          .then((resp) => {})
+          .catch((err) => {})
       : null;
   };
 

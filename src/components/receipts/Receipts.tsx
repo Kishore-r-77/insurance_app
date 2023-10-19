@@ -53,12 +53,6 @@ function Receipts({ modalFunc }: any) {
       .catch((err) => err.message);
   };
 
-  useEffect(() => {
-    getBusinessDate(companyId, userId);
-
-    return () => {};
-  }, []);
-
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: ReceiptsStateType, action: any) => {
     switch (action.type) {
@@ -98,8 +92,11 @@ function Receipts({ modalFunc }: any) {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
+        setBusinessData({});
         return {
           ...state,
+          PRCD: "",
+          PReceivedDate: "",
           addOpen: false,
         };
 
@@ -273,6 +270,19 @@ function Receipts({ modalFunc }: any) {
     getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
+
+  useEffect(() => {
+    if (state.addOpen) {
+      // Fetch PRCD value from the getBusinessDate API
+      getBusinessDate(companyId, userId).then(() => {
+        // After the API call, set the PRCD value in the state
+        dispatch({ type: ACTIONS.ADDOPEN });
+      });
+    } else {
+      // If addOpen is false, set PRCD to an empty value
+      dispatch({ type: ACTIONS.ADDCLOSE });
+    }
+  }, [state.addOpen]);
 
   return (
     <div>
