@@ -1,12 +1,12 @@
 import { Button, Modal } from "react-bootstrap";
 
-function CustomSaFullModal({
+function CustomIlpSurrFullModal({
   open,
   handleClose,
   title,
   children,
   handleFormSubmit,
-  isSave,
+  commit,
 }: any) {
   return (
     <div>
@@ -21,9 +21,9 @@ function CustomSaFullModal({
           </Button>
           {!!handleFormSubmit && (
             <>
-              {isSave ? (
+              {commit ? (
                 <Button variant="primary" onClick={() => handleFormSubmit()}>
-                  Save
+                  Surrender
                 </Button>
               ) : (
                 <Button variant="primary" onClick={() => handleFormSubmit()}>
@@ -38,4 +38,4 @@ function CustomSaFullModal({
   );
 }
 
-export default CustomSaFullModal;
+export default CustomIlpSurrFullModal;

@@ -3,9 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-
 import { useAppSelector } from "../../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
 import { DeathHStateType } from "../../../reducerUtilities/types/death/deathH/deathHTypes";
 
 import {
