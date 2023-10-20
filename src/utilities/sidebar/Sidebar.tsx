@@ -134,6 +134,18 @@ const routes = [
   },
   {
     path: "#",
+    name: "Ilp",
+    icon: <SafetyCheckIcon />,
+    subRoutes: [
+      {
+        path: "ilpPrices",
+        name: "Ilp Prices",
+        icon: <ArrowRightAltIcon />,
+      },
+    ],
+  },
+  {
+    path: "#",
     name: "Death Header",
     icon: <GiCoffin size="23px" />,
     subRoutes: [
@@ -259,18 +271,6 @@ const routes = [
       {
         path: "claims",
         name: "Claims",
-        icon: <ArrowRightAltIcon />,
-      },
-    ],
-  },
-  {
-    path: "#",
-    name: "Ilp",
-    icon: <SafetyCheckIcon />,
-    subRoutes: [
-      {
-        path: "ilpPrices",
-        name: "Ilp Prices",
         icon: <ArrowRightAltIcon />,
       },
     ],

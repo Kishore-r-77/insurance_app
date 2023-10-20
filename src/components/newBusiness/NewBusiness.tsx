@@ -80,11 +80,6 @@ function NewBusiness({
       .catch((err) => err.message);
   };
 
-  useEffect(() => {
-    getBusinessDate(companyId, userId);
-
-    return () => {};
-  }, []);
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
@@ -126,6 +121,7 @@ function NewBusiness({
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
+        setBusinessData({});
         setbenefitsData([
           {
             ClientID: 0,
@@ -140,6 +136,8 @@ function NewBusiness({
         ]);
         return {
           ...state,
+          PRCD: "",
+          PReceivedDate: "",
           addOpen: false,
         };
 
@@ -206,7 +204,6 @@ function NewBusiness({
           benefitOpen: false,
         };
       case ACTIONS.NOMINEEOPEN:
-        console.log(action.payload, "EEEEEEE");
         setRecord(action.payload);
         return {
           ...state,
@@ -243,7 +240,7 @@ function NewBusiness({
   };
 
   //Creating useReducer Hook
-  const [state, dispatch] = useReducer(reducer, initialValues);
+  let [state, dispatch] = useReducer(reducer, initialValues);
 
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
@@ -345,7 +342,7 @@ function NewBusiness({
         console.log(err, "Error");
         setNotify({
           isOpen: true,
-          message: err.response.data.ValidatePolicy,
+          message: err?.response?.data?.error,
           type: "error",
         });
         confirmClose();
@@ -454,6 +451,19 @@ function NewBusiness({
     return () => {};
   }, [state.editOpen && record.PProduct === "MRT"]);
 
+  useEffect(() => {
+    if (state.addOpen) {
+      // Fetch PRCD value from the getBusinessDate API
+      getBusinessDate(companyId, userId).then(() => {
+        // After the API call, set the PRCD value in the state
+        dispatch({ type: ACTIONS.ADDOPEN });
+      });
+    } else {
+      // If addOpen is false, set PRCD to an empty value
+      dispatch({ type: ACTIONS.ADDCLOSE });
+    }
+  }, [state.addOpen]);
+
   return (
     <div>
       <CustomModal
@@ -546,25 +556,28 @@ function NewBusiness({
         </span>
 
         <h1>New Business Enquiry</h1>
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
+        {receiptLookup ? null : (
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+          >
+            <AddBoxIcon />
+          </Button>
+        )}
       </header>
       <NewBussinessTable
         data={receiptLookup ? getByTable : data}
+        receiptLookup={receiptLookup}
         dataIndex={dataIndex}
         issueOpen={issueOpen}
         confirmOpen={confirmOpen}

@@ -40,7 +40,7 @@ export const initialValues: ReceiptsStateType = {
   editOpen: false,
   infoOpen: false,
   searchString: "",
-  searchCriteria: "",
+  searchCriteria: "policy_id",
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,

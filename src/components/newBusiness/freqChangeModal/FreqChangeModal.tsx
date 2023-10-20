@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { MenuItem, TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import axios from "axios";
-import { freqItems } from "../../clientDetails/client/clientApis/clientApis";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
-import CustomFreqChangeModal from "./CustomFreqChangeModal";
-import ResultModal from "./ResultModal";
 import Notification from "../../../utilities/Notification/Notification";
+import { freqItems } from "../../clientDetails/client/clientApis/clientApis";
+import CustomFreqChangeModal from "./CustomFreqChangeModal";
 
 function FreqChangeModal({
   open,
@@ -49,9 +47,7 @@ function FreqChangeModal({
         setisPolicy(!isPolicy);
         getData();
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const getFreqChange = () => {
@@ -89,7 +85,6 @@ function FreqChangeModal({
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

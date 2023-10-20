@@ -1,8 +1,10 @@
 .paperStyle {
   margin: 20px auto;
-  overflow-y: scroll;
   max-height: 350px;
   font-family: Poppins Medium;
+  min-height: 70vh;
+  max-width: 100vw;
+  position: relative;
 }
 
 .header {

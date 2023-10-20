@@ -28,6 +28,7 @@ function NewBussinessTable({
   dispatch,
   ACTIONS,
   sortParam,
+  receiptLookup,
   modalFunc,
   getData,
 }: any) {
@@ -121,9 +122,7 @@ function NewBussinessTable({
       .then((resp) => {
         setclientMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
   const clientServiceMenu = () => {
@@ -144,9 +143,7 @@ function NewBussinessTable({
       .then((resp) => {
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const [isPayer, setisPayer] = useState(false);
@@ -424,8 +421,12 @@ function NewBussinessTable({
                 </th>
               )
             )}
-            <th>Benefit</th>
-            <th>Actions</th>
+            {receiptLookup ? null : (
+              <>
+                <th>Benefit</th>
+                <th>Actions</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -445,46 +446,48 @@ function NewBussinessTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-
-              <td>
-                <BusinessIcon
-                  onClick={() =>
-                    dispatch({
-                      type: ACTIONS.BENEFITOPEN,
-                      payload: row,
-                    })
-                  }
-                />
-              </td>
-
-              <td>
-                <span className={styles.flexButtons}>
-                  {/* 
+              {receiptLookup ? null : (
+                <td>
+                  <BusinessIcon
+                    onClick={() =>
+                      dispatch({
+                        type: ACTIONS.BENEFITOPEN,
+                        payload: row,
+                      })
+                    }
+                  />
+                </td>
+              )}
+              {receiptLookup ? null : (
+                <td>
+                  <span className={styles.flexButtons}>
+                    {/* 
                     <DeleteIcon
                       color="error"
                       onClick={() => hardDelete(row.ID)}
                     /> */}
-                  <EditIcon
-                    color="primary"
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                    }
-                  />
-                  <InfoIcon
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                    }
-                  />
-                  <VerifiedUserIcon
-                    color="primary"
-                    onClick={() => confirmOpen(row.ID)}
-                  />
-                  <SendIcon
-                    color="success"
-                    onClick={() => issueOpen(row.ID, row.versionId)}
-                  />
-                </span>
-              </td>
+                    <EditIcon
+                      color="primary"
+                      onClick={() =>
+                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                      }
+                    />
+                    <InfoIcon
+                      onClick={() =>
+                        dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                      }
+                    />
+                    <VerifiedUserIcon
+                      color="primary"
+                      onClick={() => confirmOpen(row.ID)}
+                    />
+                    <SendIcon
+                      color="success"
+                      onClick={() => issueOpen(row.ID, row.versionId)}
+                    />
+                  </span>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

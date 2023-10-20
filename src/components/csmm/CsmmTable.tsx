@@ -1011,7 +1011,6 @@ function CsmmTable({
   const directInvPremOpen = (policyId: number, value: any) => {
     setisDirectInvPrem(true);
     setilpMenu(value);
-
     setPolicyID(policyId);
     setpremCalcType("U");
   };
