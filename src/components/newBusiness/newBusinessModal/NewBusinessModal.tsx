@@ -442,21 +442,22 @@ function NewBusinessModal({
   ]);
 
   console.log(benefitsData[0]?.BCoverage, "BCoverage");
-  const [termRangeMenu, settermRangeMenu] = useState([]);
-  const [pptRangeMenu, setpptRangeMenu] = useState([]);
+  const [termRangeMenu, settermRangeMenu] = useState<any>({});
+  const [pptRangeMenu, setpptRangeMenu] = useState<any>({});
   const bcoverage = useRef("");
-
   const termRange = () => {
     return extraParams(companyId, "Q0006", bcoverage.current, "TermRange")
       .then((resp) => {
-        settermRangeMenu(resp.data.AllowedTermRange);
+        //setpptRangeMenu(resp.data.AllowedTermRange);
+        settermRangeMenu((prev: any) => ({...prev, [bcoverage.current]: resp.data.AllowedTermRange}));
       })
       .catch((err) => err.message);
   };
   const pptRange = () => {
     return extraParams(companyId, "Q0006", bcoverage.current, "PptRange")
       .then((resp) => {
-        setpptRangeMenu(resp.data.AllowedPptRange);
+        // setpptRangeMenu(resp.data.AllowedPptRange);
+        setpptRangeMenu((prev: any) => ({...prev, [bcoverage.current]: resp.data.AllowedPptRange}));
       })
       .catch((err) => err.message);
   };
@@ -1183,7 +1184,7 @@ function NewBusinessModal({
                             fullWidth
                             margin="dense"
                           >
-                            {termRangeMenu.map((val, index) => (
+                            {termRangeMenu[bcoverage.current]?.map((val: any, index: any) => (
                               <MenuItem key={val} value={val}>
                                 {val}
                               </MenuItem>
@@ -1205,7 +1206,7 @@ function NewBusinessModal({
                             fullWidth
                             margin="dense"
                           >
-                            {pptRangeMenu.map((val, index) => (
+                            {pptRangeMenu[bcoverage.current]?.map((val: any, index: any) => (
                               <MenuItem key={val} value={val}>
                                 {val}
                               </MenuItem>
