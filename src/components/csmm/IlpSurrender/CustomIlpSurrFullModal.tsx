@@ -1,14 +1,11 @@
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 
 function CustomIlpSurrFullModal({
   open,
-  infoOpen,
   handleClose,
   title,
   children,
   handleFormSubmit,
-  isSave,
   commit,
 }: any) {
   return (
