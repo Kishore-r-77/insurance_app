@@ -38,7 +38,7 @@ const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
     },
     {
       field: "opfundvalue",
-      header: "Offer Price",
+      header: "Fund Value",
     },
   ];
 

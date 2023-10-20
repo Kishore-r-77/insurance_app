@@ -542,7 +542,9 @@ function ClientFullModal({
                             fieldName: "ClientDod",
                           })
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
                       />
                     </LocalizationProvider>
                   </FormControl>
