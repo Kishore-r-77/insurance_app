@@ -508,16 +508,17 @@ function ClientFullModal({
                       startAdornment: (
                         <InputAdornment position="start">
                           <select
+                            className="custom-select"
                             style={{
                               border: "none",
                               padding: ".5rem",
                               borderStyle: "none",
-                              backgroundColor: "#f0f0f0", // Background color
-                              borderRadius: "5px", // Rounded corners
-                              outline: "none", // Remove the blue outline
-                              cursor: "pointer", // Change cursor on hover
-                              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Add a subtle shadow
-                              minWidth: "100px", // Adjust the width
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "5px",
+                              outline: "none",
+                              cursor: "pointer",
+                              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                              minWidth: "100px",
                             }}
                             value={phoneCode}
                             onChange={(e) => setphoneCode(e.target.value)}
