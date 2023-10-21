@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 function FreqQuoteModal({ open, handleClose, policyId }: any) {
   const title: string = "Frequency Quote";
   const size: string = "xl";
   const [record, setRecord] = useState<any>("");
-  const [error, setError] = useState("");
   const getFreqQuote = () => {
     axios
       .get(
@@ -19,7 +18,6 @@ function FreqQuoteModal({ open, handleClose, policyId }: any) {
         setRecord(resp.data?.Frequencies);
       })
       .catch((err) => {
-        
         setRecord("");
       });
   };

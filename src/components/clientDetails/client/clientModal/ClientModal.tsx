@@ -2,7 +2,6 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  InputAdornment,
   MenuItem,
   Radio,
   RadioGroup,
@@ -15,10 +14,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
 import styles from "./clientModal.module.css";
 
-import { ClientModalType } from "../../../../reducerUtilities/types/client/clientTypes";
+import { useAppSelector } from "../../../../redux/app/hooks";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
-import { useAppSelector } from "../../../../redux/app/hooks";
 import { paramItem } from "../clientApis/clientApis";
 
 function ClientModal({

@@ -1,10 +1,7 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import BusinessIcon from "@mui/icons-material/Business";
 import InfoIcon from "@mui/icons-material/Info";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SendIcon from "@mui/icons-material/Send";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { IconButton, Paper } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,33 +9,39 @@ import axios from "axios";
 import moment from "moment";
 import { useEffect, useReducer, useRef, useState } from "react";
 import Table from "react-bootstrap/Table";
-import { useAppSelector } from "../../redux/app/hooks";
-import styles from "./csmmTable.module.css";
-import CustomModal from "../../utilities/modal/CustomModal";
-import OwnerModal from "./ownerModal/OwnerModal";
-import Payer from "../payer/Payer";
-import Assignee from "../assignee/Assignee";
-import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
-import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
-import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-import SaChangeModal from "./saChangeModal/SaChangeModal";
-import Notification from "../../utilities/Notification/Notification";
-import ComponentModal from "./componentModal/ComponentModal";
-import TranReversalModal from "./tranReversalModal/TranReversalModal";
-import AdjPremModal from "./adjPremModal/AdjPremModal";
-import SurrenderModal from "./surrenderModal/SurrenderModal";
-import { initialValues } from "../../reducerUtilities/actions/surrender/surrenderActions";
+import {
+  ACTIONS as ILPSURRENDERACTIONS,
+  ilpSurrenderInitialValue,
+} from "../../reducerUtilities/actions/IlpSurrender/IlpSurrenderActions";
+import {
+  ACTIONS as MATURITYACTIONS,
+  maturityInitialValue,
+} from "../../reducerUtilities/actions/maturity/maturityAction";
+import {
+  ACTIONS as SURRENDERACTIONS,
+  initialValues,
+} from "../../reducerUtilities/actions/surrender/surrenderActions";
 import { SurrenderHStateType } from "../../reducerUtilities/types/surrender/surrenderType";
-import { ACTIONS as SURRENDERACTIONS } from "../../reducerUtilities/actions/surrender/surrenderActions";
-import { maturityInitialValue } from "../../reducerUtilities/actions/maturity/maturityAction";
-import { MaturityStateType } from "../../reducerUtilities/types/maturity/maturityTypes";
-import { ACTIONS as MATURITYACTIONS } from "../../reducerUtilities/actions/maturity/maturityAction";
-import PolReinModal from "./polReinModal/PolReinModal";
-import MaturityModal from "./maturityModal/MaturityModal";
-import Benefit from "../policy/policyModal/benefit/Benefit";
-import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
-import IlpTopupModal from "./IlpTopupModal/IlpTopupModal";
+import { useAppSelector } from "../../redux/app/hooks";
+import Notification from "../../utilities/Notification/Notification";
+import CustomModal from "../../utilities/modal/CustomModal";
+import Assignee from "../assignee/Assignee";
+import Payer from "../payer/Payer";
 import DirectInvPrem from "./DirectInvPrem/DirectInvPrem";
+import IlpSurrenderModal from "./IlpSurrender/IlpSurrenderModal";
+import IlpTopupModal from "./IlpTopupModal/IlpTopupModal";
+import AdjPremModal from "./adjPremModal/AdjPremModal";
+import ComponentModal from "./componentModal/ComponentModal";
+import styles from "./csmmTable.module.css";
+import FreqChangeModal from "./freqChangeModal/FreqChangeModal";
+import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
+import MaturityModal from "./maturityModal/MaturityModal";
+import OwnerModal from "./ownerModal/OwnerModal";
+import PolReinModal from "./polReinModal/PolReinModal";
+import SaChangeModal from "./saChangeModal/SaChangeModal";
+import SurrenderModal from "./surrenderModal/SurrenderModal";
+import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
+import TranReversalModal from "./tranReversalModal/TranReversalModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -284,6 +287,71 @@ function CsmmTable({
 
   let [surrenderState, surrenderDispatch] = useReducer(reducer, initialValues);
 
+  const ilpSurrender = (state: any, action: any) => {
+    switch (action.type) {
+      case ACTIONS.ONCHANGE:
+        return {
+          ...state,
+          [action.fieldName]: action.payload,
+        };
+
+      case ILPSURRENDERACTIONS.COMMITOPEN:
+        return {
+          ...state,
+          commitOpen: true,
+        };
+      case ILPSURRENDERACTIONS.COMMITCLOSE:
+        return {
+          ...state,
+          Function: "Commit",
+          commitOpen: false,
+        };
+      case ILPSURRENDERACTIONS.ILPSURRENDEROPEN:
+        setPolicyID(action.payload);
+        return {
+          ...state,
+          EffectiveDate: businessData.BusinessDate,
+          SurrDate: businessData.BusinessDate,
+          ilpsurrenderOpen: true,
+        };
+      case ILPSURRENDERACTIONS.ILPSURRENDERCLOSE:
+        state = initialValues;
+        getData();
+        return {
+          ...state,
+          ilpsurrenderOpen: false,
+        };
+
+      case ACTIONS.SORT_ASC:
+        const asc = !state.sortAsc;
+        if (state.sortDesc) {
+          state.sortDesc = false;
+        }
+        return {
+          ...state,
+          sortAsc: asc,
+          sortColumn: action.payload,
+        };
+      case ACTIONS.SORT_DESC:
+        const desc = !state.sortDesc;
+        if (state.sortAsc) {
+          state.sortAsc = false;
+        }
+        return {
+          ...state,
+          sortDesc: desc,
+          sortColumn: action.payload,
+        };
+      default:
+        return initialValues;
+    }
+  };
+
+  let [ilpsurrenderState, ilpsurrenderDispatch] = useReducer(
+    ilpSurrender,
+    ilpSurrenderInitialValue
+  );
+
   const maturity = (state: any, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
@@ -453,8 +521,6 @@ function CsmmTable({
       })
       .catch((err) => {
         console.log(err);
-
-        
       });
   };
 
@@ -531,12 +597,16 @@ function CsmmTable({
         directInvPremOpen(policyId.current, value);
         handleClose();
         break;
+      case "IlpSurrender":
+        ilpsurrenderDispatch({ type: ILPSURRENDERACTIONS.ILPSURRENDEROPEN });
+        handleClose();
+        break;
       default:
         return;
     }
   };
 
-  console.log(surrenderState.surrenderOpen, "surrenderOpen");
+  console.log(ilpsurrenderState.ilpsurrenderOpen, "surrenderOpen");
 
   const [isSaChange, setisSaChange] = useState(false);
   const [isComponent, setisComponent] = useState(false);
@@ -941,7 +1011,6 @@ function CsmmTable({
   const directInvPremOpen = (policyId: number, value: any) => {
     setisDirectInvPrem(true);
     setilpMenu(value);
-						
     setPolicyID(policyId);
     setpremCalcType("U");
   };
@@ -1242,6 +1311,16 @@ function CsmmTable({
         policyRecord={enquiryRecord.current}
         surrenderState={surrenderState}
         surrenderDispatch={surrenderDispatch}
+        getData={getData}
+      />
+      <IlpSurrenderModal
+        policyId={policyId}
+        surrenderBenefits={surrenderBenefits}
+        setsurrenderBenefits={setsurrenderBenefits}
+        isSave={isSave?.current}
+        policyRecord={enquiryRecord.current}
+        ilpsurrenderState={ilpsurrenderState}
+        ilpsurrenderDispatch={ilpsurrenderDispatch}
         getData={getData}
       />
       <MaturityModal
