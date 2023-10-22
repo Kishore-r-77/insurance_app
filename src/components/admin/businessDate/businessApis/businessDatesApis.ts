@@ -1,6 +1,5 @@
 import axios from "axios";
 import moment from "moment";
-//Attention: Check the path below and change it if required
 import { BusinessDatesStateType } from "../../../../reducerUtilities/types/admin/businessDate/businessDatesTypes";
 
 export const getAllApi = (
@@ -8,7 +7,6 @@ export const getAllApi = (
   pageSize: number,
   state: BusinessDatesStateType
 ) => {
-  // Attention : Check and update the below API, if required
   return axios.get(
     `http://localhost:3000/api/v1/basicservices/allbusinessdates`,
     {
