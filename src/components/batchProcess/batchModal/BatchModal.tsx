@@ -1,34 +1,23 @@
-import {
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState, useReducer, useLayoutEffect } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
+import React, { useEffect, useReducer, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
-
-//import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 
 import styles from "./batchModal.module.css";
 
-//Attention: Check the path below
-import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
 import { BatchStateType } from "../../../reducerUtilities/types/batch/batchTypes";
 import { addApi, getBusinessDateApi } from "../BatchApis/batchApis";
 
+import axios from "axios";
 import {
   ACTIONS,
-  columns,
   initialValues,
 } from "../../../reducerUtilities/actions/batch/batchAction";
 import Notification from "../../../utilities/Notification/Notification";
 import CustomBatchFullModal from "./BatchFullModal";
-import axios from "axios";
 
 function BatchModal(BatchModalType: any) {
   const addTitle: string = "AllocateRevBonusByDate";
