@@ -195,13 +195,7 @@ function ClientFullModal({
   };
 
   const addClientWithAddress = () => {
-    return createClientWithAddress(
-      state,
-      companyId,
-      addressData,
-      clientType,
-      phoneCode
-    )
+    return createClientWithAddress(state, companyId, addressData, clientType)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
@@ -240,7 +234,7 @@ function ClientFullModal({
   }, []);
 
   const [phoneNumbers, setphoneNumbers] = useState([]);
-  const [phoneCode, setphoneCode] = useState("");
+
   const getPhoneNumbers = () => {
     return paramItems(companyId, "P0050", languageId, "ClientMobile")
       .then((resp) => {
@@ -254,7 +248,37 @@ function ClientFullModal({
     return () => {};
   }, [state.NationalId]);
 
-  console.log(phoneCode, "PhoneCode");
+  const initialCountryValues = {
+    code: "",
+    dial_code: "",
+    flag: "",
+    name: "",
+  };
+
+  const [countryDetails, setcountryDetails] = useState<{
+    code: string;
+    dial_code: string;
+    flag: string;
+    name: string;
+  }>(initialCountryValues);
+
+  const getCountryDetails = () => {
+    return paramItems(companyId, "P0066", languageId, state.NationalId)
+      .then((resp) => {
+        setcountryDetails(resp.data.param.data);
+        state.ClientMobCode = resp.data.param.data.dial_code;
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getCountryDetails();
+    return () => {};
+  }, [state.NationalId]);
+  useEffect(() => {
+    setcountryDetails(initialCountryValues);
+    return () => {};
+  }, [state.addOpen === false]);
 
   return (
     <div>
@@ -473,6 +497,7 @@ function ClientFullModal({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
+                    autoComplete="on"
                     id="NationalId"
                     name="NationalId"
                     value={state.NationalId}
@@ -508,17 +533,25 @@ function ClientFullModal({
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <select
+                          {/* <select
                             className={styles["custom-select"]}
-                            value={phoneCode}
-                            onChange={(e) => setphoneCode(e.target.value)}
+                            value={state.ClientMobCode}
+                            onChange={(e: any) =>
+                              dispatch({
+                                type: ACTIONS.ONCHANGE,
+                                payload: e.target.value,
+                                fieldName: "ClientMobCode",
+                              })
+                            }
                           >
                             {phoneNumbers.map((val: any, index: number) => (
                               <option value={val.code} key={val.code}>
                                 {val.description}
                               </option>
                             ))}
-                          </select>
+                          </select> */}
+                          {countryDetails.flag}
+                          {countryDetails.dial_code}
                         </InputAdornment>
                       ),
                     }}
