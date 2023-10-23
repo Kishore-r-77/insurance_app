@@ -5,7 +5,6 @@ import { useEffect, useReducer, useState } from "react";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
 import { IlpFundsStateType } from "../../reducerUtilities/types/ilpFund/ilpFundsTypes";
 
 import {
@@ -135,11 +134,8 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
       state
     )
       .then((resp) => {
-        
-        // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["Ilp Funds"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
         setisLast(resp.data["Ilp Funds"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
@@ -152,7 +148,6 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const handleFormSubmit = () => {
     return addApi(state, benefitState, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -162,7 +157,6 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -175,7 +169,6 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -185,7 +178,6 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -198,7 +190,6 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -207,7 +198,6 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
