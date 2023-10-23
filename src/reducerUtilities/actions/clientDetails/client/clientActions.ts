@@ -29,6 +29,8 @@ export const initialValues: ClientStateType = {
   ClientDod: "",
   ClientEmail: "",
   ClientMobile: "",
+  NationalId: "",
+  ClientMobCode: "",
   ClientStatus: "",
   ClientType: "",
   addOpen: false,
