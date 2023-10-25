@@ -43,6 +43,7 @@ import Payments from "./components/payments/Payments";
 import IlpPrices from "./components/ilpPrices/IlpPrices";
 import Claims from "./components/claims/Claims";
 import PolicyUploadDemo from "./components/policyUploadDemo/PolicyUploadDemo";
+import PremiumStatementModal from "./components/batchProcess/premiumstateModal/PremstModal";
 
 function App() {
   const { pathname } = useLocation();
@@ -100,6 +101,7 @@ function App() {
                 <Route path="/payments" element={<Payments />} />
                 <Route path="/ilpPrices" element={<IlpPrices />} />
                 <Route path="/claims" element={<Claims />} />
+                <Route path="/premst" element={<PremiumStatementModal />} />
               </Route>
               {/* </Route> */}
             </Route>

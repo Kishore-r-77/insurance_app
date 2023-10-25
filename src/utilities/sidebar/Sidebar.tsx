@@ -261,6 +261,11 @@ const routes = [
         name: "Allocate Rev Bonus by Date",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/premst",
+        name: "Premium Statement by Date",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {

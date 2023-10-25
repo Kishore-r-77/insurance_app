@@ -250,14 +250,14 @@ function ClientFullModal({
 
   const initialCountryValues = {
     code: "",
-    dial_code: "",
+    dialCode: "",
     flag: "",
     name: "",
   };
 
   const [countryDetails, setcountryDetails] = useState<{
     code: string;
-    dial_code: string;
+    dialCode: string;
     flag: string;
     name: string;
   }>(initialCountryValues);
@@ -266,7 +266,7 @@ function ClientFullModal({
     return paramItems(companyId, "P0066", languageId, state.NationalId)
       .then((resp) => {
         setcountryDetails(resp.data.param.data);
-        state.ClientMobCode = resp.data.param.data.dial_code;
+        state.ClientMobCode = resp.data.param.data.dialCode;
       })
       .catch((err) => err.message);
   };
@@ -551,7 +551,7 @@ function ClientFullModal({
                             ))}
                           </select> */}
                           {countryDetails.flag}
-                          {countryDetails.dial_code}
+                          {countryDetails.dialCode}
                         </InputAdornment>
                       ),
                     }}
