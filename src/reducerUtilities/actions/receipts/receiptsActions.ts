@@ -32,6 +32,7 @@ export const initialValues: ReceiptsStateType = {
   TypeOfReceipt: "",
   BankReferenceNo: "",
   BankAccountNo: "",
+  BankIFSC: "",
   AccCurry: "",
   AccAmount: "",
   PolicyID: "",

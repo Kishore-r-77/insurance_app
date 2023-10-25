@@ -1,5 +1,3 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,23 +6,26 @@ import { TreeItem, TreeView } from "@mui/lab";
 import {
   Button,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   InputAdornment,
   MenuItem,
   Radio,
   RadioGroup,
-  FormControlLabel,
   TextField,
-  FormLabel,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useAppSelector } from "../../../../redux/app/hooks";
+import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { getAddressType } from "../../address/addressApis/addressApis";
 import { createClientWithAddress } from "../clientApis/clientAddressApis";
-import { paramItem } from "../clientApis/clientApis";
+import { paramItem, paramItems } from "../clientApis/clientApis";
+import styles from "./clientFullModal.module.css";
 
 function ClientFullModal({
   state,
@@ -217,6 +218,67 @@ function ClientFullModal({
   const handleradiochange = (event: any) => {
     setclientType(event.target.value);
   };
+
+  const [countries, setcountries] = useState([]);
+  const getCountries = () => {
+    return paramItems(companyId, "P0050", languageId, "AddressCountry")
+      .then((resp) => {
+        setcountries(resp.data.param.data.dataPairs);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getCountries();
+    return () => {};
+  }, []);
+
+  const [phoneNumbers, setphoneNumbers] = useState([]);
+
+  const getPhoneNumbers = () => {
+    return paramItems(companyId, "P0050", languageId, "ClientMobile")
+      .then((resp) => {
+        setphoneNumbers(resp.data.param.data.dataPairs);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getPhoneNumbers();
+    return () => {};
+  }, [state.NationalId]);
+
+  const initialCountryValues = {
+    code: "",
+    dial_code: "",
+    flag: "",
+    name: "",
+  };
+
+  const [countryDetails, setcountryDetails] = useState<{
+    code: string;
+    dial_code: string;
+    flag: string;
+    name: string;
+  }>(initialCountryValues);
+
+  const getCountryDetails = () => {
+    return paramItems(companyId, "P0066", languageId, state.NationalId)
+      .then((resp) => {
+        setcountryDetails(resp.data.param.data);
+        state.ClientMobCode = resp.data.param.data.dial_code;
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getCountryDetails();
+    return () => {};
+  }, [state.NationalId]);
+  useEffect(() => {
+    setcountryDetails(initialCountryValues);
+    return () => {};
+  }, [state.addOpen === false]);
 
   return (
     <div>
@@ -434,6 +496,33 @@ function ClientFullModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    select
+                    autoComplete="on"
+                    id="NationalId"
+                    name="NationalId"
+                    value={state.NationalId}
+                    placeholder="Nationality"
+                    label="Nationality"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "NationalId",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {countries.map((val: any, index: number) => (
+                      <MenuItem key={val.code} value={val.code}>
+                        {val.description}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
                     id="ClientMobile"
                     name="ClientMobile"
                     value={state.ClientMobile}
@@ -443,7 +532,27 @@ function ClientFullModal({
                     }
                     InputProps={{
                       startAdornment: (
-                        <InputAdornment position="start">+91</InputAdornment>
+                        <InputAdornment position="start">
+                          {/* <select
+                            className={styles["custom-select"]}
+                            value={state.ClientMobCode}
+                            onChange={(e: any) =>
+                              dispatch({
+                                type: ACTIONS.ONCHANGE,
+                                payload: e.target.value,
+                                fieldName: "ClientMobCode",
+                              })
+                            }
+                          >
+                            {phoneNumbers.map((val: any, index: number) => (
+                              <option value={val.code} key={val.code}>
+                                {val.description}
+                              </option>
+                            ))}
+                          </select> */}
+                          {countryDetails.flag}
+                          {countryDetails.dial_code}
+                        </InputAdornment>
                       ),
                     }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -457,6 +566,7 @@ function ClientFullModal({
                     margin="dense"
                   />
                 </Grid2>
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="ClientType"
@@ -547,24 +657,6 @@ function ClientFullModal({
                       />
                     </LocalizationProvider>
                   </FormControl>
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    id="NationalId"
-                    name="NationalId"
-                    value={state.NationalId}
-                    placeholder="National Id"
-                    label="National Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "NationalId",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  ></TextField>
                 </Grid2>
               </Grid2>
             </TreeItem>

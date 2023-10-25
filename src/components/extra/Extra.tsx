@@ -5,7 +5,6 @@ import { useEffect, useReducer, useState } from "react";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
 import { ExtraStateType } from "../../reducerUtilities/types/extra/extraTypes";
 
 import {
@@ -150,11 +149,8 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
-        // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["Extra"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
         setisLast(resp.data["Extra"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
@@ -167,7 +163,6 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId, benefitState.ID, benefitState.PolicyID)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -180,7 +175,6 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err.message,
@@ -193,7 +187,6 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -206,7 +199,6 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err.message,
@@ -234,7 +226,6 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: resp.data,

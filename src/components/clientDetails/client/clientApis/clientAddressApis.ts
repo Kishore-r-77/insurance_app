@@ -35,6 +35,7 @@ export const createClientWithAddress = (
 
       ClientEmail: state.ClientEmail,
       ClientMobile: state.ClientMobile,
+      ClientMobCode: state.ClientMobCode,
       ClientStatus: state.ClientStatus,
       NationalId: state.NationalId,
       ClientDod:

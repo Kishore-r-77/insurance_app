@@ -7,6 +7,7 @@ export type ReceiptsStateType = {
   TypeOfReceipt: string;
   BankReferenceNo: string;
   BankAccountNo: string;
+  BankIFSC: string;
   AccCurry: string;
   AccAmount: string;
   PolicyID: string;
