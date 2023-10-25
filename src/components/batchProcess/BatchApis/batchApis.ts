@@ -2,6 +2,7 @@ import axios from "axios";
 import moment from "moment";
 //Attention: Check the path below and change it if required
 import { BatchStateType } from "../../../reducerUtilities/types/batch/batchTypes";
+import { PremiumStateType } from "../../../reducerUtilities/types/premst/premiumTypes";
 
 export const addApi = (state: BatchStateType, companyId: number) => {
   // Attention : Check and update the below API, if required
@@ -25,3 +26,4 @@ export const getBusinessDateApi = (companyId: number, userId: number) => {
     }
   );
 };
+
