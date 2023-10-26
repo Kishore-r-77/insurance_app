@@ -322,6 +322,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
       <ClientModal
         state={state}
         record={record}
+        setRecord={setRecord}
         dispatch={dispatch}
         handleFormSubmit={editFormSubmit}
         clientType={clientType}

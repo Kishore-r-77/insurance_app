@@ -2,6 +2,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  InputAdornment,
   MenuItem,
   Radio,
   RadioGroup,
@@ -17,11 +18,12 @@ import styles from "./clientModal.module.css";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
-import { paramItem } from "../clientApis/clientApis";
+import { paramItem, paramItems } from "../clientApis/clientApis";
 
 function ClientModal({
   state,
   record,
+  setRecord,
   dispatch,
   ACTIONS,
   handleFormSubmit,
@@ -94,6 +96,56 @@ function ClientModal({
       .catch((err) => err);
   };
 
+  const [phoneNumbers, setphoneNumbers] = useState([]);
+
+  const getPhoneNumbers = () => {
+    return paramItems(companyId, "P0050", languageId, "ClientMobile")
+      .then((resp) => {
+        setphoneNumbers(resp.data.param.data.dataPairs);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getPhoneNumbers();
+    return () => {};
+  }, [record.NationalId]);
+
+  const initialCountryValues = {
+    code: "",
+    dialCode: "",
+    flag: "",
+    name: "",
+  };
+
+  const [countryDetails, setcountryDetails] = useState<{
+    code: string;
+    dialCode: string;
+    flag: string;
+    name: string;
+  }>(initialCountryValues);
+
+  const getCountryDetails = () => {
+    return paramItems(companyId, "P0066", languageId, record.NationalId)
+      .then((resp) => {
+        setcountryDetails(resp.data.param.data);
+        setRecord((prev: any) => ({
+          ...prev,
+          ClientMobCode: resp.data.param.data.dialCode,
+        }));
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getCountryDetails();
+    return () => {};
+  }, [record.NationalId]);
+  // useEffect(() => {
+  //   setcountryDetails(initialCountryValues);
+  //   return () => {};
+  // }, [state.editOpen === false]);
+
   useEffect(() => {
     getCompanyData(companyId);
     getGender(companyId, "P0001", languageId);
@@ -101,6 +153,20 @@ function ClientModal({
     getLanguage(companyId, "P0002", languageId);
     getClientStatus(companyId, "P0009", languageId);
 
+    return () => {};
+  }, []);
+
+  const [countries, setcountries] = useState([]);
+  const getCountries = () => {
+    return paramItems(companyId, "P0050", languageId, "AddressCountry")
+      .then((resp) => {
+        setcountries(resp.data.param.data.dataPairs);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getCountries();
     return () => {};
   }, []);
 
@@ -330,18 +396,46 @@ function ClientModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
+                select
+                id="NationalId"
+                name="NationalId"
+                value={record.NationalId}
+                placeholder="Nationality"
+                label="Nationality"
+                inputProps={{ readOnly: state.infoOpen }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "NationalId",
+                  })
+                }
+                fullWidth
+                margin="dense"
+              >
+                {countries.map((val: any, index: number) => (
+                  <MenuItem key={val.code} value={val.code}>
+                    {val.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
                 id="ClientMobile"
                 name="ClientMobile"
                 value={record.ClientMobile}
                 placeholder="ClientMobile"
-                label={
-                  record.ClientType === "I" ? "Client Mobile" : "Office Mobile"
-                }
-                // InputProps={{
-                //   startAdornment: (
-                //     <InputAdornment position="start">+91</InputAdornment>
-                //   ),
-                // }}
+                label={clientType === "I" ? "Client Mobile" : "Office Mobile"}
+                InputProps={{
+                  readOnly: state.infoOpen,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      {countryDetails.flag}
+                      {countryDetails.dialCode}
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
@@ -350,7 +444,6 @@ function ClientModal({
                   })
                 }
                 fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
                 margin="dense"
               />
             </Grid2>
@@ -444,25 +537,6 @@ function ClientModal({
                   />
                 </LocalizationProvider>
               </FormControl>
-            </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="NationalId"
-                name="NationalId"
-                value={record.NationalId}
-                placeholder="National Id"
-                label="National Id"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "NationalId",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
             </Grid2>
           </Grid2>
         </form>

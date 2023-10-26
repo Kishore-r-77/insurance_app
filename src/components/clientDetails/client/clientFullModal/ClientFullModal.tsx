@@ -26,6 +26,8 @@ import { getAddressType } from "../../address/addressApis/addressApis";
 import { createClientWithAddress } from "../clientApis/clientAddressApis";
 import { paramItem, paramItems } from "../clientApis/clientApis";
 import styles from "./clientFullModal.module.css";
+import { getBusinessDateApi } from "../../../receipts/receiptsApis/receiptsApis";
+import moment from "moment";
 
 function ClientFullModal({
   state,
@@ -37,7 +39,7 @@ function ClientFullModal({
   getData,
 }: any) {
   const title = "Client Add";
-
+  const [businessDate, setbusinessDate] = useState("");
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -130,11 +132,34 @@ function ClientFullModal({
       AddressPostCode: "",
       AddressState: "",
       AddressCountry: "",
-      AddressStartDate: "",
+      AddressStartDate: businessDate,
       // AddressEndDate: "",
       ClientID: 0,
     },
   ]);
+
+  const getBusinessDate = () => {
+    return getBusinessDateApi(companyId, 0)
+      .then((resp) => {
+        setbusinessDate(resp.data.BusinessDate);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate();
+    return () => {};
+  }, [state.addOpen]);
+
+  useEffect(() => {
+    setaddressData((prev: any) => [
+      {
+        ...prev,
+        AddressStartDate: businessDate,
+      },
+    ]);
+    return () => {};
+  }, [state.addOpen]);
 
   const handleAddressAdd = () => {
     setaddressData([
@@ -149,7 +174,7 @@ function ClientFullModal({
         AddressPostCode: "",
         AddressState: "",
         AddressCountry: "",
-        AddressStartDate: "",
+        AddressStartDate: businessDate,
         // AddressEndDate: "",
         ClientID: 0,
       },
