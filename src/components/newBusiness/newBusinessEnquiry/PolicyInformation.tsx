@@ -19,6 +19,16 @@ import {
 } from "../../policy/policyApis/policyApis";
 import BenefitEnquiry from "../../policy/policyModal/enquiry/BenefitEnquiry";
 import ClientEnquiry from "../../policy/policyModal/enquiry/ClientEnquiry";
+import AddressEnquiry from "../../policy/policyModal/enquiry/AddressEnquiry";
+import BankEnquiry from "../../policy/policyModal/enquiry/BankEnquiry";
+import HistoryEnquiry from "../../policy/policyModal/enquiry/HistoryEnquiry";
+import BALEnquiry from "../../policy/policyModal/enquiry/BALEnquiry";
+import TDFEnquiry from "../../policy/policyModal/enquiry/TDFEnquiry";
+import UWEnquiry from "../../policy/policyModal/enquiry/UWEnquiry";
+import CommunicationEnquiry from "../../policy/policyModal/enquiry/CommunicationEnquiry";
+import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBenefitEnquiry";
+import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
+import ILPSummaryEnquiry from "../../policy/policyModal/enquiry/ILPSummaryEnquiry";
 
 function PolicyInformation({
   state,
@@ -176,7 +186,7 @@ function PolicyInformation({
   const getBenefitByPolicy = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/nbservices/benefitgetbypol/${record.ID}`,
+        `http://localhost:3000/api/v1/nbservices/benefitgetbypol/${record?.ID}`,
         {
           withCredentials: true,
         }
@@ -186,11 +196,6 @@ function PolicyInformation({
       })
       .catch((err) => console.log(err.message));
   };
-
-  useEffect(() => {
-    getBenefitByPolicy();
-    return () => {};
-  }, []);
 
   const [addressData, setaddressData] = useState([]);
   const getAddressByPolicy = () => {
@@ -289,21 +294,6 @@ function PolicyInformation({
 
     return () => {};
   }, []);
-
-  useEffect(() => {
-    getbankByPolicy();
-    geTDFByPolicy();
-
-    getAddressByPolicy();
-    getHistoryByPolicy();
-    geBALByPolicy();
-    getUWByPolicy();
-    getCommunicationByPolicy();
-    getextraByPolicy();
-    getSurvivalBenefitByPolicy();
-    getIlpSummaryByPolicy();
-    return () => {};
-  }, [state.infoOpen]);
 
   var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
@@ -465,7 +455,7 @@ function PolicyInformation({
       tabIcon: "",
     },
     {
-      tabName: "Survival Benfit",
+      tabName: "Survival Benefit",
       tabIcon: "",
     },
     {
@@ -489,6 +479,37 @@ function PolicyInformation({
         break;
       case "Clients":
         getClientByPolicy(); // Await data retrieval
+        break;
+      case "Address":
+        getAddressByPolicy(); // Await data retrieval
+        break;
+      case "Bank":
+        getbankByPolicy(); // Await data retrieval
+        break;
+      case "Policy History":
+        getHistoryByPolicy(); // Await data retrieval
+        break;
+      case "Account Balance":
+        geBALByPolicy(); // Await data retrieval
+        break;
+      case "Tdf":
+        geTDFByPolicy(); // Await data retrieval
+        break;
+      case "Uw Enquiry":
+        getUWByPolicy(); // Await data retrieval
+        break;
+      case "Communication":
+        getCommunicationByPolicy(); // Await data retrieval
+        break;
+      case "Survival Benefit":
+        getSurvivalBenefitByPolicy(); // Await data retrieval
+        break;
+      case "Extra":
+        getextraByPolicy();
+
+        break;
+      case "Invest Summary":
+        getIlpSummaryByPolicy(); // Await data retrieval
 
         break;
       // Add cases for other tabs
@@ -496,6 +517,13 @@ function PolicyInformation({
         getBenefitByPolicy(); // Await data retrieval
     }
   };
+
+  useEffect(() => {
+    getBenefitByPolicy();
+    return () => {
+      setActiveTab("Benefits");
+    };
+  }, [state.infoOpen]);
 
   return (
     <div>
@@ -892,9 +920,43 @@ function PolicyInformation({
                 policyNo={record.ID}
                 TransactionNo={record.Tranno}
               />
-            ) : (
+            ) : activeTab === "Clients" ? (
               <ClientEnquiry clientData={clientData} state={state} />
-            )}
+            ) : activeTab === "Address" ? (
+              <AddressEnquiry addressData={addressData} state={state} />
+            ) : activeTab === "Bank" ? (
+              <BankEnquiry bankData={bankData} state={state} />
+            ) : activeTab === "Policy History" ? (
+              <HistoryEnquiry
+                historyData={historyData}
+                state={state}
+                policyNo={record.ID}
+              />
+            ) : activeTab === "Account Balance" ? (
+              <BALEnquiry data={BALData} state={state} policyNo={record.ID} />
+            ) : activeTab === "Tdf" ? (
+              <TDFEnquiry data={TDFData} state={state} />
+            ) : activeTab === "Uw Enquiry" ? (
+              <UWEnquiry uwData={uwData} state={state} />
+            ) : activeTab === "Communication" ? (
+              <CommunicationEnquiry
+                communicationData={communicationData}
+                state={state}
+              />
+            ) : activeTab === "Survival Benefit" ? (
+              <SurvivalBenefitEnquiry
+                survivalbenefitenquiryData={survivalbenefitenquiryData}
+                state={state}
+              />
+            ) : activeTab === "Extra" ? (
+              <ExtraEnquiry data={extraData} state={state} />
+            ) : activeTab === "Invest Summary" ? (
+              <ILPSummaryEnquiry
+                ilpSummaryData={ilpSummaryData}
+                state={state}
+                policyNo={record.ID}
+              />
+            ) : null}
           </section>
         </main>
       </CustomFullModal>
