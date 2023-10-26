@@ -88,12 +88,13 @@ function IlpTopupModal({
       })
       .catch((err) => err.message);
   };
+  console.log("BD", businessData)
 
   useEffect(() => {
     getBusinessDate(companyId, userId);
     setEffDate(businessData?.BusinessDate)
     return () => {};
-  }, []);
+  }, [open]);
 
   // const effDate = moment(data?.ProposalReceivedDate, "DD/MM/YYYY");
 
