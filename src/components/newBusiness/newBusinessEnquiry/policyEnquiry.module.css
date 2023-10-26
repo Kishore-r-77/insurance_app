@@ -26,6 +26,14 @@
   border-radius: 20px;
   box-shadow: 1px 0px 5px 0px;
 }
+.collapse {
+  justify-self: end;
+  width: 3rem;
+  border: none;
+  border-radius: 0rem;
+  background: linear-gradient(135deg, #f9c2e7, #d5a4a3);
+}
+
 .navtabs ul {
   padding-left: 0;
 }

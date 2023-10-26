@@ -4,7 +4,13 @@ import styles from "./policyEnquiry.module.css";
 import { useAppSelector } from "../../../redux/app/hooks";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  MenuItem,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
@@ -30,18 +36,19 @@ import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBen
 import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
 import ILPSummaryEnquiry from "../../policy/policyModal/enquiry/ILPSummaryEnquiry";
 
-import BusinessIcon from '@mui/icons-material/Business';
-import PeopleIcon from '@mui/icons-material/People';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
-import HistoryIcon from '@mui/icons-material/History';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import MoreIcon from '@mui/icons-material/More';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
+import BusinessIcon from "@mui/icons-material/Business";
+import PeopleIcon from "@mui/icons-material/People";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import HistoryIcon from "@mui/icons-material/History";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import MoreIcon from "@mui/icons-material/More";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function PolicyInformation({
   state,
@@ -538,6 +545,11 @@ function PolicyInformation({
     };
   }, [state.infoOpen]);
 
+  const [isCollapse, setisCollapse] = useState(false);
+  const handleCollapse = () => {
+    setisCollapse(!isCollapse);
+  };
+
   return (
     <div>
       <CustomFullModal
@@ -546,7 +558,10 @@ function PolicyInformation({
         handleClose={() => dispatch({ type: ACTIONS.INFOCLOSE })}
       >
         <main className={styles.main}>
-          <form className={styles["policy-enquiry"]}>
+          <form
+            className={styles["policy-enquiry"]}
+            style={{ width: isCollapse ? "95vw" : "auto" }}
+          >
             <Grid2
               container
               spacing={2}
@@ -906,23 +921,36 @@ function PolicyInformation({
               </Grid2>
             </Grid2>
           </form>
-          <nav className={styles["navtabs"]}>
-            <ul>
-              {tabsArray.map((tabsObj) => (
-                <li
-                  key={tabsObj.tabName}
-                  className={`${styles["tabs-li"]} ${
-                    activeTab === tabsObj.tabName ? styles.active : ""
-                  }`}
-                  onClick={() => handleTabClick(tabsObj.tabName)}
-                >
-                  <span>{tabsObj.tabName}</span>
-                  <span>
-                  {tabsObj.tabIcon}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <nav
+            className={
+              isCollapse
+                ? `${styles["navtabs"]} ${styles["collapse"]}`
+                : styles["navtabs"]
+            }
+          >
+            <Tooltip
+              title={isCollapse ? "Click to Expand" : "Click to Collapse"}
+            >
+              <IconButton onClick={handleCollapse}>
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
+            {isCollapse ? null : (
+              <ul>
+                {tabsArray.map((tabsObj) => (
+                  <li
+                    key={tabsObj.tabName}
+                    className={`${styles["tabs-li"]} ${
+                      activeTab === tabsObj.tabName ? styles.active : ""
+                    }`}
+                    onClick={() => handleTabClick(tabsObj.tabName)}
+                  >
+                    <span>{tabsObj.tabName}</span>
+                    <span>{tabsObj.tabIcon}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </nav>
           <section className={styles["tabs-enquiry"]}>
             <h1>{activeTab}</h1>
