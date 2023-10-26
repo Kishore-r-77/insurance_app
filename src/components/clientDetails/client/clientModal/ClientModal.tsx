@@ -23,6 +23,7 @@ import { paramItem, paramItems } from "../clientApis/clientApis";
 function ClientModal({
   state,
   record,
+  setRecord,
   dispatch,
   ACTIONS,
   handleFormSubmit,
@@ -128,7 +129,10 @@ function ClientModal({
     return paramItems(companyId, "P0066", languageId, record.NationalId)
       .then((resp) => {
         setcountryDetails(resp.data.param.data);
-        record.ClientMobCode = resp.data.param.data.dialCode;
+        setRecord((prev: any) => ({
+          ...prev,
+          ClientMobCode: resp.data.param.data.dialCode,
+        }));
       })
       .catch((err) => err.message);
   };
@@ -137,10 +141,10 @@ function ClientModal({
     getCountryDetails();
     return () => {};
   }, [record.NationalId]);
-  useEffect(() => {
-    setcountryDetails(initialCountryValues);
-    return () => {};
-  }, [state.editOpen && state.infoOpen === false]);
+  // useEffect(() => {
+  //   setcountryDetails(initialCountryValues);
+  //   return () => {};
+  // }, [state.editOpen === false]);
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -390,61 +394,43 @@ function ClientModal({
                 margin="dense"
               />
             </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    autoComplete="on"
-                    id="NationalId"
-                    name="NationalId"
-                    value={record.NationalId}
-                    placeholder="Nationality"
-                    label="Nationality"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "NationalId",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  >
-                    {countries.map((val: any, index: number) => (
-                      <MenuItem key={val.code} value={val.code}>
-                        {val.description}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                select
+                id="NationalId"
+                name="NationalId"
+                value={record.NationalId}
+                placeholder="Nationality"
+                label="Nationality"
+                inputProps={{ readOnly: state.infoOpen }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "NationalId",
+                  })
+                }
+                fullWidth
+                margin="dense"
+              >
+                {countries.map((val: any, index: number) => (
+                  <MenuItem key={val.code} value={val.code}>
+                    {val.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 id="ClientMobile"
                 name="ClientMobile"
                 value={record.ClientMobile}
                 placeholder="ClientMobile"
-                label={
-                  record.ClientType === "I" ? "Client Mobile" : "Office Mobile"
-                }
-                inputProps={{
+                label={clientType === "I" ? "Client Mobile" : "Office Mobile"}
+                InputProps={{
+                  readOnly: state.infoOpen,
                   startAdornment: (
                     <InputAdornment position="start">
-                      {/* <select
-                        className={styles["custom-select"]}
-                        value={state.ClientMobCode}
-                        onChange={(e: any) =>
-                          dispatch({
-                            type: ACTIONS.ONCHANGE,
-                            payload: e.target.value,
-                            fieldName: "ClientMobCode",
-                          })
-                        }
-                      >
-                        {phoneNumbers.map((val: any, index: number) => (
-                          <option value={val.code} key={val.code}>
-                            {val.description}
-                          </option>
-                        ))}
-                      </select> */}
                       {countryDetails.flag}
                       {countryDetails.dialCode}
                     </InputAdornment>
