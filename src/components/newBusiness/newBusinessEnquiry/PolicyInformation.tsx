@@ -30,6 +30,19 @@ import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBen
 import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
 import ILPSummaryEnquiry from "../../policy/policyModal/enquiry/ILPSummaryEnquiry";
 
+import BusinessIcon from '@mui/icons-material/Business';
+import PeopleIcon from '@mui/icons-material/People';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
+import HistoryIcon from '@mui/icons-material/History';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import MoreIcon from '@mui/icons-material/More';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+
 function PolicyInformation({
   state,
   record,
@@ -420,51 +433,51 @@ function PolicyInformation({
   const tabsArray = [
     {
       tabName: "Benefits",
-      tabIcon: "",
+      tabIcon: <BusinessIcon />,
     },
     {
       tabName: "Clients",
-      tabIcon: "",
+      tabIcon: <PeopleIcon />,
     },
     {
       tabName: "Address",
-      tabIcon: "",
+      tabIcon: <ApartmentIcon />,
     },
     {
       tabName: "Bank",
-      tabIcon: "",
+      tabIcon: <AssuredWorkloadIcon />,
     },
     {
       tabName: "Policy History",
-      tabIcon: "",
+      tabIcon: <HistoryIcon />,
     },
     {
       tabName: "Account Balance",
-      tabIcon: "",
+      tabIcon: <AccountBalanceWalletIcon />,
     },
     {
       tabName: "Tdf",
-      tabIcon: "",
+      tabIcon: <HourglassEmptyIcon />,
     },
     {
       tabName: "Uw Enquiry",
-      tabIcon: "",
+      tabIcon: <ReceiptLongIcon />,
     },
     {
       tabName: "Communication",
-      tabIcon: "",
+      tabIcon: <SpeakerNotesIcon />,
     },
     {
       tabName: "Survival Benefit",
-      tabIcon: "",
+      tabIcon: <AccountBalanceIcon />,
     },
     {
       tabName: "Extra",
-      tabIcon: "",
+      tabIcon: <MoreIcon />,
     },
     {
       tabName: "Invest Summary",
-      tabIcon: "",
+      tabIcon: <ShowChartIcon />,
     },
   ];
 
@@ -905,7 +918,7 @@ function PolicyInformation({
                 >
                   <span>{tabsObj.tabName}</span>
                   <span>
-                    <PersonIcon />
+                  {tabsObj.tabIcon}
                   </span>
                 </li>
               ))}
