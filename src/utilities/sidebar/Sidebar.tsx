@@ -261,6 +261,11 @@ const routes = [
         name: "Allocate Rev Bonus by Date",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/unitst",
+        name: "UnitStatement by Date",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
