@@ -396,18 +396,35 @@ function ClientModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                select
                 id="NationalId"
                 name="NationalId"
                 value={record.NationalId}
-                placeholder="Nationality"
-                label="Nationality"
-                inputProps={{ readOnly: state.infoOpen }}
+                placeholder="NationalId"
+                label="NationalId"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
                     fieldName: "NationalId",
+                  })
+                }
+                fullWidth
+                margin="dense"
+              ></TextField>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                select
+                id="Nationality"
+                name="Nationality"
+                value={record.Nationality}
+                placeholder="Nationality"
+                label="Nationality"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "Nationality",
                   })
                 }
                 fullWidth
