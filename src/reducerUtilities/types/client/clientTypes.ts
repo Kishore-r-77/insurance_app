@@ -1,5 +1,6 @@
 export type ClientStateType = {
   NationalId: string;
+  Nationality: string;
   CompanyID: string;
   ClientShortName: string;
   ClientLongName: string;
@@ -11,6 +12,7 @@ export type ClientStateType = {
   ClientDod: string;
   ClientEmail: string;
   ClientMobile: string;
+  ClientMobCode: string;
   ClientStatus: string;
   ClientType: string;
   addOpen: boolean;

@@ -39,6 +39,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
   const reducer = (state: ClientStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
+        console.log(action.payload, "Payloaddddd");
         return {
           ...state,
           [action.fieldName]: action.payload,
@@ -321,6 +322,7 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
       <ClientModal
         state={state}
         record={record}
+        setRecord={setRecord}
         dispatch={dispatch}
         handleFormSubmit={editFormSubmit}
         clientType={clientType}

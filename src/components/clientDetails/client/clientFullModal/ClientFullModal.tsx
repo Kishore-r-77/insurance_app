@@ -26,6 +26,8 @@ import { getAddressType } from "../../address/addressApis/addressApis";
 import { createClientWithAddress } from "../clientApis/clientAddressApis";
 import { paramItem, paramItems } from "../clientApis/clientApis";
 import styles from "./clientFullModal.module.css";
+import { getBusinessDateApi } from "../../../receipts/receiptsApis/receiptsApis";
+import moment from "moment";
 
 function ClientFullModal({
   state,
@@ -37,7 +39,7 @@ function ClientFullModal({
   getData,
 }: any) {
   const title = "Client Add";
-
+  const [businessDate, setbusinessDate] = useState("");
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -130,11 +132,34 @@ function ClientFullModal({
       AddressPostCode: "",
       AddressState: "",
       AddressCountry: "",
-      AddressStartDate: "",
+      AddressStartDate: businessDate,
       // AddressEndDate: "",
       ClientID: 0,
     },
   ]);
+
+  const getBusinessDate = () => {
+    return getBusinessDateApi(companyId, 0)
+      .then((resp) => {
+        setbusinessDate(resp.data.BusinessDate);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getBusinessDate();
+    return () => {};
+  }, [state.addOpen]);
+
+  useEffect(() => {
+    setaddressData((prev: any) => [
+      {
+        ...prev,
+        AddressStartDate: businessDate,
+      },
+    ]);
+    return () => {};
+  }, [state.addOpen]);
 
   const handleAddressAdd = () => {
     setaddressData([
@@ -149,7 +174,7 @@ function ClientFullModal({
         AddressPostCode: "",
         AddressState: "",
         AddressCountry: "",
-        AddressStartDate: "",
+        AddressStartDate: businessDate,
         // AddressEndDate: "",
         ClientID: 0,
       },
@@ -195,13 +220,7 @@ function ClientFullModal({
   };
 
   const addClientWithAddress = () => {
-    return createClientWithAddress(
-      state,
-      companyId,
-      addressData,
-      clientType,
-      phoneCode
-    )
+    return createClientWithAddress(state, companyId, addressData, clientType)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
@@ -240,7 +259,7 @@ function ClientFullModal({
   }, []);
 
   const [phoneNumbers, setphoneNumbers] = useState([]);
-  const [phoneCode, setphoneCode] = useState("");
+
   const getPhoneNumbers = () => {
     return paramItems(companyId, "P0050", languageId, "ClientMobile")
       .then((resp) => {
@@ -252,9 +271,39 @@ function ClientFullModal({
   useEffect(() => {
     getPhoneNumbers();
     return () => {};
-  }, [state.NationalId]);
+  }, [state.Nationality]);
 
-  console.log(phoneCode, "PhoneCode");
+  const initialCountryValues = {
+    code: "",
+    dialCode: "",
+    flag: "",
+    name: "",
+  };
+
+  const [countryDetails, setcountryDetails] = useState<{
+    code: string;
+    dialCode: string;
+    flag: string;
+    name: string;
+  }>(initialCountryValues);
+
+  const getCountryDetails = () => {
+    return paramItems(companyId, "P0066", languageId, state.Nationality)
+      .then((resp) => {
+        setcountryDetails(resp.data.param.data);
+        state.ClientMobCode = resp.data.param.data.dialCode;
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getCountryDetails();
+    return () => {};
+  }, [state.Nationality]);
+  useEffect(() => {
+    setcountryDetails(initialCountryValues);
+    return () => {};
+  }, [state.addOpen === false]);
 
   return (
     <div>
@@ -472,17 +521,35 @@ function ClientFullModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
                     id="NationalId"
                     name="NationalId"
                     value={state.NationalId}
+                    placeholder="NationalId"
+                    label="NationalId"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "NationalId",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  ></TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="Nationality"
+                    name="Nationality"
+                    value={state.Nationality}
                     placeholder="Nationality"
                     label="Nationality"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
-                        fieldName: "NationalId",
+                        fieldName: "Nationality",
                       })
                     }
                     fullWidth
@@ -508,17 +575,8 @@ function ClientFullModal({
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <select
-                            className={styles["custom-select"]}
-                            value={phoneCode}
-                            onChange={(e) => setphoneCode(e.target.value)}
-                          >
-                            {phoneNumbers.map((val: any, index: number) => (
-                              <option value={val.code} key={val.code}>
-                                {val.description}
-                              </option>
-                            ))}
-                          </select>
+                          {countryDetails.flag}
+                          {countryDetails.dialCode}
                         </InputAdornment>
                       ),
                     }}
