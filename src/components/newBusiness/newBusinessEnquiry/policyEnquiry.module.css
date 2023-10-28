@@ -1,7 +1,6 @@
 .main {
   display: grid;
-  min-height: 80vh;
-  width: 98vw;
+  width: auto;
   gap: 1rem;
   grid-template-columns: 2fr 2fr 1fr;
   grid-template-rows: 1fr 0fr 1fr;
@@ -32,6 +31,7 @@
   border: none;
   border-radius: 0rem;
   background: linear-gradient(135deg, #f9c2e7, #d5a4a3);
+  height: auto;
 }
 
 .navtabs ul {
@@ -44,6 +44,7 @@
   border: solid 3px rgba(0, 0, 0, 1);
   border-radius: 20px;
   box-shadow: 1px 0px 5px 0px;
+  height: fit-content;
 }
 
 .tabs-li {
