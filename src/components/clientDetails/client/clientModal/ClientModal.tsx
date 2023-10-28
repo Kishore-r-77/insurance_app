@@ -405,7 +405,7 @@ function ClientModal({
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
-                    fieldName: "NationalId",
+                    fieldName: "Nationality",
                   })
                 }
                 fullWidth
@@ -436,6 +436,25 @@ function ClientModal({
                   </MenuItem>
                 ))}
               </TextField>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                id="NationalId"
+                name="NationalId"
+                value={record.NationalId}
+                placeholder="NationalId"
+                label="NationalId"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "NationalId",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField

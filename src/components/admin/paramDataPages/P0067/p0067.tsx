@@ -14,6 +14,7 @@ const P0067 = forwardRef((props: any, ref) => {
   
 
 
+  const accountCodeRef: any = useRef();
   const taxSectionRef: any = useRef();
 
   let inputdata: any = {};
@@ -25,6 +26,7 @@ const P0067 = forwardRef((props: any, ref) => {
 
   useImperativeHandle(ref, () => ({
     getData() {
+      inputdata.accountCode = accountCodeRef.current.value;
       inputdata.taxSection = taxSectionRef.current.value;
 
       return inputdata;
@@ -67,6 +69,23 @@ const P0067 = forwardRef((props: any, ref) => {
     <InfoIcon
         onClick={() =>enqOpen()}
       />
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="accountCode"
+          name="accountCode"
+          inputRef={accountCodeRef}
+          placeholder="Account Code"
+          label="Account Code"
+          defaultValue={inputdata.accountCode}
+          fullWidth
+          margin="dense"
+        />
+        </Grid2>
+
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
           

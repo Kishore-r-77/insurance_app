@@ -97,6 +97,7 @@ export const addApi = (state: ClientStateType, companyId: number) => {
       ClientMobile: state.ClientMobile,
       ClientStatus: state.ClientStatus,
       NationalId: state.NationalId,
+      Nationality: state.Nationality,
       ClientDod:
         state.ClientDod?.length === 0
           ? ""
