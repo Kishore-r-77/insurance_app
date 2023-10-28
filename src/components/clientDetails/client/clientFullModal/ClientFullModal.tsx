@@ -288,7 +288,7 @@ function ClientFullModal({
   }>(initialCountryValues);
 
   const getCountryDetails = () => {
-    return paramItems(companyId, "P0066", languageId, state.NationalId)
+    return paramItems(companyId, "P0066", languageId, state.Nationality)
       .then((resp) => {
         setcountryDetails(resp.data.param.data);
         state.ClientMobCode = resp.data.param.data.dialCode;
