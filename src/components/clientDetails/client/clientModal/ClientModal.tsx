@@ -109,7 +109,7 @@ function ClientModal({
   useEffect(() => {
     getPhoneNumbers();
     return () => {};
-  }, [record.NationalId]);
+  }, [record.Nationality]);
 
   const initialCountryValues = {
     code: "",
@@ -126,7 +126,7 @@ function ClientModal({
   }>(initialCountryValues);
 
   const getCountryDetails = () => {
-    return paramItems(companyId, "P0066", languageId, record.NationalId)
+    return paramItems(companyId, "P0066", languageId, record.Nationality)
       .then((resp) => {
         setcountryDetails(resp.data.param.data);
         setRecord((prev: any) => ({
@@ -140,7 +140,7 @@ function ClientModal({
   useEffect(() => {
     getCountryDetails();
     return () => {};
-  }, [record.NationalId]);
+  }, [record.Nationality]);
   // useEffect(() => {
   //   setcountryDetails(initialCountryValues);
   //   return () => {};

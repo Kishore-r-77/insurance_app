@@ -271,7 +271,7 @@ function ClientFullModal({
   useEffect(() => {
     getPhoneNumbers();
     return () => {};
-  }, [state.NationalId]);
+  }, [state.Nationality]);
 
   const initialCountryValues = {
     code: "",
@@ -299,7 +299,7 @@ function ClientFullModal({
   useEffect(() => {
     getCountryDetails();
     return () => {};
-  }, [state.NationalId]);
+  }, [state.Nationality]);
   useEffect(() => {
     setcountryDetails(initialCountryValues);
     return () => {};
