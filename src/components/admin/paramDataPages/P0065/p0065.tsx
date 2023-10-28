@@ -106,6 +106,7 @@ const P0065 = forwardRef((props: any, ref) => {
         <tr>
           <th>Field</th> 
           <th>Mandatory</th> 
+          <th>Error Code</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.fieldList?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
@@ -120,6 +121,7 @@ const P0065 = forwardRef((props: any, ref) => {
                           {
                             field: "",
                             mandatory: "",
+                            errorCode: "",
                           },
                         ],
                       }));
@@ -179,6 +181,24 @@ const P0065 = forwardRef((props: any, ref) => {
               </TextField>
           </td>
 
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="errorCode"
+                name="errorCode"
+                value={value.errorCode}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "errorCode", e.target.value,false)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
+
             {(props.mode === "update" || props.mode === "create") && (
               <td>
                 <span
@@ -208,6 +228,7 @@ const P0065 = forwardRef((props: any, ref) => {
                               {
                                 field: "",
                                 mandatory: "",
+                                errorCode: "",
 
                               },
                             ],

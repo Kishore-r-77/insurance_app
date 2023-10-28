@@ -271,7 +271,7 @@ function ClientFullModal({
   useEffect(() => {
     getPhoneNumbers();
     return () => {};
-  }, [state.NationalId]);
+  }, [state.Nationality]);
 
   const initialCountryValues = {
     code: "",
@@ -288,7 +288,7 @@ function ClientFullModal({
   }>(initialCountryValues);
 
   const getCountryDetails = () => {
-    return paramItems(companyId, "P0066", languageId, state.NationalId)
+    return paramItems(companyId, "P0066", languageId, state.Nationality)
       .then((resp) => {
         setcountryDetails(resp.data.param.data);
         state.ClientMobCode = resp.data.param.data.dialCode;
@@ -299,7 +299,7 @@ function ClientFullModal({
   useEffect(() => {
     getCountryDetails();
     return () => {};
-  }, [state.NationalId]);
+  }, [state.Nationality]);
   useEffect(() => {
     setcountryDetails(initialCountryValues);
     return () => {};
@@ -519,32 +519,51 @@ function ClientFullModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    autoComplete="on"
-                    id="NationalId"
-                    name="NationalId"
-                    value={state.NationalId}
-                    placeholder="Nationality"
-                    label="Nationality"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "NationalId",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  >
-                    {countries.map((val: any, index: number) => (
-                      <MenuItem key={val.code} value={val.code}>
-                        {val.description}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                select
+                id="Nationality"
+                name="Nationality"
+                value={state.Nationality}
+                placeholder="Nationality"
+                label="Nationality"
+                inputProps={{ readOnly: state.infoOpen }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "Nationality",
+                  })
+                }
+                fullWidth
+                margin="dense"
+              >
+                {countries.map((val: any, index: number) => (
+                  <MenuItem key={val.code} value={val.code}>
+                    {val.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                id="NationalId"
+                name="NationalId"
+                value={state.NationalId}
+                placeholder="NationalId"
+                label="NationalId"  
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "NationalId",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField

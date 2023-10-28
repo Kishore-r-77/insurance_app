@@ -38,6 +38,7 @@ export const createClientWithAddress = (
       ClientMobCode: state.ClientMobCode,
       ClientStatus: state.ClientStatus,
       NationalId: state.NationalId,
+      Nationality: state.Nationality,
       ClientDod:
         state.ClientDod?.length === 0
           ? ""

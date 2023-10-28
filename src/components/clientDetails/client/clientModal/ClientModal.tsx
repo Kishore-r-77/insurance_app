@@ -109,7 +109,7 @@ function ClientModal({
   useEffect(() => {
     getPhoneNumbers();
     return () => {};
-  }, [record.NationalId]);
+  }, [record.Nationality]);
 
   const initialCountryValues = {
     code: "",
@@ -126,7 +126,7 @@ function ClientModal({
   }>(initialCountryValues);
 
   const getCountryDetails = () => {
-    return paramItems(companyId, "P0066", languageId, record.NationalId)
+    return paramItems(companyId, "P0066", languageId, record.Nationality)
       .then((resp) => {
         setcountryDetails(resp.data.param.data);
         setRecord((prev: any) => ({
@@ -140,7 +140,7 @@ function ClientModal({
   useEffect(() => {
     getCountryDetails();
     return () => {};
-  }, [record.NationalId]);
+  }, [record.Nationality]);
   // useEffect(() => {
   //   setcountryDetails(initialCountryValues);
   //   return () => {};
@@ -397,9 +397,9 @@ function ClientModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 select
-                id="NationalId"
-                name="NationalId"
-                value={record.NationalId}
+                id="Nationality"
+                name="Nationality"
+                value={record.Nationality}
                 placeholder="Nationality"
                 label="Nationality"
                 inputProps={{ readOnly: state.infoOpen }}
@@ -407,7 +407,7 @@ function ClientModal({
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
-                    fieldName: "NationalId",
+                    fieldName: "Nationality",
                   })
                 }
                 fullWidth
@@ -419,6 +419,25 @@ function ClientModal({
                   </MenuItem>
                 ))}
               </TextField>
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                id="NationalId"
+                name="NationalId"
+                value={record.NationalId}
+                placeholder="NationalId"
+                label="NationalId"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "NationalId",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
