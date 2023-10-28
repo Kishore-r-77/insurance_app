@@ -271,7 +271,7 @@ function ClientFullModal({
   useEffect(() => {
     getPhoneNumbers();
     return () => {};
-  }, [state.NationalId]);
+  }, [state.Nationality]);
 
   const initialCountryValues = {
     code: "",
@@ -288,7 +288,7 @@ function ClientFullModal({
   }>(initialCountryValues);
 
   const getCountryDetails = () => {
-    return paramItems(companyId, "P0066", languageId, state.NationalId)
+    return paramItems(companyId, "P0066", languageId, state.Nationality)
       .then((resp) => {
         setcountryDetails(resp.data.param.data);
         state.ClientMobCode = resp.data.param.data.dialCode;
@@ -299,7 +299,7 @@ function ClientFullModal({
   useEffect(() => {
     getCountryDetails();
     return () => {};
-  }, [state.NationalId]);
+  }, [state.Nationality]);
   useEffect(() => {
     setcountryDetails(initialCountryValues);
     return () => {};
@@ -521,18 +521,35 @@ function ClientFullModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
-                    autoComplete="on"
                     id="NationalId"
                     name="NationalId"
                     value={state.NationalId}
+                    placeholder="NationalId"
+                    label="NationalId"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: ACTIONS.ONCHANGE,
+                        payload: e.target.value,
+                        fieldName: "NationalId",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  ></TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
+                    id="Nationality"
+                    name="Nationality"
+                    value={state.Nationality}
                     placeholder="Nationality"
                     label="Nationality"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
-                        fieldName: "NationalId",
+                        fieldName: "Nationality",
                       })
                     }
                     fullWidth
@@ -558,23 +575,6 @@ function ClientFullModal({
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          {/* <select
-                            className={styles["custom-select"]}
-                            value={state.ClientMobCode}
-                            onChange={(e: any) =>
-                              dispatch({
-                                type: ACTIONS.ONCHANGE,
-                                payload: e.target.value,
-                                fieldName: "ClientMobCode",
-                              })
-                            }
-                          >
-                            {phoneNumbers.map((val: any, index: number) => (
-                              <option value={val.code} key={val.code}>
-                                {val.description}
-                              </option>
-                            ))}
-                          </select> */}
                           {countryDetails.flag}
                           {countryDetails.dialCode}
                         </InputAdornment>
