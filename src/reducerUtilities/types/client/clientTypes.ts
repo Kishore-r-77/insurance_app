@@ -1,5 +1,6 @@
 export type ClientStateType = {
   NationalId: string;
+  Nationality: string;
   CompanyID: string;
   ClientShortName: string;
   ClientLongName: string;
