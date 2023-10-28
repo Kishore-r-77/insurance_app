@@ -130,6 +130,7 @@ export const editApi = (record: any) => {
       ClientMobile: record.ClientMobile,
       ClientStatus: record.ClientStatus,
       NationalId: record.NationalId,
+      Nationality: record.Nationality,
       ClientDod:
         record.ClientDod?.length === 0
           ? ""
