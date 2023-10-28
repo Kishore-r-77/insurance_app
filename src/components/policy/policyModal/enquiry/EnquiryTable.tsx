@@ -14,6 +14,7 @@ import MRTAEnquiry from "./MRTAEnquiry";
 import ILPTransactionEnquiry from "./ILPTransactionEnquiry";
 import BenefitFundEnquiry from "./BenefitFundEnquiry";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import BenefitInfo from "./BenefitInfo";
 
 function EnquiryTable({
   data,
@@ -73,6 +74,17 @@ function EnquiryTable({
 
   const fundClickClose = () => {
     setfundOpen(false);
+  };
+
+  const [benInfoOpen, setbenInfoOpen] = useState(false);
+  const [benRecord, setbenRecord] = useState({})
+  const benInfoClickOpen = (row: any) => {
+    setbenInfoOpen(true);
+    setbenRecord(row)
+  };
+
+  const benInfoClickClose = () => {
+    setbenInfoOpen(false);
   };
 
   const mrtaClickOpen = (pid: any, tno: any, cov: any) => {
@@ -177,6 +189,7 @@ function EnquiryTable({
             )}
             {isCommunication ? <th>PDF</th> : null}
             {benOpen && data[0]?.BCoverage == "ILP1" ? <th>ILP Fund</th> : null}
+            {benOpen? <th>Info</th>:null}
           </tr>
         </thead>
         <tbody>
@@ -291,6 +304,12 @@ function EnquiryTable({
                   <AccountBalanceWalletIcon color="success" />
                 </td>
               ) : null}
+
+              {benOpen ? (
+                 <td onClick={() => benInfoClickOpen(row)}>
+                 <InfoIcon color="success" />
+               </td>
+              ):null}
             </tr>
           ))}
         </tbody>
@@ -337,6 +356,13 @@ function EnquiryTable({
         handleClose={fundClickClose}
         policyNo={policyNo}
         fundBenefitData={fundBenefitData}
+      />
+
+<BenefitInfo
+        open={benInfoOpen}
+        handleClose={benInfoClickClose}
+        record={benRecord}
+        
       />
 
       <ILPTransactionEnquiry
