@@ -97,6 +97,7 @@ export const addApi = (state: ClientStateType, companyId: number) => {
       ClientMobile: state.ClientMobile,
       ClientStatus: state.ClientStatus,
       NationalId: state.NationalId,
+      Nationality: state.Nationality,
       ClientDod:
         state.ClientDod?.length === 0
           ? ""
@@ -130,6 +131,7 @@ export const editApi = (record: any) => {
       ClientMobile: record.ClientMobile,
       ClientStatus: record.ClientStatus,
       NationalId: record.NationalId,
+      Nationality: record.Nationality,
       ClientDod:
         record.ClientDod?.length === 0
           ? ""
