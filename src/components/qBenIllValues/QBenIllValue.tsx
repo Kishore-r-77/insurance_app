@@ -262,22 +262,6 @@ function QBenIllValue({ modalFunc }: any) {
           </Button>
         </span>
         <h1>QBenIllValues</h1>
-        {/* <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button> */}
       </header>
 
       <QBenIllValuesTable
