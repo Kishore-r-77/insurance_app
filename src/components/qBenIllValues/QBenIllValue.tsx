@@ -1,19 +1,20 @@
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import QBenIllValuesTable from "./qBenIllValuesTable/QBenIllValuesTable";
 // ***  Attention : Check the import below and change it if required ***
 //import { QBenIllValueStateType } from "../../reducerUtilities/types/qBenIllValue/qBenIllValueTypes";
 
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/qBenIllValues/qBenIllValueActions";
+import { QBenIllValueStateType } from "../../reducerUtilities/types/qBenIllValues/qBenIllValueTypes";
 import styles from "./qBenIllValues.module.css";
 import {
   addApi,
@@ -22,9 +23,6 @@ import {
   getAllApi,
 } from "./qBenIllValuesApis/qBenIllValueApis";
 import QBenIllValueModal from "./qBenIllValusModal/QBenIllValueModal";
-import { QBenIllValueStateType } from "../../reducerUtilities/types/qBenIllValues/qBenIllValueTypes";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function QBenIllValue({ modalFunc }: any) {
   //data from getall api
@@ -147,7 +145,6 @@ function QBenIllValue({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All QBenIllValues"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -164,7 +161,6 @@ function QBenIllValue({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         // getData();
       })
@@ -175,7 +171,6 @@ function QBenIllValue({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         // getData();
       })
@@ -186,7 +181,6 @@ function QBenIllValue({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         //getData();
       })
       .catch((err) => console.log(err.message));
