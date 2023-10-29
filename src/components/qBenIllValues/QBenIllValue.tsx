@@ -4,8 +4,6 @@ import { useEffect, useReducer, useState } from "react";
 import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import QBenIllValuesTable from "./qBenIllValuesTable/QBenIllValuesTable";
-// ***  Attention : Check the import below and change it if required ***
-//import { QBenIllValueStateType } from "../../reducerUtilities/types/qBenIllValue/qBenIllValueTypes";
 
 import axios from "axios";
 import { useLocation } from "react-router-dom";
