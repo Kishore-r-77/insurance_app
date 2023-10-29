@@ -5,7 +5,6 @@ import { useEffect, useReducer, useState } from "react";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
 import { LeadAllocationsStateType } from "../../../reducerUtilities/types/lead/leadAllocations/leadAllocationsTypes";
 import {
   ACTIONS,
@@ -32,6 +31,7 @@ function LeadAllocations({ modalFunc }: any) {
     message: "",
     type: "",
   });
+
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: LeadAllocationsStateType, action: any) => {
     switch (action.type) {
@@ -100,7 +100,6 @@ function LeadAllocations({ modalFunc }: any) {
           state.sortAsc = false;
         }
 
-      // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.AGENCIESOPEN:
         return {
           ...state,
@@ -142,7 +141,6 @@ function LeadAllocations({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All LeadAllocations"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -159,7 +157,6 @@ function LeadAllocations({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -169,7 +166,6 @@ function LeadAllocations({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -182,7 +178,6 @@ function LeadAllocations({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -192,7 +187,6 @@ function LeadAllocations({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -205,7 +199,6 @@ function LeadAllocations({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -214,7 +207,6 @@ function LeadAllocations({ modalFunc }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
