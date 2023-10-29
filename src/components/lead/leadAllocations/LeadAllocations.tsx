@@ -31,6 +31,7 @@ function LeadAllocations({ modalFunc }: any) {
     message: "",
     type: "",
   });
+
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: LeadAllocationsStateType, action: any) => {
     switch (action.type) {
