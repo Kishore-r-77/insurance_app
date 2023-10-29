@@ -13,6 +13,8 @@ export const ACTIONS = {
   ADDCLOSE: "ADDCLOSE",
   EDITCLOSE: "EDITCLOSE",
   INFOCLOSE: "INFOCLOSE",
+  CLIENTOPEN: "CLIENTOPEN",
+  CLIENTCLOSE: "CLIENTCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
   // *** Attention: Check the Lookup Open /close ***
