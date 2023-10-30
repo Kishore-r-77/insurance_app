@@ -141,10 +141,11 @@ function ClientModal({
     getCountryDetails();
     return () => {};
   }, [record.Nationality]);
-  // useEffect(() => {
-  //   setcountryDetails(initialCountryValues);
-  //   return () => {};
-  // }, [state.editOpen === false]);
+
+  useEffect(() => {
+    setcountryDetails(initialCountryValues);
+    return () => {};
+  }, [state.editOpen === false]);
 
   useEffect(() => {
     getCompanyData(companyId);
