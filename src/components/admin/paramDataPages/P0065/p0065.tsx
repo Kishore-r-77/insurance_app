@@ -12,6 +12,7 @@ import InfoIcon from "@mui/icons-material/Info";
 
 import  "./p0065.css";
 import P0065Enq  from "./p0065Enq";
+import Errors from "../../errors/Errors";
 
 
 const P0065 = forwardRef((props: any, ref) => {
@@ -71,12 +72,29 @@ const P0065 = forwardRef((props: any, ref) => {
     setEnq(false)
   }
 
+  const [tabOpen, settabOpen] = useState(false)
+
+  const tabopen = () =>{
+    settabOpen(true)
+  }
+
+  const tableOpenFunc = (value: any, item: any) => {
+    if (tabOpen) {
+      value.errorCode = item.ShortCode;
+    }
+    settabOpen(false)
+  };
+
   return (
     <>
     <InfoIcon
       onClick={() => enqOpen()} />
 	  
     <Table striped bordered hover>
+      {
+        tabOpen?(<Errors modalFunc={tableOpenFunc}/>):null
+      }
+
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -135,7 +153,7 @@ const P0065 = forwardRef((props: any, ref) => {
             </td>
 
             <td>
-              <TextField
+              {/* <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
@@ -149,7 +167,25 @@ const P0065 = forwardRef((props: any, ref) => {
                 size="small"
                 type="text"
                 margin="dense"
-              />
+              /> */}
+              <TextField
+                    //InputProps={{ readOnly: true }}
+                inputProps={{
+                  readOnly: props.mode === "display" || props.mode === "delete",
+                  }}
+                    id="errorCode"
+                    name="errorCode"
+                    // placeholder="Error Code"
+                    // label="Error Code"
+                    // Attention: *** Check the value details  ***
+                    onClick={tabopen}
+                    value={value.errorCode}
+                    onChange={(e) =>
+                      fieldChangeHandler(index, "errorCode", e.target.value,false)
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
             </td>
 
             {(props.mode === "update" || props.mode === "create") && (
