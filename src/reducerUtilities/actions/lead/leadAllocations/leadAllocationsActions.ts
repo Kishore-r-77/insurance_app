@@ -1,6 +1,3 @@
-//Attention: Check the path below and change it if required
-//import { LeadAllocationsStateType } from "../../types/leadAllocations/leadAllocationsTypes";
-
 import { LeadAllocationsStateType } from "../../../types/lead/leadAllocations/leadAllocationsTypes";
 
 //Storing Actions into a Variable for Reducer
@@ -13,9 +10,10 @@ export const ACTIONS = {
   ADDCLOSE: "ADDCLOSE",
   EDITCLOSE: "EDITCLOSE",
   INFOCLOSE: "INFOCLOSE",
+  CLIENTOPEN: "CLIENTOPEN",
+  CLIENTCLOSE: "CLIENTCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
-  // *** Attention: Check the Lookup Open /close ***
   AGENCIESOPEN: "AGENCIESOPEN",
   AGENCIESCLOSE: "AGENCIESCLOSE",
 };
@@ -49,7 +47,6 @@ export const initialValues: LeadAllocationsStateType = {
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,
-  // *** Attention: Check initial value below ***
   agenciesOpen: false,
 };
 
@@ -116,9 +113,4 @@ export const columns = [
     header: "No.Of Appts",
     dbField: "noof_appointment",
   },
-  // {
-  //   field: "ClosureStatus",
-  //   header: "Closure Status",
-  //   dbField: "closure_status",
-  // },
 ];

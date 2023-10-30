@@ -266,6 +266,11 @@ const routes = [
         name: "Premium Statement by Date",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/unitst",
+        name: "UnitStatement by Date",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
