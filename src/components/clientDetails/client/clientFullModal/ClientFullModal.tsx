@@ -28,6 +28,7 @@ import { paramItem, paramItems } from "../clientApis/clientApis";
 import styles from "./clientFullModal.module.css";
 import { getBusinessDateApi } from "../../../receipts/receiptsApis/receiptsApis";
 import moment from "moment";
+import { Emoji } from "react-emoji-render";
 
 function ClientFullModal({
   state,
@@ -575,12 +576,12 @@ function ClientFullModal({
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          {countryDetails.flag}
+                          <Emoji text={countryDetails.flag} />{" "}
                           {countryDetails.dialCode}
                         </InputAdornment>
                       ),
                     }}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(e) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
@@ -852,35 +853,6 @@ function ClientFullModal({
                         </LocalizationProvider>
                       </FormControl>
                     </Grid2>
-                    
-              
-            
-
-            <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="Nationality"
-                    name="Nationality"
-                    value={state.Nationality}
-                    placeholder="Nationality"
-                    label="Nationality"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: ACTIONS.ONCHANGE,
-                        payload: e.target.value,
-                        fieldName: "Nationality",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  >
-                    {countries.map((val: any, index: number) => (
-                      <MenuItem key={val.code} value={val.code}>
-                        {val.description}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
                     {/* <Grid2 xs={8} md={6} lg={4}>
                       <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
