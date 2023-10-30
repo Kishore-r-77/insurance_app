@@ -419,6 +419,7 @@ function ClientModal({
                 name="Nationality"
                 value={record.Nationality}
                 placeholder="Nationality"
+                inputProps={{ readOnly: state.infoOpen }}
                 label="Nationality"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
