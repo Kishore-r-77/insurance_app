@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import store from "./redux/app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import persistStore from "redux-persist/es/persistStore";
-import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
 let persistor = persistStore(store);
 
@@ -23,4 +22,3 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </Provider>
   </React.StrictMode>
 );
-polyfillCountryFlagEmojis();
