@@ -28,7 +28,6 @@ import { paramItem, paramItems } from "../clientApis/clientApis";
 import styles from "./clientFullModal.module.css";
 import { getBusinessDateApi } from "../../../receipts/receiptsApis/receiptsApis";
 import moment from "moment";
-import { Emoji } from "react-emoji-render";
 
 function ClientFullModal({
   state,
@@ -576,12 +575,12 @@ function ClientFullModal({
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Emoji text={countryDetails.flag} />{" "}
+                          {countryDetails.flag}
                           {countryDetails.dialCode}
                         </InputAdornment>
                       ),
                     }}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
                         payload: e.target.value,
