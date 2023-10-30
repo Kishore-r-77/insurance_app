@@ -15,23 +15,6 @@ import P0065Enq  from "./p0065Enq";
 
 
 const P0065 = forwardRef((props: any, ref) => {
-
-  const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
-
-  useEffect(() => {
-    let getDataParams:any = {}
-        getDataParams.companyId = 1;
-        getDataParams.languageId =  1;
-        getDataParams.seqno =  0;
-
-        getDataParams.name =  "P0050";
-
-        getDataParams.item = "YESNO";
-        sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-
-    },[]);
-
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -105,7 +88,6 @@ const P0065 = forwardRef((props: any, ref) => {
 
         <tr>
           <th>Field</th> 
-          <th>Mandatory</th> 
           <th>Error Code</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.fieldList?.length > 0 && <th>Actions</th>}
@@ -120,7 +102,6 @@ const P0065 = forwardRef((props: any, ref) => {
                         fieldList: [
                           {
                             field: "",
-                            mandatory: "",
                             errorCode: "",
                           },
                         ],
@@ -152,34 +133,6 @@ const P0065 = forwardRef((props: any, ref) => {
                 margin="dense"
               />
             </td>
-
-            <td>
-              <TextField
-                select
-                inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="mandatory"
-                name="mandatory"
-                value={value.mandatory}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "mandatory", e.target.value,false)
-                }
-                fullWidth
-                size="small"
-                type="text"
-                margin="dense"
-                SelectProps={{
-                  multiple: false,
-                }}
-              >
-                {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
-                  <MenuItem key={value.code} value={value.code}>
-                {value.code} - {value.description}
-                  </MenuItem>
-                ))}
-              </TextField>
-          </td>
 
             <td>
               <TextField
@@ -227,7 +180,6 @@ const P0065 = forwardRef((props: any, ref) => {
                               ...inputdata.fieldList,
                               {
                                 field: "",
-                                mandatory: "",
                                 errorCode: "",
 
                               },
