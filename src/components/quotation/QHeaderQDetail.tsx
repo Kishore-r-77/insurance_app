@@ -255,7 +255,6 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const editFormSubmit = async () => {
     editApi(record.ID)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -267,7 +266,6 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));
@@ -276,7 +274,6 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All QHeaders"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -306,35 +303,35 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
   const [qStatusCheckData, setQStatusCheckData] = useState<any>();
   const handleForm = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/v1/quotationservices/qstatuscheck`,
-        {
-          CompanyID: parseInt(companyId),
-          QStatus: "",
-          QuoteDate: "20230402",
-          TranCode: "Q0023",
-        },
-        { withCredentials: true }
-      );
-      console.log(response);
-      setQStatusCheckData(initialValues);
-      setNotify({
-        isOpen: true,
-        message: "Status Checked",
-        type: "success",
-      });
-      return {
-        response,
-        status: response.status,
-      };
-    } catch (err: any) {
-      console.log(err);
-      return {
-        response: err,
-        status: err.response.status,
-      };
-    }
+      const response = await axios
+        .post(
+          `http://localhost:3000/api/v1/quotationservices/qstatuscheck`,
+          {
+            CompanyID: parseInt(companyId),
+            QStatus: "",
+            QuoteDate: "20230402",
+            TranCode: "Q0023",
+          },
+          { withCredentials: true }
+        )
+        .then((resp) => {
+          setQStatusCheckData(initialValues);
+          setNotify({
+            isOpen: true,
+            message: "Created Successfully",
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          setNotify({
+            isOpen: true,
+            message: err?.response?.data?.error,
+            type: "error",
+          });
+        });
+    } catch {}
   };
+
   useEffect(() => {
     handleForm();
 
