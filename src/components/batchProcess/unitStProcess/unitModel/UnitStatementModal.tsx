@@ -3,20 +3,18 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState, useReducer, useRef } from "react";
-import styles from "./unitStModal.module.css";
 import axios from "axios";
-import { unitStatementbydateapi } from "../unitApis.ts/unitStatementbydateapi";
-import CustomUnitstFullModal from "./UnitStFullModal";
-import { UnitStateType } from "../../../../reducerUtilities/types/unitst/unitType";
-import { useAppSelector } from "../../../../redux/app/hooks";
+import React, { useEffect, useReducer, useState } from "react";
+import { Button } from "react-bootstrap";
 import {
   ACTIONS,
   initialValues,
 } from "../../../../reducerUtilities/actions/unitst/unitAction";
+import { UnitStateType } from "../../../../reducerUtilities/types/unitst/unitType";
+import { useAppSelector } from "../../../../redux/app/hooks";
 import Notification from "../../../../utilities/Notification/Notification";
-import { Button } from "react-bootstrap";
-import { useHref } from "react-router-dom";
+import { unitStatementbydateapi } from "../unitApis.ts/unitStatementbydateapi";
+import styles from "./unitStModal.module.css";
 
 export function UnitStatementModal(BatchModalType: any) {
   const addTitle: string = "UnitStatementByDate";
@@ -73,7 +71,6 @@ export function UnitStatementModal(BatchModalType: any) {
         state = initialValues;
         return {
           ...state,
-          FromDate: "",
           addOpen: false,
         };
       case ACTIONS.SORT_ASC:
@@ -140,7 +137,7 @@ export function UnitStatementModal(BatchModalType: any) {
                   //readOnly={state.infoOpen}
                   label="From Date"
                   inputFormat="DD/MM/YYYY"
-                  value={state.addOpen ? state.FromDate : ""}
+                  value={state.addOpen ? state.FromDate : null}
                   onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
                     dispatch({
                       type: ACTIONS.ONCHANGE,
