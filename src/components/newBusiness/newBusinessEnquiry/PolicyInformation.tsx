@@ -1,9 +1,3 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import styles from "./policyEnquiry.module.css";
-import { useAppSelector } from "../../../redux/app/hooks";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import {
   FormControl,
   IconButton,
@@ -11,11 +5,15 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import moment from "moment";
-import PersonIcon from "@mui/icons-material/Person";
+import React, { useEffect, useReducer, useState } from "react";
+import { useAppSelector } from "../../../redux/app/hooks";
+import CustomFullModal from "../../../utilities/modal/CustomFullModal";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import {
   frequency,
   p0018,
@@ -23,32 +21,33 @@ import {
   p0024,
   q0005,
 } from "../../policy/policyApis/policyApis";
+import AddressEnquiry from "../../policy/policyModal/enquiry/AddressEnquiry";
+import BALEnquiry from "../../policy/policyModal/enquiry/BALEnquiry";
+import BankEnquiry from "../../policy/policyModal/enquiry/BankEnquiry";
 import BenefitEnquiry from "../../policy/policyModal/enquiry/BenefitEnquiry";
 import ClientEnquiry from "../../policy/policyModal/enquiry/ClientEnquiry";
-import AddressEnquiry from "../../policy/policyModal/enquiry/AddressEnquiry";
-import BankEnquiry from "../../policy/policyModal/enquiry/BankEnquiry";
+import CommunicationEnquiry from "../../policy/policyModal/enquiry/CommunicationEnquiry";
+import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
 import HistoryEnquiry from "../../policy/policyModal/enquiry/HistoryEnquiry";
-import BALEnquiry from "../../policy/policyModal/enquiry/BALEnquiry";
+import ILPSummaryEnquiry from "../../policy/policyModal/enquiry/ILPSummaryEnquiry";
+import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBenefitEnquiry";
 import TDFEnquiry from "../../policy/policyModal/enquiry/TDFEnquiry";
 import UWEnquiry from "../../policy/policyModal/enquiry/UWEnquiry";
-import CommunicationEnquiry from "../../policy/policyModal/enquiry/CommunicationEnquiry";
-import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBenefitEnquiry";
-import ExtraEnquiry from "../../policy/policyModal/enquiry/ExtraEnquiry";
-import ILPSummaryEnquiry from "../../policy/policyModal/enquiry/ILPSummaryEnquiry";
+import styles from "./policyEnquiry.module.css";
 
-import BusinessIcon from "@mui/icons-material/Business";
-import PeopleIcon from "@mui/icons-material/People";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import BusinessIcon from "@mui/icons-material/Business";
 import HistoryIcon from "@mui/icons-material/History";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import MoreIcon from "@mui/icons-material/More";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
 import MenuIcon from "@mui/icons-material/Menu";
+import MoreIcon from "@mui/icons-material/More";
+import PeopleIcon from "@mui/icons-material/People";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 
 function PolicyInformation({
   state,
@@ -935,7 +934,23 @@ function PolicyInformation({
                 <MenuIcon />
               </IconButton>
             </Tooltip>
-            {isCollapse ? null : (
+            {isCollapse ? (
+              <ul>
+                {tabsArray.map((tabsObj) => (
+                  <li
+                    key={tabsObj.tabName}
+                    className={`${styles["collapse-tabs-li"]} ${
+                      activeTab === tabsObj.tabName ? styles.active : ""
+                    }`}
+                    onClick={() => handleTabClick(tabsObj.tabName)}
+                  >
+                    <Tooltip title={tabsObj.tabName}>
+                      <span>{tabsObj.tabIcon}</span>
+                    </Tooltip>
+                  </li>
+                ))}
+              </ul>
+            ) : (
               <ul>
                 {tabsArray.map((tabsObj) => (
                   <li
