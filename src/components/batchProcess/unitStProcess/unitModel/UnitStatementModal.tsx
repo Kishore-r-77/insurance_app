@@ -3,12 +3,8 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useRef } from "react";
 import styles from "./unitStModal.module.css";
-// import {
-//   ACTIONS,
-//   initialValues,
-// } from "../../../reducerUtilities/actions/unitst/unitAction";
 import axios from "axios";
 import { unitStatementbydateapi } from "../unitApis.ts/unitStatementbydateapi";
 import CustomUnitstFullModal from "./UnitStFullModal";
@@ -19,6 +15,8 @@ import {
   initialValues,
 } from "../../../../reducerUtilities/actions/unitst/unitAction";
 import Notification from "../../../../utilities/Notification/Notification";
+import { Button } from "react-bootstrap";
+import { useHref } from "react-router-dom";
 
 export function UnitStatementModal(BatchModalType: any) {
   const addTitle: string = "UnitStatementByDate";
@@ -39,6 +37,7 @@ export function UnitStatementModal(BatchModalType: any) {
     return unitStatementbydateapi(state, companyId)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
+
         setNotify({
           isOpen: true,
           message: `Created Successfully`,
@@ -53,13 +52,11 @@ export function UnitStatementModal(BatchModalType: any) {
         });
       });
   };
-
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
-
   const reducer = (state: UnitStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
@@ -76,6 +73,7 @@ export function UnitStatementModal(BatchModalType: any) {
         state = initialValues;
         return {
           ...state,
+          FromDate: "",
           addOpen: false,
         };
       case ACTIONS.SORT_ASC:
@@ -102,6 +100,7 @@ export function UnitStatementModal(BatchModalType: any) {
         return initialValues;
     }
   };
+
   let [state, dispatch] = useReducer(reducer, initialValues);
 
   const [businessDate, setBusinessDate] = useState<any>([]);
@@ -124,116 +123,136 @@ export function UnitStatementModal(BatchModalType: any) {
     state.ToDate = businessDate.BusinessDate;
     return () => {};
   }, []);
+
+  console.log(state.FromDate, "FromDate:fromdate");
   return (
     <div className={styles.modal}>
-      <CustomUnitstFullModal
-        open={state.addOpen}
-        size={size}
-        handleClose={
-          state.addOpen ? () => dispatch({ type: ACTIONS.ADDCLOSE }) : null
-        }
-        title={state.addOpen ? addTitle : null}
-        ACTIONS={ACTIONS}
-        handleFormSubmit={state.addOpen ? () => handleFormSubmit() : null}
-      >
-        <form>
-          <Grid2
-            container
-            spacing={4}
-            style={{ width: "95%", margin: "0px auto" }}
-          >
-            <Grid2 xs={8} md={6}>
-              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    //readOnly={state.infoOpen}
-                    label="From Date"
-                    inputFormat="DD/MM/YYYY"
-                    value={state.addOpen ? state.FromDate : null}
-                    onChange={(
-                      date: React.ChangeEvent<HTMLInputElement> | any
-                    ) =>
-                      dispatch({
-                        type: state.addOpen ? ACTIONS.ONCHANGE : null,
-                        payload: date?.$d,
-                        fieldName: "FromDate",
-                      })
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} error={false} />
-                    )}
-                  />
-                </LocalizationProvider>
-              </FormControl>
-            </Grid2>
-            <Grid2 xs={8} md={6}>
-              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                    //readOnly={state.infoOpen}
-                    label="To Date"
-                    inputFormat="DD/MM/YYYY"
-                    value={state.addOpen ? state.ToDate : null}
-                    onChange={(
-                      date: React.ChangeEvent<HTMLInputElement> | any
-                    ) =>
-                      dispatch({
-                        type: state.addOpen ? ACTIONS.ONCHANGE : null,
-                        payload: date?.$d,
-                        fieldName: "ToDate",
-                      })
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} error={false} />
-                    )}
-                  />
-                </LocalizationProvider>
-              </FormControl>
-            </Grid2>
-            <Grid2 xs={8} md={6}>
-              <TextField
-                type="number"
-                id="FromPolicy"
-                name="FromPolicy"
-                value={state.addOpen ? state.FromPolicy : null}
-                placeholder="From Policy"
-                label="From Policy"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : null,
-                    payload: e.target.value,
-                    fieldName: "FromPolicy",
-                  })
-                }
-                fullWidth
-                //inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
-
-            <Grid2 xs={8} md={6}>
-              <TextField
-                type="number"
-                id="ToPolicy"
-                name="ToPolicy"
-                value={state.addOpen ? state.ToPolicy : null}
-                placeholder="To Policy"
-                label="To Policy"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : null,
-                    payload: e.target.value,
-                    fieldName: "ToPolicy",
-                  })
-                }
-                fullWidth
-                //inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
+      <form>
+        <Grid2
+          container
+          spacing={4}
+          style={{ width: "95%", margin: "0px auto" }}
+        >
+          <Grid2 xs={8} md={6}>
+            <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  //readOnly={state.infoOpen}
+                  label="From Date"
+                  inputFormat="DD/MM/YYYY"
+                  value={state.addOpen ? state.FromDate : ""}
+                  onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: date?.$d,
+                      fieldName: "FromDate",
+                    })
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      error={false}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
+            </FormControl>
           </Grid2>
-        </form>
-      </CustomUnitstFullModal>
+          <Grid2 xs={8} md={6}>
+            <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  //readOnly={state.infoOpen}
+                  label="To Date"
+                  inputFormat="DD/MM/YYYY"
+                  value={state.ToDate}
+                  onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: date?.$d,
+                      fieldName: "ToDate",
+                    })
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      error={false}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </Grid2>
+          <Grid2 xs={8} md={6}>
+            <TextField
+              type="number"
+              id="FromPolicy"
+              name="FromPolicy"
+              value={state.addOpen ? state.FromPolicy : ""}
+              placeholder="From Policy"
+              label="From Policy"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch({
+                  type: ACTIONS.ONCHANGE,
+                  payload: e.target.value,
+                  fieldName: "FromPolicy",
+                })
+              }
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+              margin="dense"
+            />
+          </Grid2>
+
+          <Grid2 xs={8} md={6}>
+            <TextField
+              type="number"
+              id="ToPolicy"
+              name="ToPolicy"
+              value={state.addOpen ? state.ToPolicy : ""}
+              placeholder="To Policy"
+              label="To Policy"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch({
+                  type: state.addOpen ? ACTIONS.ONCHANGE : null,
+                  payload: e.target.value,
+                  fieldName: "ToPolicy",
+                })
+              }
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+              //inputProps={{ readOnly: state.infoOpen }}
+              margin="dense"
+            />
+          </Grid2>
+        </Grid2>
+      </form>
+      <Button
+        variant="primary"
+        color="primary"
+        onClick={handleFormSubmit}
+        style={{
+          position: "absolute",
+          right: "60px",
+        }}
+      >
+        Submit
+      </Button>
+      <Button
+        variant="secondary"
+        color="primary"
+        onClick={() => dispatch({ type: ACTIONS.ADDCLOSE })}
+        style={{
+          position: "absolute",
+          right: "150px",
+        }}
+      >
+        Cancel
+      </Button>
+
+      {/* </CustomUnitstFullModal> */}
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
