@@ -21,6 +21,7 @@ import {
   postIlpSurrender,
   saveIlpSurrender,
 } from "./ilpsurrenderApi";
+import Notification from "../../../utilities/Notification/Notification";
 import moment from "moment";
 import { Table } from "react-bootstrap";
 import styles from "./IlpSurrenderModal.module.css";
@@ -104,12 +105,19 @@ function IlpSurrenderModal({
           ilpsurrenderDispatch({ type: ACTIONS.ADDCLOSE });
           setNotify({
             isOpen: true,
-            message: `Surrender record  id: ${resp.data?.Created}`,
+            message: `Created record of id:${resp.data?.Created}`,
             type: "success",
           });
         }
       })
-      .catch((err: any) => err.message);
+      .catch((err) => {
+        console.log(err);
+        setNotify({
+          isOpen: true,
+          message: err.response.data?.error,
+          type: "error",
+        });
+      });
   };
   const surrenderPolicy = () => {
     return saveIlpSurrender(
@@ -124,12 +132,18 @@ function IlpSurrenderModal({
         ilpsurrenderDispatch({ type: ACTIONS.ILPSURRENDERCLOSE });
         getData();
         setNotify({
-          isOpen: false,
-          message: `Surrender record  id: ${resp.data?.Created}`,
+          isOpen: true,
+          message: `Created record of id:${resp.data?.Created}`,
           type: "success",
         });
       })
-      .catch((err: any) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
   const [causeOfSurrenderData, setcauseOfSurrenderData] = useState([]);
   const causeOfSurrenderMenu = () => {
@@ -892,6 +906,7 @@ function IlpSurrenderModal({
           </TreeView>
         </form>
       </CustomIlpSurrFullModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
