@@ -141,10 +141,11 @@ function ClientModal({
     getCountryDetails();
     return () => {};
   }, [record.Nationality]);
-  // useEffect(() => {
-  //   setcountryDetails(initialCountryValues);
-  //   return () => {};
-  // }, [state.editOpen === false]);
+
+  useEffect(() => {
+    setcountryDetails(initialCountryValues);
+    return () => {};
+  }, [state.editOpen === false]);
 
   useEffect(() => {
     getCompanyData(companyId);
@@ -419,6 +420,7 @@ function ClientModal({
                 name="Nationality"
                 value={record.Nationality}
                 placeholder="Nationality"
+                inputProps={{ readOnly: state.infoOpen }}
                 label="Nationality"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
