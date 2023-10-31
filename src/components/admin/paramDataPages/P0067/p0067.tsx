@@ -1,6 +1,9 @@
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
 import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Table from "react-bootstrap/Table";
+import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
@@ -10,48 +13,52 @@ import InfoIcon from "@mui/icons-material/Info";
 import  "./p0067.css";
 import P0067Enq  from "./p0067Enq";
 
+
 const P0067 = forwardRef((props: any, ref) => {
-  
-
-
-  const accountCodeRef: any = useRef();
-  const taxSectionRef: any = useRef();
-
-  let inputdata: any = {};
-
-  if (props.data) {
-    inputdata = props.data;
-  }
-
-
+  const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
-      inputdata.accountCode = accountCodeRef.current.value;
-      inputdata.taxSection = taxSectionRef.current.value;
+      let retData = inputdata;
+      retData.glTax = retData.glTax.filter(
+        (value: any) => value.accountCode !== ""
+      );
 
-      return inputdata;
+      setInputdata((inputdata: any) => ({
+        ...inputdata,
+        glTax: inputdata.glTax.filter(
+          (value: any) => value.accountCode !== ""
+        ),
+      }));
+      return retData;
     },
   }));
 
-  const getHTML =()=>{
-    fetch(`/p0067.html`)
-      .then(response => response.text())
-      .then(content => setHtmlContent(content))
-      .catch(error => console.error('Error fetching HTML file:', error));
-  }
+  const deleteItemHandler = (index: Number) => {
+    setInputdata((inputdata: any) => ({
+      ...inputdata,
+      glTax: inputdata.glTax.filter(
+        (_: any, ind: number) => ind !== index
+      ),
+    }));
+  };
 
-  const [htmlContent, setHtmlContent] = useState('');
-  
-  useEffect(() => {
-    getHTML();
-    return () => {}
-  }, [])
-
-  const [showHtmlContent, setShowHtmlContent] = useState(false);
-
-  const toggleHtmlContent = () => {
-    getHTML();
-    setShowHtmlContent(!showHtmlContent);
+  const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
+    setInputdata((inputdata: any) => ({
+      ...inputdata,
+      glTax: inputdata.glTax.map((val: any, ind: number) => {
+        if (index === ind) {
+          if (isnumber){
+            val[fieldname] = Number(value);
+          }
+          else{
+            val[fieldname] = value;
+          }
+                    return val;
+        } else {
+          return val;
+        }
+      }),
+    }));
   };
 
   const [enq, setEnq] = useState(false)
@@ -63,45 +70,132 @@ const P0067 = forwardRef((props: any, ref) => {
   const enqClose = () =>{
     setEnq(false)
   }
-  
+
   return (
     <>
     <InfoIcon
-        onClick={() =>enqOpen()}
-      />
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="accountCode"
-          name="accountCode"
-          inputRef={accountCodeRef}
-          placeholder="Account Code"
-          label="Account Code"
-          defaultValue={inputdata.accountCode}
-          fullWidth
-          margin="dense"
-        />
-        </Grid2>
+      onClick={() => enqOpen()} />
+	  
+    <Table striped bordered hover>
+      <thead
+        style={{
+          backgroundColor: "rgba(71, 11, 75, 1)",
+          color: "white",
+          position: "sticky",
+          top: "0",
+        }}
+      >
 
-      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="taxSection"
-          name="taxSection"
-          inputRef={taxSectionRef}
-          placeholder="Tax Section"
-          label="Tax Section"
-          defaultValue={inputdata.taxSection}
-          fullWidth
-          margin="dense"
-        />
-        </Grid2>
+        <tr>
+          <th>Account Code</th> 
+          <th>Tax Section</th> 
+          {(props.mode === "update" || props.mode === "create") && 
+            inputdata.glTax?.length > 0 && <th>Actions</th>}
+          {(props.mode === "update" || props.mode === "create") &&
+            (!inputdata.glTax || inputdata.glTax?.length === 0) && (
+              <th>
+                <CustomTooltip text="Add">
+                  <AddBoxIcon
+                    onClick={() => {
+                      setInputdata((inputdata: any) => ({
+                        ...inputdata,
+                        glTax: [
+                          {
+                            accountCode: "",
+                            taxSection: "",
+                          },
+                        ],
+                      }));
+                    }}
+                  />
+                </CustomTooltip>
+              </th>
+            )}
+        </tr>
+      </thead>
+      <tbody>
+        {inputdata.glTax?.map((value: any, index: number) => (
+          <tr key={index}>
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="accountCode"
+                name="accountCode"
+                value={value.accountCode}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "accountCode", e.target.value,false)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
+
+            <td>
+              <TextField
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="taxSection"
+                name="taxSection"
+                value={value.taxSection}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "taxSection", e.target.value,false)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+              />
+            </td>
+
+            {(props.mode === "update" || props.mode === "create") && (
+              <td>
+                <span
+                  style={{
+                    display: "flex",
+                    gap: "0.5rem",
+                    marginTop: "0.9rem",
+                  }}
+                >
+                  <CustomTooltip text="Remove">
+                    <DeleteIcon
+                      color="error"
+                      onClick={() => {
+                        deleteItemHandler(index);
+                      }}
+                    />
+
+                  </CustomTooltip>
+                  {index === inputdata.glTax.length - 1 && (
+                    <CustomTooltip text="Add">
+                      <AddBoxIcon
+                        onClick={() => {
+                          setInputdata((inputdata: any) => ({
+                            ...inputdata,
+                            glTax: [
+                              ...inputdata.glTax,
+                              {
+                                accountCode: "",
+                                taxSection: "",
+
+                              },
+                            ],
+                          }));
+                        }}
+                      />
+                    </CustomTooltip>
+                  )}
+                </span>
+              </td>
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </Table>
 
 
         <P0067Enq
