@@ -33,7 +33,7 @@ import ILPSummaryEnquiry from "../../policy/policyModal/enquiry/ILPSummaryEnquir
 import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBenefitEnquiry";
 import TDFEnquiry from "../../policy/policyModal/enquiry/TDFEnquiry";
 import UWEnquiry from "../../policy/policyModal/enquiry/UWEnquiry";
-import styles from "./policyEnquiry.module.css";
+import styles from "./policyInformation.module.css";
 
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
