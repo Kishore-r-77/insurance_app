@@ -4,7 +4,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
-import React, { useEffect, useReducer, useState } from "react";
+import React, {
+  ChangeEvent,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { Button } from "react-bootstrap";
 import {
   ACTIONS,
@@ -32,10 +38,8 @@ export function UnitStatementModal(BatchModalType: any) {
 
   //Add Api
   const handleFormSubmit = () => {
-    return unitStatementbydateapi(state, companyId)
+    return unitStatementbydateapi(unitStatementData, companyId)
       .then((resp) => {
-        dispatch({ type: ACTIONS.ADDCLOSE });
-
         setNotify({
           isOpen: true,
           message: `Created Successfully`,
@@ -55,50 +59,20 @@ export function UnitStatementModal(BatchModalType: any) {
     message: "",
     type: "",
   });
-  const reducer = (state: UnitStateType, action: any) => {
-    switch (action.type) {
-      case ACTIONS.ONCHANGE:
-        return {
-          ...state,
-          [action.fieldName]: action.payload,
-        };
-      case ACTIONS.ADDOPEN:
-        return {
-          ...state,
-          addOpen: true,
-        };
-      case ACTIONS.ADDCLOSE:
-        state = initialValues;
-        return {
-          ...state,
-          addOpen: false,
-        };
-      case ACTIONS.SORT_ASC:
-        const asc = !state.sortAsc;
-        if (state.sortDesc) {
-          state.sortDesc = false;
-        }
-        return {
-          ...state,
-          sortAsc: asc,
-          sortColumn: action.payload,
-        };
-      case ACTIONS.SORT_DESC:
-        const desc = !state.sortDesc;
-        if (state.sortAsc) {
-          state.sortAsc = false;
-        }
-        return {
-          ...state,
-          sortDesc: desc,
-          sortColumn: action.payload,
-        };
-      default:
-        return initialValues;
-    }
-  };
 
-  let [state, dispatch] = useReducer(reducer, initialValues);
+  const [unitStatementData, setunitStatementData] =
+    useState<UnitStateType>(initialValues);
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setunitStatementData((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleFromDate = (date: any) => {
+    setunitStatementData((prev) => ({ ...prev, FromDate: date }));
+  };
+  const handleToDate = (date: any) => {
+    setunitStatementData((prev) => ({ ...prev, ToDate: date }));
+  };
 
   const [businessDate, setBusinessDate] = useState<any>([]);
   const getBusinessDate = () => {
@@ -111,15 +85,21 @@ export function UnitStatementModal(BatchModalType: any) {
       )
       .then((resp) => {
         setBusinessDate(resp.data.BusinessDate);
+        setunitStatementData((prev) => ({
+          ...prev,
+          ToDate: resp.data.BusinessDate,
+        }));
       })
       .catch((err) => err);
   };
 
   useEffect(() => {
     getBusinessDate();
-    state.ToDate = businessDate.BusinessDate;
+
     return () => {};
   }, []);
+
+  console.log(unitStatementData.FromDate, "FromDate");
 
   return (
     <div className={styles.modal}>
@@ -134,15 +114,12 @@ export function UnitStatementModal(BatchModalType: any) {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                   //readOnly={state.infoOpen}
+                  key={unitStatementData.FromDate}
                   label="From Date"
                   inputFormat="DD/MM/YYYY"
-                  value={state.addOpen ? state.FromDate : null}
+                  value={unitStatementData.FromDate}
                   onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    dispatch({
-                      type: ACTIONS.ONCHANGE,
-                      payload: date?.$d,
-                      fieldName: "FromDate",
-                    })
+                    handleFromDate(date)
                   }
                   renderInput={(params) => (
                     <TextField
@@ -162,13 +139,9 @@ export function UnitStatementModal(BatchModalType: any) {
                   //readOnly={state.infoOpen}
                   label="To Date"
                   inputFormat="DD/MM/YYYY"
-                  value={state.ToDate}
+                  value={unitStatementData.ToDate}
                   onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    dispatch({
-                      type: ACTIONS.ONCHANGE,
-                      payload: date?.$d,
-                      fieldName: "ToDate",
-                    })
+                    handleToDate
                   }
                   renderInput={(params) => (
                     <TextField
@@ -186,15 +159,11 @@ export function UnitStatementModal(BatchModalType: any) {
               type="number"
               id="FromPolicy"
               name="FromPolicy"
-              value={state.addOpen ? state.FromPolicy : ""}
+              value={unitStatementData.FromPolicy}
               placeholder="From Policy"
               label="From Policy"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                dispatch({
-                  type: ACTIONS.ONCHANGE,
-                  payload: e.target.value,
-                  fieldName: "FromPolicy",
-                })
+                handleChange(e)
               }
               InputLabelProps={{ shrink: true }}
               fullWidth
@@ -207,15 +176,11 @@ export function UnitStatementModal(BatchModalType: any) {
               type="number"
               id="ToPolicy"
               name="ToPolicy"
-              value={state.addOpen ? state.ToPolicy : ""}
+              value={unitStatementData.ToPolicy}
               placeholder="To Policy"
               label="To Policy"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                dispatch({
-                  type: state.addOpen ? ACTIONS.ONCHANGE : null,
-                  payload: e.target.value,
-                  fieldName: "ToPolicy",
-                })
+                handleChange(e)
               }
               InputLabelProps={{ shrink: true }}
               fullWidth
@@ -239,7 +204,7 @@ export function UnitStatementModal(BatchModalType: any) {
       <Button
         variant="secondary"
         color="primary"
-        onClick={() => dispatch({ type: ACTIONS.ADDCLOSE })}
+        onClick={() => setunitStatementData(initialValues)}
         style={{
           position: "absolute",
           right: "150px",
