@@ -121,7 +121,6 @@ export function UnitStatementModal(BatchModalType: any) {
     return () => {};
   }, []);
 
-  console.log(state.FromDate, "FromDate:fromdate");
   return (
     <div className={styles.modal}>
       <form>
