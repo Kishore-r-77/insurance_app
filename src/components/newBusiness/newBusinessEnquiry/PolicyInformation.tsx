@@ -34,7 +34,6 @@ import SurvivalBenefitEnquiry from "../../policy/policyModal/enquiry/SurvivalBen
 import TDFEnquiry from "../../policy/policyModal/enquiry/TDFEnquiry";
 import UWEnquiry from "../../policy/policyModal/enquiry/UWEnquiry";
 import styles from "./policyInformation.module.css";
-
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ApartmentIcon from "@mui/icons-material/Apartment";
@@ -544,7 +543,7 @@ function PolicyInformation({
     };
   }, [state.infoOpen]);
 
-  const [isCollapse, setisCollapse] = useState(false);
+  const [isCollapse, setisCollapse] = useState(true);
   const handleCollapse = () => {
     setisCollapse(!isCollapse);
   };
