@@ -24,6 +24,7 @@ export const initialValues: BankStateType = {
   StartDate: "",
   EndDate: "",
   BankType: "",
+  BankGroup: "",
   BankAccountStatus: "",
   ClientID: "",
   addOpen: false,

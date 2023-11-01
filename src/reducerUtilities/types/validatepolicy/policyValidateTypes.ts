@@ -8,6 +8,9 @@ export type PolicyValidateStateType = {
   CumulativePrem: string;
   PolicyDeposit: string;
   benefitsOpen: boolean;
+  BPrem: string;
+  CovrGst: string;
+  CovrStampduty: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;

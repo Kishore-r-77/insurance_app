@@ -7,6 +7,7 @@ export type BankStateType = {
   BankType: string;
   BankAccountStatus: string;
   ClientID: string;
+  BankGroup: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
