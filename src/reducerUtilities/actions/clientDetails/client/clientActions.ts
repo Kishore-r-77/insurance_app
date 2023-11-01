@@ -30,6 +30,7 @@ export const initialValues: ClientStateType = {
   ClientEmail: "",
   ClientMobile: "",
   NationalId: "",
+  Nationality: "",
   ClientMobCode: "",
   ClientStatus: "",
   ClientType: "",

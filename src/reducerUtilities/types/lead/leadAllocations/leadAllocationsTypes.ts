@@ -22,6 +22,7 @@ export type LeadAllocationsStateType = {
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
+  clientOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -40,7 +41,8 @@ export type ActionConstantsType = {
   INFOCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
-  // *** Attention: Check the Lookup table Open/close below ***
+  CLIENTOPEN: string;
+  CLIENTCLOSE: string;
   AGENCIESOPEN: string;
   AGENCIESCLOSE: string;
 };

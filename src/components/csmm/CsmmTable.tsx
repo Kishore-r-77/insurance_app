@@ -909,6 +909,7 @@ function CsmmTable({
         return err;
       });
   };
+  // console.log();
 
   const [ilpSelectedFund, setilpSelectedFund] = useState([]);
   const [percentageData, setpercentageData] = useState([]);
@@ -1023,10 +1024,17 @@ function CsmmTable({
   };
   useEffect(() => {
     getPolicyWithBenefitAndFund();
-    getilpAllowedFunds();
+
     return () => {};
   }, [isDirectInvPrem]);
   console.log(inverstPremData, "ILP");
+  useEffect(() => {
+    if (isDirectInvPrem) {
+      getilpAllowedFunds();
+    } else return;
+
+    return () => {};
+  }, [isDirectInvPrem === true]);
 
   const ilpTopupOpen = (policyId: number, value: any) => {
     setisTopup(true);

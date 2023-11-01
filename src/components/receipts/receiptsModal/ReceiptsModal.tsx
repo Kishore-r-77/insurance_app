@@ -135,8 +135,8 @@ function ReceiptsModal({
     return () => {};
   }, []);
 
-  const [pFreqData, setPFreqData] = useState([]);
-  const getPFreq = (companyId: number, policyData: any) => {
+  const [pRCurrData, setPRCurrData] = useState([]);
+  const getRCurr = (companyId: number, policyData: any) => {
     axios
       .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
         withCredentials: true,
@@ -149,9 +149,9 @@ function ReceiptsModal({
         },
       })
       .then((resp) => {
-        setPFreqData(resp.data?.AllowedBillingCurriencies);
+        setPRCurrData(resp.data?.AllowedContractCurriencies);
         console.log(resp, "Freq Data ");
-        return resp.data?.AllowedBillingCurriencies;
+        return resp.data?.AllowedContractCurriencies;
       })
       .catch((err) => err);
   };
@@ -170,7 +170,7 @@ function ReceiptsModal({
   // old currency dropdown
 
   useEffect(() => {
-    getPFreq(companyId, policyData);
+    getRCurr(companyId, policyData);
   }, [toggle]);
 
   const clientsOpenFunc = (item: any) => {
@@ -439,7 +439,7 @@ function ReceiptsModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
-                    {pFreqData.map((val: any) => (
+                    {pRCurrData.map((val: any) => (
                       <MenuItem key={val.Item} value={val.Item}>
                         {val.Item}
                       </MenuItem>

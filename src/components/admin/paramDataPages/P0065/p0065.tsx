@@ -12,26 +12,10 @@ import InfoIcon from "@mui/icons-material/Info";
 
 import  "./p0065.css";
 import P0065Enq  from "./p0065Enq";
+import Errors from "../../errors/Errors";
 
 
 const P0065 = forwardRef((props: any, ref) => {
-
-  const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
-
-  useEffect(() => {
-    let getDataParams:any = {}
-        getDataParams.companyId = 1;
-        getDataParams.languageId =  1;
-        getDataParams.seqno =  0;
-
-        getDataParams.name =  "P0050";
-
-        getDataParams.item = "YESNO";
-        sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-
-    },[]);
-
   const [inputdata, setInputdata] = useState(props.data ? props.data : {});
   useImperativeHandle(ref, () => ({
     getData() {
@@ -88,12 +72,29 @@ const P0065 = forwardRef((props: any, ref) => {
     setEnq(false)
   }
 
+  const [tabOpen, settabOpen] = useState(false)
+
+  const tabopen = () =>{
+    settabOpen(true)
+  }
+
+  const tableOpenFunc = (value: any, item: any) => {
+    if (tabOpen) {
+      value.errorCode = item.ShortCode;
+    }
+    settabOpen(false)
+  };
+
   return (
     <>
     <InfoIcon
       onClick={() => enqOpen()} />
 	  
     <Table striped bordered hover>
+      {
+        tabOpen?(<Errors modalFunc={tableOpenFunc}/>):null
+      }
+
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -105,7 +106,7 @@ const P0065 = forwardRef((props: any, ref) => {
 
         <tr>
           <th>Field</th> 
-          <th>Mandatory</th> 
+          <th>Error Code</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.fieldList?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
@@ -119,7 +120,7 @@ const P0065 = forwardRef((props: any, ref) => {
                         fieldList: [
                           {
                             field: "",
-                            mandatory: "",
+                            errorCode: "",
                           },
                         ],
                       }));
@@ -152,32 +153,40 @@ const P0065 = forwardRef((props: any, ref) => {
             </td>
 
             <td>
-              <TextField
-                select
+              {/* <TextField
                 inputProps={{
                 readOnly: props.mode === "display" || props.mode === "delete",
                 }}
-                id="mandatory"
-                name="mandatory"
-                value={value.mandatory}
+                id="errorCode"
+                name="errorCode"
+                value={value.errorCode}
                 onChange={(e) =>
-                  fieldChangeHandler(index, "mandatory", e.target.value,false)
+                  fieldChangeHandler(index, "errorCode", e.target.value,false)
                 }
                 fullWidth
                 size="small"
                 type="text"
                 margin="dense"
-                SelectProps={{
-                  multiple: false,
-                }}
-              >
-                {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
-                  <MenuItem key={value.code} value={value.code}>
-                {value.code} - {value.description}
-                  </MenuItem>
-                ))}
-              </TextField>
-          </td>
+              /> */}
+              <TextField
+                    //InputProps={{ readOnly: true }}
+                inputProps={{
+                  readOnly: props.mode === "display" || props.mode === "delete",
+                  }}
+                    id="errorCode"
+                    name="errorCode"
+                    // placeholder="Error Code"
+                    // label="Error Code"
+                    // Attention: *** Check the value details  ***
+                    onClick={tabopen}
+                    value={value.errorCode}
+                    onChange={(e) =>
+                      fieldChangeHandler(index, "errorCode", e.target.value,false)
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+            </td>
 
             {(props.mode === "update" || props.mode === "create") && (
               <td>
@@ -207,7 +216,7 @@ const P0065 = forwardRef((props: any, ref) => {
                               ...inputdata.fieldList,
                               {
                                 field: "",
-                                mandatory: "",
+                                errorCode: "",
 
                               },
                             ],

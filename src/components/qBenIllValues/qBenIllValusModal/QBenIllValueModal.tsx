@@ -1,25 +1,18 @@
-import {
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../redux/app/hooks";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
 import styles from "./qBenIllValuesModal.module.css";
 
-//Attention: Check the path below
 import { QBenIllValueModalType } from "../../../reducerUtilities/types/qBenIllValues/qBenIllValueTypes";
 import { paramItem } from "../qBenIllValuesApis/qBenIllValueApis";
-import { useLocation } from "react-router-dom";
 function QBenIllValuesModal({
   state,
   record,
@@ -45,11 +38,6 @@ function QBenIllValuesModal({
   };
 
   const [qDetailData, setQDetailIDData] = useState<any>({});
-  // const getQDetailIDData = (id: number) => {
-  //   getApi(id).then((resp) => {
-  //     setQDetailIDData(resp.data["QDetailID"]);
-  //   });
-  // };
 
   const [qCoverageData, setQCoverageData] = useState([]);
   const getQCoverage = (
@@ -153,11 +141,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QPolicyYear"
                 name="QPolicyYear"
                 value={state.addOpen ? state.QPolicyYear : record.QPolicyYear}
@@ -179,11 +162,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QLifeAssuredAge"
                 name="QLifeAssuredAge"
                 value={
@@ -234,11 +212,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QTotalPremPaid"
                 name="QTotalPremPaid"
                 value={
@@ -262,11 +235,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QSumAssured"
                 name="QSumAssured"
                 value={state.addOpen ? state.QSumAssured : record.QSumAssured}
@@ -288,11 +256,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QRevBonusAmt"
                 name="QRevBonusAmt"
                 value={state.addOpen ? state.QRevBonusAmt : record.QRevBonusAmt}
@@ -314,11 +277,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QTerBonusAmt"
                 name="QTerBonusAmt"
                 value={state.addOpen ? state.QTerBonusAmt : record.QTerBonusAmt}
@@ -340,11 +298,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QAntiSurBenAmt"
                 name="QAntiSurBenAmt"
                 value={
@@ -368,11 +321,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QGuarAdditions"
                 name="QGuarAdditions"
                 value={
@@ -396,11 +344,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QLoyaltyAdditions"
                 name="QLoyaltyAdditions"
                 value={
@@ -426,11 +369,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QDeathBenefitAmt"
                 name="QDeathBenefitAmt"
                 value={
@@ -456,11 +394,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QGuarSurrValue"
                 name="QGuarSurrValue"
                 value={
@@ -484,11 +417,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QSplSurrValue"
                 name="QSplSurrValue"
                 value={
@@ -512,11 +440,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QBonusSurValue"
                 name="QBonusSurValue"
                 value={
@@ -540,11 +463,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QAccuDividend"
                 name="QAccuDividend"
                 value={
@@ -568,11 +486,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QAccuDivInterest"
                 name="QAccuDivInterest"
                 value={
@@ -598,11 +511,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QallocatedAmt"
                 name="QallocatedAmt"
                 value={
@@ -626,11 +534,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QUnallocedAmt"
                 name="QUnallocedAmt"
                 value={
@@ -654,11 +557,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QPesValamt"
                 name="QPesValamt"
                 value={state.addOpen ? state.QPesValamt : record.QPesValamt}
@@ -680,11 +578,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QNorValamt"
                 name="QNorValamt"
                 value={state.addOpen ? state.QNorValamt : record.QNorValamt}
@@ -706,11 +599,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QOptValamt"
                 name="QOptValamt"
                 value={state.addOpen ? state.QOptValamt : record.QOptValamt}
@@ -759,11 +647,6 @@ function QBenIllValuesModal({
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
-                //InputProps={{
-                //startAdornment: (
-                //<InputAdornment position="start">+91</InputAdornment>
-                // ),
-                //}}
                 id="QMaturityAmt"
                 name="QMaturityAmt"
                 value={state.addOpen ? state.QMaturityAmt : record.QMaturityAmt}

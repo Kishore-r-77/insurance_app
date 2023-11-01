@@ -168,7 +168,7 @@ function LeadAllocationsModal({
     } else record.ClientID = item.ID;
     dispatch({ type: ACTIONS.CLIENTCLOSE });
   };
-  console.log(state.infoOpen, "**8");
+
   return (
     <div className={styles.modal}>
       <CustomModal

@@ -118,7 +118,6 @@ function QHeaderTable({
         { withCredentials: true }
       )
       .then((resp) => {
-        
         handleClickClose();
         setCreateQBenIllValuesData(initialValues);
         setNotify({
@@ -127,30 +126,49 @@ function QHeaderTable({
           type: "success",
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const [statusCheckData, setStatusCheckData] = useState<any>();
   const editForm = async (item: any, row: any) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/v1/quotationservices/qstatuscheck`,
-        {
-          CompanyID: parseInt(companyId),
-          QHeaderID: parseInt(qheaderid.current),
-          QStatus: qHeaderData.QStatus,
-          QuoteDate: "20230402",
-          TranCode: item.Trancode,
-        },
-        { withCredentials: true }
-      );
-      editClickOpen(item, row);
-      getData();
-      getQHeader();
-    } catch (err: any) {
-      
-      handleClose();
-    }
+      const response = await axios
+        .post(
+          `http://localhost:3000/api/v1/quotationservices/qstatuscheck`,
+          {
+            CompanyID: parseInt(companyId),
+            QHeaderID: parseInt(qheaderid.current),
+            QStatus: qHeaderData.QStatus,
+            QuoteDate: "20230402",
+            TranCode: item.Trancode,
+          },
+          { withCredentials: true }
+        )
+        .then((resp) => {
+          editClickOpen(item, row);
+          getData();
+          getQHeader();
+          setNotify({
+            isOpen: true,
+            message: "Created Successfully",
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          setNotify({
+            isOpen: true,
+            message: err?.response?.data?.error,
+            type: "error",
+          });
+        });
+    } catch {}
+    handleClose();
   };
   const [qHeaderData, setQHeaderData] = useState<any>([]);
   const getQHeader = () => {
@@ -163,8 +181,7 @@ function QHeaderTable({
       )
       .then((resp) => {
         setQHeaderData(resp.data?.["QHeader"]);
-      })
-      .catch((err) => console.log(err.message));
+      });
   };
 
   const [calculateOpen, setCalculateOpen] = useState(false);
@@ -275,16 +292,8 @@ function QHeaderTable({
         } else if (allowedMenuRecord.Action === "Cancel") {
           handleCancelClose();
         }
-        setNotify({
-          isOpen: true,
-          message: `Successfully`,
-          type: "success",
-        });
         getData();
         getQHeader();
-      })
-      .catch((err) => {
-        
       });
   };
 
@@ -304,8 +313,7 @@ function QHeaderTable({
       )
       .then((resp) => {
         setAllowedMenuData(resp.data["AllowedMenus"]);
-      })
-      .catch((err) => console.log(err));
+      });
   };
 
   const [qCommunicationData, setQCommunicationData] = useState("");
@@ -319,10 +327,8 @@ function QHeaderTable({
       )
       .then((resp) => {
         setQCommunicationData(resp.data?.CommID);
-
         // downloadQuotePdf(qCommunicationData);
-      })
-      .catch((err) => console.log(err.message));
+      });
   };
   const item = "QUOTE";
   const downloadQuotePdf = (id: any) => {
