@@ -42,9 +42,10 @@ export function UnitStatementModal(BatchModalType: any) {
       .then((resp) => {
         setNotify({
           isOpen: true,
-          message: `Created Successfully`,
+          message: `${resp?.data?.policies}-Policy Created Successfully`,
           type: "success",
         });
+        setunitStatementData(initialValues);
       })
       .catch((err) => {
         setNotify({
@@ -95,13 +96,14 @@ export function UnitStatementModal(BatchModalType: any) {
 
   useEffect(() => {
     getBusinessDate();
-
     return () => {};
   }, []);
 
   return (
     <div className={styles.modal}>
       <form>
+        <h1> UnitStatementByDate</h1>
+        <br />
         <Grid2
           container
           spacing={4}
@@ -139,7 +141,7 @@ export function UnitStatementModal(BatchModalType: any) {
                   inputFormat="DD/MM/YYYY"
                   value={unitStatementData.ToDate}
                   onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    handleToDate
+                    handleToDate(date)
                   }
                   renderInput={(params) => (
                     <TextField
@@ -210,8 +212,6 @@ export function UnitStatementModal(BatchModalType: any) {
       >
         Cancel
       </Button>
-
-      {/* </CustomUnitstFullModal> */}
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
