@@ -266,6 +266,11 @@ const routes = [
         name: "Premium Statement by Date",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/receipt",
+        name: "Receipt Create By Bank",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
