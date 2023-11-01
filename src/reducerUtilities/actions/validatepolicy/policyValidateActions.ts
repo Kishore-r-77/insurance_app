@@ -1,5 +1,4 @@
-
-//Attention: Check the path below and change it if required 
+//Attention: Check the path below and change it if required
 import { PolicyValidateStateType } from "../../types/validatepolicy/policyValidateTypes";
 //Storing Actions into a Variable for Reducer
 export const ACTIONS = {
@@ -14,25 +13,22 @@ export const ACTIONS = {
   INFOCLOSE: "INFOCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
-// *** Attention: Check the Lookup Open /close ***
-  BENEFITSOPEN:  "BENEFITSOPEN",
+  // *** Attention: Check the Lookup Open /close ***
+  BENEFITSOPEN: "BENEFITSOPEN",
   BENEFITSCLOSE: "BENEFITSCLOSE",
-  };
+};
 
-  //Initial State defined
-
-
+//Initial State defined
 
 export const initialValues: PolicyValidateStateType = {
-  PolicyID :"",
-  "Company ID" :"",
-  Coverage  :"",
-  Premium :"",
-  GST :"",
-  StampDuty :"",
+  PolicyID: "",
+  CompanyID: "",
+  Coverage: "",
+  Premium: "",
+  GST: "",
+  StampDuty: "",
   CumulativePrem: "",
   PolicyDeposit: "",
-  "PolicyDeposit After Adjustment": "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
@@ -41,15 +37,13 @@ export const initialValues: PolicyValidateStateType = {
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,
-// *** Attention: Check initial value below ***
+  // *** Attention: Check initial value below ***
   benefitsOpen: false,
-  };
+};
 
-  //Columns Defined to Pass into the Custom Table
+//Columns Defined to Pass into the Custom Table
 
-
-
-export const columns = [ 
+export const columns = [
   {
     field: "PolicyID",
     header: "Policy Number",
@@ -75,4 +69,4 @@ export const columns = [
     header: "StampDuty",
     dbField: "covr_stampduty",
   },
-  ];
+];
