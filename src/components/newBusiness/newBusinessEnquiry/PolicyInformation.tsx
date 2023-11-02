@@ -47,6 +47,10 @@ import PeopleIcon from "@mui/icons-material/People";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
+import { TreeView } from "@mui/x-tree-view/TreeView";
+import { TreeItem } from "@mui/x-tree-view/TreeItem";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 function PolicyInformation({
   state,
@@ -555,464 +559,485 @@ function PolicyInformation({
         title={title}
         handleClose={() => dispatch({ type: ACTIONS.INFOCLOSE })}
       >
-        <main className={styles.main}>
-          <form
-            className={styles["policy-enquiry"]}
-            style={{ width: isCollapse ? "95vw" : "auto" }}
+        <main>
+          <TreeView
+            className={styles["tree-main"]}
+            aria-label="file system navigator"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+            defaultExpanded={["1", "2"]}
           >
-            <Grid2
-              container
-              spacing={2}
-              style={{ width: "95%", margin: "10px auto" }}
+            <TreeItem
+              nodeId="1"
+              label="Policy Enquiry"
+              className={styles["policy-enquiry"]}
             >
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  InputProps={{ readOnly: state.infoOpen }}
-                  InputLabelProps={{ shrink: true }}
-                  id="CompanyID"
-                  name="CompanyID"
-                  value={companyData?.CompanyName}
-                  placeholder="Company"
-                  label="Company"
-                  // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  //   dispatch({
-                  //     type: state.addOpen
-                  //       ? ACTIONS.ONCHANGE
-                  //       : ACTIONS.EDITCHANGE,
-                  //     payload: e.target.value,
-                  //     fieldName: "CompanyID",
-                  //   })
-                  // }
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                />
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly
-                      label="PRCD"
-                      inputFormat="DD/MM/YYYY"
-                      value={record.PRCD}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date?.$d,
-                          fieldName: "PRCD",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
+              <form>
+                <Grid2
+                  container
+                  spacing={2}
+                  style={{ width: "95%", margin: "10px auto" }}
+                >
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      InputLabelProps={{ shrink: true }}
+                      id="CompanyID"
+                      name="CompanyID"
+                      value={companyData?.CompanyName}
+                      placeholder="Company"
+                      label="Company"
+                      // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      //   dispatch({
+                      //     type: state.addOpen
+                      //       ? ACTIONS.ONCHANGE
+                      //       : ACTIONS.EDITCHANGE,
+                      //     payload: e.target.value,
+                      //     fieldName: "CompanyID",
+                      //   })
+                      // }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
                     />
-                  </LocalizationProvider>
-                </FormControl>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  select
-                  id="PProduct"
-                  name="PProduct"
-                  value={record.PProduct}
-                  placeholder="Product"
-                  label="Product"
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                >
-                  {q0005Data.map((val: any) => (
-                    <MenuItem key={val.item} value={val.item}>
-                      {val.longdesc}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  id="PFreq"
-                  name="PFreq"
-                  value={record.PFreq}
-                  placeholder="Frequency"
-                  label="Frequency"
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                ></TextField>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  // select
-                  id="PContractCurr"
-                  name="PContractCurr"
-                  value={record.PContractCurr}
-                  placeholder="Contract Currency"
-                  label="Contract Currency"
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                >
-                  {/* {cCurData.map((val: any) => (
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
+                          readOnly
+                          label="PRCD"
+                          inputFormat="DD/MM/YYYY"
+                          value={record.PRCD}
+                          onChange={(
+                            date: React.ChangeEvent<HTMLInputElement> | any
+                          ) =>
+                            dispatch({
+                              type: state.addOpen
+                                ? ACTIONS.ONCHANGE
+                                : ACTIONS.EDITCHANGE,
+                              payload: date?.$d,
+                              fieldName: "PRCD",
+                            })
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      select
+                      id="PProduct"
+                      name="PProduct"
+                      value={record.PProduct}
+                      placeholder="Product"
+                      label="Product"
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    >
+                      {q0005Data.map((val: any) => (
+                        <MenuItem key={val.item} value={val.item}>
+                          {val.longdesc}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      id="PFreq"
+                      name="PFreq"
+                      value={record.PFreq}
+                      placeholder="Frequency"
+                      label="Frequency"
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    ></TextField>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      // select
+                      id="PContractCurr"
+                      name="PContractCurr"
+                      value={record.PContractCurr}
+                      placeholder="Contract Currency"
+                      label="Contract Currency"
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    >
+                      {/* {cCurData.map((val: any) => (
                       <MenuItem key={val} value={val}>
                         {val}
                       </MenuItem>
                     ))} */}
-                </TextField>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  // select
-                  id="PBillCurr"
-                  name="PBillCurr"
-                  value={record.PBillCurr}
-                  placeholder="Bill Currency"
-                  label="Bill Currency"
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                >
-                  {/* {bCurData.map((val: any) => (
+                    </TextField>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      // select
+                      id="PBillCurr"
+                      name="PBillCurr"
+                      value={record.PBillCurr}
+                      placeholder="Bill Currency"
+                      label="Bill Currency"
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    >
+                      {/* {bCurData.map((val: any) => (
                       <MenuItem key={val} value={val}>
                         {val}
                       </MenuItem>
                     ))} */}
-                </TextField>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  select
-                  id="POffice"
-                  name="POffice"
-                  value={record.POffice}
-                  placeholder="Office"
-                  label="Office"
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                >
-                  {p0018Data.map((val: any) => (
-                    <MenuItem key={val.item} value={val.item}>
-                      {val.longdesc}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  select
-                  disabled
-                  id="PolStatus"
-                  name="PolStatus"
-                  value={record.PolStatus}
-                  placeholder="Policy Status"
-                  label="Policy Status"
-                  fullWidth
-                  inputProps={{ readOnly: state.infoOpen }}
-                  margin="dense"
-                >
-                  {p0024Data.map((val: any) => (
-                    <MenuItem key={val.item} value={val.item}>
-                      {val.longdesc}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly
-                      label="Received Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={record.PReceivedDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date?.$d,
-                          fieldName: "PReceivedDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </FormControl>
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly
-                      label="Bill To Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={record.BTDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date?.$d,
-                          fieldName: "BTDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </FormControl>
-              </Grid2>
+                    </TextField>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      select
+                      id="POffice"
+                      name="POffice"
+                      value={record.POffice}
+                      placeholder="Office"
+                      label="Office"
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    >
+                      {p0018Data.map((val: any) => (
+                        <MenuItem key={val.item} value={val.item}>
+                          {val.longdesc}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      select
+                      disabled
+                      id="PolStatus"
+                      name="PolStatus"
+                      value={record.PolStatus}
+                      placeholder="Policy Status"
+                      label="Policy Status"
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    >
+                      {p0024Data.map((val: any) => (
+                        <MenuItem key={val.item} value={val.item}>
+                          {val.longdesc}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
+                          readOnly
+                          label="Received Date"
+                          inputFormat="DD/MM/YYYY"
+                          value={record.PReceivedDate}
+                          onChange={(
+                            date: React.ChangeEvent<HTMLInputElement> | any
+                          ) =>
+                            dispatch({
+                              type: state.addOpen
+                                ? ACTIONS.ONCHANGE
+                                : ACTIONS.EDITCHANGE,
+                              payload: date?.$d,
+                              fieldName: "PReceivedDate",
+                            })
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
+                          readOnly
+                          label="Bill To Date"
+                          inputFormat="DD/MM/YYYY"
+                          value={record.BTDate}
+                          onChange={(
+                            date: React.ChangeEvent<HTMLInputElement> | any
+                          ) =>
+                            dispatch({
+                              type: state.addOpen
+                                ? ACTIONS.ONCHANGE
+                                : ACTIONS.EDITCHANGE,
+                              payload: date?.$d,
+                              fieldName: "BTDate",
+                            })
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid2>
 
-              <Grid2 xs={8} md={6} lg={3}>
-                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly
-                      label="Paid To Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={record.PaidToDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date?.$d,
-                          fieldName: "PaidToDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
+                          readOnly
+                          label="Paid To Date"
+                          inputFormat="DD/MM/YYYY"
+                          value={record.PaidToDate}
+                          onChange={(
+                            date: React.ChangeEvent<HTMLInputElement> | any
+                          ) =>
+                            dispatch({
+                              type: state.addOpen
+                                ? ACTIONS.ONCHANGE
+                                : ACTIONS.EDITCHANGE,
+                              payload: date?.$d,
+                              fieldName: "PaidToDate",
+                            })
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
+                          readOnly
+                          label="Next Billing Date"
+                          inputFormat="DD/MM/YYYY"
+                          value={record.NxtBTDate}
+                          onChange={(
+                            date: React.ChangeEvent<HTMLInputElement> | any
+                          ) =>
+                            dispatch({
+                              type: state.addOpen
+                                ? ACTIONS.ONCHANGE
+                                : ACTIONS.EDITCHANGE,
+                              payload: date?.$d,
+                              fieldName: "NxtBTDate",
+                            })
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
+                          readOnly
+                          label="Anniversy Date"
+                          inputFormat="DD/MM/YYYY"
+                          value={record.AnnivDate}
+                          onChange={(
+                            date: React.ChangeEvent<HTMLInputElement> | any
+                          ) =>
+                            dispatch({
+                              type: state.addOpen
+                                ? ACTIONS.ONCHANGE
+                                : ACTIONS.EDITCHANGE,
+                              payload: date?.$d,
+                              fieldName: "AnnivDate",
+                            })
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid2>
+
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="InstalmentPrem"
+                      name="InstalmentPrem"
+                      value={record.InstalmentPrem}
+                      placeholder="Installment Premium"
+                      label="Installment Premium"
+                      fullWidth
+                      margin="dense"
                     />
-                  </LocalizationProvider>
-                </FormControl>
-              </Grid2>
+                  </Grid2>
 
-              <Grid2 xs={8} md={6} lg={3}>
-                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly
-                      label="Next Billing Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={record.NxtBTDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date?.$d,
-                          fieldName: "NxtBTDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="ClientID"
+                      name="ClientID"
+                      value={record.ClientID}
+                      placeholder="Owner Id"
+                      label="Owner Id"
+                      fullWidth
+                      margin="dense"
                     />
-                  </LocalizationProvider>
-                </FormControl>
-              </Grid2>
-
-              <Grid2 xs={8} md={6} lg={3}>
-                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      readOnly
-                      label="Anniversy Date"
-                      inputFormat="DD/MM/YYYY"
-                      value={record.AnnivDate}
-                      onChange={(
-                        date: React.ChangeEvent<HTMLInputElement> | any
-                      ) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: date?.$d,
-                          fieldName: "AnnivDate",
-                        })
-                      }
-                      renderInput={(params) => <TextField {...params} />}
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="AddressID"
+                      name="AddressID"
+                      value={record.AddressID}
+                      placeholder="Address Id"
+                      label="Address Id"
+                      fullWidth
+                      margin="dense"
                     />
-                  </LocalizationProvider>
-                </FormControl>
-              </Grid2>
-
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  InputProps={{ readOnly: state.infoOpen }}
-                  id="InstalmentPrem"
-                  name="InstalmentPrem"
-                  value={record.InstalmentPrem}
-                  placeholder="Installment Premium"
-                  label="Installment Premium"
-                  fullWidth
-                  margin="dense"
-                />
-              </Grid2>
-
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  InputProps={{ readOnly: state.infoOpen }}
-                  id="ClientID"
-                  name="ClientID"
-                  value={record.ClientID}
-                  placeholder="Owner Id"
-                  label="Owner Id"
-                  fullWidth
-                  margin="dense"
-                />
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  InputProps={{ readOnly: state.infoOpen }}
-                  id="AddressID"
-                  name="AddressID"
-                  value={record.AddressID}
-                  placeholder="Address Id"
-                  label="Address Id"
-                  fullWidth
-                  margin="dense"
-                />
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  InputProps={{ readOnly: state.infoOpen }}
-                  id="AgencyID"
-                  name="AgencyID"
-                  value={record.AgencyID}
-                  placeholder="Agency Id"
-                  label="Agency Id"
-                  fullWidth
-                  margin="dense"
-                />
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  InputProps={{ readOnly: state.infoOpen }}
-                  id="BillingType"
-                  name="BillingType"
-                  value={record.BillingType}
-                  placeholder="Billing Type"
-                  label="Billing Type"
-                  fullWidth
-                  margin="dense"
-                />
-              </Grid2>
-              <Grid2 xs={8} md={6} lg={3}>
-                <TextField
-                  InputProps={{ readOnly: state.infoOpen }}
-                  id="BankID"
-                  name="BankID"
-                  value={record.BankID}
-                  placeholder="Bank ID"
-                  label="Bank ID"
-                  fullWidth
-                  margin="dense"
-                />
-              </Grid2>
-            </Grid2>
-          </form>
-          <nav
-            className={
-              isCollapse
-                ? `${styles["navtabs"]} ${styles["collapse"]}`
-                : styles["navtabs"]
-            }
-          >
-            <Tooltip
-              title={isCollapse ? "Click to Expand" : "Click to Collapse"}
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="AgencyID"
+                      name="AgencyID"
+                      value={record.AgencyID}
+                      placeholder="Agency Id"
+                      label="Agency Id"
+                      fullWidth
+                      margin="dense"
+                    />
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="BillingType"
+                      name="BillingType"
+                      value={record.BillingType}
+                      placeholder="Billing Type"
+                      label="Billing Type"
+                      fullWidth
+                      margin="dense"
+                    />
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="BankID"
+                      name="BankID"
+                      value={record.BankID}
+                      placeholder="Bank ID"
+                      label="Bank ID"
+                      fullWidth
+                      margin="dense"
+                    />
+                  </Grid2>
+                </Grid2>
+              </form>
+            </TreeItem>
+            <nav
+              className={
+                isCollapse
+                  ? `${styles["navtabs"]} ${styles["collapse"]}`
+                  : styles["navtabs"]
+              }
             >
-              <IconButton onClick={handleCollapse}>
-                <MenuIcon />
-              </IconButton>
-            </Tooltip>
-            {isCollapse ? (
-              <ul>
-                {tabsArray.map((tabsObj) => (
-                  <li
-                    key={tabsObj.tabName}
-                    className={`${styles["collapse-tabs-li"]} ${
-                      activeTab === tabsObj.tabName ? styles.active : ""
-                    }`}
-                    onClick={() => handleTabClick(tabsObj.tabName)}
-                  >
-                    <Tooltip title={tabsObj.tabName}>
+              <Tooltip
+                title={isCollapse ? "Click to Expand" : "Click to Collapse"}
+              >
+                <IconButton onClick={handleCollapse}>
+                  <MenuIcon />
+                </IconButton>
+              </Tooltip>
+              {isCollapse ? (
+                <ul>
+                  {tabsArray.map((tabsObj) => (
+                    <li
+                      key={tabsObj.tabName}
+                      className={`${styles["collapse-tabs-li"]} ${
+                        activeTab === tabsObj.tabName ? styles.active : ""
+                      }`}
+                      onClick={() => handleTabClick(tabsObj.tabName)}
+                    >
+                      <Tooltip title={tabsObj.tabName}>
+                        <span>{tabsObj.tabIcon}</span>
+                      </Tooltip>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul>
+                  {tabsArray.map((tabsObj) => (
+                    <li
+                      key={tabsObj.tabName}
+                      className={`${styles["tabs-li"]} ${
+                        activeTab === tabsObj.tabName ? styles.active : ""
+                      }`}
+                      onClick={() => handleTabClick(tabsObj.tabName)}
+                    >
+                      <span>{tabsObj.tabName}</span>
                       <span>{tabsObj.tabIcon}</span>
-                    </Tooltip>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul>
-                {tabsArray.map((tabsObj) => (
-                  <li
-                    key={tabsObj.tabName}
-                    className={`${styles["tabs-li"]} ${
-                      activeTab === tabsObj.tabName ? styles.active : ""
-                    }`}
-                    onClick={() => handleTabClick(tabsObj.tabName)}
-                  >
-                    <span>{tabsObj.tabName}</span>
-                    <span>{tabsObj.tabIcon}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </nav>
-          <section className={styles["tabs-enquiry"]}>
-            <h1>{activeTab}</h1>
-            {activeTab === "Benefits" ? (
-              <BenefitEnquiry
-                benefitenquiryData={benefitenquiryData}
-                state={state}
-                policyNo={record.ID}
-                TransactionNo={record.Tranno}
-              />
-            ) : activeTab === "Clients" ? (
-              <ClientEnquiry clientData={clientData} state={state} />
-            ) : activeTab === "Address" ? (
-              <AddressEnquiry addressData={addressData} state={state} />
-            ) : activeTab === "Bank" ? (
-              <BankEnquiry bankData={bankData} state={state} />
-            ) : activeTab === "Policy History" ? (
-              <HistoryEnquiry
-                historyData={historyData}
-                state={state}
-                policyNo={record.ID}
-              />
-            ) : activeTab === "Account Balance" ? (
-              <BALEnquiry data={BALData} state={state} policyNo={record.ID} />
-            ) : activeTab === "Tdf" ? (
-              <TDFEnquiry data={TDFData} state={state} />
-            ) : activeTab === "Uw Enquiry" ? (
-              <UWEnquiry uwData={uwData} state={state} />
-            ) : activeTab === "Communication" ? (
-              <CommunicationEnquiry
-                communicationData={communicationData}
-                state={state}
-              />
-            ) : activeTab === "Survival Benefit" ? (
-              <SurvivalBenefitEnquiry
-                survivalbenefitenquiryData={survivalbenefitenquiryData}
-                state={state}
-              />
-            ) : activeTab === "Extra" ? (
-              <ExtraEnquiry data={extraData} state={state} />
-            ) : activeTab === "Invest Summary" ? (
-              <ILPSummaryEnquiry
-                ilpSummaryData={ilpSummaryData}
-                state={state}
-                policyNo={record.ID}
-              />
-            ) : null}
-          </section>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </nav>
+            <TreeItem
+              nodeId="2"
+              label="Tabs Enquiry"
+              className={styles["tabs-enquiry"]}
+            >
+              <section>
+                <h1 id={styles["tab-title"]}>{activeTab}</h1>
+                {activeTab === "Benefits" ? (
+                  <BenefitEnquiry
+                    benefitenquiryData={benefitenquiryData}
+                    state={state}
+                    policyNo={record.ID}
+                    TransactionNo={record.Tranno}
+                  />
+                ) : activeTab === "Clients" ? (
+                  <ClientEnquiry clientData={clientData} state={state} />
+                ) : activeTab === "Address" ? (
+                  <AddressEnquiry addressData={addressData} state={state} />
+                ) : activeTab === "Bank" ? (
+                  <BankEnquiry bankData={bankData} state={state} />
+                ) : activeTab === "Policy History" ? (
+                  <HistoryEnquiry
+                    historyData={historyData}
+                    state={state}
+                    policyNo={record.ID}
+                  />
+                ) : activeTab === "Account Balance" ? (
+                  <BALEnquiry
+                    data={BALData}
+                    state={state}
+                    policyNo={record.ID}
+                  />
+                ) : activeTab === "Tdf" ? (
+                  <TDFEnquiry data={TDFData} state={state} />
+                ) : activeTab === "Uw Enquiry" ? (
+                  <UWEnquiry uwData={uwData} state={state} />
+                ) : activeTab === "Communication" ? (
+                  <CommunicationEnquiry
+                    communicationData={communicationData}
+                    state={state}
+                  />
+                ) : activeTab === "Survival Benefit" ? (
+                  <SurvivalBenefitEnquiry
+                    survivalbenefitenquiryData={survivalbenefitenquiryData}
+                    state={state}
+                  />
+                ) : activeTab === "Extra" ? (
+                  <ExtraEnquiry data={extraData} state={state} />
+                ) : activeTab === "Invest Summary" ? (
+                  <ILPSummaryEnquiry
+                    ilpSummaryData={ilpSummaryData}
+                    state={state}
+                    policyNo={record.ID}
+                  />
+                ) : null}
+              </section>
+            </TreeItem>
+          </TreeView>
         </main>
       </CustomFullModal>
     </div>
