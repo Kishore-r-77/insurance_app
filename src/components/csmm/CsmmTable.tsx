@@ -658,7 +658,7 @@ function CsmmTable({
           PolicyID: saChangeObj.PolicyID,
           Product: saChangeObj.Product,
           Frequency: saChangeObj.Frequency,
-          unction: "Calculate",
+          Function: "Calculate",
         },
         { withCredentials: true }
       )

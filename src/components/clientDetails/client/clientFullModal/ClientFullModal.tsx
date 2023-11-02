@@ -575,7 +575,6 @@ function ClientFullModal({
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          {countryDetails.flag}
                           {countryDetails.dialCode}
                         </InputAdornment>
                       ),
@@ -851,6 +850,32 @@ function ClientFullModal({
                           />
                         </LocalizationProvider>
                       </FormControl>
+                    </Grid2>
+
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        select
+                        id="Nationality"
+                        name="Nationality"
+                        value={state.Nationality}
+                        placeholder="Nationality"
+                        label="Nationality"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          dispatch({
+                            type: ACTIONS.ONCHANGE,
+                            payload: e.target.value,
+                            fieldName: "Nationality",
+                          })
+                        }
+                        fullWidth
+                        margin="dense"
+                      >
+                        {countries.map((val: any, index: number) => (
+                          <MenuItem key={val.code} value={val.code}>
+                            {val.description}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                     </Grid2>
                     {/* <Grid2 xs={8} md={6} lg={4}>
                       <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
