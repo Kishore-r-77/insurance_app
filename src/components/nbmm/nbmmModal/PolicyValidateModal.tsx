@@ -1,16 +1,8 @@
-import {
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../redux/app/hooks";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
@@ -18,7 +10,6 @@ import styles from "./policyValidateModal.module.css";
 
 // Attention: Check the path below
 import { PolicyValidateModalType } from "../../../reducerUtilities/types/validatepolicy/policyValidateTypes";
-import { paramItem } from "../nbmmApis/policyValidateApis";
 import Benefit from "../nbmmModal/benefit/Benefit";
 // *** Attention: Check the path and change it if required ***
 
@@ -72,8 +63,8 @@ function PolicyValidateModal({
   // *** Attention: Check the Lookup table  OPenFunc details below ***
   const benefitsOpenFunc = (item: any) => {
     if (state.addOpen) {
-      state["2.PolicyID"] = item.ID;
-    } else record["2.PolicyID"] = item.ID;
+      state.PolicyID = item.ID;
+    } else record.PolicyID = item.ID;
     dispatch({ type: ACTIONS.POLICYCLOSE });
   };
 
@@ -122,9 +113,7 @@ function PolicyValidateModal({
                     label="Policy Number"
                     // Attention: *** Check the value details  ***
                     onClick={() => dispatch({ type: ACTIONS.BENEFITSOPEN })}
-                    value={
-                      state.addOpen ? state["2.PolicyID"] : record["2.PolicyID"]
-                    }
+                    value={state.addOpen ? state.PolicyID : record.PolicyID}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: state.addOpen
@@ -179,9 +168,7 @@ function PolicyValidateModal({
                     //}}
                     id="BPrem"
                     name="BPrem"
-                    value={
-                      state.addOpen ? state["4.Premium"] : record["4.Premium"]
-                    }
+                    value={state.addOpen ? state.Premium : record.Premium}
                     placeholder="Premium "
                     label="Premium "
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -209,7 +196,7 @@ function PolicyValidateModal({
                     //}}
                     id="CovrGst"
                     name="CovrGst"
-                    value={state.addOpen ? state["5.GST"] : record["5.GST"]}
+                    value={state.addOpen ? state.GST : record.GST}
                     placeholder="GST"
                     label="GST"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -237,11 +224,7 @@ function PolicyValidateModal({
                     //}}
                     id="CovrStampduty"
                     name="CovrStampduty"
-                    value={
-                      state.addOpen
-                        ? state["6.StampDuty"]
-                        : record["6.StampDuty"]
-                    }
+                    value={state.addOpen ? state.StampDuty : record.StampDuty}
                     placeholder="Stamp Duty"
                     label="Stamp Duty"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

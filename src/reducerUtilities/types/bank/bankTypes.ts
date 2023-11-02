@@ -7,6 +7,7 @@ export type BankStateType = {
   BankType: string;
   BankAccountStatus: string;
   ClientID: string;
+  BankGroup: string;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
@@ -16,7 +17,6 @@ export type BankStateType = {
   sortColumn: string;
   sortAsc: boolean;
   sortDesc: boolean;
-  BankGroup: string;
 };
 
 export type ActionConstantsType = {

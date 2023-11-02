@@ -42,6 +42,7 @@ export const initialValues: LeadAllocationsStateType = {
   addOpen: false,
   editOpen: false,
   infoOpen: false,
+  clientOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",

@@ -22,6 +22,7 @@ export type LeadAllocationsStateType = {
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
+  clientOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;

@@ -1,15 +1,12 @@
 import axios from "axios";
 import moment from "moment";
 import { QBenIllValueStateType } from "../../../reducerUtilities/types/qBenIllValues/qBenIllValueTypes";
-//Attention: Check the path below and change it if required
-//import { QBenIllValueStateType } from "../../../reducerUtilities/types/qBenIllValue/qBenIllValueTypes";
 
 export const getAllApi = (
   pageNum: number,
   pageSize: number,
   state: QBenIllValueStateType
 ) => {
-  // Attention : Check and update the below API, if required
   return axios.get(
     `http://localhost:3000/api/v1/quotationservices/qbenillvalues`,
     {
@@ -41,15 +38,14 @@ export const paramItem = (
 };
 
 export const addApi = (state: QBenIllValueStateType, companyId: number) => {
-  // Attention : Check and update the below API, if required
   return axios.post(
     `http://localhost:3000/api/v1/quotationservices/qBenIllValuecreate`,
     {
       CompanyID: parseInt(state.CompanyID),
-      Qdetailid: parseInt(state.Qdetailid),
-      Qcoverage: state.Qcoverage,
+      Qdetailid: parseInt(state.QDetailID),
+      QCoverage: state.QCoverage,
       Qpolicyyear: null,
-      Qpolannivdate: moment(state.Qpolannivdate).format("YYYYMMDD"),
+      QPolAnnivDate: moment(state.QPolAnnivDate).format("YYYYMMDD"),
       Qlifeassuredage: null,
       Qtotalprempaid: null,
       Qsumassured: null,
@@ -70,7 +66,7 @@ export const addApi = (state: QBenIllValueStateType, companyId: number) => {
       Qnorvalamt: null,
       Qoptvalamt: null,
       Qmaturityamt: null,
-      Qmaturitydate: moment(state.Qmaturitydate).format("YYYYMMDD"),
+      Qmaturitydate: moment(state.QMaturityDate).format("YYYYMMDD"),
     },
     {
       withCredentials: true,
