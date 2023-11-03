@@ -1,19 +1,13 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { getApi } from "../../components/admin/companies/companiesApis/companiesApis";
+import { useBusinessDate } from "../../components/contexts/BusinessDateContext";
 import { useAppSelector } from "../../redux/app/hooks";
 import styles from "./customNavbar.module.css";
-import axios from "axios";
-import moment from "moment";
-import { useBusinessDate } from "../../components/contexts/BusinessDateContext";
 
 function CustomNavbar() {
-  const {
-    businessDate,
-    businessDateToggle,
-    setbusinessDateToggle,
-    getBusinessDate,
-  } = useBusinessDate();
+  const { businessDate, getBusinessDate } = useBusinessDate();
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -33,8 +27,6 @@ function CustomNavbar() {
 
     return () => {};
   }, []);
-
-  console.log(businessDate, "");
 
   return (
     <>
