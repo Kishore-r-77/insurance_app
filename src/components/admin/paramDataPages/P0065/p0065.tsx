@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
-import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
+import { TextField, MenuItem, Checkbox, ListItemText, Autocomplete, Box, Paper } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
@@ -12,7 +12,7 @@ import InfoIcon from "@mui/icons-material/Info";
 
 import  "./p0065.css";
 import P0065Enq  from "./p0065Enq";
-import Errors from "../../errors/Errors";
+import axios from "axios";
 
 
 const P0065 = forwardRef((props: any, ref) => {
@@ -72,18 +72,25 @@ const P0065 = forwardRef((props: any, ref) => {
     setEnq(false)
   }
 
-  const [tabOpen, settabOpen] = useState(false)
+  const [errors, seterrors] = useState([])
 
-  const tabopen = () =>{
-    settabOpen(true)
+  const getErrors=()=>{
+    axios.get(`http://localhost:3000/api/v1/basicservices/errors`,{
+    withCredentials: true,
+    params: {
+      pageSize:0
+    }})
+    .then((resp)=>{
+      seterrors(resp.data["All Errors"])
+      return resp.data
+    })
   }
 
-  const tableOpenFunc = (value: any, item: any) => {
-    if (tabOpen) {
-      value.errorCode = item.ShortCode;
-    }
-    settabOpen(false)
-  };
+  useEffect(() => {
+    getErrors()
+    return () => {}
+  }, [])
+  
 
   return (
     <>
@@ -91,10 +98,6 @@ const P0065 = forwardRef((props: any, ref) => {
       onClick={() => enqOpen()} />
 	  
     <Table striped bordered hover>
-      {
-        tabOpen?(<Errors modalFunc={tableOpenFunc}/>):null
-      }
-
       <thead
         style={{
           backgroundColor: "rgba(71, 11, 75, 1)",
@@ -153,39 +156,30 @@ const P0065 = forwardRef((props: any, ref) => {
             </td>
 
             <td>
-              {/* <TextField
-                inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="errorCode"
-                name="errorCode"
-                value={value.errorCode}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "errorCode", e.target.value,false)
-                }
-                fullWidth
-                size="small"
-                type="text"
-                margin="dense"
-              /> */}
-              <TextField
-                    //InputProps={{ readOnly: true }}
-                inputProps={{
-                  readOnly: props.mode === "display" || props.mode === "delete",
-                  }}
-                    id="errorCode"
-                    name="errorCode"
-                    // placeholder="Error Code"
-                    // label="Error Code"
-                    // Attention: *** Check the value details  ***
-                    onClick={tabopen}
-                    value={value.errorCode}
-                    onChange={(e) =>
-                      fieldChangeHandler(index, "errorCode", e.target.value,false)
-                    }
-                    fullWidth
-                    margin="dense"
-                  />
+              <Autocomplete
+                      id="errorCode"
+                      options={errors}
+                      autoHighlight
+                      readOnly={ props.mode === 'display' || props.mode === 'delete'}
+                      getOptionLabel={(option: any) => `${option.ShortCode} - ${option.LongCode}`}
+                      value={errors.find((error: any) => error.ShortCode === value.errorCode) || null}
+                      onChange={(_, newValue) =>
+                        fieldChangeHandler(index, 'errorCode', newValue ? newValue.ShortCode : '', false)
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Error Code"
+                          size="small"
+                          margin="dense"
+                          InputProps={{
+                            ...params.InputProps,
+                            readOnly: props.mode === 'display' || props.mode === 'delete',
+                          }}
+                        />
+                      )}
+                      fullWidth
+                    />
             </td>
 
             {(props.mode === "update" || props.mode === "create") && (
