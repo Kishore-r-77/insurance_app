@@ -5,8 +5,16 @@ import { useAppSelector } from "../../redux/app/hooks";
 import styles from "./customNavbar.module.css";
 import axios from "axios";
 import moment from "moment";
+import { useBusinessDate } from "../../components/contexts/BusinessDateContext";
 
 function CustomNavbar() {
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -19,27 +27,14 @@ function CustomNavbar() {
       .catch((err) => console.log(err.message));
   };
 
-  const [businessDate, setbusinessDate] = useState("");
-
-  const getBusinessDate = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/0/0`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setbusinessDate(resp.data.BusinessDate);
-      })
-      .catch((err) => err);
-  };
   useEffect(() => {
     getBusinessDate();
     getCompanyData(companyId);
 
     return () => {};
   }, []);
+
+  console.log(businessDate, "");
 
   return (
     <>

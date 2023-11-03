@@ -667,7 +667,6 @@ function CsmmTable({
         setsaChangeBenefits(resp?.data?.Benefits);
         modifiedPremium.current = resp?.data?.ModifiedPrem;
         isSave.current = true;
-        saChangeClose();
         getData();
         setNotify({
           isOpen: true,

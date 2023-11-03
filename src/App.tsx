@@ -46,74 +46,76 @@ import PolicyUploadDemo from "./components/policyUploadDemo/PolicyUploadDemo";
 import { UnitStatementModal } from "./components/batchProcess/unitStProcess/unitModel/UnitStatementModal";
 import PremiumStatementModal from "./components/batchProcess/premiumstateModal/PremstModal";
 import ReceiptModal from "./components/batchProcess/receiptModal/ReceiptModal";
+import BusinessDateContextProvider from "./components/contexts/BusinessDateContext";
 
 function App() {
   const { pathname } = useLocation();
 
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-      {pathname !== "/" && pathname !== "/signup" && (
-        <SideBar>
-          <Routes>
-            <Route element={<CustomNavbar />}>
-              {/* <Route element={<SideBar />}> */}
-              <Route element={<Footer />}>
-                <Route path="/home" element={<Hompage />} />
-                <Route path="/usergroup" element={<UserGroup />} />
-                <Route path="/permission" element={<Permission />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/errors" element={<Errors />} />
-                <Route path="/companies" element={<Companies />} />
-                <Route path="/client" element={<Client />} />
-                <Route path="/address" element={<Address />} />
-                <Route path="/bank" element={<Bank />} />
-                <Route path="/params" element={<Params />} />
-                <Route path="/policy" element={<Policy />} />
-                <Route path="/paramItems" element={<ParamItems />} />
-                <Route path="/paramData" element={<ParamData />} />
-                <Route path="/agency" element={<Agency />} />
-                <Route path="/transaction" element={<Transaction />} />
-                <Route path="/newBusiness" element={<NewBusiness />} />
-                <Route
-                  path="/policyUploadDemo"
-                  element={<PolicyUploadDemo />}
-                />
-                <Route path="/receipts" element={<Receipts />} />
-                <Route path="/nbmm" element={<Nbmm />} />
-                <Route path="/campaigns" element={<Campaigns />} />
-                <Route path="/campaignComps" element={<CampaignComps />} />
-                <Route path="/leadAllocation" element={<LeadAllocations />} />
-                <Route path="/leadChannel" element={<LeadChannels />} />
-                <Route path="/leadDetails" element={<LeadDetails />} />
-                <Route path="/leadFollowups" element={<LeadFollowups />} />
-                <Route path="/levels" element={<Levels />} />
-                <Route path="/qHeaderqDetail" element={<QHeaderQDetail />} />
-                <Route path="/qBenIllValue" element={<QBenIllValue />} />
-                <Route path="/deathH" element={<DeathH />} />
-                <Route path="/nominee" element={<Nominee />} />
-                <Route path="/assignee" element={<Assignee />} />
-                <Route path="/csmm" element={<Csmm />} />
-                <Route path="/businessDate" element={<BusinessDates />} />
-                <Route path="/tdfParam" element={<TdfParams />} />
-                <Route path="/batch" element={<BatchModal />} />
-                <Route path="/payments" element={<Payments />} />
-                <Route path="/ilpPrices" element={<IlpPrices />} />
-                <Route path="/claims" element={<Claims />} />
-                <Route path="/unitst" element={<UnitStatementModal />} />
-                <Route path="/premst" element={<PremiumStatementModal />} />
-                <Route path="/receipt" element={<ReceiptModal/>} />
-
+    <BusinessDateContextProvider>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+        {pathname !== "/" && pathname !== "/signup" && (
+          <SideBar>
+            <Routes>
+              <Route element={<CustomNavbar />}>
+                {/* <Route element={<SideBar />}> */}
+                <Route element={<Footer />}>
+                  <Route path="/home" element={<Hompage />} />
+                  <Route path="/usergroup" element={<UserGroup />} />
+                  <Route path="/permission" element={<Permission />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/errors" element={<Errors />} />
+                  <Route path="/companies" element={<Companies />} />
+                  <Route path="/client" element={<Client />} />
+                  <Route path="/address" element={<Address />} />
+                  <Route path="/bank" element={<Bank />} />
+                  <Route path="/params" element={<Params />} />
+                  <Route path="/policy" element={<Policy />} />
+                  <Route path="/paramItems" element={<ParamItems />} />
+                  <Route path="/paramData" element={<ParamData />} />
+                  <Route path="/agency" element={<Agency />} />
+                  <Route path="/transaction" element={<Transaction />} />
+                  <Route path="/newBusiness" element={<NewBusiness />} />
+                  <Route
+                    path="/policyUploadDemo"
+                    element={<PolicyUploadDemo />}
+                  />
+                  <Route path="/receipts" element={<Receipts />} />
+                  <Route path="/nbmm" element={<Nbmm />} />
+                  <Route path="/campaigns" element={<Campaigns />} />
+                  <Route path="/campaignComps" element={<CampaignComps />} />
+                  <Route path="/leadAllocation" element={<LeadAllocations />} />
+                  <Route path="/leadChannel" element={<LeadChannels />} />
+                  <Route path="/leadDetails" element={<LeadDetails />} />
+                  <Route path="/leadFollowups" element={<LeadFollowups />} />
+                  <Route path="/levels" element={<Levels />} />
+                  <Route path="/qHeaderqDetail" element={<QHeaderQDetail />} />
+                  <Route path="/qBenIllValue" element={<QBenIllValue />} />
+                  <Route path="/deathH" element={<DeathH />} />
+                  <Route path="/nominee" element={<Nominee />} />
+                  <Route path="/assignee" element={<Assignee />} />
+                  <Route path="/csmm" element={<Csmm />} />
+                  <Route path="/businessDate" element={<BusinessDates />} />
+                  <Route path="/tdfParam" element={<TdfParams />} />
+                  <Route path="/batch" element={<BatchModal />} />
+                  <Route path="/payments" element={<Payments />} />
+                  <Route path="/ilpPrices" element={<IlpPrices />} />
+                  <Route path="/claims" element={<Claims />} />
+                  <Route path="/unitst" element={<UnitStatementModal />} />
+                  <Route path="/premst" element={<PremiumStatementModal />} />
+                  <Route path="/receipt" element={<ReceiptModal />} />
+                </Route>
+                {/* </Route> */}
               </Route>
-              {/* </Route> */}
-            </Route>
-          </Routes>
-        </SideBar>
-      )}
-    </div>
+            </Routes>
+          </SideBar>
+        )}
+      </div>
+    </BusinessDateContextProvider>
   );
 }
 
