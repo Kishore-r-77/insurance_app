@@ -181,7 +181,7 @@ function FreqChangeModal({
               margin="dense"
             >
               {pFreqData?.map((val: any) => (
-                <MenuItem key={val.item} value={val.item}>
+                <MenuItem key={val.Item} value={val.Item}>
                   {val.ShortDesc}
                 </MenuItem>
               ))}
