@@ -144,8 +144,6 @@ function FreqChangeModal({
     setfunc("Save");
   };
 
-  console.log(frequency, "frequency");
-
   return (
     <div>
       <CustomFreqChangeModal
