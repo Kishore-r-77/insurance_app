@@ -267,6 +267,11 @@ const routes = [
         icon: <ArrowRightAltIcon />,
       },
       {
+        path: "/receipt",
+        name: "Receipt Create By Bank",
+        icon: <ArrowRightAltIcon />,
+      },
+      {
         path: "/unitst",
         name: "UnitStatement by Date",
         icon: <ArrowRightAltIcon />,

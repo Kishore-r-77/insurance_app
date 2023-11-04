@@ -49,9 +49,7 @@ function FreqChangeModal({
         setisPolicy(!isPolicy);
         getData();
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const getFreqChange = () => {
@@ -89,7 +87,6 @@ function FreqChangeModal({
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -113,6 +110,8 @@ function FreqChangeModal({
       })
       .catch((err) => err);
   };
+
+  console.log(pFreqData, "freqData");
 
   useEffect(() => {
     getByPolicy();
@@ -181,8 +180,10 @@ function FreqChangeModal({
               fullWidth
               margin="dense"
             >
-              {pFreqData.map((val: any) => (
-                <MenuItem value={val}>{val}</MenuItem>
+              {pFreqData?.map((val: any) => (
+                <MenuItem key={val.Item} value={val.Item}>
+                  {val.ShortDesc}
+                </MenuItem>
               ))}
             </TextField>
           </Grid2>

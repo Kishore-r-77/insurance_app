@@ -658,7 +658,7 @@ function CsmmTable({
           PolicyID: saChangeObj.PolicyID,
           Product: saChangeObj.Product,
           Frequency: saChangeObj.Frequency,
-          unction: "Calculate",
+          Function: "Calculate",
         },
         { withCredentials: true }
       )
@@ -667,7 +667,6 @@ function CsmmTable({
         setsaChangeBenefits(resp?.data?.Benefits);
         modifiedPremium.current = resp?.data?.ModifiedPrem;
         isSave.current = true;
-        saChangeClose();
         getData();
         setNotify({
           isOpen: true,

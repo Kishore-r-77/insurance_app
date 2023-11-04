@@ -21,6 +21,7 @@ import {
 } from "./businessApis/businessDatesApis";
 import BusinessDatesModal from "./businessModal/BusinessDatesModal";
 import Notification from "../../../utilities/Notification/Notification";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
 
 function BusinessDates({ modalFunc }: any) {
   //data from getall api
@@ -28,6 +29,13 @@ function BusinessDates({ modalFunc }: any) {
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
   //Reducer Function to be used inside UserReducer hook
+
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
 
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -147,6 +155,7 @@ function BusinessDates({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
+        setbusinessDateToggle?.(!businessDateToggle);
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -169,6 +178,7 @@ function BusinessDates({ modalFunc }: any) {
     editApi(record)
       .then((resp) => {
         dispatch({ type: ACTIONS.EDITCLOSE });
+        setbusinessDateToggle?.(!businessDateToggle);
         setNotify({
           isOpen: true,
           message: `Updated Successfully`,
@@ -189,6 +199,7 @@ function BusinessDates({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
+        setbusinessDateToggle?.(!businessDateToggle);
         getData();
       })
       .catch((err) => console.log(err.message));
