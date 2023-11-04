@@ -41,10 +41,10 @@ function BusinessDateContextProvider({ children }: BusinessDateProps) {
   const [businessDate, setbusinessDate] = useState("");
   const [businessDateToggle, setbusinessDateToggle] = useState(false);
 
-  const getBusinessDate = async () => {
+  const getBusinessDate = async (departmentId = 0, userId = 0) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/0/0`,
+        `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/${departmentId}/${userId}`,
         {
           withCredentials: true,
         }

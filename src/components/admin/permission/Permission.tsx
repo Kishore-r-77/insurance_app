@@ -157,7 +157,6 @@ function Permission() {
   const getData = () => {
     getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         setData(resp.data["All Permissions"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Permissions"].length === 0);
@@ -241,7 +240,6 @@ function Permission() {
     if (state.userOrGroup === "user") {
       addApi(userBody)
         .then((resp) => {
-          
           dispatch({ type: ACTIONS.ADDCLOSE });
           getData();
         })
@@ -249,7 +247,6 @@ function Permission() {
     } else if (state.userOrGroup === "userGroup") {
       addApi(userGroupBody)
         .then((resp) => {
-          
           dispatch({ type: ACTIONS.ADDCLOSE });
           getData();
         })
@@ -262,7 +259,6 @@ function Permission() {
     if (state.userOrGroup === "user") {
       editApi(userBodyEdit)
         .then((resp) => {
-          
           dispatch({ type: ACTIONS.EDITCLOSE });
           getData();
         })
@@ -270,7 +266,6 @@ function Permission() {
     } else if (state.userOrGroup === "userGroup") {
       editApi(userGroupBodyEdit)
         .then((resp) => {
-          
           dispatch({ type: ACTIONS.EDITCLOSE });
           getData();
         })
@@ -282,7 +277,6 @@ function Permission() {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));
