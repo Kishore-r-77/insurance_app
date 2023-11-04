@@ -36,7 +36,7 @@ export const useBusinessDate = () => {
 
 function BusinessDateContextProvider({ children }: BusinessDateProps) {
   const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
+    (state) => state?.users?.user?.message?.companyId
   );
   const [businessDate, setbusinessDate] = useState("");
   const [businessDateToggle, setbusinessDateToggle] = useState(false);
