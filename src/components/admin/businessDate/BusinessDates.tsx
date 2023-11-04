@@ -155,6 +155,7 @@ function BusinessDates({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
+        setbusinessDateToggle?.(!businessDateToggle);
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -198,6 +199,7 @@ function BusinessDates({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
+        setbusinessDateToggle?.(!businessDateToggle);
         getData();
       })
       .catch((err) => console.log(err.message));
