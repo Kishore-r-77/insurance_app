@@ -578,8 +578,8 @@ function ClientFullModal({
                           {!!countryDetails.flag && (
                             <img
                               src={countryDetails.flag}
-                              alt="Flag" // You can add alt text for accessibility
-                              width={32} // You can adjust the width and height as needed
+                              alt="Flag"
+                              width={32}
                               height={20}
                             />
                           )}
