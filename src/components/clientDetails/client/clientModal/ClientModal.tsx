@@ -469,7 +469,14 @@ function ClientModal({
                   readOnly: state.infoOpen,
                   startAdornment: (
                     <InputAdornment position="start">
-                      {countryDetails.flag}
+                      {!!countryDetails.flag && (
+                        <img
+                          src={countryDetails.flag}
+                          alt="Flag"
+                          width={32}
+                          height={20}
+                        />
+                      )}
                       {countryDetails.dialCode}
                     </InputAdornment>
                   ),
