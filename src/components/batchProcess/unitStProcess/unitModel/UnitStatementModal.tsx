@@ -96,6 +96,10 @@ export function UnitStatementModal(BatchModalType: any) {
 
   useEffect(() => {
     getBusinessDate();
+    setunitStatementData((prev) => ({
+      ...prev,
+      FromDate: businessDate,
+    }));
     return () => {};
   }, []);
 
@@ -114,12 +118,12 @@ export function UnitStatementModal(BatchModalType: any) {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                   //readOnly={state.infoOpen}
-                  key={unitStatementData.FromDate}
+                  // key={unitStatementData.FromDate}
                   label="From Date"
                   inputFormat="DD/MM/YYYY"
                   value={unitStatementData.FromDate}
                   onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    handleFromDate(date)
+                    handleFromDate(date?.$d)
                   }
                   renderInput={(params) => (
                     <TextField
