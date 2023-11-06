@@ -23,6 +23,7 @@ import {
 } from "./receiptsApis/receiptsApis";
 import ReceiptsModal from "./receiptsModal/ReceiptsModal";
 import Notification from "../../utilities/Notification/Notification";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 function Receipts({ modalFunc }: any) {
   //data from getall api
@@ -44,14 +45,22 @@ function Receipts({ modalFunc }: any) {
     (state) => state.users.user.message.companyId
   );
   const userId = useAppSelector((state) => state.users.user.message.id);
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
+  // const [businessData, setBusinessData] = useState<any>({});
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
+
+
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: ReceiptsStateType, action: any) => {
@@ -73,7 +82,7 @@ function Receipts({ modalFunc }: any) {
       case ACTIONS.ADDOPEN:
         return {
           ...state,
-          DateOfCollection: businessData.BusinessDate,
+          DateOfCollection: businessDate,
           addOpen: true,
         };
       // case ACTIONS.EDITOPEN:
@@ -92,7 +101,7 @@ function Receipts({ modalFunc }: any) {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
-        setBusinessData({});
+        //setBusinessData({});
         return {
           ...state,
           PRCD: "",
@@ -271,18 +280,18 @@ function Receipts({ modalFunc }: any) {
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
-  useEffect(() => {
-    if (state.addOpen) {
-      // Fetch PRCD value from the getBusinessDate API
-      getBusinessDate(companyId, userId).then(() => {
-        // After the API call, set the PRCD value in the state
-        dispatch({ type: ACTIONS.ADDOPEN });
-      });
-    } else {
-      // If addOpen is false, set PRCD to an empty value
-      dispatch({ type: ACTIONS.ADDCLOSE });
-    }
-  }, [state.addOpen]);
+  // useEffect(() => {
+  //   if (state.addOpen) {
+  //     // Fetch PRCD value from the getBusinessDate API
+  //     //getBusinessDate(companyId, userId).then(() => {
+  //       // After the API call, set the PRCD value in the state
+  //       dispatch({ type: ACTIONS.ADDOPEN });
+  //     });
+  //   } else {
+  //     // If addOpen is false, set PRCD to an empty value
+  //     dispatch({ type: ACTIONS.ADDCLOSE });
+  //   }
+  // }, [state.addOpen]);
 
   return (
     <div>

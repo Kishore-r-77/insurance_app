@@ -40,6 +40,7 @@ import IBenefitModal from "./incomeBenefit/IBenefitModal";
 import APModal from "./incomeBenefit/Apmodal";
 import CIapprove from "./criticalModal/CIapprove";
 import CriticalModal from "./criticalModal/Critical";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 function ClaimsTable({
   issueOpen,
@@ -210,19 +211,26 @@ function ClaimsTable({
     );
   };
   const userId = useAppSelector((state) => state.users.user.message.id);
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
+  // const [businessData, setBusinessData] = useState<any>({});
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
 
-  useEffect(() => {
-    getBusinessDate(companyId, userId);
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   getBusinessDate(companyId, userId);
+  //   return () => {};
+  // }, []);
+
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
 
   const reducer = (state: SurrenderHStateType, action: any) => {
     console.log(state, "surrender State");
@@ -250,7 +258,7 @@ function ClaimsTable({
         setPolicyID(action.payload);
         return {
           ...state,
-          EffectiveDate: businessData.BusinessDate,
+          EffectiveDate: businessDate,
           surrenderOpen: true,
         };
       case SURRENDERACTIONS.SURRENDERCLOSE:
@@ -311,7 +319,7 @@ function ClaimsTable({
         setPolicyID(action.payload);
         return {
           ...state,
-          EffectiveDate: businessData.BusinessDate,
+          EffectiveDate: businessDate,
           maturityOpen: true,
         };
       case MATURITYACTIONS.MATURITYCLOSE:
