@@ -1103,6 +1103,7 @@ function NewBusinessModal({
                             id="ClientID"
                             name="ClientID"
                             // Attention: *** Check the value details  ***
+                            onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                             value={
                               state.addOpen ? state.ClientID : record?.ClientID
                             }
