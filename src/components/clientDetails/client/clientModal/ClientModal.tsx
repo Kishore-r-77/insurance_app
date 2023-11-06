@@ -140,7 +140,12 @@ function ClientModal({
   useEffect(() => {
     getCountryDetails();
     return () => {};
-  }, [state.editOpen]);
+  }, [record.Nationality]);
+
+  useEffect(() => {
+    getCountryDetails();
+    return () => {};
+  }, [state.infoOpen || state.editOpen]);
 
   useEffect(() => {
     setcountryDetails(initialCountryValues);
