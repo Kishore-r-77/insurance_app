@@ -12,30 +12,24 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-
 import "./newBusinessModal.css";
-
-//Attention: Check the path below
-//import { PoliciesModalType } from "../../../../reducerUtilities/types/policies/policiesTypes";
 import axios from "axios";
+import moment from "moment";
 import CustomModal from "../../../utilities/modal/CustomModal";
 import Agency from "../../agency/Agency";
 import Address from "../../clientDetails/address/Address";
+import Bank from "../../clientDetails/bank/Bank";
 import Client from "../../clientDetails/client/Client";
 import {
   extraParamItem,
-  freqItems,
   paramItem,
 } from "../../clientDetails/client/clientApis/clientApis";
+import { modifyPolicyWithBenefits } from "../../newBusiness/newBusinessApis/newBusinessApis";
 import {
   createPoliciesWithBenefits,
   extraParams,
 } from "../../policy/policyApis/policyApis";
-import { modifyPolicyWithBenefits } from "../../newBusiness/newBusinessApis/newBusinessApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
-import Bank from "../../clientDetails/bank/Bank";
-import Benefit from "../../policy/policyModal/benefit/Benefit";
-import moment from "moment";
 
 function NewBusinessModal({
   state,
@@ -96,7 +90,7 @@ function NewBusinessModal({
       })
       .then((resp) => {
         setPFreqData(resp.data?.AllowedFrequencies);
-        console.log(resp, "Freq Data ");
+
         return resp.data?.AllowedFrequencies;
       })
       .catch((err) => err);
@@ -120,7 +114,7 @@ function NewBusinessModal({
       })
       .then((resp) => {
         setPContractCurrData(resp.data?.AllowedContractCurriencies);
-        console.log(resp, "Contract Currency");
+
         return resp.data?.AllowedContractCurriencies;
       })
       .catch((err) => err);
@@ -141,7 +135,7 @@ function NewBusinessModal({
       })
       .then((resp) => {
         setPBillCurrData(resp.data?.AllowedBillingCurriencies);
-        console.log(resp, "Billing Currency");
+
         return resp.data?.AllowedBillingCurriencies;
       })
       .catch((err) => err);
@@ -203,7 +197,6 @@ function NewBusinessModal({
     return () => {};
   }, [state.addOpen && state?.PProduct]);
 
-  console.log(state.editOpen, record, "******State*****");
   useEffect(() => {
     getPFreq(companyId, record.PProduct, record?.PRCD);
     return () => {};
@@ -260,6 +253,7 @@ function NewBusinessModal({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
+    console.log(name, "=", value);
     if (name === "BCoverage") {
       setcapturedCovg(value);
     }
@@ -270,6 +264,34 @@ function NewBusinessModal({
         } else return benefits;
       })
     );
+  };
+
+  // const benefitClientOpenFunc = (item: any, i: number) => {
+  //   console.log(item.ID, "Itemmmmmm");
+  //   setbenefitsData(
+  //     benefitsData?.map((benefits: any, index: number) => {
+  //       if (index === i) {
+  //         return { ...benefits, ClientID: item.ID };
+  //       } else return benefits;
+  //     })
+  //   );
+
+  //   dispatch({ type: ACTIONS.BENEFITCLIENTCLOSE });
+  // };
+
+  const benefitClientOpenFunc = (item: any, i: number) => {
+    console.log(item.ID, "Itemmmmmm");
+    setbenefitsData((prevBenefitsData: any) => {
+      return prevBenefitsData.map((benefits: any, index: number) => {
+        if (index === i) {
+          return { ...benefits, ClientID: item.ID };
+        } else {
+          return benefits;
+        }
+      });
+    });
+
+    dispatch({ type: ACTIONS.BENEFITCLIENTCLOSE });
   };
 
   const addPoliciesWithBenefits = () => {
@@ -285,8 +307,6 @@ function NewBusinessModal({
         getData();
       })
       .catch((err) => {
-        console.log(err);
-
         setNotify({
           isOpen: true,
           message: err.response.data.error,
@@ -342,7 +362,7 @@ function NewBusinessModal({
   };
 
   const [bankClntData, setbankClntData] = useState([]);
-  console.log("Bank Open", state.bankOpen);
+
   const getBankByClient = () => {
     axios
       .get(
@@ -358,7 +378,6 @@ function NewBusinessModal({
   };
 
   const clientOpenFunc = (item: any) => {
-    console.log(item.ID, "clientId");
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;
@@ -441,7 +460,6 @@ function NewBusinessModal({
       : null,
   ]);
 
-  console.log(benefitsData[0]?.BCoverage, "BCoverage");
   const [termRangeMenu, settermRangeMenu] = useState<any>({});
   const [pptRangeMenu, setpptRangeMenu] = useState<any>({});
   const bcoverage = useRef("");
@@ -449,7 +467,10 @@ function NewBusinessModal({
     return extraParams(companyId, "Q0006", bcoverage.current, "TermRange")
       .then((resp) => {
         //setpptRangeMenu(resp.data.AllowedTermRange);
-        settermRangeMenu((prev: any) => ({...prev, [bcoverage.current]: resp.data.AllowedTermRange}));
+        settermRangeMenu((prev: any) => ({
+          ...prev,
+          [bcoverage.current]: resp.data.AllowedTermRange,
+        }));
       })
       .catch((err) => err.message);
   };
@@ -457,7 +478,10 @@ function NewBusinessModal({
     return extraParams(companyId, "Q0006", bcoverage.current, "PptRange")
       .then((resp) => {
         // setpptRangeMenu(resp.data.AllowedPptRange);
-        setpptRangeMenu((prev: any) => ({...prev, [bcoverage.current]: resp.data.AllowedPptRange}));
+        setpptRangeMenu((prev: any) => ({
+          ...prev,
+          [bcoverage.current]: resp.data.AllowedPptRange,
+        }));
       })
       .catch((err) => err.message);
   };
@@ -467,6 +491,13 @@ function NewBusinessModal({
     pptRange();
     return () => {};
   }, [bcoverage.current]);
+
+  useEffect(() => {
+    setbenefitsData((prev: any) => [
+      { ...prev, ClientID: state.addOpen ? state.ClientID : record.ClientID },
+    ]);
+    return () => {};
+  }, [state.ClientID]);
 
   return (
     <div>
@@ -559,7 +590,7 @@ function NewBusinessModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
+                    InputProps={{ readOnly: state.infoOpen }}
                     id="ClientID"
                     onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
                     name="ClientID"
@@ -610,7 +641,6 @@ function NewBusinessModal({
                     id="AgencyID"
                     onClick={() => dispatch({ type: ACTIONS.AGENCYOPEN })}
                     name="AgencyID"
-                    // Attention: *** Check the value details  ***
                     value={state.addOpen ? state.AgencyID : record?.AgencyID}
                     onChange={(e) =>
                       dispatch({
@@ -1078,6 +1108,17 @@ function NewBusinessModal({
 
               return (
                 <>
+                  {state.benefitClientOpen ? (
+                    <CustomModal
+                      size={size}
+                      open={state.benefitClientOpen}
+                      handleClose={() =>
+                        dispatch({ type: ACTIONS.BENEFITCLIENTCLOSE })
+                      }
+                    >
+                      <Client modalFunc={benefitClientOpenFunc} />
+                    </CustomModal>
+                  ) : null}
                   <div style={{ display: "flex" }}>
                     <TreeItem
                       nodeId={(index + 2).toString()}
@@ -1099,13 +1140,16 @@ function NewBusinessModal({
                         </Grid2>
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
-                            InputProps={{ readOnly: true }}
+                            InputProps={{ readOnly: state.infoOpen }}
                             id="ClientID"
                             name="ClientID"
-                            // Attention: *** Check the value details  ***
-                            value={
-                              state.addOpen ? state.ClientID : record?.ClientID
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            onClick={() =>
+                              dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
                             }
+                            value={benefits.ClientID}
                             placeholder="client_id"
                             label="client_id"
                             fullWidth
@@ -1184,11 +1228,13 @@ function NewBusinessModal({
                             fullWidth
                             margin="dense"
                           >
-                            {termRangeMenu[bcoverage.current]?.map((val: any, index: any) => (
-                              <MenuItem key={val} value={val}>
-                                {val}
-                              </MenuItem>
-                            ))}
+                            {termRangeMenu[bcoverage.current]?.map(
+                              (val: any, index: any) => (
+                                <MenuItem key={val} value={val}>
+                                  {val}
+                                </MenuItem>
+                              )
+                            )}
                           </TextField>
                         </Grid2>
 
@@ -1206,11 +1252,13 @@ function NewBusinessModal({
                             fullWidth
                             margin="dense"
                           >
-                            {pptRangeMenu[bcoverage.current]?.map((val: any, index: any) => (
-                              <MenuItem key={val} value={val}>
-                                {val}
-                              </MenuItem>
-                            ))}
+                            {pptRangeMenu[bcoverage.current]?.map(
+                              (val: any, index: any) => (
+                                <MenuItem key={val} value={val}>
+                                  {val}
+                                </MenuItem>
+                              )
+                            )}
                           </TextField>
                         </Grid2>
 
@@ -1278,13 +1326,7 @@ function NewBusinessModal({
                               ) => handleChange(e, index)}
                               fullWidth
                               margin="dense"
-                            >
-                              {/* {premiumData?.map((val, index) => (
-                                <MenuItem value={val} key={val}>
-                                  {val}
-                                </MenuItem>
-                              ))} */}
-                            </TextField>
+                            ></TextField>
                           </Grid2>
                         ) : null}
                       </Grid2>
