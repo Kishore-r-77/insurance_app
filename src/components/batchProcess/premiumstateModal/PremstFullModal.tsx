@@ -19,7 +19,7 @@ function CustomPremstFullModal({
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            Clear
           </Button>
           <Button variant="primary" onClick={handleFormSubmit}>
             Submit

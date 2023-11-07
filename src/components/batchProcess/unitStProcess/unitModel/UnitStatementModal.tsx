@@ -21,6 +21,9 @@ import { useAppSelector } from "../../../../redux/app/hooks";
 import Notification from "../../../../utilities/Notification/Notification";
 import { unitStatementbydateapi } from "../unitApis.ts/unitStatementbydateapi";
 import styles from "./unitStModal.module.css";
+import { useBusinessDate } from "../../../contexts/BusinessDateContext";
+import NewBusiness from "../../../newBusiness/NewBusiness";
+import { Link } from "react-router-dom";
 
 export function UnitStatementModal(BatchModalType: any) {
   const addTitle: string = "UnitStatementByDate";
@@ -35,6 +38,12 @@ export function UnitStatementModal(BatchModalType: any) {
     (state: { users: { user: { message: { id: any } } } }) =>
       state.users.user.message.id
   );
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
 
   //Add Api
   const handleFormSubmit = () => {
@@ -75,33 +84,22 @@ export function UnitStatementModal(BatchModalType: any) {
     setunitStatementData((prev) => ({ ...prev, ToDate: date }));
   };
 
-  const [businessDate, setBusinessDate] = useState<any>([]);
-  const getBusinessDate = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/0/0`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setBusinessDate(resp.data.BusinessDate);
-        setunitStatementData((prev) => ({
-          ...prev,
-          ToDate: resp.data.BusinessDate,
-        }));
-      })
-      .catch((err) => err);
-  };
-
   useEffect(() => {
     getBusinessDate();
     setunitStatementData((prev) => ({
       ...prev,
+      ToDate: businessDate,
       FromDate: businessDate,
     }));
     return () => {};
   }, []);
+  const cancelfunction = () => {
+    setunitStatementData(initialValues);
+    setunitStatementData((prev) => ({
+      ...prev,
+      FromDate: businessDate,
+    }));
+  };
 
   return (
     <div className={styles.modal}>
@@ -208,13 +206,13 @@ export function UnitStatementModal(BatchModalType: any) {
       <Button
         variant="secondary"
         color="primary"
-        onClick={() => setunitStatementData(initialValues)}
+        onClick={() => cancelfunction()}
         style={{
           position: "absolute",
           right: "150px",
         }}
       >
-        Cancel
+        Clear
       </Button>
       <Notification notify={notify} setNotify={setNotify} />
     </div>

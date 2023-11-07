@@ -18,6 +18,7 @@ import {
 } from "../../../reducerUtilities/actions/batch/batchAction";
 import Notification from "../../../utilities/Notification/Notification";
 import CustomBatchFullModal from "./BatchFullModal";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
 
 function BatchModal(BatchModalType: any) {
   const addTitle: string = "AllocateRevBonusByDate";
@@ -42,7 +43,12 @@ function BatchModal(BatchModalType: any) {
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
-
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
   const userId = useAppSelector((state) => state.users.user.message.id);
   const [businessData, setBusinessData] = useState<any>({});
   const getBusinessDate1 = (companyId: number, userId: number) => {
@@ -123,7 +129,7 @@ function BatchModal(BatchModalType: any) {
   };
   useEffect(() => {
     getBusinessDate1(companyId, userId);
-    state.RevBonusDate = businessData.BusinessDate;
+    state.RevBonusDate = businessDate;
     return () => {};
   }, []);
   // useEffect(() => {
@@ -133,23 +139,23 @@ function BatchModal(BatchModalType: any) {
   // }, []);
   let [state, dispatch] = useReducer(reducer, initialValues);
 
-  const [businessDate, setBusinessDate] = useState<any>([]);
-  const getBusinessDate = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/basicservices/businessdateget/1`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        setBusinessDate(resp.data["BusinessDate"]);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const [businessDate, setBusinessDate] = useState<any>([]);
+  // const getBusinessDate = () => {
+  //   axios
+  //     .get(`http://localhost:3000/api/v1/basicservices/businessdateget/1`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((resp) => {
+  //       setBusinessDate(resp.data["BusinessDate"]);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
-  useEffect(() => {
-    getBusinessDate();
-    console.log(businessDate.Date, "========");
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   getBusinessDate();
+  //   console.log(businessDate.Date, "========");
+  //   return () => {};
+  // }, []);
   return (
     <div className={styles.modal}>
       <CustomBatchFullModal
@@ -238,7 +244,7 @@ function BatchModal(BatchModalType: any) {
                     readOnly={state.addOpen}
                     label="Business Date"
                     inputFormat="DD/MM/YYYY"
-                    value={businessDate?.Date}
+                    value={businessDate}
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) =>

@@ -11,6 +11,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/withdrawnScrApis";
+import { useBusinessDate } from "../../../contexts/BusinessDateContext";
 
 var initialValues = {
   ReasonDescription: "",
@@ -22,7 +23,7 @@ function WithdrawnScrModal({
   handleClose,
   policyId,
   getData,
-  businessData,
+  businessDate,
 }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -33,6 +34,9 @@ function WithdrawnScrModal({
       setCompanyData(resp.data["Company"]);
     });
   };
+
+  
+
 
   const [WithdrawnData, setWithdrawnData] = useState(initialValues);
   const onChange = (e: any) => {
@@ -56,10 +60,10 @@ function WithdrawnScrModal({
     // WithdrawnData.RequestedDate = businessData.BusinessDate;
     setWithdrawnData((prev) => ({
       ...prev,
-      RequestedDate: businessData.BusinessDate,
+      RequestedDate:businessDate,
     }));
     return () => {};
-  }, [businessData.BusinessDate]);
+  }, []);
 
   return (
     <div>

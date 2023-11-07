@@ -23,6 +23,7 @@ import WithdrawnScrModal from "./nbmmModal/WithdrawnModel/WithdrawnScrModal";
 import PostponeWithdrawnScrModal from "./nbmmModal/PostponeWithdrawnModel/PostponeWithdrawnScrModal";
 import { useAppSelector } from "../../redux/app/hooks";
 import { getBusinessDateApi } from "./nbmmApis/afiScrApis";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 var initialValues = {
   ReasonDescription: "",
@@ -61,25 +62,32 @@ function NbmmTable({
     (state) => state.users.user.message.companyId
   );
   const userId = useAppSelector((state) => state.users.user.message.id);
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
+  // const [businessData, setBusinessData] = useState<any>({});
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
 
-  useEffect(() => {
-    getBusinessDate(companyId, userId);
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   getBusinessDate(companyId, userId);
+  //   return () => {};
+  // }, []);
+    const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
+
 
   const [afiOpen, setafiOpen] = useState(false);
   const [policyId, setpolicyId] = useState(0);
   const [AfiData, setAfiData] = useState(initialValues);
   const handleAfiOpen = (ID: any) => {
-    setAfiData((pre) => ({ ...pre, RequestedDate: businessData.BusinessDate }));
+    setAfiData((pre) => ({ ...pre, RequestedDate: businessDate }));
     setafiOpen(true);
     setpolicyId(ID);
     handleClose();
@@ -325,7 +333,7 @@ function NbmmTable({
         handleClose={handleCfiClose}
         policyId={policyId}
         getData={getData}
-        businessData={businessData}
+        businessDate={businessDate}
       />
 
       <FreeLookScrModal
@@ -333,35 +341,35 @@ function NbmmTable({
         handleClose={handleFreeLookClose}
         policyId={policyId}
         getData={getData}
-        businessData={businessData}
+        businessDate={businessDate}
       />
       <PostponeScrModal
         open={PostponeOpen}
         handleClose={handlePostponeClose}
         policyId={policyId}
         getData={getData}
-        businessData={businessData}
+        businessDate={businessDate}
       />
       <DeclineScrModal
         open={DeclineOpen}
         handleClose={handleDeclineClose}
         policyId={policyId}
         getData={getData}
-        businessData={businessData}
+        businessDate={businessDate}
       />
       <PostponeWithdrawnScrModal
         open={PostponeWithdrawnOpen}
         handleClose={handlePostponeWithdrawnClose}
         policyId={policyId}
         getData={getData}
-        businessData={businessData}
+        businessDate={businessDate}
       />
       <WithdrawnScrModal
         open={WithdrawnOpen}
         handleClose={handleWithdrawnClose}
         policyId={policyId}
         getData={getData}
-        businessData={businessData}
+        businessDate={businessDate}
       />
     </Paper>
   );

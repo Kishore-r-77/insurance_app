@@ -31,6 +31,7 @@ import {
   import axios from "axios";
 import CustomPremstFullModal from "./PremstFullModal";
 import { Button } from "react-bootstrap";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
   
 export function PremiumStatementModal(BatchModalType: any) {
   const addTitle: string = "PremiumStatementByDate";
@@ -86,29 +87,38 @@ export function PremiumStatementModal(BatchModalType: any) {
   const handleToDate = (date: any) => {
     setpremStatementData((prev) => ({ ...prev, ToDate: date }));
   };
-  
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
     
-  const [businessDate, setBusinessDate] = useState<any>([]);
-  const getBusinessDate = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/0/0`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setBusinessDate(resp.data.BusinessDate);
-        setpremStatementData((prev) => ({
-          ...prev,
-          ToDate: resp.data.BusinessDate,
-        }));
-      })
-      .catch((err) => err);
-  };
+  // const [businessDate, setBusinessDate] = useState<any>([]);
+  // const getBusinessDate = () => {
+  //   axios
+  //     .get(
+  //       `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/0/0`,
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     )
+  //     .then((resp) => {
+  //       setBusinessDate(resp.data.BusinessDate);
+  //       setpremStatementData((prev) => ({
+  //         ...prev,
+  //         ToDate: resp.data.BusinessDate,
+  //       }));
+  //     })
+  //     .catch((err) => err);
+  // };
 
   useEffect(() => {
     getBusinessDate();
+    setpremStatementData((prev) => ({
+               ...prev,
+              ToDate:businessDate,
+            }));
     return () => {};
   }, []);
   return (
@@ -126,12 +136,12 @@ export function PremiumStatementModal(BatchModalType: any) {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                   //readOnly={state.infoOpen}
-                  key={premStatementData.FromDate}
+                  //key={premStatementData.FromDate}
                   label="From Date"
                   inputFormat="DD/MM/YYYY"
                   value={premStatementData.FromDate}
                   onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    handleFromDate(date)
+                    handleFromDate(date?.$d)
                   }
                   renderInput={(params) => (
                     <TextField

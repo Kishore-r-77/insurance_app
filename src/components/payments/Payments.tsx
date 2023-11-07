@@ -25,6 +25,7 @@ import Notification from "../../utilities/Notification/Notification";
 import PaymentsTable from "./paymentsTable/PaymentsTable";
 import PaymentsModal from "./paymentsModal/PaymentsModal";
 import ApprovalModal from "./paymentsModal/approvalModal";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 function Payments({ modalFunc }: any) {
   //data from getall api
@@ -37,7 +38,12 @@ function Payments({ modalFunc }: any) {
     message: "",
     type: "",
   });
-
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
   const [searchContent, setsearchContent] = useState({
     searchString: "",
     searchCriteria: "",
@@ -56,19 +62,19 @@ function Payments({ modalFunc }: any) {
       .catch((err) => console.log(err.message));
   };
   const userId = useAppSelector((state) => state.users.user.message.id);
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
+  // const [businessData, setBusinessData] = useState<any>({});
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
 
-  useEffect(() => {
-    getBusinessDate(companyId, userId);
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   getBusinessDate(companyId, userId);
+  //   return () => {};
+  // }, []);
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PaymentsStateType, action: any) => {
@@ -91,7 +97,7 @@ function Payments({ modalFunc }: any) {
       case ACTIONS.ADDOPEN:
         return {
           ...state,
-          ReconciledDate: businessData.BusinessDate,
+          ReconciledDate: businessDate,
           addOpen: true,
         };
       // case ACTIONS.EDITOPEN:
@@ -110,7 +116,7 @@ function Payments({ modalFunc }: any) {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
-        setBusinessData({});
+        // setBusinessData({});
         return {
           ...state,
           addOpen: false,
@@ -297,18 +303,18 @@ function Payments({ modalFunc }: any) {
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
-  useEffect(() => {
-    if (state.addOpen) {
-      // Fetch PRCD value from the getBusinessDate API
-      getBusinessDate(companyId, userId).then(() => {
-        // After the API call, set the PRCD value in the state
-        dispatch({ type: ACTIONS.ADDOPEN });
-      });
-    } else {
-      // If addOpen is false, set PRCD to an empty value
-      dispatch({ type: ACTIONS.ADDCLOSE });
-    }
-  }, [state.addOpen]);
+  // useEffect(() => {
+  //   if (state.addOpen) {
+  //     // Fetch PRCD value from the getBusinessDate API
+  //     getBusinessDate(companyId, userId).then(() => {
+  //       // After the API call, set the PRCD value in the state
+  //       dispatch({ type: ACTIONS.ADDOPEN });
+  //     });
+  //   } else {
+  //     // If addOpen is false, set PRCD to an empty value
+  //     dispatch({ type: ACTIONS.ADDCLOSE });
+  //   }
+  // }, [state.addOpen]);
 
   return (
     <div>

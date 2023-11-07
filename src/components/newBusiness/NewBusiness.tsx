@@ -31,6 +31,7 @@ import Benefit from "../policy/policyModal/benefit/Benefit";
 import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
 import PolicyInformation from "./newBusinessEnquiry/PolicyInformation";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 function NewBusiness({
   modalFunc,
@@ -55,6 +56,12 @@ function NewBusiness({
     message: "",
     type: "",
   });
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
 
   const [benefitsData, setbenefitsData] = useState([
     {
@@ -72,14 +79,14 @@ function NewBusiness({
     (state) => state.users.user.message.companyId
   );
   const userId = useAppSelector((state) => state.users.user.message.id);
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
+  // const [businessData, setBusinessData] = useState<any>({});
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
@@ -102,8 +109,8 @@ function NewBusiness({
       case ACTIONS.ADDOPEN:
         return {
           ...state,
-          PRCD: businessData.BusinessDate,
-          PReceivedDate: businessData.BusinessDate,
+          PRCD: businessDate,
+          PReceivedDate: businessDate,
           addOpen: true,
         };
       case ACTIONS.EDITOPEN:
@@ -122,7 +129,7 @@ function NewBusiness({
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
-        setBusinessData({});
+        // setBusinessData({});
         setbenefitsData([
           {
             ClientID: 0,
@@ -159,9 +166,43 @@ function NewBusiness({
           clientOpen: true,
         };
       case ACTIONS.CLIENTCLOSE:
+        setbenefitsData([
+          {
+            ClientID: 0,
+            BStartDate: "",
+            BTerm: 0,
+            BPTerm: 0,
+            BCoverage: "",
+            BSumAssured: 0,
+            Interest: 0,
+            BPrem: 0,
+          },
+        ]);
         return {
           ...state,
           clientOpen: false,
+        };
+      case ACTIONS.BENEFITCLIENTOPEN:
+        return {
+          ...state,
+          benefitClientOpen: true,
+        };
+      case ACTIONS.BENEFITCLIENTCLOSE:
+        setbenefitsData([
+          {
+            ClientID: 0,
+            BStartDate: "",
+            BTerm: 0,
+            BPTerm: 0,
+            BCoverage: "",
+            BSumAssured: 0,
+            Interest: 0,
+            BPrem: 0,
+          },
+        ]);
+        return {
+          ...state,
+          benefitClientOpen: false,
         };
       case ACTIONS.ADDRESSOPEN:
         return {
@@ -239,7 +280,6 @@ function NewBusiness({
         return initialValues;
     }
   };
-
   //Creating useReducer Hook
   let [state, dispatch] = useReducer(reducer, initialValues);
 
@@ -316,7 +356,6 @@ function NewBusiness({
         status: response.status,
       };
     } catch (err: any) {
-      console.log(err);
       return {
         response: err,
         status: err.response.status,
@@ -340,7 +379,6 @@ function NewBusiness({
         policyvalidateOpen();
       })
       .catch((err) => {
-        console.log(err, "Error");
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -439,7 +477,6 @@ function NewBusiness({
       .then((res) => {
         //interest.current = res.data.Interest;
         setinterest(res.data.Interest);
-        console.log(res.data.Interest, "Interest ");
       })
       .catch((err) => {
         return err;
@@ -447,23 +484,22 @@ function NewBusiness({
   };
 
   useEffect(() => {
-    console.log(benefitsByPoliciesData[0]?.ID, "benefit data");
     getBenefit();
     return () => {};
   }, [state.editOpen && record.PProduct === "MRT"]);
 
-  useEffect(() => {
-    if (state.addOpen) {
-      // Fetch PRCD value from the getBusinessDate API
-      getBusinessDate(companyId, userId).then(() => {
-        // After the API call, set the PRCD value in the state
-        dispatch({ type: ACTIONS.ADDOPEN });
-      });
-    } else {
-      // If addOpen is false, set PRCD to an empty value
-      dispatch({ type: ACTIONS.ADDCLOSE });
-    }
-  }, [state.addOpen]);
+  // useEffect(() => {
+  //   if (state.addOpen) {
+  //     // Fetch PRCD value from the getBusinessDate API
+  //     getBusinessDate(companyId, userId).then(() => {
+  //       // After the API call, set the PRCD value in the state
+  //       dispatch({ type: ACTIONS.ADDOPEN });
+  //     });
+  //   } else {
+  //     // If addOpen is false, set PRCD to an empty value
+  //     dispatch({ type: ACTIONS.ADDCLOSE });
+  //   }
+  // }, [state.addOpen]);
 
   return (
     <div>

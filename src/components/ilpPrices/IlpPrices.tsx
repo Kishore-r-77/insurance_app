@@ -27,6 +27,7 @@ import {
   getAllApi,
 } from "./ilpPricesApis/ilpPricesApis";
 import IlpPricesModal from "./ilpPricesModal/IlpPricesModal";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 function IlpPrices({ modalFunc }: any) {
   //data from getall api
@@ -46,6 +47,12 @@ function IlpPrices({ modalFunc }: any) {
   const [ilpPriceArray, setilpPriceArray] = useState<any>([]);
   const [isApprove, setisApprove] = useState(false);
 
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
   const reducer = (state: IlpPricesStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
@@ -65,6 +72,8 @@ function IlpPrices({ modalFunc }: any) {
       case ACTIONS.ADDOPEN:
         return {
           ...state,
+          FundDate: businessDate,
+          FundEffDate: businessDate,
           addOpen: true,
         };
       case ACTIONS.EDITOPEN:

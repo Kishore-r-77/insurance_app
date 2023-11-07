@@ -28,6 +28,7 @@ import { paramItem, paramItems } from "../clientApis/clientApis";
 import styles from "./clientFullModal.module.css";
 import { getBusinessDateApi } from "../../../receipts/receiptsApis/receiptsApis";
 import moment from "moment";
+import { useBusinessDate } from "../../../contexts/BusinessDateContext";
 
 function ClientFullModal({
   state,
@@ -39,7 +40,7 @@ function ClientFullModal({
   getData,
 }: any) {
   const title = "Client Add";
-  const [businessDate, setbusinessDate] = useState("");
+  // const [businessDate, setbusinessDate] = useState("");
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -49,7 +50,12 @@ function ClientFullModal({
       setCompanyData(resp.data["Company"]);
     });
   };
-
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
   const [salutationData, setsalutationData] = useState([]);
 
   const languageId = useAppSelector(
@@ -138,13 +144,13 @@ function ClientFullModal({
     },
   ]);
 
-  const getBusinessDate = () => {
-    return getBusinessDateApi(companyId, 0)
-      .then((resp) => {
-        setbusinessDate(resp.data.BusinessDate);
-      })
-      .catch((err) => err.message);
-  };
+  // const getBusinessDate = () => {
+  //   return getBusinessDateApi(companyId, 0)
+  //     .then((resp) => {
+  //       setbusinessDate(resp.data.BusinessDate);
+  //     })
+  //     .catch((err) => err.message);
+  // };
 
   useEffect(() => {
     getBusinessDate();

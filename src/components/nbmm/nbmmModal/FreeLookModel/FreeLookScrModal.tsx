@@ -12,6 +12,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/freeLookScrApis copy";
 
+
 var initialValues = {
   ReasonDescription: "",
   RequestedDate: "",
@@ -22,7 +23,7 @@ function FreeLookScrModal({
   handleClose,
   policyId,
   getData,
-  businessData,
+  businessDate,
 }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -33,6 +34,9 @@ function FreeLookScrModal({
       setCompanyData(resp.data["Company"]);
     });
   };
+
+  
+
 
   const [FreeLookData, setFreeLookData] = useState(initialValues);
 
@@ -57,10 +61,10 @@ function FreeLookScrModal({
     // FreeLookData.RequestedDate = businessData.BusinessDate;
     setFreeLookData((prev) => ({
       ...prev,
-      RequestedDate: businessData.BusinessDate,
+      RequestedDate: businessDate,
     }));
     return () => {};
-  }, [businessData.BusinessDate]);
+  }, []);
 
   return (
     <div>

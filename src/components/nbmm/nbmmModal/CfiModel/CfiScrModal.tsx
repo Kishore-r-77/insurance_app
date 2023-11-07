@@ -17,6 +17,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 
+
 var initialValues = {
   ReasonDescription: "",
   RequestedDate: "",
@@ -27,7 +28,7 @@ function CfiScrModal({
   handleClose,
   policyId,
   getData,
-  businessData,
+  businessDate,
 }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -50,6 +51,8 @@ function CfiScrModal({
     setCfiData({ ...CfiData, RequestedDate: date });
   };
 
+  
+
   const handleFormSubmit = () => {
     return addApi(CfiData, companyId, policyId).then((resp) => {
       handleClose();
@@ -63,10 +66,10 @@ function CfiScrModal({
     // CfiData.RequestedDate = businessData.BusinessDate;
     setCfiData((prev) => ({
       ...prev,
-      RequestedDate: businessData.BusinessDate,
+      RequestedDate: businessDate,
     }));
     return () => {};
-  }, [businessData.BusinessDate]);
+  }, [businessDate]);
   return (
     <div>
       <Modal show={open} onHide={handleClose} centered size="xl">

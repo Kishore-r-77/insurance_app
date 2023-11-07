@@ -14,6 +14,7 @@ import styles from "./ilptopupModal.module.css";
 import { getBusinessDateApi } from "../surrenderModal/surrenderApi";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
 
 function IlpTopupModal({
   open,
@@ -33,6 +34,12 @@ function IlpTopupModal({
     message: "",
     type: "",
   });
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
 
   console.log(open, "open");
 
@@ -81,18 +88,18 @@ function IlpTopupModal({
   const companyId = useAppSelector((state) => state.users.user.message.companyId);
   const [businessData, setBusinessData] = useState<any>({});
   const [effDate, setEffDate] = useState<any>();
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
-  console.log("BD", businessData)
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
+  //console.log("BD", businessData)
 
   useEffect(() => {
-    getBusinessDate(companyId, userId);
-    setEffDate(businessData?.BusinessDate)
+    //getBusinessDate(companyId, userId);
+    setEffDate(businessDate)
     return () => {};
   }, [open]);
 

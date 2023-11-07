@@ -42,6 +42,7 @@ import SaChangeModal from "./saChangeModal/SaChangeModal";
 import SurrenderModal from "./surrenderModal/SurrenderModal";
 import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -208,20 +209,28 @@ function CsmmTable({
   // const companyId = useAppSelector(
   //   (state) => state.users.user.message.companyId
   // );
-  const userId = useAppSelector((state) => state.users.user.message.id);
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
 
-  useEffect(() => {
-    getBusinessDate(companyId, userId);
-    return () => {};
-  }, []);
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
+
+  const userId = useAppSelector((state) => state.users.user.message.id);
+  // const [businessData, setBusinessData] = useState<any>({});
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
+
+  // useEffect(() => {
+  //   getBusinessDate(companyId, userId);
+  //   return () => {};
+  // }, []);
 
   const reducer = (state: SurrenderHStateType, action: any) => {
     console.log(state, "surrender State");
@@ -249,7 +258,7 @@ function CsmmTable({
         setPolicyID(action.payload);
         return {
           ...state,
-          EffectiveDate: businessData.BusinessDate,
+          EffectiveDate: businessDate,
           surrenderOpen: true,
         };
       case SURRENDERACTIONS.SURRENDERCLOSE:
@@ -310,8 +319,8 @@ function CsmmTable({
         setPolicyID(action.payload);
         return {
           ...state,
-          EffectiveDate: businessData.BusinessDate,
-          SurrDate: businessData.BusinessDate,
+          EffectiveDate: businessDate,
+          SurrDate: businessDate,
           ilpsurrenderOpen: true,
         };
       case ILPSURRENDERACTIONS.ILPSURRENDERCLOSE:
@@ -375,7 +384,7 @@ function CsmmTable({
         setPolicyID(action.payload);
         return {
           ...state,
-          EffectiveDate: businessData.BusinessDate,
+          EffectiveDate: businessDate,
           maturityOpen: true,
         };
       case MATURITYACTIONS.MATURITYCLOSE:
