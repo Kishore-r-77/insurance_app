@@ -189,10 +189,10 @@ function BenefitModal({
 
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
-                InputProps={{ readOnly: true }}
+                InputProps={{ readOnly: state.infoOpen }}
                 id="ClientID"
                 onClick={() =>
-                  state.addOpen ? dispatch({ type: ACTIONS.CLIENTOPEN }) : {}
+                  state.addOpen || state.editOpen ? dispatch({ type: ACTIONS.CLIENTOPEN }) : {}
                 }
                 name="ClientID"
                 value={state.addOpen ? state.ClientID : record.ClientID}
