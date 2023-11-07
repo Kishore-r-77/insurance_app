@@ -11,6 +11,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/postponeWithdrawnScrApis";
+import { useBusinessDate } from "../../../contexts/BusinessDateContext";
 
 var initialValues = {
   ReasonDescription: "",
@@ -22,7 +23,7 @@ function PostponeWithdrawnScrModal({
   handleClose,
   policyId,
   getData,
-  businessData,
+  businessDate,
 }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -33,6 +34,9 @@ function PostponeWithdrawnScrModal({
       setCompanyData(resp.data["Company"]);
     });
   };
+
+  
+
 
   const [PostponeWithdrawnData, setPostponeWithdrawnData] =
     useState(initialValues);
@@ -57,10 +61,10 @@ function PostponeWithdrawnScrModal({
     // PostponeWithdrawnData.RequestedDate = businessData.BusinessDate;
     setPostponeWithdrawnData((prev) => ({
       ...prev,
-      RequestedDate: businessData.BusinessDate,
+      RequestedDate: businessDate ,
     }));
     return () => {};
-  }, [businessData.BusinessDate]);
+  }, []);
 
   return (
     <div>

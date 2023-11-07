@@ -11,6 +11,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/declineScrApis";
+import { useBusinessDate } from "../../../contexts/BusinessDateContext";
 
 var initialValues = {
   ReasonDescription: "",
@@ -22,7 +23,7 @@ function DeclineScrModal({
   handleClose,
   policyId,
   getData,
-  businessData,
+  businessDate,
 }: any) {
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -34,6 +35,7 @@ function DeclineScrModal({
     });
   };
 
+  
   const [DeclineData, setDeclineData] = useState(initialValues);
   const onChange = (e: any) => {
     const { value, name } = e.target;
@@ -54,13 +56,13 @@ function DeclineScrModal({
 
   useEffect(() => {
     getCompanyData(companyId);
-    // DeclineData.RequestedDate = businessData.BusinessDate;
+     //DeclineData.RequestedDate = businessDate.BusinessDate;
     setDeclineData((prev) => ({
       ...prev,
-      RequestedDate: businessData.BusinessDate,
+      RequestedDate:businessDate, 
     }));
     return () => {};
-  }, [businessData.BusinessDate]);
+  }, []);
 
   return (
     <div>
