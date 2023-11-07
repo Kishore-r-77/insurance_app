@@ -32,6 +32,15 @@ function AdjPremModal({
 
   const [isResult, setIsResult] = useState(false);
 
+  const resultOpen = () => {
+    setIsResult(true);
+  };
+  const resultClose = () => {
+    setIsResult(false);
+    setcompleted(true);
+    setfunc("Save");
+  };
+
   useEffect(() => {
     setNextDate("");
     return () => {};
