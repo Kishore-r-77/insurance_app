@@ -18,6 +18,7 @@ import DeathHModal from "./deathHModal/DeathHModal";
 import DeathHTable from "./deathHTable/DeathHTable";
 import Notification from "../../../utilities/Notification/Notification";
 import DeathHEnquiry from "./deathHModal/DeathHEnquiry";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
 
 function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
   //data from getall api
@@ -31,7 +32,12 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
     message: "",
     type: "",
   });
-
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
   const reducer = (state: DeathHStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
@@ -51,7 +57,7 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
       case ACTIONS.ADDOPEN:
         return {
           ...state,
-          EffectiveDate: businessData.BusinessDate,
+          EffectiveDate: businessDate,
           addOpen: true,
         };
       case ACTIONS.EDITOPEN:
@@ -149,19 +155,19 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
     }
   };
   const userId = useAppSelector((state) => state.users.user.message.id);
-  const [businessData, setBusinessData] = useState<any>({});
-  const getBusinessDate = (companyId: number, userId: number) => {
-    return getBusinessDateApi(companyId, userId)
-      .then((resp) => {
-        setBusinessData(resp.data);
-      })
-      .catch((err) => err.message);
-  };
+  // const [businessData, setBusinessData] = useState<any>({});
+  // const getBusinessDate = (companyId: number, userId: number) => {
+  //   return getBusinessDateApi(companyId, userId)
+  //     .then((resp) => {
+  //       setBusinessData(resp.data);
+  //     })
+  //     .catch((err) => err.message);
+  // };
 
-  useEffect(() => {
-    getBusinessDate(companyId, userId);
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   getBusinessDate(companyId, userId);
+  //   return () => {};
+  // }, []);
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
