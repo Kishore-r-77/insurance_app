@@ -143,6 +143,11 @@ function ClientModal({
   }, [record.Nationality]);
 
   useEffect(() => {
+    getCountryDetails();
+    return () => {};
+  }, [state.infoOpen || state.editOpen]);
+
+  useEffect(() => {
     setcountryDetails(initialCountryValues);
     return () => {};
   }, [state.editOpen === false]);
@@ -406,7 +411,7 @@ function ClientModal({
                   dispatch({
                     type: ACTIONS.EDITCHANGE,
                     payload: e.target.value,
-                    fieldName: "Nationality",
+                    fieldName: "NationalId",
                   })
                 }
                 fullWidth
@@ -439,25 +444,7 @@ function ClientModal({
                 ))}
               </TextField>
             </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
-              <TextField
-                id="NationalId"
-                name="NationalId"
-                value={record.NationalId}
-                placeholder="NationalId"
-                label="NationalId"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: ACTIONS.EDITCHANGE,
-                    payload: e.target.value,
-                    fieldName: "NationalId",
-                  })
-                }
-                fullWidth
-                inputProps={{ readOnly: state.infoOpen }}
-                margin="dense"
-              />
-            </Grid2>
+       
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 id="ClientMobile"
@@ -469,7 +456,14 @@ function ClientModal({
                   readOnly: state.infoOpen,
                   startAdornment: (
                     <InputAdornment position="start">
-                      {countryDetails.flag}
+                      {!!countryDetails.flag && (
+                        <img
+                          src={countryDetails.flag}
+                          alt="Flag"
+                          width={32}
+                          height={20}
+                        />
+                      )}
                       {countryDetails.dialCode}
                     </InputAdornment>
                   ),

@@ -79,7 +79,6 @@ function NewBusiness({
       })
       .catch((err) => err.message);
   };
-
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
     switch (action.type) {
@@ -158,9 +157,43 @@ function NewBusiness({
           clientOpen: true,
         };
       case ACTIONS.CLIENTCLOSE:
+        setbenefitsData([
+          {
+            ClientID: 0,
+            BStartDate: "",
+            BTerm: 0,
+            BPTerm: 0,
+            BCoverage: "",
+            BSumAssured: 0,
+            Interest: 0,
+            BPrem: 0,
+          },
+        ]);
         return {
           ...state,
           clientOpen: false,
+        };
+      case ACTIONS.BENEFITCLIENTOPEN:
+        return {
+          ...state,
+          benefitClientOpen: true,
+        };
+      case ACTIONS.BENEFITCLIENTCLOSE:
+        setbenefitsData([
+          {
+            ClientID: 0,
+            BStartDate: "",
+            BTerm: 0,
+            BPTerm: 0,
+            BCoverage: "",
+            BSumAssured: 0,
+            Interest: 0,
+            BPrem: 0,
+          },
+        ]);
+        return {
+          ...state,
+          benefitClientOpen: false,
         };
       case ACTIONS.ADDRESSOPEN:
         return {
@@ -238,7 +271,6 @@ function NewBusiness({
         return initialValues;
     }
   };
-
   //Creating useReducer Hook
   let [state, dispatch] = useReducer(reducer, initialValues);
 
@@ -315,7 +347,6 @@ function NewBusiness({
         status: response.status,
       };
     } catch (err: any) {
-      console.log(err);
       return {
         response: err,
         status: err.response.status,
@@ -339,7 +370,6 @@ function NewBusiness({
         policyvalidateOpen();
       })
       .catch((err) => {
-        console.log(err, "Error");
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -438,7 +468,6 @@ function NewBusiness({
       .then((res) => {
         //interest.current = res.data.Interest;
         setinterest(res.data.Interest);
-        console.log(res.data.Interest, "Interest ");
       })
       .catch((err) => {
         return err;
@@ -446,7 +475,6 @@ function NewBusiness({
   };
 
   useEffect(() => {
-    console.log(benefitsByPoliciesData[0]?.ID, "benefit data");
     getBenefit();
     return () => {};
   }, [state.editOpen && record.PProduct === "MRT"]);

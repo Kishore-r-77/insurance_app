@@ -575,6 +575,14 @@ function ClientFullModal({
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
+                          {!!countryDetails.flag && (
+                            <img
+                              src={countryDetails.flag}
+                              alt="Flag"
+                              width={32}
+                              height={20}
+                            />
+                          )}
                           {countryDetails.dialCode}
                         </InputAdornment>
                       ),
