@@ -1143,13 +1143,13 @@ function NewBusinessModal({
                             InputProps={{ readOnly: state.infoOpen }}
                             id="ClientID"
                             name="ClientID"
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            // Attention: *** Check the value details  ***
                             onClick={() =>
-                              dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
+                              dispatch({ type: ACTIONS.CLIENTOPEN })
                             }
-                            value={benefits.ClientID}
+                            value={
+                              state.addOpen ? state.ClientID : record?.ClientID
+                            }
                             placeholder="client_id"
                             label="client_id"
                             fullWidth
