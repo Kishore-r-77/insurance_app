@@ -502,10 +502,7 @@ function NewBusinessModal({
   // }, [state.ClientID]);
 
   const handleBenefitClientIdUpdate = (index: number) => {
-    // Assuming benefitsData is your array of benefits
     setselecteBenefitIndex(index.toString());
-    // const selectedBenefit = benefitsData[index];
-    // setbenefitClientId(selectedBenefit.ClientID);
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
   };
 
@@ -1199,13 +1196,6 @@ function NewBusinessModal({
                             value={benefits.BCoverage}
                             placeholder="b_coverage"
                             label="b_coverage"
-                            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            //   dispatch({
-                            //     type: ACTIONS.ONCHANGE,
-                            //     payload: e.target.value,
-                            //     fieldName: "BCoverage",
-                            //   })
-                            // }
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => handleChange(e, index)}
@@ -1273,11 +1263,6 @@ function NewBusinessModal({
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             type="number"
-                            //InputProps={{
-                            //startAdornment: (
-                            //<InputAdornment position="start">+91</InputAdornment>
-                            // ),
-                            //}}
                             id="BSumAssured"
                             name="BSumAssured"
                             value={benefits.BSumAssured}
