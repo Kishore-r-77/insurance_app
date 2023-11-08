@@ -181,18 +181,18 @@ function NewBusiness({
           benefitClientOpen: true,
         };
       case ACTIONS.BENEFITCLIENTCLOSE:
-        setbenefitsData([
-          {
-            ClientID: 0,
-            BStartDate: "",
-            BTerm: 0,
-            BPTerm: 0,
-            BCoverage: "",
-            BSumAssured: 0,
-            Interest: 0,
-            BPrem: 0,
-          },
-        ]);
+        // setbenefitsData([
+        //   {
+        //     ClientID: 0,
+        //     BStartDate: "",
+        //     BTerm: 0,
+        //     BPTerm: 0,
+        //     BCoverage: "",
+        //     BSumAssured: 0,
+        //     Interest: 0,
+        //     BPrem: 0,
+        //   },
+        // ]);
         return {
           ...state,
           benefitClientOpen: false,

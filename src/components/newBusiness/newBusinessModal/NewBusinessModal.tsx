@@ -65,6 +65,7 @@ function NewBusinessModal({
     });
   };
 
+  const [selecteBenefitIndex, setselecteBenefitIndex] = useState("");
   const [pProductData, setPProductData] = useState([]);
   const getPProduct = (companyId: number, name: string, languageId: number) => {
     paramItem(companyId, name, languageId)
@@ -250,13 +251,16 @@ function NewBusinessModal({
   };
 
   const [capturedCovg, setcapturedCovg] = useState("");
+  const [benefitClientId, setbenefitClientId] = useState<any>({
+    "0": "",
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
-    console.log(name, "=", value);
     if (name === "BCoverage") {
       setcapturedCovg(value);
     }
+
     setbenefitsData(
       benefitsData?.map((benefits: any, index: number) => {
         if (index === i) {
@@ -266,31 +270,29 @@ function NewBusinessModal({
     );
   };
 
-  // const benefitClientOpenFunc = (item: any, i: number) => {
-  //   console.log(item.ID, "Itemmmmmm");
-  //   setbenefitsData(
-  //     benefitsData?.map((benefits: any, index: number) => {
-  //       if (index === i) {
-  //         return { ...benefits, ClientID: item.ID };
-  //       } else return benefits;
-  //     })
-  //   );
-
-  //   dispatch({ type: ACTIONS.BENEFITCLIENTCLOSE });
-  // };
-
-  const benefitClientOpenFunc = (item: any, i: number) => {
+  const benefitClientOpenFunc = (item: any) => {
     console.log(item.ID, "Itemmmmmm");
-    setbenefitsData((prevBenefitsData: any) => {
-      return prevBenefitsData.map((benefits: any, index: number) => {
-        if (index === i) {
-          return { ...benefits, ClientID: item.ID };
-        } else {
-          return benefits;
-        }
-      });
+    console.log(selecteBenefitIndex, "selecteBenefitIndex");
+    setbenefitClientId((prev: any) => {
+      // if (prev === 0) {
+      //   prev = {};
+      //   prev[selecteBenefitIndex] = item.ID;
+      //   return prev;
+      // }
+      console.log(prev, "prev");
+      prev[selecteBenefitIndex] = item.ID;
+      return prev;
     });
-
+    setbenefitsData(
+      benefitsData?.map((benefits: any, index: number) => {
+        if (index === +selecteBenefitIndex) {
+          return {
+            ...benefits,
+            ClientID: benefitClientId[selecteBenefitIndex],
+          };
+        } else return benefits;
+      })
+    );
     dispatch({ type: ACTIONS.BENEFITCLIENTCLOSE });
   };
 
@@ -492,12 +494,20 @@ function NewBusinessModal({
     return () => {};
   }, [bcoverage.current]);
 
-  useEffect(() => {
-    setbenefitsData((prev: any) => [
-      { ...prev, ClientID: state.addOpen ? state.ClientID : record.ClientID },
-    ]);
-    return () => {};
-  }, [state.ClientID]);
+  // useEffect(() => {
+  //   setbenefitsData((prev: any) => [
+  //     { ...prev, ClientID: state.addOpen ? state.ClientID : record.ClientID },
+  //   ]);
+  //   return () => {};
+  // }, [state.ClientID]);
+
+  const handleBenefitClientIdUpdate = (index: number) => {
+    // Assuming benefitsData is your array of benefits
+    setselecteBenefitIndex(index.toString());
+    // const selectedBenefit = benefitsData[index];
+    // setbenefitClientId(selectedBenefit.ClientID);
+    dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
+  };
 
   return (
     <div>
@@ -1143,17 +1153,22 @@ function NewBusinessModal({
                             InputProps={{ readOnly: state.infoOpen }}
                             id="ClientID"
                             name="ClientID"
-                            value={benefits.ClientID}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            InputLabelProps={{ shrink: true }}
+                            value={benefitClientId[index]}
+                            // onClick={() =>
+                            //   dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
+                            // }
+                            // value={benefits.ClientID}
+                            onClick={() => handleBenefitClientIdUpdate(index)}
+                            // onChange={(
+                            //   e: React.ChangeEvent<HTMLInputElement>
+                            // ) => handleChange(e, index)}
                             placeholder="client_id"
                             label="client_id"
                             fullWidth
                             margin="dense"
                           />
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <FormControl
                             style={{ marginTop: "0.5rem" }}
@@ -1176,7 +1191,6 @@ function NewBusinessModal({
                             </LocalizationProvider>
                           </FormControl>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
@@ -1205,7 +1219,6 @@ function NewBusinessModal({
                             ))}
                           </TextField>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
@@ -1234,7 +1247,6 @@ function NewBusinessModal({
                             )}
                           </TextField>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
@@ -1258,7 +1270,6 @@ function NewBusinessModal({
                             )}
                           </TextField>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             type="number"
