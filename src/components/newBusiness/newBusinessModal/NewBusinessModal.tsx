@@ -8,14 +8,13 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import "./newBusinessModal.css";
-import axios from "axios";
-import moment from "moment";
 import CustomModal from "../../../utilities/modal/CustomModal";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Address from "../../clientDetails/address/Address";
 import Bank from "../../clientDetails/bank/Bank";
@@ -30,6 +29,7 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
+import "./newBusinessModal.css";
 
 function NewBusinessModal({
   state,
@@ -1143,13 +1143,10 @@ function NewBusinessModal({
                             InputProps={{ readOnly: state.infoOpen }}
                             id="ClientID"
                             name="ClientID"
-                            // Attention: *** Check the value details  ***
-                            onClick={() =>
-                              dispatch({ type: ACTIONS.CLIENTOPEN })
-                            }
-                            value={
-                              state.addOpen ? state.ClientID : record?.ClientID
-                            }
+                            value={benefits.ClientID}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
                             placeholder="client_id"
                             label="client_id"
                             fullWidth
