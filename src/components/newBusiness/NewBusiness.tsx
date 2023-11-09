@@ -10,27 +10,26 @@ import {
 } from "../../reducerUtilities/actions/policy/policyActions";
 import { PolicyStateType } from "../../reducerUtilities/types/policy/policyTypes";
 import { useAppSelector } from "../../redux/app/hooks";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomModal from "../../utilities/modal/CustomModal";
 import NotificationModal from "../../utilities/modal/NotificationModal";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import Nominee from "../nominee/nomineeTable/Nominee";
+import NewBussinessTable from "./NewBussinessTable";
 import styles from "./newBusiness.module.css";
 import {
   addApi,
   deleteApi,
   editApi,
   getAllApi,
-  getBusinessDateApi,
 } from "./newBusinessApis/newBusinessApis";
-import NewBussinessTable from "./NewBussinessTable";
 import PolicyValidate from "./policyValidate/PolicyValidate";
 
 import Notification from "../../utilities/Notification/Notification";
-import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
-import Benefit from "../policy/policyModal/benefit/Benefit";
-import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
-import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
+import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
+import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
+import Benefit from "../policy/policyModal/benefit/Benefit";
+import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
 
 function NewBusiness({
   modalFunc,
@@ -55,12 +54,7 @@ function NewBusiness({
     message: "",
     type: "",
   });
-  const {
-    businessDate,
-    businessDateToggle,
-    setbusinessDateToggle,
-    getBusinessDate,
-  } = useBusinessDate();
+  const { businessDate } = useBusinessDate();
 
   const [benefitsData, setbenefitsData] = useState([
     {
@@ -187,18 +181,18 @@ function NewBusiness({
           benefitClientOpen: true,
         };
       case ACTIONS.BENEFITCLIENTCLOSE:
-        setbenefitsData([
-          {
-            ClientID: 0,
-            BStartDate: "",
-            BTerm: 0,
-            BPTerm: 0,
-            BCoverage: "",
-            BSumAssured: 0,
-            Interest: 0,
-            BPrem: 0,
-          },
-        ]);
+        // setbenefitsData([
+        //   {
+        //     ClientID: 0,
+        //     BStartDate: "",
+        //     BTerm: 0,
+        //     BPTerm: 0,
+        //     BCoverage: "",
+        //     BSumAssured: 0,
+        //     Interest: 0,
+        //     BPrem: 0,
+        //   },
+        // ]);
         return {
           ...state,
           benefitClientOpen: false,

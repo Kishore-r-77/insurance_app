@@ -8,14 +8,13 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import "./newBusinessModal.css";
-import axios from "axios";
-import moment from "moment";
 import CustomModal from "../../../utilities/modal/CustomModal";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import Agency from "../../agency/Agency";
 import Address from "../../clientDetails/address/Address";
 import Bank from "../../clientDetails/bank/Bank";
@@ -30,6 +29,7 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
+import "./newBusinessModal.css";
 
 function NewBusinessModal({
   state,
@@ -65,6 +65,7 @@ function NewBusinessModal({
     });
   };
 
+  const [selecteBenefitIndex, setselecteBenefitIndex] = useState("");
   const [pProductData, setPProductData] = useState([]);
   const getPProduct = (companyId: number, name: string, languageId: number) => {
     paramItem(companyId, name, languageId)
@@ -250,13 +251,16 @@ function NewBusinessModal({
   };
 
   const [capturedCovg, setcapturedCovg] = useState("");
+  const [benefitClientId, setbenefitClientId] = useState<any>({
+    "0": "",
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
-    console.log(name, "=", value);
     if (name === "BCoverage") {
       setcapturedCovg(value);
     }
+
     setbenefitsData(
       benefitsData?.map((benefits: any, index: number) => {
         if (index === i) {
@@ -266,31 +270,29 @@ function NewBusinessModal({
     );
   };
 
-  // const benefitClientOpenFunc = (item: any, i: number) => {
-  //   console.log(item.ID, "Itemmmmmm");
-  //   setbenefitsData(
-  //     benefitsData?.map((benefits: any, index: number) => {
-  //       if (index === i) {
-  //         return { ...benefits, ClientID: item.ID };
-  //       } else return benefits;
-  //     })
-  //   );
-
-  //   dispatch({ type: ACTIONS.BENEFITCLIENTCLOSE });
-  // };
-
-  const benefitClientOpenFunc = (item: any, i: number) => {
+  const benefitClientOpenFunc = (item: any) => {
     console.log(item.ID, "Itemmmmmm");
-    setbenefitsData((prevBenefitsData: any) => {
-      return prevBenefitsData.map((benefits: any, index: number) => {
-        if (index === i) {
-          return { ...benefits, ClientID: item.ID };
-        } else {
-          return benefits;
-        }
-      });
+    console.log(selecteBenefitIndex, "selecteBenefitIndex");
+    setbenefitClientId((prev: any) => {
+      // if (prev === 0) {
+      //   prev = {};
+      //   prev[selecteBenefitIndex] = item.ID;
+      //   return prev;
+      // }
+      console.log(prev, "prev");
+      prev[selecteBenefitIndex] = item.ID;
+      return prev;
     });
-
+    setbenefitsData(
+      benefitsData?.map((benefits: any, index: number) => {
+        if (index === +selecteBenefitIndex) {
+          return {
+            ...benefits,
+            ClientID: benefitClientId[selecteBenefitIndex],
+          };
+        } else return benefits;
+      })
+    );
     dispatch({ type: ACTIONS.BENEFITCLIENTCLOSE });
   };
 
@@ -492,12 +494,17 @@ function NewBusinessModal({
     return () => {};
   }, [bcoverage.current]);
 
-  useEffect(() => {
-    setbenefitsData((prev: any) => [
-      { ...prev, ClientID: state.addOpen ? state.ClientID : record.ClientID },
-    ]);
-    return () => {};
-  }, [state.ClientID]);
+  // useEffect(() => {
+  //   setbenefitsData((prev: any) => [
+  //     { ...prev, ClientID: state.addOpen ? state.ClientID : record.ClientID },
+  //   ]);
+  //   return () => {};
+  // }, [state.ClientID]);
+
+  const handleBenefitClientIdUpdate = (index: number) => {
+    setselecteBenefitIndex(index.toString());
+    dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
+  };
 
   return (
     <div>
@@ -1143,20 +1150,22 @@ function NewBusinessModal({
                             InputProps={{ readOnly: state.infoOpen }}
                             id="ClientID"
                             name="ClientID"
-                            // Attention: *** Check the value details  ***
-                            onClick={() =>
-                              dispatch({ type: ACTIONS.CLIENTOPEN })
-                            }
-                            value={
-                              state.addOpen ? state.ClientID : record?.ClientID
-                            }
+                            InputLabelProps={{ shrink: true }}
+                            value={benefitClientId[index]}
+                            // onClick={() =>
+                            //   dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
+                            // }
+                            // value={benefits.ClientID}
+                            onClick={() => handleBenefitClientIdUpdate(index)}
+                            // onChange={(
+                            //   e: React.ChangeEvent<HTMLInputElement>
+                            // ) => handleChange(e, index)}
                             placeholder="client_id"
                             label="client_id"
                             fullWidth
                             margin="dense"
                           />
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <FormControl
                             style={{ marginTop: "0.5rem" }}
@@ -1179,7 +1188,6 @@ function NewBusinessModal({
                             </LocalizationProvider>
                           </FormControl>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
@@ -1188,13 +1196,6 @@ function NewBusinessModal({
                             value={benefits.BCoverage}
                             placeholder="b_coverage"
                             label="b_coverage"
-                            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            //   dispatch({
-                            //     type: ACTIONS.ONCHANGE,
-                            //     payload: e.target.value,
-                            //     fieldName: "BCoverage",
-                            //   })
-                            // }
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => handleChange(e, index)}
@@ -1208,7 +1209,6 @@ function NewBusinessModal({
                             ))}
                           </TextField>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
@@ -1237,7 +1237,6 @@ function NewBusinessModal({
                             )}
                           </TextField>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
@@ -1261,15 +1260,9 @@ function NewBusinessModal({
                             )}
                           </TextField>
                         </Grid2>
-
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             type="number"
-                            //InputProps={{
-                            //startAdornment: (
-                            //<InputAdornment position="start">+91</InputAdornment>
-                            // ),
-                            //}}
                             id="BSumAssured"
                             name="BSumAssured"
                             value={benefits.BSumAssured}
