@@ -1151,7 +1151,11 @@ function NewBusinessModal({
                             id="ClientID"
                             name="ClientID"
                             InputLabelProps={{ shrink: true }}
-                            value={benefitClientId[index]}
+                            value={
+                              state.addOpen
+                                ? benefitClientId[index]
+                                : benefits.ClientID
+                            }
                             // onClick={() =>
                             //   dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
                             // }
