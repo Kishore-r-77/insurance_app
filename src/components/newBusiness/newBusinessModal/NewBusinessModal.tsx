@@ -494,17 +494,17 @@ function NewBusinessModal({
     return () => {};
   }, [bcoverage.current]);
 
-  // useEffect(() => {
-  //   setbenefitsData((prev: any) => [
-  //     { ...prev, ClientID: state.addOpen ? state.ClientID : record.ClientID },
-  //   ]);
-  //   return () => {};
-  // }, [state.ClientID]);
-
   const handleBenefitClientIdUpdate = (index: number) => {
     setselecteBenefitIndex(index.toString());
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
   };
+
+  useEffect(() => {
+    setbenefitClientId({
+      "0": "",
+    });
+    return () => {};
+  }, [state.addOpen === false]);
 
   return (
     <div>
@@ -1216,11 +1216,6 @@ function NewBusinessModal({
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
                             select
-                            //InputProps={{
-                            //startAdornment: (
-                            //<InputAdornment position="start">+91</InputAdornment>
-                            // ),
-                            //}}
                             id="BTerm"
                             name="BTerm"
                             value={benefits.BTerm}
