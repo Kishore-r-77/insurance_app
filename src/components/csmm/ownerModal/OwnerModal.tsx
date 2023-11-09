@@ -188,7 +188,7 @@ function OwnerModal({ record, open, handleClose }: any) {
                     readOnly
                     label="Client Dod"
                     inputFormat="DD/MM/YYYY"
-                    value={record.ClientDod}
+                    value={record?.ClientDod?.length === 0 ? null : record?.ClientDod} 
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) => {}}
