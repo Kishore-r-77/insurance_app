@@ -58,8 +58,6 @@ function Benefit({
         };
       case ACTIONS.EDITCHANGE:
         if (action.fieldName === "Interest") {
-          console.log(action.payload, "On change interest");
-          //interest.current = action.payload;
           setinterest(action.payload);
         } else {
           setRecord((prev: any) => ({
@@ -194,7 +192,6 @@ function Benefit({
   const handleFormSubmit = () => {
     return addApi(state, companyId, policyRecord)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -213,7 +210,6 @@ function Benefit({
         getPolicies();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -226,7 +222,6 @@ function Benefit({
   const editFormSubmit = async () => {
     editApi(record, interest)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -253,7 +248,6 @@ function Benefit({
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: `Deleted  Successfully`,
@@ -262,7 +256,6 @@ function Benefit({
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
