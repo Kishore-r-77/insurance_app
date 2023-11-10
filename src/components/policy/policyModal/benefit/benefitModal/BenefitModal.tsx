@@ -74,28 +74,42 @@ function BenefitModal({
   const [intrestData, setintrestData] = useState([]);
 
   const mrtaDropdown = () => {
-    return extraParams(companyId, "Q0006", record.BCoverage, "MrtaInterest")
+    return extraParams(
+      companyId,
+      "Q0006",
+      state.addOpen ? state.BCoverage : record.BCoverage,
+      "MrtaInterest"
+    )
       .then((resp) => setintrestData(resp.data?.AllowedInterestRates))
       .catch((err) => err.message);
   };
 
   useEffect(() => {
     mrtaDropdown();
-    return () => {};
-  }, [state.addOpen ? state.addOpen : state.editOpen]);
+    return () => {
+      setintrestData([]);
+    };
+  }, [state.addOpen ? state.BCoverage : state.editOpen]);
 
   const [bpremData, setbPremData] = useState([]);
 
   const ilpExtra = () => {
-    return extraParams(companyId, "Q0006", record.BCoverage, "UlAlMethod")
+    return extraParams(
+      companyId,
+      "Q0006",
+      state.addOpen ? state.BCoverage : record.BCoverage,
+      "UlAlMethod"
+    )
       .then((resp) => setbPremData(resp.data?.AllowedUlAlMethod))
       .catch((err) => err.message);
   };
 
   useEffect(() => {
     ilpExtra();
-    return () => {};
-  }, [state.addOpen ? state.addOpen : state.editOpen]);
+    return () => {
+      setbPremData([]);
+    };
+  }, [state.addOpen ? state.BCoverage : state.editOpen]);
 
   const [termRangeMenu, settermRangeMenu] = useState([]);
   const [pptRangeMenu, setpptRangeMenu] = useState([]);
@@ -192,7 +206,9 @@ function BenefitModal({
                 InputProps={{ readOnly: state.infoOpen }}
                 id="ClientID"
                 onClick={() =>
-                  state.addOpen || state.editOpen ? dispatch({ type: ACTIONS.CLIENTOPEN }) : {}
+                  state.addOpen || state.editOpen
+                    ? dispatch({ type: ACTIONS.CLIENTOPEN })
+                    : {}
                 }
                 name="ClientID"
                 value={state.addOpen ? state.ClientID : record.ClientID}
@@ -334,9 +350,7 @@ function BenefitModal({
                 margin="dense"
               />
             </Grid2>
-            {state.addOpen ? (
-              intrestData.length !== 0
-            ) : intrestData.length !== 0 ? (
+            {intrestData.length !== 0 ? (
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   select
@@ -365,9 +379,7 @@ function BenefitModal({
                 </TextField>
               </Grid2>
             ) : null}
-            {state.addOpen ? (
-              bpremData.length !== 0
-            ) : bpremData.length !== 0 ? (
+            {bpremData.length !== 0 ? (
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   id="BPrem"
