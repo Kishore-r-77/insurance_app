@@ -7,13 +7,12 @@ import React, { useEffect, useState } from "react";
 import styles from "./benefitModal.module.css";
 
 import { BenefitModalType } from "../../../../../reducerUtilities/types/benefit/benefitTypes";
-import CustomModal from "../../../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../../../redux/app/hooks";
+import CustomModal from "../../../../../utilities/modal/CustomModal";
 import { getApi } from "../../../../admin/companies/companiesApis/companiesApis";
-import { extraParamItem } from "../../../../clientDetails/client/clientApis/clientApis";
 import Client from "../../../../clientDetails/client/Client";
+import { extraParamItem } from "../../../../clientDetails/client/clientApis/clientApis";
 import { extraParams } from "../../../policyApis/policyApis";
-import axios from "axios";
 
 function BenefitModal({
   state,
