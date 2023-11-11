@@ -72,22 +72,22 @@ const P0065 = forwardRef((props: any, ref) => {
     setEnq(false)
   }
 
-  const [errors, seterrors] = useState([])
+  const [data1, setdata1] = useState([])
 
-  const getErrors=()=>{
+  const getData1=()=>{
     axios.get(`http://localhost:3000/api/v1/basicservices/errors`,{
     withCredentials: true,
     params: {
       pageSize:0
     }})
     .then((resp)=>{
-      seterrors(resp.data["All Errors"])
+      setdata1(resp.data["All Errors"])
       return resp.data
     })
   }
 
   useEffect(() => {
-    getErrors()
+    getData1()
     return () => {}
   }, [])
   
@@ -158,11 +158,11 @@ const P0065 = forwardRef((props: any, ref) => {
             <td>
               <Autocomplete
                       id="errorCode"
-                      options={errors}
+                      options={data1}
                       autoHighlight
                       readOnly={ props.mode === 'display' || props.mode === 'delete'}
                       getOptionLabel={(option: any) => `${option.ShortCode} - ${option.LongCode}`}
-                      value={errors.find((error: any) => error.ShortCode === value.errorCode) || null}
+                      value={data1.find((data: any) => data.ShortCode === value.errorCode) || null}
                       onChange={(_, newValue) =>
                         fieldChangeHandler(index, 'errorCode', newValue ? newValue.ShortCode : '', false)
                       }
