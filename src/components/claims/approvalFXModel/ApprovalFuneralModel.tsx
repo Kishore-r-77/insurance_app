@@ -18,7 +18,6 @@ function ApprovalFuneralModal({
   modifiedPremium,
   handleClose,
   funeralObj,
-  funeralBenefits,
   isSave,
   savefuneralobj,
   savefuneralOpen,
