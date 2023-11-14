@@ -1,12 +1,9 @@
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import CustomSaveCritical from "./CustomSaveCritical";
+import React from "react";
 import CustomCIapprove from "./CustomCIapprove";
 
 function AprroveCI({
@@ -17,15 +14,12 @@ function AprroveCI({
   handleCIIncidentDate,
   isCInext,
   criticalentry,
-  CIapprove,
-  apCIBenefits,
   Criticalcheckval,
   handleReject,
   isclick,
 }: any) {
   const infoTitle: string = "Critical Approve ";
   const size: string = "xl";
-  // console.log("apppppp",Criticalcheckval);
 
   return (
     <div>
