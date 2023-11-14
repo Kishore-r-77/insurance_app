@@ -1,39 +1,23 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import InfoIcon from "@mui/icons-material/Info";
 
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Paper, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { Table } from "react-bootstrap";
-import CustomFuneralFullModal from "../funeralModel/CustomFuneralfullModal";
-import styles from "./ApprovalFxModel.module.css";
 import axios from "axios";
-import { p0050 } from "../../clientDetails/bank/bankApis/bankApis";
-import { useAppSelector } from "../../../redux/app/hooks";
-import { WidthFull } from "@mui/icons-material";
-import SaveFuneral from "../funeralModel/SaveFuneral";
+import moment from "moment";
+import React, { useRef, useState } from "react";
+import { Table } from "react-bootstrap";
+import styles from "./ApprovalFxModel.module.css";
 // import DoneIcon from "@mui/icons-material/Done";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import NotificationModal from "../../../utilities/modal/NotificationModal";
-import FuneralApprovalModel from "./FuneralApprovalModel";
 import CustomApprovalFuneralFullModal from "./CustomApprovalFuneral";
+import FuneralApprovalModel from "./FuneralApprovalModel";
 
 function ApprovalFuneralModal({
   open,
   modifiedPremium,
   handleClose,
   funeralObj,
-  funeralBenefits,
   isSave,
   savefuneralobj,
   savefuneralOpen,

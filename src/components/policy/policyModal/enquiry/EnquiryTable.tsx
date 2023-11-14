@@ -278,10 +278,18 @@ function EnquiryTable({
                       </td>
                     ) : ilpTOpen ? (
                       <td
-                        key={col.field}
-                        onClick={() => ilptClickOpen(row?.FundCode)}
+                          key={col.field}
+                          onClick={() => ilptClickOpen(row?.FundCode)}
                       >
-                        {row[col.field]}
+                          <span
+                              style={{
+                                  textDecoration: row?.DeletedAt != null ? "line-through" : "none",
+                                  marginRight: "1.5rem",
+                                  display: "inline-block", // Ensures the span behaves like a block-level element
+                              }}
+                          >
+                              {row[col.field]}
+                          </span>
                       </td>
                     ) : (
                       <td key={col.field}>{row[col.field]}</td>

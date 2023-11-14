@@ -7,12 +7,12 @@ import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
+import axios from "axios";
 
 import InfoIcon from "@mui/icons-material/Info";
 
 import  "./p0065.css";
 import P0065Enq  from "./p0065Enq";
-import axios from "axios";
 
 
 const P0065 = forwardRef((props: any, ref) => {
@@ -71,7 +71,6 @@ const P0065 = forwardRef((props: any, ref) => {
   const enqClose = () =>{
     setEnq(false)
   }
-
   const [errors, seterrors] = useState([])
 
   const getErrors=()=>{
@@ -86,11 +85,15 @@ const P0065 = forwardRef((props: any, ref) => {
     })
   }
 
+
   useEffect(() => {
     getErrors()
+
+
     return () => {}
-  }, [])
-  
+
+    },[])
+
 
   return (
     <>
@@ -157,31 +160,30 @@ const P0065 = forwardRef((props: any, ref) => {
 
             <td>
               <Autocomplete
-                      id="errorCode"
-                      options={errors}
-                      autoHighlight
-                      readOnly={ props.mode === 'display' || props.mode === 'delete'}
-                      getOptionLabel={(option: any) => `${option.ShortCode} - ${option.LongCode}`}
-                      value={errors.find((error: any) => error.ShortCode === value.errorCode) || null}
-                      onChange={(_, newValue) =>
-                        fieldChangeHandler(index, 'errorCode', newValue ? newValue.ShortCode : '', false)
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Error Code"
-                          size="small"
-                          margin="dense"
-                          InputProps={{
-                            ...params.InputProps,
-                            readOnly: props.mode === 'display' || props.mode === 'delete',
-                          }}
-                        />
-                      )}
-                      fullWidth
-                    />
-            </td>
-
+                id="errorCode"
+                options={errors}
+                autoHighlight
+                readOnly={ props.mode === 'display' || props.mode === 'delete'}
+                getOptionLabel={(option: any) => `${option.ShortCode} - ${option.LongCode}`}
+                value={errors.find((data: any) => data.ShortCode === value.errorCode) || null}
+                onChange={(_, newValue) => 
+                  fieldChangeHandler(index, 'errorCode', newValue ? newValue.ShortCode : '', false)
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Error Code"
+                    size="small"
+                    margin="dense"
+                    InputProps={{
+                      ...params.InputProps,
+                      readOnly: props.mode === 'display' || props.mode === 'delete',
+                    }}
+                  />
+                )}
+                fullWidth
+              />
+            </td> 
             {(props.mode === "update" || props.mode === "create") && (
               <td>
                 <span
