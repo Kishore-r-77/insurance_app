@@ -1,0 +1,97 @@
+.batch-body {
+  background-color: #d3d0e4; /* Soft lavender background color */
+  min-height: 85vh;
+}
+
+#batch-title {
+  text-align: center;
+  padding: 1.5rem;
+  background: linear-gradient(
+    to right,
+    #3f3a66,
+    #53688f
+  ); /* Gradient from deep indigo to a lighter shade */
+  color: #fff;
+  font-size: 2.5rem;
+  border-bottom: 3px solid #2e2a57; /* Darker border for contrast */
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: "Lora", serif; /* Updated font to Lora for an elegant touch */
+}
+
+.batch-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.batch-menus {
+  box-sizing: border-box;
+  height: 15rem;
+  margin: 2rem;
+  padding: 2rem;
+  flex: 0 1 40rem;
+  border-radius: 15px;
+  text-align: center;
+  gap: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    #ffb6c1,
+    #87ceeb
+  ); /* Gradient from light pink to light sky blue for the menus background */
+  border: 2px solid #dcdcdc;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.batch,
+.premst,
+.receipt,
+.unitst {
+  padding: 1.5rem;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+}
+
+.batch:hover,
+.premst:hover,
+.receipt:hover,
+.unitst:hover {
+  background: #2c2a50 !important; /* Darker indigo color on hover */
+  color: white;
+}
+
+.batch {
+  background: linear-gradient(
+    45deg,
+    #007bff,
+    #00bfff
+  ) !important; /* Gradient from blue to light blue for the batch background */
+}
+
+.premst {
+  background: linear-gradient(
+    45deg,
+    #ff1493,
+    #ff69b4
+  ) !important; /* Gradient from deep pink to light pink for the premst background */
+}
+
+.receipt {
+  background: linear-gradient(
+    45deg,
+    #800080,
+    #ba55d3
+  ) !important; /* Gradient from purple to medium purple for the receipt background */
+}
+
+.unitst {
+  background: linear-gradient(
+    45deg,
+    #008000,
+    #2e8b57
+  ) !important; /* Gradient from dark green to sea green for the unitst background */
+}

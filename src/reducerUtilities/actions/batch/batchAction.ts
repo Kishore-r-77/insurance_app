@@ -3,8 +3,14 @@ import { BatchStateType } from "../../types/batch/batchTypes";
 //Storing Actions into a Variable for Reducer
 export const ACTIONS = {
   ONCHANGE: "ONCHANGE",
-  ADDOPEN: "ADDOPEN",
-  ADDCLOSE: "ADDCLOSE",
+  BATCHOPEN: "BATCHOPEN",
+  BATCHCLOSE: "BATCHCLOSE",
+  PTOPEN: "PTOPEN",
+  PTCLOSE: "PTCLOSE",
+  RECEIPTOPEN: "RECEIPTOPEN",
+  RECEIPTCLOSE: "RECEIPTCLOSE",
+  UNITSTOPEN: "UNITSTOPEN",
+  UNITSTCLOSE: "UNITSTCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
 };
@@ -16,12 +22,19 @@ export const initialValues: BatchStateType = {
   ToPolicy: "",
   RevBonusDate: "",
   Date: "",
-  addOpen: true,
-  searchString: "",
-  searchCriteria: "",
-  sortColumn: "",
-  sortAsc: false,
-  sortDesc: false,
+  FromDate: "",
+  ToDate: "",
+  PtFromPolicy: "",
+  PtToPolicy: "",
+  effectiveDate: "",
+  UnitStFromDate: "",
+  UnitStToDate: "",
+  UnitStFromPolicy: "",
+  UnitStToPolicy: "",
+  batchOpen: false,
+  premStOpen: false,
+  receiptOpen: false,
+  unitStOpen: false,
 };
 
 //Columns Defined to Pass into the Custom Table
