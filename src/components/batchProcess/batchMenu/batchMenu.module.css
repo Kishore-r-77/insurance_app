@@ -1,5 +1,12 @@
+/* Background of the entire page */
+body {
+  background-color: #f7f7f7; /* Light grayish background */
+  margin: 0;
+  font-family: "Roboto", sans-serif; /* Updated font for a clean look */
+}
+
 .batch-body {
-  background-color: #d3d0e4; /* Soft lavender background color */
+  background-color: #f7f7f7; /* Light grayish background */
   min-height: 85vh;
 }
 
@@ -8,15 +15,15 @@
   padding: 1.5rem;
   background: linear-gradient(
     to right,
-    #3f3a66,
-    #53688f
-  ); /* Gradient from deep indigo to a lighter shade */
-  color: #fff;
-  font-size: 2.5rem;
-  border-bottom: 3px solid #2e2a57; /* Darker border for contrast */
+    #4a148c,
+    #880e4f
+  ); /* Gradient background for an elegant touch */
+  color: #fff; /* White text color */
+  font-size: 2.8rem; /* Slightly larger font size */
+  border-bottom: 3px solid #2e003e; /* Slightly darker border for contrast */
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-family: "Lora", serif; /* Updated font to Lora for an elegant touch */
+  font-family: "Playfair Display", serif; /* Updated font for a more sophisticated look */
 }
 
 .batch-main {
@@ -34,64 +41,50 @@
   border-radius: 15px;
   text-align: center;
   gap: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    #ffb6c1,
-    #87ceeb
-  ); /* Gradient from light pink to light sky blue for the menus background */
-  border: 2px solid #dcdcdc;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background: #fff; /* White background */
+  border: 2px solid #e0e0e0; /* Light gray border */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Add box shadow and border-radius to the menu items */
 .batch,
 .premst,
 .receipt,
 .unitst {
   padding: 1.5rem;
-  border-radius: 8px;
-  color: #fff;
+  border-radius: 12px; /* Slightly increased border radius for a softer look */
+  color: #fff; /* White text color */
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   cursor: pointer;
-  font-family: "Poppins", sans-serif;
+  font-family: "Caveat", cursive;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5); /* Subtle box shadow */
+  border: none;
 }
 
+/* Add a hover scale effect */
 .batch:hover,
 .premst:hover,
 .receipt:hover,
 .unitst:hover {
-  background: #2c2a50 !important; /* Darker indigo color on hover */
-  color: white;
+  background: linear-gradient(to right, #673ab7, #512da8);
+  color: #fff;
+  transform: scale(1.05);
 }
 
+/* Individual menu item colors and backgrounds */
 .batch {
-  background: linear-gradient(
-    45deg,
-    #007bff,
-    #00bfff
-  ) !important; /* Gradient from blue to light blue for the batch background */
+  background: #ff4081 !important; /* Pink background for batch */
 }
 
 .premst {
-  background: linear-gradient(
-    45deg,
-    #ff1493,
-    #ff69b4
-  ) !important; /* Gradient from deep pink to light pink for the premst background */
+  background: #7e57c2 !important; /* Purple background for premst */
 }
 
 .receipt {
-  background: linear-gradient(
-    45deg,
-    #800080,
-    #ba55d3
-  ) !important; /* Gradient from purple to medium purple for the receipt background */
+  background: #4db6ac !important; /* Teal background for receipt */
 }
 
 .unitst {
-  background: linear-gradient(
-    45deg,
-    #008000,
-    #2e8b57
-  ) !important; /* Gradient from dark green to sea green for the unitst background */
+  background: #ffb74d !important; /* Amber background for unitst */
 }

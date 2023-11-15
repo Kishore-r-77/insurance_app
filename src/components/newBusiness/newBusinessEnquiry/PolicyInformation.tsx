@@ -943,7 +943,10 @@ function PolicyInformation({
               <Tooltip
                 title={isCollapse ? "Click to Expand" : "Click to Collapse"}
               >
-                <IconButton onClick={handleCollapse}>
+                <IconButton
+                  onClick={handleCollapse}
+                  style={{ color: isCollapse ? "white" : "black" }}
+                >
                   <MenuIcon />
                 </IconButton>
               </Tooltip>
