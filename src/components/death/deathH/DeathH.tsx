@@ -156,9 +156,6 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-  const companyId = useAppSelector(
-    (state) => state.users.user.message.companyId
-  );
 
   //Get all Api
   const getData = () => {
