@@ -1,35 +1,26 @@
-import React, { useRef, useState } from "react";
-import CustomDirectInvPremModal from "./CustomDirectInvPremModal";
-import { TreeItem, TreeView } from "@mui/lab";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { Paper, TextField } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Table } from "react-bootstrap";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import styles from "./directInvPrem.module.css";
+import { TreeItem, TreeView } from "@mui/lab";
+import { Paper, TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import moment from "moment";
+import React, { useRef } from "react";
+import { Table } from "react-bootstrap";
 import CustomModal from "../../../utilities/modal/CustomModal";
-import Client from "../../clientDetails/client/Client";
-import ClientEnquiry from "../../claims/newBusinessModal/enquiry/ClientEnquiry";
-import axios from "axios";
+import CustomDirectInvPremModal from "./CustomDirectInvPremModal";
+import styles from "./directInvPrem.module.css";
 function DirectInvPrem({
   open,
   handleClose,
   inverstPremData,
   iplBenefits,
-  setilpBenefits,
   iplFundData,
-  setilpFundData,
-  setilpAllowed,
   ilpAllowed,
-  isDirectInvPrem,
   ilpSelectedFund,
   setilpSelectedFund,
   checkIlpFunds,
   saveIlpFunds,
   percentageData,
-  setpercentageData,
   isSave,
 }: any) {
   const title: string = "Direct Investment premium";

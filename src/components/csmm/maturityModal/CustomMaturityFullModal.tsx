@@ -2,12 +2,10 @@ import { Button, Modal } from "react-bootstrap";
 
 function CustomSurrFullModal({
   open,
-  infoOpen,
   handleClose,
   title,
   children,
   handleFormSubmit,
-  isSave,
   commit,
 }: any) {
   return (
