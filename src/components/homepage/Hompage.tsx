@@ -8,16 +8,29 @@ function Hompage() {
   return (
     <div className={styles.main}>
       <section className={styles["insurance-image"]}>
-        <h1>Futura Insurance</h1>
-        <h1>Flexible Business Insurance that Grows with You.</h1>
+        <h1>Insurance</h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-          expedita sit impedit quaerat praesentium repudiandae aliquid similique
-          quo magnam minima odio ducimus sequi reprehenderit, incidunt, eius
-          quae, quia odit repellat veniam illum reiciendis. Vero itaque,
-          quibusdam corporis eaque delectus ea error voluptatem ad magni, totam,
-          sequi debitis. Expedita aut quaerat, ipsam, voluptas temporibus,
-          voluptates tenetur harum culpa quibusdam pariatur placeat.
+          With the advent of modern modes of transportation of merchandise and
+          mortals by air, water, road or rail, there is a quantum surge in their
+          transit for commercial as well as entertainment objective. During the
+          freightage, there is an inherent vulnerability of “loss” ascribed to
+          natural as well as man made conflicts. The trades and commerce of the
+          21st century takes cognizant of the “calamity” and tries to
+          financially “redress” the loss to ensure unhindered trade. “Insurance”
+          is the only magic wand which could indemnify the adversity and
+          guarantee unbridled business.
+        </p>
+        <br />
+        <p>
+          Every business is instituted on a concept. For example, Banks are
+          based on the doctrine of “regulated monetary flow” under the purview
+          of a Regulatory Authority. Similarly, Insurance is instituted on the
+          principle of “fear of loss of goods or lives”. It is nonchalant to
+          place a price tag on merchandise but very excruciating to do so on
+          human lives as each life is priceless. The financial compensation of
+          assets both moveable and immovable are rendered by “General Insurance”
+          while that of human lives which solicits a delicate handling is
+          administered by “Life and Health Insurance” companies.
         </p>
       </section>
       <section>
@@ -26,29 +39,32 @@ function Hompage() {
             <PsychologyIcon style={{ width: "40px", height: "40px" }} />
             <h1>Planning and Consulting</h1>
             <p>
-              We provide support to insurance companies in planning and
-              implementing Product configuration, modernization of legacy
-              applications, Technical and Business Solutions, and Post
-              Production services
+              FuturaInsTech is a conglomerate of a handful of doyens of the
+              Insurance and Information Technology (IT) with proven track record
+              in the Insurance sector globally. We provide consultancy service
+              for Insurance client based on the need of the Client as well as
+              its relevance to the prevailing global business requirement. Our
+              expertise revolves on Product Configuration, modernization of
+              legacy systems, Technical and Business Solutions as well as Post
+              Production Services.
             </p>
           </article>
           <article className={styles.tech}>
             <DevicesIcon style={{ width: "40px", height: "40px" }} />
             <h1>Technologies</h1>
             <p>
-              Having the core technology expertise we provide hassle-free
-              Migration, Transformation and Business Process Re-engineering
-              services to insurance companies to achieve their business
-              objectives{" "}
+              Having core Technology expertise, we provide hassle-free migration
+              and Business Process Re-Engineering services to Insurance
+              Companies to achieve their Business objectives.
             </p>
           </article>
           <article className={styles.collab}>
             <GroupsIcon style={{ width: "40px", height: "40px" }} />
             <h1>Collaboration</h1>
             <p>
-              Bridging Insurance and Product Software companies in the areas of
-              Migration of data from legacy system to target system, Product
-              Configuration, UAT support and Product implementation{" "}
+              Bringing Insurance and Product Software companies in the area of
+              migration of data from Legacy System to Target System. Product
+              Configuration, UAT Support and Product Implementation.
             </p>
           </article>
         </span>

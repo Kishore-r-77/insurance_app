@@ -1,5 +1,5 @@
 .main {
-  /* You can add styles for the main container if needed */
+  height: auto;
 }
 
 .insurance-image {
@@ -48,18 +48,21 @@
   margin: 1rem auto;
   background-color: #f2f2f2; /* Light gray background color for sub-sections */
   padding: 20px;
+  flex-wrap: wrap;
 }
 
 .plan,
 .tech,
 .collab {
-  flex: 0 0 30rem; /* Set a fixed width for the flex items */
+  flex: 0 0 30rem;
+  max-height: auto;
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
   text-align: center;
   text-wrap: balance;
+  margin-bottom: 2rem;
 }
 
 .plan:hover,
