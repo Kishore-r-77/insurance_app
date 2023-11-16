@@ -4,13 +4,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../redux/app/hooks";
-import styles from "./receiptModal.module.css";
 import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
+import { useAppSelector } from "../../../redux/app/hooks";
 import Notification from "../../../utilities/Notification/Notification";
-import CustomFullModal from "../../../utilities/modal/CustomFullModal";
+import CustomModal from "../../../utilities/modal/CustomModal";
 import { useBusinessDate } from "../../contexts/BusinessDateContext";
 import { ReceiptBankbydateapi } from "../receiptBatchApis/receiptBatchApis";
+import styles from "./receiptModal.module.css";
 
 function ReceiptModal({ state, dispatch, ACTIONS }: BatchModalType) {
   const companyId = useAppSelector(
@@ -61,7 +61,7 @@ function ReceiptModal({ state, dispatch, ACTIONS }: BatchModalType) {
 
   return (
     <div className={styles.modal}>
-      <CustomFullModal
+      <CustomModal
         open={state.receiptOpen}
         handleClose={
           state.receiptOpen
@@ -78,7 +78,7 @@ function ReceiptModal({ state, dispatch, ACTIONS }: BatchModalType) {
             spacing={4}
             style={{ width: "95%", margin: "0px auto" }}
           >
-            <Grid2 xs={8} md={6}>
+            <Grid2 lg={16}>
               <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDatePicker
@@ -109,7 +109,7 @@ function ReceiptModal({ state, dispatch, ACTIONS }: BatchModalType) {
             </Grid2>
           </Grid2>
         </form>
-      </CustomFullModal>
+      </CustomModal>
 
       <Notification notify={notify} setNotify={setNotify} />
     </div>

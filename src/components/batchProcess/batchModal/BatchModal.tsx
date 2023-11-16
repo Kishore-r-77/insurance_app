@@ -13,11 +13,12 @@ import { addApi, getBusinessDateApi } from "../BatchApis/batchApis";
 
 import Notification from "../../../utilities/Notification/Notification";
 import { useBusinessDate } from "../../contexts/BusinessDateContext";
-import CustomBatchFullModal from "./BatchFullModal";
+
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 function BatchModal({ state, dispatch, ACTIONS }: BatchModalType) {
   const addTitle: string = "AllocateRevBonusByDate";
-  const size: string = "xl";
+  const size: string = "lg";
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -71,7 +72,7 @@ function BatchModal({ state, dispatch, ACTIONS }: BatchModalType) {
   }, []);
   return (
     <div className={styles.modal}>
-      <CustomBatchFullModal
+      <CustomModal
         open={state.batchOpen}
         size={size}
         handleClose={
@@ -174,7 +175,7 @@ function BatchModal({ state, dispatch, ACTIONS }: BatchModalType) {
             </Grid2>
           </Grid2>
         </form>
-      </CustomBatchFullModal>
+      </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );

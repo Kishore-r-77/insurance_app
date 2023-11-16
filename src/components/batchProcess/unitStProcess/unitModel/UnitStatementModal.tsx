@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { BatchModalType } from "../../../../reducerUtilities/types/batch/batchTypes";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import Notification from "../../../../utilities/Notification/Notification";
-import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
+import CustomModal from "../../../../utilities/modal/CustomModal";
 import { useBusinessDate } from "../../../contexts/BusinessDateContext";
 import { unitStatementbydateapi } from "../unitApis.ts/unitStatementbydateapi";
 import styles from "./unitStModal.module.css";
@@ -60,8 +60,9 @@ export function UnitStatementModal({
 
   return (
     <div className={styles.modal}>
-      <CustomFullModal
+      <CustomModal
         open={state.unitStOpen}
+        size="lg"
         handleClose={
           state.unitStOpen
             ? () => dispatch({ type: ACTIONS.UNITSTCLOSE })
@@ -175,7 +176,7 @@ export function UnitStatementModal({
             </Grid2>
           </Grid2>
         </form>
-      </CustomFullModal>
+      </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );

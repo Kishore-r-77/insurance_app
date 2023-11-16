@@ -16,9 +16,9 @@ import { premiumstatementbydateapi } from "../premstApis/premstApis";
 
 import Notification from "../../../utilities/Notification/Notification";
 
-import { useBusinessDate } from "../../contexts/BusinessDateContext";
-import CustomPremstFullModal from "./PremstFullModal";
 import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
 
 export function PremiumStatementModal({
   state,
@@ -26,7 +26,7 @@ export function PremiumStatementModal({
   ACTIONS,
 }: BatchModalType) {
   const addTitle: string = "PremiumStatementByDate";
-  const size: string = "xl";
+  const size: string = "lg";
 
   const companyId = useAppSelector(
     (state: { users: { user: { message: { companyId: any } } } }) =>
@@ -78,7 +78,7 @@ export function PremiumStatementModal({
   }, []);
   return (
     <div className={styles.modal}>
-      <CustomPremstFullModal
+      <CustomModal
         open={state.premStOpen}
         size={size}
         handleClose={
@@ -195,7 +195,7 @@ export function PremiumStatementModal({
             </Grid2>
           </Grid2>
         </form>
-      </CustomPremstFullModal>
+      </CustomModal>
 
       <Notification notify={notify} setNotify={setNotify} />
     </div>
