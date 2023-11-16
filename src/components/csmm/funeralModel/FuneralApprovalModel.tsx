@@ -1,12 +1,5 @@
-import { FormControl, MenuItem, Select, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import CustomSavefuneral from "./CustomSavefuneral";
 import CustomFuneralApproval from "./CustomFuneralApproval";
 
 function FuneralApprovalModel({
@@ -14,7 +7,6 @@ function FuneralApprovalModel({
   criticalbenefit,
   funeralapprovalClose,
   aprrovefexr,
-  handleClose,
 }: any) {
   const infoTitle: string = "Approval Confirmation";
   const size: string = "xl";
