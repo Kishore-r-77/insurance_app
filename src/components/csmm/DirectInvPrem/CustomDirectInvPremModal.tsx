@@ -1,5 +1,4 @@
 import { Button, Modal } from "react-bootstrap";
-import React from "react";
 
 function CustomDirectInvPremModal({
   open,
