@@ -39,32 +39,34 @@ function Hompage() {
             <PsychologyIcon style={{ width: "40px", height: "40px" }} />
             <h1>Planning and Consulting</h1>
             <p>
-              FuturaInsTech is a conglomerate of a handful of doyens of the
-              Insurance and Information Technology (IT) with proven track record
-              in the Insurance sector globally. We provide consultancy service
-              for Insurance client based on the need of the Client as well as
-              its relevance to the prevailing global business requirement. Our
-              expertise revolves on Product Configuration, modernization of
-              legacy systems, Technical and Business Solutions as well as Post
-              Production Services.
+              FuturaInsTech is an ensemble of a handful of doyens of the
+              Insurance and Information Technology (IT) industry with
+              accomplished track record in the Insurance sector globally. We
+              administer consultancy service for Insurance client based on the
+              exigency of the Client. We gauge the stipulations to its relevance
+              as per the prevalent global business practices. Our dexterity
+              hinges on efficacious Product Configuration, revamp of legacy
+              systems, Business Solutions and Technical protocols in addition to
+              unblemished Post Production Services.
             </p>
           </article>
           <article className={styles.tech}>
             <DevicesIcon style={{ width: "40px", height: "40px" }} />
             <h1>Technologies</h1>
             <p>
-              Having core Technology expertise, we provide hassle-free migration
-              and Business Process Re-Engineering services to Insurance
-              Companies to achieve their Business objectives.
+              Possessing cutting edge Technology in the IT sector, we provide
+              unrestrained migration across Business Platforms. We also
+              administer Business Process Re-Engineering services to Insurance
+              Companies with an endeavour to achieve their Business objectives.
             </p>
           </article>
           <article className={styles.collab}>
             <GroupsIcon style={{ width: "40px", height: "40px" }} />
             <h1>Collaboration</h1>
             <p>
-              Bringing Insurance and Product Software companies in the area of
-              migration of data from Legacy System to Target System. Product
-              Configuration, UAT Support and Product Implementation.
+              With our robust User Acceptance Testing (UAT) / Modal Office
+              Testing (MOT) and Mock Stimulated Business Environment Testing we
+              ensure that the Client Products continue to work hassle free.
             </p>
           </article>
         </span>

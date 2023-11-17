@@ -78,7 +78,7 @@ function CustomNavbar() {
           </h1>
 
           <ul>
-            <li>Home</li>
+            <li onClick={() => navigate("/home")}>Home</li>
             <li>Profile</li>
             <li>About</li>
             <span>
