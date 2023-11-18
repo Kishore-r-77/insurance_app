@@ -7,7 +7,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import moment from "moment";
-import { useEffect, useReducer, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import Table from "react-bootstrap/Table";
 import {
   ACTIONS as ILPSURRENDERACTIONS,
@@ -987,7 +993,7 @@ const getspecialrevival = () => {
         return err;
       });
   };
-
+  const [bcoverage, setbcoverage] = useState<any>([]);
   const [ilpAllowed, setilpAllowed] = useState([]);
   const getilpAllowedFunds = () => {
     axios
@@ -996,7 +1002,7 @@ const getspecialrevival = () => {
         {
           CompanyID: parseInt(companyId),
 
-          BCoverage: "ILP1",
+          BCoverage: bcoverage,
 
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
@@ -1012,7 +1018,14 @@ const getspecialrevival = () => {
         return err;
       });
   };
-  // console.log();
+  useLayoutEffect(() => {
+    getilpAllowedFunds();
+    return () => {};
+  }, [bcoverage]);
+  console.log(bcoverage, "killervvvvvvvvvvvvv");
+
+  const [benId, setbenId] = useState("");
+  const [ClientID, setClientID] = useState<any>([]);
 
   const [ilpSelectedFund, setilpSelectedFund] = useState([]);
   const [percentageData, setpercentageData] = useState([]);
@@ -1024,18 +1037,25 @@ const getspecialrevival = () => {
           Function: "Check",
           CompanyID: companyId,
           PolicyID: inverstPremData.ID,
-          BenefitID: iplBenefits[0]?.ID,
-          ClientID: inverstPremData.ClientID,
+          BenefitID: benId,
+          ClientID: ClientID,
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
             .toString(),
-          Funds: ilpSelectedFund.map((data: any) => ({
-            ...data,
-            FundCode: data.FundCode,
-            FundType: data.FundType,
-            FundPercentage: parseFloat(data?.FundPercentage),
-            FundCurr: data.FundCurr,
-          })),
+          Funds: ilpAllowed
+            .filter(
+              (data: any) =>
+                data.FundPercentage !== null &&
+                data.FundPercentage !== undefined &&
+                data.FundPercentage !== ""
+            )
+            .map((data: any) => ({
+              ...data,
+              FundCode: data.FundCode,
+              FundType: data.FundType,
+              FundPercentage: parseFloat(data?.FundPercentage),
+              FundCurr: data.FundCurr,
+            })),
         },
         { withCredentials: true }
       )
@@ -1065,18 +1085,25 @@ const getspecialrevival = () => {
           Function: "Save",
           CompanyID: companyId,
           PolicyID: inverstPremData.ID,
-          BenefitID: iplBenefits[0]?.ID,
-          ClientID: inverstPremData.ClientID,
+          BenefitID: benId,
+          ClientID: ClientID,
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
             .toString(),
-          Funds: ilpSelectedFund.map((data: any) => ({
-            ...data,
-            FundCode: data.FundCode,
-            FundType: data.FundType,
-            FundPercentage: parseFloat(data?.FundPercentage),
-            FundCurr: data.FundCurr,
-          })),
+          Funds: ilpAllowed
+            .filter(
+              (data: any) =>
+                data.FundPercentage !== null &&
+                data.FundPercentage !== undefined &&
+                data.FundPercentage !== ""
+            )
+            .map((data: any) => ({
+              ...data,
+              FundCode: data.FundCode,
+              FundType: data.FundType,
+              FundPercentage: parseFloat(data?.FundPercentage),
+              FundCurr: data.FundCurr,
+            })),
         },
         { withCredentials: true }
       )
@@ -1127,10 +1154,11 @@ const getspecialrevival = () => {
   };
   useEffect(() => {
     getPolicyWithBenefitAndFund();
+    setbcoverage("");
 
     return () => {};
   }, [isDirectInvPrem]);
-  console.log(inverstPremData, "ILP");
+
   useEffect(() => {
     if (isDirectInvPrem) {
       getilpAllowedFunds();
@@ -1490,6 +1518,12 @@ const getspecialrevival = () => {
         percentageData={percentageData}
         setpercentageData={setpercentageData}
         isSave={isSave?.current}
+        polid={PolicyID}
+        setbenId={setbenId}
+        benId={benId}
+        setClientID={setClientID}
+        setbcoverage={setbcoverage}
+        bcoverage={bcoverage}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer

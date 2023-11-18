@@ -1,25 +1,16 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-} from "@mui/material";
+import { IconButton, Paper, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { Table } from "react-bootstrap";
-import CustomFuneralFullModal from "./CustomFuneralfullModal";
-import styles from "./funeralModel.module.css";
-import axios from "axios";
-import { p0050 } from "../../clientDetails/bank/bankApis/bankApis";
 import { useAppSelector } from "../../../redux/app/hooks";
-import { WidthFull } from "@mui/icons-material";
+import CustomFuneralFullModal from "./CustomFuneralfullModal";
 import SaveFuneral from "./SaveFuneral";
+import styles from "./funeralModel.module.css";
 // import DoneIcon from "@mui/icons-material/Done";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import NotificationModal from "../../../utilities/modal/NotificationModal";
@@ -35,7 +26,6 @@ function FuneralModal({
   isSave,
   setfuneralcheck,
   isnext,
-  setisnext,
   savefuneralobj,
   funeralcheck,
   postfuneral,
