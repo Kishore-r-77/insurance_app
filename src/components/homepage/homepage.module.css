@@ -55,7 +55,7 @@
 .plan,
 .tech,
 .collab {
-  flex: 1 0 25rem;
+  flex: 1 1 25rem;
   max-height: auto;
   padding: 1.5rem;
   border-radius: 10px;
