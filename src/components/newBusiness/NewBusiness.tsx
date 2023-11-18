@@ -396,6 +396,13 @@ function NewBusiness({
         setisIssue(false);
         setissueNote(true);
         // console.log(resp.data,"Policy")
+      }).catch((err) => {
+        
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
 
