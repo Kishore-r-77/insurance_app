@@ -7,7 +7,7 @@ body {
 
 .batch-body {
   background-color: #f7f7f7; /* Light grayish background */
-  min-height: 85vh;
+  /* min-height: 85vh; */
 }
 
 #batch-title {
@@ -34,10 +34,10 @@ body {
 
 .batch-menus {
   box-sizing: border-box;
-  height: 12rem;
+  height: 10rem;
   margin: 2rem;
   padding: 2rem;
-  flex: 0 1 40rem;
+  flex: 0 1 35rem;
   border-radius: 15px;
   text-align: center;
   gap: 1.5rem;
