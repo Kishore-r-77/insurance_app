@@ -79,7 +79,7 @@ function CustomNavbar() {
 
           <ul>
             <li onClick={() => navigate("/home")}>Home</li>
-            <li>Profile</li>
+            <li onClick={() => navigate("/profile")}>Profile</li>
             <li>About</li>
             <span>
               <Tooltip title="Log Out">

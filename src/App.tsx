@@ -15,7 +15,6 @@ import Assignee from "./components/assignee/Assignee";
 import Signin from "./components/auth/signin/Signin";
 import Signup from "./components/auth/signup/Signup";
 import BatchMenu from "./components/batchProcess/batchMenu/BatchMenu";
-import { UnitStatementModal } from "./components/batchProcess/unitStProcess/unitModel/UnitStatementModal";
 import CampaignComps from "./components/campaignDetails/campaignComps/CampaignComps";
 import Campaigns from "./components/campaignDetails/campaigns/Campaigns";
 import Claims from "./components/claims/Claims";
@@ -45,6 +44,7 @@ import Transaction from "./components/transaction/Transaction";
 import Footer from "./utilities/footer/Footer";
 import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
+import Profile from "./components/profile/Profile";
 
 function App() {
   const { pathname } = useLocation();
@@ -103,6 +103,7 @@ function App() {
                   <Route path="/ilpPrices" element={<IlpPrices />} />
                   <Route path="/claims" element={<Claims />} />
                   <Route path="/batchMenu" element={<BatchMenu />} />
+                  <Route path="/profile" element={<Profile />} />
                 </Route>
                 {/* </Route> */}
               </Route>
