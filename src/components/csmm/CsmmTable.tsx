@@ -7,7 +7,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import moment from "moment";
-import { useEffect, useReducer, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import Table from "react-bootstrap/Table";
 import {
   ACTIONS as ILPSURRENDERACTIONS,
@@ -892,7 +898,7 @@ function CsmmTable({
         return err;
       });
   };
-
+  const [bcoverage, setbcoverage] = useState<any>([]);
   const [ilpAllowed, setilpAllowed] = useState([]);
   const getilpAllowedFunds = () => {
     axios
@@ -901,7 +907,7 @@ function CsmmTable({
         {
           CompanyID: parseInt(companyId),
 
-          BCoverage: "ILP1",
+          BCoverage: bcoverage,
 
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
@@ -917,7 +923,14 @@ function CsmmTable({
         return err;
       });
   };
-  // console.log();
+  useLayoutEffect(() => {
+    getilpAllowedFunds();
+    return () => {};
+  }, [bcoverage]);
+  console.log(bcoverage, "killervvvvvvvvvvvvv");
+
+  const [benId, setbenId] = useState("");
+  const [ClientID, setClientID] = useState<any>([]);
 
   const [ilpSelectedFund, setilpSelectedFund] = useState([]);
   const [percentageData, setpercentageData] = useState([]);
@@ -929,18 +942,25 @@ function CsmmTable({
           Function: "Check",
           CompanyID: companyId,
           PolicyID: inverstPremData.ID,
-          BenefitID: iplBenefits[0]?.ID,
-          ClientID: inverstPremData.ClientID,
+          BenefitID: benId,
+          ClientID: ClientID,
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
             .toString(),
-          Funds: ilpSelectedFund.map((data: any) => ({
-            ...data,
-            FundCode: data.FundCode,
-            FundType: data.FundType,
-            FundPercentage: parseFloat(data?.FundPercentage),
-            FundCurr: data.FundCurr,
-          })),
+          Funds: ilpAllowed
+            .filter(
+              (data: any) =>
+                data.FundPercentage !== null &&
+                data.FundPercentage !== undefined &&
+                data.FundPercentage !== ""
+            )
+            .map((data: any) => ({
+              ...data,
+              FundCode: data.FundCode,
+              FundType: data.FundType,
+              FundPercentage: parseFloat(data?.FundPercentage),
+              FundCurr: data.FundCurr,
+            })),
         },
         { withCredentials: true }
       )
@@ -970,18 +990,25 @@ function CsmmTable({
           Function: "Save",
           CompanyID: companyId,
           PolicyID: inverstPremData.ID,
-          BenefitID: iplBenefits[0]?.ID,
-          ClientID: inverstPremData.ClientID,
+          BenefitID: benId,
+          ClientID: ClientID,
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
             .toString(),
-          Funds: ilpSelectedFund.map((data: any) => ({
-            ...data,
-            FundCode: data.FundCode,
-            FundType: data.FundType,
-            FundPercentage: parseFloat(data?.FundPercentage),
-            FundCurr: data.FundCurr,
-          })),
+          Funds: ilpAllowed
+            .filter(
+              (data: any) =>
+                data.FundPercentage !== null &&
+                data.FundPercentage !== undefined &&
+                data.FundPercentage !== ""
+            )
+            .map((data: any) => ({
+              ...data,
+              FundCode: data.FundCode,
+              FundType: data.FundType,
+              FundPercentage: parseFloat(data?.FundPercentage),
+              FundCurr: data.FundCurr,
+            })),
         },
         { withCredentials: true }
       )
@@ -1032,10 +1059,11 @@ function CsmmTable({
   };
   useEffect(() => {
     getPolicyWithBenefitAndFund();
+    setbcoverage("");
 
     return () => {};
   }, [isDirectInvPrem]);
-  console.log(inverstPremData, "ILP");
+
   useEffect(() => {
     if (isDirectInvPrem) {
       getilpAllowedFunds();
@@ -1388,6 +1416,12 @@ function CsmmTable({
         percentageData={percentageData}
         setpercentageData={setpercentageData}
         isSave={isSave?.current}
+        polid={PolicyID}
+        setbenId={setbenId}
+        benId={benId}
+        setClientID={setClientID}
+        setbcoverage={setbcoverage}
+        bcoverage={bcoverage}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer
