@@ -43,6 +43,7 @@ import SurrenderModal from "./surrenderModal/SurrenderModal";
 import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
+import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -610,6 +611,10 @@ function CsmmTable({
         ilpsurrenderDispatch({ type: ILPSURRENDERACTIONS.ILPSURRENDEROPEN });
         handleClose();
         break;
+      case "SpecialRevival":
+        splrevOpen(policyId.current, value);
+        handleClose();
+        
       default:
         return;
     }
@@ -618,6 +623,7 @@ function CsmmTable({
   console.log(ilpsurrenderState.ilpsurrenderOpen, "surrenderOpen");
 
   const [isSaChange, setisSaChange] = useState(false);
+  const [issplrev, setissplRev] = useState(false);
   const [isComponent, setisComponent] = useState(false);
   const [isDirectInvPrem, setisDirectInvPrem] = useState(false);
   const [saChangeMenu, setsaChangeMenu] = useState<any>("");
@@ -641,6 +647,7 @@ function CsmmTable({
         setsaChangeObj(resp?.data?.Policy);
         setsaChangeBenefits(resp?.data?.Policy?.Benefits);
         isSave.current = false;
+        
       })
       .catch((err) => {
         setisSaChange(false);
@@ -651,6 +658,7 @@ function CsmmTable({
         });
       });
   };
+  console.log("saChangeMenu",saChangeMenu)
 
   const modifiedPremium = useRef();
   const premium = useRef();
@@ -869,6 +877,93 @@ function CsmmTable({
     if (isSave.current) {
       invalidatesa();
     }
+  };
+
+  const splrevOpen = (policyId: number, value: any) => {
+    setissplRev(true);
+    //setsaChangeMenu(value);
+    setPolicyID(policyId);
+  };
+  const splrevClose = () => {
+    setissplRev(false);
+    console.log(isSave, "isSave");
+
+    if (isSave.current) {
+      invalidatesa();
+    }
+  };
+
+
+  
+ const [SpRev,setSpRev]= useState <any>({})
+const getspecialrevival = () => {
+
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/splrevival`,
+        {
+          Function: "Calculate",
+          Policy:PolicyID.toString(),
+          
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setSpRev(resp.data?.SpecialRevival);
+        getData();
+        // setNotify({
+        //   isOpen: true,
+        //   message: "Calculated Successfully",
+        //   type: "success",
+        // });
+      })
+      // .catch((err) =>
+      //   setNotify({
+      //     isOpen: true,
+      //     message: err?.response?.data?.error,
+      //     type: "error",
+      //   })
+      // );
+  };
+  useEffect(() => {
+    getspecialrevival()
+  
+    return () => {
+      
+    }
+  }, [issplrev])
+
+
+  const savespecialrevival = () => {
+
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/splrevival`,
+        {
+          Function: "Save",
+          Policy:PolicyID.toString(),
+          
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setSpRev(resp.data?.SpecialRevival);
+        
+        splrevClose();
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Saved Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const [premCalcType, setpremCalcType] = useState("");
@@ -1359,6 +1454,13 @@ function CsmmTable({
         isSave={isSave?.current}
         saveSaChange={saveSaChange}
         getData={getData}
+      />
+      <SpecialRevivalModal
+        open={issplrev}
+        handleClose={splrevClose}
+        SpRev={SpRev}
+        savespecialrevival={savespecialrevival}
+        
       />
       <ComponentModal
         open={isComponent}
