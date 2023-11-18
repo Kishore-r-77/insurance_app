@@ -2,9 +2,9 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+import { useAppSelector } from "../../redux/app/hooks";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../utilities/Table/CustomTable";
-import { useAppSelector } from "../../redux/app/hooks";
 // ***  Attention : Check the import below and change it if required ***
 import { ReceiptsStateType } from "../../reducerUtilities/types/receipts/receiptsTypes";
 
@@ -13,17 +13,11 @@ import {
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/receipts/receiptsActions";
-import styles from "./receipts.module.css";
-import {
-  addApi,
-  deleteApi,
-  editApi,
-  getAllApi,
-  getBusinessDateApi,
-} from "./receiptsApis/receiptsApis";
-import ReceiptsModal from "./receiptsModal/ReceiptsModal";
 import Notification from "../../utilities/Notification/Notification";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
+import styles from "./receipts.module.css";
+import { addApi, getAllApi } from "./receiptsApis/receiptsApis";
+import ReceiptsModal from "./receiptsModal/ReceiptsModal";
 
 function Receipts({ modalFunc }: any) {
   //data from getall api
@@ -44,21 +38,7 @@ function Receipts({ modalFunc }: any) {
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
-  const {
-    businessDate,
-    businessDateToggle,
-    setbusinessDateToggle,
-    getBusinessDate,
-  } = useBusinessDate();
-  // const userId = useAppSelector((state) => state.users.user.message.id);
-  // const [businessData, setBusinessData] = useState<any>({});
-  // const getBusinessDate = (companyId: number, userId: number) => {
-  // return getBusinessDateApi(companyId, userId)
-  //     .then((resp) => {
-  //       setBusinessData(resp.data);
-  //     })
-  //     .catch((err) => err.message);
-  // };
+  const { businessDate } = useBusinessDate();
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: ReceiptsStateType, action: any) => {
@@ -68,27 +48,13 @@ function Receipts({ modalFunc }: any) {
           ...state,
           [action.fieldName]: action.payload,
         };
-      // case ACTIONS.EDITCHANGE:
-      //   setRecord((prev: any) => ({
-      //     ...prev,
-      //     [action.fieldName]: action.payload,
-      //   }));
-      //   return {
-      //     ...state,
-      //     editOpen: true,
-      //   };
+
       case ACTIONS.ADDOPEN:
         return {
           ...state,
           DateOfCollection: businessDate,
           addOpen: true,
         };
-      // case ACTIONS.EDITOPEN:
-      //   setRecord(action.payload);
-      //   return {
-      //     ...state,
-      //     editOpen: true,
-      //   };
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
@@ -207,51 +173,6 @@ function Receipts({ modalFunc }: any) {
       });
   };
 
-  //Edit Api
-  // const editFormSubmit = async () => {
-  //   editApi(record)
-  //     .then((resp) => {
-  //
-  //       dispatch({ type: ACTIONS.EDITCLOSE });
-  //       setNotify({
-  //         isOpen: true,
-  //         message: `Updated Successfully`,
-  //         type: "success",
-  //       });
-  //       getData();
-  //     })
-  //     .catch((err) => {
-  //
-  //       setNotify({
-  //         isOpen: true,
-  //         message: err?.response?.data?.error,
-  //         type: "error",
-  //       });
-  //     });
-  // };
-
-  // //Hard Delete Api
-  // const hardDelete = async (id: number) => {
-  //   deleteApi(id)
-  //     .then((resp) => {
-  //
-  //       setNotify({
-  //         isOpen: true,
-  //         message: `Deleted Successfully`,
-  //         type: "success",
-  //       });
-  //       getData();
-  //     })
-  //     .catch((err) => {
-  //
-  //       setNotify({
-  //         isOpen: true,
-  //         message: err?.response?.data?.error,
-  //         type: "error",
-  //       });
-  //     });
-  // };
-
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
   };
@@ -277,19 +198,6 @@ function Receipts({ modalFunc }: any) {
     getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
-
-  // useEffect(() => {
-  //   if (state.addOpen) {
-  //     // Fetch PRCD value from the getBusinessDate API
-  //     // getBusinessDate(companyId, userId).then(() => {
-  //     //   // After the API call, set the PRCD value in the state
-  //     //   dispatch({ type: ACTIONS.ADDOPEN });
-  //     });
-  //   } else {
-  //     // If addOpen is false, set PRCD to an empty value
-  //     dispatch({ type: ACTIONS.ADDCLOSE });
-  //   }
-  // }, [state.addOpen]);
 
   return (
     <div>
