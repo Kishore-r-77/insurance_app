@@ -34,7 +34,7 @@ body {
 
 .batch-menus {
   box-sizing: border-box;
-  height: 15rem;
+  height: 12rem;
   margin: 2rem;
   padding: 2rem;
   flex: 0 1 40rem;
