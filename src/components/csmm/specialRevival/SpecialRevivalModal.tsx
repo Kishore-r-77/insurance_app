@@ -7,6 +7,8 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { Table } from "react-bootstrap";
+import { useAppSelector } from "../../../redux/app/hooks";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 
 import CustomSrFullModal from "./CustomSrFullModal";
 import styles from "./specialRevivalModal.module.css";
@@ -55,6 +57,19 @@ function SpecialRevivalModal({
       })
     );
   };
+  const [companyData, setCompanyData] = useState<any>({});
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+  const getCompanyData = (id: number) => {
+    getApi(id).then((resp) => {
+      setCompanyData(resp.data["Company"]);
+    });
+  };
+  useEffect(() => {
+    getCompanyData(companyId);
+    return () => {};
+  }, []);
   
   
 
@@ -64,7 +79,6 @@ function SpecialRevivalModal({
         open={open}
         handleClose={handleClose}
         title={title}
-        //isSave={isSave}
         handleFormSubmit={savespecialrevival }
       >
         <TreeView
@@ -79,9 +93,9 @@ function SpecialRevivalModal({
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
-                  id="CompanyID"
-                  name="CompanyID"
-                  value={SpRev?.CompanyID}
+                  id="CompanyName"
+                  name="CompanyName"
+                  value={companyData?.CompanyName}
                   placeholder="Company ID"
                   label="Company ID"
                   fullWidth
@@ -122,11 +136,11 @@ function SpecialRevivalModal({
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
-                  id="DifferenceinPrem"
-                  name="DifferenceinPrem"
-                  value={SpRev?.DifferenceinPrem}
-                  placeholder="DifferenceinPrem"
-                  label="DifferenceinPrem"
+                  id="NewPolicyStatus"
+                  name="NewPolicyStatus"
+                  value={SpRev?.NewPolicyStatus}
+                  placeholder="NewPolicyStatus"
+                  label="NewPolicyStatus"
                   fullWidth
                   margin="dense"
                   InputLabelProps={{ shrink: true }}
@@ -135,11 +149,15 @@ function SpecialRevivalModal({
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
-                  id="NewPolicyStatus"
-                  name="NewPolicyStatus"
-                  value={SpRev?.NewPolicyStatus}
-                  placeholder="NewPolicyStatus"
-                  label="NewPolicyStatus"
+                  id="NewStartDate"
+                  name="NewStartDate"
+                  value={
+                    SpRev?.NewStartDate === ""
+                      ? ""
+                      : moment(SpRev?.NewStartDate).format("DD-MM-YYYY")
+                  }
+                  placeholder="NewStartDate"
+                  label="NewStartDate"
                   fullWidth
                   margin="dense"
                   InputLabelProps={{ shrink: true }}
@@ -179,6 +197,19 @@ function SpecialRevivalModal({
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
+              <Grid2 container justifyContent="center" alignItems="center" xs={8} md={6} lg={4}>
+                 <TextField
+                   InputProps={{ readOnly: true }}
+                   id="AmountInDeposit"
+                   name="AmountInDeposit"
+                   value={SpRev?.AmountInDeposit}
+                   placeholder="AmountInDeposit"
+                   label="AmountInDeposit"
+                   fullWidth
+                   margin="dense"
+                   InputLabelProps={{ shrink: true }}
+                  />
+                </Grid2> 
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
@@ -195,33 +226,17 @@ function SpecialRevivalModal({
               <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   InputProps={{ readOnly: true }}
-                  id="NewStartDate"
-                  name="NewStartDate"
-                  value={
-                    SpRev?.NewStartDate === ""
-                      ? ""
-                      : moment(SpRev?.NewStartDate).format("DD-MM-YYYY")
-                  }
-                  placeholder="NewStartDate"
-                  label="NewStartDate"
+                  id="DifferenceinPrem"
+                  name="DifferenceinPrem"
+                  value={SpRev?.DifferenceinPrem}
+                  placeholder="DifferenceinPrem"
+                  label="DifferenceinPrem"
                   fullWidth
                   margin="dense"
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid2>
-              <Grid2 container justifyContent="center" alignItems="center" xs={8} md={6} lg={4}>
-                 <TextField
-                   InputProps={{ readOnly: true }}
-                   id="AmountInDeposit"
-                   name="AmountInDeposit"
-                   value={SpRev?.AmountInDeposit}
-                   placeholder="AmountInDeposit"
-                   label="AmountInDeposit"
-                   fullWidth
-                   margin="dense"
-                   InputLabelProps={{ shrink: true }}
-                  />
-                </Grid2> 
+              
              
             </Grid2>
           </TreeItem>
@@ -245,22 +260,23 @@ function SpecialRevivalModal({
                         zIndex: -1,
                       }}
                     >
-                      BenefitID
+                      PolicyID
                     </th>
-                    <th>BCoverage</th>
-                    <th>NewAge</th>
-                    <th>NewAnnPremium</th>
-                    <th>NewModalPrem</th>
-                    <th>NPremCessAge</th>
-                    <th>NPremCessDate</th>
-                    <th>NPremCessTerm</th>
+                    <th>BenefitID</th>
+                    <th>Benefit Code</th>
+                    <th>Status</th>
                     <th>NewRCD</th>
-                    <th>NRiskCessAge</th>
-                    <th>NRiskCessDate</th>
-                    <th>NRiskCessTerm</th>
-                    <th>NewStatus</th>
-                    <th>PolicyID</th>
+                    <th>NewPremium</th>
                     <th>SumAssured</th>
+                    <th>NewAge</th>
+                    <th>New RiskCess Date</th>
+                    <th>New PremCess Date</th>
+                    <th>New RiskCess Term</th>
+                    <th>New PremCess Term</th>
+                    <th>New RiskCess Age</th>
+                    <th>New PremCess Age</th>
+                    
+                    
                     <th></th>
                   </tr>
                 </thead>
@@ -286,6 +302,14 @@ function SpecialRevivalModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
+                        value={val?.PolicyID}
+                      />
+                    </td>
+                    <td className={styles["td-class"]}>
+                      <input
+                        className={styles["input-form"]}
+                        type="text"
+                        disabled
                         value={val?.BenefitID}
                       />
                     </td>
@@ -302,47 +326,7 @@ function SpecialRevivalModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
-                        value={val?.NewAge}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.NewBaseAnnualPrem}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.NewModalPrem}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.NewPremCessAge}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                         type="text"
-                         disabled
-                        value={moment(val?.NewPremCessDate).format("DD-MM-YYYY")}
-                      />
-                    </td>
-                    <td className={styles["td-class"]}>
-                      <input
-                        className={styles["input-form"]}
-                        type="text"
-                        disabled
-                        value={val?.NewPremCessTerm}
+                        value={val?.NewStatus}
                       />
                     </td>
                     <td className={styles["td-class"]}>
@@ -358,7 +342,23 @@ function SpecialRevivalModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
-                        value={val?.NewRiskCessAge}
+                        value={val?.NewModalPrem}
+                      />
+                    </td>
+                    <td className={styles["td-class"]}>
+                      <input
+                        className={styles["input-form"]}
+                        type="text"
+                        disabled
+                        value={val?.SumAssured}
+                      />
+                    </td>
+                    <td className={styles["td-class"]}>
+                      <input
+                        className={styles["input-form"]}
+                        type="text"
+                        disabled
+                        value={val?.NewAge}
                       />
                     </td>
                     <td className={styles["td-class"]}>
@@ -367,6 +367,14 @@ function SpecialRevivalModal({
                         type="text"
                         disabled
                         value={moment(val?.NewRiskCessDate).format("DD-MM-YYYY")}
+                      />
+                    </td>
+                    <td className={styles["td-class"]}>
+                      <input
+                        className={styles["input-form"]}
+                         type="text"
+                         disabled
+                        value={moment(val?.NewPremCessDate).format("DD-MM-YYYY")}
                       />
                     </td>
                     <td className={styles["td-class"]}>
@@ -382,7 +390,7 @@ function SpecialRevivalModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
-                        value={val?.NewStatus}
+                        value={val?.NewPremCessTerm}
                       />
                     </td>
                     <td className={styles["td-class"]}>
@@ -390,7 +398,7 @@ function SpecialRevivalModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
-                        value={val?.PolicyID}
+                        value={val?.NewRiskCessAge}
                       />
                     </td>
                     <td className={styles["td-class"]}>
@@ -398,7 +406,7 @@ function SpecialRevivalModal({
                         className={styles["input-form"]}
                         type="text"
                         disabled
-                        value={val?.SumAssured}
+                        value={val?.NewPremCessAge}
                       />
                     </td>
                    
