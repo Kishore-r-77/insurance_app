@@ -500,15 +500,15 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
   };
 
-  const [ilpopen, setilpopen] = useState(false)
+  const [ilpopen, setilpopen] = useState(false);
 
-  const ilpOpen=()=>{
-    setilpopen(true)
-  }
+  const ilpOpen = () => {
+    setilpopen(true);
+  };
 
-  const ilpClose=()=>{
-    setilpopen(false)
-  }
+  const ilpClose = () => {
+    setilpopen(false);
+  };
 
   useEffect(() => {
     setbenefitClientId({
@@ -1333,7 +1333,7 @@ function NewBusinessModal({
                           </Grid2>
                         ) : null}
                         <Grid2 xs={8} md={6} lg={4}>
-                        <Button
+                          <Button
                             variant="contained"
                             onClick={() => ilpOpen()}
                             style={{
@@ -1346,7 +1346,7 @@ function NewBusinessModal({
                           >
                             <AddBoxRoundedIcon />
                           </Button>
-                          </Grid2>
+                        </Grid2>
                       </Grid2>
                     </TreeItem>
                     <div
@@ -1398,10 +1398,7 @@ function NewBusinessModal({
           </TreeView>
         </form>
       </CustomFullModal>
-      <IlpFundsAdd
-      open={ilpopen}
-      handleClose={ilpClose}
-      />
+      <IlpFundsAdd open={ilpopen} handleClose={ilpClose} />
     </div>
   );
 }

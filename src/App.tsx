@@ -45,6 +45,7 @@ import Footer from "./utilities/footer/Footer";
 import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
 import Profile from "./components/profile/Profile";
+import AboutPage from "./components/aboutPage/AboutPage";
 
 function App() {
   const { pathname } = useLocation();
@@ -104,6 +105,7 @@ function App() {
                   <Route path="/claims" element={<Claims />} />
                   <Route path="/batchMenu" element={<BatchMenu />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/aboutPage" element={<AboutPage />} />
                 </Route>
                 {/* </Route> */}
               </Route>
