@@ -620,7 +620,7 @@ function CsmmTable({
       case "SpecialRevival":
         splrevOpen(policyId.current, value);
         handleClose();
-        
+        break;
       default:
         return;
     }
@@ -887,16 +887,10 @@ function CsmmTable({
 
   const splrevOpen = (policyId: number, value: any) => {
     setissplRev(true);
-    //setsaChangeMenu(value);
     setPolicyID(policyId);
   };
   const splrevClose = () => {
     setissplRev(false);
-    console.log(isSave, "isSave");
-
-    if (isSave.current) {
-      invalidatesa();
-    }
   };
 
 
@@ -917,27 +911,29 @@ const getspecialrevival = () => {
       .then((resp) => {
         setSpRev(resp.data?.SpecialRevival);
         getData();
-        // setNotify({
-        //   isOpen: true,
-        //   message: "Calculated Successfully",
-        //   type: "success",
-        // });
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
       })
-      // .catch((err) =>
-      //   setNotify({
-      //     isOpen: true,
-      //     message: err?.response?.data?.error,
-      //     type: "error",
-      //   })
-      // );
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
-  useEffect(() => {
-    getspecialrevival()
   
-    return () => {
-      
+
+  useEffect(() => {
+    if (issplrev) {
+      getspecialrevival();
     }
-  }, [issplrev])
+    return () => {};
+  }, [issplrev]);
+
 
 
   const savespecialrevival = () => {
