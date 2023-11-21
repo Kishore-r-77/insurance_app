@@ -1,8 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useAppSelector } from "../../../redux/app/hooks";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import { getLAByPolicy } from "../surrenderModal/surrenderApi";
-import CustomIlpSurrFullModal from "./CustomIlpSurrFullModal";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
@@ -11,24 +6,23 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import {
-  ACTIONS,
-  columns,
-  ilpSurrenderInitialValue,
-} from "../../../reducerUtilities/actions/IlpSurrender/IlpSurrenderActions";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import { Table } from "react-bootstrap";
+import { ACTIONS } from "../../../reducerUtilities/actions/IlpSurrender/IlpSurrenderActions";
+import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
+import { getLAByPolicy } from "../surrenderModal/surrenderApi";
+import CustomIlpSurrFullModal from "./CustomIlpSurrFullModal";
+import styles from "./IlpSurrenderModal.module.css";
 import {
   paramItem,
   postIlpSurrender,
   saveIlpSurrender,
 } from "./ilpsurrenderApi";
-import Notification from "../../../utilities/Notification/Notification";
-import moment from "moment";
-import { Table } from "react-bootstrap";
-import styles from "./IlpSurrenderModal.module.css";
-import CustomModal from "../../../utilities/modal/CustomModal";
 function IlpSurrenderModal({
-  open,
-
   policyRecord,
   getData,
   ilpsurrenderState,
@@ -518,16 +512,7 @@ function IlpSurrenderModal({
                                 ) => handleChange(e, index)}
                                 fullWidth
                                 margin="dense"
-                              >
-                                {/* {bCoverageData.map((val: any) => (
-                              <MenuItem
-                                key={val.Coverage}
-                                value={val.Coverage}
-                              >
-                                {val.Coverage}
-                              </MenuItem>
-                            ))} */}
-                              </TextField>
+                              ></TextField>
                             </Grid2>
 
                             <Grid2 xs={8} md={6} lg={4}>

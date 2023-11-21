@@ -1,0 +1,110 @@
+@font-face {
+  font-family: Merriweather-Regular;
+  src: url("../../../fonts/Merriweather/Merriweather-Regular.ttf");
+}
+
+#tab-title {
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.css-1g86id8-MuiTreeItem-content .MuiTreeItem-label {
+  width: 100%;
+  position: relative;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1rem;
+  line-height: 2.5;
+  letter-spacing: 0.5rem;
+  margin-bottom: 1rem;
+  background-color: silver;
+  border-radius: 5%;
+  font-family: Merriweather-Regular !important;
+  font-size: 20px !important;
+  font-weight: bolder;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.tree-main {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-areas:
+    "policy policy tabs"
+    "enquiry enquiry tabs";
+  grid-template-rows: auto;
+  gap: 2rem;
+  width: 96vw;
+}
+
+.policy-enquiry {
+  grid-area: policy;
+}
+
+.tabs-enquiry {
+  grid-area: enquiry;
+}
+
+.navtabs {
+  background-color: rgb(237, 234, 234);
+  grid-area: tabs;
+  float: left;
+  border: solid 3px rgba(0, 0, 0, 1);
+  border-radius: 20px;
+  box-shadow: 1px 0px 5px 0px;
+  width: 15vw;
+  justify-self: end;
+}
+.collapse {
+  justify-self: end;
+  width: 3rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #2c3e50; /* Dark blue-gray */
+  color: #ecf0f1; /* Light gray text for contrast */
+  height: auto;
+  transition: background-color 0.3s ease; /* Smooth transition on hover or state change */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.navtabs ul {
+  padding-left: 0;
+}
+
+.tabs-li {
+  display: flex;
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  justify-content: space-between;
+  background-color: silver;
+  flex-grow: 1;
+  border-radius: 10px;
+}
+
+.collapse-tabs-li {
+  display: flex;
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  justify-content: space-between;
+  flex-grow: 1;
+  border-radius: 10px;
+}
+.active {
+  background-color: #3498db; /* Bright blue */
+  color: #ffffff;
+  animation: pulse 0.5s ease-in-out; /* Simple pulse animation */
+}

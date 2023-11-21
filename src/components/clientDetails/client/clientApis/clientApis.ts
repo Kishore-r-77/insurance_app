@@ -160,6 +160,9 @@ export const paramItems = (
   item: string
 ) => {
   return axios.get(`http://localhost:3000/api/v1/basicservices/paramItem`, {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
     withCredentials: true,
     params: {
       companyId,

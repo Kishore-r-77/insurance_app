@@ -55,6 +55,11 @@ function ClientEnquiry({ clientData, state }: any) {
       header: "Mobile",
       dbField: "client_mobile",
     },
+    
+    {
+      field: "Role",
+      header: "Role",
+    },
   ];
   return (
     <div>

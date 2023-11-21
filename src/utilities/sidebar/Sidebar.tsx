@@ -252,31 +252,31 @@ const routes = [
     ],
   },
   {
-    path: "#",
+    path: "batchMenu",
     name: "Batch Jobs",
     icon: <BatchPredictionIcon />,
-    subRoutes: [
-      {
-        path: "/batch",
-        name: "Allocate Rev Bonus by Date",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
-        path: "/premst",
-        name: "Premium Statement by Date",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
-        path: "/receipt",
-        name: "Receipt Create By Bank",
-        icon: <ArrowRightAltIcon />,
-      },
-      {
-        path: "/unitst",
-        name: "UnitStatement by Date",
-        icon: <ArrowRightAltIcon />,
-      },
-    ],
+    // subRoutes: [
+    //   {
+    //     path: "/batch",
+    //     name: "Allocate Rev Bonus by Date",
+    //     icon: <ArrowRightAltIcon />,
+    //   },
+    //   {
+    //     path: "/premst",
+    //     name: "Premium Statement by Date",
+    //     icon: <ArrowRightAltIcon />,
+    //   },
+    //   {
+    //     path: "/receipt",
+    //     name: "Receipt Create By Bank",
+    //     icon: <ArrowRightAltIcon />,
+    //   },
+    //   {
+    //     path: "/unitst",
+    //     name: "UnitStatement by Date",
+    //     icon: <ArrowRightAltIcon />,
+    //   },
+    // ],
   },
   {
     path: "#",

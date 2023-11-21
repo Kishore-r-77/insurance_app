@@ -4,21 +4,15 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
+import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
-
+import Notification from "../../../utilities/Notification/Notification";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
+import { ReceiptBankbydateapi } from "../receiptBatchApis/receiptBatchApis";
 import styles from "./receiptModal.module.css";
 
-import axios from "axios";
-import {
-  ACTIONS,
-  initialValues,
-} from "../../../reducerUtilities/actions/batch/batchAction";
-import Notification from "../../../utilities/Notification/Notification";
-import { ReceiptBankbydateapi } from "../receiptBatchApis/receiptBatchApis";
-import { Button } from "react-bootstrap";
-import { useBusinessDate } from "../../contexts/BusinessDateContext";
-
-function ReceiptModal(BatchModalType: any) {
+function ReceiptModal({ state, dispatch, ACTIONS }: BatchModalType) {
   const companyId = useAppSelector(
     (state: { users: { user: { message: { companyId: any } } } }) =>
       state.users.user.message.companyId
@@ -37,7 +31,7 @@ function ReceiptModal(BatchModalType: any) {
   const [receiptData, setreceiptData] = useState<any>("");
   //Add Api
   const handleFormSubmit = () => {
-    return ReceiptBankbydateapi(receiptData, companyId)
+    return ReceiptBankbydateapi(state, companyId)
       .then((resp) => {
         setNotify({
           isOpen: true,
@@ -60,95 +54,63 @@ function ReceiptModal(BatchModalType: any) {
     type: "",
   });
 
-  const handleEffectiveDate = (date: any) => {
-    setreceiptData((prev: any) => ({ ...prev, FromDate: date }));
-  };
-
-  // const [businessDate, setBusinessDate] = useState<any>([]);
-  // const getBusinessDate = () => {
-  //   axios
-  //     .get(
-  //       `http://localhost:3000/api/v1/basicservices/compbusinessdateget/${companyId}/0/0`,
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     )
-  //     .then((resp) => {
-  //       setBusinessDate(resp.data.BusinessDate);
-  //       setreceiptData((prev: any) => ({
-  //         ...prev,
-  //         effectiveDate: resp.data.BusinessDate,
-  //       }));
-  //     })
-  //     .catch((err) => err);
-  // };
-
   useEffect(() => {
-    // getBusinessDate();
-    setreceiptData((prev: any) => ({
-      ...prev,
-      effectiveDate: businessDate,
-    }));
+    state.effectiveDate = businessDate;
     return () => {};
-  }, []);
+  }, [state.receiptOpen]);
 
   return (
     <div className={styles.modal}>
-      <form>
-        <h1> ReceiptCreateByBank</h1>
-        <br />
-        <Grid2
-          container
-          spacing={4}
-          style={{ width: "95%", margin: "0px auto" }}
-        >
-          <Grid2 xs={8} md={6}>
-            <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  //readOnly={state.infoOpen}
-                  key={receiptData.effectiveDate}
-                  label="Effective Date"
-                  inputFormat="DD/MM/YYYY"
-                  value={receiptData.effectiveDate}
-                  onChange={(date: React.ChangeEvent<HTMLInputElement> | any) =>
-                    handleEffectiveDate(date)
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      error={false}
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  )}
-                />
-              </LocalizationProvider>
-            </FormControl>
+      <CustomModal
+        open={state.receiptOpen}
+        handleClose={
+          state.receiptOpen
+            ? () => dispatch({ type: ACTIONS.RECEIPTCLOSE })
+            : null
+        }
+        title={state.receiptOpen ? "Receipt Create By Bank" : null}
+        ACTIONS={ACTIONS}
+        handleFormSubmit={state.receiptOpen ? () => handleFormSubmit() : null}
+      >
+        <form>
+          <Grid2
+            container
+            spacing={4}
+            style={{ width: "95%", margin: "0px auto" }}
+          >
+            <Grid2 lg={16}>
+              <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    readOnly
+                    key={state.effectiveDate}
+                    label="Effective Date"
+                    inputFormat="DD/MM/YYYY"
+                    value={state.effectiveDate}
+                    onChange={(
+                      date: React.ChangeEvent<HTMLInputElement> | any
+                    ) =>
+                      dispatch({
+                        type: state.batchOpen ? ACTIONS.ONCHANGE : null,
+                        payload: date?.$d,
+                        fieldName: "RevBonusDate",
+                      })
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        error={false}
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </FormControl>
+            </Grid2>
           </Grid2>
-        </Grid2>
-      </form>
-      <Button
-        variant="primary"
-        color="primary"
-        onClick={handleFormSubmit}
-        style={{
-          position: "absolute",
-          right: "60px",
-        }}
-      >
-        Submit
-      </Button>
-      <Button
-        variant="secondary"
-        color="primary"
-        onClick={() => setreceiptData(initialValues)}
-        style={{
-          position: "absolute",
-          right: "150px",
-        }}
-      >
-        Cancel
-      </Button>
+        </form>
+      </CustomModal>
+
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );

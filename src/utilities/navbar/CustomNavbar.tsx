@@ -1,10 +1,15 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { getApi } from "../../components/admin/companies/companiesApis/companiesApis";
 import { useBusinessDate } from "../../components/contexts/BusinessDateContext";
-import { useAppSelector } from "../../redux/app/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
 import styles from "./customNavbar.module.css";
+import axios from "axios";
+import { onChangeLogOut } from "../../redux/features/siginin/signinSlice";
+import { Button, Modal } from "react-bootstrap";
+import { IconButton, Tooltip } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 function CustomNavbar() {
   const { businessDate, getBusinessDate } = useBusinessDate();
@@ -27,6 +32,27 @@ function CustomNavbar() {
 
     return () => {};
   }, []);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    axios
+      .post(`http://localhost:3000/api/v1/auth/logout`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        dispatch(onChangeLogOut());
+        localStorage.clear();
+        navigate("/");
+      })
+      .catch((err) => {});
+  };
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -52,12 +78,33 @@ function CustomNavbar() {
           </h1>
 
           <ul>
-            <li>Home</li>
-            <li>Profile</li>
-            <li>About</li>
+            <li onClick={() => navigate("/home")}>Home</li>
+            <li onClick={() => navigate("/profile")}>Profile</li>
+            <li onClick={() => navigate("/aboutPage")}>About</li>
+            <span>
+              <Tooltip title="Log Out">
+                <IconButton style={{ color: "white" }} onClick={handleShow}>
+                  <LogoutIcon style={{ width: "30px", height: "30px" }} />
+                </IconButton>
+              </Tooltip>
+            </span>
           </ul>
         </nav>
       </header>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Logout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to Logout?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={logout}>
+            Log Out
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Outlet />
     </>
   );

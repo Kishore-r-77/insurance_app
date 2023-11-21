@@ -1,30 +1,33 @@
 import { Button, Modal } from "react-bootstrap";
 
-function CustomBatchFullModal({
+function CustomSrFullModal({
   open,
   handleClose,
   title,
   children,
   handleFormSubmit,
+  isSave,
 }: any) {
   return (
     <div>
-      <Modal show={open} onHide={handleClose} fullscreen={true}>
+      <Modal show={open} fullscreen={true} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            Exit
           </Button>
-          <Button variant="primary" onClick={handleFormSubmit}>
-            Go
-          </Button>
+          
+            <Button variant="primary" onClick={() => handleFormSubmit()}>
+              Save
+            </Button>
+         
         </Modal.Footer>
       </Modal>
     </div>
   );
 }
 
-export default CustomBatchFullModal;
+export default CustomSrFullModal;

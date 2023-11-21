@@ -108,7 +108,6 @@ function IlpTopupModal({
   const [prem, setprem] = useState<any>(0.0);
   const [ilpPriceData, setilpPriceData] = useState<any>([]);
   const [ilpPriceArray, setilpPriceArray] = useState<any>([]);
-  
 
   const doIlpTopup = () => {
     const updatedIlpPriceArray = ilpPriceData.map((val: any) => ({
@@ -228,7 +227,7 @@ function IlpTopupModal({
       const updateArr = [...ilpPriceArray, value];
       setilpPriceArray(updateArr);
       value.selected = true;
-      setSelectOne(value.selected)
+      setSelectOne(value.selected);
     }
     if (!e.target.checked) {
       console.log(index, "index");
@@ -237,7 +236,7 @@ function IlpTopupModal({
       updateArr.splice(itemIndex, 1);
       setilpPriceArray(updateArr);
       value.selected = false;
-      setSelectOne(value.selected)
+      setSelectOne(value.selected);
     }
   };
 
@@ -481,12 +480,12 @@ function IlpTopupModal({
               </thead>
               {exfunds.map((value: any, index: number) => (
                 <tbody>
-                    <tr>
-                      <td>{value?.FundCode}</td>
-                      <td>{value?.FundCurr}</td>
-                      <td>{value?.FundType}</td>
-                      <td>{value?.FundPercentage}</td>
-                    </tr>
+                  <tr>
+                    <td>{value?.FundCode}</td>
+                    <td>{value?.FundCurr}</td>
+                    <td>{value?.FundType}</td>
+                    <td>{value?.FundPercentage}</td>
+                  </tr>
                 </tbody>
               ))}
             </Table>

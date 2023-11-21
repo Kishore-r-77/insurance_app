@@ -3,43 +3,23 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 
 import styles from "./batchModal.module.css";
 
-import { BatchStateType } from "../../../reducerUtilities/types/batch/batchTypes";
+import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
 import { addApi, getBusinessDateApi } from "../BatchApis/batchApis";
 
-import axios from "axios";
-import {
-  ACTIONS,
-  initialValues,
-} from "../../../reducerUtilities/actions/batch/batchAction";
 import Notification from "../../../utilities/Notification/Notification";
-import CustomBatchFullModal from "./BatchFullModal";
 import { useBusinessDate } from "../../contexts/BusinessDateContext";
 
-function BatchModal(BatchModalType: any) {
+import CustomModal from "../../../utilities/modal/CustomModal";
+
+function BatchModal({ state, dispatch, ACTIONS }: BatchModalType) {
   const addTitle: string = "AllocateRevBonusByDate";
-  const size: string = "xl";
+  const size: string = "lg";
 
-  //   const companyId = useAppSelector(
-  //     (state) => state.users.user.message.companyId
-  //   );
-
-  // const [companyData, setCompanyData] = useState<any>({});
-  // const getCompanyData = (id: number) => {
-  //   getApi(id).then((resp) => {
-  //     setCompanyData(resp.data["Company"]);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getCompanyData(companyId);
-
-  //   return () => {};
-  // }, []);
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -63,7 +43,7 @@ function BatchModal(BatchModalType: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        dispatch({ type: ACTIONS.ADDCLOSE });
+        dispatch({ type: ACTIONS.BATCHCLOSE });
         setNotify({
           isOpen: true,
           message: `Created Successfully`,
@@ -85,88 +65,22 @@ function BatchModal(BatchModalType: any) {
     type: "",
   });
 
-  const reducer = (state: BatchStateType, action: any) => {
-    switch (action.type) {
-      case ACTIONS.ONCHANGE:
-        return {
-          ...state,
-          [action.fieldName]: action.payload,
-        };
-      case ACTIONS.ADDOPEN:
-        return {
-          ...state,
-          addOpen: true,
-        };
-      case ACTIONS.ADDCLOSE:
-        state = initialValues;
-        return {
-          ...state,
-          addOpen: false,
-        };
-      case ACTIONS.SORT_ASC:
-        const asc = !state.sortAsc;
-        if (state.sortDesc) {
-          state.sortDesc = false;
-        }
-        return {
-          ...state,
-          sortAsc: asc,
-          sortColumn: action.payload,
-        };
-      case ACTIONS.SORT_DESC:
-        const desc = !state.sortDesc;
-        if (state.sortAsc) {
-          state.sortAsc = false;
-        }
-        return {
-          ...state,
-          sortDesc: desc,
-          sortColumn: action.payload,
-        };
-      default:
-        return initialValues;
-    }
-  };
   useEffect(() => {
     getBusinessDate1(companyId, userId);
     state.RevBonusDate = businessDate;
     return () => {};
   }, []);
-  // useEffect(() => {
-  //   state = { ...state, RevBonusDate: businessData.BusinessDate };
-
-  //   return () => {};
-  // }, []);
-  let [state, dispatch] = useReducer(reducer, initialValues);
-
-  // const [businessDate, setBusinessDate] = useState<any>([]);
-  // const getBusinessDate = () => {
-  //   axios
-  //     .get(`http://localhost:3000/api/v1/basicservices/businessdateget/1`, {
-  //       withCredentials: true,
-  //     })
-  //     .then((resp) => {
-  //       setBusinessDate(resp.data["BusinessDate"]);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-  // useEffect(() => {
-  //   getBusinessDate();
-  //   console.log(businessDate.Date, "========");
-  //   return () => {};
-  // }, []);
   return (
     <div className={styles.modal}>
-      <CustomBatchFullModal
-        open={state.addOpen}
+      <CustomModal
+        open={state.batchOpen}
         size={size}
         handleClose={
-          state.addOpen ? () => dispatch({ type: ACTIONS.ADDCLOSE }) : null
+          state.batchOpen ? () => dispatch({ type: ACTIONS.BATCHCLOSE }) : null
         }
-        title={state.addOpen ? addTitle : null}
+        title={state.batchOpen ? addTitle : null}
         ACTIONS={ACTIONS}
-        handleFormSubmit={state.addOpen ? () => handleFormSubmit() : null}
+        handleFormSubmit={state.batchOpen ? () => handleFormSubmit() : null}
       >
         <form>
           <Grid2
@@ -179,12 +93,12 @@ function BatchModal(BatchModalType: any) {
                 type="number"
                 id="FromPolicy"
                 name="FromPolicy"
-                value={state.addOpen ? state.FromPolicy : null}
+                value={state.batchOpen ? state.FromPolicy : null}
                 placeholder="From Policy"
                 label="From Policy"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : null,
+                    type: state.batchOpen ? ACTIONS.ONCHANGE : null,
                     payload: e.target.value,
                     fieldName: "FromPolicy",
                   })
@@ -200,12 +114,12 @@ function BatchModal(BatchModalType: any) {
                 type="number"
                 id="ToPolicy"
                 name="ToPolicy"
-                value={state.addOpen ? state.ToPolicy : null}
+                value={state.batchOpen ? state.ToPolicy : null}
                 placeholder="To Policy"
                 label="To Policy"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch({
-                    type: state.addOpen ? ACTIONS.ONCHANGE : null,
+                    type: state.batchOpen ? ACTIONS.ONCHANGE : null,
                     payload: e.target.value,
                     fieldName: "ToPolicy",
                   })
@@ -222,12 +136,12 @@ function BatchModal(BatchModalType: any) {
                     //readOnly={state.infoOpen}
                     label="Effective Date"
                     inputFormat="DD/MM/YYYY"
-                    value={state.addOpen ? state.RevBonusDate : null}
+                    value={state.batchOpen ? state.RevBonusDate : null}
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) =>
                       dispatch({
-                        type: state.addOpen ? ACTIONS.ONCHANGE : null,
+                        type: state.batchOpen ? ACTIONS.ONCHANGE : null,
                         payload: date?.$d,
                         fieldName: "RevBonusDate",
                       })
@@ -241,7 +155,7 @@ function BatchModal(BatchModalType: any) {
               <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDatePicker
-                    readOnly={state.addOpen}
+                    readOnly={state.batchOpen}
                     label="Business Date"
                     inputFormat="DD/MM/YYYY"
                     value={businessDate}
@@ -249,7 +163,7 @@ function BatchModal(BatchModalType: any) {
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) =>
                       dispatch({
-                        type: state.addOpen ? ACTIONS.ONCHANGE : null,
+                        type: state.batchOpen ? ACTIONS.ONCHANGE : null,
                         payload: date.$d,
                         fieldName: "Date",
                       })
@@ -261,7 +175,7 @@ function BatchModal(BatchModalType: any) {
             </Grid2>
           </Grid2>
         </form>
-      </CustomBatchFullModal>
+      </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );

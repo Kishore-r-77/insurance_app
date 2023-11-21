@@ -7,7 +7,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import moment from "moment";
-import { useEffect, useReducer, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import Table from "react-bootstrap/Table";
 import {
   ACTIONS as ILPSURRENDERACTIONS,
@@ -44,6 +50,7 @@ import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
 import IlpFundSwitchModal from "./IlpFundSwitchModal/IlpFundSwitchModal";
+import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -616,6 +623,10 @@ function CsmmTable({
         ilpFundSwitchOpen(policyId.current, value);
         handleClose();
         break;
+      case "SpecialRevival":
+        splrevOpen(policyId.current, value);
+        handleClose();
+        break;
       default:
         return;
     }
@@ -624,6 +635,7 @@ function CsmmTable({
   console.log(ilpsurrenderState.ilpsurrenderOpen, "surrenderOpen");
 
   const [isSaChange, setisSaChange] = useState(false);
+  const [issplrev, setissplRev] = useState(false);
   const [isComponent, setisComponent] = useState(false);
   const [isDirectInvPrem, setisDirectInvPrem] = useState(false);
   const [saChangeMenu, setsaChangeMenu] = useState<any>("");
@@ -657,6 +669,7 @@ function CsmmTable({
         });
       });
   };
+  console.log("saChangeMenu", saChangeMenu);
 
   const modifiedPremium = useRef();
   const premium = useRef();
@@ -877,6 +890,80 @@ function CsmmTable({
     }
   };
 
+  const splrevOpen = (policyId: number, value: any) => {
+    setissplRev(true);
+    setPolicyID(policyId);
+  };
+  const splrevClose = () => {
+    setissplRev(false);
+  };
+
+  const [SpRev, setSpRev] = useState<any>({});
+  const getspecialrevival = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/splrevival`,
+        {
+          Function: "Calculate",
+          Policy: PolicyID.toString(),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setSpRev(resp.data?.SpecialRevival);
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+
+  useEffect(() => {
+    if (issplrev) {
+      getspecialrevival();
+    }
+    return () => {};
+  }, [issplrev]);
+
+  const savespecialrevival = () => {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/customerservice/splrevival`,
+        {
+          Function: "Save",
+          Policy: PolicyID.toString(),
+        },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        setSpRev(resp.data?.SpecialRevival);
+
+        splrevClose();
+        getData();
+        setNotify({
+          isOpen: true,
+          message: "Saved Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+
   const [premCalcType, setpremCalcType] = useState("");
   const [inverstPremData, setinverstPremData] = useState<any>({});
   const [iplBenefits, setilpBenefits] = useState<any>([]);
@@ -898,7 +985,7 @@ function CsmmTable({
         return err;
       });
   };
-
+  const [bcoverage, setbcoverage] = useState<any>([]);
   const [ilpAllowed, setilpAllowed] = useState([]);
   const getilpAllowedFunds = () => {
     axios
@@ -907,7 +994,7 @@ function CsmmTable({
         {
           CompanyID: parseInt(companyId),
 
-          BCoverage: "ILP1",
+          BCoverage: bcoverage,
 
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
@@ -923,7 +1010,14 @@ function CsmmTable({
         return err;
       });
   };
-  // console.log();
+  useLayoutEffect(() => {
+    getilpAllowedFunds();
+    return () => {};
+  }, [bcoverage]);
+  console.log(bcoverage, "killervvvvvvvvvvvvv");
+
+  const [benId, setbenId] = useState("");
+  const [ClientID, setClientID] = useState<any>([]);
 
   const [ilpSelectedFund, setilpSelectedFund] = useState([]);
   const [percentageData, setpercentageData] = useState([]);
@@ -935,18 +1029,25 @@ function CsmmTable({
           Function: "Check",
           CompanyID: companyId,
           PolicyID: inverstPremData.ID,
-          BenefitID: iplBenefits[0]?.ID,
-          ClientID: inverstPremData.ClientID,
+          BenefitID: benId,
+          ClientID: ClientID,
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
             .toString(),
-          Funds: ilpSelectedFund.map((data: any) => ({
-            ...data,
-            FundCode: data.FundCode,
-            FundType: data.FundType,
-            FundPercentage: parseFloat(data?.FundPercentage),
-            FundCurr: data.FundCurr,
-          })),
+          Funds: ilpAllowed
+            .filter(
+              (data: any) =>
+                data.FundPercentage !== null &&
+                data.FundPercentage !== undefined &&
+                data.FundPercentage !== ""
+            )
+            .map((data: any) => ({
+              ...data,
+              FundCode: data.FundCode,
+              FundType: data.FundType,
+              FundPercentage: parseFloat(data?.FundPercentage),
+              FundCurr: data.FundCurr,
+            })),
         },
         { withCredentials: true }
       )
@@ -976,18 +1077,25 @@ function CsmmTable({
           Function: "Save",
           CompanyID: companyId,
           PolicyID: inverstPremData.ID,
-          BenefitID: iplBenefits[0]?.ID,
-          ClientID: inverstPremData.ClientID,
+          BenefitID: benId,
+          ClientID: ClientID,
           EffectiveDate: moment(iplFundData[0]?.EffectiveDate)
             .format("YYYYMMDD")
             .toString(),
-          Funds: ilpSelectedFund.map((data: any) => ({
-            ...data,
-            FundCode: data.FundCode,
-            FundType: data.FundType,
-            FundPercentage: parseFloat(data?.FundPercentage),
-            FundCurr: data.FundCurr,
-          })),
+          Funds: ilpAllowed
+            .filter(
+              (data: any) =>
+                data.FundPercentage !== null &&
+                data.FundPercentage !== undefined &&
+                data.FundPercentage !== ""
+            )
+            .map((data: any) => ({
+              ...data,
+              FundCode: data.FundCode,
+              FundType: data.FundType,
+              FundPercentage: parseFloat(data?.FundPercentage),
+              FundCurr: data.FundCurr,
+            })),
         },
         { withCredentials: true }
       )
@@ -1038,10 +1146,11 @@ function CsmmTable({
   };
   useEffect(() => {
     getPolicyWithBenefitAndFund();
+    setbcoverage("");
 
     return () => {};
   }, [isDirectInvPrem]);
-  console.log(inverstPremData, "ILP");
+
   useEffect(() => {
     if (isDirectInvPrem) {
       getilpAllowedFunds();
@@ -1387,6 +1496,12 @@ function CsmmTable({
         saveSaChange={saveSaChange}
         getData={getData}
       />
+      <SpecialRevivalModal
+        open={issplrev}
+        handleClose={splrevClose}
+        SpRev={SpRev}
+        savespecialrevival={savespecialrevival}
+      />
       <ComponentModal
         open={isComponent}
         handleClose={componentClose}
@@ -1415,6 +1530,12 @@ function CsmmTable({
         percentageData={percentageData}
         setpercentageData={setpercentageData}
         isSave={isSave?.current}
+        polid={PolicyID}
+        setbenId={setbenId}
+        benId={benId}
+        setClientID={setClientID}
+        setbcoverage={setbcoverage}
+        bcoverage={bcoverage}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer

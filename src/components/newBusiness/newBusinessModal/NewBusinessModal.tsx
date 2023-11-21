@@ -30,6 +30,7 @@ import {
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
 import "./newBusinessModal.css";
+import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 
 function NewBusinessModal({
   state,
@@ -497,6 +498,16 @@ function NewBusinessModal({
   const handleBenefitClientIdUpdate = (index: number) => {
     setselecteBenefitIndex(index.toString());
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
+  };
+
+  const [ilpopen, setilpopen] = useState(false);
+
+  const ilpOpen = () => {
+    setilpopen(true);
+  };
+
+  const ilpClose = () => {
+    setilpopen(false);
   };
 
   useEffect(() => {
@@ -1321,6 +1332,21 @@ function NewBusinessModal({
                             ></TextField>
                           </Grid2>
                         ) : null}
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <Button
+                            variant="contained"
+                            onClick={() => ilpOpen()}
+                            style={{
+                              maxWidth: "40px",
+                              maxHeight: "40px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              backgroundColor: "#0a3161",
+                            }}
+                          >
+                            <AddBoxRoundedIcon />
+                          </Button>
+                        </Grid2>
                       </Grid2>
                     </TreeItem>
                     <div
@@ -1372,6 +1398,7 @@ function NewBusinessModal({
           </TreeView>
         </form>
       </CustomFullModal>
+      <IlpFundsAdd open={ilpopen} handleClose={ilpClose} />
     </div>
   );
 }

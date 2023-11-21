@@ -1,67 +1,32 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { IconButton, MenuItem, Paper, Select, TextField } from "@mui/material";
+import { Paper, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { Table } from "react-bootstrap";
-// import Client from "../../clientDetails/client/Client";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import styles from "./CriticalModal.module.css";
-import CustomcriticalModal from "./CustomcriticalModal";
 import axios from "axios";
-import { p0050 } from "../../clientDetails/bank/bankApis/bankApis";
 import { useAppSelector } from "../../../redux/app/hooks";
-import SaveCI from "./CriticalSave";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import NotificationModal from "../../../utilities/modal/NotificationModal";
+import { p0050 } from "../../clientDetails/bank/bankApis/bankApis";
 import AprroveCI from "./CriticalApprove";
+import styles from "./CriticalModal.module.css";
 import CustomApproveModal from "./CustomApproveModal";
 
 function CIapprove({
   open,
   handleClose,
   criticalData,
-  criticalBenefits,
-  setcriticalBenefits,
-  CriticalType,
-  postcritical,
   isSave,
-  savecritical,
-  setcheckbody,
-  handleadditional,
-  criticalentry,
   premium,
-  handleCIIncidentDate,
-  handleCIReceivedDate,
-  checkResponse,
-  checkbody,
-  isCInext,
-  setisCInext,
-  getData,
-  policyWithBenefitData,
-  saveCriticalopen,
-  saveCriticalClose,
-  saveisCIopen,
   apCIBenefits,
   setNotify,
 }: any) {
   const title: string = "Critical illness";
   const isChecked = useRef(false);
 
-  const [isNotifiyopen, setisNotifiyopen] = useState(false);
-  const [CIapprove, setCIapprove] = useState<any>({});
-
   const [Criticalcheckval, setCriticalcheckval] = useState<any>({});
 
-  const notifyopen = (valu: any) => {
-    setisNotifiyopen(true);
-    setCIapprove(valu);
-  };
-  const notifyclose = () => {
-    setisNotifiyopen(false);
-  };
   const aprroveCI = () => {
     axios
       .post(
@@ -133,8 +98,6 @@ function CIapprove({
     (state) => state.users.user.message.languageId
   );
 
-  const [CriticalTypeData, setCriticalTypeData] = useState([]);
-
   const getCriticalTypeData = (
     companyId: number,
     name: string,
@@ -143,7 +106,6 @@ function CIapprove({
   ) => {
     p0050(companyId, name, languageId, item)
       .then((resp) => {
-        setCriticalTypeData(resp.data.param.data.dataPairs);
         return resp.data.param.data.dataPairs;
       })
       .catch((err) => err);
@@ -401,7 +363,6 @@ function CIapprove({
         open={isapprovalcheck}
         handleClose={CIapprovalClose}
         handleFormSubmit={aprroveCI}
-        CIapprove={CIapprove}
         Criticalcheckval={Criticalcheckval}
         handleReject={RejectCI}
         isclick={isclick}

@@ -1,3 +1,90 @@
 .main {
+  height: auto;
+}
+
+.insurance-image {
+  position: relative;
+  background: url("../../assets/images/happy_family.jpg");
+  min-height: 40vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 45%;
+  background-color: purple;
+  color: #fff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+.text-container {
+  position: absolute;
+  top: 50%; /* Position the container at 50% from the top */
+  left: 50%; /* Position the container at 50% from the left */
+  transform: translate(-50%, -50%); /* Center the container using translate */
+  text-align: left;
+  max-width: 600px;
+}
+
+.insurance-image h1,
+.insurance-image p {
+  font-weight: bolder;
+  margin: 0 auto; /* Remove default margin for better alignment */
+  width: 900px;
+  text-wrap: wrap;
+}
+
+.insurance-image h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.insurance-image p {
+  font-size: 1.2rem;
+  text-wrap: wrap; /* Correct property is word-wrap, not text-wrap */
+}
+
+.sub-sections {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem auto;
+  background-color: #f2f2f2; /* Light gray background color for sub-sections */
+  padding: 20px;
+  column-gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.plan,
+.tech,
+.collab {
+  flex: 1 1 25rem;
+  max-height: auto;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
   text-align: center;
+  text-wrap: balance;
+  margin-bottom: 2rem;
+}
+
+.plan:hover,
+.tech:hover,
+.collab:hover {
+  transform: translateY(
+    -1.5rem
+  ); /* Add a slight lift on hover for a subtle effect */
+}
+
+.plan {
+  background-color: #3498db; /* Blue */
+  color: #fff; /* White text on a dark background */
+}
+
+.tech {
+  background-color: #e74c3c; /* Red */
+  color: #fff;
+}
+
+.collab {
+  background-color: #2ecc71; /* Green */
+  color: #fff;
 }

@@ -2,12 +2,10 @@ import { Button, Modal } from "react-bootstrap";
 
 function CustomApprovalFuneralFullModal({
   open,
-  infoOpen,
   handleClose,
   title,
   children,
   handleFormSubmit,
-  isnext,
   isclicked,
 }: any) {
   return (

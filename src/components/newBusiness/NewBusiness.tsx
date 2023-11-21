@@ -30,6 +30,7 @@ import { getBenefitsByPolicies } from "../policy/policyApis/policyApis";
 import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 import Benefit from "../policy/policyModal/benefit/Benefit";
 import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
+import PolicyInformation from "./newBusinessEnquiry/PolicyInformation";
 
 function NewBusiness({
   modalFunc,
@@ -395,6 +396,13 @@ function NewBusiness({
         setisIssue(false);
         setissueNote(true);
         // console.log(resp.data,"Policy")
+      }).catch((err) => {
+        
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
 
@@ -628,7 +636,15 @@ function NewBusiness({
         nexPage={nexPage}
       />
 
-      <PolicyEnquiry
+      {/* <PolicyEnquiry
+        state={state}
+        record={record}
+        ACTIONS={ACTIONS}
+        dispatch={dispatch}
+        handleFormSubmit={editFormSubmit}
+      /> */}
+
+      <PolicyInformation
         state={state}
         record={record}
         ACTIONS={ACTIONS}

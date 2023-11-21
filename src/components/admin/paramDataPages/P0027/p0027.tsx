@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
-import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
+import { TextField, MenuItem, Checkbox, ListItemText, Autocomplete, Box, Paper } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "react-bootstrap/Table";
@@ -7,6 +7,7 @@ import CustomTooltip from "../../../../utilities/cutomToolTip/customTooltip";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
+import axios from "axios";
 
 import InfoIcon from "@mui/icons-material/Info";
 
@@ -86,6 +87,29 @@ const P0027 = forwardRef((props: any, ref) => {
   const enqClose = () =>{
     setEnq(false)
   }
+  const [accountcodes, setaccountcodes] = useState([])
+
+  const getAccountcodes=()=>{
+    axios.get(`http://localhost:3000/api/v1/nbservices/accountcodes`,{
+    withCredentials: true,
+    params: {
+      pageSize:0
+    }})
+    .then((resp)=>{
+      setaccountcodes(resp.data["AccountCodes"])
+      return resp.data
+    })
+  }
+
+
+  useEffect(() => {
+    getAccountcodes()
+
+
+    return () => {}
+
+    },[])
+
 
   return (
     <>
@@ -105,7 +129,7 @@ const P0027 = forwardRef((props: any, ref) => {
         <tr>
           <th>Account Code</th> 
           <th>Account Amount</th> 
-          <th>Seq Number</th> 
+          <th>Sequence No</th> 
           <th>GL Sign</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.glMovements?.length > 0 && <th>Actions</th>}
@@ -137,23 +161,31 @@ const P0027 = forwardRef((props: any, ref) => {
         {inputdata.glMovements?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
-              <TextField
-                inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
-                }}
+              <Autocomplete
                 id="accountCode"
-                name="accountCode"
-                value={value.accountCode}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "accountCode", e.target.value,false)
+                options={accountcodes}
+                autoHighlight
+                readOnly={ props.mode === 'display' || props.mode === 'delete'}
+                getOptionLabel={(option: any) => `${option.AccountCode} - ${option.GlSign}`}
+                value={accountcodes.find((data: any) => data.AccountCode === value.accountCode) || null}
+                onChange={(_, newValue) => 
+                  fieldChangeHandler(index, 'accountCode', newValue ? newValue.AccountCode : '', false)
                 }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Account Code"
+                    size="small"
+                    margin="dense"
+                    InputProps={{
+                      ...params.InputProps,
+                      readOnly: props.mode === 'display' || props.mode === 'delete',
+                    }}
+                  />
+                )}
                 fullWidth
-                size="small"
-                type="text"
-                margin="dense"
               />
-            </td>
-
+            </td> 
             <td>
               <TextField
                 inputProps={{

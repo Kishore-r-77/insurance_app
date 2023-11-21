@@ -1,0 +1,92 @@
+/* aboutPage.module.css */
+
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap");
+
+/* Gradient overlay for background image */
+.office-group {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../../assets/images/office_group.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 35vh;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Text styles */
+.office-group h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #f6c90e; /* Golden yellow */
+  font-family: "Montserrat", sans-serif;
+}
+
+.office-group p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  width: 80%;
+  text-wrap: wrap;
+  text-align: center;
+  margin: 0 auto;
+  color: #ccc; /* Light gray */
+  font-family: "Roboto", sans-serif;
+}
+
+/* Box styles */
+.submenu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.box {
+  flex: 1 1 calc(30% - 20px); /* Adjust as needed based on your design */
+  max-width: 300px; /* Limit the maximum width of each box */
+  padding: 1.5rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: none;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.box:hover {
+  transform: scale(1.05);
+}
+
+/* Box title styles */
+.box h1 {
+  font-size: 1.5rem;
+  color: #333; /* Dark gray */
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Box content styles */
+.box p {
+  font-size: 1rem;
+  color: #666; /* Medium gray */
+  font-family: "Roboto", sans-serif;
+}
+
+#submenu-title {
+  font-size: 2rem;
+  color: #333; /* Dark gray */
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 20px;
+}
+
+.about-main {
+  height: max-content;
+  margin-bottom: 50px; /* Adjust the margin-bottom value as needed */
+}
