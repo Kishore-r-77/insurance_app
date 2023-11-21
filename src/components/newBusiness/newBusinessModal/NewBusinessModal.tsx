@@ -29,6 +29,7 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
+import { deleteApi as deleteFund} from "../../ilpFund/ilpFundApi/ilpFundsApis";
 import "./newBusinessModal.css";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 
@@ -238,6 +239,13 @@ function NewBusinessModal({
         BPrem: 0,
       },
     ]);
+    setilpfunds([
+      ...ilpfunds,
+      {
+        FundCode: "",
+        FundPercentage: "",
+      }
+    ])
   };
 
   const handleBenefitsRemove = (index: number, benefitID: number) => {
@@ -246,6 +254,14 @@ function NewBusinessModal({
     setbenefitsData(list);
     state.editOpen && benefitID
       ? deleteApi(benefitID)
+          .then((resp) => {})
+          .catch((err) => {})
+      : null;
+      const fundlist = [...ilpfunds];
+    fundlist.splice(index, 1);
+    setilpfunds(fundlist);
+    state.editOpen && benefitID
+    ? deleteApi(benefitID)
           .then((resp) => {})
           .catch((err) => {})
       : null;
@@ -500,15 +516,15 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
   };
 
-  const [ilpopen, setilpopen] = useState(false);
+  const [ilpopen, setilpopen] = useState(false)
 
-  const ilpOpen = () => {
-    setilpopen(true);
-  };
+  const ilpOpen=()=>{
+    setilpopen(true)
+  }
 
-  const ilpClose = () => {
-    setilpopen(false);
-  };
+  const ilpClose=()=>{
+    setilpopen(false)
+  }
 
   useEffect(() => {
     setbenefitClientId({
@@ -516,6 +532,8 @@ function NewBusinessModal({
     });
     return () => {};
   }, [state.addOpen === false]);
+
+  const [ilpfunds, setilpfunds] = useState([{FundCode:"", FundPercentage:""}])
 
   return (
     <div>
@@ -1333,7 +1351,7 @@ function NewBusinessModal({
                           </Grid2>
                         ) : null}
                         <Grid2 xs={8} md={6} lg={4}>
-                          <Button
+                        <Button
                             variant="contained"
                             onClick={() => ilpOpen()}
                             style={{
@@ -1346,7 +1364,7 @@ function NewBusinessModal({
                           >
                             <AddBoxRoundedIcon />
                           </Button>
-                        </Grid2>
+                          </Grid2>
                       </Grid2>
                     </TreeItem>
                     <div
@@ -1398,7 +1416,10 @@ function NewBusinessModal({
           </TreeView>
         </form>
       </CustomFullModal>
-      <IlpFundsAdd open={ilpopen} handleClose={ilpClose} />
+      <IlpFundsAdd
+      open={ilpopen}
+      handleClose={ilpClose}
+      />
     </div>
   );
 }
