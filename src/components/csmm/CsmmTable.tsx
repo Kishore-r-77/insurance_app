@@ -43,6 +43,7 @@ import SurrenderModal from "./surrenderModal/SurrenderModal";
 import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
+import IlpFundSwitchModal from "./IlpFundSwitchModal/IlpFundSwitchModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -471,6 +472,7 @@ function CsmmTable({
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
   const [isTopup, setisTopup] = useState(false);
+  const [isFundSwitch, setisFundSwitch] = useState(false);
 
   const [isPolRein, setIsPolRein] = useState(false);
   //const [isSurrender, setIsSurrender] = useState(false);
@@ -536,7 +538,7 @@ function CsmmTable({
   useEffect(() => {
     getPolEnq(PolicyID);
     return () => {};
-  }, [isAdjPrem, isPolRein, isTopup]);
+  }, [isAdjPrem, isPolRein, isTopup, isFundSwitch]);
 
   const clientMenuClick = (value: any) => {
     console.log(value.Action, "****");
@@ -608,6 +610,10 @@ function CsmmTable({
         break;
       case "IlpSurrender":
         ilpsurrenderDispatch({ type: ILPSURRENDERACTIONS.ILPSURRENDEROPEN });
+        handleClose();
+        break;
+      case "IlpFundSwitch":
+        ilpFundSwitchOpen(policyId.current, value);
         handleClose();
         break;
       default:
@@ -1054,6 +1060,16 @@ function CsmmTable({
     setisTopup(false);
   };
 
+  const ilpFundSwitchOpen = (policyId: number, value: any) => {
+    setisFundSwitch(true);
+    setcomponentMenu(value);
+    //setilpfunc("Init")
+    setPolicyID(policyId);
+  };
+  const ilpFundSwitchClose = () => {
+    setisFundSwitch(false);
+  };
+
   useEffect(() => {
     if (isSaChange) {
       getSaChange();
@@ -1303,6 +1319,17 @@ function CsmmTable({
       <IlpTopupModal
         open={isTopup}
         handleClose={ilpTopupClose}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
+        data={polenqData}
+        getData={getData}
+        polid={PolicyID}
+      />
+      <IlpFundSwitchModal
+        open={isFundSwitch}
+        handleClose={ilpFundSwitchClose}
         completed={completed}
         setcompleted={setcompleted}
         func={func}
