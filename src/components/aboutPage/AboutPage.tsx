@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./aboutPage.module.css";
 
 function AboutPage() {
