@@ -29,7 +29,7 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
-import { deleteApi as deleteFund} from "../../ilpFund/ilpFundApi/ilpFundsApis";
+import { deleteApi as deleteFund } from "../../ilpFund/ilpFundApi/ilpFundsApis";
 import "./newBusinessModal.css";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 
@@ -244,8 +244,8 @@ function NewBusinessModal({
       {
         FundCode: "",
         FundPercentage: "",
-      }
-    ])
+      },
+    ]);
   };
 
   const handleBenefitsRemove = (index: number, benefitID: number) => {
@@ -257,11 +257,11 @@ function NewBusinessModal({
           .then((resp) => {})
           .catch((err) => {})
       : null;
-      const fundlist = [...ilpfunds];
+    const fundlist = [...ilpfunds];
     fundlist.splice(index, 1);
     setilpfunds(fundlist);
     state.editOpen && benefitID
-    ? deleteApi(benefitID)
+      ? deleteApi(benefitID)
           .then((resp) => {})
           .catch((err) => {})
       : null;
@@ -516,15 +516,15 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
   };
 
-  const [ilpopen, setilpopen] = useState(false)
+  const [ilpopen, setilpopen] = useState(false);
 
-  const ilpOpen=()=>{
-    setilpopen(true)
-  }
+  const ilpOpen = () => {
+    setilpopen(true);
+  };
 
-  const ilpClose=()=>{
-    setilpopen(false)
-  }
+  const ilpClose = () => {
+    setilpopen(false);
+  };
 
   useEffect(() => {
     setbenefitClientId({
@@ -533,7 +533,9 @@ function NewBusinessModal({
     return () => {};
   }, [state.addOpen === false]);
 
-  const [ilpfunds, setilpfunds] = useState([{FundCode:"", FundPercentage:""}])
+  const [ilpfunds, setilpfunds] = useState([
+    { FundCode: "", FundPercentage: "" },
+  ]);
 
   return (
     <div>
@@ -1366,16 +1368,19 @@ function NewBusinessModal({
                           </Button>
                           </Grid2> */}
                       </Grid2>
-                      {benefits.IlpFunds.map((funds: any,index: number)=>{
-                        <TreeItem 
-                        nodeId={(index + 2).toString()}
-                        label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
-                        style={{ minWidth: "95%", margin: "0px 1rem" }}>
+                      {benefits?.IlpFunds?.map((funds: any, index: number) => {
+                        <TreeItem
+                          nodeId={(index + 2).toString()}
+                          label={
+                            state.addOpen ? `Benefits Add` : `Benefits Edit`
+                          }
+                          style={{ minWidth: "95%", margin: "0px 1rem" }}
+                        >
                           <Grid2
-                              container
-                              spacing={2}
-                              style={{ width: "95%", margin: "0px auto" }}
-                            >
+                            container
+                            spacing={2}
+                            style={{ width: "95%", margin: "0px auto" }}
+                          >
                             <TextField
                               select
                               id="FundCode"
@@ -1407,8 +1412,8 @@ function NewBusinessModal({
                                 )
                               )} */}
                             </TextField>
-                            </Grid2>
-                        </TreeItem>
+                          </Grid2>
+                        </TreeItem>;
                       })}
                     </TreeItem>
                     <div
@@ -1460,10 +1465,7 @@ function NewBusinessModal({
           </TreeView>
         </form>
       </CustomFullModal>
-      <IlpFundsAdd
-      open={ilpopen}
-      handleClose={ilpClose}
-      />
+      <IlpFundsAdd open={ilpopen} handleClose={ilpClose} />
     </div>
   );
 }
