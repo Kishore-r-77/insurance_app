@@ -231,7 +231,6 @@ function Csmm({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         setData(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Policies"]?.length === 0);
@@ -307,7 +306,6 @@ function Csmm({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -318,7 +316,6 @@ function Csmm({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));
