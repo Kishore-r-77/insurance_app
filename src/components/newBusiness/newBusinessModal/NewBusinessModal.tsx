@@ -29,6 +29,7 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
+import { deleteApi as deleteFund} from "../../ilpFund/ilpFundApi/ilpFundsApis";
 import "./newBusinessModal.css";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 
@@ -238,6 +239,13 @@ function NewBusinessModal({
         BPrem: 0,
       },
     ]);
+    setilpfunds([
+      ...ilpfunds,
+      {
+        FundCode: "",
+        FundPercentage: "",
+      }
+    ])
   };
 
   const handleBenefitsRemove = (index: number, benefitID: number) => {
@@ -246,6 +254,14 @@ function NewBusinessModal({
     setbenefitsData(list);
     state.editOpen && benefitID
       ? deleteApi(benefitID)
+          .then((resp) => {})
+          .catch((err) => {})
+      : null;
+      const fundlist = [...ilpfunds];
+    fundlist.splice(index, 1);
+    setilpfunds(fundlist);
+    state.editOpen && benefitID
+    ? deleteApi(benefitID)
           .then((resp) => {})
           .catch((err) => {})
       : null;
@@ -516,6 +532,8 @@ function NewBusinessModal({
     });
     return () => {};
   }, [state.addOpen === false]);
+
+  const [ilpfunds, setilpfunds] = useState([{FundCode:"", FundPercentage:""}])
 
   return (
     <div>
@@ -1332,7 +1350,7 @@ function NewBusinessModal({
                             ></TextField>
                           </Grid2>
                         ) : null}
-                        <Grid2 xs={8} md={6} lg={4}>
+                        {/* <Grid2 xs={8} md={6} lg={4}>
                         <Button
                             variant="contained"
                             onClick={() => ilpOpen()}
@@ -1346,8 +1364,52 @@ function NewBusinessModal({
                           >
                             <AddBoxRoundedIcon />
                           </Button>
-                          </Grid2>
+                          </Grid2> */}
                       </Grid2>
+                      {benefits.IlpFunds.map((funds: any,index: number)=>{
+                        <TreeItem 
+                        nodeId={(index + 2).toString()}
+                        label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
+                        style={{ minWidth: "95%", margin: "0px 1rem" }}>
+                          <Grid2
+                              container
+                              spacing={2}
+                              style={{ width: "95%", margin: "0px auto" }}
+                            >
+                            <TextField
+                              select
+                              id="FundCode"
+                              name="FundCode"
+                              //value={state.addOpen ? state.FundCode : record.FundCode}
+                              placeholder="Fund Code"
+                              label="Fund Code"
+                              // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                              //   dispatch({
+                              //     type: state.addOpen
+                              //       ? ACTIONS.ONCHANGE
+                              //       : ACTIONS.EDITCHANGE,
+                              //     payload: e.target.value,
+                              //     fieldName: "FundCode",
+                              //   })
+                              // }
+                              fullWidth
+                              //inputProps={{ readOnly: state.infoOpen }}
+                              margin="dense"
+                              SelectProps={{
+                                multiple: false,
+                              }}
+                            >
+                              {/* {getUlpfundsResponse?.param.data.dataPairs.map(
+                                (value: any) => (
+                                  <MenuItem key={value.code} value={value.code}>
+                                    {value.code} - {value.description}
+                                  </MenuItem>
+                                )
+                              )} */}
+                            </TextField>
+                            </Grid2>
+                        </TreeItem>
+                      })}
                     </TreeItem>
                     <div
                       style={{

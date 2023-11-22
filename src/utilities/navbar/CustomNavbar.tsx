@@ -80,7 +80,7 @@ function CustomNavbar() {
           <ul>
             <li onClick={() => navigate("/home")}>Home</li>
             <li onClick={() => navigate("/profile")}>Profile</li>
-            <li>About</li>
+            <li onClick={() => navigate("/aboutPage")}>About</li>
             <span>
               <Tooltip title="Log Out">
                 <IconButton style={{ color: "white" }} onClick={handleShow}>

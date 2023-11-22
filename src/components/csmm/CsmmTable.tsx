@@ -49,6 +49,7 @@ import SurrenderModal from "./surrenderModal/SurrenderModal";
 import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
+import IlpFundSwitchModal from "./IlpFundSwitchModal/IlpFundSwitchModal";
 import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
@@ -478,6 +479,7 @@ function CsmmTable({
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
   const [isTopup, setisTopup] = useState(false);
+  const [isFundSwitch, setisFundSwitch] = useState(false);
 
   const [isPolRein, setIsPolRein] = useState(false);
   //const [isSurrender, setIsSurrender] = useState(false);
@@ -543,7 +545,7 @@ function CsmmTable({
   useEffect(() => {
     getPolEnq(PolicyID);
     return () => {};
-  }, [isAdjPrem, isPolRein, isTopup]);
+  }, [isAdjPrem, isPolRein, isTopup, isFundSwitch]);
 
   const clientMenuClick = (value: any) => {
     console.log(value.Action, "****");
@@ -617,10 +619,14 @@ function CsmmTable({
         ilpsurrenderDispatch({ type: ILPSURRENDERACTIONS.ILPSURRENDEROPEN });
         handleClose();
         break;
+      case "IlpFundSwitch":
+        ilpFundSwitchOpen(policyId.current, value);
+        handleClose();
+        break;
       case "SpecialRevival":
         splrevOpen(policyId.current, value);
         handleClose();
-        
+        break;
       default:
         return;
     }
@@ -653,7 +659,6 @@ function CsmmTable({
         setsaChangeObj(resp?.data?.Policy);
         setsaChangeBenefits(resp?.data?.Policy?.Benefits);
         isSave.current = false;
-        
       })
       .catch((err) => {
         setisSaChange(false);
@@ -664,7 +669,7 @@ function CsmmTable({
         });
       });
   };
-  console.log("saChangeMenu",saChangeMenu)
+  console.log("saChangeMenu", saChangeMenu);
 
   const modifiedPremium = useRef();
   const premium = useRef();
@@ -887,74 +892,61 @@ function CsmmTable({
 
   const splrevOpen = (policyId: number, value: any) => {
     setissplRev(true);
-    //setsaChangeMenu(value);
     setPolicyID(policyId);
   };
   const splrevClose = () => {
     setissplRev(false);
-    console.log(isSave, "isSave");
-
-    if (isSave.current) {
-      invalidatesa();
-    }
   };
 
-
-  
- const [SpRev,setSpRev]= useState <any>({})
-const getspecialrevival = () => {
-
+  const [SpRev, setSpRev] = useState<any>({});
+  const getspecialrevival = () => {
     axios
       .post(
         `http://localhost:3000/api/v1/customerservice/splrevival`,
         {
           Function: "Calculate",
-          Policy:PolicyID.toString(),
-          
+          Policy: PolicyID.toString(),
         },
         { withCredentials: true }
       )
       .then((resp) => {
         setSpRev(resp.data?.SpecialRevival);
         getData();
-        // setNotify({
-        //   isOpen: true,
-        //   message: "Calculated Successfully",
-        //   type: "success",
-        // });
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
       })
-      // .catch((err) =>
-      //   setNotify({
-      //     isOpen: true,
-      //     message: err?.response?.data?.error,
-      //     type: "error",
-      //   })
-      // );
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
-  useEffect(() => {
-    getspecialrevival()
-  
-    return () => {
-      
-    }
-  }, [issplrev])
 
+  useEffect(() => {
+    if (issplrev) {
+      getspecialrevival();
+    }
+    return () => {};
+  }, [issplrev]);
 
   const savespecialrevival = () => {
-
     axios
       .post(
         `http://localhost:3000/api/v1/customerservice/splrevival`,
         {
           Function: "Save",
-          Policy:PolicyID.toString(),
-          
+          Policy: PolicyID.toString(),
         },
         { withCredentials: true }
       )
       .then((resp) => {
         setSpRev(resp.data?.SpecialRevival);
-        
+
         splrevClose();
         getData();
         setNotify({
@@ -1175,6 +1167,16 @@ const getspecialrevival = () => {
   };
   const ilpTopupClose = () => {
     setisTopup(false);
+  };
+
+  const ilpFundSwitchOpen = (policyId: number, value: any) => {
+    setisFundSwitch(true);
+    setcomponentMenu(value);
+    //setilpfunc("Init")
+    setPolicyID(policyId);
+  };
+  const ilpFundSwitchClose = () => {
+    setisFundSwitch(false);
   };
 
   useEffect(() => {
@@ -1434,6 +1436,17 @@ const getspecialrevival = () => {
         getData={getData}
         polid={PolicyID}
       />
+      <IlpFundSwitchModal
+        open={isFundSwitch}
+        handleClose={ilpFundSwitchClose}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
+        data={polenqData}
+        getData={getData}
+        polid={PolicyID}
+      />
       <PolReinModal
         open={isPolRein}
         handleClose={polReinClose}
@@ -1488,7 +1501,6 @@ const getspecialrevival = () => {
         handleClose={splrevClose}
         SpRev={SpRev}
         savespecialrevival={savespecialrevival}
-        
       />
       <ComponentModal
         open={isComponent}
