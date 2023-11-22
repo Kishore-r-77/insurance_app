@@ -41,13 +41,13 @@ const P0069 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.p0069Lapse = retData.p0069Lapse.filter(
+      retData.p0069 = retData.p0069.filter(
         (value: any) => value.months !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        p0069Lapse: inputdata.p0069Lapse.filter(
+        p0069: inputdata.p0069.filter(
           (value: any) => value.months !== ""
         ),
       }));
@@ -58,7 +58,7 @@ const P0069 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      p0069Lapse: inputdata.p0069Lapse.filter(
+      p0069: inputdata.p0069.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -67,7 +67,7 @@ const P0069 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      p0069Lapse: inputdata.p0069Lapse.map((val: any, ind: number) => {
+      p0069: inputdata.p0069.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -115,16 +115,16 @@ const P0069 = forwardRef((props: any, ref) => {
           <th>Liquidated Ilp Fund</th> 
           <th>Recover From Fund</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.p0069Lapse?.length > 0 && <th>Actions</th>}
+            inputdata.p0069?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.p0069Lapse || inputdata.p0069Lapse?.length === 0) && (
+            (!inputdata.p0069 || inputdata.p0069?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        p0069Lapse: [
+                        p0069: [
                           {
                             months: 0,
                             toBeStatus: "",
@@ -142,7 +142,7 @@ const P0069 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.p0069Lapse?.map((value: any, index: number) => (
+        {inputdata.p0069?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -289,14 +289,14 @@ const P0069 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.p0069Lapse.length - 1 && (
+                  {index === inputdata.p0069.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            p0069Lapse: [
-                              ...inputdata.p0069Lapse,
+                            p0069: [
+                              ...inputdata.p0069,
                               {
                                 months: 0,
                                 toBeStatus: "",

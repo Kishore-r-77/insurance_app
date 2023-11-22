@@ -1452,6 +1452,8 @@ function CsmmTable({
         handleClose={polReinClose}
         completed={completed}
         setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
         data={polenqData}
         getData={getData}
       />

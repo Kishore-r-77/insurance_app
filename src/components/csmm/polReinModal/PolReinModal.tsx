@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { FormControl, TextField } from "@mui/material";
 import axios from "axios";
@@ -101,6 +101,15 @@ function PolReinModal({
   const languageId = useAppSelector(
     (state) => state.users.user.message.languageId
   );
+
+  useEffect(() => {
+    setcompleted(false)
+    setfunc("Calculate")
+    setresult("")
+    return () => {
+    }
+  }, [open===false])
+  
 
   return (
     <div>
