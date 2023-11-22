@@ -3,7 +3,7 @@ import moment from "moment";
 import Table from "react-bootstrap/Table";
 import styles from "./enquiryTable.module.css";
 import InfoIcon from "@mui/icons-material/Info";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GLAccountEnquiry from "./GLAccountEnquiry";
 import GLHistoryEnquiry from "./GLHistoryEnquiry";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
@@ -15,6 +15,7 @@ import ILPTransactionEnquiry from "./ILPTransactionEnquiry";
 import BenefitFundEnquiry from "./BenefitFundEnquiry";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import BenefitInfo from "./BenefitInfo";
+import FundSwitchEnquiry from "./FundSwitchEnquiry";
 
 function EnquiryTable({
   data,
@@ -41,6 +42,7 @@ function EnquiryTable({
   };
 
   const [glHistory, setglHistory] = useState(false);
+  const [isFundSwitch, setisFundSwitch] = useState(false);
   const [mrta, setmrta] = useState(false);
   const [ilpT, setilpT] = useState(false);
 
@@ -56,9 +58,19 @@ function EnquiryTable({
       setisSachange(true);
     } else if (hcode === "H0093") {
       setisComponentAdd(true);
+    } else if (hcode === "H0139") {
+      fundSwitchOpen();
+      getFundSwitchInfo(policyNo, value);
     } else {
       setglHistory(true);
     }
+  };
+
+  const fundSwitchOpen = () => {
+    setisFundSwitch(true);
+  };
+  const fundSwitchClose = () => {
+    setisFundSwitch(false);
   };
 
   const ilptClickOpen = (fcode: any) => {
@@ -77,10 +89,10 @@ function EnquiryTable({
   };
 
   const [benInfoOpen, setbenInfoOpen] = useState(false);
-  const [benRecord, setbenRecord] = useState({})
+  const [benRecord, setbenRecord] = useState({});
   const benInfoClickOpen = (row: any) => {
     setbenInfoOpen(true);
-    setbenRecord(row)
+    setbenRecord(row);
   };
 
   const benInfoClickClose = () => {
@@ -137,6 +149,22 @@ function EnquiryTable({
       .catch((err) => err.message);
   };
 
+  const [fundswitchData, setfundswitchData] = useState([]);
+
+  const getFundSwitchInfo = (policyId: number, tranno: number) => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/ilpservices/ilpswitchenq/${policyId}/${tranno}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setfundswitchData(resp?.data?.ilpFundSwitchDetail);
+      })
+      .catch((err) => err.message);
+  };
+
   function downloadReceiptPdf(val: any) {
     axios({
       url: `http://localhost:3000/api/v1/basicservices/getReport?reportName=RECEIPT&ID=${val}`,
@@ -189,7 +217,7 @@ function EnquiryTable({
             )}
             {isCommunication ? <th>PDF</th> : null}
             {benOpen && data[0]?.BCoverage == "ILP1" ? <th>ILP Fund</th> : null}
-            {benOpen? <th>Info</th>:null}
+            {benOpen ? <th>Info</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -278,18 +306,19 @@ function EnquiryTable({
                       </td>
                     ) : ilpTOpen ? (
                       <td
-                          key={col.field}
-                          onClick={() => ilptClickOpen(row?.FundCode)}
+                        key={col.field}
+                        onClick={() => ilptClickOpen(row?.FundCode)}
                       >
-                          <span
-                              style={{
-                                  textDecoration: row?.DeletedAt != null ? "line-through" : "none",
-                                  marginRight: "1.5rem",
-                                  display: "inline-block", // Ensures the span behaves like a block-level element
-                              }}
-                          >
-                              {row[col.field]}
-                          </span>
+                        <span
+                          style={{
+                            textDecoration:
+                              row?.DeletedAt != null ? "line-through" : "none",
+                            marginRight: "1.5rem",
+                            display: "inline-block", // Ensures the span behaves like a block-level element
+                          }}
+                        >
+                          {row[col.field]}
+                        </span>
                       </td>
                     ) : (
                       <td key={col.field}>{row[col.field]}</td>
@@ -314,10 +343,10 @@ function EnquiryTable({
               ) : null}
 
               {benOpen ? (
-                 <td onClick={() => benInfoClickOpen(row)}>
-                 <InfoIcon color="success" />
-               </td>
-              ):null}
+                <td onClick={() => benInfoClickOpen(row)}>
+                  <InfoIcon color="success" />
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>
@@ -366,11 +395,10 @@ function EnquiryTable({
         fundBenefitData={fundBenefitData}
       />
 
-<BenefitInfo
+      <BenefitInfo
         open={benInfoOpen}
         handleClose={benInfoClickClose}
         record={benRecord}
-        
       />
 
       <ILPTransactionEnquiry
@@ -378,6 +406,11 @@ function EnquiryTable({
         handleClose={ilptClickClose}
         policyNo={policyNo}
         fundCode={fund}
+      />
+      <FundSwitchEnquiry
+        fundswitchData={fundswitchData}
+        open={isFundSwitch}
+        handleClose={fundSwitchClose}
       />
     </Paper>
   );
