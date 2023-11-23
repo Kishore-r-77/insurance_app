@@ -32,7 +32,7 @@ const P0069 = forwardRef((props: any, ref) => {
         getDataParams.item = "YESNO";
         sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
-        getDataParams.item = "LIQUIDFUNDCODE";
+        getDataParams.item = "FUNDCODE";
         sendLiquidfundcodeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.name = "P0024";
