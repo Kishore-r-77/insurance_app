@@ -17,6 +17,7 @@ import { useBusinessDate } from "../../contexts/BusinessDateContext";
 import useHttp from "../../../hooks/use-http";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
 import CustomIlpFundSwitchModal from "./CustomIlpFundSwitchModal";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 function IlpFundSwitchModal({
   open,
@@ -46,7 +47,7 @@ function IlpFundSwitchModal({
   console.log(open, "open");
 
   const [isResult, setIsResult] = useState(false);
-  const [ilpTopupBenefits, setilpTopupBenefits] = useState([]);
+  const [ilpTopupBenefits, setilpTopupBenefits] = useState<any>([]);
   const [funds, setfunds] = useState<any>([]);
   const [exfunds, setexfunds] = useState<any>([]);
   const [fundswitch, setfundswitch] = useState<any>([]);
@@ -216,8 +217,12 @@ function IlpFundSwitchModal({
   };
 
   const [benId, setbenId] = useState("");
-  const handleBenChange = (e: any) => {
-    setbenId(e.target.value);
+  const handleBenChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    i: number,
+    val: any
+  ) => {
+    setbenId(ilpTopupBenefits[i].ID);
   };
 
   const handlePremChange = (e: any) => {
@@ -589,7 +594,7 @@ function IlpFundSwitchModal({
                   </LocalizationProvider>
                 </FormControl>
               </Grid2>
-              <Grid2 xs={8} md={6} lg={4}>
+              {/* <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   select
                   id="Benefit"
@@ -607,7 +612,7 @@ function IlpFundSwitchModal({
                     </MenuItem>
                   ))}
                 </TextField>
-              </Grid2>
+              </Grid2> */}
               <Grid2 lg={4}>
                 <TextField
                   select
@@ -630,7 +635,186 @@ function IlpFundSwitchModal({
               </Grid2>
             </Grid2>
           </TreeItem>
-          <TreeItem nodeId="2" label={`Source Funds`}>
+          <TreeItem nodeId="2" label={`Benefits`}>
+            <Table
+              striped
+              bordered
+              hover
+              style={{
+                width: "100%",
+                tableLayout: "fixed",
+                position: "relative",
+              }}
+            >
+              <thead className={styles.header}>
+                <tr>
+                  <th
+                    style={{
+                      position: "sticky",
+                      left: 0,
+                      zIndex: 2,
+                      width: "100%",
+                    }}
+                  >
+                    Selected
+                  </th>
+                  <th style={{ width: "100%" }}>Policy ID</th>
+                  <th style={{ width: "100%" }}>Benefit ID</th>
+                  <th style={{ width: "100%" }}>Client ID</th>
+                  <th style={{ width: "100%" }}>BCoverage</th>
+                  <th style={{ width: "100%" }}>BStart Date</th>
+                  <th style={{ width: "100%" }}>BSumAssured</th>
+                  <th style={{ width: "100%" }}>BTerm</th>
+                  <th style={{ width: "100%" }}>BPTerm</th>
+                  <th style={{ width: "100%" }}>BPrem</th>
+                  <th style={{ width: "100%" }}>BGender</th>
+                  <th style={{ width: "100%" }}>BDOB</th>
+                </tr>
+              </thead>
+              {ilpTopupBenefits?.map((val: any, index: number) => {
+                return (
+                  <>
+                    <CustomModal size="xl"></CustomModal>
+                    <tr>
+                      <td>
+                        <input
+                          className={styles["input-form"]}
+                          style={{
+                            position: "sticky",
+                            left: 0,
+                          }}
+                          type="radio"
+                          name="Select"
+                          onChange={(e) => handleBenChange(e, index, val)}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.PolicyID}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val.ID}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.ClientID}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.BCoverage}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={moment(val?.BStartDate).format("DD-MM-YYYY")}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BSumAssured"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BSumAssured}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BTerm"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BTerm}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BPTerm"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BPTerm}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BPrem"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BPrem}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.BGender}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={moment(val?.BDOB).format("DD-MM-YYYY")}
+                        />
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </Table>
+          </TreeItem>
+          <TreeItem nodeId="3" label={`Source Funds`}>
             {ilpfunc == "Save" ? (
               <Table striped bordered hover>
                 <thead className={styles.header}>
@@ -772,7 +956,7 @@ function IlpFundSwitchModal({
               </Table>
             )}
           </TreeItem>
-          <TreeItem nodeId="3" label={`Target Funds`}>
+          <TreeItem nodeId="4" label={`Target Funds`}>
             {ilpfunc == "Save" ? (
               <Table striped bordered hover>
                 <thead className={styles.header}>

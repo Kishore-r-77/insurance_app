@@ -13,7 +13,7 @@ function CustomIlpTopupModal({
 }: any) {
   return (
     <div>
-      <Modal show={open} onHide={handleClose} centered size={size}>
+      <Modal show={open} onHide={handleClose} fullscreen={true}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
@@ -24,7 +24,11 @@ function CustomIlpTopupModal({
           </Button>
           {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
-              {completed && isResult ? "Save" : completed ? "Check" : "Initialize"}
+              {completed && isResult
+                ? "Save"
+                : completed
+                ? "Check"
+                : "Initialize"}
             </Button>
           )}
         </Modal.Footer>

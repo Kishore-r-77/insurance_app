@@ -611,7 +611,7 @@ function CsmmTable({
         ilpTopupOpen(policyId.current, value);
         handleClose();
         break;
-      case "DirectInvPrem":
+      case "PremiumDirection":
         directInvPremOpen(policyId.current, value);
         handleClose();
         break;
@@ -1014,7 +1014,6 @@ function CsmmTable({
     getilpAllowedFunds();
     return () => {};
   }, [bcoverage]);
-  console.log(bcoverage, "killervvvvvvvvvvvvv");
 
   const [benId, setbenId] = useState("");
   const [ClientID, setClientID] = useState<any>([]);
