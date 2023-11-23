@@ -126,11 +126,11 @@ function NewBusiness({
           ...state,
           infoOpen: true,
         };
-        setbenefitsData;
+setbenefitsData
       case ACTIONS.ADDCLOSE:
         state = initialValues;
         // setBusinessData({});
-        [
+        ([
           {
             ClientID: 0,
             BStartDate: "",
@@ -141,7 +141,7 @@ function NewBusiness({
             Interest: 0,
             BPrem: 0,
           },
-        ];
+        ]);
         return {
           ...state,
           PRCD: "",
@@ -176,12 +176,12 @@ function NewBusiness({
             BSumAssured: 0,
             Interest: 0,
             BPrem: 0,
-            // IlpFunds: [
+            // IlpFunds:[
             //   {
-            //     FundCode: "",
-            //     FundPercentage: 0,
+            //     "FundCode": "",
+            //     "FundPercentage": 0
             //   },
-            // ],
+            // ]
           },
         ]);
         return {
@@ -408,8 +408,8 @@ function NewBusiness({
         setisIssue(false);
         setissueNote(true);
         // console.log(resp.data,"Policy")
-      })
-      .catch((err) => {
+      }).catch((err) => {
+        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

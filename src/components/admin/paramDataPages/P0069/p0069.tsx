@@ -19,6 +19,7 @@ const P0069 = forwardRef((props: any, ref) => {
 
   const {sendRequest : sendP0024Request , status: getP0024ResponseStatus ,  data: getP0024Response , error:getP0024ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendLiquidfundcodeRequest , status: getLiquidfundcodeResponseStatus ,  data: getLiquidfundcodeResponse , error:getLiquidfundcodeResponseError} = useHttp(getData, true); 
 
   useEffect(() => {
     let getDataParams:any = {}
@@ -30,6 +31,9 @@ const P0069 = forwardRef((props: any, ref) => {
 
         getDataParams.item = "YESNO";
         sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
+        getDataParams.item = "LIQUIDFUNDCODE";
+        sendLiquidfundcodeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
         getDataParams.name = "P0024";
         sendP0024Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
@@ -114,6 +118,7 @@ const P0069 = forwardRef((props: any, ref) => {
           <th>Sum Assured Proportion</th> 
           <th>Liquidated Ilp Fund</th> 
           <th>Recover From Fund</th> 
+          <th>Liquid Fund Code</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.p0069?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
@@ -131,6 +136,7 @@ const P0069 = forwardRef((props: any, ref) => {
                             saProportion: "",
                             liquidatedIlpFund: "",
                             recoverFromFund: "",
+                            liquidFundCode: "",
                           },
                         ],
                       }));
@@ -271,6 +277,34 @@ const P0069 = forwardRef((props: any, ref) => {
               </TextField>
           </td>
 
+            <td>
+              <TextField
+                select
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="liquidFundCode"
+                name="liquidFundCode"
+                value={value.liquidFundCode}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "liquidFundCode", e.target.value,false)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getLiquidfundcodeResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
+
             {(props.mode === "update" || props.mode === "create") && (
               <td>
                 <span
@@ -303,6 +337,7 @@ const P0069 = forwardRef((props: any, ref) => {
                                 saProportion: "",
                                 liquidatedIlpFund: "",
                                 recoverFromFund: "",
+                                liquidFundCode: "",
 
                               },
                             ],
