@@ -14,7 +14,6 @@ const P0059 = forwardRef((props: any, ref) => {
   
   const {sendRequest : sendCurrentorfutureRequest , status: getCurrentorfutureResponseStatus ,  data: getCurrentorfutureResponse , error:getCurrentorfutureResponseError} = useHttp(getData, true); 
   const {sendRequest : sendAllocationcategoryRequest , status: getAllocationcategoryResponseStatus ,  data: getAllocationcategoryResponse , error:getAllocationcategoryResponseError} = useHttp(getData, true); 
-  const {sendRequest : sendAccountcodesRequest , status: getAccountcodesResponseStatus ,  data: getAccountcodesResponse , error:getAccountcodesResponseError} = useHttp(getData, true); 
 
 
   useEffect(() => {
@@ -30,9 +29,6 @@ const P0059 = forwardRef((props: any, ref) => {
 
         getDataParams.item = "ALLOCATIONCATEGORY";
         sendAllocationcategoryRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
-
-        getDataParams.item = "ACCOUNTCODES";
-        sendAccountcodesRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
 
 
@@ -171,7 +167,7 @@ const P0059 = forwardRef((props: any, ref) => {
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
         <TextField
-          select
+          
           inputProps={{
             readOnly: props.mode === "display" || props.mode === "delete",
           }}
@@ -182,19 +178,9 @@ const P0059 = forwardRef((props: any, ref) => {
           label="Account Code"
           defaultValue={inputdata.accountCode}
           fullWidth
-          variant="outlined"
           margin="dense"
-          SelectProps={{
-            multiple: false,
-          }}
-        >
-          {getAccountcodesResponse?.param.data.dataPairs.map((value:any) => (
-            <MenuItem key={value.code} value={value.code}>
-              {value.code} - {value.description}
-            </MenuItem>
-            ))}
-        </TextField>
-            </Grid2> 
+        />
+        </Grid2>
 
 
         <P0059Enq
