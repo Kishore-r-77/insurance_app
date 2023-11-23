@@ -14,7 +14,7 @@
 
 /* Table header text style */
 .thstyle {
-  color: white;
+  color: white !important;
   font-family: "Arial", sans-serif;
   font-weight: bold;
 }

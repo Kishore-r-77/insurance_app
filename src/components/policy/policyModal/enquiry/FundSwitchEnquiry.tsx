@@ -1,7 +1,9 @@
-import * as React from "react";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,13 +11,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import CustomFullModal from "../../../../utilities/modal/CustomFullModal";
 import moment from "moment";
-import styles from "./fundSwitchEnquiry.module.css";
+import * as React from "react";
 import CustomModal from "../../../../utilities/modal/CustomModal";
+import styles from "./fundSwitchEnquiry.module.css";
 
 export default function FundSwitchEnquiry({
   open: fundOpen,
@@ -31,7 +30,9 @@ export default function FundSwitchEnquiry({
       title="Ilp Switch Detail"
     >
       <TableContainer component={Paper}>
-        <h2 style={{ textAlign: "center" }}>Ilp Switch Header</h2>
+        <h2 style={{ backgroundColor: "#c0d4e2", textAlign: "center" }}>
+          Ilp Switch Header
+        </h2>
         <Table aria-label="collapsible table">
           <TableHead className={styles["table-head"]}>
             <TableRow>
@@ -77,6 +78,7 @@ export default function FundSwitchEnquiry({
                       gutterBottom
                       component="div"
                       textAlign="center"
+                      style={{ backgroundColor: "#a2c8e3" }}
                     >
                       Ilp Switch Funds
                     </Typography>
@@ -100,6 +102,15 @@ export default function FundSwitchEnquiry({
                           </TableCell>
                           <TableCell className={styles.thstyle}>
                             Fund Type
+                          </TableCell>
+                          <TableCell className={styles.thstyle}>
+                            Fund Units
+                          </TableCell>
+                          <TableCell className={styles.thstyle}>
+                            Fund Amount
+                          </TableCell>
+                          <TableCell className={styles.thstyle}>
+                            Fund Percentage
                           </TableCell>
                           <TableCell className={styles.thstyle}>
                             FundCurr
@@ -143,6 +154,15 @@ export default function FundSwitchEnquiry({
                               </TableCell>
                               <TableCell className={styles.tdstyle}>
                                 {funds.FundType}
+                              </TableCell>
+                              <TableCell className={styles.tdstyle}>
+                                {funds.FundUnits}
+                              </TableCell>
+                              <TableCell className={styles.tdstyle}>
+                                {funds.FundAmount}
+                              </TableCell>
+                              <TableCell className={styles.tdstyle}>
+                                {funds.FundPercentage}
                               </TableCell>
                               <TableCell className={styles.tdstyle}>
                                 {funds.FundCurr}
