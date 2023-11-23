@@ -34,6 +34,7 @@
   grid-template-rows: auto;
   gap: 2rem;
   width: 96vw;
+  align-items: start;
 }
 
 .policy-enquiry {
@@ -53,8 +54,12 @@
   box-shadow: 1px 0px 5px 0px;
   width: 15vw;
   justify-self: end;
+  position: sticky;
+  top: 0;
 }
 .collapse {
+  position: sticky;
+  top: 0;
   justify-self: end;
   width: 3rem;
   border: none;
