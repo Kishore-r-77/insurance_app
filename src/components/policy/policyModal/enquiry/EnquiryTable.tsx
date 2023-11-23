@@ -61,6 +61,9 @@ function EnquiryTable({
     } else if (hcode === "H0139") {
       fundSwitchOpen();
       getFundSwitchInfo(policyNo, value);
+    } else if (hcode === "B0101") {
+      fundSwitchOpen();
+      getFundSwitchInfo(policyNo, value);
     } else {
       setglHistory(true);
     }
