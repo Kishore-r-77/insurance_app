@@ -13,7 +13,7 @@ function CustomIlpFundSwitchModal({
 }: any) {
   return (
     <div>
-      <Modal show={open} onHide={handleClose} centered size={size}>
+      <Modal show={open} onHide={handleClose} fullscreen={true}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>

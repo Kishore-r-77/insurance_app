@@ -19,6 +19,7 @@ const P0069 = forwardRef((props: any, ref) => {
 
   const {sendRequest : sendP0024Request , status: getP0024ResponseStatus ,  data: getP0024Response , error:getP0024ResponseError} = useHttp(getData, true); 
   const {sendRequest : sendYesnoRequest , status: getYesnoResponseStatus ,  data: getYesnoResponse , error:getYesnoResponseError} = useHttp(getData, true); 
+  const {sendRequest : sendLiquidfundcodeRequest , status: getLiquidfundcodeResponseStatus ,  data: getLiquidfundcodeResponse , error:getLiquidfundcodeResponseError} = useHttp(getData, true); 
 
   useEffect(() => {
     let getDataParams:any = {}
@@ -31,6 +32,9 @@ const P0069 = forwardRef((props: any, ref) => {
         getDataParams.item = "YESNO";
         sendYesnoRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
 
+        getDataParams.item = "FUNDCODE";
+        sendLiquidfundcodeRequest({apiUrlPathSuffix : '/basicservices/paramItem' , getDataParams :getDataParams});
+
         getDataParams.name = "P0024";
         sendP0024Request({apiUrlPathSuffix : '/basicservices/paramItems' , getDataParams :getDataParams});
 
@@ -41,13 +45,13 @@ const P0069 = forwardRef((props: any, ref) => {
   useImperativeHandle(ref, () => ({
     getData() {
       let retData = inputdata;
-      retData.p0069Lapse = retData.p0069Lapse.filter(
+      retData.p0069 = retData.p0069.filter(
         (value: any) => value.months !== ""
       );
 
       setInputdata((inputdata: any) => ({
         ...inputdata,
-        p0069Lapse: inputdata.p0069Lapse.filter(
+        p0069: inputdata.p0069.filter(
           (value: any) => value.months !== ""
         ),
       }));
@@ -58,7 +62,7 @@ const P0069 = forwardRef((props: any, ref) => {
   const deleteItemHandler = (index: Number) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      p0069Lapse: inputdata.p0069Lapse.filter(
+      p0069: inputdata.p0069.filter(
         (_: any, ind: number) => ind !== index
       ),
     }));
@@ -67,7 +71,7 @@ const P0069 = forwardRef((props: any, ref) => {
   const fieldChangeHandler = (index: number, fieldname: string, value: any, isnumber: boolean) => {
     setInputdata((inputdata: any) => ({
       ...inputdata,
-      p0069Lapse: inputdata.p0069Lapse.map((val: any, ind: number) => {
+      p0069: inputdata.p0069.map((val: any, ind: number) => {
         if (index === ind) {
           if (isnumber){
             val[fieldname] = Number(value);
@@ -114,23 +118,25 @@ const P0069 = forwardRef((props: any, ref) => {
           <th>Sum Assured Proportion</th> 
           <th>Liquidated Ilp Fund</th> 
           <th>Recover From Fund</th> 
+          <th>Liquid Fund Code</th> 
           {(props.mode === "update" || props.mode === "create") && 
-            inputdata.p0069Lapse?.length > 0 && <th>Actions</th>}
+            inputdata.p0069?.length > 0 && <th>Actions</th>}
           {(props.mode === "update" || props.mode === "create") &&
-            (!inputdata.p0069Lapse || inputdata.p0069Lapse?.length === 0) && (
+            (!inputdata.p0069 || inputdata.p0069?.length === 0) && (
               <th>
                 <CustomTooltip text="Add">
                   <AddBoxIcon
                     onClick={() => {
                       setInputdata((inputdata: any) => ({
                         ...inputdata,
-                        p0069Lapse: [
+                        p0069: [
                           {
                             months: 0,
                             toBeStatus: "",
                             saProportion: "",
                             liquidatedIlpFund: "",
                             recoverFromFund: "",
+                            liquidFundCode: "",
                           },
                         ],
                       }));
@@ -142,7 +148,7 @@ const P0069 = forwardRef((props: any, ref) => {
         </tr>
       </thead>
       <tbody>
-        {inputdata.p0069Lapse?.map((value: any, index: number) => (
+        {inputdata.p0069?.map((value: any, index: number) => (
           <tr key={index}>
             <td>
               <TextField
@@ -271,6 +277,34 @@ const P0069 = forwardRef((props: any, ref) => {
               </TextField>
           </td>
 
+            <td>
+              <TextField
+                select
+                inputProps={{
+                readOnly: props.mode === "display" || props.mode === "delete",
+                }}
+                id="liquidFundCode"
+                name="liquidFundCode"
+                value={value.liquidFundCode}
+                onChange={(e) =>
+                  fieldChangeHandler(index, "liquidFundCode", e.target.value,false)
+                }
+                fullWidth
+                size="small"
+                type="text"
+                margin="dense"
+                SelectProps={{
+                  multiple: false,
+                }}
+              >
+                {getLiquidfundcodeResponse?.param.data.dataPairs.map((value:any) => (
+                  <MenuItem key={value.code} value={value.code}>
+                {value.code} - {value.description}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </td>
+
             {(props.mode === "update" || props.mode === "create") && (
               <td>
                 <span
@@ -289,20 +323,21 @@ const P0069 = forwardRef((props: any, ref) => {
                     />
 
                   </CustomTooltip>
-                  {index === inputdata.p0069Lapse.length - 1 && (
+                  {index === inputdata.p0069.length - 1 && (
                     <CustomTooltip text="Add">
                       <AddBoxIcon
                         onClick={() => {
                           setInputdata((inputdata: any) => ({
                             ...inputdata,
-                            p0069Lapse: [
-                              ...inputdata.p0069Lapse,
+                            p0069: [
+                              ...inputdata.p0069,
                               {
                                 months: 0,
                                 toBeStatus: "",
                                 saProportion: "",
                                 liquidatedIlpFund: "",
                                 recoverFromFund: "",
+                                liquidFundCode: "",
 
                               },
                             ],

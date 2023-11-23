@@ -15,6 +15,7 @@ import { getBusinessDateApi } from "../surrenderModal/surrenderApi";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useBusinessDate } from "../../contexts/BusinessDateContext";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
 function IlpTopupModal({
   open,
@@ -44,7 +45,7 @@ function IlpTopupModal({
   console.log(open, "open");
 
   const [isResult, setIsResult] = useState(false);
-  const [ilpTopupBenefits, setilpTopupBenefits] = useState([]);
+  const [ilpTopupBenefits, setilpTopupBenefits] = useState<any>([]);
   const [exfunds, setexfunds] = useState([]);
 
   useEffect(() => {
@@ -85,7 +86,9 @@ function IlpTopupModal({
   };
 
   const userId = useAppSelector((state) => state.users.user.message.id);
-  const companyId = useAppSelector((state) => state.users.user.message.companyId);
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
   const [businessData, setBusinessData] = useState<any>({});
   const [effDate, setEffDate] = useState<any>();
   // const getBusinessDate = (companyId: number, userId: number) => {
@@ -99,7 +102,7 @@ function IlpTopupModal({
 
   useEffect(() => {
     //getBusinessDate(companyId, userId);
-    setEffDate(businessDate)
+    setEffDate(businessDate);
     return () => {};
   }, [open]);
 
@@ -182,10 +185,13 @@ function IlpTopupModal({
   };
 
   const [benId, setbenId] = useState("");
-  const handleBenChange = (e: any) => {
-    setbenId(e.target.value);
+  const handleBenChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    i: number,
+    val: any
+  ) => {
+    setbenId(ilpTopupBenefits[i].ID);
   };
-
   const handlePremChange = (e: any) => {
     setprem(e.target.value);
   };
@@ -280,6 +286,12 @@ function IlpTopupModal({
     getfundsbybenefitandpol();
     return () => {};
   }, [benId]);
+  useEffect(() => {
+    setbenId("");
+    setexfunds([]);
+
+    return () => {};
+  }, [open]);
 
   return (
     <div>
@@ -420,20 +432,20 @@ function IlpTopupModal({
                 ></TextField>
               </Grid2>
               <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        //readOnly={maturityState.infoOpen}
-                        label="EffectiveDate"
-                        inputFormat="DD/MM/YYYY"
-                        value={effDate}
-                        onChange={(date) => effDatechange(date)}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid2>
-              <Grid2 xs={8} md={6} lg={4}>
+                <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                      //readOnly={maturityState.infoOpen}
+                      label="EffectiveDate"
+                      inputFormat="DD/MM/YYYY"
+                      value={effDate}
+                      onChange={(date) => effDatechange(date)}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+              </Grid2>
+              {/* <Grid2 xs={8} md={6} lg={4}>
                 <TextField
                   select
                   id="Benefit"
@@ -451,7 +463,7 @@ function IlpTopupModal({
                     </MenuItem>
                   ))}
                 </TextField>
-              </Grid2>
+              </Grid2> */}
               <Grid2 lg={4}>
                 <TextField
                   id="Total Premium"
@@ -468,7 +480,186 @@ function IlpTopupModal({
               </Grid2>
             </Grid2>
           </TreeItem>
-          <TreeItem nodeId="2" label={`Existing ILP Funds`}>
+          <TreeItem nodeId="2" label={`Benefits`}>
+            <Table
+              striped
+              bordered
+              hover
+              style={{
+                width: "100%",
+                tableLayout: "fixed",
+                position: "relative",
+              }}
+            >
+              <thead className={styles.header}>
+                <tr>
+                  <th
+                    style={{
+                      position: "sticky",
+                      left: 0,
+                      zIndex: 2,
+                      width: "100%",
+                    }}
+                  >
+                    Selected
+                  </th>
+                  <th style={{ width: "100%" }}>Policy ID</th>
+                  <th style={{ width: "100%" }}>Benefit ID</th>
+                  <th style={{ width: "100%" }}>Client ID</th>
+                  <th style={{ width: "100%" }}>BCoverage</th>
+                  <th style={{ width: "100%" }}>BStart Date</th>
+                  <th style={{ width: "100%" }}>BSumAssured</th>
+                  <th style={{ width: "100%" }}>BTerm</th>
+                  <th style={{ width: "100%" }}>BPTerm</th>
+                  <th style={{ width: "100%" }}>BPrem</th>
+                  <th style={{ width: "100%" }}>BGender</th>
+                  <th style={{ width: "100%" }}>BDOB</th>
+                </tr>
+              </thead>
+              {ilpTopupBenefits?.map((val: any, index: number) => {
+                return (
+                  <>
+                    <CustomModal size="xl"></CustomModal>
+                    <tr>
+                      <td>
+                        <input
+                          className={styles["input-form"]}
+                          style={{
+                            position: "sticky",
+                            left: 0,
+                          }}
+                          type="radio"
+                          name="Select"
+                          onChange={(e) => handleBenChange(e, index, val)}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.PolicyID}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val.ID}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.ClientID}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.BCoverage}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={moment(val?.BStartDate).format("DD-MM-YYYY")}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BSumAssured"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BSumAssured}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BTerm"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BTerm}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BPTerm"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BPTerm}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          name="BPrem"
+                          disabled={val?.Select === ""}
+                          style={{
+                            backgroundColor:
+                              val.Select === "X" ? "#caccca" : "",
+                          }}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange(e, index)
+                          }
+                          value={val?.BPrem}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={val?.BGender}
+                        />
+                      </td>
+                      <td className={styles["td-class"]}>
+                        <input
+                          className={styles["input-form"]}
+                          type="text"
+                          disabled
+                          value={moment(val?.BDOB).format("DD-MM-YYYY")}
+                        />
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </Table>
+          </TreeItem>
+          <TreeItem nodeId="3" label={`Existing Fund Allocation`}>
             <Table striped bordered hover>
               <thead className={styles.header}>
                 <tr>
@@ -490,7 +681,7 @@ function IlpTopupModal({
               ))}
             </Table>
           </TreeItem>
-          <TreeItem nodeId="3" label={`New ILP Funds`}>
+          <TreeItem nodeId="4" label={`Topup Fund Allocation`}>
             <Table striped bordered hover>
               <thead className={styles.header}>
                 <tr>
