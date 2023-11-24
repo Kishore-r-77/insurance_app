@@ -27,6 +27,10 @@ import {
   ACTIONS as SURRENDERACTIONS,
   initialValues,
 } from "../../reducerUtilities/actions/surrender/surrenderActions";
+import {
+  ACTIONS as ILPPARTSURRENDERACTIONS,
+  ilpPartSurrenderInitialValue,
+} from "../../reducerUtilities/actions/IlpPartSurrender/IlpPartSurrenderAction";
 import { SurrenderHStateType } from "../../reducerUtilities/types/surrender/surrenderType";
 import { useAppSelector } from "../../redux/app/hooks";
 import Notification from "../../utilities/Notification/Notification";
@@ -50,6 +54,7 @@ import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
 import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
+import PartSurrender from "./partSurrender/PartSurrender";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -368,6 +373,71 @@ function CsmmTable({
     ilpSurrenderInitialValue
   );
 
+  const ilpPartSurrender = (state: any, action: any) => {
+    switch (action.type) {
+      case ACTIONS.ONCHANGE:
+        return {
+          ...state,
+          [action.fieldName]: action.payload,
+        };
+
+      case ILPPARTSURRENDERACTIONS.COMMITOPEN:
+        return {
+          ...state,
+          commitOpen: true,
+        };
+      case ILPPARTSURRENDERACTIONS.COMMITCLOSE:
+        return {
+          ...state,
+          Function: "Commit",
+          commitOpen: false,
+        };
+      case ILPPARTSURRENDERACTIONS.ILPPARTSURRENDEROPEN:
+        setPolicyID(action.payload);
+        return {
+          ...state,
+          EffectiveDate: businessDate,
+          SurrDate: businessDate,
+          ilppartsurrenderOpen: true,
+        };
+      case ILPPARTSURRENDERACTIONS.ILPPARTSURRENDERCLOSE:
+        state = initialValues;
+        getData();
+        return {
+          ...state,
+          ilppartsurrenderOpen: false,
+        };
+
+      case ACTIONS.SORT_ASC:
+        const asc = !state.sortAsc;
+        if (state.sortDesc) {
+          state.sortDesc = false;
+        }
+        return {
+          ...state,
+          sortAsc: asc,
+          sortColumn: action.payload,
+        };
+      case ACTIONS.SORT_DESC:
+        const desc = !state.sortDesc;
+        if (state.sortAsc) {
+          state.sortAsc = false;
+        }
+        return {
+          ...state,
+          sortDesc: desc,
+          sortColumn: action.payload,
+        };
+      default:
+        return initialValues;
+    }
+  };
+
+  let [ilppartsurrenderState, ilppartsurrenderDispatch] = useReducer(
+    ilpPartSurrender,
+    ilpPartSurrenderInitialValue
+  );
+
   const maturity = (state: any, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
@@ -620,7 +690,13 @@ function CsmmTable({
       case "SpecialRevival":
         splrevOpen(policyId.current, value);
         handleClose();
-        
+        break;
+      case "IlpPartSurrender":
+        ilppartsurrenderDispatch({
+          type: ILPPARTSURRENDERACTIONS.ILPPARTSURRENDEROPEN,
+        });
+        handleClose();
+        break;
       default:
         return;
     }
@@ -653,7 +729,6 @@ function CsmmTable({
         setsaChangeObj(resp?.data?.Policy);
         setsaChangeBenefits(resp?.data?.Policy?.Benefits);
         isSave.current = false;
-        
       })
       .catch((err) => {
         setisSaChange(false);
@@ -664,7 +739,7 @@ function CsmmTable({
         });
       });
   };
-  console.log("saChangeMenu",saChangeMenu)
+  console.log("saChangeMenu", saChangeMenu);
 
   const modifiedPremium = useRef();
   const premium = useRef();
@@ -899,18 +974,14 @@ function CsmmTable({
     }
   };
 
-
-  
- const [SpRev,setSpRev]= useState <any>({})
-const getspecialrevival = () => {
-
+  const [SpRev, setSpRev] = useState<any>({});
+  const getspecialrevival = () => {
     axios
       .post(
         `http://localhost:3000/api/v1/customerservice/splrevival`,
         {
           Function: "Calculate",
-          Policy:PolicyID.toString(),
-          
+          Policy: PolicyID.toString(),
         },
         { withCredentials: true }
       )
@@ -922,39 +993,34 @@ const getspecialrevival = () => {
         //   message: "Calculated Successfully",
         //   type: "success",
         // });
-      })
-      // .catch((err) =>
-      //   setNotify({
-      //     isOpen: true,
-      //     message: err?.response?.data?.error,
-      //     type: "error",
-      //   })
-      // );
+      });
+    // .catch((err) =>
+    //   setNotify({
+    //     isOpen: true,
+    //     message: err?.response?.data?.error,
+    //     type: "error",
+    //   })
+    // );
   };
   useEffect(() => {
-    getspecialrevival()
-  
-    return () => {
-      
-    }
-  }, [issplrev])
+    getspecialrevival();
 
+    return () => {};
+  }, [issplrev]);
 
   const savespecialrevival = () => {
-
     axios
       .post(
         `http://localhost:3000/api/v1/customerservice/splrevival`,
         {
           Function: "Save",
-          Policy:PolicyID.toString(),
-          
+          Policy: PolicyID.toString(),
         },
         { withCredentials: true }
       )
       .then((resp) => {
         setSpRev(resp.data?.SpecialRevival);
-        
+
         splrevClose();
         getData();
         setNotify({
@@ -1434,6 +1500,16 @@ const getspecialrevival = () => {
         getData={getData}
         polid={PolicyID}
       />
+      <PartSurrender
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
+        getData={getData}
+        policyRecord={enquiryRecord.current}
+        ilppartsurrenderState={ilppartsurrenderState}
+        ilppartsurrenderDispatch={ilppartsurrenderDispatch}
+      />
       <PolReinModal
         open={isPolRein}
         handleClose={polReinClose}
@@ -1488,7 +1564,6 @@ const getspecialrevival = () => {
         handleClose={splrevClose}
         SpRev={SpRev}
         savespecialrevival={savespecialrevival}
-        
       />
       <ComponentModal
         open={isComponent}
