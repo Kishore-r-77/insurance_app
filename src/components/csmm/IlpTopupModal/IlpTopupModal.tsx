@@ -198,10 +198,6 @@ function IlpTopupModal({
 
   const formattedToday = dd + "/" + mm + "/" + yyyy;
 
-  const languageId = useAppSelector(
-    (state) => state.users.user.message.languageId
-  );
-
   const [selectAll, setSelectAll] = useState(false);
 
   const handleCheck = (
