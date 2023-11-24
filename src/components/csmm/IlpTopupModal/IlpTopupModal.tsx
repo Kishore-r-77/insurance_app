@@ -1,21 +1,20 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useAppSelector } from "../../../redux/app/hooks";
 import Notification from "../../../utilities/Notification/Notification";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
 import CustomIlpTopupModal from "./CustomIlpTopupModal";
 import styles from "./ilptopupModal.module.css";
-import { getBusinessDateApi } from "../surrenderModal/surrenderApi";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useBusinessDate } from "../../contexts/BusinessDateContext";
-import CustomModal from "../../../utilities/modal/CustomModal";
 
 function IlpTopupModal({
   open,
@@ -35,14 +34,7 @@ function IlpTopupModal({
     message: "",
     type: "",
   });
-  const {
-    businessDate,
-    businessDateToggle,
-    setbusinessDateToggle,
-    getBusinessDate,
-  } = useBusinessDate();
-
-  console.log(open, "open");
+  const { businessDate } = useBusinessDate();
 
   const [isResult, setIsResult] = useState(false);
   const [ilpTopupBenefits, setilpTopupBenefits] = useState<any>([]);
@@ -52,13 +44,7 @@ function IlpTopupModal({
     return () => {};
   }, [open === false]);
 
-  // useEffect(() => {
-  //   setEffDate("");
-  //   return () => {};
-  // }, [open === false]);
-
   const effDatechange = (date: any) => {
-    console.log("Date", date);
     setEffDate(date + 1);
   };
 
@@ -91,33 +77,17 @@ function IlpTopupModal({
   );
   const [businessData, setBusinessData] = useState<any>({});
   const [effDate, setEffDate] = useState<any>();
-  // const getBusinessDate = (companyId: number, userId: number) => {
-  //   return getBusinessDateApi(companyId, userId)
-  //     .then((resp) => {
-  //       setBusinessData(resp.data);
-  //     })
-  //     .catch((err) => err.message);
-  // };
-  //console.log("BD", businessData)
 
   useEffect(() => {
-    //getBusinessDate(companyId, userId);
     setEffDate(businessDate);
     return () => {};
   }, [open]);
-
-  // const effDate = moment(data?.ProposalReceivedDate, "DD/MM/YYYY");
 
   const [prem, setprem] = useState<any>(0.0);
   const [ilpPriceData, setilpPriceData] = useState<any>([]);
   const [ilpPriceArray, setilpPriceArray] = useState<any>([]);
 
   const doIlpTopup = () => {
-    const updatedIlpPriceArray = ilpPriceData.map((val: any) => ({
-      ...val,
-      FundPercentage: parseFloat(val.FundPercentage),
-    }));
-
     axios
       .post(
         `http://localhost:3000/api/v1/customerservice/ilpTopUp`,
@@ -129,7 +99,19 @@ function IlpTopupModal({
           EffectiveDate: moment(effDate).format("YYYYMMDD"),
           Function: ilpfunc,
           Premium: parseFloat(prem),
-          Funds: updatedIlpPriceArray,
+          Funds: ilpPriceData
+            .filter(
+              (data: any) =>
+                data.FundPercentage !== 0 &&
+                data.FundPercentage !== null &&
+                data.FundPercentage !== undefined &&
+                data.FundPercentage !== "" &&
+                data.selected !== false
+            )
+            .map((data: any) => ({
+              ...data,
+              FundPercentage: parseFloat(data.FundPercentage),
+            })),
         },
         {
           withCredentials: true,
@@ -221,7 +203,6 @@ function IlpTopupModal({
   );
 
   const [selectAll, setSelectAll] = useState(false);
-  const [selectOne, setSelectOne] = useState(false);
 
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -229,38 +210,19 @@ function IlpTopupModal({
     index: number
   ) => {
     if (e.target.checked) {
-      console.log(value, index, "val", "ind");
+      value.selected = true;
       const updateArr = [...ilpPriceArray, value];
       setilpPriceArray(updateArr);
-      value.selected = true;
-      setSelectOne(value.selected);
     }
     if (!e.target.checked) {
-      console.log(index, "index");
+      value.FundPercentage = 0;
       const updateArr = [...ilpPriceArray];
       const itemIndex = ilpPriceArray.indexOf(value);
       updateArr.splice(itemIndex, 1);
       setilpPriceArray(updateArr);
       value.selected = false;
-      setSelectOne(value.selected);
     }
   };
-
-  // const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-  //   isChecked.current = e.target.checked;
-  //   setilpPriceData(
-  //     ilpPriceData.map((ilpfunds: any, index: number) => {
-  //       if (index === i && isChecked.current) {
-  //         return { ...ilpfunds, Select: "X" };
-  //       } else if (index === i && !isChecked.current) {
-  //         return { ...ilpfunds, Select: "" };
-  //       } else return ilpfunds;
-  //     })
-  //   );
-  // };
-
-  console.log(ilpPriceArray, "handleCheck");
-  console.log(ilpPriceData, "Funds");
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -697,7 +659,6 @@ function IlpTopupModal({
                     <br />
                     <input type="checkbox" onChange={handleSelectAll} />
                   </th>
-
                   <th>Fund Code</th>
                   <th>Fund Currency</th>
                   <th>Fund Type</th>
@@ -722,7 +683,7 @@ function IlpTopupModal({
                         className={styles["input-form"]}
                         type="number"
                         name="FundPercentage"
-                        disabled={!selectOne}
+                        disabled={!value.selected}
                         value={value?.FundPercentage}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleChange(e, index)
