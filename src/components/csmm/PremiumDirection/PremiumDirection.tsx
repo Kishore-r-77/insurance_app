@@ -7,10 +7,10 @@ import moment from "moment";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Table } from "react-bootstrap";
 import CustomModal from "../../../utilities/modal/CustomModal";
-import CustomDirectInvPremModal from "./CustomDirectInvPremModal";
-import styles from "./directInvPrem.module.css";
+import styles from "./PremiumDirection.module.css";
 import axios from "axios";
-function DirectInvPrem({
+import CustomPremiumDirectionModal from "./CustomDirectInvPremModal";
+function PremiumDirection({
   open,
   handleClose,
   inverstPremData,
@@ -105,7 +105,7 @@ function DirectInvPrem({
   // const dataIndex = useRef(0);
   return (
     <div>
-      <CustomDirectInvPremModal
+      <CustomPremiumDirectionModal
         open={open}
         handleClose={handleClose}
         title={title}
@@ -599,9 +599,9 @@ function DirectInvPrem({
             </Paper>
           </TreeItem>
         </TreeView>
-      </CustomDirectInvPremModal>
+      </CustomPremiumDirectionModal>
     </div>
   );
 }
 
-export default DirectInvPrem;
+export default PremiumDirection;

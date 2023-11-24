@@ -33,7 +33,7 @@ import Notification from "../../utilities/Notification/Notification";
 import CustomModal from "../../utilities/modal/CustomModal";
 import Assignee from "../assignee/Assignee";
 import Payer from "../payer/Payer";
-import DirectInvPrem from "./DirectInvPrem/DirectInvPrem";
+import DirectInvPrem from "./PremiumDirection/PremiumDirection";
 import IlpSurrenderModal from "./IlpSurrender/IlpSurrenderModal";
 import IlpTopupModal from "./IlpTopupModal/IlpTopupModal";
 import AdjPremModal from "./adjPremModal/AdjPremModal";
@@ -51,6 +51,7 @@ import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
 import IlpFundSwitchModal from "./IlpFundSwitchModal/IlpFundSwitchModal";
 import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
+import PremiumDirection from "./PremiumDirection/PremiumDirection";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -1023,7 +1024,7 @@ function CsmmTable({
   const checkIlpFunds = () => {
     return axios
       .post(
-        `http://localhost:3000/api/v1/ilpservices/invpremiumdirect`,
+        `http://localhost:3000/api/v1/ilpservices/premiumdirection`,
         {
           Function: "Check",
           CompanyID: companyId,
@@ -1071,7 +1072,7 @@ function CsmmTable({
   const saveIlpFunds = () => {
     return axios
       .post(
-        `http://localhost:3000/api/v1/ilpservices/invpremiumdirect`,
+        `http://localhost:3000/api/v1/ilpservices/premiumdirection`,
         {
           Function: "Save",
           CompanyID: companyId,
@@ -1514,7 +1515,7 @@ function CsmmTable({
         isSave={isSave?.current}
         saveComponent={saveComponent}
       />
-      <DirectInvPrem
+      <PremiumDirection
         open={isDirectInvPrem}
         handleClose={directInvPremClose}
         inverstPremData={inverstPremData}

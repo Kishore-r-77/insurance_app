@@ -1,6 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 
-function CustomDirectInvPremModal({
+function CustomPremiumDirectionModal({
   open,
   infoOpen,
   handleClose,
@@ -39,4 +39,4 @@ function CustomDirectInvPremModal({
   );
 }
 
-export default CustomDirectInvPremModal;
+export default CustomPremiumDirectionModal;
