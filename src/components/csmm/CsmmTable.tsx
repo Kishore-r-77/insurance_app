@@ -37,9 +37,9 @@ import Notification from "../../utilities/Notification/Notification";
 import CustomModal from "../../utilities/modal/CustomModal";
 import Assignee from "../assignee/Assignee";
 import Payer from "../payer/Payer";
-import DirectInvPrem from "./DirectInvPrem/DirectInvPrem";
+import DirectInvPrem from "./PremiumDirection/PremiumDirection";
 import IlpSurrenderModal from "./IlpSurrender/IlpSurrenderModal";
-import IlpTopupModal from "./IlpTopupModal/IlpTopupModal";
+import IlpTopupModal from "../../../IlpTopupModal";
 import AdjPremModal from "./adjPremModal/AdjPremModal";
 import ComponentModal from "./componentModal/ComponentModal";
 import styles from "./csmmTable.module.css";
@@ -53,8 +53,10 @@ import SurrenderModal from "./surrenderModal/SurrenderModal";
 import { getBusinessDateApi } from "./surrenderModal/surrenderApi";
 import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
+import IlpFundSwitchModal from "./IlpFundSwitchModal/IlpFundSwitchModal";
 import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
 import PartSurrender from "./partSurrender/PartSurrender";
+import PremiumDirection from "./PremiumDirection/PremiumDirection";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -548,6 +550,7 @@ function CsmmTable({
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
   const [isTopup, setisTopup] = useState(false);
+  const [isFundSwitch, setisFundSwitch] = useState(false);
 
   const [isPolRein, setIsPolRein] = useState(false);
   //const [isSurrender, setIsSurrender] = useState(false);
@@ -613,7 +616,7 @@ function CsmmTable({
   useEffect(() => {
     getPolEnq(PolicyID);
     return () => {};
-  }, [isAdjPrem, isPolRein, isTopup]);
+  }, [isAdjPrem, isPolRein, isTopup, isFundSwitch]);
 
   const clientMenuClick = (value: any) => {
     console.log(value.Action, "****");
@@ -679,12 +682,16 @@ function CsmmTable({
         ilpTopupOpen(policyId.current, value);
         handleClose();
         break;
-      case "DirectInvPrem":
+      case "PremiumDirection":
         directInvPremOpen(policyId.current, value);
         handleClose();
         break;
       case "IlpSurrender":
         ilpsurrenderDispatch({ type: ILPSURRENDERACTIONS.ILPSURRENDEROPEN });
+        handleClose();
+        break;
+      case "IlpFundSwitch":
+        ilpFundSwitchOpen(policyId.current, value);
         handleClose();
         break;
       case "SpecialRevival":
@@ -962,16 +969,10 @@ function CsmmTable({
 
   const splrevOpen = (policyId: number, value: any) => {
     setissplRev(true);
-    //setsaChangeMenu(value);
     setPolicyID(policyId);
   };
   const splrevClose = () => {
     setissplRev(false);
-    console.log(isSave, "isSave");
-
-    if (isSave.current) {
-      invalidatesa();
-    }
   };
 
   const [SpRev, setSpRev] = useState<any>({});
@@ -988,23 +989,25 @@ function CsmmTable({
       .then((resp) => {
         setSpRev(resp.data?.SpecialRevival);
         getData();
-        // setNotify({
-        //   isOpen: true,
-        //   message: "Calculated Successfully",
-        //   type: "success",
-        // });
-      });
-    // .catch((err) =>
-    //   setNotify({
-    //     isOpen: true,
-    //     message: err?.response?.data?.error,
-    //     type: "error",
-    //   })
-    // );
+        setNotify({
+          isOpen: true,
+          message: "Calculated Successfully",
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
-  useEffect(() => {
-    getspecialrevival();
 
+  useEffect(() => {
+    if (issplrev) {
+      getspecialrevival();
+    }
     return () => {};
   }, [issplrev]);
 
@@ -1088,7 +1091,6 @@ function CsmmTable({
     getilpAllowedFunds();
     return () => {};
   }, [bcoverage]);
-  console.log(bcoverage, "killervvvvvvvvvvvvv");
 
   const [benId, setbenId] = useState("");
   const [ClientID, setClientID] = useState<any>([]);
@@ -1098,7 +1100,7 @@ function CsmmTable({
   const checkIlpFunds = () => {
     return axios
       .post(
-        `http://localhost:3000/api/v1/ilpservices/invpremiumdirect`,
+        `http://localhost:3000/api/v1/ilpservices/premiumdirection`,
         {
           Function: "Check",
           CompanyID: companyId,
@@ -1146,7 +1148,7 @@ function CsmmTable({
   const saveIlpFunds = () => {
     return axios
       .post(
-        `http://localhost:3000/api/v1/ilpservices/invpremiumdirect`,
+        `http://localhost:3000/api/v1/ilpservices/premiumdirection`,
         {
           Function: "Save",
           CompanyID: companyId,
@@ -1241,6 +1243,16 @@ function CsmmTable({
   };
   const ilpTopupClose = () => {
     setisTopup(false);
+  };
+
+  const ilpFundSwitchOpen = (policyId: number, value: any) => {
+    setisFundSwitch(true);
+    setcomponentMenu(value);
+    //setilpfunc("Init")
+    setPolicyID(policyId);
+  };
+  const ilpFundSwitchClose = () => {
+    setisFundSwitch(false);
   };
 
   useEffect(() => {
@@ -1500,21 +1512,31 @@ function CsmmTable({
         getData={getData}
         polid={PolicyID}
       />
-      <PartSurrender
+      <IlpFundSwitchModal
+        open={isFundSwitch}
+        handleClose={ilpFundSwitchClose}
         completed={completed}
         setcompleted={setcompleted}
         func={func}
         setfunc={setfunc}
+        data={polenqData}
         getData={getData}
-        policyRecord={enquiryRecord.current}
+        polid={PolicyID}
+      />
+      <PartSurrender
+        getData={getData}
         ilppartsurrenderState={ilppartsurrenderState}
         ilppartsurrenderDispatch={ilppartsurrenderDispatch}
+        polid={PolicyID}
+        policyRecord={enquiryRecord.current}
       />
       <PolReinModal
         open={isPolRein}
         handleClose={polReinClose}
         completed={completed}
         setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
         data={polenqData}
         getData={getData}
       />
@@ -1576,7 +1598,7 @@ function CsmmTable({
         isSave={isSave?.current}
         saveComponent={saveComponent}
       />
-      <DirectInvPrem
+      <PremiumDirection
         open={isDirectInvPrem}
         handleClose={directInvPremClose}
         inverstPremData={inverstPremData}

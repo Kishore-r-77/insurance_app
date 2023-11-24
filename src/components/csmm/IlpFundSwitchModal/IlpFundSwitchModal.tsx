@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -13,10 +13,10 @@ import { useAppSelector } from "../../../redux/app/hooks";
 import Notification from "../../../utilities/Notification/Notification";
 import CustomModal from "../../../utilities/modal/CustomModal";
 import { useBusinessDate } from "../../contexts/BusinessDateContext";
-import CustomIlpTopupModal from "./CustomIlpTopupModal";
-import styles from "./ilptopupModal.module.css";
+import CustomIlpFundSwitchModal from "./CustomIlpFundSwitchModal";
+import styles from "./ilpfundswitchModal.module.css";
 
-function IlpTopupModal({
+function IlpFundSwitchModal({
   open,
   handleClose,
   data,
@@ -26,9 +26,8 @@ function IlpTopupModal({
   polid,
 }: any) {
   const size: string = "xl";
-  const title: string = "ILP Topup";
-  const [ilpfunc, setilpfunc] = useState<any>("Init");
-  const [result, setresult] = useState<any>("");
+  const title: string = "ILP FundSwitch";
+  const [ilpfunc, setilpfunc] = useState<any>("Calculate");
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -38,15 +37,13 @@ function IlpTopupModal({
 
   const [isResult, setIsResult] = useState(false);
   const [ilpTopupBenefits, setilpTopupBenefits] = useState<any>([]);
-  const [exfunds, setexfunds] = useState([]);
+  const [funds, setfunds] = useState<any>([]);
+  const [exfunds, setexfunds] = useState<any>([]);
+  const [fundswitch, setfundswitch] = useState<any>([]);
 
   useEffect(() => {
     return () => {};
   }, [open === false]);
-
-  const effDatechange = (date: any) => {
-    setEffDate(date + 1);
-  };
 
   const getbenefitsbypol = () => {
     axios
@@ -61,21 +58,21 @@ function IlpTopupModal({
   const getfundsbybenefitandpol = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/ilpservices/ilpfundbypolandben/${polid}/${benId}`,
+        `http://localhost:3000/api/v1/customerservice/switchfundinit/${polid}/${benId}`,
         {
           withCredentials: true,
         }
       )
       .then((resp) => {
-        setexfunds(resp.data["Ilp Funds"]);
+        setfundswitch(resp?.data?.IlpSwitchHeader);
+        setfunds(resp?.data?.IlpSwitchHeader?.IlpSwitchSource);
+        setexfunds(resp?.data?.IlpSwitchHeader?.IlpSwitchTarget);
       });
   };
-
-  const userId = useAppSelector((state) => state.users.user.message.id);
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
-  const [businessData, setBusinessData] = useState<any>({});
+
   const [effDate, setEffDate] = useState<any>();
 
   useEffect(() => {
@@ -83,34 +80,44 @@ function IlpTopupModal({
     return () => {};
   }, [open]);
 
-  const [prem, setprem] = useState<any>(0.0);
-  const [ilpPriceData, setilpPriceData] = useState<any>([]);
-  const [ilpPriceArray, setilpPriceArray] = useState<any>([]);
+  const [switchBasic, setswitchBasic] = useState(fundswitch?.FundSwitchBasis);
 
-  const doIlpTopup = () => {
+  const [ilpFund, setIlpFund] = useState([]);
+  const [newilpFund, setnewIlpFund] = useState([]);
+
+  const doIlpFundSwitch = () => {
+    const updatedIlpFund = funds.map((val: any) => ({
+      ...val,
+      FundUnits: parseFloat(val.FundUnits),
+      FundAmount: parseFloat(val.FundAmount),
+      FundPercentage: parseFloat(val?.FundPercentage),
+    }));
+
     axios
       .post(
-        `http://localhost:3000/api/v1/customerservice/ilpTopUp`,
+        `http://localhost:3000/api/v1/customerservice/switchfund`,
         {
           PolicyID: data?.PolicyId,
           BenefitID: benId,
-          ClientID: data?.OwnerId,
-          CompanyID: data?.CompanyId,
+          CompanyID: companyId,
           EffectiveDate: moment(effDate).format("YYYYMMDD"),
           Function: ilpfunc,
-          Premium: parseFloat(prem),
-          Funds: ilpPriceData
+          FundSwitchBasis: switchBasic,
+          IlpSwitchSource: updatedIlpFund,
+          IlpSwitchTarget: exfunds
             .filter(
               (data: any) =>
-                data.FundPercentage !== 0 &&
                 data.FundPercentage !== null &&
                 data.FundPercentage !== undefined &&
                 data.FundPercentage !== "" &&
-                data.selected !== false
+                data.FundPercentage !== 0
             )
             .map((data: any) => ({
               ...data,
-              FundPercentage: parseFloat(data.FundPercentage),
+              FundCode: data.FundCode,
+              FundType: data.FundType,
+              FundPercentage: parseFloat(data?.FundPercentage),
+              FundCurr: data.FundCurr,
             })),
         },
         {
@@ -119,11 +126,12 @@ function IlpTopupModal({
       )
       .then((resp) => {
         setcompleted(true);
-        setilpfunc("Check");
+        setilpfunc("Calculate");
 
-        setilpPriceData(resp.data?.Funds);
-        // setilpPriceArray(resp.data?.Funds);
-        if (ilpfunc === "Check") {
+        setIlpFund(resp?.data?.IlpSwitchFundsSource);
+        setnewIlpFund(resp?.data?.IlpSwitchFundsTarget);
+        // setexfunds(resp.data?.Funds);
+        if (ilpfunc === "Calculate") {
           //   handleClose();
           //   getData();
           setNotify({
@@ -132,27 +140,24 @@ function IlpTopupModal({
             type: "success",
           });
           setilpfunc("Save");
-          setilpPriceData(resp.data?.Funds);
-
-          // setilpPriceArray(resp.data?.Funds);
+          setIlpFund(resp?.data?.IlpSwitchFundsSource);
+          setnewIlpFund(resp?.data?.IlpSwitchFundsTarget);
           setIsResult(true);
-          // setresult(resp.data);
         }
         if (ilpfunc === "Save") {
           handleClose();
           getData();
-          setilpPriceData(resp.data?.Funds);
+          setIlpFund(resp?.data?.IlpSwitchFundsSource);
+          setnewIlpFund(resp?.data?.IlpSwitchFundsTarget);
           setNotify({
             isOpen: true,
             message: resp.data?.result,
             type: "success",
           });
           setbenId("");
-          setprem(0);
-          setilpPriceData([]);
-          setilpPriceArray([]);
+
+          setfunds([]);
           setexfunds([]);
-          setilpfunc("Init");
           setcompleted(false);
           setIsResult(false);
         }
@@ -174,14 +179,28 @@ function IlpTopupModal({
   ) => {
     setbenId(ilpTopupBenefits[i].ID);
   };
-  const handlePremChange = (e: any) => {
-    setprem(e.target.value);
+
+  const handlePremChange = (e: any) => {};
+  const handleFundSwitchChange = (e: any) => {
+    setswitchBasic(e.target.value);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
 
-    setilpPriceData((prevData: any) => {
+    setfunds((prevData: any) => {
+      const newData = [...prevData];
+      newData[i] = { ...newData[i], [name]: value };
+      return newData;
+    });
+  };
+  const handleexChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    i: number
+  ) => {
+    const { name, value } = e.target;
+
+    setexfunds((prevData: any) => {
       const newData = [...prevData];
       newData[i] = { ...newData[i], [name]: value };
       return newData;
@@ -198,7 +217,35 @@ function IlpTopupModal({
 
   const formattedToday = dd + "/" + mm + "/" + yyyy;
 
+  const languageId = useAppSelector(
+    (state) => state.users.user.message.languageId
+  );
+
   const [selectAll, setSelectAll] = useState(false);
+  const [selectOne, setSelectOne] = useState(false);
+
+  const handleFundCheck = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    value: any,
+    index: number
+  ) => {
+    if (e.target.checked) {
+      console.log(value, index, "val", "ind");
+      // const updateArr = [...funds, value];
+      // setfunds(updateArr);
+      value.selected = true;
+      setSelectOne(value.selected);
+    }
+    if (!e.target.checked) {
+      console.log(index, "index");
+      // const updateArr = [...funds];
+      // const itemIndex = funds.indexOf(value);
+      // updateArr.splice(itemIndex, 1);
+      // setfunds(updateArr);
+      value.selected = false;
+      setSelectOne(value.selected);
+    }
+  };
 
   const handleCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -206,34 +253,24 @@ function IlpTopupModal({
     index: number
   ) => {
     if (e.target.checked) {
+      console.log(value, index, "val", "ind");
+      // const updateArr = [...exfunds, value];
+      // setexfunds(updateArr);
       value.selected = true;
-      const updateArr = [...ilpPriceArray, value];
-      setilpPriceArray(updateArr);
+      setSelectOne(value.selected);
     }
     if (!e.target.checked) {
-      value.FundPercentage = 0;
-      const updateArr = [...ilpPriceArray];
-      const itemIndex = ilpPriceArray.indexOf(value);
-      updateArr.splice(itemIndex, 1);
-      setilpPriceArray(updateArr);
+      console.log(index, "index");
+      // const updateArr = [...exfunds];
+      // const itemIndex = exfunds.indexOf(value);
+      // updateArr.splice(itemIndex, 1);
+      // setexfunds(updateArr);
       value.selected = false;
+      setSelectOne(value.selected);
     }
   };
 
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setSelectAll(isChecked);
-
-    // Update the ilpPriceArray based on whether "Select All" is checked
-    if (isChecked) {
-      // Add all values to ilpPriceArray
-      //setEditableRowId(value.FundCode)
-      setilpPriceArray(ilpPriceData.map((value: any) => value));
-    } else {
-      // Clear ilpPriceArray
-      setilpPriceArray([]);
-    }
-  };
+  console.log(funds, "Funds");
 
   useLayoutEffect(() => {
     getbenefitsbypol();
@@ -244,19 +281,83 @@ function IlpTopupModal({
     getfundsbybenefitandpol();
     return () => {};
   }, [benId]);
+
   useEffect(() => {
     setbenId("");
+    setfunds([]);
     setexfunds([]);
+    setfundswitch([]);
+    setswitchBasic("");
 
     return () => {};
   }, [open]);
 
+  const p0050 = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    return axios.get(
+      `http://localhost:3000/api/v1/basicservices/paramItem?companyId=${companyId}&name=${name}&languageId=${languageId}&item=${item}`,
+      {
+        withCredentials: true,
+        params: {
+          companyId,
+          name,
+          languageId,
+          item,
+        },
+      }
+    );
+  };
+
+  const [fundbasicData, setfundbasicData] = useState([]);
+  const getfundbasicType = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    p0050(companyId, name, languageId, item)
+      .then((resp) => {
+        setfundbasicData(resp.data.param.data.dataPairs);
+        return resp.data.param.data.dataPairs;
+      })
+      .catch((err) => err);
+  };
+
+  useEffect(() => {
+    getfundbasicType(companyId, "P0050", languageId, "FundSwitchBasis");
+    return () => {};
+  }, []);
+
+  const [fundDirectionData, setfundDirectionData] = useState([]);
+  const getfundDirectionType = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    p0050(companyId, name, languageId, item)
+      .then((resp) => {
+        setfundDirectionData(resp.data.param.data.dataPairs);
+        return resp.data.param.data.dataPairs;
+      })
+      .catch((err) => err);
+  };
+
+  useEffect(() => {
+    getfundDirectionType(companyId, "P0050", languageId, "SwitchDirection");
+    return () => {};
+  }, []);
+
   return (
     <div>
-      <CustomIlpTopupModal
+      <CustomIlpFundSwitchModal
         open={open}
         handleClose={handleClose}
-        handleFormSubmit={doIlpTopup}
+        handleFormSubmit={doIlpFundSwitch}
         size={size}
         title={title}
         completed={completed}
@@ -371,7 +472,6 @@ function IlpTopupModal({
                   label="Bill To Date"
                   onChange={handlePremChange}
                   fullWidth
-                  //inputProps={{ readOnly: true }}
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
                 ></TextField>
@@ -393,48 +493,33 @@ function IlpTopupModal({
                 <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker
-                      //readOnly={maturityState.infoOpen}
+                      InputProps={{ readOnly: true }}
                       label="EffectiveDate"
                       inputFormat="DD/MM/YYYY"
                       value={effDate}
-                      onChange={(date) => effDatechange(date)}
+                      onChange={handlePremChange}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
                 </FormControl>
               </Grid2>
-              {/* <Grid2 xs={8} md={6} lg={4}>
-                <TextField
-                  select
-                  id="Benefit"
-                  name="Benefit"
-                  value={benId}
-                  placeholder="Benefit"
-                  label="Benefit"
-                  onChange={handleBenChange}
-                  fullWidth
-                  margin="dense"
-                >
-                  {ilpTopupBenefits.map((val: any) => (
-                    <MenuItem value={val.ID}>
-                      {val.ID} - {val.BCoverage}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid2> */}
               <Grid2 lg={4}>
                 <TextField
-                  id="Total Premium"
-                  name="Total Premium"
-                  value={result?.TotalPrem}
-                  placeholder="Total Premium"
-                  label="Total Premium"
-                  onChange={handlePremChange}
+                  select
+                  id="Fund SwitchBasis"
+                  name="Fund SwitchBasis"
+                  value={switchBasic}
+                  placeholder="Fund SwitchBasis"
+                  label="Fund SwitchBasis"
+                  onChange={handleFundSwitchChange}
                   fullWidth
-                  //inputProps={{ readOnly: true }}
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
-                ></TextField>
+                >
+                  {fundbasicData.map((val: any) => (
+                    <MenuItem value={val.code}>{val.description}</MenuItem>
+                  ))}
+                </TextField>
               </Grid2>
             </Grid2>
           </TreeItem>
@@ -617,85 +702,237 @@ function IlpTopupModal({
               })}
             </Table>
           </TreeItem>
-          <TreeItem nodeId="3" label={`Existing Fund Allocation`}>
-            <Table striped bordered hover>
-              <thead className={styles.header}>
-                <tr>
-                  <th>Fund Code</th>
-                  <th>Fund Currency</th>
-                  <th>Fund Type</th>
-                  <th>Fund Percentage</th>
-                </tr>
-              </thead>
-              {exfunds.map((value: any, index: number) => (
-                <tbody>
+          <TreeItem nodeId="3" label={`Source Funds`}>
+            {ilpfunc == "Save" ? (
+              <Table striped bordered hover>
+                <thead className={styles.header}>
                   <tr>
-                    <td>{value?.FundCode}</td>
-                    <td>{value?.FundCurr}</td>
-                    <td>{value?.FundType}</td>
-                    <td>{value?.FundPercentage}</td>
+                    {/* <th
+                      style={{
+                        position: "sticky",
+                        left: 0,
+                        zIndex: 2,
+                        overflow: "hidden",
+                      }}
+                    > */}
+                    {/* Selected
+                      <br /> */}
+                    {/* <input type="checkbox" onChange={handleSelectAll} /> */}
+                    {/* </th> */}
+
+                    <th>Fund Code</th>
+                    <th>Fund Currency</th>
+                    <th>Fund Type</th>
+                    <th>Fund Amount</th>
+                    <th>Esstiamte FundUnits</th>
+                    <th>Esstiamte FundPercentage</th>
                   </tr>
-                </tbody>
-              ))}
-            </Table>
+                </thead>
+                {ilpFund?.map((value: any, index: number) => (
+                  <tbody>
+                    <tr>
+                      {/* <td>
+                        <input
+                          type="checkbox"
+                          checked={selectAll || value.selected}
+                          onChange={(e) => handleFundCheck(e, value, index)}
+                        />
+                      </td> */}
+                      <td>{value?.FundCode}</td>
+                      <td>{value?.FundCurr}</td>
+                      <td>{value?.FundType}</td>
+                      <td>{value?.FundAmount}</td>
+                      <td>{value?.FundUnits}</td>
+                      <td>{value?.FundPercentage}</td>
+                    </tr>
+                  </tbody>
+                ))}
+              </Table>
+            ) : (
+              <Table striped bordered hover>
+                <thead className={styles.header}>
+                  <tr>
+                    <th
+                      style={{
+                        position: "sticky",
+                        left: 0,
+                        zIndex: 2,
+                        overflow: "hidden",
+                      }}
+                    >
+                      Selected
+                      <br />
+                      {/* <input type="checkbox" onChange={handleSelectAll} /> */}
+                    </th>
+
+                    <th>Fund Code</th>
+                    <th>Fund Currency</th>
+                    <th>Fund Type</th>
+                    <th>Available FundAmount</th>
+                    <th>Available Units</th>
+                    <th>Esstiamte FundAmount</th>
+                    <th>Esstiamte FundUnits</th>
+                    <th>Esstiamte FundPercentage</th>
+                  </tr>
+                </thead>
+                {funds?.map((value: any, index: number) => (
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={selectAll || value.selected}
+                          onChange={(e) => handleFundCheck(e, value, index)}
+                        />
+                      </td>
+                      <td>{value?.FundCode}</td>
+                      <td>{value?.FundCurr}</td>
+                      <td>{value?.FundType}</td>
+                      <td>{value?.AvailableAmount}</td>
+                      <td>{value?.AvailableUnits}</td>
+                      {switchBasic == "A" ? (
+                        <td>
+                          <input
+                            className={styles["input-form"]}
+                            type="number"
+                            name="FundAmount"
+                            disabled={!selectOne}
+                            value={value?.FundAmount}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                          />
+                        </td>
+                      ) : (
+                        <td>{value?.FundAmount}</td>
+                      )}
+                      {switchBasic == "U" ? (
+                        <td>
+                          <input
+                            className={styles["input-form"]}
+                            type="number"
+                            name="FundUnits"
+                            disabled={!selectOne}
+                            value={value?.FundUnits}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                          />
+                        </td>
+                      ) : (
+                        <td>{value?.FundUnits}</td>
+                      )}
+                      {switchBasic == "P" ? (
+                        <td>
+                          <input
+                            className={styles["input-form"]}
+                            type="number"
+                            name="FundPercentage"
+                            disabled={!selectOne}
+                            value={value?.FundPercentage}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                          />
+                        </td>
+                      ) : (
+                        <td>{value?.FundPercentage}</td>
+                      )}
+                    </tr>
+                  </tbody>
+                ))}
+              </Table>
+            )}
           </TreeItem>
-          <TreeItem nodeId="4" label={`Topup Fund Allocation`}>
-            <Table striped bordered hover>
-              <thead className={styles.header}>
-                <tr>
-                  <th
-                    style={{
-                      position: "sticky",
-                      left: 0,
-                      zIndex: 2,
-                      overflow: "hidden",
-                    }}
-                  >
-                    Selected
-                    <br />
-                    <input type="checkbox" onChange={handleSelectAll} />
-                  </th>
-                  <th>Fund Code</th>
-                  <th>Fund Currency</th>
-                  <th>Fund Type</th>
-                  <th>Fund Percentage</th>
-                </tr>
-              </thead>
-              {ilpPriceData?.map((value: any, index: number) => (
-                <tbody>
+          <TreeItem nodeId="4" label={`Target Funds`}>
+            {ilpfunc == "Save" ? (
+              <Table striped bordered hover>
+                <thead className={styles.header}>
                   <tr>
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={selectAll || value.selected}
-                        onChange={(e) => handleCheck(e, value, index)}
-                      />
-                    </td>
-                    <td>{value?.FundCode}</td>
-                    <td>{value?.FundCurr}</td>
-                    <td>{value?.FundType}</td>
-                    <td>
-                      <input
-                        className={styles["input-form"]}
-                        type="number"
-                        name="FundPercentage"
-                        disabled={!value.selected}
-                        value={value?.FundPercentage}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleChange(e, index)
-                        }
-                      />
-                    </td>
+                    <th>Fund Code</th>
+                    <th>Fund Currency</th>
+                    <th>Fund Type</th>
+                    <th>Esstiamte FundAmount</th>
+                    <th>Esstiamte FundUnits</th>
+                    <th>Esstiamte FundPercentage</th>
                   </tr>
-                </tbody>
-              ))}
-            </Table>
+                </thead>
+                {newilpFund?.map((value: any, index: number) => (
+                  <tbody>
+                    <tr>
+                      <td>{value?.FundCode}</td>
+                      <td>{value?.FundCurr}</td>
+                      <td>{value?.FundType}</td>
+                      <td>{value?.FundAmount}</td>
+                      <td>{value?.FundUnits}</td>
+                      <td>{value?.FundPercentage}</td>
+                    </tr>
+                  </tbody>
+                ))}
+              </Table>
+            ) : (
+              <Table striped bordered hover>
+                <thead className={styles.header}>
+                  <tr>
+                    <th
+                      style={{
+                        position: "sticky",
+                        left: 0,
+                        zIndex: 2,
+                        overflow: "hidden",
+                      }}
+                    >
+                      Selected
+                      <br />
+                      {/* <input type="checkbox" onChange={handleexSelectAll} /> */}
+                    </th>
+
+                    <th>Fund Code</th>
+                    <th>Fund Currency</th>
+                    <th>Fund Type</th>
+                    <th>Esstiamte FundAmount</th>
+                    <th>Esstiamte FundUnits</th>
+                    <th>Esstiamte FundPercentage</th>
+                  </tr>
+                </thead>
+                {exfunds?.map((value: any, index: number) => (
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={selectAll || value.selected}
+                          onChange={(e) => handleCheck(e, value, index)}
+                        />
+                      </td>
+                      <td>{value?.FundCode}</td>
+                      <td>{value?.FundCurr}</td>
+                      <td>{value?.FundType}</td>
+                      <td>{value?.FundAmount}</td>
+                      <td>{value?.FundUnits}</td>
+                      <td>
+                        <input
+                          className={styles["input-form"]}
+                          type="number"
+                          name="FundPercentage"
+                          disabled={!selectOne}
+                          value={value?.FundPercentage}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleexChange(e, index)
+                          }
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
+              </Table>
+            )}
           </TreeItem>
         </TreeView>
-      </CustomIlpTopupModal>
+      </CustomIlpFundSwitchModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
 
-export default IlpTopupModal;
+export default IlpFundSwitchModal;

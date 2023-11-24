@@ -43,8 +43,9 @@ export const addApi = (state: BusinessDatesStateType, companyId: number) => {
     `http://localhost:3000/api/v1/basicservices/businessdatecreate`,
     {
       CompanyID: companyId,
-      UserID: parseInt(state.UserID),
-      Department: parseInt(state.Department),
+      UserID: state.UserID.length === 0 ? null : parseInt(state.UserID),
+      Department:
+        state.Department.length === 0 ? null : parseInt(state.Department),
       Date: moment(state.Date).format("YYYYMMDD"),
     },
     {
@@ -61,8 +62,9 @@ export const editApi = (record: any) => {
       ID: parseInt(record.ID),
 
       CompanyID: parseInt(record.CompanyID),
-      UserID: parseInt(record.UserID),
-      Department: record.Department,
+      UserID: record.UserID.length === 0 ? null : parseInt(record.UserID),
+      Department:
+        record.Department.length === 0 ? null : parseInt(record.Department),
       Date: moment(record.Date).format("YYYYMMDD"),
     },
     {

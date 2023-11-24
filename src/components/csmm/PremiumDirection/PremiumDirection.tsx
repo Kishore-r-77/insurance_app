@@ -7,10 +7,10 @@ import moment from "moment";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Table } from "react-bootstrap";
 import CustomModal from "../../../utilities/modal/CustomModal";
-import CustomDirectInvPremModal from "./CustomDirectInvPremModal";
-import styles from "./directInvPrem.module.css";
+import styles from "./PremiumDirection.module.css";
 import axios from "axios";
-function DirectInvPrem({
+import CustomPremiumDirectionModal from "./CustomDirectInvPremModal";
+function PremiumDirection({
   open,
   handleClose,
   inverstPremData,
@@ -31,7 +31,7 @@ function DirectInvPrem({
   setbcoverage,
   bcoverage,
 }: any) {
-  const title: string = "Direct Investment premium";
+  const title: string = "Premium Direction";
   const isChecked = useRef(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
@@ -105,7 +105,7 @@ function DirectInvPrem({
   // const dataIndex = useRef(0);
   return (
     <div>
-      <CustomDirectInvPremModal
+      <CustomPremiumDirectionModal
         open={open}
         handleClose={handleClose}
         title={title}
@@ -249,8 +249,8 @@ function DirectInvPrem({
                     >
                       Selected
                     </th>
-                    <th style={{ width: "100%" }}>Benefit ID</th>
                     <th style={{ width: "100%" }}>Policy ID</th>
+                    <th style={{ width: "100%" }}>Benefit ID</th>
                     <th style={{ width: "100%" }}>Client ID</th>
                     <th style={{ width: "100%" }}>BCoverage</th>
                     <th style={{ width: "100%" }}>BStart Date</th>
@@ -284,7 +284,7 @@ function DirectInvPrem({
                             className={styles["input-form"]}
                             type="text"
                             disabled
-                            value={val?.ID}
+                            value={val?.PolicyID}
                           />
                         </td>
                         <td className={styles["td-class"]}>
@@ -292,7 +292,7 @@ function DirectInvPrem({
                             className={styles["input-form"]}
                             type="text"
                             disabled
-                            value={val.PolicyID}
+                            value={val.ID}
                           />
                         </td>
                         <td className={styles["td-class"]}>
@@ -406,7 +406,7 @@ function DirectInvPrem({
               </Table>
             </Paper>
           </TreeItem>
-          <TreeItem nodeId="3" label={`Existing ILP Funds`}>
+          <TreeItem nodeId="3" label={`Existing Fund Allocation`}>
             <Paper className={styles.paperStyle}>
               {benId.length !== 0 && (
                 <Table striped bordered hover style={{ position: "relative" }}>
@@ -501,7 +501,7 @@ function DirectInvPrem({
               )}
             </Paper>
           </TreeItem>
-          <TreeItem nodeId="4" label={`New ILP Funds`}>
+          <TreeItem nodeId="4" label={`New Fund Allocation`}>
             <Paper className={styles.paperStyle}>
               {bcoverage.length !== 0 && (
                 <Table striped bordered hover style={{ position: "relative" }}>
@@ -599,9 +599,9 @@ function DirectInvPrem({
             </Paper>
           </TreeItem>
         </TreeView>
-      </CustomDirectInvPremModal>
+      </CustomPremiumDirectionModal>
     </div>
   );
 }
 
-export default DirectInvPrem;
+export default PremiumDirection;

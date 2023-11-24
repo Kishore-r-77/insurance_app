@@ -67,6 +67,12 @@ function NewBusiness({
       BSumAssured: 0,
       Interest: 0,
       BPrem: 0,
+      // IlpFunds:[
+      //   {
+      //     "FundCode": "",
+      //     "FundPercentage": 0
+      //   },
+      // ]
     },
   ]);
   const companyId = useAppSelector(
@@ -120,11 +126,11 @@ function NewBusiness({
           ...state,
           infoOpen: true,
         };
-
+setbenefitsData
       case ACTIONS.ADDCLOSE:
         state = initialValues;
         // setBusinessData({});
-        setbenefitsData([
+        ([
           {
             ClientID: 0,
             BStartDate: "",
@@ -170,6 +176,12 @@ function NewBusiness({
             BSumAssured: 0,
             Interest: 0,
             BPrem: 0,
+            // IlpFunds:[
+            //   {
+            //     "FundCode": "",
+            //     "FundPercentage": 0
+            //   },
+            // ]
           },
         ]);
         return {

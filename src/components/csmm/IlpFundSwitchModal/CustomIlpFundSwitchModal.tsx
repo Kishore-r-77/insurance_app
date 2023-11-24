@@ -1,17 +1,19 @@
-import { Button, Modal } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
-function CustomDirectInvPremModal({
+function CustomIlpFundSwitchModal({
   open,
-  infoOpen,
   handleClose,
+  size,
   title,
   children,
   handleFormSubmit,
-  isSave,
+  completed,
+  isResult,
 }: any) {
   return (
     <div>
-      <Modal show={open} fullscreen={true} onHide={handleClose}>
+      <Modal show={open} onHide={handleClose} fullscreen={true}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
@@ -20,15 +22,24 @@ function CustomDirectInvPremModal({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+          {/* {!!handleFormSubmit && (
+            <Button variant="primary" onClick={() => handleFormSubmit()}>
+              {completed && isResult
+                ? "Save"
+                : completed
+                ? "Calculate"
+                : "Initialize"}
+            </Button>
+          )} */}
           {!!handleFormSubmit && (
             <>
-              {isSave ? (
+              {completed ? (
                 <Button variant="primary" onClick={() => handleFormSubmit()}>
                   Save
                 </Button>
               ) : (
                 <Button variant="primary" onClick={() => handleFormSubmit()}>
-                  Check
+                  Calculate
                 </Button>
               )}
             </>
@@ -39,4 +50,4 @@ function CustomDirectInvPremModal({
   );
 }
 
-export default CustomDirectInvPremModal;
+export default CustomIlpFundSwitchModal;
