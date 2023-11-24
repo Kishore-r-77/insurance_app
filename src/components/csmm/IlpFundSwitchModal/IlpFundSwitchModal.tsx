@@ -69,9 +69,6 @@ function IlpFundSwitchModal({
         setexfunds(resp?.data?.IlpSwitchHeader?.IlpSwitchTarget);
       });
   };
-  console.log(exfunds, "........", funds, "-------", fundswitch);
-
-  const userId = useAppSelector((state) => state.users.user.message.id);
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -145,7 +142,6 @@ function IlpFundSwitchModal({
           setilpfunc("Save");
           setIlpFund(resp?.data?.IlpSwitchFundsSource);
           setnewIlpFund(resp?.data?.IlpSwitchFundsTarget);
-
           setIsResult(true);
         }
         if (ilpfunc === "Save") {
@@ -853,18 +849,6 @@ function IlpFundSwitchModal({
               <Table striped bordered hover>
                 <thead className={styles.header}>
                   <tr>
-                    {/* <th
-                      style={{
-                        position: "sticky",
-                        left: 0,
-                        zIndex: 2,
-                        overflow: "hidden",
-                      }}
-                    > */}
-                    {/* Selected
-                    <br /> */}
-                    {/* <input type="checkbox" onChange={handleexSelectAll} /> */}
-                    {/* </th> */}
                     <th>Fund Code</th>
                     <th>Fund Currency</th>
                     <th>Fund Type</th>
