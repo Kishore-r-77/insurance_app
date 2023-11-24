@@ -39,7 +39,7 @@ import Assignee from "../assignee/Assignee";
 import Payer from "../payer/Payer";
 import DirectInvPrem from "./PremiumDirection/PremiumDirection";
 import IlpSurrenderModal from "./IlpSurrender/IlpSurrenderModal";
-import IlpTopupModal from "../../../IlpTopupModal";
+import IlpTopupModal from "./IlpTopupModal/IlpTopupModal";
 import AdjPremModal from "./adjPremModal/AdjPremModal";
 import ComponentModal from "./componentModal/ComponentModal";
 import styles from "./csmmTable.module.css";
