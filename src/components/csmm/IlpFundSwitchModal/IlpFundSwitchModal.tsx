@@ -28,20 +28,12 @@ function IlpFundSwitchModal({
   const size: string = "xl";
   const title: string = "ILP FundSwitch";
   const [ilpfunc, setilpfunc] = useState<any>("Calculate");
-  const [result, setresult] = useState<any>("");
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
-  const {
-    businessDate,
-    businessDateToggle,
-    setbusinessDateToggle,
-    getBusinessDate,
-  } = useBusinessDate();
-
-  console.log(open, "open");
+  const { businessDate } = useBusinessDate();
 
   const [isResult, setIsResult] = useState(false);
   const [ilpTopupBenefits, setilpTopupBenefits] = useState<any>([]);
@@ -52,16 +44,6 @@ function IlpFundSwitchModal({
   useEffect(() => {
     return () => {};
   }, [open === false]);
-
-  // useEffect(() => {
-  //   setEffDate("");
-  //   return () => {};
-  // }, [open === false]);
-
-  const effDatechange = (date: any) => {
-    console.log("Date", date);
-    setEffDate(date + 1);
-  };
 
   const getbenefitsbypol = () => {
     axios
@@ -94,29 +76,15 @@ function IlpFundSwitchModal({
     (state) => state.users.user.message.companyId
   );
 
-  const [businessData, setBusinessData] = useState<any>({});
   const [effDate, setEffDate] = useState<any>();
-  // const getBusinessDate = (companyId: number, userId: number) => {
-  //   return getBusinessDateApi(companyId, userId)
-  //     .then((resp) => {
-  //       setBusinessData(resp.data);
-  //     })
-  //     .catch((err) => err.message);
-  // };
-  //console.log("BD", businessData)
 
   useEffect(() => {
-    //getBusinessDate(companyId, userId);
     setEffDate(businessDate);
     return () => {};
   }, [open]);
 
-  // const effDate = moment(data?.ProposalReceivedDate, "DD/MM/YYYY");
-
-  const [prem, setprem] = useState<any>(0.0);
   const [switchBasic, setswitchBasic] = useState(fundswitch?.FundSwitchBasis);
-  //const [ilpPriceData, setilpPriceData] = useState<any>([]);
-  //const [ilpPriceArray, setexfunds] = useState<any>([]);
+
   const [ilpFund, setIlpFund] = useState([]);
   const [newilpFund, setnewIlpFund] = useState([]);
 
@@ -127,10 +95,6 @@ function IlpFundSwitchModal({
       FundAmount: parseFloat(val.FundAmount),
       FundPercentage: parseFloat(val?.FundPercentage),
     }));
-    // const updatedIlpFundSwitch = exfunds.map((val: any) => ({
-    //   ...val,
-    //   FundPercentage: parseFloat(val?.FundPercentage),
-    // }));
 
     axios
       .post(
@@ -181,9 +145,8 @@ function IlpFundSwitchModal({
           setilpfunc("Save");
           setIlpFund(resp?.data?.IlpSwitchFundsSource);
           setnewIlpFund(resp?.data?.IlpSwitchFundsTarget);
-          // setexfunds(resp.data?.Funds);
+
           setIsResult(true);
-          // setresult(resp.data);
         }
         if (ilpfunc === "Save") {
           handleClose();
@@ -196,10 +159,9 @@ function IlpFundSwitchModal({
             type: "success",
           });
           setbenId("");
-          setprem(0);
+
           setfunds([]);
           setexfunds([]);
-          //setilpfunc("Init");
           setcompleted(false);
           setIsResult(false);
         }
@@ -222,9 +184,7 @@ function IlpFundSwitchModal({
     setbenId(ilpTopupBenefits[i].ID);
   };
 
-  const handlePremChange = (e: any) => {
-    setprem(e.target.value);
-  };
+  const handlePremChange = (e: any) => {};
   const handleFundSwitchChange = (e: any) => {
     setswitchBasic(e.target.value);
   };
@@ -314,50 +274,7 @@ function IlpFundSwitchModal({
     }
   };
 
-  // const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-  //   isChecked.current = e.target.checked;
-  //   setilpPriceData(
-  //     ilpPriceData.map((ilpfunds: any, index: number) => {
-  //       if (index === i && isChecked.current) {
-  //         return { ...ilpfunds, Select: "X" };
-  //       } else if (index === i && !isChecked.current) {
-  //         return { ...ilpfunds, Select: "" };
-  //       } else return ilpfunds;
-  //     })
-  //   );
-  // };
-
-  //console.log(ilpPriceArray, "handleCheck");
   console.log(funds, "Funds");
-
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setSelectAll(isChecked);
-
-    // Update the ilpPriceArray based on whether "Select All" is checked
-    if (isChecked) {
-      // Add all values to ilpPriceArray
-      //setEditableRowId(value.FundCode)
-      setfunds(funds.map((value: any) => value));
-    } else {
-      // Clear ilpPriceArray
-      //setfunds([]);
-    }
-  };
-  const handleexSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setSelectAll(isChecked);
-
-    // Update the ilpPriceArray based on whether "Select All" is checked
-    if (isChecked) {
-      // Add all values to ilpPriceArray
-      //setEditableRowId(value.FundCode)
-      setexfunds(exfunds.map((value: any) => value));
-    } else {
-      // Clear ilpPriceArray
-      //setfunds([]);
-    }
-  };
 
   useLayoutEffect(() => {
     getbenefitsbypol();
@@ -559,7 +476,6 @@ function IlpFundSwitchModal({
                   label="Bill To Date"
                   onChange={handlePremChange}
                   fullWidth
-                  //inputProps={{ readOnly: true }}
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
                 ></TextField>
@@ -591,25 +507,6 @@ function IlpFundSwitchModal({
                   </LocalizationProvider>
                 </FormControl>
               </Grid2>
-              {/* <Grid2 xs={8} md={6} lg={4}>
-                <TextField
-                  select
-                  id="Benefit"
-                  name="Benefit"
-                  value={benId}
-                  placeholder="Benefit"
-                  label="Benefit"
-                  onChange={handleBenChange}
-                  fullWidth
-                  margin="dense"
-                >
-                  {ilpTopupBenefits.map((val: any) => (
-                    <MenuItem value={val.ID}>
-                      {val.ID} - {val.BCoverage}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid2> */}
               <Grid2 lg={4}>
                 <TextField
                   select
@@ -618,10 +515,8 @@ function IlpFundSwitchModal({
                   value={switchBasic}
                   placeholder="Fund SwitchBasis"
                   label="Fund SwitchBasis"
-                  //onChange={handleFundSwitchChange}
                   onChange={handleFundSwitchChange}
                   fullWidth
-                  //inputProps={{ readOnly: true }}
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
                 >
@@ -981,13 +876,6 @@ function IlpFundSwitchModal({
                 {newilpFund?.map((value: any, index: number) => (
                   <tbody>
                     <tr>
-                      {/* <td>
-                        <input
-                          type="checkbox"
-                          checked={selectAll || value.selected}
-                          onChange={(e) => handleCheck(e, value, index)}
-                        />
-                      </td> */}
                       <td>{value?.FundCode}</td>
                       <td>{value?.FundCurr}</td>
                       <td>{value?.FundType}</td>
