@@ -3,7 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import CustomModal from "../../../utilities/modal/CustomModal";
 
 function ResultModal({ open, handleClose, record, completed }: any) {
-  const size: string = "";
+  const size: string = "xl";
   const title: string = "Result";
   return (
     <div>
