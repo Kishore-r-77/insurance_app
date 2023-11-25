@@ -1177,6 +1177,7 @@ function CsmmTable({
   };
   const ilpFundSwitchClose = () => {
     setisFundSwitch(false);
+    setcompleted(false);
   };
 
   useEffect(() => {
