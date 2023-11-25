@@ -1,30 +1,26 @@
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import SearchIcon from "@mui/icons-material/Search";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-// // ***  Attention : Check the import below and change it if required ***
 import { NomineeStateType } from "../../../reducerUtilities/types/nominee/nomineeType";
-
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../../reducerUtilities/actions/nominee/nomineeAction";
 
-import styles from "./nominee.module.css";
+import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
+import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import {
   addApi,
   deleteApi,
   editApi,
   getAllApi,
+  getNopmieesByPolicy,
 } from "../nomineeApi/nomineeApi";
 import NomineeModal from "../nomineeModel/NomineeModal";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../../utilities/Table/CustomTable";
 import NomineeTable from "./NomineeTable";
-import { getNopmieesByPolicy } from "../nomineeApi/nomineeApi";
-import Notification from "../../../utilities/Notification/Notification";
+import styles from "./nominee.module.css";
 
 function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   //data from getall api
@@ -151,7 +147,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["GetAllNominee"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -185,7 +180,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId, policyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -195,7 +189,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         getNomineesByPolicy1(policyRecord.ID);
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -208,7 +201,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -218,7 +210,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         getNomineesByPolicy1(policyRecord.ID);
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -231,7 +222,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -240,7 +230,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

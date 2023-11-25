@@ -4,7 +4,6 @@ import { FormControl, TextField } from "@mui/material";
 import axios from "axios";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomAdjPremModal from "./CustomAdjPremModal";
-
 import Notification from "../../../utilities/Notification/Notification";
 import moment from "moment";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -73,7 +72,6 @@ function AdjPremModal({
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -81,8 +79,6 @@ function AdjPremModal({
         });
       });
   };
-
-  // moment(data?.NxtBillDate,"DD/MM/YYYY").format("YYYYMMDD").toString()
 
   const billToDatechange = (date: any) => {
     console.log("Date", date);
