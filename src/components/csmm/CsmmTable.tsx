@@ -27,6 +27,10 @@ import {
   ACTIONS as SURRENDERACTIONS,
   initialValues,
 } from "../../reducerUtilities/actions/surrender/surrenderActions";
+import {
+  ACTIONS as ILPPARTSURRENDERACTIONS,
+  ilpPartSurrenderInitialValue,
+} from "../../reducerUtilities/actions/IlpPartSurrender/IlpPartSurrenderAction";
 import { SurrenderHStateType } from "../../reducerUtilities/types/surrender/surrenderType";
 import { useAppSelector } from "../../redux/app/hooks";
 import Notification from "../../utilities/Notification/Notification";
@@ -51,6 +55,7 @@ import TranReversalModal from "./tranReversalModal/TranReversalModal";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
 import IlpFundSwitchModal from "./IlpFundSwitchModal/IlpFundSwitchModal";
 import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
+import PartSurrender from "./partSurrender/PartSurrender";
 import PremiumDirection from "./PremiumDirection/PremiumDirection";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
@@ -370,6 +375,71 @@ function CsmmTable({
     ilpSurrenderInitialValue
   );
 
+  const ilpPartSurrender = (state: any, action: any) => {
+    switch (action.type) {
+      case ACTIONS.ONCHANGE:
+        return {
+          ...state,
+          [action.fieldName]: action.payload,
+        };
+
+      case ILPPARTSURRENDERACTIONS.COMMITOPEN:
+        return {
+          ...state,
+          commitOpen: true,
+        };
+      case ILPPARTSURRENDERACTIONS.COMMITCLOSE:
+        return {
+          ...state,
+          Function: "Commit",
+          commitOpen: false,
+        };
+      case ILPPARTSURRENDERACTIONS.ILPPARTSURRENDEROPEN:
+        setPolicyID(action.payload);
+        return {
+          ...state,
+          EffectiveDate: businessDate,
+          SurrDate: businessDate,
+          ilppartsurrenderOpen: true,
+        };
+      case ILPPARTSURRENDERACTIONS.ILPPARTSURRENDERCLOSE:
+        state = initialValues;
+        getData();
+        return {
+          ...state,
+          ilppartsurrenderOpen: false,
+        };
+
+      case ACTIONS.SORT_ASC:
+        const asc = !state.sortAsc;
+        if (state.sortDesc) {
+          state.sortDesc = false;
+        }
+        return {
+          ...state,
+          sortAsc: asc,
+          sortColumn: action.payload,
+        };
+      case ACTIONS.SORT_DESC:
+        const desc = !state.sortDesc;
+        if (state.sortAsc) {
+          state.sortAsc = false;
+        }
+        return {
+          ...state,
+          sortDesc: desc,
+          sortColumn: action.payload,
+        };
+      default:
+        return initialValues;
+    }
+  };
+
+  let [ilppartsurrenderState, ilppartsurrenderDispatch] = useReducer(
+    ilpPartSurrender,
+    ilpPartSurrenderInitialValue
+  );
+
   const maturity = (state: any, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
@@ -626,6 +696,12 @@ function CsmmTable({
         break;
       case "SpecialRevival":
         splrevOpen(policyId.current, value);
+        handleClose();
+        break;
+      case "IlpPartSurrender":
+        ilppartsurrenderDispatch({
+          type: ILPPARTSURRENDERACTIONS.ILPPARTSURRENDEROPEN,
+        });
         handleClose();
         break;
       default:
@@ -1446,6 +1522,13 @@ function CsmmTable({
         data={polenqData}
         getData={getData}
         polid={PolicyID}
+      />
+      <PartSurrender
+        getData={getData}
+        ilppartsurrenderState={ilppartsurrenderState}
+        ilppartsurrenderDispatch={ilppartsurrenderDispatch}
+        polid={PolicyID}
+        policyRecord={enquiryRecord.current}
       />
       <PolReinModal
         open={isPolRein}
