@@ -84,6 +84,7 @@ import P0066 from "../paramDataPages/P0066/p0066";
 import P0067 from "../paramDataPages/P0067/p0067";
 import P0068 from "../paramDataPages/P0068/p0068";
 import P0069 from "../paramDataPages/P0069/p0069";
+import P0070 from "../paramDataPages/P0070/p0070";
 
 const ParamData = () => {
   const {
@@ -670,6 +671,14 @@ const ParamData = () => {
             case "1-P0069":
             return (
               <P0069
+                ref={extraDataRef}
+                data={getDataResponse.param.data}
+                mode={mode}
+              />
+            );
+            case "1-P0070":
+            return (
+              <P0070
                 ref={extraDataRef}
                 data={getDataResponse.param.data}
                 mode={mode}
