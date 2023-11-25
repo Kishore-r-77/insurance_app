@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { MenuItem, TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import axios from "axios";
-import { freqItems } from "../../clientDetails/client/clientApis/clientApis";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
-import CustomFreqChangeModal from "./CustomFreqChangeModal";
-import ResultModal from "./ResultModal";
 import Notification from "../../../utilities/Notification/Notification";
+import { freqItems } from "../../clientDetails/client/clientApis/clientApis";
+import CustomFreqChangeModal from "./CustomFreqChangeModal";
 
 function FreqChangeModal({
   open,
@@ -48,9 +47,7 @@ function FreqChangeModal({
         setisPolicy(!isPolicy);
         getData();
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const getFreqChange = () => {
@@ -71,11 +68,7 @@ function FreqChangeModal({
         setcompleted(true);
         setfunc("Save");
         setpremium(resp.data?.result?.Premium);
-        // if (func === "Save") {
-        //   setcompleted(false);
-        // }
         setresult(resp.data?.result);
-        setIsResult(true);
         if (func === "Save") {
           handleClose();
           setNotify({
@@ -88,7 +81,6 @@ function FreqChangeModal({
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -133,16 +125,6 @@ function FreqChangeModal({
     return () => {};
   }, [isPolicy]);
 
-  const [isResult, setIsResult] = useState(false);
-
-  const resultOpen = () => {
-    setIsResult(true);
-  };
-  const resultClose = () => {
-    setIsResult(false);
-    setcompleted(true);
-    setfunc("Save");
-  };
   console.log(completed, "completed");
 
   return (
@@ -215,12 +197,6 @@ function FreqChangeModal({
           </Grid2>
         </Grid2>
       </CustomFreqChangeModal>
-      {/* <ResultModal
-        open={isResult}
-        handleClose={resultClose}
-        record={result}
-        completed={completed}
-      /> */}
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
