@@ -220,7 +220,6 @@ function EnquiryTable({
             )}
             {isCommunication ? <th>PDF</th> : null}
             {benOpen && data[0]?.BCoverage == "ILP1" ? <th>ILP Fund</th> : null}
-            {benOpen ? <th>Info</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -253,6 +252,10 @@ function EnquiryTable({
                           infoClickOpen(row?.GlAccountno, row?.ContractAmount)
                         }
                       >
+                        {row[col.field]}
+                      </td>
+                    ) : benOpen ? (
+                      <td key={col.field} onClick={() => benInfoClickOpen(row)}>
                         {row[col.field]}
                       </td>
                     ) : historyOpen ? (
@@ -342,12 +345,6 @@ function EnquiryTable({
               {benOpen && data[0]?.BCoverage == "ILP1" ? (
                 <td onClick={() => fundClickOpen(row.ID)}>
                   <AccountBalanceWalletIcon color="success" />
-                </td>
-              ) : null}
-
-              {benOpen ? (
-                <td onClick={() => benInfoClickOpen(row)}>
-                  <InfoIcon color="success" />
                 </td>
               ) : null}
             </tr>
