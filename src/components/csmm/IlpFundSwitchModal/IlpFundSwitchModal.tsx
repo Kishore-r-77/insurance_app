@@ -86,13 +86,6 @@ function IlpFundSwitchModal({
   const [newilpFund, setnewIlpFund] = useState([]);
 
   const doIlpFundSwitch = () => {
-    const updatedIlpFund = funds.map((val: any) => ({
-      ...val,
-      FundUnits: parseFloat(val.FundUnits),
-      FundAmount: parseFloat(val.FundAmount),
-      FundPercentage: parseFloat(val?.FundPercentage),
-    }));
-
     axios
       .post(
         `http://localhost:3000/api/v1/customerservice/switchfund`,
@@ -103,14 +96,27 @@ function IlpFundSwitchModal({
           EffectiveDate: moment(effDate).format("YYYYMMDD"),
           Function: ilpfunc,
           FundSwitchBasis: switchBasic,
-          IlpSwitchSource: updatedIlpFund,
+          IlpSwitchSource: funds
+            .filter(
+              (data: any) =>
+                data.FundUnits !== 0 ||
+                data.FundAmount !== 0 ||
+                data.FundPercentage !== 0
+            )
+            .map((data: any) => ({
+              ...data,
+              FundUnits: parseFloat(data.FundUnits),
+              FundAmount: parseFloat(data.FundAmount),
+              FundPercentage: parseFloat(data.FundPercentage),
+            })),
           IlpSwitchTarget: exfunds
             .filter(
               (data: any) =>
                 data.FundPercentage !== null &&
                 data.FundPercentage !== undefined &&
                 data.FundPercentage !== "" &&
-                data.FundPercentage !== 0
+                data.FundPercentage !== 0 &&
+                data.selected !== false
             )
             .map((data: any) => ({
               ...data,
@@ -130,10 +136,7 @@ function IlpFundSwitchModal({
 
         setIlpFund(resp?.data?.IlpSwitchFundsSource);
         setnewIlpFund(resp?.data?.IlpSwitchFundsTarget);
-        // setexfunds(resp.data?.Funds);
         if (ilpfunc === "Calculate") {
-          //   handleClose();
-          //   getData();
           setNotify({
             isOpen: true,
             message: resp.data?.success,
@@ -222,7 +225,8 @@ function IlpFundSwitchModal({
   );
 
   const [selectAll, setSelectAll] = useState(false);
-  const [selectOne, setSelectOne] = useState(false);
+  const [selectOne, setSelectOne] = useState<any>([]);
+  const [select, setSelect] = useState<any>([]);
 
   const handleFundCheck = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -230,20 +234,17 @@ function IlpFundSwitchModal({
     index: number
   ) => {
     if (e.target.checked) {
-      console.log(value, index, "val", "ind");
-      // const updateArr = [...funds, value];
-      // setfunds(updateArr);
       value.selected = true;
-      setSelectOne(value.selected);
+      const updateArr = [...select, value];
+      setSelect(updateArr);
     }
     if (!e.target.checked) {
-      console.log(index, "index");
-      // const updateArr = [...funds];
-      // const itemIndex = funds.indexOf(value);
-      // updateArr.splice(itemIndex, 1);
-      // setfunds(updateArr);
+      value.FundPercentage = 0;
+      const updateArr = [...select];
+      const itemIndex = select.indexOf(value);
+      updateArr.splice(itemIndex, 1);
+      setSelect(updateArr);
       value.selected = false;
-      setSelectOne(value.selected);
     }
   };
 
@@ -253,24 +254,21 @@ function IlpFundSwitchModal({
     index: number
   ) => {
     if (e.target.checked) {
-      console.log(value, index, "val", "ind");
-      // const updateArr = [...exfunds, value];
-      // setexfunds(updateArr);
       value.selected = true;
-      setSelectOne(value.selected);
+      const updateArr = [...selectOne, value];
+      setSelectOne(updateArr);
     }
     if (!e.target.checked) {
-      console.log(index, "index");
-      // const updateArr = [...exfunds];
-      // const itemIndex = exfunds.indexOf(value);
-      // updateArr.splice(itemIndex, 1);
-      // setexfunds(updateArr);
+      value.FundPercentage = 0;
+      value.FundAmount = 0;
+      value.FundUnit = 0;
+      const updateArr = [...selectOne];
+      const itemIndex = selectOne.indexOf(value);
+      updateArr.splice(itemIndex, 1);
+      setSelectOne(updateArr);
       value.selected = false;
-      setSelectOne(value.selected);
     }
   };
-
-  console.log(funds, "Funds");
 
   useLayoutEffect(() => {
     getbenefitsbypol();
@@ -288,9 +286,10 @@ function IlpFundSwitchModal({
     setexfunds([]);
     setfundswitch([]);
     setswitchBasic("");
+    setilpfunc("Calculate");
 
     return () => {};
-  }, [open]);
+  }, [open === false]);
 
   const p0050 = (
     companyId: number,
@@ -724,8 +723,8 @@ function IlpFundSwitchModal({
                     <th>Fund Currency</th>
                     <th>Fund Type</th>
                     <th>Fund Amount</th>
-                    <th>Esstiamte FundUnits</th>
-                    <th>Esstiamte FundPercentage</th>
+                    <th>Estimate FundUnits</th>
+                    <th>Estimate FundPercentage</th>
                   </tr>
                 </thead>
                 {ilpFund?.map((value: any, index: number) => (
@@ -768,11 +767,11 @@ function IlpFundSwitchModal({
                     <th>Fund Code</th>
                     <th>Fund Currency</th>
                     <th>Fund Type</th>
-                    <th>Available FundAmount</th>
                     <th>Available Units</th>
-                    <th>Esstiamte FundAmount</th>
-                    <th>Esstiamte FundUnits</th>
-                    <th>Esstiamte FundPercentage</th>
+                    <th>Available FundAmount</th>
+                    <th>Estimate FundAmount</th>
+                    <th>Estimate FundUnits</th>
+                    <th>Estimate FundPercentage</th>
                   </tr>
                 </thead>
                 {funds?.map((value: any, index: number) => (
@@ -788,15 +787,15 @@ function IlpFundSwitchModal({
                       <td>{value?.FundCode}</td>
                       <td>{value?.FundCurr}</td>
                       <td>{value?.FundType}</td>
-                      <td>{value?.AvailableAmount}</td>
                       <td>{value?.AvailableUnits}</td>
+                      <td>{value?.AvailableAmount}</td>
                       {switchBasic == "A" ? (
                         <td>
                           <input
                             className={styles["input-form"]}
                             type="number"
                             name="FundAmount"
-                            disabled={!selectOne}
+                            disabled={!value.selected}
                             value={value?.FundAmount}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -812,7 +811,7 @@ function IlpFundSwitchModal({
                             className={styles["input-form"]}
                             type="number"
                             name="FundUnits"
-                            disabled={!selectOne}
+                            disabled={!value.selected}
                             value={value?.FundUnits}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -828,7 +827,7 @@ function IlpFundSwitchModal({
                             className={styles["input-form"]}
                             type="number"
                             name="FundPercentage"
-                            disabled={!selectOne}
+                            disabled={!value.selected}
                             value={value?.FundPercentage}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -852,9 +851,9 @@ function IlpFundSwitchModal({
                     <th>Fund Code</th>
                     <th>Fund Currency</th>
                     <th>Fund Type</th>
-                    <th>Esstiamte FundAmount</th>
-                    <th>Esstiamte FundUnits</th>
-                    <th>Esstiamte FundPercentage</th>
+                    <th>Estimate FundAmount</th>
+                    <th>Estimate FundUnits</th>
+                    <th>Estimate FundPercentage</th>
                   </tr>
                 </thead>
                 {newilpFund?.map((value: any, index: number) => (
@@ -890,9 +889,9 @@ function IlpFundSwitchModal({
                     <th>Fund Code</th>
                     <th>Fund Currency</th>
                     <th>Fund Type</th>
-                    <th>Esstiamte FundAmount</th>
-                    <th>Esstiamte FundUnits</th>
-                    <th>Esstiamte FundPercentage</th>
+                    <th>Estimate FundAmount</th>
+                    <th>Estimate FundUnits</th>
+                    <th>Estimate FundPercentage</th>
                   </tr>
                 </thead>
                 {exfunds?.map((value: any, index: number) => (
@@ -915,7 +914,7 @@ function IlpFundSwitchModal({
                           className={styles["input-form"]}
                           type="number"
                           name="FundPercentage"
-                          disabled={!selectOne}
+                          disabled={!value.selected}
                           value={value?.FundPercentage}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleexChange(e, index)

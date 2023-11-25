@@ -43,6 +43,7 @@ import {
 import Client from "../../clientDetails/client/Client";
 import Address from "../../clientDetails/address/Address";
 import Agency from "../../agency/Agency";
+import { useBusinessDate } from "../../contexts/BusinessDateContext";
 function QHeaderQDetailModal({
   state,
   dispatch,
@@ -94,20 +95,6 @@ function QHeaderQDetailModal({
     paramItem(companyId, name, languageId)
       .then((resp) => {
         setQproductData(resp.data.data);
-        return resp.data.data;
-      })
-      .catch((err) => err);
-  };
-
-  const [qcontractcurrData, setQcontractcurrData] = useState([]);
-  const getQcontractcurr = (
-    companyId: number,
-    name: string,
-    languageId: number
-  ) => {
-    paramItem(companyId, name, languageId)
-      .then((resp) => {
-        setQcontractcurrData(resp.data.data);
         return resp.data.data;
       })
       .catch((err) => err);
@@ -273,9 +260,72 @@ function QHeaderQDetailModal({
       .catch((err) => err);
   };
 
+  const p0050 = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    return axios.get(
+      `http://localhost:3000/api/v1/basicservices/paramItem?companyId=${companyId}&name=${name}&languageId=${languageId}&item=${item}`,
+      {
+        withCredentials: true,
+        params: {
+          companyId,
+          name,
+          languageId,
+          item,
+        },
+      }
+    );
+  };
+
+  const [qcontractcurrData, setQcontractcurrData] = useState([]);
+  const getQcontractcurr = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    p0050(companyId, name, languageId, item)
+      .then((resp) => {
+        setQcontractcurrData(resp.data.param.data.dataPairs);
+        return resp.data.param.data.dataPairs;
+      })
+      .catch((err) => err);
+  };
+
+  useEffect(() => {
+    getQcontractcurr(companyId, "P0050", languageId, "CCUR");
+    return () => {};
+  }, [qproductData]);
+
+  const [pContractCurrData, setPContractCurrData] = useState([]);
+  const getPContractCurr = (
+    companyId: number,
+    QProduct: string,
+    date: string
+  ) => {
+    axios
+      .get("http://localhost:3000/api/v1/basicservices/paramextradata", {
+        withCredentials: true,
+        params: {
+          company_id: companyId,
+          name: "Q0005",
+          item: QProduct,
+          function: "ContractCurr",
+          date: moment(date).format("YYYYMMDD"),
+        },
+      })
+      .then((resp) => {
+        setPContractCurrData(resp.data?.AllowedContractCurriencies);
+
+        return resp.data?.AllowedContractCurriencies;
+      })
+      .catch((err) => err);
+  };
   useEffect(() => {
     getCompanyData(companyId);
-    getQcontractcurr(companyId, "P0023", languageId);
     getQnri(companyId, "P0046", languageId);
     getQoccgroup(companyId, "Q0007", languageId);
     getQoccsect(companyId, "Q0008", languageId);
@@ -284,6 +334,11 @@ function QHeaderQDetailModal({
 
     return () => {};
   }, []);
+  useEffect(() => {
+    getPContractCurr(companyId, state?.QProduct, state?.QuoteDate);
+
+    return () => {};
+  }, [state.addOpen && state?.QProduct]);
 
   useEffect(() => {
     getQproduct(companyId, "Q0005", languageId);
@@ -401,6 +456,18 @@ function QHeaderQDetailModal({
       },
     ]);
   };
+  const {
+    businessDate,
+    businessDateToggle,
+    setbusinessDateToggle,
+    getBusinessDate,
+  } = useBusinessDate();
+
+  useEffect(() => {
+    getBusinessDate();
+    state.QuoteDate = businessDate;
+    return () => {};
+  }, [state.addOpen]);
 
   const [addressClntData, setaddressClntData] = useState([]);
   const getAddressByClient = () => {
@@ -800,7 +867,6 @@ function QHeaderQDetailModal({
                     </LocalizationProvider>
                   </FormControl>
                 </Grid2>
-
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
@@ -892,6 +958,31 @@ function QHeaderQDetailModal({
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
+                    id="Qproduct"
+                    name="QProduct"
+                    value={state.addOpen ? state.QProduct : record?.QProduct}
+                    placeholder="Product"
+                    label="Product"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "QProduct",
+                      })
+                    }
+                    fullWidth
+                    margin="dense"
+                  >
+                    {qproductData.map((val: any) => (
+                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    select
                     id="QContractCurr"
                     name="QContractCurr"
                     value={
@@ -911,8 +1002,8 @@ function QHeaderQDetailModal({
                     fullWidth
                     margin="dense"
                   >
-                    {qcontractcurrData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                    {pContractCurrData.map((val: any) => (
+                      <MenuItem value={val.Item}>{val.ShortDesc}</MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
@@ -937,31 +1028,6 @@ function QHeaderQDetailModal({
                     margin="dense"
                   >
                     {pOfficeData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="Qproduct"
-                    name="QProduct"
-                    value={state.addOpen ? state.QProduct : record?.QProduct}
-                    placeholder="Product"
-                    label="Product"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "QProduct",
-                      })
-                    }
-                    fullWidth
-                    margin="dense"
-                  >
-                    {qproductData.map((val: any) => (
                       <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
                     ))}
                   </TextField>
