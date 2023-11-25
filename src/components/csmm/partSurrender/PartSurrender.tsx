@@ -165,6 +165,8 @@ function PartSurrender({
         });
       });
   };
+  console.log(isSave, "QQQQQ");
+
   const Partsurrender = () => {
     return saveIlpPartSurrender(
       polid,
@@ -270,11 +272,23 @@ function PartSurrender({
     return () => {};
   }, [benId]);
   useEffect(() => {
-    setbenId("");
-    setexfunds([]);
-    setilpSelectedFund([]);
     return () => {};
   }, [ilppartsurrenderState.ilppartsurrenderOpen]);
+  useEffect(() => {
+    if (ilppartsurrenderState.Function === "Fill") {
+      setbenId("");
+      setexfunds([]);
+      setilpSelectedFund([]);
+      setsurrHData({});
+      setsurrDdata({});
+      setSurrFsData([{}]);
+      isSave.current = false;
+    }
+    return () => {
+      // Cleanup function (if needed)
+    };
+  }, [ilppartsurrenderState.ilppartsurrenderOpen === false]);
+
   useLayoutEffect(() => {
     getbenefitsbypol();
     return () => {};
@@ -692,8 +706,9 @@ function PartSurrender({
                       >
                         Selected
                       </th>
-
-                      <th>ID</th>
+                      <th> ID</th>
+                      <th>Policy ID</th>
+                      <th>Benefit ID</th>
                       <th>Fund Code</th>
                       <th>Fund Type</th>
                       <th>Fund Currency</th>
@@ -731,7 +746,22 @@ function PartSurrender({
                               value={val.ID}
                             />
                           </td>
-
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val.PolicyID}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val.BenefitID}
+                            />
+                          </td>
                           <td className={styles["td-class"]}>
                             <input
                               className={styles["input-form"]}

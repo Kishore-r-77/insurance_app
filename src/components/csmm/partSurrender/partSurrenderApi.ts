@@ -54,7 +54,8 @@ export const postIlpPartSurrender = (
             data.SurrenderBy !== "" &&
             data.SurrenderByValue !== null &&
             data.SurrenderByValue !== undefined &&
-            data.SurrenderByValue !== ""
+            data.SurrenderByValue !== "" &&
+            data.SurrenderByValue !== 0
         )
         .map((data: any) => ({
           ...data,
