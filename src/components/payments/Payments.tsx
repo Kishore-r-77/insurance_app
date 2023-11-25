@@ -2,30 +2,26 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
-import { PaymentsStateType } from "../../reducerUtilities/types/payments/paymentsTypes";
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/payments/paymentsActions";
+import { PaymentsStateType } from "../../reducerUtilities/types/payments/paymentsTypes";
+import { useAppSelector } from "../../redux/app/hooks";
+import Notification from "../../utilities/Notification/Notification";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 import styles from "./payments.module.css";
 import {
   addApi,
   approveApi,
-  //deleteApi,
-  //editApi,
   getAllApi,
-  getBusinessDateApi,
   rejectionApi,
 } from "./paymentsApis/paymentsApis";
-import Notification from "../../utilities/Notification/Notification";
-import PaymentsTable from "./paymentsTable/PaymentsTable";
 import PaymentsModal from "./paymentsModal/PaymentsModal";
 import ApprovalModal from "./paymentsModal/approvalModal";
-import { useBusinessDate } from "../contexts/BusinessDateContext";
+import PaymentsTable from "./paymentsTable/PaymentsTable";
 
 function Payments({ modalFunc }: any) {
   //data from getall api
@@ -38,12 +34,7 @@ function Payments({ modalFunc }: any) {
     message: "",
     type: "",
   });
-  const {
-    businessDate,
-    businessDateToggle,
-    setbusinessDateToggle,
-    getBusinessDate,
-  } = useBusinessDate();
+  const { businessDate } = useBusinessDate();
   const [searchContent, setsearchContent] = useState({
     searchString: "",
     searchCriteria: "",
@@ -62,19 +53,6 @@ function Payments({ modalFunc }: any) {
       .catch((err) => console.log(err.message));
   };
   const userId = useAppSelector((state) => state.users.user.message.id);
-  // const [businessData, setBusinessData] = useState<any>({});
-  // const getBusinessDate = (companyId: number, userId: number) => {
-  //   return getBusinessDateApi(companyId, userId)
-  //     .then((resp) => {
-  //       setBusinessData(resp.data);
-  //     })
-  //     .catch((err) => err.message);
-  // };
-
-  // useEffect(() => {
-  //   getBusinessDate(companyId, userId);
-  //   return () => {};
-  // }, []);
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PaymentsStateType, action: any) => {
@@ -122,11 +100,6 @@ function Payments({ modalFunc }: any) {
           addOpen: false,
         };
 
-      // case ACTIONS.EDITCLOSE:
-      //   return {
-      //     ...state,
-      //     editOpen: false,
-      //   };
       case ACTIONS.INFOCLOSE:
         return {
           ...state,
@@ -302,19 +275,6 @@ function Payments({ modalFunc }: any) {
     getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
-
-  // useEffect(() => {
-  //   if (state.addOpen) {
-  //     // Fetch PRCD value from the getBusinessDate API
-  //     getBusinessDate(companyId, userId).then(() => {
-  //       // After the API call, set the PRCD value in the state
-  //       dispatch({ type: ACTIONS.ADDOPEN });
-  //     });
-  //   } else {
-  //     // If addOpen is false, set PRCD to an empty value
-  //     dispatch({ type: ACTIONS.ADDCLOSE });
-  //   }
-  // }, [state.addOpen]);
 
   return (
     <div>
