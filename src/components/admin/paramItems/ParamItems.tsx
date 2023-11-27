@@ -30,6 +30,7 @@ import styles from "./paramitems.module.css";
 import ParamItemModal from "./ParamItemModal";
 import CustomHeaderTable from "../../../utilities/Table/customHeaderTable";
 import CustomTooltip from "../../../utilities/cutomToolTip/customTooltip";
+import ParamItemClone from "./ParamItemCloneModal";
 
 function ParamItems() {
   //data from getall api
@@ -124,6 +125,13 @@ function ParamItems() {
           editOpen: true,
         };
 
+      case ACTIONS.CLONEOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          cloneOpen: true,
+        };
+
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
         return {
@@ -153,6 +161,12 @@ function ParamItems() {
         return {
           ...state,
           infoOpen: false,
+        };
+
+      case ACTIONS.CLONECLOSE:
+        return {
+          ...state,
+          cloneOpen: false,
         };
       case ACTIONS.DELCLOSE:
         return {
@@ -288,6 +302,28 @@ function ParamItems() {
       });
     }
   };
+
+  const handleCloneModal = (params: any) => {
+    
+    dispatch({ type: ACTIONS.CLONECLOSE });
+
+      //if data was modified in modal, rfresh the data from server
+      if (params.status === "save") {
+        let getDataParams = {
+          ...pageAndSearch,
+          companyId: searchparams.get("companyId"),
+          name: searchparams.get("name"),
+          languageId: searchparams.get("languageId"),
+        };
+  
+        sendScreenGetRequest({
+          apiUrlPathSuffix: "/basicservices/paramItems",
+          getDataParams: getDataParams,
+        });
+      }
+ 
+}
+
   const navigate = useNavigate();
 
   const navigateToLink = (params: any) => {
@@ -580,6 +616,7 @@ function ParamItems() {
             dispatch={dispatch}
             modalFunc={modalFunc}
             hardDelete={hardDelete}
+            showClone = {true}
           />
           <CustomPagination
             pageNum={pageAndSearch.pageNum}
@@ -604,6 +641,15 @@ function ParamItems() {
                 : state.deleteOpen
                 ? "delete"
                 : "display",
+            }}
+          />
+
+<ParamItemClone
+            show={state.cloneOpen}
+            handleModal={handleCloneModal}
+            data={{
+              ...record,
+                
             }}
           />
         </>
