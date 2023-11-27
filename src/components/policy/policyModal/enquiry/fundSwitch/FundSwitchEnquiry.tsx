@@ -12,22 +12,39 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
-import * as React from "react";
-import CustomModal from "../../../../utilities/modal/CustomModal";
+import FundSwitchModal from "./FundSwitchModal";
 import styles from "./fundSwitchEnquiry.module.css";
+import { useState } from "react";
+import GLHistoryEnquiry from "../GLHistoryEnquiry";
 
 export default function FundSwitchEnquiry({
   open: fundOpen,
   handleClose,
   fundswitchData: row,
+  policyNo,
+  Tranno,
 }: any) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [isGlOpen, setisGlOpen] = useState(false);
+
+  console.log(policyNo, "Policy No in fund switch");
+
+  const glOpen = () => {
+    setisGlOpen(true);
+  };
+
+  const glClose = () => {
+    setisGlOpen(false);
+  };
+
   return (
-    <CustomModal
+    <FundSwitchModal
       size="xl"
       open={fundOpen}
       handleClose={handleClose}
       title="Ilp Switch Detail"
+      handleFormSubmit={glOpen}
     >
       <TableContainer component={Paper}>
         <h2 style={{ backgroundColor: "#c0d4e2", textAlign: "center" }}>
@@ -41,6 +58,7 @@ export default function FundSwitchEnquiry({
               <TableCell className={styles.thstyle}>BenefitID</TableCell>
               <TableCell className={styles.thstyle}>EffectiveDate</TableCell>
               <TableCell className={styles.thstyle}>FundSwitchBasis</TableCell>
+              <TableCell className={styles.thstyle}>Switch Fee</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,6 +83,7 @@ export default function FundSwitchEnquiry({
               <TableCell className={styles.tdstyle}>
                 {row?.FundSwitchBasis}
               </TableCell>
+              <TableCell className={styles.tdstyle}>{row?.SwitchFee}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell
@@ -185,6 +204,12 @@ export default function FundSwitchEnquiry({
           </TableBody>
         </Table>
       </TableContainer>
-    </CustomModal>
+      <GLHistoryEnquiry
+        open={isGlOpen}
+        handleClose={glClose}
+        policyNo={policyNo}
+        TransactionNo={Tranno}
+      />
+    </FundSwitchModal>
   );
 }
