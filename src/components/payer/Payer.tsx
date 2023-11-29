@@ -5,9 +5,6 @@ import { useEffect, useReducer, useState } from "react";
 import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../redux/app/hooks";
-// ***  Attention : Check the import below and change it if required ***
-//import { PayerStateType } from "../../reducerUtilities/types/payor/payorTypes";
-
 import {
   ACTIONS,
   columns,
@@ -163,7 +160,6 @@ function Payer({
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["GetAllPayer"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -180,7 +176,6 @@ function Payer({
   const handleFormSubmit = () => {
     return addApi(state, companyId, policyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         if (lookup) {
           getPayerByPolicy(policyId);
@@ -200,7 +195,6 @@ function Payer({
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         if (lookup) {
           getPayerByPolicy(policyId);
@@ -220,7 +214,6 @@ function Payer({
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         if (lookup) {
           getPayerByPolicy(policyId);
         }
