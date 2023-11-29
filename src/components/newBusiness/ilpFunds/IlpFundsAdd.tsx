@@ -1,97 +1,121 @@
-import { IlpFundsModalType } from "../../../reducerUtilities/types/ilpFund/ilpFundsTypes";
 //import { paramItem } from "../ilpFundApi/ilpFundsApis";
 // *** Attention: Check the path and change it if required ***
-import Policy from "../../policy/Policy";
-import Benefit from "../../policy/policyModal/benefit/Benefit";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import useHttp from "../../../hooks/use-http";
-import { getData } from "../../../services/http-service";
-import CustomModal from "../../../utilities/modal/CustomModal";
+import { Button, IconButton, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { TextField } from "@mui/material";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import { ChangeEvent, useState } from "react";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveIcon from "@mui/icons-material/Remove";
 
-function IlpFundsAdd({open, handleClose}:any) {
-    
+function IlpFundsAdd({ open, handleClose, data }: any) {
   const size: string = "xl";
+
+  console.log(data?.fundData, "Fund Dataaaa");
+
+  const [fundDetails, setfundDetails] = useState(
+    data?.fundData === undefined
+      ? [
+          {
+            FundCode: "",
+            FundPercentage: 0,
+          },
+        ]
+      : data.fundData
+  );
+
+  console.log(fundDetails, "Fund Details");
+
+  const handleAddFunds = () => {
+    setfundDetails((prev: any) => [
+      ...prev,
+      { FundCode: "", FundPercentage: "" },
+    ]);
+  };
+
+  const handleRemoveFunds = (index: number) => {
+    const fundList = [...fundDetails];
+    fundList.splice(index, 1);
+    setfundDetails(fundList);
+  };
+
+  const handleFundsChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    i: number
+  ) => {
+    const { name, value } = e.target;
+    setfundDetails((prev: any) =>
+      prev.map((fund: any, index: number) => {
+        if (index === i) {
+          return {
+            ...fund,
+            [name]: value,
+          };
+        } else return fund;
+      })
+    );
+  };
+
   return (
     <CustomModal
-        open={open}
-        size={size}
-        handleClose={handleClose}
-        title={"ILP Test"}
-        //ACTIONS={ACTIONS}
-        //handleFormSubmit={state.infoOpen ? null : () => handleFormSubmit()}
-      >
-        <form>
+      open={open}
+      size={size}
+      handleClose={() => handleClose({ operation: "cancel" })}
+      title={"ILP Test"}
+      handleFormSubmit={() =>
+        handleClose({ operation: "save", data: fundDetails })
+      }
+    >
+      <form>
+        {fundDetails?.map((fund: any, index: number) => (
           <Grid2 container spacing={2}>
-            {
-              <>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="FundCode"
-                    name="FundCode"
-                    //value={state.addOpen ? state.FundCode : record.FundCode}
-                    placeholder="Fund Code"
-                    label="Fund Code"
-                    // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    //   dispatch({
-                    //     type: state.addOpen
-                    //       ? ACTIONS.ONCHANGE
-                    //       : ACTIONS.EDITCHANGE,
-                    //     payload: e.target.value,
-                    //     fieldName: "FundCode",
-                    //   })
-                    // }
-                    fullWidth
-                    //inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                    SelectProps={{
-                      multiple: false,
-                    }}
-                  >
-                    {/* {getUlpfundsResponse?.param.data.dataPairs.map(
-                      (value: any) => (
-                        <MenuItem key={value.code} value={value.code}>
-                          {value.code} - {value.description}
-                        </MenuItem>
-                      )
-                    )} */}
-                  </TextField>
-                </Grid2>
+            <Grid2 xs={12} md={12} lg={4}>
+              <TextField
+                id="FundCode"
+                name="FundCode"
+                placeholder="Fund Code"
+                label="Fund Code"
+                fullWidth
+                value={fund?.FundCode}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleFundsChange(e, index)
+                }
+                margin="dense"
+                InputLabelProps={{ shrink: true }}
+              ></TextField>
+            </Grid2>
 
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    id="FundPercentage"
-                    name="FundPercentage"
-                    // value={
-                    //   state.addOpen
-                    //     ? state.FundPercentage
-                    //     : record.FundPercentage
-                    // }
-                    placeholder="Fund Percentage"
-                    label="Fund Percentage"
-                    // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    //   dispatch({
-                    //     type: state.addOpen
-                    //       ? ACTIONS.ONCHANGE
-                    //       : ACTIONS.EDITCHANGE,
-                    //     payload: e.target.value,
-                    //     fieldName: "FundPercentage",
-                    //   })
-                    // }
-                    fullWidth
-                    //inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-              </>
-            }
+            <Grid2 xs={12} md={12} lg={4}>
+              <TextField
+                type="number"
+                id="FundPercentage"
+                name="FundPercentage"
+                placeholder="Fund Percentage"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleFundsChange(e, index)
+                }
+                label="Fund Percentage"
+                fullWidth
+                //inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+                value={fund?.FundPercentage}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid2>
+            {fundDetails?.length - 1 === index && fundDetails?.length < 3 && (
+              <IconButton onClick={handleAddFunds}>
+                <AddCircleIcon />
+              </IconButton>
+            )}
+            {fundDetails?.length !== 1 && (
+              <IconButton onClick={() => handleRemoveFunds(index)}>
+                <RemoveIcon />
+              </IconButton>
+            )}
           </Grid2>
-        </form>
+        ))}
+      </form>
     </CustomModal>
-  )
-}   
+  );
+}
 
-export default IlpFundsAdd
+export default IlpFundsAdd;

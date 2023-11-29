@@ -67,26 +67,18 @@ function NewBusiness({
       BSumAssured: 0,
       Interest: 0,
       BPrem: 0,
-      // IlpFunds:[
-      //   {
-      //     "FundCode": "",
-      //     "FundPercentage": 0
-      //   },
-      // ]
+      IlpFunds: [
+        {
+          FundCode: "",
+          FundPercentage: 0,
+        },
+      ],
     },
   ]);
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
   const userId = useAppSelector((state) => state.users.user.message.id);
-  // const [businessData, setBusinessData] = useState<any>({});
-  // const getBusinessDate = (companyId: number, userId: number) => {
-  //   return getBusinessDateApi(companyId, userId)
-  //     .then((resp) => {
-  //       setBusinessData(resp.data);
-  //     })
-  //     .catch((err) => err.message);
-  // };
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
@@ -126,11 +118,11 @@ function NewBusiness({
           ...state,
           infoOpen: true,
         };
-setbenefitsData
+        setbenefitsData;
       case ACTIONS.ADDCLOSE:
         state = initialValues;
         // setBusinessData({});
-        ([
+        [
           {
             ClientID: 0,
             BStartDate: "",
@@ -141,7 +133,7 @@ setbenefitsData
             Interest: 0,
             BPrem: 0,
           },
-        ]);
+        ];
         return {
           ...state,
           PRCD: "",
@@ -176,12 +168,12 @@ setbenefitsData
             BSumAssured: 0,
             Interest: 0,
             BPrem: 0,
-            // IlpFunds:[
-            //   {
-            //     "FundCode": "",
-            //     "FundPercentage": 0
-            //   },
-            // ]
+            IlpFunds: [
+              {
+                FundCode: "",
+                FundPercentage: 0,
+              },
+            ],
           },
         ]);
         return {
@@ -408,8 +400,8 @@ setbenefitsData
         setisIssue(false);
         setissueNote(true);
         // console.log(resp.data,"Policy")
-      }).catch((err) => {
-        
+      })
+      .catch((err) => {
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,

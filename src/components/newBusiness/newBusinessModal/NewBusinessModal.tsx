@@ -29,7 +29,7 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
-import { deleteApi as deleteFund} from "../../ilpFund/ilpFundApi/ilpFundsApis";
+import { deleteApi as deleteFund } from "../../ilpFund/ilpFundApi/ilpFundsApis";
 import "./newBusinessModal.css";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 
@@ -37,9 +37,7 @@ function NewBusinessModal({
   state,
   dispatch,
   ACTIONS,
-  handleFormSubmit,
   record,
-  notify,
   setNotify,
   getData,
   validatePolicy,
@@ -237,15 +235,14 @@ function NewBusinessModal({
         BSumAssured: 0,
         Interest: 0,
         BPrem: 0,
+        IlpFunds: [
+          {
+            FundCode: "",
+            FundPercentage: 0,
+          },
+        ],
       },
     ]);
-    setilpfunds([
-      ...ilpfunds,
-      {
-        FundCode: "",
-        FundPercentage: "",
-      }
-    ])
   };
 
   const handleBenefitsRemove = (index: number, benefitID: number) => {
@@ -257,11 +254,11 @@ function NewBusinessModal({
           .then((resp) => {})
           .catch((err) => {})
       : null;
-      const fundlist = [...ilpfunds];
+    const fundlist = [...ilpfunds];
     fundlist.splice(index, 1);
     setilpfunds(fundlist);
     state.editOpen && benefitID
-    ? deleteApi(benefitID)
+      ? deleteApi(benefitID)
           .then((resp) => {})
           .catch((err) => {})
       : null;
@@ -288,14 +285,7 @@ function NewBusinessModal({
   };
 
   const benefitClientOpenFunc = (item: any) => {
-    console.log(item.ID, "Itemmmmmm");
-    console.log(selecteBenefitIndex, "selecteBenefitIndex");
     setbenefitClientId((prev: any) => {
-      // if (prev === 0) {
-      //   prev = {};
-      //   prev[selecteBenefitIndex] = item.ID;
-      //   return prev;
-      // }
       console.log(prev, "prev");
       prev[selecteBenefitIndex] = item.ID;
       return prev;
@@ -516,15 +506,19 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
   };
 
-  const [ilpopen, setilpopen] = useState(false)
+  const [ilpModalParam, setilpModalParam] = useState({
+    open: false,
+    data: null,
+  });
 
-  const ilpOpen=()=>{
-    setilpopen(true)
-  }
+  const ilpOpen = (data: any) => {
+    setilpModalParam((prev) => ({ ...prev, open: true, data }));
+  };
 
-  const ilpClose=()=>{
-    setilpopen(false)
-  }
+  const ilpClose = (data: any) => {
+    setilpModalParam((prev) => ({ ...prev, open: false }));
+    console.log(data, "inside the Close Function");
+  };
 
   useEffect(() => {
     setbenefitClientId({
@@ -533,7 +527,9 @@ function NewBusinessModal({
     return () => {};
   }, [state.addOpen === false]);
 
-  const [ilpfunds, setilpfunds] = useState([{FundCode:"", FundPercentage:""}])
+  const [ilpfunds, setilpfunds] = useState([
+    { FundCode: "", FundPercentage: "" },
+  ]);
 
   return (
     <div>
@@ -1350,10 +1346,15 @@ function NewBusinessModal({
                             ></TextField>
                           </Grid2>
                         ) : null}
-                        {/* <Grid2 xs={8} md={6} lg={4}>
-                        <Button
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <Button
                             variant="contained"
-                            onClick={() => ilpOpen()}
+                            onClick={() =>
+                              ilpOpen({
+                                benefitIndex: index,
+                                fundData: benefits.IlpFunds,
+                              })
+                            }
                             style={{
                               maxWidth: "40px",
                               maxHeight: "40px",
@@ -1364,7 +1365,7 @@ function NewBusinessModal({
                           >
                             <AddBoxRoundedIcon />
                           </Button>
-                          </Grid2> */}
+                        </Grid2>
                       </Grid2>
                     </TreeItem>
                     <div
@@ -1417,8 +1418,9 @@ function NewBusinessModal({
         </form>
       </CustomFullModal>
       <IlpFundsAdd
-      open={ilpopen}
-      handleClose={ilpClose}
+        open={ilpModalParam.open}
+        handleClose={ilpClose}
+        data={ilpModalParam.data}
       />
     </div>
   );
