@@ -67,12 +67,12 @@ function NewBusiness({
       BSumAssured: 0,
       Interest: 0,
       BPrem: 0,
-      // IlpFunds:[
-      //   {
-      //     "FundCode": "",
-      //     "FundPercentage": 0
-      //   },
-      // ]
+      IlpFunds:[
+        {
+          "FundCode": "",
+          "FundPercentage": 0
+        },
+      ]
     },
   ]);
   const companyId = useAppSelector(
@@ -176,12 +176,12 @@ setbenefitsData
             BSumAssured: 0,
             Interest: 0,
             BPrem: 0,
-            // IlpFunds:[
-            //   {
-            //     "FundCode": "",
-            //     "FundPercentage": 0
-            //   },
-            // ]
+            IlpFunds:[
+              {
+                "FundCode": "",
+                "FundPercentage": 0
+              },
+            ]
           },
         ]);
         return {
