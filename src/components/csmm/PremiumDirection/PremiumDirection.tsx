@@ -68,10 +68,12 @@ function PremiumDirection({
   ) => {
     let updateValue = { ...value, isChecked: true };
     if (e.target.checked) {
+      value.selected = true;
       const updateArr = [...ilpSelectedFund, updateValue];
       setilpSelectedFund(updateArr);
     }
     if (!e.target.checked) {
+      value.FundPercentage = "";
       console.log(index, "index");
       updateValue = { ...value, isChecked: false };
       const updateArr = [...ilpSelectedFund, updateValue];
@@ -582,7 +584,7 @@ function PremiumDirection({
                             <input
                               className={styles["input-form"]}
                               type="text"
-                              disabled={!isChecked}
+                              disabled={!val.selected}
                               name="FundPercentage"
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>

@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import moment from "moment";
 import { useState } from "react";
 
@@ -18,6 +19,7 @@ function CustomTable({
   sortParam,
   hardDelete,
   modalFunc,
+  showClone,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -136,6 +138,13 @@ function CustomTable({
                       dispatch({ type: ACTIONS.INFOOPEN, payload: row })
                     }
                   />
+                  {showClone && (
+                    <ContentCopyIcon
+                      onClick={() =>
+                        dispatch({ type: ACTIONS.CLONEOPEN, payload: row })
+                      }
+                    />
+                  )}
                 </span>
               </td>
             </tr>

@@ -25,6 +25,13 @@ const ILPTransactionEnquiry = ({
     },
 
     {
+      field: "Tranno",
+      header: "TranNo",
+      dbField: "tranno",
+    },
+
+
+    {
       field: "TransactionDate",
       header: "Transaction Date",
       dbField: "transaction_date",
@@ -92,6 +99,7 @@ const ILPTransactionEnquiry = ({
       dbField: "account_code",
     },
 
+    
     {
       field: "CurrencyRate",
       header: "Currency Rate",

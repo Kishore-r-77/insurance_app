@@ -6,7 +6,6 @@ import CustomPagination from "../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../utilities/Table/CustomTable";
 import { useAppSelector } from "../../redux/app/hooks";
 import { IlpFundsStateType } from "../../reducerUtilities/types/ilpFund/ilpFundsTypes";
-
 import {
   ACTIONS,
   columns,
