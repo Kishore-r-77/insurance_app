@@ -30,9 +30,8 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
-import { deleteApi as deleteFund } from "../../ilpFund/ilpFundApi/ilpFundsApis";
-import "./newBusinessModal.css";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
+import "./newBusinessModal.css";
 
 function NewBusinessModal({
   state,
@@ -516,23 +515,6 @@ function NewBusinessModal({
     console.log(data, "inside the Open Function");
     setbenefitIndex(data?.benefitIndex);
   };
-
-  // const ilpClose = (values: any) => {
-  //   setilpModalParam((prev) => ({ ...prev, open: false }));
-  //   console.log(values.data, "inside the Close Function");
-
-  //   const list = fundDetails.filter(
-  //     (fund: any, index: number) =>
-  //       fund?.FundCode !== "" && fund?.FundPercentage !== 0
-  //   );
-
-  //   if (values.operation === "save") {
-  //     benefitsData[benefitIndex]?.IlpFunds?.push(...list);
-  //   }
-  //   if (values.operation === "cancel") {
-  //     setfundDetails(initialFundValues);
-  //   }
-  // };
 
   const ilpClose = (values: any) => {
     setilpModalParam((prev) => ({ ...prev, open: false }));
