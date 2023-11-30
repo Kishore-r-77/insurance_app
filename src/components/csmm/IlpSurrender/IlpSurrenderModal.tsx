@@ -152,7 +152,17 @@ function IlpSurrenderModal({
     causeOfSurrenderMenu();
     return () => {};
   }, []);
-
+  useEffect(() => {
+    if (ilpsurrenderState.Function === "Fill") {
+      setsurrHData({});
+      setsurrDdata({});
+      setilpFundData([]);
+      isSave.current = false;
+    }
+    return () => {
+      // Cleanup function (if needed)
+    };
+  }, [ilpsurrenderState.ilpsurrenderOpen === false]);
   return (
     <div>
       <CustomIlpSurrFullModal

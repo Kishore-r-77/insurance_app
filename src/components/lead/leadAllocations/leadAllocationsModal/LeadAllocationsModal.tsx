@@ -334,7 +334,7 @@ function LeadAllocationsModal({
                     placeholder="Client Name"
                     label="Client Name"
                     // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.AGENCIESOPEN })}
+                    // onClick={() => dispatch({ type: ACTIONS.AGENCIESOPEN })}
                     value={state.addOpen ? state.ClientName : record.ClientName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
