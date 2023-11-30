@@ -128,8 +128,6 @@ const P0027 = forwardRef((props: any, ref) => {
 
         <tr>
           <th>Account Code</th> 
-          <th>Account Amount</th> 
-          <th>Sequence No</th> 
           <th>GL Sign</th> 
           {(props.mode === "update" || props.mode === "create") && 
             inputdata.glMovements?.length > 0 && <th>Actions</th>}
@@ -144,8 +142,6 @@ const P0027 = forwardRef((props: any, ref) => {
                         glMovements: [
                           {
                             accountCode: "",
-                            accountAmt: 0,
-                            seqNo: 0,
                             glSign: "",
                           },
                         ],
@@ -186,42 +182,6 @@ const P0027 = forwardRef((props: any, ref) => {
                 fullWidth
               />
             </td> 
-            <td>
-              <TextField
-                inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="accountAmt"
-                name="accountAmt"
-                value={value.accountAmt}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "accountAmt", e.target.value,true)
-                }
-                fullWidth
-                size="small"
-                type="number"
-                margin="dense"
-              />
-            </td>
-
-            <td>
-              <TextField
-                inputProps={{
-                readOnly: props.mode === "display" || props.mode === "delete",
-                }}
-                id="seqNo"
-                name="seqNo"
-                value={value.seqNo}
-                onChange={(e) =>
-                  fieldChangeHandler(index, "seqNo", e.target.value,true)
-                }
-                fullWidth
-                size="small"
-                type="number"
-                margin="dense"
-              />
-            </td>
-
             <td>
               <TextField
                 select
@@ -275,8 +235,6 @@ const P0027 = forwardRef((props: any, ref) => {
                               ...inputdata.glMovements,
                               {
                                 accountCode: "",
-                                accountAmt: 0,
-                                seqNo: 0,
                                 glSign: "",
 
                               },
