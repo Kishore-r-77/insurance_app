@@ -141,18 +141,6 @@ function NewBusiness({
           benefitClientOpen: true,
         };
       case ACTIONS.BENEFITCLIENTCLOSE:
-        // setbenefitsData([
-        //   {
-        //     ClientID: 0,
-        //     BStartDate: "",
-        //     BTerm: 0,
-        //     BPTerm: 0,
-        //     BCoverage: "",
-        //     BSumAssured: 0,
-        //     Interest: 0,
-        //     BPrem: 0,
-        //   },
-        // ]);
         return {
           ...state,
           benefitClientOpen: false,
@@ -477,18 +465,14 @@ function NewBusiness({
     return () => {};
   }, [state.editOpen && record.PProduct === "MRT"]);
 
-  // useEffect(() => {
-  //   if (state.addOpen) {
-  //     // Fetch PRCD value from the getBusinessDate API
-  //     getBusinessDate(companyId, userId).then(() => {
-  //       // After the API call, set the PRCD value in the state
-  //       dispatch({ type: ACTIONS.ADDOPEN });
-  //     });
-  //   } else {
-  //     // If addOpen is false, set PRCD to an empty value
-  //     dispatch({ type: ACTIONS.ADDCLOSE });
-  //   }
-  // }, [state.addOpen]);
+  useEffect(() => {
+    setbenefitsData(
+      state.PProduct === "ILP"
+        ? initialBenefitsValuesIlp
+        : initialBenefitsValues
+    );
+    return () => {};
+  }, [state.addOpen === false]);
 
   return (
     <div>
