@@ -57,28 +57,9 @@ function NewBusiness({
   });
   const { businessDate } = useBusinessDate();
 
-  const [benefitsData, setbenefitsData] = useState([
-    {
-      ClientID: 0,
-      BStartDate: "",
-      BTerm: 0,
-      BPTerm: 0,
-      BCoverage: "",
-      BSumAssured: 0,
-      Interest: 0,
-      BPrem: 0,
-      IlpFunds: [
-        {
-          FundCode: "",
-          FundPercentage: 0,
-        },
-      ],
-    },
-  ]);
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
-  const userId = useAppSelector((state) => state.users.user.message.id);
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
@@ -118,22 +99,9 @@ function NewBusiness({
           ...state,
           infoOpen: true,
         };
-        setbenefitsData;
       case ACTIONS.ADDCLOSE:
         state = initialValues;
-        // setBusinessData({});
-        [
-          {
-            ClientID: 0,
-            BStartDate: "",
-            BTerm: 0,
-            BPTerm: 0,
-            BCoverage: "",
-            BSumAssured: 0,
-            Interest: 0,
-            BPrem: 0,
-          },
-        ];
+
         return {
           ...state,
           PRCD: "",
@@ -158,24 +126,11 @@ function NewBusiness({
           clientOpen: true,
         };
       case ACTIONS.CLIENTCLOSE:
-        setbenefitsData([
-          {
-            ClientID: 0,
-            BStartDate: "",
-            BTerm: 0,
-            BPTerm: 0,
-            BCoverage: "",
-            BSumAssured: 0,
-            Interest: 0,
-            BPrem: 0,
-            IlpFunds: [
-              {
-                FundCode: "",
-                FundPercentage: 0,
-              },
-            ],
-          },
-        ]);
+        // setbenefitsData(
+        //   state.PProduct === "ILP"
+        //     ? initialBenefitsValuesIlp
+        //     : initialBenefitsValues
+        // );
         return {
           ...state,
           clientOpen: false,
@@ -280,6 +235,35 @@ function NewBusiness({
   };
   //Creating useReducer Hook
   let [state, dispatch] = useReducer(reducer, initialValues);
+  const initialBenefitsValues = [
+    {
+      ClientID: 0,
+      BStartDate: "",
+      BTerm: 0,
+      BPTerm: 0,
+      BCoverage: "",
+      BSumAssured: 0,
+      Interest: 0,
+      BPrem: 0,
+    },
+  ];
+  const initialBenefitsValuesIlp = [
+    {
+      ClientID: 0,
+      BStartDate: "",
+      BTerm: 0,
+      BPTerm: 0,
+      BCoverage: "",
+      BSumAssured: 0,
+      Interest: 0,
+      BPrem: 0,
+      IlpFunds: [],
+    },
+  ];
+
+  const [benefitsData, setbenefitsData] = useState(
+    state.PProduct === "ILP" ? initialBenefitsValuesIlp : initialBenefitsValues
+  );
 
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
@@ -665,6 +649,8 @@ function NewBusiness({
         validatePolicy={validatePolicy}
         ACTIONS={ACTIONS}
         benefitsData={state.addOpen ? benefitsData : benefitsByPoliciesData}
+        initialBenefitsValuesIlp={initialBenefitsValuesIlp}
+        initialBenefitsValues={initialBenefitsValues}
         interest={interest}
         setinterest={setinterest}
         setbenefitsData={

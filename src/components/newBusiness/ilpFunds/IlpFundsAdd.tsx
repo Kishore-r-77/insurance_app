@@ -1,34 +1,23 @@
-//import { paramItem } from "../ilpFundApi/ilpFundsApis";
-// *** Attention: Check the path and change it if required ***
-import { Button, IconButton, TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import { ChangeEvent, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { IconButton, TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
+import { useState } from "react";
+import CustomModal from "../../../utilities/modal/CustomModal";
 
-function IlpFundsAdd({ open, handleClose, data }: any) {
+function IlpFundsAdd({
+  open,
+  handleClose,
+  data,
+  fundDetails,
+  setfundDetails,
+}: any) {
   const size: string = "xl";
-
-  console.log(data?.fundData, "Fund Dataaaa");
-
-  const [fundDetails, setfundDetails] = useState(
-    data?.fundData === undefined
-      ? [
-          {
-            FundCode: "",
-            FundPercentage: 0,
-          },
-        ]
-      : data.fundData
-  );
-
-  console.log(fundDetails, "Fund Details");
 
   const handleAddFunds = () => {
     setfundDetails((prev: any) => [
       ...prev,
-      { FundCode: "", FundPercentage: "" },
+      { FundCode: "", FundPercentage: 0 },
     ]);
   };
 
@@ -59,11 +48,11 @@ function IlpFundsAdd({ open, handleClose, data }: any) {
     <CustomModal
       open={open}
       size={size}
+      saveButton="Capture"
+      closeButton="Cancel"
       handleClose={() => handleClose({ operation: "cancel" })}
       title={"ILP Test"}
-      handleFormSubmit={() =>
-        handleClose({ operation: "save", data: fundDetails })
-      }
+      handleFormSubmit={() => handleClose({ operation: "save" })}
     >
       <form>
         {fundDetails?.map((fund: any, index: number) => (
