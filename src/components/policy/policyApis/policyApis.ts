@@ -1,7 +1,6 @@
 import axios from "axios";
 import moment from "moment";
 import { PolicyStateType } from "../../../reducerUtilities/types/policy/policyTypes";
-import { ReceiptsStateType } from "../../../reducerUtilities/types/receipts/receiptsTypes";
 
 export const getAllApi = (
   pageNum: number,
