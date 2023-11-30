@@ -16,6 +16,7 @@ export type NomineeStateType = {
   sortAsc: boolean;
   sortDesc: boolean;
   nomineeOpen: boolean;
+  nomineeClientOpen: boolean;
 };
 
 export type ActionConstantsType = {
@@ -36,6 +37,8 @@ export type ActionConstantsType = {
   CLIENTCLOSE: string;
   NOMINEEOPEN: string;
   NOMINEECLOSE: string;
+  NOMINEECLIENTOPEN: string;
+  NOMINEECLIENTCLOSE: string;
 };
 export type NomineeModalType = {
   state: NomineeStateType;

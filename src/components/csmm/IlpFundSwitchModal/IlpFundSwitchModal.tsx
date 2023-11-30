@@ -81,7 +81,6 @@ function IlpFundSwitchModal({
   }, [open]);
 
   const [switchBasic, setswitchBasic] = useState(fundswitch?.FundSwitchBasis);
-
   const [ilpFund, setIlpFund] = useState([]);
   const [newilpFund, setnewIlpFund] = useState([]);
 
@@ -96,6 +95,8 @@ function IlpFundSwitchModal({
           EffectiveDate: moment(effDate).format("YYYYMMDD"),
           Function: ilpfunc,
           FundSwitchBasis: switchBasic,
+          SwitchFee: fundswitch?.SwitchFee,
+          SwitchPercentage: fundswitch?.SwitchPercentage,
           IlpSwitchSource: funds
             .filter(
               (data: any) =>
@@ -504,6 +505,32 @@ function IlpFundSwitchModal({
               </Grid2>
               <Grid2 lg={4}>
                 <TextField
+                  id="SwitchFee"
+                  name="SwitchFee"
+                  value={fundswitch?.SwitchFee}
+                  placeholder="SwitchFee"
+                  label="SwitchFee"
+                  fullWidth
+                  inputProps={{ readOnly: true }}
+                  InputLabelProps={{ shrink: true }}
+                  margin="dense"
+                ></TextField>
+              </Grid2>
+              <Grid2 lg={4}>
+                <TextField
+                  id="SwitchPercentage"
+                  name="SwitchPercentage"
+                  value={fundswitch?.SwitchPercentage}
+                  placeholder="Switch Percentage"
+                  label="Switch Percentage"
+                  fullWidth
+                  inputProps={{ readOnly: true }}
+                  InputLabelProps={{ shrink: true }}
+                  margin="dense"
+                ></TextField>
+              </Grid2>
+              <Grid2 lg={4}>
+                <TextField
                   select
                   id="Fund SwitchBasis"
                   name="Fund SwitchBasis"
@@ -803,7 +830,7 @@ function IlpFundSwitchModal({
                           />
                         </td>
                       ) : (
-                        <td>{value?.FundAmount}</td>
+                        <td>{0}</td>
                       )}
                       {switchBasic == "U" ? (
                         <td>
@@ -819,7 +846,7 @@ function IlpFundSwitchModal({
                           />
                         </td>
                       ) : (
-                        <td>{value?.FundUnits}</td>
+                        <td>{0}</td>
                       )}
                       {switchBasic == "P" ? (
                         <td>
@@ -835,7 +862,7 @@ function IlpFundSwitchModal({
                           />
                         </td>
                       ) : (
-                        <td>{value?.FundPercentage}</td>
+                        <td>{0}</td>
                       )}
                     </tr>
                   </tbody>

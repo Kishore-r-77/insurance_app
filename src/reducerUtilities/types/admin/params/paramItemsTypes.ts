@@ -8,6 +8,7 @@ export type ParamItemsStateType = {
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
+  cloneOpen: boolean;
   deleteOpen: boolean;
   searchString: string;
   searchCriteria: string;

@@ -27,6 +27,15 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+  const [nomineesData, setNomineesData] = useState([
+    {
+      PolicyID: 0,
+      ClientID: 0,
+      NomineeRelationship: "",
+      NomineeLongName: "",
+      NomineePercentage: 0,
+    },
+  ]);
 
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -70,7 +79,15 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         };
 
       case ACTIONS.ADDCLOSE:
-        state = initialValues;
+        setNomineesData([
+          {
+            PolicyID: 0,
+            ClientID: 0,
+            NomineeRelationship: "",
+            NomineeLongName: "",
+            NomineePercentage: 0,
+          },
+        ]);
         return {
           ...state,
           addOpen: false,
@@ -109,6 +126,16 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         return {
           ...state,
           clientOpen: false,
+        };
+      case ACTIONS.NOMINEECLIENTOPEN:
+        return {
+          ...state,
+          nomineeClientOpen: true,
+        };
+      case ACTIONS.NOMINEECLIENTCLOSE:
+        return {
+          ...state,
+          nomineeClientOpen: false,
         };
 
       case ACTIONS.SORT_ASC:
@@ -178,7 +205,7 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
 
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId, policyId)
+    return addApi(state, companyId, policyId, nomineesData)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
@@ -305,6 +332,8 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
         policyRecord={policyRecord}
+        nomineesData={nomineesData}
+        setNomineesData={setNomineesData}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>
