@@ -1,9 +1,3 @@
-import {
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import React, { useEffect, useState } from "react";
@@ -16,6 +10,12 @@ import { NomineeModalType } from "../../../reducerUtilities/types/nominee/nomine
 import { paramItem } from "../nomineeApi/nomineeApi";
 import Policy from "../../policy/Policy";
 import Client from "../../clientDetails/client/Client";
+import { TreeItem, TreeView } from "@mui/lab";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, FormControl, MenuItem, TextField } from "@mui/material";
 
 //Attention: Check the path below
 //import { NomineeModalType } from "../../../../reducerUtilities/types/nominee/nomineeTypes";
@@ -30,6 +30,8 @@ function NomineeModal({
   ACTIONS,
   handleFormSubmit,
   policyRecord,
+  nomineesData,
+  setNomineesData,
 }: any) {
   const addTitle: string = "Nominee Add";
   const editTitle: string = "Nominee Edit";
@@ -56,6 +58,7 @@ function NomineeModal({
   //     setpolicyData(resp.data["Policy"]);
   //   });
   // };
+  const [selecteNomineeIndex, setselecteNomineeIndex] = useState("");
 
   const [nomineeRelationshipData, setNomineeRelationshipData] = useState([]);
   const getNomineeRelationship = (
@@ -79,15 +82,15 @@ function NomineeModal({
     return () => {};
   }, []);
 
-  const [nomineesData, setNomineesData] = useState([
-    {
-      PolicyID: 0,
-      ClientID: 0,
-      NomineeRelationship: "",
-      NomineeLongName: "",
-      NomineePercentage: 0,
-    },
-  ]);
+  // const [nomineesData, setNomineesData] = useState([
+  //   {
+  //     PolicyID: 0,
+  //     ClientID: 0,
+  //     NomineeRelationship: "",
+  //     NomineeLongName: "",
+  //     NomineePercentage: 0,
+  //   },
+  // ]);
 
   const handleNomineesAdd = () => {
     setNomineesData([
@@ -108,31 +111,74 @@ function NomineeModal({
     setNomineesData(list);
   };
 
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
+  //   const { name, value } = e.target;
+  //   setNomineesData(
+  //     nomineesData.map((nominee, index) => {
+  //       if (index === i) {
+  //         return { ...nominee, [name]: value };
+  //       } else return nominee;
+  //     })
+  //   );
+  // };
+
+  const [capturedCovg, setcapturedCovg] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
+    if (name === "NomineeRelationship") {
+      setcapturedCovg(value);
+    }
+
     setNomineesData(
-      nomineesData.map((nominee, index) => {
+      nomineesData?.map((nominees: any, index: number) => {
         if (index === i) {
-          return { ...nominee, [name]: value };
-        } else return nominee;
+          return { ...nominees, [name]: value };
+        } else return nominees;
       })
     );
   };
 
-  // *** Attention: Check the Lookup table  OPenFunc details below ***
-  const policyOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.PolicyID = item.ID;
-    } else record.PolicyID = item.ID;
-    dispatch({ type: ACTIONS.POLICYCLOSE });
+  const [nomineeClientId, setnomineeClientId] = useState<any>({
+    "0": "",
+  });
+  const handleNomineeClientIdUpdate = (index: number) => {
+    setselecteNomineeIndex(index.toString());
+    dispatch({ type: ACTIONS.NOMINEECLIENTOPEN });
+  };
+  const nomineeClientOpenFunc = (item: any) => {
+    console.log(item.ID, "Itemmmmmm");
+    console.log(selecteNomineeIndex, "selecteNomineeIndex");
+    setnomineeClientId((prev: any) => {
+      // if (prev === 0) {
+      //   prev = {};
+      //   prev[selecteNomineeIndex] = item.ID;
+      //   return prev;
+      // }
+      console.log(prev, "prev");
+      prev[selecteNomineeIndex] = item.ID;
+      return prev;
+    });
+    setNomineesData(
+      nomineesData?.map((nominees: any, index: number) => {
+        if (index === +selecteNomineeIndex) {
+          return {
+            ...nominees,
+            ClientID: nomineeClientId[selecteNomineeIndex],
+          };
+        } else return nominees;
+      })
+    );
+    dispatch({ type: ACTIONS.NOMINEECLIENTCLOSE });
   };
 
-  const clientOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.ClientID = item.ID;
-    } else record.ClientID = item.ID;
-    dispatch({ type: ACTIONS.CLIENTCLOSE });
-  };
+  useEffect(() => {
+    setnomineeClientId({
+      "0": "",
+    });
+    return () => {};
+  }, [state.addOpen === false]);
+
+  // *** Attention: Check the Lookup table  OPenFunc details below ***
 
   return (
     <div className={styles.modal}>
@@ -165,157 +211,213 @@ function NomineeModal({
         handleFormSubmit={() => handleFormSubmit()}
       >
         <form>
-          <Grid2 container spacing={2}>
-            {state.policyOpen ? (
-              <Policy modalFunc={policyOpenFunc} />
-            ) : state.clientOpen ? (
-              <Client modalFunc={clientOpenFunc} />
-            ) : (
-              <>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="CompanyID"
-                    name="CompanyID"
-                    value={companyData?.CompanyName}
-                    placeholder="Company ID"
-                    label="Company ID"
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
+          <TreeView
+            style={{ width: "90%", margin: "0px auto" }}
+            aria-label="file system navigator"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+            defaultExpanded={[`2`]}
+          >
+            {nomineesData?.map((nominees: any, index: number) => {
+              return (
+                <>
+                  {state.nomineeClientOpen ? (
+                    <CustomModal
+                      size={size}
+                      open={state.nomineeClientOpen}
+                      handleClose={() =>
+                        dispatch({ type: ACTIONS.NOMINEECLIENTCLOSE })
+                      }
+                    >
+                      <Client modalFunc={nomineeClientOpenFunc} />
+                    </CustomModal>
+                  ) : null}
+                  <div style={{ display: "flex" }}>
+                    <TreeItem
+                      // nodeId="1"
+                      nodeId={(index + 2).toString()}
+                      label={
+                        state.addOpen
+                          ? `Nominee Add`
+                          : state.editOpen
+                          ? `Nominee Edit`
+                          : `Nominee Info`
+                      }
+                      style={{ minWidth: "95%", margin: "0px 1rem" }}
+                    >
+                      <Grid2 container spacing={2}>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="CompanyID"
+                            name="CompanyID"
+                            value={companyData?.CompanyName}
+                            placeholder="company_id"
+                            label="company_id"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="PolicyID"
+                            name="PolicyID"
+                            value={policyRecord?.ID}
+                            placeholder="Policy ID"
+                            label="Policy ID"
+                            fullWidth
+                            inputProps={{ readOnly: state.infoOpen }}
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            InputProps={{ readOnly: state.infoOpen }}
+                            id="ClientID"
+                            name="ClientID"
+                            InputLabelProps={{ shrink: true }}
+                            value={
+                              state.addOpen
+                                ? nomineeClientId[index]
+                                : record.ClientID
+                            }
+                            // onClick={() =>
+                            //   dispatch({ type: ACTIONS.NOMINEECLIENTOPEN })
+                            // }
+                            // value={nominees.ClientID}
+                            onClick={() => handleNomineeClientIdUpdate(index)}
+                            // onChange={(
+                            //   e: React.ChangeEvent<HTMLInputElement>
+                            // ) => handleChange(e, index)}
+                            placeholder="client_id"
+                            label="client_id"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            select
+                            id="NomineeRelationship"
+                            name="NomineeRelationship"
+                            value={
+                              state.addOpen
+                                ? nominees.NomineeRelationship
+                                : record.NomineeRelationship
+                            }
+                            placeholder="Nominee Relationship"
+                            label="Nominee Relationship"
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            // onChange={(
+                            //   e: React.ChangeEvent<HTMLInputElement>
+                            // ) =>
+                            //   dispatch({
+                            //     type: state.addOpen
+                            //       ? ACTIONS.ONCHANGE
+                            //       : ACTIONS.EDITCHANGE,
+                            //     payload: e.target.value,
+                            //     fieldName: "NomineeRelationship",
+                            //   })
+                            // }
+                            fullWidth
+                            inputProps={{ readOnly: state.infoOpen }}
+                            margin="dense"
+                          >
+                            {nomineeRelationshipData.map((val: any) => (
+                              <MenuItem value={val.item}>
+                                {val.shortdesc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Grid2>
+                        <Grid2 xs={8} md={6} lg={4}>
+                          <TextField
+                            type="number"
+                            //InputProps={{
+                            //startAdornment: (
+                            //<InputAdornment position="start">+91</InputAdornment>
+                            // ),
+                            //}}
+                            id="NomineePercentage"
+                            name="NomineePercentage"
+                            value={
+                              state.addOpen
+                                ? nominees.NomineePercentage
+                                : record.NomineePercentage
+                            }
+                            placeholder="Percentage"
+                            label="Percentage"
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            // onChange={(
+                            //   e: React.ChangeEvent<HTMLInputElement>
+                            // ) =>
+                            //   dispatch({
+                            //     type: state.addOpen
+                            //       ? ACTIONS.ONCHANGE
+                            //       : ACTIONS.EDITCHANGE,
+                            //     payload: e.target.value,
+                            //     fieldName: "NomineePercentage",
+                            //   })
+                            // }
+                            fullWidth
+                            inputProps={{ readOnly: state.infoOpen }}
+                            margin="dense"
+                          />
+                        </Grid2>
+                      </Grid2>
+                    </TreeItem>
+                    {state.addOpen ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "baseline",
+                          gap: "5px",
+                        }}
+                      >
+                        {nomineesData?.length - 1 === index &&
+                          nomineesData?.length < 10 && (
+                            <Button
+                              variant="contained"
+                              onClick={() => handleNomineesAdd()}
+                              style={{
+                                maxWidth: "40px",
+                                maxHeight: "40px",
+                                minWidth: "40px",
+                                minHeight: "40px",
+                                backgroundColor: "#0a3161",
+                              }}
+                            >
+                              <AddBoxRoundedIcon />
+                            </Button>
+                          )}
 
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="PolicyID"
-                    name="PolicyID"
-                    value={policyRecord?.ID}
-                    placeholder="Policy ID"
-                    label="Policy ID"
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="ClientID"
-                    name="ClientID"
-                    placeholder="Client ID"
-                    label="Client ID"
-                    // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
-                    value={state.addOpen ? state.ClientID : record.ClientID}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ClientID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    select
-                    id="NomineeRelationship"
-                    name="NomineeRelationship"
-                    value={
-                      state.addOpen
-                        ? state.NomineeRelationship
-                        : record.NomineeRelationship
-                    }
-                    placeholder="Nominee Relationship"
-                    label="Nominee Relationship"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "NomineeRelationship",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  >
-                    {nomineeRelationshipData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
-
-                {/* <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    id="NomineeLongName"
-                    name="NomineeLongName"
-                    value={
-                      state.addOpen
-                        ? state.NomineeLongName
-                        : record.NomineeLongName
-                    }
-                    placeholder="Nominee Full Name"
-                    label="Nominee Full Name"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "NomineeLongName",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2> */}
-
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    //InputProps={{
-                    //startAdornment: (
-                    //<InputAdornment position="start">+91</InputAdornment>
-                    // ),
-                    //}}
-                    id="NomineePercentage"
-                    name="NomineePercentage"
-                    value={
-                      state.addOpen
-                        ? state.NomineePercentage
-                        : record.NomineePercentage
-                    }
-                    placeholder="Percentage"
-                    label="Percentage"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "NomineePercentage",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-              </>
-            )}
-          </Grid2>
+                        {nomineesData?.length !== 1 && (
+                          <Button
+                            onClick={() => handleNomineeRemove(index)}
+                            variant="contained"
+                            style={{
+                              maxWidth: "40px",
+                              maxHeight: "40px",
+                              minWidth: "40px",
+                              minHeight: "40px",
+                              backgroundColor: "crimson",
+                            }}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        )}
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })}
+          </TreeView>
         </form>
       </CustomModal>
     </div>

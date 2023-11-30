@@ -31,6 +31,15 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+  const [nomineesData, setNomineesData] = useState([
+    {
+      PolicyID: 0,
+      ClientID: 0,
+      NomineeRelationship: "",
+      NomineeLongName: "",
+      NomineePercentage: 0,
+    },
+  ]);
 
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -74,7 +83,15 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         };
 
       case ACTIONS.ADDCLOSE:
-        state = initialValues;
+        setNomineesData([
+          {
+            PolicyID: 0,
+            ClientID: 0,
+            NomineeRelationship: "",
+            NomineeLongName: "",
+            NomineePercentage: 0,
+          },
+        ]);
         return {
           ...state,
           addOpen: false,
@@ -114,6 +131,16 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
           ...state,
           clientOpen: false,
         };
+      case ACTIONS.NOMINEECLIENTOPEN:
+        return {
+          ...state,
+          nomineeClientOpen: true,
+        };
+      case ACTIONS.NOMINEECLIENTCLOSE:
+        return {
+          ...state,
+          nomineeClientOpen: false,
+        };
 
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
@@ -151,7 +178,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["GetAllNominee"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -183,9 +209,8 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
 
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId, policyId)
+    return addApi(state, companyId, policyId, nomineesData)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
           isOpen: true,
@@ -195,7 +220,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         getNomineesByPolicy1(policyRecord.ID);
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -208,7 +232,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
@@ -218,7 +241,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         getNomineesByPolicy1(policyRecord.ID);
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -231,7 +253,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         setNotify({
           isOpen: true,
           message: `Deleted Successfully`,
@@ -240,7 +261,6 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         getData();
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -316,6 +336,8 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
         policyRecord={policyRecord}
+        nomineesData={nomineesData}
+        setNomineesData={setNomineesData}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>

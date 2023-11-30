@@ -39,18 +39,22 @@ export const paramItem = (
 export const addApi = (
   state: NomineeStateType,
   companyId: number,
-  policyId: string
+  policyId: string,
+  data: any
 ) => {
   // Attention : Check and update the below API, if required
   return axios.post(
-    `http://localhost:3000/api/v1/nbservices/nomineecreate`,
+    `http://localhost:3000/api/v1/nbservices/nomineescreate`,
+
     {
-      CompanyID: companyId,
-      PolicyID: parseInt(policyId),
-      ClientID: parseInt(state.ClientID),
-      NomineeRelationship: state.NomineeRelationship,
-      NomineeLongName: state.NomineeLongName,
-      NomineePercentage: parseInt(state.NomineePercentage),
+      Nominee: data.map((nominees: any) => ({
+        ...nominees,
+        CompanyID: companyId,
+        PolicyID: policyId,
+        ClientID: parseInt(nominees?.ClientID),
+        NomineeRelationship: nominees?.NomineeRelationship,
+        NomineePercentage: parseFloat(nominees?.NomineePercentage),
+      })),
     },
     {
       withCredentials: true,
@@ -69,7 +73,7 @@ export const editApi = (record: any) => {
       ClientID: parseInt(record.ClientID),
       NomineeRelationship: record.NomineeRelationship,
       NomineeLongName: record.NomineeLongName,
-      NomineePercentage: parseInt(record.NomineePercentage),
+      NomineePercentage: parseFloat(record.NomineePercentage),
     },
     {
       withCredentials: true,

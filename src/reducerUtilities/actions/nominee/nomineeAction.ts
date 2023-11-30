@@ -19,6 +19,8 @@ export const ACTIONS = {
   CLIENTCLOSE: "CLIENTCLOSE",
   NOMINEEOPEN: "NOMINEEOPEN",
   NOMINEECLOSE: "NOMINEECLOSE",
+  NOMINEECLIENTOPEN: "NOMINEECLIENTOPEN",
+  NOMINEECLIENTCLOSE: "NOMINEECLIENTCLOSE",
 };
 
 //Initial State defined
@@ -36,6 +38,7 @@ export const initialValues: NomineeStateType = {
   searchCriteria: "",
   sortColumn: "",
   sortAsc: false,
+  nomineeClientOpen: false,
   sortDesc: false,
   // *** Attention: Check initial value below ***
   policyOpen: false,
