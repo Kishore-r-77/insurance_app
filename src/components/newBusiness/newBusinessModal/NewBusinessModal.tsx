@@ -1,4 +1,5 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -1399,14 +1400,14 @@ function NewBusinessModal({
                                 })
                               }
                               style={{
-                                maxWidth: "40px",
-                                maxHeight: "40px",
-                                minWidth: "40px",
-                                minHeight: "40px",
-                                backgroundColor: "#0a3161",
+                                maxWidth: "30px",
+                                maxHeight: "30px",
+                                minWidth: "30px",
+                                minHeight: "30px",
+                                backgroundColor: "#191970",
                               }}
                             >
-                              <AddBoxRoundedIcon />
+                              <AddCircleIcon />
                             </Button>
                           </Grid2>
                         ) : null}

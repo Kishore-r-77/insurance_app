@@ -1,9 +1,11 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { useState } from "react";
 import CustomModal from "../../../utilities/modal/CustomModal";
+import { useEffect, useReducer, useState } from "react";
+import axios from "axios";
+import { useAppSelector } from "../../../redux/app/hooks";
 
 function IlpFundsAdd({
   open,
@@ -13,6 +15,14 @@ function IlpFundsAdd({
   setfundDetails,
 }: any) {
   const size: string = "xl";
+
+  const companyId = useAppSelector(
+    (state) => state.users.user.message.companyId
+  );
+
+  const languageId = useAppSelector(
+    (state) => state.users.user.message.languageId
+  );
 
   const handleAddFunds = () => {
     setfundDetails((prev: any) => [
@@ -43,6 +53,45 @@ function IlpFundsAdd({
       })
     );
   };
+  const p0050 = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    return axios.get(
+      `http://localhost:3000/api/v1/basicservices/paramItem?companyId=${companyId}&name=${name}&languageId=${languageId}&item=${item}`,
+      {
+        withCredentials: true,
+        params: {
+          companyId,
+          name,
+          languageId,
+          item,
+        },
+      }
+    );
+  };
+
+  const [fundCodeData, setFundCodeData] = useState([]);
+  const getFundCode = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    p0050(companyId, name, languageId, item)
+      .then((resp) => {
+        setFundCodeData(resp.data.param.data.dataPairs);
+        return resp.data.param.data.dataPairs;
+      })
+      .catch((err) => err);
+  };
+
+  useEffect(() => {
+    getFundCode(companyId, "P0050", languageId, "ILP1FUNDCODE");
+    return () => {};
+  }, []);
 
   return (
     <CustomModal
@@ -59,6 +108,7 @@ function IlpFundsAdd({
           <Grid2 container spacing={2}>
             <Grid2 xs={12} md={12} lg={4}>
               <TextField
+                select
                 id="FundCode"
                 name="FundCode"
                 placeholder="Fund Code"
@@ -70,7 +120,11 @@ function IlpFundsAdd({
                 }
                 margin="dense"
                 InputLabelProps={{ shrink: true }}
-              ></TextField>
+              >
+                {fundCodeData.map((val: any) => (
+                  <MenuItem value={val.code}>{val.description}</MenuItem>
+                ))}
+              </TextField>
             </Grid2>
 
             <Grid2 xs={12} md={12} lg={4}>
