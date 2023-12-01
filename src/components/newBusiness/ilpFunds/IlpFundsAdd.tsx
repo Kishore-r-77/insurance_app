@@ -1,5 +1,5 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveIcon from "@mui/icons-material/Remove";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { IconButton, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import CustomModal from "../../../utilities/modal/CustomModal";
@@ -146,12 +146,12 @@ function IlpFundsAdd({
             </Grid2>
             {fundDetails?.length - 1 === index && fundDetails?.length < 3 && (
               <IconButton onClick={handleAddFunds}>
-                <AddCircleIcon />
+                <AddCircleIcon color="success" />
               </IconButton>
             )}
             {fundDetails?.length !== 1 && (
               <IconButton onClick={() => handleRemoveFunds(index)}>
-                <RemoveIcon />
+                <RemoveCircleIcon color="error" />
               </IconButton>
             )}
           </Grid2>

@@ -28,6 +28,7 @@ export type PolicyStateType = {
   agencyOpen: boolean;
   benefitOpen: boolean;
   nomineeOpen: boolean;
+  benefitClientOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -48,7 +49,7 @@ export type ActionConstantsType = {
   CLIENTCLOSE: string;
   ADDRESSOPEN: string;
   ADDRESSCLOSE: string;
-  BANKOPEN:string;
+  BANKOPEN: string;
   BANKCLOSE: string;
   AGENCYOPEN: string;
   AGENCYCLOSE: string;

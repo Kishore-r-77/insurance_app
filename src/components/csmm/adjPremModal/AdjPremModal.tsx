@@ -34,6 +34,9 @@ function AdjPremModal({
   useEffect(() => {
     setIsResult(false);
     setNextDate("");
+    setresult("");
+    setfunc("Calculate");
+    setcompleted(false);
     return () => {};
   }, [open === false]);
 

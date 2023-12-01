@@ -576,6 +576,9 @@ function CsmmTable({
   };
   const adjPremClose = () => {
     setIsAdjPrem(false);
+    if (isSave.current) {
+      invalidatca();
+    }
   };
 
   const polReinOpen = (policyId: number, value: any) => {
