@@ -31,10 +31,12 @@ function AdjPremModal({
 
   const [isResult, setIsResult] = useState(false);
 
-
   useEffect(() => {
-    setIsResult(false)
+    setIsResult(false);
     setNextDate("");
+    setresult("");
+    setfunc("Calculate");
+    setcompleted(false);
     return () => {};
   }, [open === false]);
 
