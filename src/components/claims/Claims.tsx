@@ -137,7 +137,6 @@ function Claims({ modalFunc }: any) {
           benefitOpen: false,
         };
       case ACTIONS.NOMINEEOPEN:
-        console.log(action.payload, "EEEEEEE");
         setRecord(action.payload);
         return {
           ...state,
@@ -231,7 +230,6 @@ function Claims({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         setData(resp.data["All Policies"]);
         settotalRecords(resp.data.paginationData.totalRecords);
         setisLast(resp.data["All Policies"]?.length === 0);
@@ -299,7 +297,6 @@ function Claims({ modalFunc }: any) {
         setissueData(resp.data.Policy);
         setisIssue(false);
         setissueNote(true);
-        // console.log(resp.data,"Policy")
       });
   };
 
@@ -307,7 +304,6 @@ function Claims({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -318,7 +314,6 @@ function Claims({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));

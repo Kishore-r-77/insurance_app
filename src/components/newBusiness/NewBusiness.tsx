@@ -383,7 +383,6 @@ function NewBusiness({
         setissueData(resp.data.Policy);
         setisIssue(false);
         setissueNote(true);
-        // console.log(resp.data,"Policy")
       })
       .catch((err) => {
         setNotify({

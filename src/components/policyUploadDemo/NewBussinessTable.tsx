@@ -186,7 +186,6 @@ function NewBussinessTable({
     setPolicyID(policyId);
     setisAssignee(true);
     setassigneeObj(value);
-    console.log(policyId, "policy Id");
 
     handleClose();
   };

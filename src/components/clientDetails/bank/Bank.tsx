@@ -32,7 +32,6 @@ function Bank({ modalFunc, bankClntData, lookup }: any) {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.payload, action.fieldName, "kish");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,

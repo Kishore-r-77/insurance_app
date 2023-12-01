@@ -31,9 +31,8 @@ function AdjPremModal({
 
   const [isResult, setIsResult] = useState(false);
 
-
   useEffect(() => {
-    setIsResult(false)
+    setIsResult(false);
     setNextDate("");
     return () => {};
   }, [open === false]);
@@ -81,7 +80,6 @@ function AdjPremModal({
   // moment(data?.NxtBillDate,"DD/MM/YYYY").format("YYYYMMDD").toString()
 
   const billToDatechange = (date: any) => {
-    console.log("Date", date);
     setNextDate(date + 1);
   };
 

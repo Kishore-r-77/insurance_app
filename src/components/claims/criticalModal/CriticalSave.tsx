@@ -82,7 +82,6 @@ function SaveCI({
                 onChange={(e) => handleadditional(e)}
               >
                 {CriticalTypeData.map((val: any, index: number) => {
-                  // console.log(val.code, "code");
                   return (
                     <MenuItem value={val?.code} key={val?.code}>
                       {val?.description}

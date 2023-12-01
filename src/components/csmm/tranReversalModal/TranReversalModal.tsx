@@ -92,7 +92,6 @@ const TranReversalModal = ({
       policyId
     )
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["History"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -102,8 +101,6 @@ const TranReversalModal = ({
       })
       .catch((err) => console.log(err.message));
   };
-
-  console.log(data, "data");
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);

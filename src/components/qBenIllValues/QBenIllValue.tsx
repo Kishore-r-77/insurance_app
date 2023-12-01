@@ -108,7 +108,6 @@ function QBenIllValue({ modalFunc }: any) {
   };
 
   const location = useLocation();
-  console.log(location.state.id, "state");
   const [qBenillValuesByQHeader, setQBenillValuesByQHeader] = useState([]);
   const getByQHeader = () => {
     axios
@@ -127,7 +126,6 @@ function QBenIllValue({ modalFunc }: any) {
       .then((resp) => {
         setQBenillValuesByQHeader(resp.data?.["All QBenIllValues"]);
         setfieldMap(resp.data["Field Map"]);
-        console.log(resp.data.AllQBenIllValues, "response");
       })
       .catch((err) => console.log(err));
   };

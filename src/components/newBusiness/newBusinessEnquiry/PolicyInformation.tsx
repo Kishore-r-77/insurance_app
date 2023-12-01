@@ -186,7 +186,6 @@ function PolicyInformation({
       })
       .then((resp) => {
         setTDFData(resp.data["TDFPolicy"]);
-        console.log(resp.data["TDFPolicy"], "TDF Data");
       })
       .catch((err) => console.log(err.message));
   };

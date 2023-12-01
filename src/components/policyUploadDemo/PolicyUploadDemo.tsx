@@ -209,7 +209,6 @@ function PolicyUploadDemo({
           benefitOpen: false,
         };
       case ACTIONS.NOMINEEOPEN:
-        console.log(action.payload, "EEEEEEE");
         setRecord(action.payload);
         return {
           ...state,
@@ -386,7 +385,6 @@ function PolicyUploadDemo({
         setissueData(resp.data.Policy);
         setisIssue(false);
         setissueNote(true);
-        // console.log(resp.data,"Policy")
       });
   };
 
@@ -462,7 +460,6 @@ function PolicyUploadDemo({
       .then((res) => {
         //interest.current = res.data.Interest;
         setinterest(res.data.Interest);
-        console.log(res.data.Interest, "Interest ");
       })
       .catch((err) => {
         return err;
@@ -470,7 +467,6 @@ function PolicyUploadDemo({
   };
 
   useEffect(() => {
-    console.log(benefitsByPoliciesData[0]?.ID, "benefit data");
     getBenefit();
     return () => {};
   }, [state.editOpen && record.PProduct === "MRT"]);

@@ -7,13 +7,7 @@ import { useState } from "react";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
 
-function EnquiryTable({
-  data,
-  columns,
-  policyNo,
-}: any) {
-
-    console.log("Data",data)
+function EnquiryTable({ data, columns, policyNo }: any) {
   return (
     <Paper className={styles.paperStyle}>
       <Table striped bordered hover>
@@ -49,7 +43,7 @@ function EnquiryTable({
                 }
                 return (
                   <>
-                      <td key={col.field}>{row[col.field]}</td>
+                    <td key={col.field}>{row[col.field]}</td>
                   </>
                 );
               })}

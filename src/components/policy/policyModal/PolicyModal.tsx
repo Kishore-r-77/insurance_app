@@ -55,8 +55,6 @@ function PolicyModal({
   const infoTitle: string = "Policy Info";
   const size = "xl";
 
-  console.log(benefitsData, "Policy record");
-
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -230,12 +228,8 @@ function PolicyModal({
     setbenefitsData(list);
     state.editOpen && benefitID
       ? deleteApi(benefitID)
-          .then((resp) => {
-            
-          })
-          .catch((err) => {
-            
-          })
+          .then((resp) => {})
+          .catch((err) => {})
       : null;
   };
 
@@ -325,7 +319,6 @@ function PolicyModal({
   };
 
   const [bankClntData, setbankClntData] = useState([]);
-  console.log("Bank Open", state.bankOpen);
   const getBankByClient = () => {
     axios
       .get(
@@ -341,7 +334,6 @@ function PolicyModal({
   };
 
   const clientOpenFunc = (item: any) => {
-    console.log(item.ID, "clientId");
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;

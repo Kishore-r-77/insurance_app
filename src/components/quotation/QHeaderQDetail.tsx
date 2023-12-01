@@ -260,7 +260,6 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
       })
       .catch((err) => console.log(err.message));
   };
-  console.log(record, "record");
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {

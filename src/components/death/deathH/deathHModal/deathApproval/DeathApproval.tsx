@@ -50,7 +50,6 @@ function DeathApproval({
         { withCredentials: true }
       )
       .then((resp) => {
-        
         handleClose();
         setNotify({
           isOpen: true,
@@ -142,9 +141,7 @@ function DeathApproval({
       })
       .then((resp) => {
         setpolicy(resp.data.Policy);
-        console.log("Policy", policy);
         setBenefits(resp.data.Policy.Benefits);
-        console.log("Benefits", benefits);
         setDeathHs(resp.data.Policy.DeathHs);
         setDeathDs(resp.data.Policy.DeathDs);
       })
