@@ -293,7 +293,6 @@ function NewBusinessModal({
   };
 
   const addPoliciesWithBenefits = () => {
-    console.log("Clicking submit");
     return createPoliciesWithBenefits(state, companyId, benefitsData)
       .then((resp) => {
         validatePolicy(parseInt(resp.data?.Created));
@@ -512,14 +511,11 @@ function NewBusinessModal({
 
   const ilpOpen = (data: any) => {
     setilpModalParam((prev) => ({ ...prev, open: true, data }));
-    console.log(data, "inside the Open Function");
     setbenefitIndex(data?.benefitIndex);
   };
 
   const ilpClose = (values: any) => {
     setilpModalParam((prev) => ({ ...prev, open: false }));
-    console.log(values.data, "inside the Close Function");
-
     const uniqueFundsMap: Map<string, any> = new Map();
 
     // Filter out duplicates based on FundCode
@@ -549,6 +545,7 @@ function NewBusinessModal({
     setbenefitClientId({
       "0": "",
     });
+    setfundDetails(initialFundValues);
     return () => {};
   }, [state.addOpen === false]);
 

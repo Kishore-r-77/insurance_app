@@ -153,8 +153,12 @@ export const createPoliciesWithBenefits = (
   companyId: number,
   data: any
 ) => {
+  const createPolicyBenefits =
+    "http://localhost:3000/api/v1/nbservices/policycreatewithbenefit";
+  const createPolicyBenefitsFunds =
+    "http://localhost:3000/api/v1/nbservices/policycreatewithbenefitsandfunds";
   return axios.post(
-    `http://localhost:3000/api/v1/nbservices/policycreatewithbenefit`,
+    state.PProduct === "ILP" ? createPolicyBenefitsFunds : createPolicyBenefits,
     {
       CompanyID: companyId,
       ClientID: parseInt(state.ClientID),
