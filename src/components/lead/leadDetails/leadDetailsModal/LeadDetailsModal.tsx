@@ -164,7 +164,7 @@ function LeadDetailsModal({
             : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
-            ? () => dispatch({ type: ACTIONS.LEADCHANNELSCLOSE })
+            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
             : () => dispatch({ type: ACTIONS.INFOCLOSE })
         }
         title={
@@ -281,13 +281,15 @@ function LeadDetailsModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    InputProps={{ readOnly: true }}
                     id="ClientID"
                     name="ClientID"
                     placeholder="Client"
                     label="Client"
-                    // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                    onClick={() => {
+                      if (state.addOpen) {
+                        dispatch({ type: ACTIONS.CLIENTOPEN });
+                      }
+                    }}
                     value={state.addOpen ? state.ClientID : record.ClientID}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
@@ -299,7 +301,7 @@ function LeadDetailsModal({
                       })
                     }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: !state.addOpen }}
                     margin="dense"
                   />
                 </Grid2>
@@ -321,7 +323,7 @@ function LeadDetailsModal({
                       })
                     }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: !state.addOpen }}
                     margin="dense"
                   />
                 </Grid2>

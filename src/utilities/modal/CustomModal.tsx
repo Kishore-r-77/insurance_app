@@ -9,6 +9,8 @@ function CustomModal({
   title,
   children,
   handleFormSubmit,
+  saveButton = "Save",
+  closeButton = "Close",
 }: any) {
   return (
     <div>
@@ -19,11 +21,11 @@ function CustomModal({
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {closeButton}
           </Button>
           {!!handleFormSubmit && (
             <Button variant="primary" onClick={() => handleFormSubmit()}>
-              Save
+              {saveButton}
             </Button>
           )}
         </Modal.Footer>

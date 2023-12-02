@@ -318,7 +318,7 @@ function QHeaderQDetail({ modalFunc, dataIndex, setNotify }: any) {
           setQStatusCheckData(initialValues);
           setNotify({
             isOpen: true,
-            message: "Created Successfully",
+            message: "Status Checked",
             type: "success",
           });
         })

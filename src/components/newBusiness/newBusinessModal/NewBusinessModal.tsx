@@ -1,4 +1,5 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -29,17 +30,14 @@ import {
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
-import { deleteApi as deleteFund} from "../../ilpFund/ilpFundApi/ilpFundsApis";
-import "./newBusinessModal.css";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
+import "./newBusinessModal.css";
 
 function NewBusinessModal({
   state,
   dispatch,
   ACTIONS,
-  handleFormSubmit,
   record,
-  notify,
   setNotify,
   getData,
   validatePolicy,
@@ -47,6 +45,8 @@ function NewBusinessModal({
   benefitsData,
   interest,
   setinterest,
+  initialBenefitsValuesIlp,
+  initialBenefitsValues,
 }: any) {
   const addTitle: string = "Policy Add";
   const editTitle: string = "Policy Edit";
@@ -228,24 +228,10 @@ function NewBusinessModal({
   const handleBenefitsAdd = () => {
     setbenefitsData([
       ...benefitsData,
-      {
-        ClientID: 0,
-        BStartDate: "",
-        BTerm: 0,
-        BPTerm: 0,
-        BCoverage: "",
-        BSumAssured: 0,
-        Interest: 0,
-        BPrem: 0,
-      },
+      state.PProduct === "ILP"
+        ? initialBenefitsValuesIlp
+        : initialBenefitsValues,
     ]);
-    setilpfunds([
-      ...ilpfunds,
-      {
-        FundCode: "",
-        FundPercentage: "",
-      }
-    ])
   };
 
   const handleBenefitsRemove = (index: number, benefitID: number) => {
@@ -257,11 +243,11 @@ function NewBusinessModal({
           .then((resp) => {})
           .catch((err) => {})
       : null;
-      const fundlist = [...ilpfunds];
+    const fundlist = [...ilpfunds];
     fundlist.splice(index, 1);
     setilpfunds(fundlist);
     state.editOpen && benefitID
-    ? deleteApi(benefitID)
+      ? deleteApi(benefitID)
           .then((resp) => {})
           .catch((err) => {})
       : null;
@@ -288,14 +274,7 @@ function NewBusinessModal({
   };
 
   const benefitClientOpenFunc = (item: any) => {
-    console.log(item.ID, "Itemmmmmm");
-    console.log(selecteBenefitIndex, "selecteBenefitIndex");
     setbenefitClientId((prev: any) => {
-      // if (prev === 0) {
-      //   prev = {};
-      //   prev[selecteBenefitIndex] = item.ID;
-      //   return prev;
-      // }
       console.log(prev, "prev");
       prev[selecteBenefitIndex] = item.ID;
       return prev;
@@ -314,6 +293,7 @@ function NewBusinessModal({
   };
 
   const addPoliciesWithBenefits = () => {
+    console.log("Clicking submit");
     return createPoliciesWithBenefits(state, companyId, benefitsData)
       .then((resp) => {
         validatePolicy(parseInt(resp.data?.Created));
@@ -516,15 +496,54 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.BENEFITCLIENTOPEN });
   };
 
-  const [ilpopen, setilpopen] = useState(false)
+  const [ilpModalParam, setilpModalParam] = useState({
+    open: false,
+    data: null,
+  });
 
-  const ilpOpen=()=>{
-    setilpopen(true)
-  }
+  const [benefitIndex, setbenefitIndex] = useState(0);
+  const initialFundValues = [
+    {
+      FundCode: "",
+      FundPercentage: 0,
+    },
+  ];
+  const [fundDetails, setfundDetails] = useState(initialFundValues);
 
-  const ilpClose=()=>{
-    setilpopen(false)
-  }
+  const ilpOpen = (data: any) => {
+    setilpModalParam((prev) => ({ ...prev, open: true, data }));
+    console.log(data, "inside the Open Function");
+    setbenefitIndex(data?.benefitIndex);
+  };
+
+  const ilpClose = (values: any) => {
+    setilpModalParam((prev) => ({ ...prev, open: false }));
+    console.log(values.data, "inside the Close Function");
+
+    const uniqueFundsMap: Map<string, any> = new Map();
+
+    // Filter out duplicates based on FundCode
+    const uniqueFunds = fundDetails.filter((fund: any) => {
+      if (fund?.FundCode && fund?.FundPercentage !== undefined) {
+        // Check if the FundCode is already in the map
+        if (!uniqueFundsMap.has(fund.FundCode)) {
+          uniqueFundsMap.set(fund.FundCode, fund);
+          return true;
+        }
+      }
+      return false;
+    });
+
+    if (values.operation === "save") {
+      const updatedIlpFunds = Array.from(uniqueFundsMap.values());
+      if (benefitsData[benefitIndex]) {
+        benefitsData[benefitIndex].IlpFunds = updatedIlpFunds;
+      }
+    }
+    if (values.operation === "cancel") {
+      setfundDetails(initialFundValues);
+    }
+  };
 
   useEffect(() => {
     setbenefitClientId({
@@ -533,7 +552,9 @@ function NewBusinessModal({
     return () => {};
   }, [state.addOpen === false]);
 
-  const [ilpfunds, setilpfunds] = useState([{FundCode:"", FundPercentage:""}])
+  const [ilpfunds, setilpfunds] = useState([
+    { FundCode: "", FundPercentage: "" },
+  ]);
 
   return (
     <div>
@@ -1350,21 +1371,28 @@ function NewBusinessModal({
                             ></TextField>
                           </Grid2>
                         ) : null}
-                        {/* <Grid2 xs={8} md={6} lg={4}>
-                        <Button
-                            variant="contained"
-                            onClick={() => ilpOpen()}
-                            style={{
-                              maxWidth: "40px",
-                              maxHeight: "40px",
-                              minWidth: "40px",
-                              minHeight: "40px",
-                              backgroundColor: "#0a3161",
-                            }}
-                          >
-                            <AddBoxRoundedIcon />
-                          </Button>
-                          </Grid2> */}
+                        {state.PProduct === "ILP" ? (
+                          <Grid2 xs={8} md={6} lg={4}>
+                            <Button
+                              variant="contained"
+                              onClick={() =>
+                                ilpOpen({
+                                  benefitIndex: index,
+                                  fundData: benefits.IlpFunds,
+                                })
+                              }
+                              style={{
+                                maxWidth: "30px",
+                                maxHeight: "30px",
+                                minWidth: "30px",
+                                minHeight: "30px",
+                                backgroundColor: "#191970",
+                              }}
+                            >
+                              <AddCircleIcon />
+                            </Button>
+                          </Grid2>
+                        ) : null}
                       </Grid2>
                     </TreeItem>
                     <div
@@ -1417,8 +1445,11 @@ function NewBusinessModal({
         </form>
       </CustomFullModal>
       <IlpFundsAdd
-      open={ilpopen}
-      handleClose={ilpClose}
+        open={ilpModalParam.open}
+        handleClose={ilpClose}
+        data={ilpModalParam.data}
+        fundDetails={fundDetails}
+        setfundDetails={setfundDetails}
       />
     </div>
   );

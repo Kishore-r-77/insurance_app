@@ -108,7 +108,13 @@ function MaturityModal({
           });
         }
       })
-      .catch((err: any) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
   const maturityPolicy = () => {
     return saveMaturity(
@@ -127,12 +133,29 @@ function MaturityModal({
           type: "success",
         });
       })
-      .catch((err: any) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
   useEffect(() => {
     getCompanyData(companyId);
     return () => {};
   }, []);
+  useEffect(() => {
+    if (maturityState.Function === "Fill") {
+      setCompanyData({});
+      setmaturityHData({});
+      setmaturityDdata({});
+      isSave.current = false;
+    }
+    return () => {
+      // Cleanup function (if needed)
+    };
+  }, [maturityState.maturityOpen === false]);
   return (
     <div>
       <CustomMaturityFullModal
@@ -694,6 +717,7 @@ function MaturityModal({
           </TreeView>
         </form>
       </CustomMaturityFullModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

@@ -57,36 +57,9 @@ function NewBusiness({
   });
   const { businessDate } = useBusinessDate();
 
-  const [benefitsData, setbenefitsData] = useState([
-    {
-      ClientID: 0,
-      BStartDate: "",
-      BTerm: 0,
-      BPTerm: 0,
-      BCoverage: "",
-      BSumAssured: 0,
-      Interest: 0,
-      BPrem: 0,
-      // IlpFunds:[
-      //   {
-      //     "FundCode": "",
-      //     "FundPercentage": 0
-      //   },
-      // ]
-    },
-  ]);
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
-  const userId = useAppSelector((state) => state.users.user.message.id);
-  // const [businessData, setBusinessData] = useState<any>({});
-  // const getBusinessDate = (companyId: number, userId: number) => {
-  //   return getBusinessDateApi(companyId, userId)
-  //     .then((resp) => {
-  //       setBusinessData(resp.data);
-  //     })
-  //     .catch((err) => err.message);
-  // };
 
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PolicyStateType, action: any) => {
@@ -126,22 +99,9 @@ function NewBusiness({
           ...state,
           infoOpen: true,
         };
-setbenefitsData
       case ACTIONS.ADDCLOSE:
         state = initialValues;
-        // setBusinessData({});
-        ([
-          {
-            ClientID: 0,
-            BStartDate: "",
-            BTerm: 0,
-            BPTerm: 0,
-            BCoverage: "",
-            BSumAssured: 0,
-            Interest: 0,
-            BPrem: 0,
-          },
-        ]);
+
         return {
           ...state,
           PRCD: "",
@@ -166,24 +126,11 @@ setbenefitsData
           clientOpen: true,
         };
       case ACTIONS.CLIENTCLOSE:
-        setbenefitsData([
-          {
-            ClientID: 0,
-            BStartDate: "",
-            BTerm: 0,
-            BPTerm: 0,
-            BCoverage: "",
-            BSumAssured: 0,
-            Interest: 0,
-            BPrem: 0,
-            // IlpFunds:[
-            //   {
-            //     "FundCode": "",
-            //     "FundPercentage": 0
-            //   },
-            // ]
-          },
-        ]);
+        // setbenefitsData(
+        //   state.PProduct === "ILP"
+        //     ? initialBenefitsValuesIlp
+        //     : initialBenefitsValues
+        // );
         return {
           ...state,
           clientOpen: false,
@@ -194,18 +141,6 @@ setbenefitsData
           benefitClientOpen: true,
         };
       case ACTIONS.BENEFITCLIENTCLOSE:
-        // setbenefitsData([
-        //   {
-        //     ClientID: 0,
-        //     BStartDate: "",
-        //     BTerm: 0,
-        //     BPTerm: 0,
-        //     BCoverage: "",
-        //     BSumAssured: 0,
-        //     Interest: 0,
-        //     BPrem: 0,
-        //   },
-        // ]);
         return {
           ...state,
           benefitClientOpen: false,
@@ -288,6 +223,35 @@ setbenefitsData
   };
   //Creating useReducer Hook
   let [state, dispatch] = useReducer(reducer, initialValues);
+  const initialBenefitsValues = [
+    {
+      ClientID: 0,
+      BStartDate: "",
+      BTerm: 0,
+      BPTerm: 0,
+      BCoverage: "",
+      BSumAssured: 0,
+      Interest: 0,
+      BPrem: 0,
+    },
+  ];
+  const initialBenefitsValuesIlp = [
+    {
+      ClientID: 0,
+      BStartDate: "",
+      BTerm: 0,
+      BPTerm: 0,
+      BCoverage: "",
+      BSumAssured: 0,
+      Interest: 0,
+      BPrem: 0,
+      IlpFunds: [],
+    },
+  ];
+
+  const [benefitsData, setbenefitsData] = useState(
+    state.PProduct === "ILP" ? initialBenefitsValuesIlp : initialBenefitsValues
+  );
 
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
@@ -408,8 +372,8 @@ setbenefitsData
         setisIssue(false);
         setissueNote(true);
         // console.log(resp.data,"Policy")
-      }).catch((err) => {
-        
+      })
+      .catch((err) => {
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -501,18 +465,14 @@ setbenefitsData
     return () => {};
   }, [state.editOpen && record.PProduct === "MRT"]);
 
-  // useEffect(() => {
-  //   if (state.addOpen) {
-  //     // Fetch PRCD value from the getBusinessDate API
-  //     getBusinessDate(companyId, userId).then(() => {
-  //       // After the API call, set the PRCD value in the state
-  //       dispatch({ type: ACTIONS.ADDOPEN });
-  //     });
-  //   } else {
-  //     // If addOpen is false, set PRCD to an empty value
-  //     dispatch({ type: ACTIONS.ADDCLOSE });
-  //   }
-  // }, [state.addOpen]);
+  useEffect(() => {
+    setbenefitsData(
+      state.PProduct === "ILP"
+        ? initialBenefitsValuesIlp
+        : initialBenefitsValues
+    );
+    return () => {};
+  }, [state.addOpen === false]);
 
   return (
     <div>
@@ -673,6 +633,8 @@ setbenefitsData
         validatePolicy={validatePolicy}
         ACTIONS={ACTIONS}
         benefitsData={state.addOpen ? benefitsData : benefitsByPoliciesData}
+        initialBenefitsValuesIlp={initialBenefitsValuesIlp}
+        initialBenefitsValues={initialBenefitsValues}
         interest={interest}
         setinterest={setinterest}
         setbenefitsData={

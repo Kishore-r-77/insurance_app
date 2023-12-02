@@ -132,7 +132,13 @@ function SurrenderModal({
           });
         }
       })
-      .catch((err: any) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
   const surrenderPolicy = () => {
     return saveSurrender(policyRecord.ID, companyId, surrHData, surrDdata)
@@ -146,7 +152,13 @@ function SurrenderModal({
           type: "success",
         });
       })
-      .catch((err: any) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
   const [causeOfSurrenderData, setcauseOfSurrenderData] = useState([]);
   const causeOfSurrenderMenu = () => {
@@ -161,6 +173,19 @@ function SurrenderModal({
     causeOfSurrenderMenu();
     return () => {};
   }, []);
+  useEffect(() => {
+    return () => {};
+  }, [surrenderState.surrenderOpen]);
+  useEffect(() => {
+    if (surrenderState.Function === "Fill") {
+      setsurrHData({});
+      setsurrDdata({});
+      isSave.current = false;
+    }
+    return () => {
+      // Cleanup function (if needed)
+    };
+  }, [surrenderState.surrenderOpen === false]);
   return (
     <div>
       <CustomSurrFullModal
@@ -719,6 +744,7 @@ function SurrenderModal({
           </TreeView>
         </form>
       </CustomSurrFullModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
