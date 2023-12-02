@@ -20,10 +20,10 @@ function FundSwitchModal({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-
+{/* 
           <Button variant="primary" onClick={() => handleFormSubmit()}>
             Continue
-          </Button>
+          </Button> */}
         </Modal.Footer>
       </Modal>
     </div>
