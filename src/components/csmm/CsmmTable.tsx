@@ -247,9 +247,6 @@ function CsmmTable({
   // }, []);
 
   const reducer = (state: SurrenderHStateType, action: any) => {
-    console.log(state, "surrender State");
-    console.log(action.type, "type");
-    console.log(ACTIONS, "ACTIONS.SURRENDEROPEN");
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -509,7 +506,6 @@ function CsmmTable({
     setPolicyID(policyId);
     setisAssignee(true);
     setassigneeObj(value);
-    console.log(policyId, "policy Id");
 
     handleClose();
   };
@@ -622,7 +618,6 @@ function CsmmTable({
   }, [isAdjPrem, isPolRein, isTopup, isFundSwitch]);
 
   const clientMenuClick = (value: any) => {
-    console.log(value.Action, "****");
     switch (value.Action) {
       case "Nominee":
         dispatch({
@@ -712,8 +707,6 @@ function CsmmTable({
     }
   };
 
-  console.log(ilpsurrenderState.ilpsurrenderOpen, "surrenderOpen");
-
   const [isSaChange, setisSaChange] = useState(false);
   const [issplrev, setissplRev] = useState(false);
   const [isComponent, setisComponent] = useState(false);
@@ -749,7 +742,6 @@ function CsmmTable({
         });
       });
   };
-  console.log("saChangeMenu", saChangeMenu);
 
   const modifiedPremium = useRef();
   const premium = useRef();
@@ -963,7 +955,6 @@ function CsmmTable({
   };
   const saChangeClose = () => {
     setisSaChange(false);
-    console.log(isSave, "isSave");
 
     if (isSave.current) {
       invalidatesa();
@@ -1246,6 +1237,7 @@ function CsmmTable({
   };
   const ilpTopupClose = () => {
     setisTopup(false);
+    setcompleted(false);
   };
 
   const ilpFundSwitchOpen = (policyId: number, value: any) => {

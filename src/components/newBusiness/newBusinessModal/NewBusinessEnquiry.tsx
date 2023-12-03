@@ -167,7 +167,6 @@ function NewBusinessEnquiry({
           }
         });
       case ACTIONS.CLIENTOPEN:
-        console.log(state);
         return state.map((value: any, index: number) => {
           if ((index = action.index)) {
             return {
@@ -233,7 +232,6 @@ function NewBusinessEnquiry({
 
   const policyAndModalAddSubmit = async () => {
     const response = await handleFormSubmit();
-    console.log(response, "Response");
     if (response.status === 200) {
       for (let i = 0; i < coverage.length; i++) {
         handleBenefitFormSubmit(i, response.response.data.Created);

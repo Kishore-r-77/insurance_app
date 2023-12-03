@@ -146,15 +146,12 @@ function NomineeModal({
     dispatch({ type: ACTIONS.NOMINEECLIENTOPEN });
   };
   const nomineeClientOpenFunc = (item: any) => {
-    console.log(item.ID, "Itemmmmmm");
-    console.log(selecteNomineeIndex, "selecteNomineeIndex");
     setnomineeClientId((prev: any) => {
       // if (prev === 0) {
       //   prev = {};
       //   prev[selecteNomineeIndex] = item.ID;
       //   return prev;
       // }
-      console.log(prev, "prev");
       prev[selecteNomineeIndex] = item.ID;
       return prev;
     });

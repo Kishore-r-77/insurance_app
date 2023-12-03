@@ -91,7 +91,6 @@ function DeathHModal({
   };
 
   const clientOpenFunc = (item: any) => {
-    console.log(item.ID, "clientId");
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;
@@ -256,7 +255,7 @@ function DeathHModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "EffectiveDate",
                           })
                         }
@@ -278,7 +277,7 @@ function DeathHModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "DeathDate",
                           })
                         }
@@ -478,7 +477,6 @@ function DeathHModal({
                       margin="dense"
                     />
                   </Grid2>
-               
                 </Grid2>
               ) : null}
             </TreeItem>

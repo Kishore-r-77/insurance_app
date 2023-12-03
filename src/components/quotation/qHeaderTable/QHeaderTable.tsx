@@ -70,7 +70,6 @@ function QHeaderTable({
     qheaderid.current = value.ID;
 
     setAnchorEl(event.currentTarget);
-    console.log(qheaderid.current, "----");
   };
 
   const handleClose = () => {

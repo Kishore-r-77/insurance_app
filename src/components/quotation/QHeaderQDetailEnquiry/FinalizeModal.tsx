@@ -321,7 +321,6 @@ function FinalizeModal({
       })
       .catch((err) => console.log(err.message));
   };
-  console.log(benefitsData, "========", policyData);
   const [qHeaderData, setQHeaderData] = useState<any>([]);
   const getQHeader = (resp: any) => {
     axios
@@ -399,7 +398,7 @@ function FinalizeModal({
   //   const getById = async (id: number) => {
   //     getQheader(id)
   //       .then((resp) => {
-  //         
+  //
   //         dispatch({ type: ACTIONS.EDITCLOSE });
   //         getData();
   //       })

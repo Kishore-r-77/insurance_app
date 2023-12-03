@@ -74,7 +74,6 @@ function PremiumDirection({
     }
     if (!e.target.checked) {
       value.FundPercentage = "";
-      console.log(index, "index");
       updateValue = { ...value, isChecked: false };
       const updateArr = [...ilpSelectedFund, updateValue];
       const itemIndex = ilpSelectedFund.indexOf(updateValue);
@@ -100,10 +99,10 @@ function PremiumDirection({
   }, [benId]);
   useEffect(() => {
     setbenId("");
+    setilpAllowed([""]);
 
     return () => {};
   }, [open]);
-  // console.log(ilpSelectedFund, "QQQQQQQ");
   // const dataIndex = useRef(0);
   return (
     <div>

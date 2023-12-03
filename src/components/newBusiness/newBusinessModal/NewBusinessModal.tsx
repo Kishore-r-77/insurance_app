@@ -275,7 +275,6 @@ function NewBusinessModal({
 
   const benefitClientOpenFunc = (item: any) => {
     setbenefitClientId((prev: any) => {
-      console.log(prev, "prev");
       prev[selecteBenefitIndex] = item.ID;
       return prev;
     });

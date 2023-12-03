@@ -233,9 +233,6 @@ function ClaimsTable({
   } = useBusinessDate();
 
   const reducer = (state: SurrenderHStateType, action: any) => {
-    console.log(state, "surrender State");
-    console.log(action.type, "type");
-    console.log(ACTIONS, "ACTIONS.SURRENDEROPEN");
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -365,7 +362,6 @@ function ClaimsTable({
     setPolicyID(policyId);
     setisAssignee(true);
     setassigneeObj(value);
-    console.log(policyId, "policy Id");
 
     handleClose();
   };
@@ -474,7 +470,6 @@ function ClaimsTable({
   }, [isAdjPrem, isPolRein]);
 
   const clientMenuClick = (value: any) => {
-    console.log(value.Action, "****");
     switch (value.Action) {
       case "Nominee":
         dispatch({
@@ -1140,11 +1135,9 @@ function ClaimsTable({
   };
   const handleCIReceivedDate = (date: any) => {
     setcriticalentry((prev) => ({ ...prev, ReceivedDate: date }));
-    console.log("handleCIReceivedDate", date);
   };
   ///////CLOSE CI
 
-  console.log(surrenderState.surrenderOpen, "surrenderOpen");
   const [isSaChange, setisSaChange] = useState(false);
   const [isComponent, setisComponent] = useState(false);
   const [saChangeMenu, setsaChangeMenu] = useState<any>("");
@@ -1382,7 +1375,6 @@ function ClaimsTable({
   };
   const saChangeClose = () => {
     setisSaChange(false);
-    console.log(isSave, "isSave");
 
     if (isSave.current) {
       invalidatesa();

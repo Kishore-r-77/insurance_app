@@ -67,9 +67,6 @@ function ComponentModal({
   };
 
   const clientOpenFunc = (item: any, i: number) => {
-    console.log(item.ID);
-    console.log(i, "i");
-
     setcomponentBenefits((componentBen: any) =>
       componentBen.map((benefits: any, index: number) => {
         if (i === index) {

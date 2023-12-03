@@ -171,7 +171,6 @@ function PolicyEnquiry({
       })
       .then((resp) => {
         setTDFData(resp.data["TDFPolicy"]);
-        console.log(resp.data["TDFPolicy"], "TDF Data");
       })
       .catch((err) => console.log(err.message));
   };
@@ -413,8 +412,7 @@ function PolicyEnquiry({
 
   const policyAndModalAddSubmit = async () => {
     const response = await handleFormSubmit();
-    console.log(response?.response?.data?.Created, "Response");
-    console.log(response?.status, "Status");
+
     if (response.status === 200) {
       for (let i = 0; i < coverage.length; i++) {
         handleBenefitFormSubmit(i, response?.response?.data?.Created);

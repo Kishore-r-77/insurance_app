@@ -88,8 +88,6 @@ function CriticalModal({
   ) => {
     const { name, value } = e.target;
 
-    // console.log(e.target.checked, "sowmi");
-    // console.log("find the value",val);
     isChecked.current = e.target.checked;
     setcheckbody(val);
   };

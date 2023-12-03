@@ -125,8 +125,6 @@ function FreqChangeModal({
     return () => {};
   }, [isPolicy]);
 
-  console.log(completed, "completed");
-
   return (
     <div>
       <CustomFreqChangeModal

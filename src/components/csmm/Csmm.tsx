@@ -137,7 +137,6 @@ function Csmm({ modalFunc }: any) {
           benefitOpen: false,
         };
       case ACTIONS.NOMINEEOPEN:
-        console.log(action.payload, "EEEEEEE");
         setRecord(action.payload);
         return {
           ...state,
@@ -298,7 +297,6 @@ function Csmm({ modalFunc }: any) {
         setissueData(resp.data.Policy);
         setisIssue(false);
         setissueNote(true);
-        // console.log(resp.data,"Policy")
       });
   };
 

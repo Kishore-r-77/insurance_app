@@ -23,7 +23,6 @@ import IlpFundsModal from "./ilpFundModal/IlpFundsModal";
 import Notification from "../../utilities/Notification/Notification";
 
 function IlpFunds({ modalFunc, lookup, benefitState }: any) {
-  console.log(benefitState, "Benefit state recird in ilp fund");
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
@@ -39,8 +38,6 @@ function IlpFunds({ modalFunc, lookup, benefitState }: any) {
   const reducer = (state: IlpFundsStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
-        console.log(action.payload, "Payload for fund");
-        console.log(action.fieldName, "Field name for fund");
         return {
           ...state,
           [action.fieldName]: action.payload,

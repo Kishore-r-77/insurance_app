@@ -247,9 +247,11 @@ function IlpTopupModal({
   useEffect(() => {
     setbenId("");
     setexfunds([]);
+    setilpfunc("Init");
+    setilpPriceData([""]);
 
     return () => {};
-  }, [open]);
+  }, [open === false]);
 
   return (
     <div>

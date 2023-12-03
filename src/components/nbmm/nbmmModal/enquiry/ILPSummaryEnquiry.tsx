@@ -2,7 +2,6 @@ import { useState } from "react";
 import EnquiryTable from "./EnquiryTable";
 
 const ILPSummaryEnquiry = ({ ilpSummaryData, policyNo, state }: any) => {
-  console.log(ilpSummaryData, "Inside ilp summmary enquiry");
   const columns = [
     {
       field: "BenefitID",
