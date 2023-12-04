@@ -57,7 +57,6 @@ function NewBusinessModal({
   const infoTitle: string = "Policy Info";
   const size = "xl";
 
-
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -97,7 +96,6 @@ function NewBusinessModal({
       })
       .then((resp) => {
         setPFreqData(resp.data?.AllowedFrequencies);
-        console.log(resp, "Freq Data ");
         return resp.data?.AllowedFrequencies;
       })
       .catch((err) => err);
@@ -184,7 +182,6 @@ function NewBusinessModal({
     return () => {};
   }, [state.addOpen && state?.PProduct]);
 
-  console.log(state.editOpen, record, "******State*****");
   useEffect(() => {
     getPFreq(companyId, record.PProduct, record?.PRCD);
     return () => {};
@@ -235,12 +232,8 @@ function NewBusinessModal({
     setbenefitsData(list);
     state.editOpen && benefitID
       ? deleteApi(benefitID)
-          .then((resp) => {
-            
-          })
-          .catch((err) => {
-            
-          })
+          .then((resp) => {})
+          .catch((err) => {})
       : null;
   };
 
@@ -330,7 +323,6 @@ function NewBusinessModal({
   };
 
   const [bankClntData, setbankClntData] = useState([]);
-  console.log("Bank Open", state.bankOpen);
   const getBankByClient = () => {
     axios
       .get(
@@ -346,7 +338,6 @@ function NewBusinessModal({
   };
 
   const clientOpenFunc = (item: any) => {
-    console.log(item.ID, "clientId");
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;
@@ -429,7 +420,6 @@ function NewBusinessModal({
       : null,
   ]);
 
-  console.log(benefitsData[0]?.BCoverage, "BCoverage");
   const [termRangeMenu, settermRangeMenu] = useState([]);
   const [pptRangeMenu, setpptRangeMenu] = useState([]);
   const bcoverage = useRef("");

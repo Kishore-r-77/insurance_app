@@ -109,10 +109,10 @@ function FreqChangeModal({
       .catch((err) => err);
   };
 
-  console.log(pFreqData, "freqData");
-
   useEffect(() => {
     getByPolicy();
+    setfrequency("");
+    setpremium("");
 
     return () => {};
   }, [open]);

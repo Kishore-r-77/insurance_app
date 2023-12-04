@@ -75,8 +75,6 @@ function NewBusinessModal({
       .catch((err) => err);
   };
 
-  console.log("Frequency", pFreqData)
-
   const [pContractCurrData, setPContractCurrData] = useState([]);
   const getPContractCurr = (
     companyId: number,
@@ -243,7 +241,6 @@ function NewBusinessModal({
   };
 
   const clientOpenFunc = (item: any) => {
-    console.log(item.ID, "clientId");
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;
@@ -412,7 +409,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PRCD",
                           })
                         }
@@ -580,7 +577,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PReceivedDate",
                           })
                         }
@@ -603,7 +600,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PUWDate",
                           })
                         }
@@ -626,7 +623,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "BTDate",
                           })
                         }
@@ -649,7 +646,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "PaidToDate",
                           })
                         }
@@ -672,7 +669,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "NxtBTDate",
                           })
                         }
@@ -695,7 +692,7 @@ function NewBusinessModal({
                         ) =>
                           dispatch({
                             type: ACTIONS.ONCHANGE,
-                            payload:date?.$d,
+                            payload: date?.$d,
                             fieldName: "AnnivDate",
                           })
                         }

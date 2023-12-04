@@ -565,7 +565,6 @@ function QHeaderQDetailModal({
     setqDetailsData(
       detailsData.map((qDetail: any, index: number) => {
         if (index === i) {
-          console.log(name, "------", value);
           return { ...qDetail, [name]: value };
         } else return qDetail;
       })
@@ -616,7 +615,6 @@ function QHeaderQDetailModal({
         });
       });
   };
-  console.log(detailsData, "---------");
 
   const handleQriskcessdate = (date: any, i: number) => {
     setqDetailData(

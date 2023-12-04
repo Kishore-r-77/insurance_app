@@ -36,15 +36,12 @@ function BulkApprovalModal({
       setilpPriceArray(updateArr);
     }
     if (!e.target.checked) {
-      console.log(index, "index");
       const updateArr = [...ilpPriceArray];
       const itemIndex = ilpPriceArray.indexOf(value);
       updateArr.splice(itemIndex, 1);
       setilpPriceArray(updateArr);
     }
   };
-
-  console.log(ilpPriceArray, "handleCheck");
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;

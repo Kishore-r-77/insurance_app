@@ -32,7 +32,6 @@ const ParamDataUploadModal = (props: any) => {
       );
       const link = document.createElement("a");
       link.href = url;
-      console.log(sendUploadResponse, "send upload response");
       const filename = "errorReport.xlsx";
       link.setAttribute("download", filename);
       link.click();

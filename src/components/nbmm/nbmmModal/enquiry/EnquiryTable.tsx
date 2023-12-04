@@ -22,20 +22,17 @@ function EnquiryTable({
   benOpen,
   isCommunication,
 }: any) {
-  console.log(policyNo, "Policy No in Enq");
   const [glEnquiry, setglEnquiry] = useState(false);
   const [GLAcctNo, setGLAcctNo] = useState("");
   const [contAmnt, setcontAmnt] = useState("");
   const [fund, setfund] = useState("");
   const infoClickOpen = (value: any, value1: any) => {
-    console.log(value, "acct no value");
     setGLAcctNo(value);
     setcontAmnt(value1);
     setglEnquiry(true);
   };
 
   const ilptClickOpen = (fcode: any) => {
-    console.log("fund: ", fcode);
     setfund(fcode);
     setilpT(true);
   };
@@ -43,13 +40,11 @@ function EnquiryTable({
   const handleClickClose = () => {
     setglEnquiry(false);
   };
-  console.log(data, "data");
 
   const [glHistory, setglHistory] = useState(false);
   const [ilpT, setilpT] = useState(false);
   const [Tranno, setTranno] = useState("");
   const glhClickOpen = (value: any) => {
-    console.log(value, "tranno");
     setTranno(value);
     setglHistory(true);
   };

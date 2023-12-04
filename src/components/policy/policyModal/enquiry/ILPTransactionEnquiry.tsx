@@ -30,7 +30,6 @@ const ILPTransactionEnquiry = ({
       dbField: "tranno",
     },
 
-
     {
       field: "TransactionDate",
       header: "Transaction Date",
@@ -99,7 +98,6 @@ const ILPTransactionEnquiry = ({
       dbField: "account_code",
     },
 
-    
     {
       field: "CurrencyRate",
       header: "Currency Rate",
@@ -157,7 +155,6 @@ const ILPTransactionEnquiry = ({
       )
       .then((resp) => {
         setilpTransactionData(resp.data.IlpTransactions);
-        console.log(ilpTransactionData, "ilpTransactionData");
       })
       .catch((err) => console.log(err.message));
   };

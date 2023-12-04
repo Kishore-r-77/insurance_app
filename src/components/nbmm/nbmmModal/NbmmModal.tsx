@@ -55,8 +55,6 @@ function NewBusinessModal({
   const infoTitle: string = "Proposal Info";
   const size = "xl";
 
-  console.log(record?.ID, "Record");
-
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -193,7 +191,6 @@ function NewBusinessModal({
       })
       .then((resp) => {
         setTDFData(resp.data["TDFPolicy"]);
-        console.log(resp.data["TDFPolicy"], "TDF Data");
       })
       .catch((err) => console.log(err.message));
   };
@@ -255,7 +252,6 @@ function NewBusinessModal({
   };
 
   const [bankClntData, setbankClntData] = useState([]);
-  console.log("Bank Open", state.bankOpen);
   const getBankByClient = () => {
     axios
       .get(
@@ -402,7 +398,6 @@ function NewBusinessModal({
           }
         });
       case ACTIONS.CLIENTOPEN:
-        console.log(state);
         return state.map((value: any, index: number) => {
           if ((index = action.index)) {
             return {
@@ -450,9 +445,7 @@ function NewBusinessModal({
         },
         { withCredentials: true }
       )
-      .then((resp) => {
-        
-      })
+      .then((resp) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -478,8 +471,6 @@ function NewBusinessModal({
 
   const policyAndModalAddSubmit = async () => {
     const response = await handleFormSubmit();
-    console.log(response?.response?.data?.Created, "Response");
-    console.log(response?.status, "Status");
     if (response.status === 200) {
       for (let i = 0; i < coverage.length; i++) {
         handleBenefitFormSubmit(i, response?.response?.data?.Created);
@@ -512,8 +503,6 @@ function NewBusinessModal({
     } else record.BankID = item.ID;
     dispatch({ type: ACTIONS.BANKCLOSE });
   };
-
-  console.log(benefitData, "benefitData");
 
   return (
     <div>

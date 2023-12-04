@@ -52,8 +52,6 @@ function APModal({
 }: any) {
   const title: string = "Income Benefit";
   const isChecked = useRef(false);
-  // console.log(IBenefitData, "IBenefitData");
-  // console.log(IBenefits, "IBenefits");
   const [isNotifiyopen, setisNotifiyopen] = useState(false);
   const [IBapprovebenefit, setIBapprovebenefit] = useState<any>({});
   const notifyopen = (valu: any) => {
@@ -137,7 +135,6 @@ function APModal({
   ) => {
     const { name, value } = e.target;
 
-    console.log(e.target.checked, "checked");
     setIBvalcheck(benefitval);
     isChecked.current = e.target.checked;
     setisclick(e.target.checked);
@@ -169,7 +166,6 @@ function APModal({
     getIBData(companyId, "P0050", languageId, "FREQ");
     return () => {};
   }, []);
-  console.log(isIBnext, "isIBnexttttttttttttt");
   const [isapprovalmodal, setisapprovalmodal] = useState(false);
 
   const IBapprovalModalOpen = (value: any) => {

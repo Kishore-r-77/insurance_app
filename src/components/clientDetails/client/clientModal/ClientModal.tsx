@@ -33,7 +33,6 @@ function ClientModal({
   const editTitle: string = "Client Edit";
   const infoTitle: string = "Client Info";
   const size = "xl";
-  console.log(clientType, "client type");
 
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
@@ -444,7 +443,7 @@ function ClientModal({
                 ))}
               </TextField>
             </Grid2>
-       
+
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 id="ClientMobile"

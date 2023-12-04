@@ -8,12 +8,10 @@ import GLAccountEnquiry from "./GLAccountEnquiry";
 import GLHistoryEnquiry from "./GLHistoryEnquiry";
 
 function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
-  console.log(policyNo, "Policy No in Enq");
   const [glEnquiry, setglEnquiry] = useState(false);
   const [GLAcctNo, setGLAcctNo] = useState("");
   const [contAmnt, setcontAmnt] = useState("");
   const infoClickOpen = (value: any, value1: any) => {
-    console.log(value, "acct no value");
     setGLAcctNo(value);
     setcontAmnt(value1);
     setglEnquiry(true);
@@ -22,12 +20,10 @@ function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
   const handleClickClose = () => {
     setglEnquiry(false);
   };
-  console.log(data, "data");
 
   const [glHistory, setglHistory] = useState(false);
   const [Tranno, setTranno] = useState("");
   const glhClickOpen = (value: any) => {
-    console.log(value, "tranno");
     setTranno(value);
     setglHistory(true);
   };
@@ -74,21 +70,21 @@ function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
                     {infoOpen ? (
                       <td
                         key={col.field}
-                        onClick={() => infoClickOpen(row?.GlAccountno, row?.ContractAmount)}
+                        onClick={() =>
+                          infoClickOpen(row?.GlAccountno, row?.ContractAmount)
+                        }
                       >
                         {row[col.field]}
                       </td>
-                    ): (
-                      historyOpen? (
-                        <td
+                    ) : historyOpen ? (
+                      <td
                         key={col.field}
                         onClick={() => glhClickOpen(row?.Tranno)}
                       >
                         {row[col.field]}
                       </td>
-                      ):(
-                        <td key={col.field}>{row[col.field]}</td>
-                      )
+                    ) : (
+                      <td key={col.field}>{row[col.field]}</td>
                     )}
                   </>
                 );

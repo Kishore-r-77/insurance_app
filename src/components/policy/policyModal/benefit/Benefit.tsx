@@ -292,7 +292,6 @@ function Benefit({
       .then((res) => {
         //interest.current = res.data.Interest;
         setinterest(res.data.Interest);
-        console.log(res.data.Interest, "Interest ");
       })
       .catch((err) => {
         return err;

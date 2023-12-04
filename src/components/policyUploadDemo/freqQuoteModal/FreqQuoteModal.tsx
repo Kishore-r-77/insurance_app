@@ -19,7 +19,6 @@ function FreqQuoteModal({ open, handleClose, policyId }: any) {
         setRecord(resp.data?.Frequencies);
       })
       .catch((err) => {
-        
         setRecord("");
       });
   };
@@ -27,7 +26,6 @@ function FreqQuoteModal({ open, handleClose, policyId }: any) {
     getFreqQuote();
     return () => {};
   }, [open]);
-  console.log(record, "REcord");
 
   return (
     <div>

@@ -21,10 +21,8 @@ function SaveFuneral({
   handleReceivedDate,
   funeralcheck,
 }: any) {
-  // console.log(isnext, "isnextinsavefuneralmodel");
   const infoTitle: string = "Funeral Reason";
   const size: string = "xl";
-  // console.log(funeralObj, "funeralObj");
 
   return (
     <div>

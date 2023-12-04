@@ -4,13 +4,13 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const ILPTransactionEnquiry = ({ open,
+const ILPTransactionEnquiry = ({
+  open,
   handleClose,
   policyNo,
   fundCode,
-  state, }: any) => {
-    console.log(policyNo, fundCode, "ILPTransaction Pol no, Fund code")
-    console.log(open, "ILPTransaction Open")
+  state,
+}: any) => {
   const columns = [
     {
       field: "FundCode",
@@ -70,24 +70,24 @@ const ILPTransactionEnquiry = ({ open,
   ];
 
   const [ilpTransactionData, setilpTransactionData] = useState([]);
-      const geIlptransaction = () => {
-        axios
-          .get(
-            `http://localhost:3000/api/v1/ilpservices/ilptransactionbyfundcode/${policyNo}/${fundCode}`,
-            {
-              withCredentials: true,
-            }
-          )
-          .then((resp) => {
-            setilpTransactionData(resp.data.IlpTransactions);
-            console.log(ilpTransactionData,"ilpTransactionData")
-          })
-          .catch((err) => console.log(err.message));
-      };
-    
-      useEffect(() => {
-        geIlptransaction();
-      }, [open]);
+  const geIlptransaction = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/ilpservices/ilptransactionbyfundcode/${policyNo}/${fundCode}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setilpTransactionData(resp.data.IlpTransactions);
+        console.log(ilpTransactionData, "ilpTransactionData");
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    geIlptransaction();
+  }, [open]);
 
   return (
     <div>

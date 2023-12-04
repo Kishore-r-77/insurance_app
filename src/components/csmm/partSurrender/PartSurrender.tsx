@@ -165,7 +165,6 @@ function PartSurrender({
         });
       });
   };
-  console.log(isSave, "QQQQQ");
 
   const Partsurrender = () => {
     return saveIlpPartSurrender(
@@ -249,7 +248,6 @@ function PartSurrender({
       setilpSelectedFund(updateArr);
     }
     if (!e.target.checked) {
-      console.log(index, "index");
       updateValue = { ...value, isChecked: false };
       const updateArr = [...ilpSelectedFund, updateValue];
       const itemIndex = ilpSelectedFund.indexOf(updateValue);

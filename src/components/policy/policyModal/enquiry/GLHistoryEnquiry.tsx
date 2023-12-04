@@ -12,9 +12,6 @@ const GLHistoryEnquiry = ({
   TransactionNo,
   state,
 }: any) => {
-  console.log(policyNo, "Policy No in GLH");
-  console.log(TransactionNo, "Transaction No");
-
   const columns = [
     {
       field: "GlRdocno",
@@ -113,7 +110,6 @@ const GLHistoryEnquiry = ({
       )
       .then((resp) => {
         setGLHistoryData(resp.data.History);
-        console.log(GLHistoryData, "DATA");
       })
       .catch((err) => console.log(err.message));
   };

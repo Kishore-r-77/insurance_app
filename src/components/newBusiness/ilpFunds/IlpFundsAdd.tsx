@@ -3,7 +3,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { IconButton, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import CustomModal from "../../../utilities/modal/CustomModal";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import axios from "axios";
 import { useAppSelector } from "../../../redux/app/hooks";
 
@@ -13,6 +13,7 @@ function IlpFundsAdd({
   data,
   fundDetails,
   setfundDetails,
+  setNotify,
 }: any) {
   const size: string = "xl";
 
@@ -37,22 +38,89 @@ function IlpFundsAdd({
     setfundDetails(fundList);
   };
 
+  const totalFundPercentage = useRef(0);
+  console.log(totalFundPercentage.current, "totalFundPercentage");
+
+  // const handleFundsChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   i: number
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setfundDetails((prev: any) => {
+  //     if (name === "FundPercentage") {
+  //       const sumOfFundPercentage = prev.reduce((total: number, funds: any) => {
+  //         console.log(total, "total");
+  //         console.log(value, "value");
+  //         return +total + +funds.FundPercentage;
+  //       }, 0);
+  //       totalFundPercentage.current = sumOfFundPercentage;
+  //     }
+  //     return prev.map((fund: any, index: number) => {
+  //       if (index === i) {
+  //         return {
+  //           ...fund,
+  //           [name]: value,
+  //         };
+  //       } else return fund;
+  //     });
+  //   });
+  // };
+
   const handleFundsChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number
   ) => {
     const { name, value } = e.target;
-    setfundDetails((prev: any) =>
-      prev.map((fund: any, index: number) => {
+
+    setfundDetails((prev: any) => {
+      let updatedDetails = prev.map((fund: any, index: number) => {
         if (index === i) {
           return {
             ...fund,
             [name]: value,
           };
         } else return fund;
-      })
-    );
+      });
+
+      if (name === "FundPercentage") {
+        const sumOfFundPercentage = updatedDetails.reduce(
+          (total: number, funds: any) => total + +funds.FundPercentage,
+          0
+        );
+        totalFundPercentage.current = sumOfFundPercentage;
+      }
+
+      return updatedDetails;
+    });
+
+    // Log the totalFundPercentage.current after the state has been updated
+    useEffect(() => {
+      console.log(totalFundPercentage.current, "totalFundPercentage");
+    }, [totalFundPercentage.current]);
   };
+
+  const fundPercentageValidation = () => {
+    if (totalFundPercentage.current > 100) {
+      setNotify({
+        isOpen: true,
+        message: "FundPercentage Cannot exceed 100",
+        type: "error",
+      });
+    } else if (totalFundPercentage.current < 100) {
+      setNotify({
+        isOpen: true,
+        message: "FundPercentage Cannot be Lesser than 100",
+        type: "error",
+      });
+    } else {
+      setNotify({
+        isOpen: true,
+        message: "Successfully Captured Funds",
+        type: "error",
+      });
+    }
+  };
+
   const p0050 = (
     companyId: number,
     name: string,
@@ -93,6 +161,11 @@ function IlpFundsAdd({
     return () => {};
   }, []);
 
+  useEffect(() => {
+    totalFundPercentage.current = 0;
+    return () => {};
+  }, [open === false]);
+
   return (
     <CustomModal
       open={open}
@@ -101,7 +174,11 @@ function IlpFundsAdd({
       closeButton="Cancel"
       handleClose={() => handleClose({ operation: "cancel" })}
       title={"ILP Test"}
-      handleFormSubmit={() => handleClose({ operation: "save" })}
+      handleFormSubmit={
+        totalFundPercentage.current > 100 || totalFundPercentage.current < 100
+          ? fundPercentageValidation
+          : () => handleClose({ operation: "save" })
+      }
     >
       <form>
         {fundDetails?.map((fund: any, index: number) => (
