@@ -942,6 +942,7 @@ function CsmmTable({
   };
 
   useEffect(() => {
+    setcomponentBenefits([]);
     if (isComponent) {
       getComponentInit();
     }

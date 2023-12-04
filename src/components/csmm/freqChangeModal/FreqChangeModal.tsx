@@ -111,6 +111,8 @@ function FreqChangeModal({
 
   useEffect(() => {
     getByPolicy();
+    setfrequency("");
+    setpremium("");
 
     return () => {};
   }, [open]);
