@@ -534,6 +534,11 @@ function NewBusinessModal({
       if (benefitsData[benefitIndex]) {
         benefitsData[benefitIndex].IlpFunds = updatedIlpFunds;
       }
+      setNotify({
+        isOpen: true,
+        message: "Successfully Captured Funds",
+        type: "success",
+      });
     }
     if (values.operation === "cancel") {
       setfundDetails(initialFundValues);
@@ -1446,6 +1451,7 @@ function NewBusinessModal({
         data={ilpModalParam.data}
         fundDetails={fundDetails}
         setfundDetails={setfundDetails}
+        setNotify={setNotify}
       />
     </div>
   );
