@@ -42,7 +42,6 @@ function IlpFundsAdd({
       0
     );
     totalFundPercentage.current = sumOfFundPercentage;
-    console.log(totalFundPercentage.current, "Helloooooooooooooooooooo");
   };
 
   const handleFundsChange = (
@@ -139,8 +138,6 @@ function IlpFundsAdd({
     getFundCode(companyId, "P0050", languageId, "ILP1FUNDCODE");
     return () => {};
   }, []);
-
-  console.log(totalFundPercentage.current, "totalFundPercentage.current");
 
   return (
     <CustomModal
