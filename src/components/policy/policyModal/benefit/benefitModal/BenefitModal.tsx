@@ -23,7 +23,6 @@ function BenefitModal({
   policyRecord,
   interest,
 }: BenefitModalType) {
-  console.log(interest, "Interest Inside benefit modal");
   const addTitle: string = "Benefit Add";
   const editTitle: string = "Benefit Edit";
   const infoTitle: string = "Benefit Info";
@@ -55,7 +54,6 @@ function BenefitModal({
   };
 
   const clientOpenFunc = (item: any) => {
-    console.log(item.ID, "clientId");
     if (state.addOpen) {
       state.ClientID = item.ID;
     } else record.ClientID = item.ID;

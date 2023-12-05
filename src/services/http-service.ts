@@ -8,7 +8,6 @@ export async function signIn(params: any) {
 
     return response.data;
   } catch (error: any) {
-    console.log(error.response.data);
     if (error.response) {
       throw new Error(error.response.data.error);
     } else {
@@ -29,7 +28,6 @@ export async function signOut() {
 
     return response.data;
   } catch (error: any) {
-    console.log(error.response.data);
     if (error.response) {
       throw new Error(error.response.data.error);
     } else {
@@ -39,7 +37,6 @@ export async function signOut() {
 }
 
 function handleErrors(error: any) {
-  console.log(error.response.data);
   if (error.response) {
     if (error.response.status === 401) {
       throw new Error(error.response.status + "_" + "token_expired");
@@ -200,7 +197,6 @@ export async function uploadFiles(params: any) {
 
     return response.data;
   } catch (error) {
-    console.log(error);
     handleErrors(error);
   }
 }

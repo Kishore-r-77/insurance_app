@@ -14,6 +14,7 @@ function IlpFundsAdd({
   fundDetails,
   setfundDetails,
   setNotify,
+  totalFundPercentage,
 }: any) {
   const size: string = "xl";
 
@@ -36,35 +37,12 @@ function IlpFundsAdd({
     const fundList = [...fundDetails];
     fundList.splice(index, 1);
     setfundDetails(fundList);
+    const sumOfFundPercentage = fundList.reduce(
+      (total: number, funds: any) => total + +funds.FundPercentage,
+      0
+    );
+    totalFundPercentage.current = sumOfFundPercentage;
   };
-
-  const totalFundPercentage = useRef(0);
-  console.log(totalFundPercentage.current, "totalFundPercentage");
-
-  // const handleFundsChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   i: number
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setfundDetails((prev: any) => {
-  //     if (name === "FundPercentage") {
-  //       const sumOfFundPercentage = prev.reduce((total: number, funds: any) => {
-  //         console.log(total, "total");
-  //         console.log(value, "value");
-  //         return +total + +funds.FundPercentage;
-  //       }, 0);
-  //       totalFundPercentage.current = sumOfFundPercentage;
-  //     }
-  //     return prev.map((fund: any, index: number) => {
-  //       if (index === i) {
-  //         return {
-  //           ...fund,
-  //           [name]: value,
-  //         };
-  //       } else return fund;
-  //     });
-  //   });
-  // };
 
   const handleFundsChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -161,14 +139,10 @@ function IlpFundsAdd({
     return () => {};
   }, []);
 
-  useEffect(() => {
-    totalFundPercentage.current = 0;
-    return () => {};
-  }, [open === false]);
-
   return (
     <CustomModal
       open={open}
+      isBackground={true}
       size={size}
       saveButton="Capture"
       closeButton="Cancel"

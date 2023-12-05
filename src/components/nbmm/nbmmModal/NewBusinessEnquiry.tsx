@@ -161,7 +161,6 @@ function NewBusinessEnquiry({
           }
         });
       case ACTIONS.CLIENTOPEN:
-        console.log(state);
         return state.map((value: any, index: number) => {
           if ((index = action.index)) {
             return {

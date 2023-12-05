@@ -74,8 +74,6 @@ function Params() {
           [action.fieldName]: action.payload,
         };
       case ACTIONS.EDITCHANGE:
-        console.log(action.fieldName, "fieldName");
-        console.log(action.payload, "payload");
         setRecord((prev: any) => ({
           ...prev,
           [action.fieldName]: action.payload,
@@ -372,42 +370,42 @@ function Params() {
           >
             <ReportIcon />
           </Button>
-          </CustomTooltip>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={reportMenuopen}
-            onClose={handleReportMenuClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-            elevation={0}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "center",
+        </CustomTooltip>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={reportMenuopen}
+          onClose={handleReportMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+          elevation={0}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <MenuItem
+            onClick={() => {
+              getReport("excel");
             }}
           >
-            <MenuItem
-              onClick={() => {
-                getReport("excel");
-              }}
-            >
-              <span style={{ fontSize: ".8em" }}>Excel Report</span>
-            </MenuItem>
+            <span style={{ fontSize: ".8em" }}>Excel Report</span>
+          </MenuItem>
 
-            <MenuItem
-              onClick={() => {
-                getReport("pdf");
-              }}
-            >
-              <span style={{ fontSize: ".8em" }}>Pdf Report</span>
-            </MenuItem>
-          </Menu>
-       
+          <MenuItem
+            onClick={() => {
+              getReport("pdf");
+            }}
+          >
+            <span style={{ fontSize: ".8em" }}>Pdf Report</span>
+          </MenuItem>
+        </Menu>
+
         <CustomTooltip text="Create Param">
           <Button
             id={styles["add-btn"]}

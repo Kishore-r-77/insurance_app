@@ -80,7 +80,6 @@ const ILPTransactionEnquiry = ({
       )
       .then((resp) => {
         setilpTransactionData(resp.data.IlpTransactions);
-        console.log(ilpTransactionData, "ilpTransactionData");
       })
       .catch((err) => console.log(err.message));
   };
