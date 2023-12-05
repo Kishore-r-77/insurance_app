@@ -260,9 +260,7 @@ function ParamItems() {
         }))
       : [];
 
-  const modalFunc = () => {
-    console.log("modal func");
-  };
+  const modalFunc = () => {};
 
   const hardDelete = (id: any) => {
     const colarray = id.split(",");
@@ -304,25 +302,23 @@ function ParamItems() {
   };
 
   const handleCloneModal = (params: any) => {
-    
     dispatch({ type: ACTIONS.CLONECLOSE });
 
-      //if data was modified in modal, rfresh the data from server
-      if (params.status === "save") {
-        let getDataParams = {
-          ...pageAndSearch,
-          companyId: searchparams.get("companyId"),
-          name: searchparams.get("name"),
-          languageId: searchparams.get("languageId"),
-        };
-  
-        sendScreenGetRequest({
-          apiUrlPathSuffix: "/basicservices/paramItems",
-          getDataParams: getDataParams,
-        });
-      }
- 
-}
+    //if data was modified in modal, rfresh the data from server
+    if (params.status === "save") {
+      let getDataParams = {
+        ...pageAndSearch,
+        companyId: searchparams.get("companyId"),
+        name: searchparams.get("name"),
+        languageId: searchparams.get("languageId"),
+      };
+
+      sendScreenGetRequest({
+        apiUrlPathSuffix: "/basicservices/paramItems",
+        getDataParams: getDataParams,
+      });
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -616,7 +612,7 @@ function ParamItems() {
             dispatch={dispatch}
             modalFunc={modalFunc}
             hardDelete={hardDelete}
-            showClone = {true}
+            showClone={true}
           />
           <CustomPagination
             pageNum={pageAndSearch.pageNum}
@@ -644,12 +640,11 @@ function ParamItems() {
             }}
           />
 
-<ParamItemClone
+          <ParamItemClone
             show={state.cloneOpen}
             handleModal={handleCloneModal}
             data={{
               ...record,
-                
             }}
           />
         </>

@@ -75,13 +75,10 @@ function Signup() {
         },
         { withCredentials: true }
       );
-      console.log(response);
 
       navigate("/");
       return response;
     } catch (err: any) {
-      
-
       return err.message;
     }
   };

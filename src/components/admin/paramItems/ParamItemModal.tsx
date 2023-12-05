@@ -77,7 +77,6 @@ const ParamItem = (props: any) => {
         longdesc: longdescInputRef.current.value,
         shortdesc: shortdescInputRef.current.value,
       };
-      console.log(props.data.type, props.data.mode, "type mode");
       if (props.data.type === "D" && props.data.mode === "create") {
         requestBody.startDate = "19000101";
         //paramitemStartdateInputRef.current.value;

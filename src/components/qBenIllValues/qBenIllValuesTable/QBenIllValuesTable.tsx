@@ -27,7 +27,6 @@ function QBenIllValuesTable({
       ? sortParam
       : { fieldName: columns[0].dbField, order: "asc" }
   );
-  console.log(data, "-------");
   return (
     <Paper className={styles.paperStyle}>
       <Table striped bordered hover>

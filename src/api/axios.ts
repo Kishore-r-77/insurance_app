@@ -35,7 +35,6 @@ instance.interceptors.response.use(
 
           return instance(originalConfig);
         } catch (_error) {
-          console.log("refresh failed");
           return Promise.reject(_error);
         }
       }
