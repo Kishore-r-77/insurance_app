@@ -4,7 +4,13 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TreeItem, TreeView } from "@mui/lab";
-import { Button, FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  MenuItem,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -32,6 +38,7 @@ import {
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 import "./newBusinessModal.css";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
 
 function NewBusinessModal({
   state,
@@ -1377,24 +1384,28 @@ function NewBusinessModal({
                         ) : null}
                         {state.PProduct === "ILP" ? (
                           <Grid2 xs={8} md={6} lg={4}>
-                            <Button
-                              variant="contained"
-                              onClick={() =>
-                                ilpOpen({
-                                  benefitIndex: index,
-                                  fundData: benefits.IlpFunds,
-                                })
-                              }
-                              style={{
-                                maxWidth: "30px",
-                                maxHeight: "30px",
-                                minWidth: "30px",
-                                minHeight: "30px",
-                                backgroundColor: "#191970",
-                              }}
-                            >
-                              <AddCircleIcon />
-                            </Button>
+                            <Tooltip title="Funds">
+                              <Button
+                                variant="contained"
+                                color="error"
+                                onClick={() =>
+                                  ilpOpen({
+                                    benefitIndex: index,
+                                    fundData: benefits.IlpFunds,
+                                  })
+                                }
+                                style={{
+                                  maxWidth: "30px",
+                                  maxHeight: "30px",
+                                  minWidth: "30px",
+                                  minHeight: "30px",
+                                  marginTop: "1rem",
+                                  // backgroundColor: "#191970",
+                                }}
+                              >
+                                <CreditScoreIcon />
+                              </Button>
+                            </Tooltip>
                           </Grid2>
                         ) : null}
                       </Grid2>

@@ -37,9 +37,13 @@ function IlpFundsAdd({
     const fundList = [...fundDetails];
     fundList.splice(index, 1);
     setfundDetails(fundList);
+    const sumOfFundPercentage = fundList.reduce(
+      (total: number, funds: any) => total + +funds.FundPercentage,
+      0
+    );
+    totalFundPercentage.current = sumOfFundPercentage;
+    console.log(totalFundPercentage.current, "Helloooooooooooooooooooo");
   };
-
-  console.log(totalFundPercentage.current, "totalFundPercentage");
 
   const handleFundsChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -136,9 +140,12 @@ function IlpFundsAdd({
     return () => {};
   }, []);
 
+  console.log(totalFundPercentage.current, "totalFundPercentage.current");
+
   return (
     <CustomModal
       open={open}
+      isBackground={true}
       size={size}
       saveButton="Capture"
       closeButton="Cancel"

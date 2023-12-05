@@ -1,17 +1,15 @@
-import { Button, IconButton, Paper } from "@mui/material";
-import Table from "react-bootstrap/Table";
-import styles from "./benefitTable.module.css";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
+import EditIcon from "@mui/icons-material/Edit";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import { IconButton, Paper } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import Table from "react-bootstrap/Table";
 import MRTAEnquiry from "../../enquiry/MRTAEnquiry";
-import EventAvailableIcon from "@mui/icons-material/EventAvailable";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
+import styles from "./benefitTable.module.css";
 
 function BenefitTable({
   data,
@@ -20,7 +18,6 @@ function BenefitTable({
   dispatch,
   ACTIONS,
   sortParam,
-  hardDelete,
   modalFunc,
   policyRecord,
 }: any) {
