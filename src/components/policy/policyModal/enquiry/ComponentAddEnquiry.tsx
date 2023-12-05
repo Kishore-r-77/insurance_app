@@ -98,7 +98,6 @@ const ComponentAddEnquiry = ({
       )
       .then((resp) => {
         setComponentData(resp.data.ComponentAdd);
-        console.log(componentAddData, "DATA");
       })
       .catch((err) => console.log(err.message));
   };
