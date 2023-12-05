@@ -53,6 +53,8 @@ function NewBusinessModal({
   const infoTitle: string = "Policy Info";
   const size = "xl";
 
+  const totalFundPercentage = useRef(0);
+
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -542,6 +544,7 @@ function NewBusinessModal({
     }
     if (values.operation === "cancel") {
       setfundDetails(initialFundValues);
+      totalFundPercentage.current = 0;
     }
   };
 
@@ -1452,6 +1455,7 @@ function NewBusinessModal({
         fundDetails={fundDetails}
         setfundDetails={setfundDetails}
         setNotify={setNotify}
+        totalFundPercentage={totalFundPercentage}
       />
     </div>
   );

@@ -14,6 +14,7 @@ function IlpFundsAdd({
   fundDetails,
   setfundDetails,
   setNotify,
+  totalFundPercentage,
 }: any) {
   const size: string = "xl";
 
@@ -38,33 +39,7 @@ function IlpFundsAdd({
     setfundDetails(fundList);
   };
 
-  const totalFundPercentage = useRef(0);
   console.log(totalFundPercentage.current, "totalFundPercentage");
-
-  // const handleFundsChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   i: number
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setfundDetails((prev: any) => {
-  //     if (name === "FundPercentage") {
-  //       const sumOfFundPercentage = prev.reduce((total: number, funds: any) => {
-  //         console.log(total, "total");
-  //         console.log(value, "value");
-  //         return +total + +funds.FundPercentage;
-  //       }, 0);
-  //       totalFundPercentage.current = sumOfFundPercentage;
-  //     }
-  //     return prev.map((fund: any, index: number) => {
-  //       if (index === i) {
-  //         return {
-  //           ...fund,
-  //           [name]: value,
-  //         };
-  //       } else return fund;
-  //     });
-  //   });
-  // };
 
   const handleFundsChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -160,11 +135,6 @@ function IlpFundsAdd({
     getFundCode(companyId, "P0050", languageId, "ILP1FUNDCODE");
     return () => {};
   }, []);
-
-  useEffect(() => {
-    totalFundPercentage.current = 0;
-    return () => {};
-  }, [open === false]);
 
   return (
     <CustomModal
