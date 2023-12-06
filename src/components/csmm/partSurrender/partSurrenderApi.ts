@@ -82,7 +82,7 @@ export const saveIlpPartSurrender = (
   return axios.post(
     `http://localhost:3000/api/v1/customerservice/ilppartsurrcreate/${polid}`,
     {
-      Function: "Commit",
+      Function: "Save",
       CompanyID: CompanyID,
       PolicyID: polid,
       ClientID: SurrHdata.ClientID,

@@ -262,7 +262,7 @@ function CsmmTable({
       case SURRENDERACTIONS.COMMITCLOSE:
         return {
           ...state,
-          Function: "Commit",
+          Function: "Save",
           commitOpen: false,
         };
       case SURRENDERACTIONS.SURRENDEROPEN:
