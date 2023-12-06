@@ -224,8 +224,8 @@ function ComponentModal({
                     <th>BPTerm</th>
                     <th>BPrem</th>
                     <th>BAnnual Prem</th>
-                    <th>BGender</th>
-                    <th>BDOB</th>
+                    <th>Benefit Risk Cessation Date</th>
+                    <th> Benefit Premium Cessation Date</th>
                     <th>Method</th>
                   </tr>
                 </thead>
@@ -389,12 +389,38 @@ function ComponentModal({
                             value={val?.BAnnualPrem}
                           />
                         </td>
-                        <td className={styles["td-class"]}>
+                        {/* <td className={styles["td-class"]}>
                           <input
                             className={styles["input-form"]}
                             type="text"
                             disabled
                             value={val?.BGender}
+                          />
+                        </td> */}
+                        {/* <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={moment(val?.BDOB).format("DD-MM-YYYY")}
+                          />
+                        </td> */}
+                        {/* <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={val?.Method}
+                          />
+                        </td> */}
+                        <td className={styles["td-class"]}>
+                          <input
+                            className={styles["input-form"]}
+                            type="text"
+                            disabled
+                            value={moment(val?.BRiskCessDate).format(
+                              "DD-MM-YYYY"
+                            )}
                           />
                         </td>
                         <td className={styles["td-class"]}>
@@ -402,7 +428,9 @@ function ComponentModal({
                             className={styles["input-form"]}
                             type="text"
                             disabled
-                            value={moment(val?.BDOB).format("DD-MM-YYYY")}
+                            value={moment(val?.BPremCessDate).format(
+                              "DD-MM-YYYY"
+                            )}
                           />
                         </td>
                         <td className={styles["td-class"]}>
