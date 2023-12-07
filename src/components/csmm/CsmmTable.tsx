@@ -887,7 +887,7 @@ function CsmmTable({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err?.data?.error,
+          message: err?.response?.data?.error,
           type: "error",
         });
       });

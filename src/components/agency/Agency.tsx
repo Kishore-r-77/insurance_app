@@ -14,6 +14,7 @@ import CustomTable from "../../utilities/Table/CustomTable";
 import styles from "./agency.module.css";
 import { addApi, deleteApi, editApi, getAllApi } from "./agencyApis/agencyApis";
 import AgencyModal from "./agencyModal/AgencyModal";
+import Notification from "../../utilities/Notification/Notification";
 
 function Agency({ modalFunc }: any) {
   //data from getall api
@@ -130,6 +131,12 @@ function Agency({ modalFunc }: any) {
     }
   };
 
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
 
@@ -159,8 +166,19 @@ function Agency({ modalFunc }: any) {
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
+        setNotify({
+          isOpen: true,
+          message: `Added Sucessfully`,
+          type: "success",
+        });
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.errors,
+          type: "error",
+        })
+      );
   };
 
   //Edit Api
@@ -170,7 +188,13 @@ function Agency({ modalFunc }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   //Hard Delete Api
@@ -302,6 +326,7 @@ function Agency({ modalFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
