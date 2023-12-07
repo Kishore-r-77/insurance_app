@@ -69,7 +69,7 @@ function PolicyInformation({
   );
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {
-      setCompanyData(resp.data["Company"]);
+      setCompanyData(resp?.data?.Company);
     });
   };
 
@@ -78,7 +78,7 @@ function PolicyInformation({
   const getQ0005 = () => {
     return q0005(companyId, languageId)
       .then((resp) => {
-        setq0005Data(resp.data.data);
+        setq0005Data(resp?.data?.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -87,7 +87,7 @@ function PolicyInformation({
   const getFreq = () => {
     return frequency(companyId, languageId)
       .then((resp) => {
-        setfreq(resp.data.AllowedFrequencies);
+        setfreq(resp?.data?.AllowedFrequencies);
       })
       .catch((err) => console.log(err.message));
   };
@@ -96,7 +96,7 @@ function PolicyInformation({
   const getQ0018 = () => {
     return p0018(companyId, languageId)
       .then((resp) => {
-        setp0018Data(resp.data.data);
+        setp0018Data(resp?.data?.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -185,9 +185,9 @@ function PolicyInformation({
         withCredentials: true,
       })
       .then((resp) => {
-        setTDFData(resp.data["TDFPolicy"]);
+        setTDFData(resp?.data["TDFPolicy"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err?.message));
   };
 
   const [BALData, setBALData] = useState([]);
@@ -197,7 +197,7 @@ function PolicyInformation({
         withCredentials: true,
       })
       .then((resp) => {
-        setBALData(resp.data?.History);
+        setBALData(resp?.data?.History);
       })
       .catch((err) => console.log(err.message));
   };
@@ -921,7 +921,7 @@ function PolicyInformation({
               </Tooltip>
               {isCollapse ? (
                 <ul>
-                  {tabsArray.map((tabsObj) => (
+                  {tabsArray?.map((tabsObj) => (
                     <li
                       key={tabsObj.tabName}
                       className={`${styles["collapse-tabs-li"]} ${

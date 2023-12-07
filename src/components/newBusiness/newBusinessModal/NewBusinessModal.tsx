@@ -68,50 +68,6 @@ function NewBusinessModal({
 
   const totalFundPercentage = useRef(0);
 
-  const dummyJson = {
-    paginationData: {
-      totalRecords: 1,
-    },
-    param: {
-      companyId: 1,
-      data: {
-        p0071Array: [
-          {
-            benDataType: "Funds",
-            manOrOpt: "M",
-          },
-          {
-            benDataType: "Extra",
-            manOrOpt: "O",
-          },
-          {
-            benDataType: "Annuity",
-            manOrOpt: "O",
-          },
-          {
-            benDataType: "Hospital",
-            manOrOpt: "O",
-          },
-          {
-            benDataType: "Disability",
-            manOrOpt: "O",
-          },
-          {
-            benDataType: "Funeral",
-            manOrOpt: "O",
-          },
-        ],
-      },
-      endDate: "20990101",
-      item: "ILP1",
-      languageId: 1,
-      longdesc: "ILP1",
-      name: "P0071",
-      shortdesc: "ILP1",
-      startDate: "19000101",
-      type: "D",
-    },
-  };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -632,13 +588,28 @@ function NewBusinessModal({
     }
   };
 
+  const [p0071Data, setp0071Data] = useState<any>([]);
+  const getP0071 = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/paramItem?companyId=1&name=P0071&languageId=1&item=ILP1`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setp0071Data(resp.data?.param?.data?.p0071Array);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   useEffect(() => {
-    // Set default checked items based on "M" in manOrOpt
-    const defaultChecked = dummyJson.param.data.p0071Array
-      .filter((item) => item.manOrOpt === "M")
-      .map((item) => item.benDataType);
+    getP0071();
+    const defaultChecked = p0071Data
+      .filter((item: any) => item.manOrOpt === "M")
+      .map((item: any) => item.benDataType);
     setCheckedItems(defaultChecked);
-  }, []);
+  }, [state.addOpen === true]);
 
   return (
     <div>
@@ -1276,32 +1247,24 @@ function NewBusinessModal({
                               display: "block",
                             }}
                           >
-                            {dummyJson.param.data.p0071Array.map(
-                              (item: any, index: number) => (
-                                <FormControlLabel
-                                  key={index}
-                                  control={
-                                    <Checkbox
-                                      checked={checkedItems.includes(
-                                        item.benDataType
-                                      )}
-                                      onChange={handleCheckboxChange}
-                                      name={item.benDataType}
-                                    />
-                                  }
-                                  label={item.benDataType}
-                                />
-                              )
-                            )}
+                            {p0071Data.map((item: any, index: number) => (
+                              <FormControlLabel
+                                key={index}
+                                control={
+                                  <Checkbox
+                                    checked={checkedItems.includes(
+                                      item.benDataType
+                                    )}
+                                    onChange={handleCheckboxChange}
+                                    name={item.benDataType}
+                                  />
+                                }
+                                label={item.benDataType}
+                              />
+                            ))}
                             <hr />
-                            <div>
-                              <strong style={{ color: "black" }}>
-                                Selected Values:
-                              </strong>{" "}
-                              {checkedItems.join(", ")}
-                            </div>
                           </span>
-                          <br />
+
                           <section
                             style={{
                               display: "flex",
@@ -1309,7 +1272,7 @@ function NewBusinessModal({
                               justifyContent: "center",
                             }}
                           >
-                            {checkedItems.includes("Funds") && (
+                            {checkedItems.includes("Fund") && (
                               <span style={{ textAlign: "center" }}>
                                 <Grid2 xs={8} md={6} lg={4}>
                                   <Tooltip title="Funds">
