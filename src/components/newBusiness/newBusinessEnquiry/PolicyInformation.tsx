@@ -139,13 +139,13 @@ function PolicyInformation({
         }
       )
       .then((resp) => {
-        setcoverage(resp.data["AllowedCoverages"]);
+        setcoverage(resp?.data?.AllowedCoverages);
         dispatchBenefit({
           type: "INITIALIZE_STATE",
-          payload: [...resp.data["AllowedCoverages"]],
+          payload: [...resp?.data?.AllowedCoverages],
         });
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err?.message));
   };
 
   const [clientData, setclientData] = useState([]);
@@ -316,7 +316,7 @@ function PolicyInformation({
     return () => {};
   }, []);
 
-  var initialBenefitValues = coverage.map((value) => ({
+  var initialBenefitValues = coverage?.map((value) => ({
     BStartDate: "",
     BTerm: "",
     ClientID: "",
@@ -407,36 +407,6 @@ function PolicyInformation({
     getCoverage();
     return () => {};
   }, []);
-
-  const policyAndModalAddSubmit = async () => {
-    const response = await handleFormSubmit();
-
-    if (response.status === 200) {
-      for (let i = 0; i < coverage.length; i++) {
-        handleBenefitFormSubmit(i, response?.response?.data?.Created);
-      }
-      dispatch({ type: ACTIONS.ADDCLOSE });
-    }
-  };
-
-  const clientOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.ClientID = item.ID;
-    } else record.ClientID = item.ID;
-    dispatch({ type: ACTIONS.CLIENTCLOSE });
-  };
-  const addressOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.AddressID = item.ID;
-    } else record.AddressID = item.ID;
-    dispatch({ type: ACTIONS.ADDRESSCLOSE });
-  };
-  const agencyOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.AgencyID = item.ID;
-    } else record.AgencyID = item.ID;
-    dispatch({ type: ACTIONS.AGENCYCLOSE });
-  };
 
   const tabsArray = [
     {

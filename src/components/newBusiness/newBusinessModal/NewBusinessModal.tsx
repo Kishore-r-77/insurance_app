@@ -1,12 +1,18 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AssistWalkerIcon from "@mui/icons-material/AssistWalker";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { TreeItem, TreeView } from "@mui/lab";
 import {
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   MenuItem,
   TextField,
   Tooltip,
@@ -38,7 +44,7 @@ import {
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 import "./newBusinessModal.css";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
+import YardIcon from "@mui/icons-material/Yard";
 
 function NewBusinessModal({
   state,
@@ -62,6 +68,50 @@ function NewBusinessModal({
 
   const totalFundPercentage = useRef(0);
 
+  const dummyJson = {
+    paginationData: {
+      totalRecords: 1,
+    },
+    param: {
+      companyId: 1,
+      data: {
+        p0071Array: [
+          {
+            benDataType: "Funds",
+            manOrOpt: "M",
+          },
+          {
+            benDataType: "Extra",
+            manOrOpt: "O",
+          },
+          {
+            benDataType: "Annuity",
+            manOrOpt: "O",
+          },
+          {
+            benDataType: "Hospital",
+            manOrOpt: "O",
+          },
+          {
+            benDataType: "Disability",
+            manOrOpt: "O",
+          },
+          {
+            benDataType: "Funeral",
+            manOrOpt: "O",
+          },
+        ],
+      },
+      endDate: "20990101",
+      item: "ILP1",
+      languageId: 1,
+      longdesc: "ILP1",
+      name: "P0071",
+      shortdesc: "ILP1",
+      startDate: "19000101",
+      type: "D",
+    },
+  };
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
   );
@@ -556,6 +606,7 @@ function NewBusinessModal({
   };
 
   useEffect(() => {
+    setCheckedItems([]);
     setbenefitClientId({
       "0": "",
     });
@@ -566,6 +617,28 @@ function NewBusinessModal({
   const [ilpfunds, setilpfunds] = useState([
     { FundCode: "", FundPercentage: "" },
   ]);
+
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+
+    if (checked) {
+      setCheckedItems((prevCheckedItems) => [...prevCheckedItems, name]);
+    } else {
+      setCheckedItems((prevCheckedItems) =>
+        prevCheckedItems.filter((item) => item !== name)
+      );
+    }
+  };
+
+  useEffect(() => {
+    // Set default checked items based on "M" in manOrOpt
+    const defaultChecked = dummyJson.param.data.p0071Array
+      .filter((item) => item.manOrOpt === "M")
+      .map((item) => item.benDataType);
+    setCheckedItems(defaultChecked);
+  }, []);
 
   return (
     <div>
@@ -774,7 +847,9 @@ function NewBusinessModal({
                     margin="dense"
                   >
                     {pProductData?.map((val: any) => (
-                      <MenuItem value={val?.item}>{val?.shortdesc}</MenuItem>
+                      <MenuItem key={val?.item} value={val?.item}>
+                        {val?.shortdesc}
+                      </MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
@@ -1193,6 +1268,193 @@ function NewBusinessModal({
                       label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
                       style={{ minWidth: "95%", margin: "0px 1rem" }}
                     >
+                      {state.PProduct === "ILP" ? (
+                        <>
+                          <span
+                            style={{
+                              textAlign: "center",
+                              display: "block",
+                            }}
+                          >
+                            {dummyJson.param.data.p0071Array.map(
+                              (item: any, index: number) => (
+                                <FormControlLabel
+                                  key={index}
+                                  control={
+                                    <Checkbox
+                                      checked={checkedItems.includes(
+                                        item.benDataType
+                                      )}
+                                      onChange={handleCheckboxChange}
+                                      name={item.benDataType}
+                                    />
+                                  }
+                                  label={item.benDataType}
+                                />
+                              )
+                            )}
+                            <hr />
+                            <div>
+                              <strong style={{ color: "black" }}>
+                                Selected Values:
+                              </strong>{" "}
+                              {checkedItems.join(", ")}
+                            </div>
+                          </span>
+                          <br />
+                          <section
+                            style={{
+                              display: "flex",
+                              gap: "1rem",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {checkedItems.includes("Funds") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Funds">
+                                    <Button
+                                      variant="contained"
+                                      color="secondary"
+                                      onClick={() =>
+                                        ilpOpen({
+                                          benefitIndex: index,
+                                          fundData: benefits.IlpFunds,
+                                        })
+                                      }
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <CreditScoreIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Extra") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Extras">
+                                    <Button
+                                      variant="contained"
+                                      color="success"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <PlaylistAddIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Annuity") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Annuity">
+                                    <Button
+                                      variant="contained"
+                                      color="primary"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <CalendarMonthIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Hospital") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Hospital">
+                                    <Button
+                                      variant="contained"
+                                      color="error"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        minWidth: "30px",
+                                        maxHeight: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <LocalHospitalIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Disability") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Disability">
+                                    <Button
+                                      variant="contained"
+                                      color="inherit"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <AssistWalkerIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Funeral") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Funeral">
+                                    <Button
+                                      variant="contained"
+                                      color="warning"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <YardIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+                          </section>
+                        </>
+                      ) : null}
+                      <br />
                       <Grid2 container spacing={2}>
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
@@ -1380,32 +1642,6 @@ function NewBusinessModal({
                               fullWidth
                               margin="dense"
                             ></TextField>
-                          </Grid2>
-                        ) : null}
-                        {state.PProduct === "ILP" ? (
-                          <Grid2 xs={8} md={6} lg={4}>
-                            <Tooltip title="Funds">
-                              <Button
-                                variant="contained"
-                                color="error"
-                                onClick={() =>
-                                  ilpOpen({
-                                    benefitIndex: index,
-                                    fundData: benefits.IlpFunds,
-                                  })
-                                }
-                                style={{
-                                  maxWidth: "30px",
-                                  maxHeight: "30px",
-                                  minWidth: "30px",
-                                  minHeight: "30px",
-                                  marginTop: "1rem",
-                                  // backgroundColor: "#191970",
-                                }}
-                              >
-                                <CreditScoreIcon />
-                              </Button>
-                            </Tooltip>
                           </Grid2>
                         ) : null}
                       </Grid2>
