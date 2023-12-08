@@ -5,6 +5,7 @@ import CustomModal from "../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../redux/app/hooks";
 
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
+import { addApi } from "../nomineeApi/nomineeApi";
 import styles from "./NomineeModel.module.css";
 import { NomineeModalType } from "../../../reducerUtilities/types/nominee/nomineeType";
 import { paramItem } from "../nomineeApi/nomineeApi";
@@ -15,23 +16,26 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  MenuItem,
+  TextField,
+} from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import axios from "axios";
+import CustomNomineeModal from "./CustomNomineeModal";
 
-//Attention: Check the path below
-//import { NomineeModalType } from "../../../../reducerUtilities/types/nominee/nomineeTypes";
-//import { paramItem } from "../nomineeApis/nomineeApis";
-// *** Attention: Check the path and change it if required ***
-//import Policy from "../../../policy/Policy";
-//import Client from "../../../client/Client";
 function NomineeModal({
-  state,
-  record,
-  dispatch,
-  ACTIONS,
-  handleFormSubmit,
-  policyRecord,
-  nomineesData,
-  setNomineesData,
+  open,
+  handleClose,
+  policyId,
+  data,
+  clientOpen,
+  clientClose,
+  nomineeClient,
 }: any) {
   const addTitle: string = "Nominee Add";
   const editTitle: string = "Nominee Edit";
@@ -52,13 +56,13 @@ function NomineeModal({
     });
   };
 
-  // const [policyData, setpolicyData] = useState<any>({});
-  // const getpolicyData = (id: number) => {
-  //   getApi(id).then((resp) => {
-  //     setpolicyData(resp.data["Policy"]);
-  //   });
-  // };
-  const [selecteNomineeIndex, setselecteNomineeIndex] = useState("");
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  const [selecteNomineeIndex, setselecteNomineeIndex] = useState<any>("");
 
   const [nomineeRelationshipData, setNomineeRelationshipData] = useState([]);
   const getNomineeRelationship = (
@@ -82,15 +86,17 @@ function NomineeModal({
     return () => {};
   }, []);
 
-  // const [nomineesData, setNomineesData] = useState([
-  //   {
-  //     PolicyID: 0,
-  //     ClientID: 0,
-  //     NomineeRelationship: "",
-  //     NomineeLongName: "",
-  //     NomineePercentage: 0,
-  //   },
-  // ]);
+  const [nomineesData, setNomineesData] = useState([
+    {
+      PolicyID: 0,
+      ClientID: 0,
+      NomineeRelationship: "",
+      NomineeLongName: "",
+      NomineePercentage: 0,
+      Gender: "",
+      ClientShortName: "",
+    },
+  ]);
 
   const handleNomineesAdd = () => {
     setNomineesData([
@@ -101,6 +107,8 @@ function NomineeModal({
         NomineeRelationship: "",
         NomineeLongName: "",
         NomineePercentage: 0,
+        Gender: "",
+        ClientShortName: "",
       },
     ]);
   };
@@ -110,17 +118,6 @@ function NomineeModal({
     list.splice(index, 1);
     setNomineesData(list);
   };
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-  //   const { name, value } = e.target;
-  //   setNomineesData(
-  //     nomineesData.map((nominee, index) => {
-  //       if (index === i) {
-  //         return { ...nominee, [name]: value };
-  //       } else return nominee;
-  //     })
-  //   );
-  // };
 
   const [capturedCovg, setcapturedCovg] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
@@ -137,13 +134,14 @@ function NomineeModal({
       })
     );
   };
+  console.log(nomineesData, "nomineesDataaa");
 
   const [nomineeClientId, setnomineeClientId] = useState<any>({
     "0": "",
   });
   const handleNomineeClientIdUpdate = (index: number) => {
     setselecteNomineeIndex(index.toString());
-    dispatch({ type: ACTIONS.NOMINEECLIENTOPEN });
+    nomineeClient();
   };
   const nomineeClientOpenFunc = (item: any) => {
     console.log(item.ID, "Itemmmmmm");
@@ -164,262 +162,452 @@ function NomineeModal({
           return {
             ...nominees,
             ClientID: nomineeClientId[selecteNomineeIndex],
+            ClientShortName: newNomineeClientData?.ClientShortName,
           };
         } else return nominees;
       })
     );
-    dispatch({ type: ACTIONS.NOMINEECLIENTCLOSE });
+    clientClose();
+    setNomineesData((prev) => [...prev]);
   };
+
+  const [allNomineeData, setAllNomineeData] = useState<any>();
+  const getAllNominees = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/deathservices/nomineesbypol/${policyId}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setAllNomineeData(resp.data?.Nominees);
+      });
+  };
+  useEffect(() => {
+    getAllNominees();
+    return () => {};
+  }, [open]);
+
+  const [newNomineeClientData, setNewNomineeClientData] = useState<any>([]);
+  const getNewNomineeClient = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/clientget/${nomineeClientId[selecteNomineeIndex]}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setNewNomineeClientData(resp.data["Client"]);
+      });
+  };
+
+  console.log(newNomineeClientData, "newNomineeclientData");
+  const [policyData, setPolicyData] = useState<any>([]);
+  const getPolicy = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/nbservices/policyget/${policyId}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        setPolicyData(resp.data["Policy"]);
+      });
+  };
+
+  const [clientData, setClientData] = useState<any>([]);
+  const getClients = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/clientget/${policyData?.ClientID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setClientData(resp.data["Client"]);
+      });
+  };
+  useEffect(() => {
+    getPolicy();
+    getAllNominees();
+    setAllNomineeData("");
+    setNewNomineeClientData("");
+    setNomineesData([
+      {
+        PolicyID: 0,
+        ClientID: 0,
+        NomineeRelationship: "",
+        NomineeLongName: "",
+        NomineePercentage: 0,
+        Gender: "",
+        ClientShortName: "",
+      },
+    ]);
+    return () => {};
+  }, [open === true]);
+
+  useEffect(() => {
+    getNewNomineeClient();
+    return () => {};
+  }, [clientClose]);
 
   useEffect(() => {
     setnomineeClientId({
       "0": "",
     });
+    setNomineesData([
+      {
+        PolicyID: 0,
+        ClientID: 0,
+        NomineeRelationship: "",
+        NomineeLongName: "",
+        NomineePercentage: 0,
+        Gender: "",
+        ClientShortName: "",
+      },
+    ]);
+    setNewNomineeClientData("");
+
     return () => {};
-  }, [state.addOpen === false]);
+  }, [open === false]);
+
+  useEffect(() => {
+    getClients();
+
+    return () => {};
+  }, [policyData]);
+
+  // useEffect(() => {
+  //   nomineesData[selecteNomineeIndex].ClientShortName =
+  //     newNomineeClientData?.ClientShortName;
+
+  //   return () => {};
+  // }, [handleNomineeClientIdUpdate]);
+
+  const handleFormSubmit = () => {
+    return addApi(open, companyId, policyId, nomineesData)
+      .then((resp) => {
+        handleClose();
+        setNotify({
+          isOpen: true,
+          message: `Created:${resp.data?.Created}`,
+          type: "success",
+        });
+      })
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
+  };
 
   // *** Attention: Check the Lookup table  OPenFunc details below ***
 
   return (
     <div className={styles.modal}>
-      <CustomModal
+      <CustomNomineeModal
         size={size}
-        open={
-          state.addOpen
-            ? state.addOpen
-            : state.editOpen
-            ? state.editOpen
-            : state.infoOpen
-        }
-        handleClose={
-          state.addOpen
-            ? () => dispatch({ type: ACTIONS.ADDCLOSE })
-            : state.editOpen
-            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
-            : () => dispatch({ type: ACTIONS.INFOCLOSE })
-        }
-        title={
-          state.addOpen
-            ? addTitle
-            : state.editOpen
-            ? editTitle
-            : state.infoOpen
-            ? infoTitle
-            : null
-        }
-        ACTIONS={ACTIONS}
+        open={open}
+        handleClose={handleClose}
         handleFormSubmit={() => handleFormSubmit()}
       >
         <form>
           <TreeView
-            style={{ width: "90%", margin: "0px auto" }}
+            style={{ width: "100%", margin: "0px auto" }}
             aria-label="file system navigator"
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpandIcon={<ChevronRightIcon />}
-            defaultExpanded={[`2`]}
+            defaultExpanded={["1", "2", "3"]}
           >
-            {nomineesData?.map((nominees: any, index: number) => {
-              return (
-                <>
-                  {state.nomineeClientOpen ? (
-                    <CustomModal
-                      size={size}
-                      open={state.nomineeClientOpen}
-                      handleClose={() =>
-                        dispatch({ type: ACTIONS.NOMINEECLIENTCLOSE })
-                      }
-                    >
-                      <Client modalFunc={nomineeClientOpenFunc} />
-                    </CustomModal>
-                  ) : null}
-                  <div style={{ display: "flex" }}>
-                    <TreeItem
-                      // nodeId="1"
-                      nodeId={(index + 2).toString()}
-                      label={
-                        state.addOpen
-                          ? `Nominee Add`
-                          : state.editOpen
-                          ? `Nominee Edit`
-                          : `Nominee Info`
-                      }
-                      style={{ minWidth: "95%", margin: "0px 1rem" }}
-                    >
+            <TreeItem nodeId="1" label={`Policies Details`}>
+              <Grid2
+                container
+                spacing={2}
+                style={{ width: "95%", margin: "0px auto" }}
+              >
+                <Grid2 xs={6} md={4} lg={2}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="CompanyID"
+                    name="CompanyID"
+                    value={companyData?.CompanyName}
+                    placeholder="company_id"
+                    label="company_id"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={6} md={4} lg={2}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="PolicyID"
+                    name="PolicyID"
+                    value={policyId}
+                    placeholder="Policy ID"
+                    label="Policy ID"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={6} md={4} lg={2}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="Policy OwnerName"
+                    name="Policy OwnerName"
+                    value={clientData?.ClientShortName}
+                    InputLabelProps={{ shrink: true }}
+                    placeholder="Policy OwnerName"
+                    label="Policy OwnerName"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+              </Grid2>
+            </TreeItem>
+
+            <div style={{ display: "flex" }}>
+              {allNomineeData != "" ? (
+                <TreeItem
+                  nodeId="2"
+                  label={open ? `Existing Nominee` : `Existing Nominee`}
+                  style={{ minWidth: "95%", margin: "0px 1rem" }}
+                >
+                  {allNomineeData?.map((nominee: any, index: number) => {
+                    return (
+                      <>
+                        <Grid2 container spacing={2}>
+                          <Grid2 xs={6} md={4} lg={2}>
+                            <TextField
+                              InputProps={{ readOnly: true }}
+                              id="ClientID"
+                              name="ClientID"
+                              InputLabelProps={{ shrink: true }}
+                              value={nominee?.ClientID}
+                              placeholder="client_id"
+                              label="client_id"
+                              fullWidth
+                              margin="dense"
+                            />
+                          </Grid2>
+                          <Grid2 xs={6} md={4} lg={2}>
+                            <TextField
+                              InputProps={{ readOnly: true }}
+                              id="ShortName"
+                              name="ShortName"
+                              InputLabelProps={{ shrink: true }}
+                              value={nominee?.ShortName}
+                              placeholder="Client ShortName"
+                              label="Client ShortName"
+                              fullWidth
+                              margin="dense"
+                            />
+                          </Grid2>
+                          <Grid2 xs={6} md={4} lg={2}>
+                            <TextField
+                              InputProps={{ readOnly: true }}
+                              id="ClientName"
+                              name="ClientName"
+                              InputLabelProps={{ shrink: true }}
+                              value={nominee?.NomineeLongName}
+                              placeholder="Client Name"
+                              label="Client Name"
+                              fullWidth
+                              margin="dense"
+                            />
+                          </Grid2>
+                          <Grid2 xs={6} md={4} lg={2}>
+                            <TextField
+                              InputProps={{ readOnly: true }}
+                              id="Gender"
+                              name="Gender"
+                              InputLabelProps={{ shrink: true }}
+                              value={nominee?.Gender}
+                              placeholder="Gender"
+                              label="Gender"
+                              fullWidth
+                              margin="dense"
+                            />
+                          </Grid2>
+                          <Grid2 xs={6} md={4} lg={2}>
+                            <TextField
+                              select
+                              id="NomineeRelationship"
+                              name="NomineeRelationship"
+                              value={nominee?.NomineeRelationship}
+                              placeholder="Nominee Relationship"
+                              label="Nominee Relationship"
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => handleChange(e, index)}
+                              fullWidth
+                              inputProps={{ readOnly: true }}
+                              margin="dense"
+                            >
+                              {nomineeRelationshipData.map((val: any) => (
+                                <MenuItem key={val.item} value={val.item}>
+                                  {val.shortdesc}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          </Grid2>
+                          <Grid2 xs={6} md={4} lg={2}>
+                            <TextField
+                              type="number"
+                              id="NomineePercentage"
+                              name="NomineePercentage"
+                              value={nominee.NomineePercentage}
+                              placeholder="Percentage"
+                              label="Percentage"
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => handleChange(e, index)}
+                              fullWidth
+                              inputProps={{ readOnly: true }}
+                              margin="dense"
+                            />
+                          </Grid2>
+                          {/* {nomineesData?.length - 1 === index &&
+                          nomineesData?.length < 100 && (
+                            <IconButton onClick={handleNomineesAdd}>
+                              <AddCircleIcon color="success" />
+                            </IconButton>
+                          )}
+                        {nomineesData?.length !== 1 && (
+                          <IconButton
+                            onClick={() => handleNomineeRemove(index)}
+                          >
+                            <RemoveCircleIcon color="error" />
+                          </IconButton>
+                        )} */}
+                        </Grid2>
+                      </>
+                    );
+                  })}
+                </TreeItem>
+              ) : null}
+            </div>
+            <div style={{ display: "flex" }}>
+              <TreeItem
+                nodeId="3"
+                label={open ? `Nominee Add` : `Nominee Edit`}
+                style={{ minWidth: "95%", margin: "0px 1rem" }}
+              >
+                {nomineesData?.map((nominees: any, index: number) => {
+                  return (
+                    <>
+                      {clientOpen ? (
+                        <CustomModal
+                          size={size}
+                          open={nomineeClient}
+                          handleClose={clientClose}
+                        >
+                          <Client modalFunc={nomineeClientOpenFunc} />
+                        </CustomModal>
+                      ) : null}
                       <Grid2 container spacing={2}>
-                        <Grid2 xs={8} md={6} lg={4}>
+                        <Grid2 xs={6.2} md={4.2} lg={2.2}>
                           <TextField
-                            InputProps={{ readOnly: true }}
-                            id="CompanyID"
-                            name="CompanyID"
-                            value={companyData?.CompanyName}
-                            placeholder="company_id"
-                            label="company_id"
-                            fullWidth
-                            margin="dense"
-                          />
-                        </Grid2>
-                        <Grid2 xs={8} md={6} lg={4}>
-                          <TextField
-                            InputProps={{ readOnly: true }}
-                            id="PolicyID"
-                            name="PolicyID"
-                            value={policyRecord?.ID}
-                            placeholder="Policy ID"
-                            label="Policy ID"
-                            fullWidth
-                            inputProps={{ readOnly: state.infoOpen }}
-                            margin="dense"
-                          />
-                        </Grid2>
-                        <Grid2 xs={8} md={6} lg={4}>
-                          <TextField
-                            InputProps={{ readOnly: state.infoOpen }}
                             id="ClientID"
                             name="ClientID"
                             InputLabelProps={{ shrink: true }}
-                            value={
-                              state.addOpen
-                                ? nomineeClientId[index]
-                                : record.ClientID
-                            }
-                            // onClick={() =>
-                            //   dispatch({ type: ACTIONS.NOMINEECLIENTOPEN })
-                            // }
-                            // value={nominees.ClientID}
+                            value={nomineeClientId[index]}
                             onClick={() => handleNomineeClientIdUpdate(index)}
-                            // onChange={(
-                            //   e: React.ChangeEvent<HTMLInputElement>
-                            // ) => handleChange(e, index)}
                             placeholder="client_id"
                             label="client_id"
                             fullWidth
                             margin="dense"
                           />
                         </Grid2>
-                        <Grid2 xs={8} md={6} lg={4}>
+                        <Grid2 xs={6.2} md={4.2} lg={2.2}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="ClientShortName"
+                            name="ClientShortName"
+                            InputLabelProps={{ shrink: true }}
+                            value={nominees.ClientShortName}
+                            placeholder="Client Name"
+                            label="Client Name"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={6.2} md={4.2} lg={2.2}>
+                          <TextField
+                            InputProps={{ readOnly: true }}
+                            id="Gender"
+                            name="Gender"
+                            InputLabelProps={{ shrink: true }}
+                            value={nominees.Gender}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleChange(e, index)}
+                            placeholder="Gender"
+                            label="Gender"
+                            fullWidth
+                            margin="dense"
+                          />
+                        </Grid2>
+                        <Grid2 xs={6.2} md={4.2} lg={2.2}>
                           <TextField
                             select
                             id="NomineeRelationship"
                             name="NomineeRelationship"
-                            value={
-                              state.addOpen
-                                ? nominees.NomineeRelationship
-                                : record.NomineeRelationship
-                            }
+                            value={nominees.NomineeRelationship}
                             placeholder="Nominee Relationship"
                             label="Nominee Relationship"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => handleChange(e, index)}
-                            // onChange={(
-                            //   e: React.ChangeEvent<HTMLInputElement>
-                            // ) =>
-                            //   dispatch({
-                            //     type: state.addOpen
-                            //       ? ACTIONS.ONCHANGE
-                            //       : ACTIONS.EDITCHANGE,
-                            //     payload: e.target.value,
-                            //     fieldName: "NomineeRelationship",
-                            //   })
-                            // }
                             fullWidth
-                            inputProps={{ readOnly: state.infoOpen }}
                             margin="dense"
                           >
                             {nomineeRelationshipData.map((val: any) => (
                               <MenuItem value={val.item}>
-                                {val.shortdesc}
+                                {val.longdesc}
                               </MenuItem>
                             ))}
                           </TextField>
                         </Grid2>
-                        <Grid2 xs={8} md={6} lg={4}>
+                        <Grid2 xs={6.2} md={4.2} lg={2.2}>
                           <TextField
                             type="number"
-                            //InputProps={{
-                            //startAdornment: (
-                            //<InputAdornment position="start">+91</InputAdornment>
-                            // ),
-                            //}}
                             id="NomineePercentage"
                             name="NomineePercentage"
-                            value={
-                              state.addOpen
-                                ? nominees.NomineePercentage
-                                : record.NomineePercentage
-                            }
+                            value={nominees.NomineePercentage}
                             placeholder="Percentage"
                             label="Percentage"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => handleChange(e, index)}
-                            // onChange={(
-                            //   e: React.ChangeEvent<HTMLInputElement>
-                            // ) =>
-                            //   dispatch({
-                            //     type: state.addOpen
-                            //       ? ACTIONS.ONCHANGE
-                            //       : ACTIONS.EDITCHANGE,
-                            //     payload: e.target.value,
-                            //     fieldName: "NomineePercentage",
-                            //   })
-                            // }
                             fullWidth
-                            inputProps={{ readOnly: state.infoOpen }}
                             margin="dense"
                           />
                         </Grid2>
-                      </Grid2>
-                    </TreeItem>
-                    {state.addOpen ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "baseline",
-                          gap: "5px",
-                        }}
-                      >
                         {nomineesData?.length - 1 === index &&
-                          nomineesData?.length < 10 && (
-                            <Button
-                              variant="contained"
-                              onClick={() => handleNomineesAdd()}
-                              style={{
-                                maxWidth: "40px",
-                                maxHeight: "40px",
-                                minWidth: "40px",
-                                minHeight: "40px",
-                                backgroundColor: "#0a3161",
-                              }}
-                            >
-                              <AddBoxRoundedIcon />
-                            </Button>
+                          nomineesData?.length < 100 && (
+                            <IconButton onClick={handleNomineesAdd}>
+                              <AddCircleIcon color="success" />
+                            </IconButton>
                           )}
-
                         {nomineesData?.length !== 1 && (
-                          <Button
+                          <IconButton
                             onClick={() => handleNomineeRemove(index)}
-                            variant="contained"
-                            style={{
-                              maxWidth: "40px",
-                              maxHeight: "40px",
-                              minWidth: "40px",
-                              minHeight: "40px",
-                              backgroundColor: "crimson",
-                            }}
                           >
-                            <DeleteIcon />
-                          </Button>
+                            <RemoveCircleIcon color="error" />
+                          </IconButton>
                         )}
-                      </div>
-                    ) : null}
-                  </div>
-                </>
-              );
-            })}
+                      </Grid2>
+                    </>
+                  );
+                })}
+              </TreeItem>
+            </div>
           </TreeView>
         </form>
-      </CustomModal>
+      </CustomNomineeModal>
     </div>
   );
 }
