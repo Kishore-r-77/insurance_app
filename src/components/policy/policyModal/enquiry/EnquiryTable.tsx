@@ -1,21 +1,21 @@
-import { Paper, Tooltip } from "@mui/material";
-import moment from "moment";
-import Table from "react-bootstrap/Table";
-import styles from "./enquiryTable.module.css";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import InfoIcon from "@mui/icons-material/Info";
-import { useEffect, useState } from "react";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import { Paper, Tooltip } from "@mui/material";
+import axios from "axios";
+import moment from "moment";
+import { useState } from "react";
+import Table from "react-bootstrap/Table";
+import BenefitFundEnquiry from "./BenefitFundEnquiry";
+import BenefitInfo from "./BenefitInfo";
+import ComponentAddEnquiry from "./ComponentAddEnquiry";
 import GLAccountEnquiry from "./GLAccountEnquiry";
 import GLHistoryEnquiry from "./GLHistoryEnquiry";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import axios from "axios";
-import SAChangeEnquiry from "./SAChangeEnquiry";
-import ComponentAddEnquiry from "./ComponentAddEnquiry";
-import MRTAEnquiry from "./MRTAEnquiry";
 import ILPTransactionEnquiry from "./ILPTransactionEnquiry";
-import BenefitFundEnquiry from "./BenefitFundEnquiry";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import BenefitInfo from "./BenefitInfo";
-import FundSwitchEnquiry from "./FundSwitchEnquiry";
+import MRTAEnquiry from "./MRTAEnquiry";
+import SAChangeEnquiry from "./SAChangeEnquiry";
+import styles from "./enquiryTable.module.css";
+import FundSwitchEnquiry from "./fundSwitch/FundSwitchEnquiry";
 
 function EnquiryTable({
   data,
@@ -51,6 +51,7 @@ function EnquiryTable({
   const [fund, setfund] = useState("");
   const [isSachange, setisSachange] = useState(false);
   const [isComponentAdd, setisComponentAdd] = useState(false);
+  const [historyCode, sethistoryCode] = useState("")
 
   const glhClickOpen = (value: any, hcode: any) => {
     setTranno(value);
@@ -59,6 +60,7 @@ function EnquiryTable({
     } else if (hcode === "H0093") {
       setisComponentAdd(true);
     } else if (hcode === "H0139") {
+      sethistoryCode(hcode)
       fundSwitchOpen();
       getFundSwitchInfo(policyNo, value);
     } else if (hcode === "B0101") {
@@ -108,9 +110,6 @@ function EnquiryTable({
     if (cov === "MRTA") {
       setmrta(true);
     }
-    // else {
-    //   setglHistory(true);
-    // }
   };
 
   const isSAChangeClose = () => {
@@ -410,7 +409,12 @@ function EnquiryTable({
       <FundSwitchEnquiry
         fundswitchData={fundswitchData}
         open={isFundSwitch}
+        setFundOpen={setisFundSwitch}
         handleClose={fundSwitchClose}
+        fundSwitchOpen={fundSwitchOpen}
+        policyNo={policyNo}
+        Tranno={Tranno}
+        historyCode={historyCode}
       />
     </Paper>
   );

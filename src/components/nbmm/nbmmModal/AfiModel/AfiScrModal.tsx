@@ -60,6 +60,11 @@ function AfiScrModal({
         setAfiData(initialValues);
         handleClose();
         getData();
+        setNotify({
+          isOpen: true,
+          message: "Created",
+          type: "success",
+        });
       })
       .catch((err) => {
         

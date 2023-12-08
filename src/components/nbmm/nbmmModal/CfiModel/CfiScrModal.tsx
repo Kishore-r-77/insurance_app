@@ -16,6 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import Notification from "../../../../utilities/Notification/Notification";
 
 
 var initialValues = {
@@ -50,6 +51,11 @@ function CfiScrModal({
   const onChangeReqDate = (date: any) => {
     setCfiData({ ...CfiData, RequestedDate: date });
   };
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   
 
@@ -58,6 +64,19 @@ function CfiScrModal({
       handleClose();
       setCfiData(initialValues);
       getData();
+      setNotify({
+        isOpen: true,
+        message: "Successfully Created",
+        type: "success",
+      });
+    })
+    .catch((err) => {
+        
+      setNotify({
+        isOpen: true,
+        message: err?.response?.data?.error,
+        type: "error",
+      });
     });
   };
 
@@ -148,6 +167,7 @@ function CfiScrModal({
           </Button>
         </Modal.Footer>
       </Modal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

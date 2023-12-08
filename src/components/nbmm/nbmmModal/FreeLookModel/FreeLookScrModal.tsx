@@ -11,6 +11,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/freeLookScrApis copy";
+import Notification from "../../../../utilities/Notification/Notification";
 
 
 var initialValues = {
@@ -36,7 +37,11 @@ function FreeLookScrModal({
   };
 
   
-
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const [FreeLookData, setFreeLookData] = useState(initialValues);
 
@@ -53,6 +58,19 @@ function FreeLookScrModal({
     return addApi(FreeLookData, companyId, policyId).then((resp) => {
       handleClose();
       getData();
+      setNotify({
+        isOpen: true,
+        message: "Successfully Created",
+        type: "success",
+      });
+    })
+    .catch((err) => {
+        
+      setNotify({
+        isOpen: true,
+        message: err?.response?.data?.error,
+        type: "error",
+      });
     });
   };
 
@@ -144,6 +162,7 @@ function FreeLookScrModal({
           </Button>
         </Modal.Footer>
       </Modal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

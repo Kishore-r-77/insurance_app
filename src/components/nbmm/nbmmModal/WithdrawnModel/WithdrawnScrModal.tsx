@@ -12,6 +12,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/withdrawnScrApis";
 import { useBusinessDate } from "../../../contexts/BusinessDateContext";
+import Notification from "../../../../utilities/Notification/Notification";
 
 var initialValues = {
   ReasonDescription: "",
@@ -34,7 +35,11 @@ function WithdrawnScrModal({
       setCompanyData(resp.data["Company"]);
     });
   };
-
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });  
   
 
 
@@ -52,6 +57,19 @@ function WithdrawnScrModal({
     return addApi(WithdrawnData, companyId, policyId).then((resp) => {
       handleClose();
       getData();
+      setNotify({
+        isOpen: true,
+        message: "Successfully Created",
+        type: "success",
+      });
+    })
+    .catch((err) => {
+        
+      setNotify({
+        isOpen: true,
+        message: err?.response?.data?.error,
+        type: "error",
+      });
     });
   };
 
@@ -143,6 +161,7 @@ function WithdrawnScrModal({
           </Button>
         </Modal.Footer>
       </Modal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
