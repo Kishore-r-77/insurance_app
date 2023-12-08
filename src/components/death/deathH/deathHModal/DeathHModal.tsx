@@ -87,7 +87,13 @@ function DeathHModal({
 
         getData();
       })
-      .catch((err) => err.message);
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
   };
 
   const clientOpenFunc = (item: any) => {

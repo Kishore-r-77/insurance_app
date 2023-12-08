@@ -185,7 +185,7 @@ function Payer({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err?.response?.data?.errors,
+          message: err?.response?.data?.error,
           type: "error",
         });
       });

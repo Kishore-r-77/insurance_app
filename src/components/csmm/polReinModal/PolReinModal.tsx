@@ -74,7 +74,7 @@ function PolReinModal({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err?.response?.data?.error,
+          message: err?.response?.data?.errors,
           type: "error",
         });
       });
