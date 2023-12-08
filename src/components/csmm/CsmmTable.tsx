@@ -852,7 +852,11 @@ function CsmmTable({
         isSave.current = false;
       })
       .catch((err) => {
-        return err;
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
   const postComponentAdd = () => {
