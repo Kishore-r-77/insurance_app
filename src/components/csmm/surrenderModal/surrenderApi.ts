@@ -126,7 +126,7 @@ export const saveSurrender = (
   return axios.post(
     `http://localhost:3000/api/v1/customerservice/surrcreate/${policyId}`,
     {
-      Function: "Commit",
+      Function: "Save",
       CompanyID: CompanyID,
       PolicyID: policyId,
       ClientID: SurrHdata.ClientID,

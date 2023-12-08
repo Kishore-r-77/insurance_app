@@ -9,6 +9,7 @@ import {
 } from "../../../reducerUtilities/actions/admin/permissions/permissionActions";
 import { PermissionStateType } from "../../../reducerUtilities/types/admin/permissions/permissionTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./permission.module.css";
@@ -235,6 +236,12 @@ function Permission() {
     // Permissions: null,
   };
 
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
   //Add Api
   const handleFormSubmit = () => {
     if (state.userOrGroup === "user") {
@@ -242,15 +249,41 @@ function Permission() {
         .then((resp) => {
           dispatch({ type: ACTIONS.ADDCLOSE });
           getData();
+          setNotify({
+            isOpen: true,
+            message: "Created",
+            type: "success",
+          });
+
         })
-        .catch((err) => console.log(err.message));
+        //.catch((err) => console.log(err.message));
+        .catch((err) => {
+          setNotify({
+            isOpen: true,
+            message: err?.response?.data?.error,
+            type: "error",
+          });
+        });
     } else if (state.userOrGroup === "userGroup") {
       addApi(userGroupBody)
         .then((resp) => {
           dispatch({ type: ACTIONS.ADDCLOSE });
           getData();
+          setNotify({
+            isOpen: true,
+            message: "Created",
+            type: "success",
+          });
+
         })
-        .catch((err) => console.log(err.message));
+        //.catch((err) => console.log(err.message));
+        .catch((err) => {
+          setNotify({
+            isOpen: true,
+            message: err?.response?.data?.error,
+            type: "error",
+          });
+        });
     }
   };
 
@@ -261,15 +294,40 @@ function Permission() {
         .then((resp) => {
           dispatch({ type: ACTIONS.EDITCLOSE });
           getData();
+          setNotify({
+            isOpen: true,
+            message: "Modified",
+            type: "success",
+          });
         })
-        .catch((err) => console.log(err.message));
+        //.catch((err) => console.log(err.message));
+        .catch((err) => {
+          setNotify({
+            isOpen: true,
+            message: err?.response?.data?.error,
+            type: "error",
+          });
+        });
+
     } else if (state.userOrGroup === "userGroup") {
       editApi(userGroupBodyEdit)
         .then((resp) => {
           dispatch({ type: ACTIONS.EDITCLOSE });
           getData();
+          setNotify({
+            isOpen: true,
+            message: "Updated",
+            type: "success",
+          });
         })
-        .catch((err) => console.log(err.message));
+        //.catch((err) => console.log(err.message));
+        .catch((err) => {
+          setNotify({
+            isOpen: true,
+            message: err?.response?.data?.error,
+            type: "error",
+          });
+        });
     }
   };
 
@@ -278,8 +336,20 @@ function Permission() {
     deleteApi(id)
       .then((resp) => {
         getData();
+        setNotify({
+          isOpen: true,
+          message: "Deleted",
+          type: "success",
+        });
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
@@ -406,6 +476,7 @@ function Permission() {
         userOrGroup={userOrGroup}
         setUserOrGroup={setUserOrGroup}
       />
+       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

@@ -262,7 +262,7 @@ function CsmmTable({
       case SURRENDERACTIONS.COMMITCLOSE:
         return {
           ...state,
-          Function: "Commit",
+          Function: "Save",
           commitOpen: false,
         };
       case SURRENDERACTIONS.SURRENDEROPEN:
@@ -852,7 +852,11 @@ function CsmmTable({
         isSave.current = false;
       })
       .catch((err) => {
-        return err;
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
   const postComponentAdd = () => {
@@ -887,7 +891,7 @@ function CsmmTable({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err?.data?.error,
+          message: err?.response?.data?.error,
           type: "error",
         });
       });

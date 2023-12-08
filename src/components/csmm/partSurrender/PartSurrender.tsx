@@ -145,7 +145,7 @@ function PartSurrender({
         if (ilppartsurrenderState.Function === "Fill") {
           ilppartsurrenderDispatch({ type: ACTIONS.COMMITOPEN });
 
-          ilppartsurrenderState.Function = "Commit";
+          ilppartsurrenderState.Function = "Save";
         } else {
           ilppartsurrenderDispatch({ type: ACTIONS.COMMITCLOSE });
           ilppartsurrenderDispatch({ type: ACTIONS.ADDCLOSE });

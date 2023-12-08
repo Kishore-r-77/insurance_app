@@ -12,6 +12,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/postponeWithdrawnScrApis";
 import { useBusinessDate } from "../../../contexts/BusinessDateContext";
+import Notification from "../../../../utilities/Notification/Notification";
 
 var initialValues = {
   ReasonDescription: "",
@@ -36,6 +37,11 @@ function PostponeWithdrawnScrModal({
   };
 
   
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
 
   const [PostponeWithdrawnData, setPostponeWithdrawnData] =
@@ -53,6 +59,19 @@ function PostponeWithdrawnScrModal({
     return addApi(PostponeWithdrawnData, companyId, policyId).then((resp) => {
       handleClose();
       getData();
+      setNotify({
+        isOpen: true,
+        message: "Successfully Created",
+        type: "success",
+      });
+    })
+    .catch((err) => {
+        
+      setNotify({
+        isOpen: true,
+        message: err?.response?.data?.error,
+        type: "error",
+      });
     });
   };
 
@@ -144,6 +163,7 @@ function PostponeWithdrawnScrModal({
           </Button>
         </Modal.Footer>
       </Modal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/postponeScrApis";
+import Notification from "../../../../utilities/Notification/Notification";
 
 var initialValues = {
   ReasonDescription: "",
@@ -33,6 +34,11 @@ function PostponeScrModal({
       setCompanyData(resp.data["Company"]);
     });
   };
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
  
 
@@ -50,6 +56,19 @@ function PostponeScrModal({
     return addApi(PostponeData, companyId, policyId).then((resp) => {
       handleClose();
       getData();
+      setNotify({
+        isOpen: true,
+        message: "Successfully Created",
+        type: "success",
+      });
+    })
+    .catch((err) => {
+        
+      setNotify({
+        isOpen: true,
+        message: err?.response?.data?.error,
+        type: "error",
+      });
     });
   };
 
@@ -141,6 +160,7 @@ function PostponeScrModal({
           </Button>
         </Modal.Footer>
       </Modal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

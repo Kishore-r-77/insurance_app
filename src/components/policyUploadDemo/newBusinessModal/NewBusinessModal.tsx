@@ -266,8 +266,7 @@ function NewBusinessModal({
         getData();
       })
       .catch((err) => {
-        console.log(err);
-
+     // console.log(err);
         setNotify({
           isOpen: true,
           message: err.response.data.error,

@@ -201,8 +201,20 @@ function BusinessDates({ modalFunc }: any) {
       .then((resp) => {
         setbusinessDateToggle?.(!businessDateToggle);
         getData();
+        setNotify({
+          isOpen: true,
+          message: `Deleted Successfully`,
+          type: "success",
+        });
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
