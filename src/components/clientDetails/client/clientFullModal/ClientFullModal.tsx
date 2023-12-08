@@ -645,7 +645,7 @@ function ClientFullModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly
+                        readOnly={state.infoOpen}
                         label={
                           clientType === "I"
                             ? "Client Dob"
@@ -672,7 +672,7 @@ function ClientFullModal({
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        readOnly={state.infoOpen}
+                        readOnly
                         label={
                           clientType === "I"
                             ? "Client Dod"
