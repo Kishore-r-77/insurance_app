@@ -26,7 +26,6 @@ function FreqQuoteModal({ open, handleClose, policyId }: any) {
     getFreqQuote();
     return () => {};
   }, [open]);
-  console.log(record, "REcord");
 
   return (
     <div>

@@ -44,8 +44,6 @@ function ComponentModal({
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     const { name, value } = e.target;
 
-    console.log(e.target.checked, "checked");
-
     isChecked.current = e.target.checked;
     setcomponentBenefits(
       componentBenefits.map((benefits: any, index: number) => {
@@ -71,9 +69,6 @@ function ComponentModal({
   };
 
   const clientOpenFunc = (item: any, i: number) => {
-    console.log(item.ID);
-    console.log(i, "i");
-
     setcomponentBenefits((componentBen: any) =>
       componentBen.map((benefits: any, index: number) => {
         if (i === index) {

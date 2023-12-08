@@ -1,10 +1,22 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AssistWalkerIcon from "@mui/icons-material/AssistWalker";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { TreeItem, TreeView } from "@mui/lab";
-import { Button, FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  MenuItem,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -32,6 +44,7 @@ import {
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 import "./newBusinessModal.css";
+import YardIcon from "@mui/icons-material/Yard";
 
 function NewBusinessModal({
   state,
@@ -52,6 +65,8 @@ function NewBusinessModal({
   const editTitle: string = "Policy Edit";
   const infoTitle: string = "Policy Info";
   const size = "xl";
+
+  const totalFundPercentage = useRef(0);
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -275,7 +290,6 @@ function NewBusinessModal({
 
   const benefitClientOpenFunc = (item: any) => {
     setbenefitClientId((prev: any) => {
-      console.log(prev, "prev");
       prev[selecteBenefitIndex] = item.ID;
       return prev;
     });
@@ -293,7 +307,6 @@ function NewBusinessModal({
   };
 
   const addPoliciesWithBenefits = () => {
-    console.log("Clicking submit");
     return createPoliciesWithBenefits(state, companyId, benefitsData)
       .then((resp) => {
         validatePolicy(parseInt(resp.data?.Created));
@@ -512,14 +525,11 @@ function NewBusinessModal({
 
   const ilpOpen = (data: any) => {
     setilpModalParam((prev) => ({ ...prev, open: true, data }));
-    console.log(data, "inside the Open Function");
     setbenefitIndex(data?.benefitIndex);
   };
 
   const ilpClose = (values: any) => {
     setilpModalParam((prev) => ({ ...prev, open: false }));
-    console.log(values.data, "inside the Close Function");
-
     const uniqueFundsMap: Map<string, any> = new Map();
 
     // Filter out duplicates based on FundCode
@@ -539,22 +549,67 @@ function NewBusinessModal({
       if (benefitsData[benefitIndex]) {
         benefitsData[benefitIndex].IlpFunds = updatedIlpFunds;
       }
+      setNotify({
+        isOpen: true,
+        message: "Successfully Captured Funds",
+        type: "success",
+      });
     }
     if (values.operation === "cancel") {
       setfundDetails(initialFundValues);
+      totalFundPercentage.current = 0;
     }
   };
 
   useEffect(() => {
+    setCheckedItems([]);
     setbenefitClientId({
       "0": "",
     });
+    setfundDetails(initialFundValues);
     return () => {};
   }, [state.addOpen === false]);
 
   const [ilpfunds, setilpfunds] = useState([
     { FundCode: "", FundPercentage: "" },
   ]);
+
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+
+    if (checked) {
+      setCheckedItems((prevCheckedItems) => [...prevCheckedItems, name]);
+    } else {
+      setCheckedItems((prevCheckedItems) =>
+        prevCheckedItems.filter((item) => item !== name)
+      );
+    }
+  };
+
+  const [p0071Data, setp0071Data] = useState<any>([]);
+  const getP0071 = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/paramItem?companyId=1&name=P0071&languageId=1&item=ILP1`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setp0071Data(resp.data?.param?.data?.p0071Array);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    getP0071();
+    const defaultChecked = p0071Data
+      .filter((item: any) => item.manOrOpt === "M")
+      .map((item: any) => item.benDataType);
+    setCheckedItems(defaultChecked);
+  }, [state.addOpen === true]);
 
   return (
     <div>
@@ -763,7 +818,9 @@ function NewBusinessModal({
                     margin="dense"
                   >
                     {pProductData?.map((val: any) => (
-                      <MenuItem value={val?.item}>{val?.shortdesc}</MenuItem>
+                      <MenuItem key={val?.item} value={val?.item}>
+                        {val?.shortdesc}
+                      </MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
@@ -1182,6 +1239,185 @@ function NewBusinessModal({
                       label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
                       style={{ minWidth: "95%", margin: "0px 1rem" }}
                     >
+                      {state.PProduct === "ILP" ? (
+                        <>
+                          <span
+                            style={{
+                              textAlign: "center",
+                              display: "block",
+                            }}
+                          >
+                            {p0071Data.map((item: any, index: number) => (
+                              <FormControlLabel
+                                key={index}
+                                control={
+                                  <Checkbox
+                                    checked={checkedItems.includes(
+                                      item.benDataType
+                                    )}
+                                    onChange={handleCheckboxChange}
+                                    name={item.benDataType}
+                                  />
+                                }
+                                label={item.benDataType}
+                              />
+                            ))}
+                            <hr />
+                          </span>
+
+                          <section
+                            style={{
+                              display: "flex",
+                              gap: "1rem",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {checkedItems.includes("Fund") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Funds">
+                                    <Button
+                                      variant="contained"
+                                      color="secondary"
+                                      onClick={() =>
+                                        ilpOpen({
+                                          benefitIndex: index,
+                                          fundData: benefits.IlpFunds,
+                                        })
+                                      }
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <CreditScoreIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Extra") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Extras">
+                                    <Button
+                                      variant="contained"
+                                      color="success"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <PlaylistAddIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Annuity") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Annuity">
+                                    <Button
+                                      variant="contained"
+                                      color="primary"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <CalendarMonthIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Hospital") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Hospital">
+                                    <Button
+                                      variant="contained"
+                                      color="error"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        minWidth: "30px",
+                                        maxHeight: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <LocalHospitalIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Disability") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Disability">
+                                    <Button
+                                      variant="contained"
+                                      color="inherit"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <AssistWalkerIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+
+                            {checkedItems.includes("Funeral") && (
+                              <span style={{ textAlign: "center" }}>
+                                <Grid2 xs={8} md={6} lg={4}>
+                                  <Tooltip title="Funeral">
+                                    <Button
+                                      variant="contained"
+                                      color="warning"
+                                      onClick={() => {}}
+                                      style={{
+                                        maxWidth: "30px",
+                                        maxHeight: "30px",
+                                        minWidth: "30px",
+                                        minHeight: "30px",
+                                        // backgroundColor: "#191970",
+                                      }}
+                                    >
+                                      <YardIcon />
+                                    </Button>
+                                  </Tooltip>
+                                </Grid2>
+                              </span>
+                            )}
+                          </section>
+                        </>
+                      ) : null}
+                      <br />
                       <Grid2 container spacing={2}>
                         <Grid2 xs={8} md={6} lg={4}>
                           <TextField
@@ -1371,28 +1607,6 @@ function NewBusinessModal({
                             ></TextField>
                           </Grid2>
                         ) : null}
-                        {state.PProduct === "ILP" ? (
-                          <Grid2 xs={8} md={6} lg={4}>
-                            <Button
-                              variant="contained"
-                              onClick={() =>
-                                ilpOpen({
-                                  benefitIndex: index,
-                                  fundData: benefits.IlpFunds,
-                                })
-                              }
-                              style={{
-                                maxWidth: "30px",
-                                maxHeight: "30px",
-                                minWidth: "30px",
-                                minHeight: "30px",
-                                backgroundColor: "#191970",
-                              }}
-                            >
-                              <AddCircleIcon />
-                            </Button>
-                          </Grid2>
-                        ) : null}
                       </Grid2>
                     </TreeItem>
                     <div
@@ -1450,6 +1664,8 @@ function NewBusinessModal({
         data={ilpModalParam.data}
         fundDetails={fundDetails}
         setfundDetails={setfundDetails}
+        setNotify={setNotify}
+        totalFundPercentage={totalFundPercentage}
       />
     </div>
   );

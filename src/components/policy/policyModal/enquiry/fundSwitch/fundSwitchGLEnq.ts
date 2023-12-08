@@ -1,19 +1,5 @@
-import { Global } from "@emotion/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import EnquiryTable from "./EnquiryTable";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 
-function GLAccountEnquiry({
-  open,
-  handleClose,
-  policyNo,
-  GLAccountNo,
-  contractAmnt,
-  state,
-}: any) {
-  const columns = [
+export const GLColumns = [
     {
       field: "GlRdocno",
       header: "GL Account No",
@@ -30,7 +16,7 @@ function GLAccountEnquiry({
       dbField: "gl_curry",
     },
     {
-      field: "GlRldGlAmountgAcct",
+      field: "GlAmount",
       header: "GL Amount",
       dbField: "gl_amount",
     },
@@ -97,54 +83,5 @@ function GLAccountEnquiry({
       field: "HistoryCode",
       header: "History Code",
       dbField: "history_code",
-      type: "date",
     },
   ];
-
-  const [GLAccountData, setGLAccountData] = useState([]);
-  const geGLAccountByPolicy = () => {
-    axios
-      .get(
-        `http://localhost:3000/api/v1/nbservices/glmoveaccode/${policyNo}/${GLAccountNo}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        setGLAccountData(resp.data["History "]);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  useEffect(() => {
-    geGLAccountByPolicy();
-
-    return () => {};
-  }, [open]);
-
-  return (
-    <div>
-      <Modal show={open} onHide={handleClose} centered size="xl">
-        <Modal.Header closeButton>
-          <Modal.Title>GL Account ({contractAmnt})</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {
-            <div>
-              <form>
-                <EnquiryTable data={GLAccountData} columns={columns} />
-              </form>
-            </div>
-          }
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-}
-
-export default GLAccountEnquiry;

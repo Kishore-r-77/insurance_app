@@ -43,7 +43,6 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
   const infoTitle: string = "Death Enquiry Info";
   const size: string = "xl";
 
-  console.log("Records", record);
   const [companyData, setCompanyData] = useState<any>({});
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -127,9 +126,7 @@ function DeathHEnquiry({ state, record, dispatch, ACTIONS }: DeathHModalType) {
       )
       .then((resp) => {
         setpolicy(resp.data.Policy);
-        console.log("Policy", policy);
         setBenefits(resp.data.Policy.Benefits);
-        console.log("Benefits", benefits);
         setDeathHs(resp.data.Policy.DeathHs);
         setDeathDs(resp.data.Policy.DeathDs);
       })

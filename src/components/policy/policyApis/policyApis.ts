@@ -154,7 +154,7 @@ export const createPoliciesWithBenefits = (
   data: any
 ) => {
   return axios.post(
-    `http://localhost:3000/api/v1/nbservices/policycreatewithbenefit`,
+    "http://localhost:3000/api/v1/nbservices/policycreatewithbenefit",
     {
       CompanyID: companyId,
       ClientID: parseInt(state.ClientID),
@@ -215,7 +215,7 @@ export const createPoliciesWithBenefits = (
                 })
               ),
             }
-          : {}),
+          : null),
       })),
     },
     {

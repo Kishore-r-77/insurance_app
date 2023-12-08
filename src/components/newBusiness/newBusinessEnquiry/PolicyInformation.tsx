@@ -69,7 +69,7 @@ function PolicyInformation({
   );
   const getCompanyData = (id: number) => {
     getApi(id).then((resp) => {
-      setCompanyData(resp.data["Company"]);
+      setCompanyData(resp?.data?.Company);
     });
   };
 
@@ -78,7 +78,7 @@ function PolicyInformation({
   const getQ0005 = () => {
     return q0005(companyId, languageId)
       .then((resp) => {
-        setq0005Data(resp.data.data);
+        setq0005Data(resp?.data?.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -87,7 +87,7 @@ function PolicyInformation({
   const getFreq = () => {
     return frequency(companyId, languageId)
       .then((resp) => {
-        setfreq(resp.data.AllowedFrequencies);
+        setfreq(resp?.data?.AllowedFrequencies);
       })
       .catch((err) => console.log(err.message));
   };
@@ -96,7 +96,7 @@ function PolicyInformation({
   const getQ0018 = () => {
     return p0018(companyId, languageId)
       .then((resp) => {
-        setp0018Data(resp.data.data);
+        setp0018Data(resp?.data?.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -139,13 +139,13 @@ function PolicyInformation({
         }
       )
       .then((resp) => {
-        setcoverage(resp.data["AllowedCoverages"]);
+        setcoverage(resp?.data?.AllowedCoverages);
         dispatchBenefit({
           type: "INITIALIZE_STATE",
-          payload: [...resp.data["AllowedCoverages"]],
+          payload: [...resp?.data?.AllowedCoverages],
         });
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err?.message));
   };
 
   const [clientData, setclientData] = useState([]);
@@ -185,10 +185,9 @@ function PolicyInformation({
         withCredentials: true,
       })
       .then((resp) => {
-        setTDFData(resp.data["TDFPolicy"]);
-        console.log(resp.data["TDFPolicy"], "TDF Data");
+        setTDFData(resp?.data["TDFPolicy"]);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err?.message));
   };
 
   const [BALData, setBALData] = useState([]);
@@ -198,7 +197,7 @@ function PolicyInformation({
         withCredentials: true,
       })
       .then((resp) => {
-        setBALData(resp.data?.History);
+        setBALData(resp?.data?.History);
       })
       .catch((err) => console.log(err.message));
   };
@@ -317,7 +316,7 @@ function PolicyInformation({
     return () => {};
   }, []);
 
-  var initialBenefitValues = coverage.map((value) => ({
+  var initialBenefitValues = coverage?.map((value) => ({
     BStartDate: "",
     BTerm: "",
     ClientID: "",
@@ -408,36 +407,6 @@ function PolicyInformation({
     getCoverage();
     return () => {};
   }, []);
-
-  const policyAndModalAddSubmit = async () => {
-    const response = await handleFormSubmit();
-
-    if (response.status === 200) {
-      for (let i = 0; i < coverage.length; i++) {
-        handleBenefitFormSubmit(i, response?.response?.data?.Created);
-      }
-      dispatch({ type: ACTIONS.ADDCLOSE });
-    }
-  };
-
-  const clientOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.ClientID = item.ID;
-    } else record.ClientID = item.ID;
-    dispatch({ type: ACTIONS.CLIENTCLOSE });
-  };
-  const addressOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.AddressID = item.ID;
-    } else record.AddressID = item.ID;
-    dispatch({ type: ACTIONS.ADDRESSCLOSE });
-  };
-  const agencyOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.AgencyID = item.ID;
-    } else record.AgencyID = item.ID;
-    dispatch({ type: ACTIONS.AGENCYCLOSE });
-  };
 
   const tabsArray = [
     {
@@ -952,7 +921,7 @@ function PolicyInformation({
               </Tooltip>
               {isCollapse ? (
                 <ul>
-                  {tabsArray.map((tabsObj) => (
+                  {tabsArray?.map((tabsObj) => (
                     <li
                       key={tabsObj.tabName}
                       className={`${styles["collapse-tabs-li"]} ${

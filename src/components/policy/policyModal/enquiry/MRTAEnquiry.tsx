@@ -52,7 +52,6 @@ const MRTAEnquiry = ({ open, handleClose, policyNo }: any) => {
       })
       .then((resp) => {
         setmrtaData(resp.data.Mrta);
-        console.log(mrtaData, "DATA");
       })
       .catch((err) => console.log(err.message));
   };

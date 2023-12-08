@@ -101,7 +101,6 @@ function ApprovalFuneralModal({
   ) => {
     const { name, value } = e.target;
 
-    // console.log(e.target.checked, "checked");
     setcriticalcheckval(criticalval);
 
     isChecked.current = e.target.checked;

@@ -13,9 +13,6 @@ function GLAccountEnquiry({
   contractAmnt,
   state,
 }: any) {
-  console.log(policyNo, "Policy No");
-  console.log(GLAccountNo, "Account No");
-
   const columns = [
     {
       field: "GlRdocno",

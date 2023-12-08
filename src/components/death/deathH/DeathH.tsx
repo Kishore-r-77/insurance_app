@@ -62,7 +62,6 @@ function DeathH({ modalFunc, dataIndex, lookup, getByTable }: any) {
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
-        console.log("Payload", action.payload);
         return {
           ...state,
           infoOpen: true,

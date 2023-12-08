@@ -42,8 +42,6 @@ const BenefitFundEnquiry = ({
     },
   ];
 
-  console.log(fundBenefitData, "NBMM benefit fund");
-
   return (
     <div>
       <Modal show={open} onHide={handleClose} centered size="xl">

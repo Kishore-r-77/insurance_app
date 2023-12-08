@@ -139,7 +139,6 @@ function FreqChangeModal({
     setcompleted(true);
     setfunc("Save");
   };
-  console.log(completed, "completed");
 
   return (
     <div>

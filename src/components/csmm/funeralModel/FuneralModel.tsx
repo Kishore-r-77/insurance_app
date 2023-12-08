@@ -89,7 +89,6 @@ function FuneralModal({
   ) => {
     const { name, value } = e.target;
 
-    console.log(e.target.checked, "checked");
     setfuneralcheck(funeralval);
 
     isChecked.current = e.target.checked;

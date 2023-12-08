@@ -10,8 +10,6 @@ const SAChangeEnquiry = ({
   policyNo,
   TransactionNo,
 }: any) => {
-  console.log(policyNo, "Policy No");
-  console.log(TransactionNo, "Transaction No");
   const columns = [
     {
       field: "CompanyID",
@@ -102,7 +100,6 @@ const SAChangeEnquiry = ({
       )
       .then((resp) => {
         setsaChangeData(resp.data.SAChange);
-        console.log(saChangeData, "DATA");
       })
       .catch((err) => console.log(err.message));
   };

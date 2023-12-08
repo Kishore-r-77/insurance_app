@@ -72,7 +72,6 @@ function PolReinModal({
         }
       })
       .catch((err) => {
-        
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -84,7 +83,6 @@ function PolReinModal({
   // moment(data?.NxtBillDate,"DD/MM/YYYY").format("YYYYMMDD").toString()
 
   const billToDatechange = (date: any) => {
-    console.log("Date", date);
     setNextDate(date + 1);
   };
 
