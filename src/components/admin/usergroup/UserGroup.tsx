@@ -148,7 +148,15 @@ function UserGroup({ modalFunc }: any) {
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {
+        
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -163,7 +171,15 @@ function UserGroup({ modalFunc }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {
+        
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Hard Delete Api
@@ -177,7 +193,15 @@ function UserGroup({ modalFunc }: any) {
         });
         getData();
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {
+        
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
