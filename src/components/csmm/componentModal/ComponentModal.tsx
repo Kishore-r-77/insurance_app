@@ -224,8 +224,8 @@ function ComponentModal({
                     <th>BPTerm</th>
                     <th>BPrem</th>
                     <th>BAnnual Prem</th>
-                    <th>Benefit Risk Cessation Date</th>
-                    <th> Benefit Premium Cessation Date</th>
+                    <th> Risk Cessation Date</th>
+                    <th> Premium Cessation Date</th>
                     <th>Method</th>
                   </tr>
                 </thead>

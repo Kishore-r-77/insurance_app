@@ -222,3 +222,12 @@ export const getBusinessDateApi = (companyId: number, userId: number) => {
     }
   );
 };
+export const clonePolicyApi = (policyId: number) => {
+  return axios.post(
+    `http://localhost:3000/api/v1/nbservices/policyclonewithbenefit/${policyId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+};

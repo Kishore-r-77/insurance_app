@@ -39,7 +39,7 @@ export const paramItem = (
 export const addApi = (
   state: NomineeStateType,
   companyId: number,
-  policyId: string,
+  policyId: number,
   data: any
 ) => {
   // Attention : Check and update the below API, if required
@@ -47,6 +47,8 @@ export const addApi = (
     `http://localhost:3000/api/v1/nbservices/nomineescreate`,
 
     {
+      CompanyID: companyId,
+      PolicyID: policyId,
       Nominee: data.map((nominees: any) => ({
         ...nominees,
         CompanyID: companyId,

@@ -325,7 +325,7 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <NomineeModal
+      {/* <NomineeModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -334,7 +334,7 @@ function Nominee({ modalFunc, lookup, sortParam, policyRecord }: any) {
         policyRecord={policyRecord}
         nomineesData={nomineesData}
         setNomineesData={setNomineesData}
-      />
+      /> */}
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );

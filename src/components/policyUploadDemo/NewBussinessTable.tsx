@@ -20,6 +20,10 @@ import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
 import styles from "./newbussinesstable.module.css";
 import OwnerModal from "./ownerModal/OwnerModal";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
+import { clonePolicyApi } from "../newBusiness/newBusinessApis/newBusinessApis";
+import NotificationModal from "../../utilities/modal/NotificationModal";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
+
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -336,6 +340,36 @@ function NewBussinessTable({
       );
   };
 
+  const cloningPolicy = (policyId: number) => {
+    clonePolicyApi(policyId)
+      .then((resp) => {
+        clonePolicyClose();
+        getData();
+        setNotify({
+          isOpen: true,
+          message: `Cloned ${policyId} - new policy:${resp.data.result}`,
+          type: "success",
+        });
+      })
+      .catch((err) =>
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        })
+      );
+  };
+
+  const [isClone, setisClone] = useState(false);
+
+  const clonePolicyOpen = (polId: number) => {
+    setPolicyID(polId);
+    setisClone(true);
+  };
+  const clonePolicyClose = () => {
+    setisClone(false);
+  };
+
   const saChangeOpen = (value: any) => {
     setisSaChange(true);
     setsaPolicyRecord(value);
@@ -420,6 +454,7 @@ function NewBussinessTable({
               )
             )}
             <th>Benefit</th>
+            <th>Clone</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -440,7 +475,6 @@ function NewBussinessTable({
                 }
                 return <td key={col.field}>{row[col.field]}</td>;
               })}
-
               <td>
                 <BusinessIcon
                   onClick={() =>
@@ -451,14 +485,15 @@ function NewBussinessTable({
                   }
                 />
               </td>
+              <td>
+                <FileCopyIcon
+                  color="success"
+                  onClick={() => clonePolicyOpen(row.ID)}
+                />
+              </td>
 
               <td>
                 <span className={styles.flexButtons}>
-                  {/* 
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => hardDelete(row.ID)}
-                    /> */}
                   <EditIcon
                     color="primary"
                     onClick={() =>
@@ -521,6 +556,46 @@ function NewBussinessTable({
         />
       </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
+      <NotificationModal
+        open={isClone}
+        handleClose={clonePolicyClose}
+        handleFormSubmit={() => cloningPolicy(PolicyID)}
+        title="Clone Policy"
+      >
+        <div
+          style={{
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            backgroundColor: "#4CAF50", // Bold green background
+            borderRadius: "15px",
+            padding: "30px",
+            boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)", // Subtle box shadow
+          }}
+        >
+          <h3
+            style={{
+              color: "#fff", // White text
+              backgroundColor: "#333", // Dark background for the title
+              padding: "20px",
+              borderRadius: "10px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", // Slightly darker box shadow
+            }}
+          >
+            Are you sure you want to clone this policy?
+          </h3>
+          <div>
+            <FileCopyIcon
+              style={{
+                fontSize: "120px",
+                color: "#FFD700", // Gold icon color
+                opacity: "0.9",
+              }}
+            />
+          </div>
+        </div>
+      </NotificationModal>
     </Paper>
   );
 }
