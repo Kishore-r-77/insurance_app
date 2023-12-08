@@ -20,9 +20,7 @@ import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
 import styles from "./newbussinesstable.module.css";
 import OwnerModal from "./ownerModal/OwnerModal";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
-import NotificationModal from "../../utilities/modal/NotificationModal";
-import { clonePolicyApi } from "./newBusinessApis/newBusinessApis";
+
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -339,25 +337,6 @@ function NewBussinessTable({
         })
       );
   };
-  const cloningPolicy = (policyId: number) => {
-    clonePolicyApi(policyId)
-      .then((resp) => {
-        clonePolicyClose();
-        getData();
-        setNotify({
-          isOpen: true,
-          message: `Cloned ${policyId} - new policy:${resp.data.result}`,
-          type: "success",
-        });
-      })
-      .catch((err) =>
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        })
-      );
-  };
 
   const saChangeOpen = (value: any) => {
     setisSaChange(true);
@@ -373,16 +352,6 @@ function NewBussinessTable({
     }
     return () => {};
   }, [isSaChange]);
-
-  const [isClone, setisClone] = useState(false);
-
-  const clonePolicyOpen = (polId: number) => {
-    setPolicyID(polId);
-    setisClone(true);
-  };
-  const clonePolicyClose = () => {
-    setisClone(false);
-  };
 
   return (
     <Paper className={styles.paperStyle}>
@@ -455,7 +424,6 @@ function NewBussinessTable({
             {receiptLookup ? null : (
               <>
                 <th>Benefit</th>
-                <th>Clone</th>
                 <th>Actions</th>
               </>
             )}
@@ -493,18 +461,7 @@ function NewBussinessTable({
               {receiptLookup ? null : (
                 <>
                   <td>
-                    <FileCopyIcon
-                      color="success"
-                      onClick={() => clonePolicyOpen(row.ID)}
-                    />
-                  </td>
-                  <td>
                     <span className={styles.flexButtons}>
-                      {/* 
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => hardDelete(row.ID)}
-                    /> */}
                       <EditIcon
                         color="primary"
                         onClick={() =>
@@ -577,16 +534,6 @@ function NewBussinessTable({
         />
       </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
-      <NotificationModal
-        open={isClone}
-        handleClose={clonePolicyClose}
-        handleFormSubmit={() => cloningPolicy(PolicyID)}
-        title="Clone Policy"
-      >
-        <h3 style={{ textAlign: "center" }}>
-          Are you Sure You Want to Clone this Policy?
-        </h3>
-      </NotificationModal>
     </Paper>
   );
 }
