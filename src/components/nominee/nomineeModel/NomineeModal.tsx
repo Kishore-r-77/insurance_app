@@ -134,7 +134,6 @@ function NomineeModal({
       })
     );
   };
-  console.log(nomineesData, "nomineesDataaa");
 
   const [nomineeClientId, setnomineeClientId] = useState<any>({
     "0": "",
@@ -145,11 +144,6 @@ function NomineeModal({
   };
   const nomineeClientOpenFunc = (item: any) => {
     setnomineeClientId((prev: any) => {
-      // if (prev === 0) {
-      //   prev = {};
-      //   prev[selecteNomineeIndex] = item.ID;
-      //   return prev;
-      // }
       prev[selecteNomineeIndex] = item.ID;
       return prev;
     });
@@ -165,7 +159,6 @@ function NomineeModal({
       })
     );
     clientClose();
-    setNomineesData((prev) => [...prev]);
   };
 
   const [allNomineeData, setAllNomineeData] = useState<any>();
@@ -187,20 +180,35 @@ function NomineeModal({
   }, [open]);
 
   const [newNomineeClientData, setNewNomineeClientData] = useState<any>([]);
-  const getNewNomineeClient = () => {
-    axios
-      .get(
+  const getNewNomineeClient = async () => {
+    try {
+      const resp = await axios.get(
         `http://localhost:3000/api/v1/basicservices/clientget/${nomineeClientId[selecteNomineeIndex]}`,
         {
           withCredentials: true,
         }
-      )
-      .then((resp) => {
-        setNewNomineeClientData(resp.data["Client"]);
-      });
+      );
+      setNewNomineeClientData(resp.data["Client"]);
+
+      setNomineesData((prevNomineesData) =>
+        prevNomineesData.map((nominees, index) =>
+          index === +selecteNomineeIndex
+            ? {
+                ...nominees,
+                ClientID: nomineeClientId[selecteNomineeIndex],
+                ClientShortName: resp.data["Client"]?.ClientShortName,
+              }
+            : nominees
+        )
+      );
+
+      clientClose();
+    } catch (error) {
+      console.error("Error fetching nominee client data", error);
+      // Handle errors if necessary
+    }
   };
 
-  console.log(newNomineeClientData, "newNomineeclientData");
   const [policyData, setPolicyData] = useState<any>([]);
   const getPolicy = () => {
     axios
