@@ -127,7 +127,7 @@ function NewBusinessEnquiry({
   const getClientByPolicy = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/nbservices/clientsgetbypol/${record.ID}`,
+        `http://localhost:3000/api/v1/nbservices/beneficiaries/${record.ID}`,
         {
           withCredentials: true,
         }

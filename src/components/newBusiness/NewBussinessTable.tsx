@@ -20,6 +20,7 @@ import FreqQuoteModal from "./freqQuoteModal/FreqQuoteModal";
 import styles from "./newbussinesstable.module.css";
 import OwnerModal from "./ownerModal/OwnerModal";
 import SaChangeModal from "./saChangeModal/SaChangeModal";
+
 function NewBussinessTable({
   issueOpen,
   confirmOpen,
@@ -458,34 +459,31 @@ function NewBussinessTable({
                 </td>
               )}
               {receiptLookup ? null : (
-                <td>
-                  <span className={styles.flexButtons}>
-                    {/* 
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => hardDelete(row.ID)}
-                    /> */}
-                    <EditIcon
-                      color="primary"
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                      }
-                    />
-                    <InfoIcon
-                      onClick={() =>
-                        dispatch({ type: ACTIONS.INFOOPEN, payload: row })
-                      }
-                    />
-                    <VerifiedUserIcon
-                      color="primary"
-                      onClick={() => confirmOpen(row.ID)}
-                    />
-                    <SendIcon
-                      color="success"
-                      onClick={() => issueOpen(row.ID, row.versionId)}
-                    />
-                  </span>
-                </td>
+                <>
+                  <td>
+                    <span className={styles.flexButtons}>
+                      <EditIcon
+                        color="primary"
+                        onClick={() =>
+                          dispatch({ type: ACTIONS.EDITOPEN, payload: row })
+                        }
+                      />
+                      <InfoIcon
+                        onClick={() =>
+                          dispatch({ type: ACTIONS.INFOOPEN, payload: row })
+                        }
+                      />
+                      <VerifiedUserIcon
+                        color="primary"
+                        onClick={() => confirmOpen(row.ID)}
+                      />
+                      <SendIcon
+                        color="success"
+                        onClick={() => issueOpen(row.ID, row.versionId)}
+                      />
+                    </span>
+                  </td>
+                </>
               )}
             </tr>
           ))}

@@ -57,6 +57,7 @@ import IlpFundSwitchModal from "./IlpFundSwitchModal/IlpFundSwitchModal";
 import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
 import PartSurrender from "./partSurrender/PartSurrender";
 import PremiumDirection from "./PremiumDirection/PremiumDirection";
+import NomineeModal from "../nominee/nomineeModel/NomineeModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -203,6 +204,24 @@ function CsmmTable({
   };
 
   const [payerByPolicyData, setpayerByPolicyData] = useState([]);
+
+  const [nomineesOpen, setNomineesOpen] = useState(false);
+
+  const handleNomineeOpen = () => {
+    setNomineesOpen(true);
+  };
+  const handleNomineeClose = () => {
+    setNomineesOpen(false);
+  };
+
+  const [nomineeClientOpen, setNomineeClientOpen] = useState(false);
+
+  const handleNomineeClientOpen = () => {
+    setNomineeClientOpen(true);
+  };
+  const handleNomineeClientClose = () => {
+    setNomineeClientOpen(false);
+  };
 
   const getPayerByPolicy = (id: number) => {
     axios
@@ -620,10 +639,11 @@ function CsmmTable({
   const clientMenuClick = (value: any) => {
     switch (value.Action) {
       case "Nominee":
-        dispatch({
-          type: ACTIONS.NOMINEEOPEN,
-          payload: enquiryRecord?.current,
-        });
+        // dispatch({
+        //   type: ACTIONS.NOMINEEOPEN,
+        //   payload: enquiryRecord?.current,
+        // });
+        handleNomineeOpen();
         handleClose();
         break;
       case "Payer":
@@ -720,6 +740,8 @@ function CsmmTable({
   const [maturityBenefits, setmaturityBenefits] = useState<any>([]);
 
   const isSave = useRef(false);
+
+  console.log(PolicyID, "Barath", policyId.current);
 
   const getSaChange = () => {
     axios
@@ -1622,6 +1644,16 @@ function CsmmTable({
         setClientID={setClientID}
         setbcoverage={setbcoverage}
         bcoverage={bcoverage}
+      />
+      <NomineeModal
+        open={nomineesOpen}
+        handleClose={handleNomineeClose}
+        policyId={policyId.current}
+        policyRecord={enquiryRecord.current}
+        data={data}
+        clientOpen={nomineeClientOpen}
+        nomineeClient={handleNomineeClientOpen}
+        clientClose={handleNomineeClientClose}
       />
       <CustomModal open={isPayer} handleClose={payerClose} size="xl">
         <Payer

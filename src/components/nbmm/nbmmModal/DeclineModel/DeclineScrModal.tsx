@@ -12,6 +12,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
 import { addApi } from "../../nbmmApis/declineScrApis";
 import { useBusinessDate } from "../../../contexts/BusinessDateContext";
+import Notification from "../../../../utilities/Notification/Notification";
 
 var initialValues = {
   ReasonDescription: "",
@@ -34,7 +35,11 @@ function DeclineScrModal({
       setCompanyData(resp.data["Company"]);
     });
   };
-
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   
   const [DeclineData, setDeclineData] = useState(initialValues);
   const onChange = (e: any) => {
@@ -51,6 +56,19 @@ function DeclineScrModal({
       handleClose();
       setDeclineData(initialValues);
       getData();
+      setNotify({
+        isOpen: true,
+        message: "Successfully Created",
+        type: "success",
+      });
+    })
+    .catch((err) => {
+        
+      setNotify({
+        isOpen: true,
+        message: err?.response?.data?.error,
+        type: "error",
+      });
     });
   };
 
@@ -142,6 +160,7 @@ function DeclineScrModal({
           </Button>
         </Modal.Footer>
       </Modal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
 } from "../../../reducerUtilities/actions/admin/errors/errorsActions";
 import { ErrorsStateType } from "../../../reducerUtilities/types/admin/errors/errorsTypes";
 import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
 import styles from "./errors.module.css";
@@ -124,14 +125,34 @@ function Errors({ userORGroupFunc }: any) {
     (state) => state.users.user.message.companyId
   );
 
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
   //Add Api
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
+        setNotify({
+          isOpen: true,
+          message: "Successfully Created",
+          type: "success",
+        });
+
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {
+        
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
@@ -140,8 +161,20 @@ function Errors({ userORGroupFunc }: any) {
       .then((resp) => {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
+        setNotify({
+          isOpen: true,
+          message: "Updated Successfully",
+          type: "success",
+        });
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {  
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   //Hard Delete Api
@@ -149,8 +182,20 @@ function Errors({ userORGroupFunc }: any) {
     deleteApi(id)
       .then((resp) => {
         getData();
+        setNotify({
+          isOpen: true,
+          message: "Deleted Successfully",
+          type: "success",
+        });
       })
-      .catch((err) => console.log(err.message));
+      //.catch((err) => console.log(err.message));
+      .catch((err) => {  
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
+      });
   };
 
   const nexPage = () => {
@@ -272,6 +317,7 @@ function Errors({ userORGroupFunc }: any) {
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
+       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
