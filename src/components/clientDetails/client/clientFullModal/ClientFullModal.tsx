@@ -865,7 +865,7 @@ function ClientFullModal({
                         </LocalizationProvider>
                       </FormControl>
                     </Grid2>
-
+                    {/* 
                     <Grid2 xs={8} md={6} lg={4}>
                       <TextField
                         select
@@ -890,7 +890,7 @@ function ClientFullModal({
                           </MenuItem>
                         ))}
                       </TextField>
-                    </Grid2>
+                    </Grid2> */}
                     {/* <Grid2 xs={8} md={6} lg={4}>
                       <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
