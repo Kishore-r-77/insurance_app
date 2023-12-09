@@ -152,6 +152,29 @@ function BankModal({
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    InputProps={{ readOnly: true }}
+                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                    id="ClientID"
+                    name="ClientID"
+                    value={state.addOpen ? state.ClientID : record.ClientID}
+                    placeholder="Client Id"
+                    label="Client Id"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ClientID",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
                     id="BankCode"
                     name="BankCode"
                     value={state.addOpen ? state.BankCode : record.BankCode}
@@ -301,29 +324,7 @@ function BankModal({
                     </LocalizationProvider>
                   </FormControl>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
-                    id="ClientID"
-                    name="ClientID"
-                    value={state.addOpen ? state.ClientID : record.ClientID}
-                    placeholder="Client Id"
-                    label="Client Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ClientID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select

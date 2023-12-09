@@ -27,6 +27,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import axios from "axios";
 import CustomNomineeModal from "./CustomNomineeModal";
+import Notification from "../../../utilities/Notification/Notification";
 
 function NomineeModal({
   open,
@@ -172,7 +173,8 @@ function NomineeModal({
       )
       .then((resp) => {
         setAllNomineeData(resp.data?.Nominees);
-      });
+      })
+      .catch((err) => console.log(err.message));
   };
   useEffect(() => {
     getAllNominees();
@@ -197,6 +199,7 @@ function NomineeModal({
                 ...nominees,
                 ClientID: nomineeClientId[selecteNomineeIndex],
                 ClientShortName: resp.data["Client"]?.ClientShortName,
+                Gender: resp.data["Client"]?.Gender,
               }
             : nominees
         )
@@ -217,7 +220,8 @@ function NomineeModal({
       })
       .then((resp) => {
         setPolicyData(resp.data["Policy"]);
-      });
+      })
+      .catch((err) => console.log(err.message));
   };
 
   const [clientData, setClientData] = useState<any>([]);
@@ -231,7 +235,8 @@ function NomineeModal({
       )
       .then((resp) => {
         setClientData(resp.data["Client"]);
-      });
+      })
+      .catch((err) => console.log(err.message));
   };
   useEffect(() => {
     getPolicy();
@@ -370,6 +375,32 @@ function NomineeModal({
                     margin="dense"
                   />
                 </Grid2>
+                <Grid2 xs={6} md={4} lg={2}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="PolicyOwner Email"
+                    name="PolicyOwner Email"
+                    value={clientData?.ClientEmail}
+                    InputLabelProps={{ shrink: true }}
+                    placeholder="PolicyOwner Email"
+                    label="PolicyOwner Email"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={6} md={4} lg={2}>
+                  <TextField
+                    InputProps={{ readOnly: true }}
+                    id="PolicyOwner Mobile"
+                    name="PolicyOwner Mobile"
+                    value={clientData?.ClientMobile}
+                    InputLabelProps={{ shrink: true }}
+                    placeholder="PolicyOwner Mobile"
+                    label="PolicyOwner Mobile"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
               </Grid2>
             </TreeItem>
 
@@ -377,7 +408,7 @@ function NomineeModal({
               {allNomineeData != "" ? (
                 <TreeItem
                   nodeId="2"
-                  label={open ? `Existing Nominee` : `Existing Nominee`}
+                  label={`Existing Nominee`}
                   style={{ minWidth: "95%", margin: "0px 1rem" }}
                 >
                   {allNomineeData?.map((nominee: any, index: number) => {
@@ -497,7 +528,7 @@ function NomineeModal({
             <div style={{ display: "flex" }}>
               <TreeItem
                 nodeId="3"
-                label={open ? `Nominee Add` : `Nominee Edit`}
+                label={`New Nominee`}
                 style={{ minWidth: "95%", margin: "0px 1rem" }}
               >
                 {nomineesData?.map((nominees: any, index: number) => {
@@ -613,6 +644,7 @@ function NomineeModal({
           </TreeView>
         </form>
       </CustomNomineeModal>
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }

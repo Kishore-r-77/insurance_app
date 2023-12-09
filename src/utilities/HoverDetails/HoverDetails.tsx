@@ -29,6 +29,7 @@ function HoverDetails({ title, data }: any) {
           ? <li>Interest: {val.Interest}</li>
           :null}
           <li>Net Payable: {val.Payable}</li>
+          <li>Billing Currency: {val.BillingCurr}</li>
         </ul>
       ))}
     </div>
