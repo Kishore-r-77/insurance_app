@@ -39,9 +39,6 @@ function NewBussinessTable({
       : { fieldName: columns[0].dbField, order: "asc" }
   );
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [csAnchor, setCsAnchor] = useState<null | HTMLElement>(null);
-
   const policyId = useRef(0);
   const enquiryRecord = useRef<any>();
 
@@ -57,7 +54,7 @@ function NewBussinessTable({
   ) => {
     policyId.current = value.ID;
     enquiryRecord.current = value;
-    setAnchorEl(event.currentTarget);
+
     clientMenu();
   };
   const handleServiceClick = (
@@ -66,15 +63,11 @@ function NewBussinessTable({
   ) => {
     policyId.current = value.ID;
     enquiryRecord.current = value;
-    setCsAnchor(event.currentTarget);
+
     clientServiceMenu();
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleServiceClose = () => {
-    setCsAnchor(null);
-  };
+  const handleClose = () => {};
+  const handleServiceClose = () => {};
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
