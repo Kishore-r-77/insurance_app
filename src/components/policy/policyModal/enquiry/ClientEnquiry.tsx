@@ -6,6 +6,10 @@ import EnquiryTable from "./EnquiryTable";
 
 function ClientEnquiry({ clientData, state }: any) {
   const columns = [
+    {
+      field: "Role",
+      header: "Role",
+    },
     { field: "Client ID", header: " Client ID", dbField: "id" },
     {
       field: "Salutation",
@@ -56,10 +60,7 @@ function ClientEnquiry({ clientData, state }: any) {
       dbField: "client_mobile",
     },
     
-    {
-      field: "Role",
-      header: "Role",
-    },
+    
   ];
   return (
     <div>

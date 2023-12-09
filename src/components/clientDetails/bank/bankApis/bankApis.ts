@@ -32,8 +32,14 @@ export const addApi = (state: BankStateType, companyId: number) => {
       ClientID: state.ClientID,
       // AgencyID: parseInt(state.AgencyID),
 
-      StartDate: moment(state.StartDate).format("YYYYMMDD"),
-      EndDate: moment(state.EndDate).format("YYYYMMDD"),
+      StartDate:
+        state.StartDate?.length === 0
+          ? ""
+          : moment(state.StartDate).format("YYYYMMDD").toString(),
+      EndDate:
+        state.EndDate?.length === 0
+          ? ""
+          : moment(state.EndDate).format("YYYYMMDD").toString(),
       BankGroup: state.BankGroup,
     },
     {
@@ -57,7 +63,10 @@ export const editApi = (record: any) => {
       ClientID: record.ClientID,
       // AgnecyID: parseInt(record.AgnecyID),
 
-      StartDate: moment(record.StartDate).format("YYYYMMDD"),
+      StartDate:
+        record.StartDate?.length === 0
+          ? ""
+          : moment(record.StartDate).format("YYYYMMDD").toString(),
       EndDate: moment(record.EndDate).format("YYYYMMDD"),
       BankGroup: record.BankGroup,
     },
