@@ -41,8 +41,6 @@ function NewBussinessTable({
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [csAnchor, setCsAnchor] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const csOpen = Boolean(csAnchor);
 
   const policyId = useRef(0);
   const enquiryRecord = useRef<any>();
