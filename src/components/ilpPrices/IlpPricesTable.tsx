@@ -131,12 +131,6 @@ function IlpPricesTable({
                           />
                         </IconButton>
                       </Tooltip>
-                      {/* <Tooltip title="Delete">
-                        <DeleteIcon
-                          color="error"
-                          onClick={() => hardDelete(row.ID)}
-                        />
-                      </Tooltip> */}
                     </>
                   )}
                   <Tooltip title="Info">

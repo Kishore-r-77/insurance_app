@@ -11,10 +11,6 @@
   font-family: Poppins Medium;
 }
 
-/* .table-cell:nth-child(odd) {
-    background: rgb(241, 216, 237);
-  } */
-
 .flexButtons {
   display: flex;
   gap: 1rem;
