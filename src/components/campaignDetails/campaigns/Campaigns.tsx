@@ -5,7 +5,6 @@ import { useEffect, useReducer, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomPagination from "../../../utilities/Pagination/CustomPagination";
 import CustomTable from "../../../utilities/Table/CustomTable";
-// ***  Attention : Check the import below and change it if required
 import {
   ACTIONS,
   columns,
@@ -24,8 +23,10 @@ import CampaignsModal from "./campaignsModal/CampaignsModal";
 function Campaigns({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
+
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: CampaignsStateType, action: any) => {
     switch (action.type) {
@@ -115,7 +116,6 @@ function Campaigns({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        
         // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Campaigns"]);
         settotalRecords(resp.data.paginationData.totalRecords);
@@ -132,7 +132,6 @@ function Campaigns({ modalFunc }: any) {
   const handleFormSubmit = () => {
     return addApi(state, companyId)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
       })
@@ -143,7 +142,6 @@ function Campaigns({ modalFunc }: any) {
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
-        
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
       })
@@ -154,7 +152,6 @@ function Campaigns({ modalFunc }: any) {
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        
         getData();
       })
       .catch((err) => console.log(err.message));

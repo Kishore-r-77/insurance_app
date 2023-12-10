@@ -5,17 +5,9 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
-
-//import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
-
 import styles from "./PremstModal.module.css";
-
-//Attention: Check the path below
-
 import { premiumstatementbydateapi } from "../premstApis/premstApis";
-
 import Notification from "../../../utilities/Notification/Notification";
-
 import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
 import CustomModal from "../../../utilities/modal/CustomModal";
 import { useBusinessDate } from "../../contexts/BusinessDateContext";

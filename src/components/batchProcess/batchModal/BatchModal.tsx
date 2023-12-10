@@ -5,15 +5,11 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
-
 import styles from "./batchModal.module.css";
-
 import { BatchModalType } from "../../../reducerUtilities/types/batch/batchTypes";
 import { addApi, getBusinessDateApi } from "../BatchApis/batchApis";
-
 import Notification from "../../../utilities/Notification/Notification";
 import { useBusinessDate } from "../../contexts/BusinessDateContext";
-
 import CustomModal from "../../../utilities/modal/CustomModal";
 
 function BatchModal({ state, dispatch, ACTIONS }: BatchModalType) {
