@@ -2,27 +2,26 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
-import { useAppSelector } from "../../redux/app/hooks";
-import { IlpFundsStateType } from "../../reducerUtilities/types/ilpFund/ilpFundsTypes";
 import {
   ACTIONS,
   columns,
   initialValues,
 } from "../../reducerUtilities/actions/ilpFund/ilpFundsActions";
-import styles from "./ilpFunds.module.css";
+import { IlpFundsStateType } from "../../reducerUtilities/types/ilpFund/ilpFundsTypes";
+import { useAppSelector } from "../../redux/app/hooks";
+import Notification from "../../utilities/Notification/Notification";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
 import {
   addApi,
   deleteApi,
   editApi,
-  getAllApi,
   getAllApiByPolAndBen,
 } from "./ilpFundApi/ilpFundsApis";
 import IlpFundsModal from "./ilpFundModal/IlpFundsModal";
-import Notification from "../../utilities/Notification/Notification";
+import styles from "./ilpFunds.module.css";
 
-function IlpFunds({ modalFunc, lookup, benefitState }: any) {
+function IlpFunds({ modalFunc, benefitState }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table

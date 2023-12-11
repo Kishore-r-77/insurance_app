@@ -11,7 +11,7 @@ import { NomineeModalType } from "../../../reducerUtilities/types/nominee/nomine
 import { paramItem } from "../nomineeApi/nomineeApi";
 import Policy from "../../policy/Policy";
 import Client from "../../clientDetails/client/Client";
-import { TreeItem, TreeView } from "@mui/lab";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";

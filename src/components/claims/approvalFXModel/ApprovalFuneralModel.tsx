@@ -1,7 +1,6 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { TreeItem, TreeView } from "@mui/lab";
-
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import { Paper, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import axios from "axios";
@@ -9,7 +8,6 @@ import moment from "moment";
 import React, { useRef, useState } from "react";
 import { Table } from "react-bootstrap";
 import styles from "./ApprovalFxModel.module.css";
-// import DoneIcon from "@mui/icons-material/Done";
 import CustomApprovalFuneralFullModal from "./CustomApprovalFuneral";
 import FuneralApprovalModel from "./FuneralApprovalModel";
 
@@ -20,7 +18,6 @@ function ApprovalFuneralModal({
   funeralObj,
   isSave,
   savefuneralobj,
-  savefuneralOpen,
   criticalIllness,
   setNotify,
 }: any) {
@@ -28,8 +25,6 @@ function ApprovalFuneralModal({
   const isChecked = useRef(false);
   const [isclicked, setisclicked] = useState(false);
 
-  const [isnotificationOpen, setisnotificationOpen] = useState(false);
-  const [criticalbenefit, setcriticalbenefit] = useState<any>({});
   const [isfuneralapprovalOpen, issetfuneralapprovalOpen] = useState(false);
   const funeralapprovalOpen = (val: any) => {
     issetfuneralapprovalOpen(true);
@@ -38,13 +33,6 @@ function ApprovalFuneralModal({
     issetfuneralapprovalOpen(false);
   };
 
-  // const notificationOpen = (val: any) => {
-  //   setisnotificationOpen(true);
-  //   setcriticalbenefit(val);
-  // };
-  // const notificationClose = () => {
-  //   setisnotificationOpen(false);
-  // };
   const aprrovefexr = () => {
     axios
       .post(

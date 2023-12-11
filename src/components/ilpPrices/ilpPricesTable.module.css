@@ -11,17 +11,13 @@
   font-family: Poppins Medium;
 }
 
-/* .table-cell:nth-child(odd) {
-    background: rgb(241, 216, 237);
-  } */
-
 .flexButtons {
   display: flex;
   gap: 1rem;
 }
 .header {
-  background-color: rgba(71, 11, 75, 1);
-  color: white;
+  background-color: rgba(71, 11, 75, 1) !important;
+  color: white !important;
   position: sticky;
   top: 0;
 }

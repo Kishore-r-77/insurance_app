@@ -47,12 +47,7 @@ function IlpPrices({ modalFunc }: any) {
   const [ilpPriceArray, setilpPriceArray] = useState<any>([]);
   const [isApprove, setisApprove] = useState(false);
 
-  const {
-    businessDate,
-    businessDateToggle,
-    setbusinessDateToggle,
-    getBusinessDate,
-  } = useBusinessDate();
+  const { businessDate } = useBusinessDate();
   const reducer = (state: IlpPricesStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:

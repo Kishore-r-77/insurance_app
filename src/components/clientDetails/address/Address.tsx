@@ -151,6 +151,11 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         getData();
+        setNotify({
+          isOpen: true,
+          message: "Successfully Created",
+          type: "success",
+        });
       })
       .catch((err) =>
         setNotify({
@@ -167,6 +172,11 @@ function Address({ modalFunc, addressByClientData, lookup }: any) {
       .then((resp) => {
         dispatch({ type: ACTIONS.EDITCLOSE });
         getData();
+        setNotify({
+          isOpen: true,
+          message: "Updated Successfully",
+          type: "success",
+        });
       })
       .catch((err) =>
         setNotify({

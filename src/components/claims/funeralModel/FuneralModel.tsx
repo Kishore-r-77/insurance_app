@@ -1,6 +1,6 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { TreeItem, TreeView } from "@mui/lab";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import InfoIcon from "@mui/icons-material/Info";
 
 import {

@@ -2,7 +2,6 @@ import { Button, Modal } from "react-bootstrap";
 
 function IlpPriceFullModal({
   open,
-  infoOpen,
   handleClose,
   title,
   children,

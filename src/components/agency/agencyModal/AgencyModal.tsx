@@ -1,30 +1,20 @@
-import {
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
 import styles from "./agencyModal.module.css";
-
+import useHttp from "../../../hooks/use-http";
 import { AgencyModalType } from "../../../reducerUtilities/types/agency/agencyTypes";
+import { useAppSelector } from "../../../redux/app/hooks";
+import { getData } from "../../../services/http-service";
 import CustomModal from "../../../utilities/modal/CustomModal";
 import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import { useAppSelector } from "../../../redux/app/hooks";
-import Client from "../../clientDetails/client/Client";
 import Address from "../../clientDetails/address/Address";
 import Bank from "../../clientDetails/bank/Bank";
-import {
-  extraParamItem,
-  freqItems,
-  paramItem,
-} from "../../clientDetails/client/clientApis/clientApis";
-import useHttp from "../../../hooks/use-http";
-import { getData } from "../../../services/http-service";
+import Client from "../../clientDetails/client/Client";
+import { paramItem } from "../../clientDetails/client/clientApis/clientApis";
 function AgencyModal({
   state,
   record,
@@ -118,19 +108,9 @@ function AgencyModal({
       getDataParams: getDataParams,
     });
   }, []);
-  // useEffect(() => {
-  //   getBCoverage(
-  //     companyId,
-  //     "Q0011",
-  //     state.addOpen ? state?.PProduct : record?.PProduct,
-  //     "20220101"
-  //   );
-  //   return () => {};
-  // }, [state.addOpen ? state?.PProduct : record?.PProduct]);
 
   useEffect(() => {
     getCompanyData(companyId);
-
     return () => {};
   }, []);
 
@@ -188,15 +168,6 @@ function AgencyModal({
                     value={companyData?.CompanyName}
                     placeholder="Company"
                     label="Company"
-                    // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    //   dispatch({
-                    //     type: state.addOpen
-                    //       ? ACTIONS.ONCHANGE
-                    //       : ACTIONS.EDITCHANGE,
-                    //     payload: e.target.value,
-                    //     fieldName: "CompanyID",
-                    //   })
-                    // }
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
@@ -505,29 +476,6 @@ function AgencyModal({
                     margin="dense"
                   />
                 </Grid2>
-                {/* <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
-                    id="AddressID"
-                    name="AddressID"
-                    value={state.addOpen ? state.AddressID : record.AddressID}
-                    placeholder="Address Id"
-                    label="Address Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AddressID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2> */}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}

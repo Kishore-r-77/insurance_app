@@ -6,9 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomModal from "../../../utilities/modal/CustomModal";
-
 import styles from "./ilpPricesModal.module.css";
-
 import axios from "axios";
 import useHttp from "../../../hooks/use-http";
 import { IlpPricesModalType } from "../../../reducerUtilities/types/ilpPrices/ilpPricesTypes";
@@ -34,18 +32,8 @@ function IlpPricesModal({
     data: getUlpfundsResponse,
     error: getUlpfundsResponseError,
   } = useHttp(getData, true);
-  const {
-    sendRequest: sendFundtypeRequest,
-    status: getFundtypeResponseStatus,
-    data: getFundtypeResponse,
-    error: getFundtypeResponseError,
-  } = useHttp(getData, true);
-  const {
-    sendRequest: sendFcurRequest,
-    status: getFcurResponseStatus,
-    data: getFcurResponse,
-    error: getFcurResponseError,
-  } = useHttp(getData, true);
+  const { sendRequest: sendFundtypeRequest } = useHttp(getData, true);
+  const { sendRequest: sendFcurRequest } = useHttp(getData, true);
 
   useEffect(() => {
     let getDataParams: any = {};
@@ -83,10 +71,6 @@ function IlpPricesModal({
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
-  );
-
-  const languageId = useAppSelector(
-    (state) => state.users.user.message.languageId
   );
 
   const getP0061 = () => {
@@ -219,13 +203,7 @@ function IlpPricesModal({
                 SelectProps={{
                   multiple: false,
                 }}
-              >
-                {/* {getFundtypeResponse?.param.data.dataPairs.map((value: any) => (
-                  <MenuItem key={value.code} value={value.code}>
-                    {value.code} - {value.description}
-                  </MenuItem>
-                ))} */}
-              </TextField>
+              ></TextField>
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>
@@ -303,13 +281,7 @@ function IlpPricesModal({
                 SelectProps={{
                   multiple: false,
                 }}
-              >
-                {/* {getFcurResponse?.param.data.dataPairs.map((value: any) => (
-                  <MenuItem key={value.code} value={value.code}>
-                    {value.code} - {value.description}
-                  </MenuItem>
-                ))} */}
-              </TextField>
+              ></TextField>
             </Grid2>
 
             <Grid2 xs={8} md={6} lg={4}>

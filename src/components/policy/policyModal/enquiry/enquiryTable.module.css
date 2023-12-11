@@ -19,8 +19,8 @@
   gap: 1rem;
 }
 .header {
-  background-color: rgba(71, 11, 75, 1);
-  color: white;
+  background-color: rgba(71, 11, 75, 1) !important;
+  color: white !important;
   position: sticky;
   top: 0;
 }

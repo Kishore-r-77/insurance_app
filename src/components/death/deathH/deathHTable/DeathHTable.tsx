@@ -119,9 +119,7 @@ function DeathHTable({
       .then((resp) => {
         setdeathMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   };
 
   const deathMenuClick = (value: any) => {

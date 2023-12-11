@@ -2,7 +2,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { TreeItem, TreeView } from "@mui/lab";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import {
   Button,
   FormControl,
@@ -865,7 +865,7 @@ function ClientFullModal({
                         </LocalizationProvider>
                       </FormControl>
                     </Grid2>
-
+                    {/* 
                     <Grid2 xs={8} md={6} lg={4}>
                       <TextField
                         select
@@ -890,7 +890,7 @@ function ClientFullModal({
                           </MenuItem>
                         ))}
                       </TextField>
-                    </Grid2>
+                    </Grid2> */}
                     {/* <Grid2 xs={8} md={6} lg={4}>
                       <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>

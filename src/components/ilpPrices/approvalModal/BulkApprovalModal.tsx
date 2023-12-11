@@ -26,11 +26,7 @@ function BulkApprovalModal({
 
   const [selectAll, setSelectAll] = useState(false);
 
-  const handleCheck = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: any,
-    index: number
-  ) => {
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, value: any) => {
     if (e.target.checked) {
       const updateArr = [...ilpPriceArray, value];
       setilpPriceArray(updateArr);
@@ -166,7 +162,7 @@ function BulkApprovalModal({
                       <input
                         type="checkbox"
                         checked={selectAll || ilpPriceArray.includes(value)}
-                        onChange={(e) => handleCheck(e, value, index)}
+                        onChange={(e) => handleCheck(e, value)}
                       />
                     </td>
                     <td>{value?.FundCode}</td>
