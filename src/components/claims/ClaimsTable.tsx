@@ -1439,7 +1439,7 @@ function ClaimsTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -1493,7 +1493,7 @@ function ClaimsTable({
               )
             )}
             {/* <th>Benefit</th> */}
-            <th>Actions</th>
+            <th className={styles.header}>Actions</th>
           </tr>
         </thead>
         <tbody>

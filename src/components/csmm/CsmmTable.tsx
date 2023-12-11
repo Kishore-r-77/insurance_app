@@ -1324,7 +1324,7 @@ function CsmmTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -1378,7 +1378,7 @@ function CsmmTable({
               )
             )}
             {/* <th>Benefit</th> */}
-            <th>Actions</th>
+            <th className={styles.header}>Actions</th>
           </tr>
         </thead>
         <tbody>

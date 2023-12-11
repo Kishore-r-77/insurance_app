@@ -23,10 +23,12 @@ function TranReversalTable({ data, columns, tranReversalClick }: any) {
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>{column.header}</th>
+                <th key={column.dbField} className={styles.header}>
+                  {column.header}
+                </th>
               )
             )}
-            <td>Action</td>
+            <td className={styles.header}>Action</td>
           </tr>
         </thead>
         <tbody>

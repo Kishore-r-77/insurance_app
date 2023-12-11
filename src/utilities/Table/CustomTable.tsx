@@ -42,7 +42,7 @@ function CustomTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -95,7 +95,7 @@ function CustomTable({
                 </th>
               )
             )}
-            <th>Actions</th>
+            <th className={styles.header}>Actions</th>
           </tr>
         </thead>
         <tbody>

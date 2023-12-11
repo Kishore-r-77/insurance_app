@@ -9,7 +9,13 @@ function CustomHeaderTable({ data }: any) {
         <thead className={styles.header}>
           <tr>
             {data?.map((value: any, index: number) => (
-              <th key={index} style={{ borderStyle: "none" }}>{value}</th>
+              <th
+                key={index}
+                style={{ borderStyle: "none" }}
+                className={styles.header}
+              >
+                {value}
+              </th>
             ))}
           </tr>
         </thead>
