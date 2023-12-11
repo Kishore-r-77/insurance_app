@@ -214,11 +214,15 @@ function EnquiryTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>{column.header}</th>
+                <th key={column.dbField} className={styles.header}>
+                  {column.header}
+                </th>
               )
             )}
             {isCommunication ? <th>PDF</th> : null}
-            {benOpen && data[0]?.BCoverage == "ILP1" ? <th>ILP Fund</th> : null}
+            {benOpen && data[0]?.BCoverage == "ILP1" ? (
+              <th className={styles.header}>ILP Fund</th>
+            ) : null}
           </tr>
         </thead>
         <tbody>

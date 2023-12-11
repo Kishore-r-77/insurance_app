@@ -1,7 +1,6 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TreeItem from "@mui/lab/TreeItem";
-import TreeView from "@mui/lab/TreeView";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -316,22 +315,6 @@ function PolicyEnquiry({
     return () => {};
   }, []);
 
-  // useEffect(() => {
-  //   getClientByPolicy();
-  //   getbankByPolicy();
-  //   geTDFByPolicy();
-  //   getBenefitByPolicy();
-  //   getAddressByPolicy();
-  //   getHistoryByPolicy();
-  //   geBALByPolicy();
-  //   getUWByPolicy();
-  //   getCommunicationByPolicy();
-  //   getextraByPolicy();
-  //   getSurvivalBenefitByPolicy();
-  //   getIlpSummaryByPolicy();
-  //   return () => {};
-  // }, [state.infoOpen]);
-
   var initialBenefitValues = coverage.map((value) => ({
     BStartDate: "",
     BTerm: "",
@@ -425,35 +408,6 @@ function PolicyEnquiry({
     return () => {};
   }, []);
 
-  const policyAndModalAddSubmit = async () => {
-    const response = await handleFormSubmit();
-
-    if (response.status === 200) {
-      for (let i = 0; i < coverage.length; i++) {
-        handleBenefitFormSubmit(i, response?.response?.data?.Created);
-      }
-      dispatch({ type: ACTIONS.ADDCLOSE });
-    }
-  };
-
-  const clientOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.ClientID = item.ID;
-    } else record.ClientID = item.ID;
-    dispatch({ type: ACTIONS.CLIENTCLOSE });
-  };
-  const addressOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.AddressID = item.ID;
-    } else record.AddressID = item.ID;
-    dispatch({ type: ACTIONS.ADDRESSCLOSE });
-  };
-  const agencyOpenFunc = (item: any) => {
-    if (state.addOpen) {
-      state.AgencyID = item.ID;
-    } else record.AgencyID = item.ID;
-    dispatch({ type: ACTIONS.AGENCYCLOSE });
-  };
   const [TabClicked, setTabClicked] = useState<any>("Benefit");
   useEffect(() => {
     if (TabClicked === "Client") {

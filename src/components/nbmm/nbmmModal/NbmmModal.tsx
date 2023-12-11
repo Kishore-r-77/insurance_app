@@ -20,7 +20,7 @@ import {
   p0055,
 } from "../nbmmApis/nbmmApis";
 import styles from "./nbmm.module.css";
-import TreeView from "@mui/lab/TreeView";
+import TreeView from "@mui/x-tree-view";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeItem from "@mui/lab/TreeItem";
