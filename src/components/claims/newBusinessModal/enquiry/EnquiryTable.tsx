@@ -47,7 +47,9 @@ function EnquiryTable({ data, columns, policyNo, infoOpen, historyOpen }: any) {
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>{column.header}</th>
+                <th key={column.dbField} className={styles.header}>
+                  {column.header}
+                </th>
               )
             )}
           </tr>

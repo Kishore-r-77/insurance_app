@@ -41,7 +41,7 @@ function ClientTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -96,8 +96,8 @@ function ClientTable({
             )}
             {modalFunc ? null : (
               <>
-                <th>Address</th>
-                <th>Actions</th>
+                <th className={styles.header}>Address</th>
+                <th className={styles.header}>Actions</th>
               </>
             )}
           </tr>
