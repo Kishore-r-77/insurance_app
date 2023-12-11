@@ -39,7 +39,7 @@ function IlpPricesTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -92,7 +92,7 @@ function IlpPricesTable({
                 </th>
               )
             )}
-            <th>Actions</th>
+            <th className={styles.header}>Actions</th>
           </tr>
         </thead>
         <tbody>

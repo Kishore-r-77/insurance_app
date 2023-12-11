@@ -42,7 +42,7 @@ function QBenIllValuesTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -98,7 +98,7 @@ function QBenIllValuesTable({
             {modalFunc ? null : (
               <>
                 {/* <th>Benefit</th> */}
-                <th>Actions</th>
+                <th className={styles.header}>Actions</th>
               </>
             )}
           </tr>

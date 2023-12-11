@@ -37,7 +37,7 @@ function PolicyTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -92,8 +92,8 @@ function PolicyTable({
             )}
             {modalFunc ? null : (
               <>
-                <th>Benefit</th>
-                <th>Actions</th>
+                <th className={styles.header}>Benefit</th>
+                <th className={styles.header}>Actions</th>
               </>
             )}
           </tr>

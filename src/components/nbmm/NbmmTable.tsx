@@ -172,7 +172,7 @@ function NbmmTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -225,7 +225,7 @@ function NbmmTable({
                 </th>
               )
             )}
-            {ACTIONS.EDITOPEN && <th>Actions</th>}
+            {ACTIONS.EDITOPEN && <th className={styles.header}>Actions</th>}
           </tr>
         </thead>
         <tbody>

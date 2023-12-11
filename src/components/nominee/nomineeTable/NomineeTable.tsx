@@ -40,7 +40,7 @@ function NomineeTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -93,7 +93,7 @@ function NomineeTable({
                 </th>
               )
             )}
-            <th>Actions</th>
+            <th className={styles.header}>Actions</th>
           </tr>
         </thead>
         <tbody>

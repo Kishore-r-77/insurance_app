@@ -41,7 +41,7 @@ function PaymentsTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -96,7 +96,7 @@ function PaymentsTable({
             )}
             {modalFunc ? null : (
               <>
-                <th>Actions</th>
+                <th className={styles.header}>Actions</th>
               </>
             )}
           </tr>
