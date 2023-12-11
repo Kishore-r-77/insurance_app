@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import { TreeItem, TreeView } from "@mui/lab";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import {
   Button,
   Checkbox,
@@ -43,7 +43,7 @@ import {
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
-import "./newBusinessModal.css";
+import styles from "./newBusinessModal.css";
 import YardIcon from "@mui/icons-material/Yard";
 
 function NewBusinessModal({

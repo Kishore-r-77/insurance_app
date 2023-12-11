@@ -51,7 +51,7 @@ function EnquiryTable({
   const [fund, setfund] = useState("");
   const [isSachange, setisSachange] = useState(false);
   const [isComponentAdd, setisComponentAdd] = useState(false);
-  const [historyCode, sethistoryCode] = useState("")
+  const [historyCode, sethistoryCode] = useState("");
 
   const glhClickOpen = (value: any, hcode: any) => {
     setTranno(value);
@@ -60,7 +60,7 @@ function EnquiryTable({
     } else if (hcode === "H0093") {
       setisComponentAdd(true);
     } else if (hcode === "H0139") {
-      sethistoryCode(hcode)
+      sethistoryCode(hcode);
       fundSwitchOpen();
       getFundSwitchInfo(policyNo, value);
     } else if (hcode === "B0101") {

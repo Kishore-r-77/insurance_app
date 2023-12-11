@@ -51,7 +51,7 @@ function BenefitTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -104,10 +104,10 @@ function BenefitTable({
                 </th>
               )
             )}
-            <th>Actions</th>
+            <th className={styles.header}>Actions</th>
             {data[0]?.BCoverage === "MRTA" ? <th>Schedule</th> : ""}
-            <th>Extras</th>
-            <th>Funds</th>
+            <th className={styles.header}>Extras</th>
+            <th className={styles.header}>Funds</th>
           </tr>
         </thead>
         <tbody>

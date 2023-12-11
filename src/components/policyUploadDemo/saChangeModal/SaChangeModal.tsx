@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
-import { TreeItem, TreeView } from "@mui/lab";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";

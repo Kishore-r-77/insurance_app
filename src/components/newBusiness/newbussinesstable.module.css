@@ -1,3 +1,10 @@
+/* Reset.css or Normalize.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 @font-face {
   font-family: Poppins Medium;
   src: url("../../fonts/Poppins/Poppins-Medium.ttf");
@@ -20,8 +27,8 @@
   gap: 1rem;
 }
 .header {
-  background-color: rgba(71, 11, 75, 1);
-  color: white;
+  background-color: rgba(71, 11, 75, 1) !important;
+  color: white !important;
   position: sticky;
   top: 0;
 }
