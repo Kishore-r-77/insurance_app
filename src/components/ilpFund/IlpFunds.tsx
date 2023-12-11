@@ -21,7 +21,7 @@ import {
 import IlpFundsModal from "./ilpFundModal/IlpFundsModal";
 import styles from "./ilpFunds.module.css";
 
-function IlpFunds({ modalFunc, lookup, benefitState }: any) {
+function IlpFunds({ modalFunc, benefitState }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
