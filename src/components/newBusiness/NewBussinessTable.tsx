@@ -51,7 +51,7 @@ function NewBussinessTable({
                 },
                 index: number
               ) => (
-                <th key={column.dbField}>
+                <th key={column.dbField} className={styles.header}>
                   {column.header}
                   {column?.sortable && (
                     <span>
@@ -106,8 +106,8 @@ function NewBussinessTable({
             )}
             {receiptLookup ? null : (
               <>
-                <th>Benefit</th>
-                <th>Actions</th>
+                <th className={styles.header}>Benefit</th>
+                <th className={styles.header}>Actions</th>
               </>
             )}
           </tr>

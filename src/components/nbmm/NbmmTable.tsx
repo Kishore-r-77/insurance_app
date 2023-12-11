@@ -75,13 +75,12 @@ function NbmmTable({
   //   getBusinessDate(companyId, userId);
   //   return () => {};
   // }, []);
-    const {
+  const {
     businessDate,
     businessDateToggle,
     setbusinessDateToggle,
     getBusinessDate,
   } = useBusinessDate();
-
 
   const [afiOpen, setafiOpen] = useState(false);
   const [policyId, setpolicyId] = useState(0);

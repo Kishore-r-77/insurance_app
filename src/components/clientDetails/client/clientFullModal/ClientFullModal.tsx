@@ -2,7 +2,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { TreeItem, TreeView } from "@mui/lab";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import {
   Button,
   FormControl,
