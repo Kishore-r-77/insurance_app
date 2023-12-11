@@ -1,0 +1,37 @@
+/* Table header style */
+.table-head {
+  background: linear-gradient(to right, #470b4b, #8b008b);
+  font-family: "Arial", sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Table header text style */
+.thstyle {
+  color: white !important;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+}
+/* table cell style */
+/* .tdstyle {
+  } */
+
+/* Animation for a subtle hover effect */
+.table-head:hover {
+  background: linear-gradient(to right, #260229, #8b008b);
+  transform: scale(1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+/* Hide horizontal scrollbar on html when hovering */
+.table-head:hover {
+  overflow-x: hidden;
+  transition: overflow-x 0.3s ease-in-out;
+}
