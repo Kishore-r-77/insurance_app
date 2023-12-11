@@ -35,6 +35,7 @@ import TDFEnquiry from "./enquiry/TDFEnquiry";
 import UWEnquiry from "./enquiry/UWEnquiry";
 import "./policyModal.css";
 import ILPSummaryEnquiry from "./enquiry/ILPSummaryEnquiry";
+import NomineeEnquiry from "./enquiry/NomineeEnquiry";
 
 function PolicyEnquiry({
   state,
@@ -144,6 +145,21 @@ function PolicyEnquiry({
       )
       .then((resp) => {
         setclientData(resp.data?.Clients);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  const [nomineeData, setnomineeData] = useState([]);
+  const getAllNomineeByPolicy = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/deathservices/nomineesbypol/${record.ID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setnomineeData(resp.data?.Nominees);
       })
       .catch((err) => console.log(err.message));
   };
@@ -442,6 +458,8 @@ function PolicyEnquiry({
   useEffect(() => {
     if (TabClicked === "Client") {
       getClientByPolicy();
+    } else if (TabClicked === "Nominee") {
+      getAllNomineeByPolicy();
     } else if (TabClicked === "Benefit") {
       getBenefitByPolicy();
     } else if (TabClicked === "Bank") {
@@ -883,6 +901,17 @@ function PolicyEnquiry({
                 style={{ backgroundColor: "white" }}
               >
                 <ClientEnquiry clientData={clientData} state={state} />
+              </Tab>
+
+              <Tab
+                eventKey="Nominee"
+                title="Nominee"
+                style={{ backgroundColor: "white" }}
+              >
+                <NomineeEnquiry
+                  nomineeenquiryData={nomineeData}
+                  state={state}
+                />
               </Tab>
 
               <Tab

@@ -51,6 +51,8 @@ import { TreeView } from "@mui/x-tree-view/TreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
+import NomineeEnquiry from "../../policy/policyModal/enquiry/NomineeEnquiry";
 
 function PolicyInformation({
   state,
@@ -159,6 +161,20 @@ function PolicyInformation({
       )
       .then((resp) => {
         setclientData(resp.data?.Clients);
+      })
+      .catch((err) => console.log(err.message));
+  };
+  const [nomineeenquiryData, setnomineeData] = useState([]);
+  const getAllNomineeByPolicy = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/deathservices/nomineesbypol/${record.ID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setnomineeData(resp?.data?.Nominees);
       })
       .catch((err) => console.log(err.message));
   };
@@ -418,6 +434,10 @@ function PolicyInformation({
       tabIcon: <PeopleIcon />,
     },
     {
+      tabName: "Nominee",
+      tabIcon: <FamilyRestroomIcon />,
+    },
+    {
       tabName: "Address",
       tabIcon: <ApartmentIcon />,
     },
@@ -470,6 +490,9 @@ function PolicyInformation({
         break;
       case "Clients":
         getClientByPolicy(); // Await data retrieval
+        break;
+      case "Nominee":
+        getAllNomineeByPolicy(); // Await data retrieval
         break;
       case "Address":
         getAddressByPolicy(); // Await data retrieval
@@ -968,6 +991,11 @@ function PolicyInformation({
                   />
                 ) : activeTab === "Clients" ? (
                   <ClientEnquiry clientData={clientData} state={state} />
+                ) : activeTab === "Nominee" ? (
+                  <NomineeEnquiry
+                    nomineeenquiryData={nomineeenquiryData}
+                    state={state}
+                  />
                 ) : activeTab === "Address" ? (
                   <AddressEnquiry addressData={addressData} state={state} />
                 ) : activeTab === "Bank" ? (

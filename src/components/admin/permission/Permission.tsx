@@ -254,7 +254,6 @@ function Permission() {
             message: "Created",
             type: "success",
           });
-
         })
         //.catch((err) => console.log(err.message));
         .catch((err) => {
@@ -274,7 +273,6 @@ function Permission() {
             message: "Created",
             type: "success",
           });
-
         })
         //.catch((err) => console.log(err.message));
         .catch((err) => {
@@ -308,7 +306,6 @@ function Permission() {
             type: "error",
           });
         });
-
     } else if (state.userOrGroup === "userGroup") {
       editApi(userGroupBodyEdit)
         .then((resp) => {
@@ -476,7 +473,7 @@ function Permission() {
         userOrGroup={userOrGroup}
         setUserOrGroup={setUserOrGroup}
       />
-       <Notification notify={notify} setNotify={setNotify} />
+      <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
