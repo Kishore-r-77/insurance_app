@@ -336,7 +336,7 @@ function Permission() {
         setNotify({
           isOpen: true,
           message: "Deleted",
-          type: "success",
+          type: "error",
         });
       })
       //.catch((err) => console.log(err.message));

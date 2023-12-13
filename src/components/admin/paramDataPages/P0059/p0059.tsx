@@ -1,12 +1,12 @@
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
-import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
+import { TextField, MenuItem, Checkbox, ListItemText, Autocomplete, Box, Paper } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
+import axios from "axios";
 
 import InfoIcon from "@mui/icons-material/Info";
-
 import  "./p0059.css";
 import P0059Enq  from "./p0059Enq";
 
@@ -38,7 +38,6 @@ const P0059 = forwardRef((props: any, ref) => {
   const currentOrFutureRef: any = useRef();
   const seqNoRef: any = useRef();
   const allocationCategoryRef: any = useRef();
-  const accountCodeRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -52,7 +51,7 @@ const P0059 = forwardRef((props: any, ref) => {
       inputdata.currentOrFuture = currentOrFutureRef.current.value;
       inputdata.seqNo = Number(seqNoRef.current.value);
       inputdata.allocationCategory = allocationCategoryRef.current.value;
-      inputdata.accountCode = accountCodeRef.current.value;
+      inputdata.accountCode = accCode;
 
       return inputdata;
     },
@@ -89,6 +88,31 @@ const P0059 = forwardRef((props: any, ref) => {
     setEnq(false)
   }
   
+  const [accountcodes, setaccountcodes] = useState([])
+  console.log("AccountCodes", accountcodes)
+
+  const getAccountcodes=()=>{
+    axios.get(`http://localhost:3000/api/v1/nbservices/accountcodes`,{
+    withCredentials: true,
+    params: {
+      pageSize:0
+    }})
+    .then((resp)=>{
+      setaccountcodes(resp.data["AccountCodes"])
+      return resp.data
+    })
+  }
+
+  const[accCode,setaccCode] = useState(inputdata.accountCode)
+  console.log("AccCode", accCode)
+
+  useEffect(() => {
+    getAccountcodes()
+
+    return () => {}
+
+    },[])
+
   return (
     <>
     <InfoIcon
@@ -166,21 +190,31 @@ const P0059 = forwardRef((props: any, ref) => {
             </Grid2> 
 
       <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
-        <TextField
-          
-          inputProps={{
-            readOnly: props.mode === "display" || props.mode === "delete",
-          }}
-          id="accountCode"
-          name="accountCode"
-          inputRef={accountCodeRef}
-          placeholder="Account Code"
-          label="Account Code"
-          defaultValue={inputdata.accountCode}
-          fullWidth
-          margin="dense"
-        />
-        </Grid2>
+              <Autocomplete
+                id="accountCode"
+                options={accountcodes}
+                autoHighlight
+                readOnly={ props.mode === 'display' || props.mode === 'delete'}
+                getOptionLabel={(option: any) => `${option.AccountCode}`}
+                value={{"AccountCode":accCode}}
+                onChange={(_, newValue: any) => 
+                  setaccCode(newValue.AccountCode)
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Account Code"
+                    size="small"
+                    margin="dense"
+                    InputProps={{
+                      ...params.InputProps,
+                      readOnly: props.mode === 'display' || props.mode === 'delete',
+                    }}
+                  />
+                )}
+                fullWidth
+              />
+            </Grid2> 
 
 
         <P0059Enq
