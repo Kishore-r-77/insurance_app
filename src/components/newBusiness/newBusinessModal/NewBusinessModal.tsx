@@ -1234,7 +1234,7 @@ function NewBusinessModal({
                 </Grid2>
 
                 {
-                  state.BillingType === "SII"?
+                  state.BillingType || record.BillingType === "SII"?
                   <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: state.infoOpen }}
