@@ -239,7 +239,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: "Deleted Successfully",
+          message: err?.response?.data?.error,
           type: "error",
         });
       });

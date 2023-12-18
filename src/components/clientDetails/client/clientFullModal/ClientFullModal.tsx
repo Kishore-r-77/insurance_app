@@ -379,7 +379,7 @@ function ClientFullModal({
                     id="ClientShortName"
                     name="ClientShortName"
                     value={state.ClientShortName}
-                    placeholder="Client Short Name"
+                    placeholder={clientType === "I" ? "Client Short Name" : "FAO"}
                     label={clientType === "I" ? "Client Short Name" : "FAO"}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
@@ -397,7 +397,9 @@ function ClientFullModal({
                     id="ClientLongName"
                     name="ClientLongName"
                     value={state.ClientLongName}
-                    placeholder="Client Long Name"
+                    placeholder={
+                      clientType === "I" ? "Client Long Name" : "Company Name"
+                    }
                     label={
                       clientType === "I" ? "Client Long Name" : "Company Name"
                     }
@@ -512,7 +514,7 @@ function ClientFullModal({
                     id="ClientEmail"
                     name="ClientEmail"
                     value={state.ClientEmail}
-                    placeholder="ClientEmail"
+                    placeholder={clientType === "I" ? "Client Email" : "Office Mail"}
                     label={clientType === "I" ? "Client Email" : "Office Mail"}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
@@ -530,8 +532,8 @@ function ClientFullModal({
                     id="NationalId"
                     name="NationalId"
                     value={state.NationalId}
-                    placeholder="NationalId"
-                    label="NationalId"
+                    placeholder={clientType === "I" ? "NationalId" : "Registration No"}
+                    label={clientType === "I" ? "NationalId" : "Registration No"}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -574,7 +576,9 @@ function ClientFullModal({
                     id="ClientMobile"
                     name="ClientMobile"
                     value={state.ClientMobile}
-                    placeholder="ClientMobile"
+                    placeholder={
+                      clientType === "I" ? "Client Mobile" : "Office Mobile"
+                    }
                     label={
                       clientType === "I" ? "Client Mobile" : "Office Mobile"
                     }

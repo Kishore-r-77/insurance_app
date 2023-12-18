@@ -158,6 +158,7 @@ export const createPoliciesWithBenefits = (
     {
       CompanyID: companyId,
       ClientID: parseInt(state.ClientID),
+      PayingAuthority: parseInt(state.PayingAuthority),
       AddressID: parseInt(state.AddressID),
       AgencyID: parseInt(state.AgencyID),
       PRCD:
