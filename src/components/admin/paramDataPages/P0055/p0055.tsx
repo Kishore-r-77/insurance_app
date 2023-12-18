@@ -1,12 +1,12 @@
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from "react";
-import { TextField, MenuItem, Checkbox, ListItemText } from "@mui/material";
+import { TextField, MenuItem, Checkbox, ListItemText, Autocomplete, Box, Paper } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import UserGroup from "../../usergroup/UserGroup";
 import useHttp from "../../../../hooks/use-http";
 import { getData } from "../../../../services/http-service";
+import axios from "axios";
 
 import InfoIcon from "@mui/icons-material/Info";
-
 import  "./p0055.css";
 import P0055Enq  from "./p0055Enq";
 
@@ -35,6 +35,7 @@ const P0055 = forwardRef((props: any, ref) => {
   const bankCodeRef: any = useRef();
   const bankAccountRef: any = useRef();
   const gLAccountRef: any = useRef();
+  const payingAuthorityRef: any = useRef();
 
   let inputdata: any = {};
 
@@ -49,6 +50,7 @@ const P0055 = forwardRef((props: any, ref) => {
       inputdata.bankCode = bankCodeRef.current.value;
       inputdata.bankAccount = bankAccountRef.current.value;
       inputdata.gLAccount = gLAccountRef.current.value;
+      inputdata.payingAuthority = payingAuthorityRef.current.value;
 
       return inputdata;
     },
@@ -167,6 +169,33 @@ const P0055 = forwardRef((props: any, ref) => {
           margin="dense"
         />
         </Grid2>
+
+      <Grid2 xs={12} md={6} lg={4} sm={6} xl={4}>
+        <TextField
+          select
+          inputProps={{
+            readOnly: props.mode === "display" || props.mode === "delete",
+          }}
+          id="payingAuthority"
+          name="payingAuthority"
+          inputRef={payingAuthorityRef}
+          placeholder="Paying Authority"
+          label="Paying Authority"
+          defaultValue={inputdata.payingAuthority}
+          fullWidth
+          variant="outlined"
+          margin="dense"
+          SelectProps={{
+            multiple: false,
+          }}
+        >
+          {getYesnoResponse?.param.data.dataPairs.map((value:any) => (
+            <MenuItem key={value.code} value={value.code}>
+              {value.code} - {value.description}
+            </MenuItem>
+            ))}
+        </TextField>
+            </Grid2> 
 
 
         <P0055Enq

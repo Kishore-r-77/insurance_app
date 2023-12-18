@@ -51,7 +51,7 @@ const P0059 = forwardRef((props: any, ref) => {
       inputdata.currentOrFuture = currentOrFutureRef.current.value;
       inputdata.seqNo = Number(seqNoRef.current.value);
       inputdata.allocationCategory = allocationCategoryRef.current.value;
-      inputdata.accountCode = accCode;
+      inputdata.accountCode = accountcode1;
 
       return inputdata;
     },
@@ -89,7 +89,6 @@ const P0059 = forwardRef((props: any, ref) => {
   }
   
   const [accountcodes, setaccountcodes] = useState([])
-  console.log("AccountCodes", accountcodes)
 
   const getAccountcodes=()=>{
     axios.get(`http://localhost:3000/api/v1/nbservices/accountcodes`,{
@@ -102,9 +101,8 @@ const P0059 = forwardRef((props: any, ref) => {
       return resp.data
     })
   }
+  const [accountcode1, setaccountcode1] = useState(inputdata.accountCode)
 
-  const[accCode,setaccCode] = useState(inputdata.accountCode)
-  console.log("AccCode", accCode)
 
   useEffect(() => {
     getAccountcodes()
@@ -196,9 +194,9 @@ const P0059 = forwardRef((props: any, ref) => {
                 autoHighlight
                 readOnly={ props.mode === 'display' || props.mode === 'delete'}
                 getOptionLabel={(option: any) => `${option.AccountCode}`}
-                value={{"AccountCode":accCode}}
+                value={{"AccountCode":accountcode1 }}
                 onChange={(_, newValue: any) => 
-                  setaccCode(newValue.AccountCode)
+                setaccountcode1(newValue.AccountCode)
                 }
                 renderInput={(params) => (
                   <TextField

@@ -60,6 +60,8 @@ function NewBusinessModal({
   setinterest,
   initialBenefitsValuesIlp,
   initialBenefitsValues,
+  funds,
+  setfunds,
 }: any) {
   const addTitle: string = "Policy Add";
   const editTitle: string = "Policy Edit";
@@ -522,7 +524,7 @@ function NewBusinessModal({
     },
   ];
   const [fundDetails, setfundDetails] = useState(initialFundValues);
-
+  
   const ilpOpen = (data: any) => {
     setilpModalParam((prev) => ({ ...prev, open: true, data }));
     setbenefitIndex(data?.benefitIndex);
@@ -609,7 +611,7 @@ function NewBusinessModal({
       .filter((item: any) => item.manOrOpt === "M")
       .map((item: any) => item.benDataType);
     setCheckedItems(defaultChecked);
-  }, [state.addOpen === true]);
+  }, [state.addOpen === true || state.editOpen === true]);
 
   return (
     <div>
@@ -1239,7 +1241,7 @@ function NewBusinessModal({
                       label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
                       style={{ minWidth: "95%", margin: "0px 1rem" }}
                     >
-                      {state.PProduct === "ILP" ? (
+                      {state.PProduct === "ILP" || record.PProduct === "ILP" ? (
                         <>
                           <span
                             style={{
@@ -1662,8 +1664,8 @@ function NewBusinessModal({
         open={ilpModalParam.open}
         handleClose={ilpClose}
         data={ilpModalParam.data}
-        fundDetails={fundDetails}
-        setfundDetails={setfundDetails}
+        fundDetails={state.addOpen? fundDetails: funds}
+        setfundDetails={state.addOpen? setfundDetails: setfunds}
         setNotify={setNotify}
         totalFundPercentage={totalFundPercentage}
       />
