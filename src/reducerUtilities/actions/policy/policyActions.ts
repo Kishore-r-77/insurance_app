@@ -68,6 +68,7 @@ export const initialValues: PolicyStateType = {
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,
+  authOpen: false
 };
 
 //Columns Defined to Pass into the Custom Table

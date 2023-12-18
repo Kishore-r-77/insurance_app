@@ -910,6 +910,33 @@ function PolicyInformation({
                       margin="dense"
                     />
                   </Grid2>
+
+                {
+                  record.BillingType === "SII"?
+                  <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    id="PayingAuthority"
+                    onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
+                    name="PayingAuthority"
+                    value={state.addOpen ? state.PayingAuthority : record?.PayingAuthority}
+                    onChange={(e) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PayingAuthority",
+                      })
+                    }
+                    placeholder="paying_authority"
+                    label="paying_authority"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                :null
+                }
                   <Grid2 xs={8} md={6} lg={3}>
                     <TextField
                       InputProps={{ readOnly: state.infoOpen }}
