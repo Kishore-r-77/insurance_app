@@ -84,7 +84,7 @@ function NomineeModal({
     getNomineeRelationship(companyId, "P0045", languageId);
     // getpolicyData(ID)
 
-    return () => {};
+    return () => { };
   }, []);
 
   const [nomineesData, setNomineesData] = useState([
@@ -178,7 +178,7 @@ function NomineeModal({
   };
   useEffect(() => {
     getAllNominees();
-    return () => {};
+    return () => { };
   }, [open]);
 
   const [newNomineeClientData, setNewNomineeClientData] = useState<any>([]);
@@ -196,16 +196,16 @@ function NomineeModal({
         prevNomineesData.map((nominees, index) =>
           index === +selecteNomineeIndex
             ? {
-                ...nominees,
-                ClientID: nomineeClientId[selecteNomineeIndex],
-                ClientShortName: resp.data["Client"]?.ClientShortName,
-                Gender: resp.data["Client"]?.Gender,
-              }
+              ...nominees,
+              ClientID: nomineeClientId[selecteNomineeIndex],
+              ClientShortName: resp.data["Client"]?.ClientShortName,
+              Gender: resp.data["Client"]?.Gender,
+            }
             : nominees
         )
       );
 
-      clientClose();
+      // clientClose();
     } catch (error) {
       console.error("Error fetching nominee client data", error);
       // Handle errors if necessary
@@ -254,12 +254,12 @@ function NomineeModal({
         ClientShortName: "",
       },
     ]);
-    return () => {};
+    return () => { };
   }, [open === true]);
 
   useEffect(() => {
     getNewNomineeClient();
-    return () => {};
+    return () => { };
   }, [clientClose]);
 
   useEffect(() => {
@@ -279,13 +279,13 @@ function NomineeModal({
     ]);
     setNewNomineeClientData("");
 
-    return () => {};
+    return () => { };
   }, [open === false]);
 
   useEffect(() => {
     getClients();
 
-    return () => {};
+    return () => { };
   }, [policyData]);
 
   // useEffect(() => {

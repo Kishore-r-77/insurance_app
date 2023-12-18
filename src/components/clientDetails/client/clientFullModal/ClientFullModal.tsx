@@ -124,7 +124,7 @@ function ClientFullModal({
     getClientStatus(companyId, "P0009", languageId);
     addressType(companyId, languageId);
 
-    return () => {};
+    return () => { };
   }, []);
 
   const [addressData, setaddressData] = useState([
@@ -154,7 +154,7 @@ function ClientFullModal({
 
   useEffect(() => {
     getBusinessDate();
-    return () => {};
+    return () => { };
   }, [state.addOpen]);
 
   useEffect(() => {
@@ -164,7 +164,7 @@ function ClientFullModal({
         AddressStartDate: businessDate,
       },
     ]);
-    return () => {};
+    return () => { };
   }, [state.addOpen]);
 
   const handleAddressAdd = () => {
@@ -261,7 +261,7 @@ function ClientFullModal({
 
   useEffect(() => {
     getCountries();
-    return () => {};
+    return () => { };
   }, []);
 
   const [phoneNumbers, setphoneNumbers] = useState([]);
@@ -276,7 +276,7 @@ function ClientFullModal({
 
   useEffect(() => {
     getPhoneNumbers();
-    return () => {};
+    return () => { };
   }, [state.Nationality]);
 
   const initialCountryValues = {
@@ -304,11 +304,11 @@ function ClientFullModal({
 
   useEffect(() => {
     getCountryDetails();
-    return () => {};
+    return () => { };
   }, [state.Nationality]);
   useEffect(() => {
     setcountryDetails(initialCountryValues);
-    return () => {};
+    return () => { };
   }, [state.addOpen === false]);
 
   return (

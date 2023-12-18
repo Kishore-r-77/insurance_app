@@ -351,7 +351,7 @@ function NewBusiness({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err?.response?.data?.error,
+          message: err?.response?.data?.ValidatePolicy,
           type: "error",
         });
         confirmClose();
@@ -420,7 +420,7 @@ function NewBusiness({
       getData();
     }
 
-    return () => {};
+    return () => { };
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState<any>([]);
@@ -439,7 +439,7 @@ function NewBusiness({
 
   useEffect(() => {
     getBenefitsByPolicies1(record.ID);
-    return () => {};
+    return () => { };
   }, [state.benefitOpen, state.editOpen]);
 
   const getBenefit = () => {
@@ -461,7 +461,7 @@ function NewBusiness({
 
   useEffect(() => {
     getBenefit();
-    return () => {};
+    return () => { };
   }, [state.editOpen && record.PProduct === "MRT"]);
 
   useEffect(() => {
@@ -470,7 +470,7 @@ function NewBusiness({
         ? initialBenefitsValuesIlp
         : initialBenefitsValues
     );
-    return () => {};
+    return () => { };
   }, [state.addOpen === false]);
 
   return (
@@ -498,11 +498,11 @@ function NewBusiness({
               receiptLookup
                 ? (e) => handleSearchChange(e)
                 : (e) =>
-                    dispatch({
-                      type: ACTIONS.ONCHANGE,
-                      payload: e.target.value,
-                      fieldName: "searchCriteria",
-                    })
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "searchCriteria",
+                  })
             }
             style={{ width: "12rem" }}
           >
@@ -511,15 +511,15 @@ function NewBusiness({
             </MenuItem>
             {receiptLookup
               ? receiptFieldMap.map((value: any) => (
-                  <MenuItem key={value.fieldName} value={value.fieldName}>
-                    {value.displayName}
-                  </MenuItem>
-                ))
+                <MenuItem key={value.fieldName} value={value.fieldName}>
+                  {value.displayName}
+                </MenuItem>
+              ))
               : fieldMap.map((value: any) => (
-                  <MenuItem key={value.fieldName} value={value.fieldName}>
-                    {value.displayName}
-                  </MenuItem>
-                ))}
+                <MenuItem key={value.fieldName} value={value.fieldName}>
+                  {value.displayName}
+                </MenuItem>
+              ))}
           </TextField>
         </span>
         <span className={styles["text-fields"]}>
@@ -534,11 +534,11 @@ function NewBusiness({
               receiptLookup
                 ? (e) => handleSearchChange(e)
                 : (e) =>
-                    dispatch({
-                      type: ACTIONS.ONCHANGE,
-                      payload: e.target.value,
-                      fieldName: "searchString",
-                    })
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "searchString",
+                  })
             }
             style={{ width: "12rem" }}
           />
