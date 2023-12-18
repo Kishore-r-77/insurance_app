@@ -82,6 +82,7 @@ export const modifyPolicyWithBenefits = (
       ID: state.ID,
       CompanyID: companyId,
       ClientID: parseInt(state.ClientID),
+      PayingAuthority: parseInt(state.PayingAuthority),
       AddressID: parseInt(state.AddressID),
       AgencyID: parseInt(state.AgencyID),
       PRCD:

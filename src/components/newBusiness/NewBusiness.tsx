@@ -135,6 +135,21 @@ function NewBusiness({
           ...state,
           clientOpen: false,
         };
+        case ACTIONS.AUTHOPEN:
+          return {
+            ...state,
+            authOpen: true,
+          };
+        case ACTIONS.AUTHCLOSE:
+          // setbenefitsData(
+          //   state.PProduct === "ILP"
+          //     ? initialBenefitsValuesIlp
+          //     : initialBenefitsValues
+          // );
+          return {
+            ...state,
+            authOpen: false,
+          };
       case ACTIONS.BENEFITCLIENTOPEN:
         return {
           ...state,

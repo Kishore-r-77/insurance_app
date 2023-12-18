@@ -399,6 +399,14 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.CLIENTCLOSE });
   };
 
+  const authOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.PayingAuthority = item.ID;
+    } else record.PayingAuthority = item.ID;
+
+    dispatch({ type: ACTIONS.AUTHCLOSE });
+  };
+
   const addressOpenFunc = (item: any) => {
     if (state.addOpen) {
       state.AddressID = item.ID;
@@ -639,11 +647,11 @@ function NewBusinessModal({
             defaultExpandIcon={<ChevronRightIcon />}
             defaultExpanded={["1"]}
           >
-            {state.clientOpen ? (
+            {state.clientOpen? (
               <CustomModal
                 size={size}
                 open={state.clientOpen}
-                handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
+                handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE})}
               >
                 <Client modalFunc={clientOpenFunc} />
               </CustomModal>
@@ -679,7 +687,15 @@ function NewBusinessModal({
                   lookup={state.bankOpen}
                 />
               </CustomModal>
-            ) : null}
+            ): state.authOpen?
+            <CustomModal
+                size={size}
+                open={state.authOpen}
+                handleClose={() => dispatch({ type: ACTIONS.AUTHCLOSE})}
+              >
+                <Client modalFunc={authOpenFunc} />
+              </CustomModal>
+            : null}
             <TreeItem
               nodeId="1"
               label={state.addOpen ? `Policies Add` : `Policies Edit`}
@@ -1194,13 +1210,12 @@ function NewBusinessModal({
                   </TextField>
                 </Grid2>
 
-                <Grid2 xs={8} md={6} lg={4}>
+                  <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
                     id="BankID"
                     onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
                     name="BankID"
-                    // Attention: *** Check the value details  ***
                     value={state.addOpen ? state.BankID : record?.BankID}
                     onChange={(e) =>
                       dispatch({
@@ -1217,6 +1232,33 @@ function NewBusinessModal({
                     margin="dense"
                   />
                 </Grid2>
+
+                {
+                  state.BillingType === "SII"?
+                  <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{ readOnly: state.infoOpen }}
+                    id="PayingAuthority"
+                    onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
+                    name="PayingAuthority"
+                    value={state.addOpen ? state.PayingAuthority : record?.PayingAuthority}
+                    onChange={(e) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PayingAuthority",
+                      })
+                    }
+                    placeholder="paying_authority"
+                    label="paying_authority"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
+                :null
+                }
               </Grid2>
             </TreeItem>
             {benefitsData?.map((benefits: any, index: number) => {
