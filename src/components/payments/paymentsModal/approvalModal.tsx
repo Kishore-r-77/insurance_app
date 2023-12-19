@@ -1,62 +1,40 @@
-import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import { useAppSelector } from "../../../redux/app/hooks";
-import { getApi } from "../../admin/companies/companiesApis/companiesApis";
-import styles from "./paymentsModal.module.css";
-//Attention: Check the path below
 import { PaymentsModalType } from "../../../reducerUtilities/types/payments/paymentsTypes";
-import {
-  q0005,
-  paramItem,
-  approveApi,
-  rejectionApi,
-  getAllApi,
-} from "../paymentsApis/paymentsApis";
+import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
+import CustomModal from "../../../utilities/modal/CustomModal";
+import { getApi } from "../../admin/companies/companiesApis/companiesApis";
+import Address from "../../clientDetails/address/Address";
 import Client from "../../clientDetails/client/Client";
 import Policy from "../../policy/Policy";
-import Address from "../../clientDetails/address/Address";
 import {
   getPoliciesByClient,
   getPolicyApi,
 } from "../../policy/policyApis/policyApis";
-import { AccountCircle } from "@mui/icons-material";
-import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
-import axios from "axios";
+import { getAllApi, paramItem, q0005 } from "../paymentsApis/paymentsApis";
 import ApprovalFullModal from "./approvalFullModal";
-import Notification from "../../../utilities/Notification/Notification";
+import styles from "./paymentsModal.module.css";
 
 function ApprovalModal({
   state,
   record,
   dispatch,
   ACTIONS,
-  handleFormSubmit,
   searchContent,
   handleSearchChange,
   RejectSubmit,
   ApproveSubmit,
 }: PaymentsModalType) {
-  //   const addTitle: string = "Payments Add";
-  //   const editTitle: string = "Payments Edit";
-  //   const infoTitle: string = "Payments Info";
   const approvalTitle: string = "Payment Approval&Rejection";
   const size: string = "xl";
 
   //Creating useReducer Hook
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
@@ -225,13 +203,6 @@ function ApprovalModal({
     return () => {};
   }, [state.ClientID]);
 
-  // const [snapShot, setsnapShot] = useState([]);
-  // const getPolicySnapshot = () => {
-  //   return getPolicySnap(parseInt(state.PolicyID)).then((resp) => {
-  //     setsnapShot(resp.data.result);
-  //   });
-  // };
-
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -242,14 +213,13 @@ function ApprovalModal({
 
   const handleHover = () => {
     setisShown(!isShown);
-    //getPolicySnapshot();
   };
 
   const [addressClntData, setaddressClntData] = useState([]);
   const getAddressByClient = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/basicservices/addressgetbyclient/${state.ClientID}`,
+        `http://localhost:3000/api/ v1/basicservices/addressgetbyclient/${state.ClientID}`,
         {
           withCredentials: true,
         }
@@ -409,8 +379,6 @@ function ApprovalModal({
                     name="ClientID"
                     placeholder="Client ID"
                     label="Client ID"
-                    // Attention: *** Check the value details  ***
-                    //onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
                     value={record.ClientID}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
@@ -548,15 +516,7 @@ function ApprovalModal({
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  >
-                    {/* {getPaymentResponse?.param.data.dataPairs.map(
-                      (value: any) => (
-                        <MenuItem key={value.code} value={value.code}>
-                          {value.description}
-                        </MenuItem>
-                      )
-                    )} */}
-                  </TextField>
+                  ></TextField>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
