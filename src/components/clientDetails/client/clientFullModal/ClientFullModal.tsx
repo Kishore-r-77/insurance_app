@@ -551,8 +551,8 @@ function ClientFullModal({
                     id="Nationality"
                     name="Nationality"
                     value={state.Nationality}
-                    placeholder="Nationality"
-                    label="Nationality"
+                    placeholder={clientType === "I" ? "Nationality" : "Country Name"}
+                    label={clientType === "I" ? "Nationality" : "Country Name"}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: ACTIONS.ONCHANGE,
@@ -577,10 +577,10 @@ function ClientFullModal({
                     name="ClientMobile"
                     value={state.ClientMobile}
                     placeholder={
-                      clientType === "I" ? "Client Mobile" : "Office Mobile"
+                      clientType === "I" ? "Client Mobile" : "Office Phone No"
                     }
                     label={
-                      clientType === "I" ? "Client Mobile" : "Office Mobile"
+                      clientType === "I" ? "Client Mobile" : "Office Phone No"
                     }
                     InputProps={{
                       startAdornment: (
