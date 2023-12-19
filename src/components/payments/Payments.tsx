@@ -78,12 +78,7 @@ function Payments({ modalFunc }: any) {
           ReconciledDate: businessDate,
           addOpen: true,
         };
-      // case ACTIONS.EDITOPEN:
-      //   setRecord(action.payload);
-      //   return {
-      //     ...state,
-      //     editOpen: true,
-      //   };
+     
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
