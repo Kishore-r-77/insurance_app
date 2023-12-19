@@ -46,6 +46,7 @@ import CustomNavbar from "./utilities/navbar/CustomNavbar";
 import SideBar from "./utilities/sidebar/Sidebar";
 import Profile from "./components/profile/Profile";
 import AboutPage from "./components/aboutPage/AboutPage";
+import PAuth from "./components/clientDetails/pAuthority/Pauth";
 
 function App() {
   const { pathname } = useLocation();
@@ -72,6 +73,7 @@ function App() {
                   <Route path="/client" element={<Client />} />
                   <Route path="/address" element={<Address />} />
                   <Route path="/bank" element={<Bank />} />
+                  <Route path="/payerauth" element={<PAuth />} />
                   <Route path="/params" element={<Params />} />
                   <Route path="/policy" element={<Policy />} />
                   <Route path="/paramItems" element={<ParamItems />} />

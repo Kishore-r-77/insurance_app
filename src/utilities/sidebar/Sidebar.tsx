@@ -98,6 +98,11 @@ const routes = [
         name: "Address",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/payerauth",
+        name: "PayerAuth",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
