@@ -18,7 +18,7 @@ import {
   getPolicyApi,
 } from "../../policy/policyApis/policyApis";
 import { getAllApi, paramItem, q0005 } from "../paymentsApis/paymentsApis";
-import ApprovalFullModal from "./approvalFullModal";
+import ApprovalFullModal from "./ApprovalFullModal";
 import styles from "./paymentsModal.module.css";
 
 function ApprovalModal({

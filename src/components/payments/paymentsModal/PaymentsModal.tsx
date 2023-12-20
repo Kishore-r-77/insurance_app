@@ -31,7 +31,7 @@ import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
 import axios from "axios";
 import useHttp from "../../../hooks/use-http";
 import { getData } from "../../../services/http-service";
-import ApprovalFullModal from "./approvalFullModal";
+import ApprovalFullModal from "./ApprovalFullModal";
 
 function PaymentsModal({
   state,

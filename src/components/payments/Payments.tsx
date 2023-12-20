@@ -20,7 +20,7 @@ import {
   rejectionApi,
 } from "./paymentsApis/paymentsApis";
 import PaymentsModal from "./paymentsModal/PaymentsModal";
-import ApprovalModal from "./paymentsModal/approvalModal";
+import ApprovalModal from "./paymentsModal/ApprovalModal";
 import PaymentsTable from "./paymentsTable/PaymentsTable";
 
 function Payments({ modalFunc }: any) {
