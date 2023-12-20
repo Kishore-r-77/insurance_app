@@ -150,7 +150,7 @@ function PAuth({ modalFunc, bankClntData, lookup }: any) {
         getData();
         setNotify({
           isOpen: true,
-          message: "Successfully Created",
+          message: `Created:Record ${resp?.data?.Result}`,
           type: "success",
         });
       })
@@ -208,7 +208,7 @@ function PAuth({ modalFunc, bankClntData, lookup }: any) {
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
     getData();
-    return () => {};
+    return () => { };
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (

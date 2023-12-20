@@ -26,6 +26,11 @@ export const addApi = (state: pAStateType, companyId: number) => {
     {
       CompanyID: companyId,
       ClientID: state.ClientID,
+      PaName: state.PaName,
+      PaType: state.PaType,
+      StartDate: state.StartDate,
+      EndDate: state.EndDate,
+      PaStatus: state.PaStatus
       // AgencyID: parseInt(state.AgencyID),
     },
     {
@@ -42,6 +47,11 @@ export const editApi = (record: any) => {
       ID: parseInt(record.ID),
       CompanyID: parseInt(record.CompanyID),
       ClientID: record.ClientID,
+      PaName: record.PaName,
+      PaType: record.PaType,
+      StartDate: record.StartDate,
+      EndDate: record.EndDate,
+      PaStatus: record.PaStatus
       // AgnecyID: parseInt(record.AgnecyID),
     },
     {

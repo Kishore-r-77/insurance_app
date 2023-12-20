@@ -21,6 +21,11 @@ export const ACTIONS = {
 export const initialValues: pAStateType = {
   CompanyID: "",
   ClientID: "",
+  PaName: "",
+  PaType: "",
+  StartDate: "",
+  EndDate: "",
+  PaStatus: "",
   addOpen: false,
   editOpen: false,
   infoOpen: false,
@@ -36,10 +41,37 @@ export const initialValues: pAStateType = {
 export const columns = [
   { field: "ID", header: "ID", dbField: "id" },
   { field: "CompanyID", header: "Company ID", dbField: "company_id" },
-  
+
   {
     field: "ClientID",
     header: "Client Id",
     dbField: "client_id",
+  },
+  {
+    field: "PaName",
+    header: "PaName ",
+    dbField: "pa_name",
+  },
+  {
+    field: "PaType",
+    header: "PaType ",
+    dbField: "pa_type",
+  },
+  {
+    field: "StartDate",
+    header: "StartDate ",
+    dbField: "start_date",
+    type: "date",
+  },
+  {
+    field: "EndDate",
+    header: "EndDate",
+    dbField: "end_date",
+    type: "date",
+  },
+  {
+    field: "PaStatus",
+    header: "PaStatus ",
+    dbField: "pa_status",
   },
 ];
