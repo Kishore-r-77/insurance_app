@@ -78,7 +78,6 @@ function Payments({ modalFunc }: any) {
           ReconciledDate: businessDate,
           addOpen: true,
         };
-     
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
@@ -354,7 +353,6 @@ function Payments({ modalFunc }: any) {
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
-        // hardDelete={hardDelete}
       />
       <CustomPagination
         pageNum={pageNum}
@@ -386,7 +384,6 @@ function Payments({ modalFunc }: any) {
         handleSearchChange={handleSearchChange}
         RejectSubmit={RejectSubmit}
         ApproveSubmit={ApproveSubmit}
-        //getData={getData}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>
