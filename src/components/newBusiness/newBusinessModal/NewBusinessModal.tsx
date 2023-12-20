@@ -45,6 +45,8 @@ import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitA
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 import styles from "./newBusinessModal.css";
 import YardIcon from "@mui/icons-material/Yard";
+import PauthModal from "../../clientDetails/pAuthority/pAuthModal/pAuthModal";
+import PAuth from "../../clientDetails/pAuthority/Pauth";
 
 function NewBusinessModal({
   state,
@@ -693,7 +695,7 @@ function NewBusinessModal({
                 open={state.authOpen}
                 handleClose={() => dispatch({ type: ACTIONS.AUTHCLOSE})}
               >
-                <Client modalFunc={authOpenFunc} />
+                <PAuth modalFunc={authOpenFunc} />
               </CustomModal>
             : null}
             <TreeItem
@@ -1234,7 +1236,7 @@ function NewBusinessModal({
                 </Grid2>
 
                 {
-                  state.BillingType || record.BillingType === "SII"?
+                  state.BillingType || record.BillingType === "SSI"?
                   <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: state.infoOpen }}
