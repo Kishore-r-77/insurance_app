@@ -43,10 +43,8 @@ function Payments({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Payments"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
         setisLast(resp.data["All Payments"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
@@ -88,7 +86,6 @@ function Payments({ modalFunc }: any) {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
-        // setBusinessData({});
         return {
           ...state,
           addOpen: false,
@@ -149,8 +146,6 @@ function Payments({ modalFunc }: any) {
           ...state,
           approveOpen: false,
         };
-
-      // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.POLICIESOPEN:
         return {
           ...state,
