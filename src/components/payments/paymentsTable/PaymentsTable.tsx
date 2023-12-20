@@ -1,15 +1,12 @@
-import { Button, IconButton, Paper } from "@mui/material";
-import Table from "react-bootstrap/Table";
-import styles from "./paymentsTable.module.css";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import InfoIcon from "@mui/icons-material/Info";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import { IconButton, Paper } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import BusinessIcon from "@mui/icons-material/Business";
+import Table from "react-bootstrap/Table";
+import styles from "./paymentsTable.module.css";
 function PaymentsTable({
   data,
   dataIndex,
@@ -17,7 +14,6 @@ function PaymentsTable({
   dispatch,
   ACTIONS,
   sortParam,
-  hardDelete,
   modalFunc,
 }: any) {
   const [sort, setsort] = useState(
@@ -120,28 +116,8 @@ function PaymentsTable({
               })}
               {modalFunc ? null : (
                 <>
-                  {/* <td>
-                    <BusinessIcon
-                      onClick={() =>
-                        dispatch({
-                          type: ACTIONS.BENEFITOPEN,
-                          payload: row,
-                        })
-                      }
-                    />{" "}
-                  </td> */}
                   <td>
                     <span className={styles.flexButtons}>
-                      {/* <EditIcon
-                    color="primary"
-                    onClick={() =>
-                      dispatch({ type: ACTIONS.EDITOPEN, payload: row })
-                    }
-                  /> */}
-                      {/* <DeleteIcon
-                        color="error"
-                        onClick={() => hardDelete(row.ID)}
-                      /> */}
                       <InfoIcon
                         onClick={() =>
                           dispatch({ type: ACTIONS.INFOOPEN, payload: row })

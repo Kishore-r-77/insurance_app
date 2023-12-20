@@ -20,7 +20,7 @@ import {
   rejectionApi,
 } from "./paymentsApis/paymentsApis";
 import PaymentsModal from "./paymentsModal/PaymentsModal";
-import ApprovalModal from "./paymentsModal/approvalModal";
+import ApprovalModal from "./paymentsModal/ApprovalModal";
 import PaymentsTable from "./paymentsTable/PaymentsTable";
 
 function Payments({ modalFunc }: any) {
@@ -43,10 +43,8 @@ function Payments({ modalFunc }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        // ***  Attention : Check the API and modify it, if required  ***
         setData(resp.data["All Payments"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        // ***  Attention : Check the API and modify it, if required   ***
         setisLast(resp.data["All Payments"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
@@ -78,12 +76,6 @@ function Payments({ modalFunc }: any) {
           ReconciledDate: businessDate,
           addOpen: true,
         };
-      // case ACTIONS.EDITOPEN:
-      //   setRecord(action.payload);
-      //   return {
-      //     ...state,
-      //     editOpen: true,
-      //   };
 
       case ACTIONS.INFOOPEN:
         setRecord(action.payload);
@@ -94,7 +86,6 @@ function Payments({ modalFunc }: any) {
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
-        // setBusinessData({});
         return {
           ...state,
           addOpen: false,
@@ -155,8 +146,6 @@ function Payments({ modalFunc }: any) {
           ...state,
           approveOpen: false,
         };
-
-      // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.POLICIESOPEN:
         return {
           ...state,
@@ -359,7 +348,6 @@ function Payments({ modalFunc }: any) {
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
-        // hardDelete={hardDelete}
       />
       <CustomPagination
         pageNum={pageNum}
@@ -391,7 +379,6 @@ function Payments({ modalFunc }: any) {
         handleSearchChange={handleSearchChange}
         RejectSubmit={RejectSubmit}
         ApproveSubmit={ApproveSubmit}
-        //getData={getData}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>
