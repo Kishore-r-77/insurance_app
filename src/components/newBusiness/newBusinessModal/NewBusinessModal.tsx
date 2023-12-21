@@ -555,7 +555,7 @@ function NewBusinessModal({
       }
       return false;
     });
-
+    console.log("OPP",values.operation)
     if (values.operation === "save") {
       const updatedIlpFunds = Array.from(uniqueFundsMap.values());
       if (benefitsData[benefitIndex]) {
@@ -572,6 +572,7 @@ function NewBusinessModal({
       totalFundPercentage.current = 0;
     }
   };
+  console.log("Ben",benefitsData)
 
   useEffect(() => {
     setCheckedItems([]);
