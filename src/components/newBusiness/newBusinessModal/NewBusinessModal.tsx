@@ -534,7 +534,7 @@ function NewBusinessModal({
     },
   ];
   const [fundDetails, setfundDetails] = useState(initialFundValues);
-  
+
   const ilpOpen = (data: any) => {
     setilpModalParam((prev) => ({ ...prev, open: true, data }));
     setbenefitIndex(data?.benefitIndex);
@@ -545,17 +545,18 @@ function NewBusinessModal({
     const uniqueFundsMap: Map<string, any> = new Map();
 
     // Filter out duplicates based on FundCode
-    const uniqueFunds = fundDetails.filter((fund: any) => {
-      if (fund?.FundCode && fund?.FundPercentage !== undefined) {
-        // Check if the FundCode is already in the map
-        if (!uniqueFundsMap.has(fund.FundCode)) {
-          uniqueFundsMap.set(fund.FundCode, fund);
-          return true;
-        }
-      }
-      return false;
-    });
-    console.log("OPP",values.operation)
+    const uniqueFunds = state.addOpen
+      ? fundDetails
+      : funds?.filter((fund: any) => {
+          if (fund?.FundCode && fund?.FundPercentage !== undefined) {
+            // Check if the FundCode is already in the map
+            if (!uniqueFundsMap.has(fund.FundCode)) {
+              uniqueFundsMap.set(fund.FundCode, fund);
+              return true;
+            }
+          }
+          return false;
+        });
     if (values.operation === "save") {
       const updatedIlpFunds = Array.from(uniqueFundsMap.values());
       if (benefitsData[benefitIndex]) {
@@ -572,7 +573,6 @@ function NewBusinessModal({
       totalFundPercentage.current = 0;
     }
   };
-  console.log("Ben",benefitsData)
 
   useEffect(() => {
     setCheckedItems([]);
@@ -650,11 +650,11 @@ function NewBusinessModal({
             defaultExpandIcon={<ChevronRightIcon />}
             defaultExpanded={["1"]}
           >
-            {state.clientOpen? (
+            {state.clientOpen ? (
               <CustomModal
                 size={size}
                 open={state.clientOpen}
-                handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE})}
+                handleClose={() => dispatch({ type: ACTIONS.CLIENTCLOSE })}
               >
                 <Client modalFunc={clientOpenFunc} />
               </CustomModal>
@@ -690,15 +690,15 @@ function NewBusinessModal({
                   lookup={state.bankOpen}
                 />
               </CustomModal>
-            ): state.authOpen?
-            <CustomModal
+            ) : state.authOpen ? (
+              <CustomModal
                 size={size}
                 open={state.authOpen}
-                handleClose={() => dispatch({ type: ACTIONS.AUTHCLOSE})}
+                handleClose={() => dispatch({ type: ACTIONS.AUTHCLOSE })}
               >
                 <PAuth modalFunc={authOpenFunc} />
               </CustomModal>
-            : null}
+            ) : null}
             <TreeItem
               nodeId="1"
               label={state.addOpen ? `Policies Add` : `Policies Edit`}
@@ -1213,7 +1213,7 @@ function NewBusinessModal({
                   </TextField>
                 </Grid2>
 
-                  <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
                     id="BankID"
@@ -1236,32 +1236,34 @@ function NewBusinessModal({
                   />
                 </Grid2>
 
-                {
-                  state.BillingType || record.BillingType === "SSI"?
+                {state.BillingType || record.BillingType === "SSI" ? (
                   <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
-                    id="PayingAuthority"
-                    onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
-                    name="PayingAuthority"
-                    value={state.addOpen ? state.PayingAuthority : record?.PayingAuthority}
-                    onChange={(e) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PayingAuthority",
-                      })
-                    }
-                    placeholder="paying_authority"
-                    label="paying_authority"
-                    fullWidth
-                    margin="dense"
-                  />
-                </Grid2>
-                :null
-                }
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="PayingAuthority"
+                      onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
+                      name="PayingAuthority"
+                      value={
+                        state.addOpen
+                          ? state.PayingAuthority
+                          : record?.PayingAuthority
+                      }
+                      onChange={(e) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "PayingAuthority",
+                        })
+                      }
+                      placeholder="paying_authority"
+                      label="paying_authority"
+                      fullWidth
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : null}
               </Grid2>
             </TreeItem>
             {benefitsData?.map((benefits: any, index: number) => {
@@ -1709,8 +1711,8 @@ function NewBusinessModal({
         open={ilpModalParam.open}
         handleClose={ilpClose}
         data={ilpModalParam.data}
-        fundDetails={state.addOpen? fundDetails: funds}
-        setfundDetails={state.addOpen? setfundDetails: setfunds}
+        fundDetails={state.addOpen ? fundDetails : funds}
+        setfundDetails={state.addOpen ? setfundDetails : setfunds}
         setNotify={setNotify}
         totalFundPercentage={totalFundPercentage}
       />
