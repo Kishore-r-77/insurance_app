@@ -100,7 +100,7 @@ const routes = [
       },
       {
         path: "/payerauth",
-        name: "PayerAuth",
+        name: "PayAuthority",
         icon: <ArrowRightAltIcon />,
       },
     ],
@@ -389,7 +389,7 @@ const SideBar = ({ children }: any) => {
                   to={route.path}
                   key={index}
                   className="link"
-                  //   activeClassName="active"
+                //   activeClassName="active"
                 >
                   <div className="icon">{route.icon}</div>
                   <AnimatePresence>
