@@ -132,9 +132,9 @@ function PAuth({ modalFunc, bankClntData, lookup }: any) {
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        setData(resp.data["GetAllPayingAuthority"]);
+        setData(resp.data["All PAs"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["GetAllPayingAuthority"]?.length === 0);
+        setisLast(resp.data["All PAs"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));

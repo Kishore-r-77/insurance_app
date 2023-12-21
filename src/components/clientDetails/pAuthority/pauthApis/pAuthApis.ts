@@ -28,8 +28,14 @@ export const addApi = (state: pAStateType, companyId: number) => {
       ClientID: state.ClientID,
       PaName: state.PaName,
       PaType: state.PaType,
-      StartDate: state.StartDate,
-      EndDate: state.EndDate,
+      StartDate:
+        state.StartDate?.length === 0
+          ? ""
+          : moment(state.StartDate).format("YYYYMMDD").toString(),
+      EndDate:
+        state.EndDate?.length === 0
+          ? ""
+          : moment(state.EndDate).format("YYYYMMDD").toString(),
       PaStatus: state.PaStatus
       // AgencyID: parseInt(state.AgencyID),
     },
@@ -49,8 +55,14 @@ export const editApi = (record: any) => {
       ClientID: record.ClientID,
       PaName: record.PaName,
       PaType: record.PaType,
-      StartDate: record.StartDate,
-      EndDate: record.EndDate,
+      StartDate:
+        record.StartDate?.length === 0
+          ? ""
+          : moment(record.StartDate).format("YYYYMMDD").toString(),
+      EndDate:
+        record.EndDate?.length === 0
+          ? ""
+          : moment(record.EndDate).format("YYYYMMDD").toString(),
       PaStatus: record.PaStatus
       // AgnecyID: parseInt(record.AgnecyID),
     },
