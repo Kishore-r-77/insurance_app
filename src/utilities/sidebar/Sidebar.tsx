@@ -100,7 +100,7 @@ const routes = [
       },
       {
         path: "/payerauth",
-        name: "PayAuthority",
+        name: "Paying Authority",
         icon: <ArrowRightAltIcon />,
       },
     ],
