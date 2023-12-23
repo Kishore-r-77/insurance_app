@@ -45,6 +45,7 @@ export const createQHeaderWithQDetail = (
         QSumAssured: parseInt(qDetail?.QSumAssured),
         QAgeAdmitted: qDetail?.QAgeAdmitted,
         QRiskSeqNo: qDetail?.QRiskSeqNo,
+        QAnnualPremium: parseInt(qDetail?.QAnnualPremium)
       })),
     },
     {
@@ -92,6 +93,7 @@ export const editQHeaderAndQDeatail = (
         QRiskCessTerm: parseInt(qDetail?.QRiskCessTerm),
         QSumAssured: parseInt(qDetail?.QSumAssured),
         QAgeAdmitted: qDetail?.QAgeAdmitted,
+        QAnnualPremium: parseInt(qDetail?.QAnnualPremium)
       })),
     },
     {

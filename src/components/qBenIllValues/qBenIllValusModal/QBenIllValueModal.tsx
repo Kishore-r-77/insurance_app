@@ -58,8 +58,10 @@ function QBenIllValuesModal({
     // getQDetailIDData(qDetailId);
     getQCoverage(companyId, "Q0006", languageId);
 
-    return () => {};
+    return () => { };
   }, []);
+
+  console.log(record, "Bharani karthic")
 
   return (
     <div className={styles.modal}>
@@ -69,15 +71,15 @@ function QBenIllValuesModal({
           state.addOpen
             ? state.addOpen
             : state.editOpen
-            ? state.editOpen
-            : state.infoOpen
+              ? state.editOpen
+              : state.infoOpen
         }
         handleClose={
           state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : state.editOpen
-            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
-            : () => dispatch({ type: ACTIONS.INFOCLOSE })
+              ? () => dispatch({ type: ACTIONS.EDITCLOSE })
+              : () => dispatch({ type: ACTIONS.INFOCLOSE })
         }
         title={infoTitle}
         ACTIONS={ACTIONS}
@@ -553,7 +555,7 @@ function QBenIllValuesModal({
                 margin="dense"
               />
             </Grid2>
-
+            <hr style={{ border: '1px solid #000', width: '100%', margin: '10px 0' }} />
             <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 type="number"
@@ -617,6 +619,130 @@ function QBenIllValuesModal({
               />
             </Grid2>
 
+            {/* changess */}
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                type="number"
+                id="QPesMc"
+                name="QPesMc"
+                value={state.addOpen ? state.QPesMc : record.QPesMc}
+                placeholder="QPesMc"
+                label="QPesMc"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "QPesMc",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                type="number"
+                id="QOptMc"
+                name="QOptMc"
+                value={state.addOpen ? state.QOptMc : record.QOptMc}
+                placeholder="QOptMc"
+                label="QOptMc"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "QOptMc",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                type="number"
+                id="QNorMc"
+                name="QNorMc"
+                value={state.addOpen ? state.QNorMc : record.QNorMc}
+                placeholder="QNorMc"
+                label="QNorMc"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "QNorMc",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                type="number"
+                id="QPesFee"
+                name="QPesFee"
+                value={state.addOpen ? state.QPesFee : record.QPesFee}
+                placeholder="QPesFee"
+                label="QPesFee"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "QPesFee",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+
+            </Grid2>
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                type="number"
+                id="QNorFee"
+                name="QNorFee"
+                value={state.addOpen ? state.QNorFee : record.QNorFee}
+                placeholder="QNorFee"
+                label="QNorFee"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "QNorFee",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
+
+            <Grid2 xs={8} md={6} lg={4}>
+              <TextField
+                type="number"
+                id="QOptFee"
+                name="QOptFee"
+                value={state.addOpen ? state.QOptFee : record.QOptFee}
+                placeholder="QOptFee"
+                label="QOptFee"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: state.addOpen ? ACTIONS.ONCHANGE : ACTIONS.EDITCHANGE,
+                    payload: e.target.value,
+                    fieldName: "QOptFee",
+                  })
+                }
+                fullWidth
+                inputProps={{ readOnly: state.infoOpen }}
+                margin="dense"
+              />
+            </Grid2>
+            <hr style={{ border: '1px solid #000', width: '100%', margin: '10px 0' }} />
             <Grid2 xs={8} md={6} lg={4}>
               <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
