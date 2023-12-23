@@ -133,6 +133,16 @@ export const modifyPolicyWithBenefits = (
         BSumAssured: parseInt(benefits?.BSumAssured),
         Interest: parseFloat(benefits?.Interest),
         BPrem: parseFloat(benefits?.BPrem),
+        ...(state.PProduct === "ILP"
+          ? {
+              IlpFunds: benefits?.IlpFunds?.map(
+                (funds: any, index: number) => ({
+                  ...funds,
+                  FundPercentage: +funds.FundPercentage,
+                })
+              ),
+            }
+          : null),
       })),
     },
     {

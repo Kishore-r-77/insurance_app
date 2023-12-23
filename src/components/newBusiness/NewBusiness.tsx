@@ -135,21 +135,21 @@ function NewBusiness({
           ...state,
           clientOpen: false,
         };
-        case ACTIONS.AUTHOPEN:
-          return {
-            ...state,
-            authOpen: true,
-          };
-        case ACTIONS.AUTHCLOSE:
-          // setbenefitsData(
-          //   state.PProduct === "ILP"
-          //     ? initialBenefitsValuesIlp
-          //     : initialBenefitsValues
-          // );
-          return {
-            ...state,
-            authOpen: false,
-          };
+      case ACTIONS.AUTHOPEN:
+        return {
+          ...state,
+          authOpen: true,
+        };
+      case ACTIONS.AUTHCLOSE:
+        // setbenefitsData(
+        //   state.PProduct === "ILP"
+        //     ? initialBenefitsValuesIlp
+        //     : initialBenefitsValues
+        // );
+        return {
+          ...state,
+          authOpen: false,
+        };
       case ACTIONS.BENEFITCLIENTOPEN:
         return {
           ...state,
@@ -281,7 +281,6 @@ function NewBusiness({
   const [isIssue, setisIssue] = useState(false);
   const [issueNote, setissueNote] = useState(false);
   const [issueData, setissueData] = useState();
-  const [nomineeByPolicyData, setNomineeByPolicyData] = useState();
 
   const policyvalidateOpen = () => {
     setisPolicyValidate(true);
@@ -435,14 +434,14 @@ function NewBusiness({
       getData();
     }
 
-    return () => { };
+    return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   const [benefitsByPoliciesData, setbenefitsByPoliciesData] = useState<any>([]);
 
   //const interest = useRef<any>();
   const [interest, setinterest] = useState(0.0);
-  const [funds, setfunds] = useState([])
+  const [funds, setfunds] = useState([]);
 
   const getBenefitsByPolicies1 = (policyId: number) => {
     getBenefitsByPolicies(policyId)
@@ -456,7 +455,7 @@ function NewBusiness({
 
   useEffect(() => {
     getBenefitsByPolicies1(record.ID);
-    return () => { };
+    return () => {};
   }, [state.benefitOpen, state.editOpen]);
 
   const getBenefit = () => {
@@ -479,7 +478,7 @@ function NewBusiness({
 
   useEffect(() => {
     getBenefit();
-    return () => { };
+    return () => {};
   }, [state.editOpen && record.PProduct === "MRT"]);
 
   useEffect(() => {
@@ -488,7 +487,7 @@ function NewBusiness({
         ? initialBenefitsValuesIlp
         : initialBenefitsValues
     );
-    return () => { };
+    return () => {};
   }, [state.addOpen === false]);
 
   return (
@@ -516,11 +515,11 @@ function NewBusiness({
               receiptLookup
                 ? (e) => handleSearchChange(e)
                 : (e) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "searchCriteria",
-                  })
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchCriteria",
+                    })
             }
             style={{ width: "12rem" }}
           >
@@ -529,15 +528,15 @@ function NewBusiness({
             </MenuItem>
             {receiptLookup
               ? receiptFieldMap.map((value: any) => (
-                <MenuItem key={value.fieldName} value={value.fieldName}>
-                  {value.displayName}
-                </MenuItem>
-              ))
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))
               : fieldMap.map((value: any) => (
-                <MenuItem key={value.fieldName} value={value.fieldName}>
-                  {value.displayName}
-                </MenuItem>
-              ))}
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))}
           </TextField>
         </span>
         <span className={styles["text-fields"]}>
@@ -552,11 +551,11 @@ function NewBusiness({
               receiptLookup
                 ? (e) => handleSearchChange(e)
                 : (e) =>
-                  dispatch({
-                    type: ACTIONS.ONCHANGE,
-                    payload: e.target.value,
-                    fieldName: "searchString",
-                  })
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchString",
+                    })
             }
             style={{ width: "12rem" }}
           />
