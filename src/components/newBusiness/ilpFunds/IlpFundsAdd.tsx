@@ -135,6 +135,17 @@ function IlpFundsAdd({
   };
 
   useEffect(() => {
+    const sumOfFundPercentage = fundDetails?.reduce(
+      (total: number, funds: any) => total + +funds.FundPercentage,
+      0
+    );
+    totalFundPercentage.current = sumOfFundPercentage;
+    return () => {
+      totalFundPercentage.current = 0;
+    };
+  }, [open === true]);
+
+  useEffect(() => {
     getFundCode(companyId, "P0050", languageId, "ILP1FUNDCODE");
     return () => {};
   }, []);

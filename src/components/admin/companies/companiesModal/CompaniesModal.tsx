@@ -413,10 +413,10 @@ function CompaniesModal({
             </Grid2>
             <Grid2 xs={8} md={6} lg={4}>
               <div className="col" style={{ marginLeft: 23 }}>
-                <label>
+                <span>
                   {" "}
                   <h5> Company Logo </h5>{" "}
-                </label>
+                </span>
                 <br /> <br />
                 <input
                   type="file"

@@ -10,6 +10,7 @@ export type PolicyStateType = {
   PReceivedDate: string;
   PUWDate: string;
   ClientID: string;
+  PayingAuthority: string;
   AgencyID: string;
   AddressID: string;
   BankID: string;
@@ -23,6 +24,7 @@ export type PolicyStateType = {
   editOpen: boolean;
   infoOpen: boolean;
   clientOpen: boolean;
+  authOpen: boolean;
   addressOpen: boolean;
   bankOpen: boolean;
   agencyOpen: boolean;
@@ -47,6 +49,8 @@ export type ActionConstantsType = {
   INFOCLOSE: string;
   CLIENTOPEN: string;
   CLIENTCLOSE: string;
+  AUTHOPEN: string;
+  AUTHCLOSE: string;
   ADDRESSOPEN: string;
   ADDRESSCLOSE: string;
   BANKOPEN: string;

@@ -82,6 +82,7 @@ export const modifyPolicyWithBenefits = (
       ID: state.ID,
       CompanyID: companyId,
       ClientID: parseInt(state.ClientID),
+      PayingAuthority: parseInt(state.PayingAuthority),
       AddressID: parseInt(state.AddressID),
       AgencyID: parseInt(state.AgencyID),
       PRCD:
@@ -132,6 +133,16 @@ export const modifyPolicyWithBenefits = (
         BSumAssured: parseInt(benefits?.BSumAssured),
         Interest: parseFloat(benefits?.Interest),
         BPrem: parseFloat(benefits?.BPrem),
+        ...(state.PProduct === "ILP"
+          ? {
+              IlpFunds: benefits?.IlpFunds?.map(
+                (funds: any, index: number) => ({
+                  ...funds,
+                  FundPercentage: +funds.FundPercentage,
+                })
+              ),
+            }
+          : null),
       })),
     },
     {

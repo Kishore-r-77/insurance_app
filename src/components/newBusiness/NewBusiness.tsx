@@ -135,6 +135,21 @@ function NewBusiness({
           ...state,
           clientOpen: false,
         };
+      case ACTIONS.AUTHOPEN:
+        return {
+          ...state,
+          authOpen: true,
+        };
+      case ACTIONS.AUTHCLOSE:
+        // setbenefitsData(
+        //   state.PProduct === "ILP"
+        //     ? initialBenefitsValuesIlp
+        //     : initialBenefitsValues
+        // );
+        return {
+          ...state,
+          authOpen: false,
+        };
       case ACTIONS.BENEFITCLIENTOPEN:
         return {
           ...state,
@@ -267,7 +282,6 @@ function NewBusiness({
   const [isIssue, setisIssue] = useState(false);
   const [issueNote, setissueNote] = useState(false);
   const [issueData, setissueData] = useState();
-  const [nomineeByPolicyData, setNomineeByPolicyData] = useState();
 
   const policyvalidateOpen = () => {
     setisPolicyValidate(true);
@@ -352,7 +366,7 @@ function NewBusiness({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err?.response?.data?.error,
+          message: err?.response?.data?.ValidatePolicy,
           type: "error",
         });
         confirmClose();
@@ -428,12 +442,14 @@ function NewBusiness({
 
   //const interest = useRef<any>();
   const [interest, setinterest] = useState(0.0);
+  const [funds, setfunds] = useState([]);
 
   const getBenefitsByPolicies1 = (policyId: number) => {
     getBenefitsByPolicies(policyId)
       .then((resp) => {
         setbenefitsByPoliciesData(resp.data?.Benefit);
         setinterest(resp.data?.Interest);
+        setfunds(resp.data?.Funds);
       })
       .catch((err) => err.message);
   };
@@ -454,6 +470,7 @@ function NewBusiness({
       .then((res) => {
         //interest.current = res.data.Interest;
         setinterest(res.data.Interest);
+        setfunds(res.data?.Funds);
       })
       .catch((err) => {
         return err;
@@ -637,6 +654,8 @@ function NewBusiness({
         initialBenefitsValues={initialBenefitsValues}
         interest={interest}
         setinterest={setinterest}
+        funds={funds}
+        setfunds={setfunds}
         setbenefitsData={
           state.addOpen ? setbenefitsData : setbenefitsByPoliciesData
         }

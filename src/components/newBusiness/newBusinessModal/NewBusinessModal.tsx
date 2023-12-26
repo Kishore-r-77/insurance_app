@@ -46,6 +46,8 @@ import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 import styles from "./newBusinessModal.css";
 import YardIcon from "@mui/icons-material/Yard";
 import ExtrasAdd from "../extras/extrasAdd";
+import PauthModal from "../../clientDetails/pAuthority/pAuthModal/pAuthModal";
+import PAuth from "../../clientDetails/pAuthority/Pauth";
 
 function NewBusinessModal({
   state,
@@ -61,6 +63,8 @@ function NewBusinessModal({
   setinterest,
   initialBenefitsValuesIlp,
   initialBenefitsValues,
+  funds,
+  setfunds,
 }: any) {
   const addTitle: string = "Policy Add";
   const editTitle: string = "Policy Edit";
@@ -401,6 +405,14 @@ function NewBusinessModal({
     dispatch({ type: ACTIONS.CLIENTCLOSE });
   };
 
+  const authOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.PayingAuthority = item.ID;
+    } else record.PayingAuthority = item.ID;
+
+    dispatch({ type: ACTIONS.AUTHCLOSE });
+  };
+
   const addressOpenFunc = (item: any) => {
     if (state.addOpen) {
       state.AddressID = item.ID;
@@ -556,17 +568,18 @@ function NewBusinessModal({
     const uniqueFundsMap: Map<string, any> = new Map();
 
     // Filter out duplicates based on FundCode
-    const uniqueFunds = fundDetails.filter((fund: any) => {
-      if (fund?.FundCode && fund?.FundPercentage !== undefined) {
-        // Check if the FundCode is already in the map
-        if (!uniqueFundsMap.has(fund.FundCode)) {
-          uniqueFundsMap.set(fund.FundCode, fund);
-          return true;
-        }
-      }
-      return false;
-    });
-
+    const uniqueFunds = state.addOpen
+      ? fundDetails
+      : funds?.filter((fund: any) => {
+          if (fund?.FundCode && fund?.FundPercentage !== undefined) {
+            // Check if the FundCode is already in the map
+            if (!uniqueFundsMap.has(fund.FundCode)) {
+              uniqueFundsMap.set(fund.FundCode, fund);
+              return true;
+            }
+          }
+          return false;
+        });
     if (values.operation === "save") {
       const updatedIlpFunds = Array.from(uniqueFundsMap.values());
       if (benefitsData[benefitIndex]) {
@@ -687,7 +700,7 @@ function NewBusinessModal({
       .filter((item: any) => item.manOrOpt === "M")
       .map((item: any) => item.benDataType);
     setCheckedItems(defaultChecked);
-  }, [state.addOpen === true]);
+  }, [state.addOpen === true || state.editOpen === true]);
 
   return (
     <div>
@@ -754,6 +767,14 @@ function NewBusinessModal({
                   bankClntData={bankClntData}
                   lookup={state.bankOpen}
                 />
+              </CustomModal>
+            ) : state.authOpen ? (
+              <CustomModal
+                size={size}
+                open={state.authOpen}
+                handleClose={() => dispatch({ type: ACTIONS.AUTHCLOSE })}
+              >
+                <PAuth modalFunc={authOpenFunc} />
               </CustomModal>
             ) : null}
             <TreeItem
@@ -1276,7 +1297,6 @@ function NewBusinessModal({
                     id="BankID"
                     onClick={() => dispatch({ type: ACTIONS.BANKOPEN })}
                     name="BankID"
-                    // Attention: *** Check the value details  ***
                     value={state.addOpen ? state.BankID : record?.BankID}
                     onChange={(e) =>
                       dispatch({
@@ -1293,6 +1313,35 @@ function NewBusinessModal({
                     margin="dense"
                   />
                 </Grid2>
+
+                {state.BillingType || record.BillingType === "SSI" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: state.infoOpen }}
+                      id="PayingAuthority"
+                      onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
+                      name="PayingAuthority"
+                      value={
+                        state.addOpen
+                          ? state.PayingAuthority
+                          : record?.PayingAuthority
+                      }
+                      onChange={(e) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "PayingAuthority",
+                        })
+                      }
+                      placeholder="paying_authority"
+                      label="paying_authority"
+                      fullWidth
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : null}
               </Grid2>
             </TreeItem>
             {benefitsData?.map((benefits: any, index: number) => {
@@ -1317,7 +1366,7 @@ function NewBusinessModal({
                       label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
                       style={{ minWidth: "95%", margin: "0px 1rem" }}
                     >
-                      {state.PProduct === "ILP" ? (
+                      {state.PProduct === "ILP" || record.PProduct === "ILP" ? (
                         <>
                           <span
                             style={{
@@ -1745,8 +1794,8 @@ function NewBusinessModal({
         open={ilpModalParam.open}
         handleClose={ilpClose}
         data={ilpModalParam.data}
-        fundDetails={fundDetails}
-        setfundDetails={setfundDetails}
+        fundDetails={state.addOpen ? fundDetails : funds}
+        setfundDetails={state.addOpen ? setfundDetails : setfunds}
         setNotify={setNotify}
         totalFundPercentage={totalFundPercentage}
       />

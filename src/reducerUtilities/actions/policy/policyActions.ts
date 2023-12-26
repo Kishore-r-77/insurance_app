@@ -12,6 +12,8 @@ export const ACTIONS = {
   INFOCLOSE: "INFOCLOSE",
   CLIENTOPEN: "CLIENTOPEN",
   CLIENTCLOSE: "CLIENTCLOSE",
+  AUTHOPEN: "AUTHOPEN",
+  AUTHCLOSE: "AUTHCLOSE",
   BENEFITCLIENTOPEN: "BENEFITCLIENTOPEN",
   BENEFITCLIENTCLOSE: "BENEFITCLIENTCLOSE",
   ADDRESSOPEN: "ADDRESSOPEN",
@@ -41,6 +43,7 @@ export const initialValues: PolicyStateType = {
   PReceivedDate: "",
   PUWDate: "",
   ClientID: "",
+  PayingAuthority: "",
   AgencyID: "",
   AddressID: "",
   BankID: "",
@@ -65,6 +68,7 @@ export const initialValues: PolicyStateType = {
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,
+  authOpen: false
 };
 
 //Columns Defined to Pass into the Custom Table

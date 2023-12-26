@@ -2,40 +2,31 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
-import CustomPagination from "../../utilities/Pagination/CustomPagination";
-import CustomTable from "../../utilities/Table/CustomTable";
-import { useAppSelector } from "../../redux/app/hooks";
-import { ExtraStateType } from "../../reducerUtilities/types/extra/extraTypes";
+import { BankStateType } from "../../../reducerUtilities/types/bank/bankTypes";
+import CustomPagination from "../../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../../utilities/Table/CustomTable";
+import styles from "./pAuth.module.css";
+import { addApi, deleteApi, editApi, getAllApi } from "./pauthApis/pAuthApis";
 
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../reducerUtilities/actions/extra/extraActions";
-import styles from "./extra.module.css";
-import {
-  addApi,
-  deleteApi,
-  editApi,
-  getAllApi,
-  getExtrasByBenefit,
-} from "./extraApis/extraApis";
-import ExtraModal from "./extraModal/ExtraModal";
-import Notification from "../../utilities/Notification/Notification";
+} from "../../../reducerUtilities/actions/clientDetails/pa/paAction";
+import { useAppSelector } from "../../../redux/app/hooks";
+import Notification from "../../../utilities/Notification/Notification";
+import { pAStateType } from "../../../reducerUtilities/types/pa/paTypes";
+import PauthModal from "./pAuthModal/pAuthModal";
 
-function Extra({ modalFunc, lookup, benefitState }: any) {
+function PAuth({ modalFunc, bankClntData, lookup }: any) {
   //data from getall api
   const [data, setData] = useState([]);
+
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
-  //Reducer Function to be used inside UserReducer hook
 
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "",
-  });
-  const reducer = (state: ExtraStateType, action: any) => {
+  //Reducer Function to be used inside UserReducer hook
+  const reducer = (state: pAStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -87,30 +78,15 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
           ...state,
           infoOpen: false,
         };
-
-      // *** Attention: Check the Lookup Open /close ***
-      case ACTIONS.POLICYOPEN:
+      case ACTIONS.CLIENTOPEN:
         return {
           ...state,
-          policyOpen: true,
+          clientOpen: true,
         };
-      case ACTIONS.POLICYCLOSE:
+      case ACTIONS.CLIENTCLOSE:
         return {
           ...state,
-          policyOpen: false,
-        };
-
-      // *** Attention: Check the Lookup Open /close ***
-      case ACTIONS.BENEFITOPEN:
-        setRecord(action.payload);
-        return {
-          ...state,
-          benefitOpen: true,
-        };
-      case ACTIONS.BENEFITCLOSE:
-        return {
-          ...state,
-          benefitOpen: false,
+          clientOpen: false,
         };
 
       case ACTIONS.SORT_ASC:
@@ -140,18 +116,25 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
 
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
+
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        setData(resp.data["Extra"]);
+        setData(resp.data["All PAs"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["Extra"]?.length === 0);
+        setisLast(resp.data["All PAs"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -161,26 +144,24 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   );
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId, benefitState.ID, benefitState.PolicyID)
+    return addApi(state, companyId)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
+        getData();
         setNotify({
           isOpen: true,
-          message: resp.data?.Result,
+          message: `Created:Record ${resp?.data?.Result}`,
           type: "success",
         });
-        getData();
-        if (lookup) {
-          getExtrasByBenefit1();
-        }
       })
-      .catch((err) => {
+
+      .catch((err) =>
         setNotify({
           isOpen: true,
-          message: err.message,
+          message: err?.response?.data?.error,
           type: "error",
-        });
-      });
+        })
+      );
   };
 
   //Edit Api
@@ -188,61 +169,29 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
     editApi(record)
       .then((resp) => {
         dispatch({ type: ACTIONS.EDITCLOSE });
+        getData();
         setNotify({
           isOpen: true,
-          message: `Updated record of id:${resp.data.outputs.ID} Successfully`,
+          message: "Updated Successfully",
           type: "success",
         });
-        getData();
-        if (lookup) {
-          getExtrasByBenefit1();
-        }
       })
-      .catch((err) => {
+      .catch((err) =>
         setNotify({
           isOpen: true,
-          message: err.message,
+          message: err?.response?.data?.error,
           type: "error",
-        });
-      });
+        })
+      );
   };
-
-  const [extrasByBenefitData, setextrasByBenefitData] = useState([]);
-
-  const getExtrasByBenefit1 = () => {
-    return getExtrasByBenefit(benefitState.ID)
-      .then((resp) => {
-        setextrasByBenefitData(resp.data?.Extra);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  useEffect(() => {
-    getExtrasByBenefit1();
-    return () => {};
-  }, [lookup]);
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
-        setNotify({
-          isOpen: true,
-          message: resp.data,
-          type: "success",
-        });
         getData();
-        if (lookup) {
-          getExtrasByBenefit1();
-        }
       })
-      .catch((err) => {
-        setNotify({
-          isOpen: true,
-          message: err?.response?.data?.error,
-          type: "error",
-        });
-      });
+      .catch((err) => console.log(err.message));
   };
 
   const nexPage = () => {
@@ -259,7 +208,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
     getData();
-    return () => {};
+    return () => { };
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (
@@ -321,7 +270,8 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
             <SearchIcon />
           </Button>
         </span>
-        <h1>Extras</h1>
+
+        <h1>PayingAuthority</h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -340,7 +290,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         </Button>
       </header>
       <CustomTable
-        data={lookup ? extrasByBenefitData : data}
+        data={lookup ? bankClntData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -356,9 +306,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <ExtraModal
-        benefitState={benefitState}
-        lookup={lookup}
+      <PauthModal
         state={state}
         record={record}
         dispatch={dispatch}
@@ -369,4 +317,5 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
     </div>
   );
 }
-export default Extra;
+
+export default PAuth;
