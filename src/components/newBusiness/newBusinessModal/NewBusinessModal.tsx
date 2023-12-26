@@ -36,7 +36,7 @@ import {
   extraParamItem,
   paramItem,
 } from "../../clientDetails/client/clientApis/clientApis";
-import { modifyPolicyWithBenefits } from "../../newBusiness/newBusinessApis/newBusinessApis";
+import { modifyPolicyWithBenefits } from "../newBusinessApis/newBusinessApis";
 import {
   createPoliciesWithBenefits,
   extraParams,

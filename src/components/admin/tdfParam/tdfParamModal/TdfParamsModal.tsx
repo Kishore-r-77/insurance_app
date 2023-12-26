@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../../redux/app/hooks";
 
-import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import { getApi } from "../../companies/companiesApis/companiesApis";
 
 import styles from "./tdfParamModal.module.css";
 

@@ -10,7 +10,7 @@ import styles from "./policyValidateModal.module.css";
 
 // Attention: Check the path below
 import { PolicyValidateModalType } from "../../../reducerUtilities/types/validatepolicy/policyValidateTypes";
-import Benefit from "../nbmmModal/benefit/Benefit";
+import Benefit from "./benefit/Benefit";
 // *** Attention: Check the path and change it if required ***
 
 function PolicyValidateModal({

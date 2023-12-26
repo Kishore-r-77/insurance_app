@@ -18,9 +18,9 @@ import styles from "../assignee.module.css";
 
 //Attention: Check the path below
 import { AssigneeModalType } from "../../../reducerUtilities/types/assignee/assigneeTypes";
-import { paramItem } from "../../assignee/assigneeApi/assigneeApis";
-import Policy from "../../../components/policy/Policy";
-import Client from "../../../components/clientDetails/client/Client";
+import { paramItem } from "../assigneeApi/assigneeApis";
+import Policy from "../../policy/Policy";
+import Client from "../../clientDetails/client/Client";
 function AssigneeModal({
   state,
   record,
