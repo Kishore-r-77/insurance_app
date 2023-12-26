@@ -246,6 +246,7 @@ function NewBusiness({
       Interest: 0,
       BPrem: 0,
       IlpFunds: [],
+      Extras: [],
     },
   ];
 

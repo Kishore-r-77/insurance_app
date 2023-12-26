@@ -45,6 +45,7 @@ import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitA
 import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
 import styles from "./newBusinessModal.css";
 import YardIcon from "@mui/icons-material/Yard";
+import ExtrasAdd from "../extras/extrasAdd";
 
 function NewBusinessModal({
   state,
@@ -261,6 +262,9 @@ function NewBusinessModal({
     const fundlist = [...ilpfunds];
     fundlist.splice(index, 1);
     setilpfunds(fundlist);
+    const extralist = [...extras];
+    extralist.splice(index, 1);
+    setextras(extralist);
     state.editOpen && benefitID
       ? deleteApi(benefitID)
           .then((resp) => {})
@@ -514,11 +518,30 @@ function NewBusinessModal({
     data: null,
   });
 
+  const [extraModalParam, setextraModalParam] = useState({
+    open: false,
+    data: null,
+  });
+
   const [benefitIndex, setbenefitIndex] = useState(0);
   const initialFundValues = [
     {
       FundCode: "",
       FundPercentage: 0,
+    },
+  ];
+  const initialExtraValues = [
+    {
+      EReason: "",
+      EMethod: "",
+      ToDate: "",
+      ReasonDescription: "",
+      EPrem: 0,
+      EPercentage: 0,
+      EAmt: 0,
+      ETerm: 0,
+      EAge: 0,
+      EMillie: 0,
     },
   ];
   const [fundDetails, setfundDetails] = useState(initialFundValues);
@@ -560,6 +583,44 @@ function NewBusinessModal({
       totalFundPercentage.current = 0;
     }
   };
+  const [extraDetails, setextraDetails] = useState(initialExtraValues);
+
+  const extraOpen = (data: any) => {
+    setextraModalParam((prev) => ({ ...prev, open: true, data }));
+    setbenefitIndex(data?.benefitIndex);
+  };
+
+  const extraClose = (values: any) => {
+    setextraModalParam((prev) => ({ ...prev, open: false }));
+    const uniqueExtrasMap: Map<string, any> = new Map();
+
+    // Filter out duplicates based on FundCode
+    const uniqueExtras = extraDetails.filter((extra: any) => {
+      if (extra?.EMethod && extra?.EReason !== undefined) {
+        // Check if the EMethod is already in the map
+        if (!uniqueExtrasMap.has(extra.EMethod)) {
+          uniqueExtrasMap.set(extra.EMethod, extra);
+          return true;
+        }
+      }
+      return false;
+    });
+
+    if (values.operation === "save") {
+      const updatedExtras = Array.from(uniqueExtrasMap.values());
+      if (benefitsData[benefitIndex]) {
+        benefitsData[benefitIndex].Extras = updatedExtras;
+      }
+      setNotify({
+        isOpen: true,
+        message: "Successfully Captured Extras",
+        type: "success",
+      });
+    }
+    if (values.operation === "cancel") {
+      setextraDetails(initialExtraValues);
+    }
+  };
 
   useEffect(() => {
     setCheckedItems([]);
@@ -567,6 +628,7 @@ function NewBusinessModal({
       "0": "",
     });
     setfundDetails(initialFundValues);
+    setextraDetails(initialExtraValues);
     return () => {};
   }, [state.addOpen === false]);
 
@@ -574,6 +636,22 @@ function NewBusinessModal({
     { FundCode: "", FundPercentage: "" },
   ]);
 
+  const [extras, setextras] = useState([
+    {
+      EReason: "",
+      EMethod: "",
+      ToDate: "",
+      ReasonDescription: "",
+      EPrem: 0,
+      EPercentage: 0,
+      EAmt: 0,
+      ETerm: 0,
+      EAge: 0,
+      EMillie: 0,
+    },
+  ]);
+
+  console.log(extras, "======", ilpfunds);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -1307,7 +1385,12 @@ function NewBusinessModal({
                                     <Button
                                       variant="contained"
                                       color="success"
-                                      onClick={() => {}}
+                                      onClick={() =>
+                                        extraOpen({
+                                          benefitIndex: index,
+                                          extraData: benefits.Extras,
+                                        })
+                                      }
                                       style={{
                                         maxWidth: "30px",
                                         maxHeight: "30px",
@@ -1666,6 +1749,13 @@ function NewBusinessModal({
         setfundDetails={setfundDetails}
         setNotify={setNotify}
         totalFundPercentage={totalFundPercentage}
+      />
+      <ExtrasAdd
+        open={extraModalParam.open}
+        handleClose={extraClose}
+        data={extraModalParam.data}
+        extraDetails={extraDetails}
+        setextraDetails={setextraDetails}
       />
     </div>
   );
