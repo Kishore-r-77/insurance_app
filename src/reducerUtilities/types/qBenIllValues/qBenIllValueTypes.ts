@@ -16,6 +16,12 @@ export type QBenIllValueStateType = {
   QNorValamt: string;
   QOptValamt: string;
   QPesValamt: string;
+  QPesMc: string;
+  QNorMc: string;
+  QOptMc: string;
+  QPesFee: string;
+  QNorFee: string;
+  QOptFee: string;
   QPolAnnivDate: string;
   QPolicyYear: string;
   QRevBonusAmt: string;
