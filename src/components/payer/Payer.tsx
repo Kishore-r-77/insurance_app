@@ -15,6 +15,7 @@ import { addApi, deleteApi, editApi, getAllApi } from "./payerApis/payerApis";
 import PayerModal from "./payerModal/PayerModal";
 import { PayerStateType } from "../../reducerUtilities/types/payer/payerTypes";
 import Notification from "../../utilities/Notification//Notification";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 function Payer({
   modalFunc,
@@ -27,6 +28,8 @@ function Payer({
   const [data, setData] = useState([]);
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
+  // get business date 
+  const { businessDate } = useBusinessDate();
   //Reducer Function to be used inside UserReducer hook
   const reducer = (state: PayerStateType, action: any) => {
     switch (action.type) {
@@ -47,6 +50,7 @@ function Payer({
       case ACTIONS.ADDOPEN:
         return {
           ...state,
+          FromDate: businessDate,
           addOpen: true,
         };
       case ACTIONS.EDITOPEN:
@@ -204,7 +208,7 @@ function Payer({
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: err?.response?.data?.errors,
+          message: err?.response?.data?.error,
           type: "error",
         });
       });
@@ -242,7 +246,7 @@ function Payer({
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
     getData();
-    return () => {};
+    return () => { };
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (
