@@ -217,6 +217,16 @@ export const createPoliciesWithBenefits = (
               ),
             }
           : null),
+        Extras: benefits?.Extras?.map((extra: any, index: number) => ({
+          ...extra,
+          ToDate: moment(extra.ToDate).format("YYYYMMDD").toString(),
+          EPrem: +extra.EPrem,
+          EPercentage: +extra.EPercentage,
+          EAmt: +extra.EAmt,
+          ETerm: +extra.ETerm,
+          EAge: +extra.EAge,
+          EMillie: +extra.EMillie,
+        })),
       })),
     },
     {

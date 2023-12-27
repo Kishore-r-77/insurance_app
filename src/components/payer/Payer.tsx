@@ -14,7 +14,7 @@ import styles from "./payer.module.css";
 import { addApi, deleteApi, editApi, getAllApi } from "./payerApis/payerApis";
 import PayerModal from "./payerModal/PayerModal";
 import { PayerStateType } from "../../reducerUtilities/types/payer/payerTypes";
-import Notification from "../../utilities/Notification//Notification";
+import Notification from "../../utilities/Notification/Notification";
 import { useBusinessDate } from "../contexts/BusinessDateContext";
 
 function Payer({

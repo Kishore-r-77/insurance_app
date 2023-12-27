@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import CustomModal from "../../../../utilities/modal/CustomModal";
 import { useAppSelector } from "../../../../redux/app/hooks";
 import styles from "./businessModal.module.css";
-import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
+import { getApi } from "../../companies/companiesApis/companiesApis";
 //Attention: Check the path below
 import { BusinessDatesModalType } from "../../../../reducerUtilities/types/admin/businessDate/businessDatesTypes";
 import { paramItem } from "../businessApis/businessDatesApis";

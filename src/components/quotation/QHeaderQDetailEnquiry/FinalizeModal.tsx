@@ -22,7 +22,7 @@ import {
   paramItem,
   paramTermItem,
 } from "../qHeaderApis/qHeaderApis";
-import { createPoliciesWithBenefits } from "../QHeaderQDetailEnquiry/FinalizeApi";
+import { createPoliciesWithBenefits } from "./FinalizeApi";
 
 import Agency from "../../agency/Agency";
 import Address from "../../clientDetails/address/Address";

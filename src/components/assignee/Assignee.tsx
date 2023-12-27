@@ -19,7 +19,7 @@ import {
   getAllApi,
 } from "./assigneeApi/assigneeApis";
 import AssigneeModal from "./assigneeModal/AssigneeModal";
-import Notification from "../../utilities/Notification//Notification";
+import Notification from "../../utilities/Notification/Notification";
 
 function Assignee({
   modalFunc,
