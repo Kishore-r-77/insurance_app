@@ -143,11 +143,21 @@ const SAChangeEnquiry = ({
                 <TableCell className={styles.thstyle}>BTerm</TableCell>
                 <TableCell className={styles.thstyle}>BPTerm</TableCell>
                 <TableCell className={styles.thstyle}>BPrem</TableCell>
-                <TableCell className={styles.thstyle}>NSumAssured</TableCell>
-                <TableCell className={styles.thstyle}>NTerm</TableCell>
-                <TableCell className={styles.thstyle}>NPTerm</TableCell>
-                <TableCell className={styles.thstyle}>NPrem</TableCell>
-                <TableCell className={styles.thstyle}>NAnnualPrem</TableCell>
+                <TableCell style={{ backgroundColor: "#6F3096" }}>
+                  NSumAssured
+                </TableCell>
+                <TableCell style={{ backgroundColor: "#6F3096" }}>
+                  NTerm
+                </TableCell>
+                <TableCell style={{ backgroundColor: "#6F3096" }}>
+                  NPTerm
+                </TableCell>
+                <TableCell style={{ backgroundColor: "#6F3096" }}>
+                  NPrem
+                </TableCell>
+                <TableCell style={{ backgroundColor: "#6F3096" }}>
+                  NAnnualPrem
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
