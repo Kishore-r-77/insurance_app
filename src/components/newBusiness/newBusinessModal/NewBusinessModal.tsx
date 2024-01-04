@@ -568,18 +568,29 @@ function NewBusinessModal({
     const uniqueFundsMap: Map<string, any> = new Map();
 
     // Filter out duplicates based on FundCode
-    const uniqueFunds = state.addOpen
-      ? fundDetails
-      : funds?.filter((fund: any) => {
-          if (fund?.FundCode && fund?.FundPercentage !== undefined) {
-            // Check if the FundCode is already in the map
-            if (!uniqueFundsMap.has(fund.FundCode)) {
-              uniqueFundsMap.set(fund.FundCode, fund);
-              return true;
-            }
+    if (state.addOpen) {
+      const uniqueFunds = fundDetails?.filter((fund: any) => {
+        if (fund?.FundCode && fund?.FundPercentage !== undefined) {
+          // Check if the FundCode is already in the map
+          if (!uniqueFundsMap.has(fund.FundCode)) {
+            uniqueFundsMap.set(fund.FundCode, fund);
+            return true;
           }
-          return false;
-        });
+        }
+        return false;
+      });
+    } else {
+      const uniqueFunds = funds?.filter((fund: any) => {
+        if (fund?.FundCode && fund?.FundPercentage !== undefined) {
+          // Check if the FundCode is already in the map
+          if (!uniqueFundsMap.has(fund.FundCode)) {
+            uniqueFundsMap.set(fund.FundCode, fund);
+            return true;
+          }
+        }
+        return false;
+      });
+    }
     if (values.operation === "save") {
       const updatedIlpFunds = Array.from(uniqueFundsMap.values());
       if (benefitsData[benefitIndex]) {
@@ -596,6 +607,9 @@ function NewBusinessModal({
       totalFundPercentage.current = 0;
     }
   };
+
+  console.log(funds, "FUND");
+
   const [extraDetails, setextraDetails] = useState(initialExtraValues);
 
   const extraOpen = (data: any) => {

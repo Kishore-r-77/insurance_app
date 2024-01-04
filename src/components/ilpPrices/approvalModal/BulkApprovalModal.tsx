@@ -140,19 +140,20 @@ function BulkApprovalModal({
                       zIndex: 2,
                       overflow: "hidden",
                     }}
+                    className={styles.header}
                   >
                     Selected
                     <br />
                     <input type="checkbox" onChange={handleSelectAll} />
                   </th>
 
-                  <th>Fund Code</th>
-                  <th>Fund Type</th>
-                  <th>Fund Date</th>
-                  <th>Effective Date</th>
-                  <th>Bid Price</th>
-                  <th>Offer Price</th>
-                  <th>Approval Flag</th>
+                  <th className={styles.header}>Fund Code</th>
+                  <th className={styles.header}>Fund Type</th>
+                  <th className={styles.header}>Fund Date</th>
+                  <th className={styles.header}>Effective Date</th>
+                  <th className={styles.header}>Bid Price</th>
+                  <th className={styles.header}>Offer Price</th>
+                  <th className={styles.header}>Approval Flag</th>
                 </tr>
               </thead>
               {ilpPriceData.map((value: any, index: number) => (
