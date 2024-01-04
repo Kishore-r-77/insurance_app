@@ -895,6 +895,36 @@ function NewBusinessModal({
                     </LocalizationProvider>
                   </FormControl>
                 </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="ProposalDate"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen
+                            ? state.ProposalDate
+                            : record?.ProposalDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date?.$d,
+                            fieldName: "ProposalDate",
+                          })
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} error={false} />
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
