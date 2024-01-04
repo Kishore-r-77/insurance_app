@@ -319,9 +319,9 @@ function ChangeAgencyModal({
 
           <Grid2 lg={4}>
             <TextField
-              id="ClientID"
-              name="ClientID"
-              value={data?.ClientId}
+              id="AgencyName"
+              name="AgencyName"
+              value={data?.AgentName}
               placeholder="CurrentClient"
               label="CurrentClient"
               fullWidth
