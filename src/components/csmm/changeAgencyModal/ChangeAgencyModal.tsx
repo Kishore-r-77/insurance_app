@@ -166,6 +166,22 @@ function ChangeAgencyModal({
     return () => {};
   }, [agencyClientid]);
 
+  useEffect(() => {
+    if (selectedAgencyId !== "") {
+      axios
+        .get(`http://localhost:3000/api/v1/basicservices/clientget/${selectedAgencyId}`, {
+          withCredentials: true,
+        })
+        .then((resp) => {
+          SetagentClientData(resp.data.Client);
+        })
+        .catch((err) => console.log(err.message));
+    }
+  }, [selectedAgencyId, SetagentClientData]); 
+  
+
+
+
 
   
 
@@ -303,9 +319,9 @@ function ChangeAgencyModal({
 
           <Grid2 lg={4}>
             <TextField
-              id="OwnerName"
-              name="OwnerName"
-              value={data?.OwnerName}
+              id="ClientID"
+              name="ClientID"
+              value={data?.ClientId}
               placeholder="CurrentClient"
               label="CurrentClient"
               fullWidth

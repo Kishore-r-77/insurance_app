@@ -608,7 +608,7 @@ function CsmmTable({
     }
   };
   const[selectedAgencyId,SetselectedAgencyId]= useState("")
-  const [agentClientData, SetagentClientData] = useState<any>("");
+  const [agentClientData, SetagentClientData] = useState("");
   const [agChange, setagChange] = useState<any>({NewAgent:"",TerminationReason:""});
   const agencyOpen = (policyId: number, value: any) => {
     setPolicyID(policyId);
