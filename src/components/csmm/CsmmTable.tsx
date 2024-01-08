@@ -58,7 +58,7 @@ import SpecialRevivalModal from "./specialRevival/SpecialRevivalModal";
 import PartSurrender from "./partSurrender/PartSurrender";
 import PremiumDirection from "./PremiumDirection/PremiumDirection";
 import NomineeModal from "../nominee/nomineeModel/NomineeModal";
-import IlpMaturityModal from "./ilpMaturityModal/IlpMaturityModal";
+import ChangeAgencyModal from "./changeAgencyModal/ChangeAgencyModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -146,7 +146,7 @@ function CsmmTable({
 
   useEffect(() => {
     getClient();
-    return () => { };
+    return () => {};
   }, [isClientOpen === true]);
 
   const [clientMenuData, setclientMenuData] = useState([]);
@@ -164,7 +164,7 @@ function CsmmTable({
       .then((resp) => {
         setclientMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
   const [clientServiceMenuData, setclientServiceMenuData] = useState([]);
   const clientServiceMenu = () => {
@@ -185,7 +185,7 @@ function CsmmTable({
       .then((resp) => {
         setclientServiceMenuData(resp.data?.AllowedMenus);
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   const [isPayer, setisPayer] = useState(false);
@@ -217,12 +217,18 @@ function CsmmTable({
 
   const [nomineeClientOpen, setNomineeClientOpen] = useState(false);
 
+
   const handleNomineeClientOpen = () => {
     setNomineeClientOpen(true);
   };
   const handleNomineeClientClose = () => {
     setNomineeClientOpen(false);
   };
+
+  
+
+  
+  
 
   const getPayerByPolicy = (id: number) => {
     axios
@@ -238,7 +244,7 @@ function CsmmTable({
 
   useEffect(() => {
     getPayerByPolicy(PolicyID);
-    return () => { };
+    return () => {};
   }, [isPayer]);
   // const companyId = useAppSelector(
   //   (state) => state.users.user.message.companyId
@@ -551,7 +557,7 @@ function CsmmTable({
 
   useEffect(() => {
     getAssigneeByPolicy(PolicyID);
-    return () => { };
+    return () => {};
   }, [isAssignee]);
   const [isFreqQuote, setIsFreqQuote] = useState(false);
 
@@ -565,6 +571,7 @@ function CsmmTable({
   const [isFreqChange, setIsFreqChange] = useState(false);
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
+  const [isAgency, setIsAgency] = useState(false);
   const [isTopup, setisTopup] = useState(false);
   const [isFundSwitch, setisFundSwitch] = useState(false);
 
@@ -600,6 +607,24 @@ function CsmmTable({
       invalidatca();
     }
   };
+  const[selectedAgencyId,SetselectedAgencyId]= useState("")
+  const [agentClientData, SetagentClientData] = useState("");
+  const [agChange, setagChange] = useState<any>({NewAgent:"",TerminationReason:""});
+  const agencyOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setIsAgency(true);
+   
+  };
+  const agencyClose = () => {
+    setIsAgency(false);
+    SetselectedAgencyId("")
+    SetagentClientData("")
+    setagChange("")
+
+    if (isSave.current) {
+      invalidatca();
+    }
+  };
 
   const polReinOpen = (policyId: number, value: any) => {
     setPolicyID(policyId);
@@ -607,22 +632,6 @@ function CsmmTable({
   };
   const polReinClose = () => {
     setIsPolRein(false);
-  };
-
-
-  //Ilp Maturity changess start 
-
-  const [isilpMaturity, setiisilpMaturity] = useState(false);
-
-  const ilpMaturityOpen = (policyId: number, value: any) => {
-    setiisilpMaturity(true);
-    // setcomponentMenu(value);
-    //setilpfunc("Init")
-    setPolicyID(policyId);
-  };
-  const ilpMaturityClose = () => {
-    setiisilpMaturity(false);
-    // setcompleted(false);
   };
 
   // const surrenderOpen = (policyId: number) => {
@@ -650,8 +659,8 @@ function CsmmTable({
 
   useEffect(() => {
     getPolEnq(PolicyID);
-    return () => { };
-  }, [isAdjPrem, isPolRein, isTopup, isFundSwitch, isilpMaturity]);
+    return () => {};
+  }, [isAdjPrem, isPolRein, isTopup, isFundSwitch,isAgency]);
 
   const clientMenuClick = (value: any) => {
     switch (value.Action) {
@@ -701,6 +710,10 @@ function CsmmTable({
         adjPremOpen(policyId.current, value);
         handleClose();
         break;
+      case "AgencyChange":
+        agencyOpen(policyId.current, value);
+        handleClose();
+        break;
       case "Surrender":
         surrenderDispatch({ type: SURRENDERACTIONS.SURRENDEROPEN });
         handleClose();
@@ -737,10 +750,6 @@ function CsmmTable({
         ilppartsurrenderDispatch({
           type: ILPPARTSURRENDERACTIONS.ILPPARTSURRENDEROPEN,
         });
-        handleClose();
-        break;
-      case "IlpMaturity":
-        ilpMaturityOpen(policyId.current, value);
         handleClose();
         break;
       default:
@@ -993,7 +1002,7 @@ function CsmmTable({
     if (isComponent) {
       getComponentInit();
     }
-    return () => { };
+    return () => {};
   }, [isComponent]);
 
   const saChangeOpen = (policyId: number, value: any) => {
@@ -1050,7 +1059,7 @@ function CsmmTable({
     if (issplrev) {
       getspecialrevival();
     }
-    return () => { };
+    return () => {};
   }, [issplrev]);
 
   const savespecialrevival = () => {
@@ -1131,7 +1140,7 @@ function CsmmTable({
   };
   useLayoutEffect(() => {
     getilpAllowedFunds();
-    return () => { };
+    return () => {};
   }, [bcoverage]);
 
   const [benId, setbenId] = useState("");
@@ -1266,7 +1275,7 @@ function CsmmTable({
     getPolicyWithBenefitAndFund();
     setbcoverage("");
 
-    return () => { };
+    return () => {};
   }, [isDirectInvPrem]);
 
   useEffect(() => {
@@ -1274,7 +1283,7 @@ function CsmmTable({
       getilpAllowedFunds();
     } else return;
 
-    return () => { };
+    return () => {};
   }, [isDirectInvPrem === true]);
 
   const ilpTopupOpen = (policyId: number, value: any) => {
@@ -1303,7 +1312,7 @@ function CsmmTable({
     if (isSaChange) {
       getSaChange();
     }
-    return () => { };
+    return () => {};
   }, [isSaChange]);
 
   const invalidatca = () => {
@@ -1365,7 +1374,7 @@ function CsmmTable({
                         <ArrowUpwardIcon
                           className={
                             sort.fieldName === column.dbField &&
-                              sort.order === "asc"
+                            sort.order === "asc"
                               ? styles.icon
                               : styles["icon-disabled"]
                           }
@@ -1387,7 +1396,7 @@ function CsmmTable({
                         <ArrowDownwardIcon
                           className={
                             sort.fieldName === column.dbField &&
-                              sort.order === "desc"
+                            sort.order === "desc"
                               ? styles.icon
                               : styles["icon-disabled"]
                           }
@@ -1545,6 +1554,24 @@ function CsmmTable({
         data={polenqData}
         getData={getData}
       />
+      <ChangeAgencyModal
+        open={isAgency}
+        handleClose={agencyClose}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
+        data={polenqData}
+        getData={getData} 
+        selectedAgencyId={selectedAgencyId} 
+        SetselectedAgencyId={SetselectedAgencyId}
+        agentClientData={agentClientData}
+        SetagentClientData={SetagentClientData}
+        agChange={agChange}
+        setagChange={setagChange}
+
+
+      />
       <IlpTopupModal
         open={isTopup}
         handleClose={ilpTopupClose}
@@ -1559,17 +1586,6 @@ function CsmmTable({
       <IlpFundSwitchModal
         open={isFundSwitch}
         handleClose={ilpFundSwitchClose}
-        completed={completed}
-        setcompleted={setcompleted}
-        func={func}
-        setfunc={setfunc}
-        data={polenqData}
-        getData={getData}
-        polid={PolicyID}
-      />
-      <IlpMaturityModal
-        open={isilpMaturity}
-        handleClose={ilpMaturityClose}
         completed={completed}
         setcompleted={setcompleted}
         func={func}

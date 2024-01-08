@@ -1,6 +1,7 @@
 export type PolicyStateType = {
   CompanyID: string;
   PRCD: string;
+  ProposalDate: string;
   PProduct: string;
   PFreq: string;
   PContractCurr: string;

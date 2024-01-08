@@ -34,6 +34,7 @@ export const ACTIONS = {
 export const initialValues: PolicyStateType = {
   CompanyID: "",
   PRCD: "",
+  ProposalDate: "",
   PProduct: "",
   PFreq: "",
   PContractCurr: "",
@@ -68,7 +69,7 @@ export const initialValues: PolicyStateType = {
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,
-  authOpen: false
+  authOpen: false,
 };
 
 //Columns Defined to Pass into the Custom Table

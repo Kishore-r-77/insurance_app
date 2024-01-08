@@ -190,7 +190,7 @@ function Extra({ modalFunc, lookup, benefitState }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
-          message: `Updated record of id:${resp.data.outputs.ID} Successfully`,
+          message: resp.data?.Result,
           type: "success",
         });
         getData();

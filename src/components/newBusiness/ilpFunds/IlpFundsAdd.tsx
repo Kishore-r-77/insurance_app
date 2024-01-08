@@ -149,6 +149,7 @@ function IlpFundsAdd({
     getFundCode(companyId, "P0050", languageId, "ILP1FUNDCODE");
     return () => {};
   }, []);
+  console.log(fundDetails, "FUND");
 
   return (
     <CustomModal
@@ -158,7 +159,7 @@ function IlpFundsAdd({
       saveButton="Capture"
       closeButton="Cancel"
       handleClose={() => handleClose({ operation: "cancel" })}
-      title={"ILP Test"}
+      title={"ILP Fund Details"}
       handleFormSubmit={
         totalFundPercentage.current > 100 || totalFundPercentage.current < 100
           ? fundPercentageValidation
