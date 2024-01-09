@@ -80,7 +80,6 @@ function ExtrasAdd({
     setextraDetails((prev: any) =>
       prev.map((extra: any, index: number) => {
         if (index === i) {
-          console.log(date, "wooooooo");
           return { ...extra, ToDate: date.$d };
         } else return extra;
       })
