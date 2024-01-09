@@ -502,8 +502,6 @@ function NewBusiness({
     return () => {};
   }, [state.PRCD]);
 
-  console.log(benefitsData, "yayyyy");
-
   return (
     <div>
       <CustomModal
