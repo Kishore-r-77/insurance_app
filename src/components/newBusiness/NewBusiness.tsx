@@ -31,6 +31,7 @@ import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 import Benefit from "../policy/policyModal/benefit/Benefit";
 import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
 import PolicyInformation from "./newBusinessEnquiry/PolicyInformation";
+import moment from "moment";
 
 function NewBusiness({
   modalFunc,
@@ -490,6 +491,18 @@ function NewBusiness({
     );
     return () => {};
   }, [state.addOpen === false]);
+
+  useEffect(() => {
+    setbenefitsData(
+      benefitsData.map((benefits) => ({
+        ...benefits,
+        BStartDate: moment(state.PRCD).format("YYYYMMDD"),
+      }))
+    );
+    return () => {};
+  }, [state.PRCD]);
+
+  console.log(benefitsData, "yayyyy");
 
   return (
     <div>

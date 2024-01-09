@@ -1525,9 +1525,7 @@ function NewBusinessModal({
                               <DesktopDatePicker
                                 label="b_start_date"
                                 inputFormat="DD/MM/YYYY"
-                                value={
-                                  state.addOpen ? state.PRCD : record?.PRCD
-                                }
+                                value={benefits?.BStartDate}
                                 onChange={(date) =>
                                   handleBStartDate(date, index)
                                 }
