@@ -165,6 +165,10 @@ export const createPoliciesWithBenefits = (
         state.PRCD?.length === 0
           ? ""
           : moment(state.PRCD).format("YYYYMMDD").toString(),
+      ProposalDate:
+        state.ProposalDate?.length === 0
+          ? ""
+          : moment(state.ProposalDate).format("YYYYMMDD").toString(),
       PProduct: state.PProduct,
       PFreq: state.PFreq,
       PContractCurr: state.PContractCurr,

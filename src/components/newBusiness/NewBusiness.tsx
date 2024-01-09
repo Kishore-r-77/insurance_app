@@ -84,6 +84,7 @@ function NewBusiness({
         return {
           ...state,
           PRCD: businessDate,
+          ProposalDate: businessDate,
           PReceivedDate: businessDate,
           addOpen: true,
         };

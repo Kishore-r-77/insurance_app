@@ -618,6 +618,30 @@ function PolicyInformation({
                     </FormControl>
                   </Grid2>
                   <Grid2 xs={8} md={6} lg={3}>
+                    <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
+                          readOnly
+                          label="ProposalDate"
+                          inputFormat="DD/MM/YYYY"
+                          value={record.ProposalDate}
+                          onChange={(
+                            date: React.ChangeEvent<HTMLInputElement> | any
+                          ) =>
+                            dispatch({
+                              type: state.addOpen
+                                ? ACTIONS.ONCHANGE
+                                : ACTIONS.EDITCHANGE,
+                              payload: date?.$d,
+                              fieldName: "ProposalDate",
+                            })
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid2>
+                  <Grid2 xs={8} md={6} lg={3}>
                     <TextField
                       select
                       id="PProduct"
@@ -911,32 +935,34 @@ function PolicyInformation({
                     />
                   </Grid2>
 
-                {
-                  record.BillingType === "SII"?
-                  <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: state.infoOpen }}
-                    id="PayingAuthority"
-                    onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
-                    name="PayingAuthority"
-                    value={state.addOpen ? state.PayingAuthority : record?.PayingAuthority}
-                    onChange={(e) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "PayingAuthority",
-                      })
-                    }
-                    placeholder="paying_authority"
-                    label="paying_authority"
-                    fullWidth
-                    margin="dense"
-                  />
-                </Grid2>
-                :null
-                }
+                  {record.BillingType === "SII" ? (
+                    <Grid2 xs={8} md={6} lg={4}>
+                      <TextField
+                        InputProps={{ readOnly: state.infoOpen }}
+                        id="PayingAuthority"
+                        onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
+                        name="PayingAuthority"
+                        value={
+                          state.addOpen
+                            ? state.PayingAuthority
+                            : record?.PayingAuthority
+                        }
+                        onChange={(e) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: e.target.value,
+                            fieldName: "PayingAuthority",
+                          })
+                        }
+                        placeholder="paying_authority"
+                        label="paying_authority"
+                        fullWidth
+                        margin="dense"
+                      />
+                    </Grid2>
+                  ) : null}
                   <Grid2 xs={8} md={6} lg={3}>
                     <TextField
                       InputProps={{ readOnly: state.infoOpen }}

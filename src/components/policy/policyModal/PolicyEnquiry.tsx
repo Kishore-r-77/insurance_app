@@ -522,6 +522,30 @@ function PolicyEnquiry({
                   </FormControl>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={3}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly
+                        label="ProposalDate"
+                        inputFormat="DD/MM/YYYY"
+                        value={record.ProposalDate}
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date?.$d,
+                            fieldName: "ProposalDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={3}>
                   <TextField
                     select
                     id="PProduct"
