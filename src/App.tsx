@@ -47,6 +47,7 @@ import SideBar from "./utilities/sidebar/Sidebar";
 import Profile from "./components/profile/Profile";
 import AboutPage from "./components/aboutPage/AboutPage";
 import PAuth from "./components/clientDetails/pAuthority/Pauth";
+import Ssi from "./components/ssi/Ssi";
 
 function App() {
   const { pathname } = useLocation();
@@ -100,6 +101,7 @@ function App() {
                   <Route path="/nominee" element={<Nominee />} />
                   <Route path="/assignee" element={<Assignee />} />
                   <Route path="/csmm" element={<Csmm />} />
+                  <Route path="/ssi" element={<Ssi />} />
                   <Route path="/businessDate" element={<BusinessDates />} />
                   <Route path="/tdfParam" element={<TdfParams />} />
                   <Route path="/payments" element={<Payments />} />

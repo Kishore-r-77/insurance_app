@@ -103,7 +103,7 @@ const GLHistoryEnquiry = ({
   const geGLHistoryByTransaction = () => {
     axios
       .get(
-        `http://localhost:3000/api/v1/nbservices/glmovepol/${policyNo}?pageSize&searchString=${TransactionNo}&searchCriteria=tranno`,
+        `http://localhost:3000/api/v1/nbservices/glmovepol/${policyNo}?searchString=${TransactionNo}&searchCriteria=tranno`,
         {
           withCredentials: true,
         }

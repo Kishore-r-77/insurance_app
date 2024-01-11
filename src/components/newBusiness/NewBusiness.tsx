@@ -31,6 +31,7 @@ import PolicyEnquiry from "../policy/policyModal/PolicyEnquiry";
 import Benefit from "../policy/policyModal/benefit/Benefit";
 import NewBusinessModal from "./newBusinessModal/NewBusinessModal";
 import PolicyInformation from "./newBusinessEnquiry/PolicyInformation";
+import moment from "moment";
 
 function NewBusiness({
   modalFunc,
@@ -249,6 +250,7 @@ function NewBusiness({
       BSumAssured: 0,
       Interest: 0,
       BPrem: 0,
+      Extras: [],
     },
   ];
   const initialBenefitsValuesIlp = [

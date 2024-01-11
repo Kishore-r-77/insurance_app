@@ -135,6 +135,11 @@ const routes = [
         name: "CSMM",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/ssi",
+        name: "SSI",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
