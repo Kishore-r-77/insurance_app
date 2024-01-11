@@ -65,6 +65,8 @@ function NewBusinessModal({
   initialBenefitsValues,
   funds,
   setfunds,
+  extrasforedit,
+  setextrasforedit,
 }: any) {
   const addTitle: string = "Policy Add";
   const editTitle: string = "Policy Edit";
@@ -622,16 +624,29 @@ function NewBusinessModal({
     const uniqueExtrasMap: Map<string, any> = new Map();
 
     // Filter out duplicates based on FundCode
-    const uniqueExtras = extraDetails.filter((extra: any) => {
-      if (extra?.EMethod && extra?.EReason !== undefined) {
-        // Check if the EMethod is already in the map
-        if (!uniqueExtrasMap.has(extra.EMethod)) {
-          uniqueExtrasMap.set(extra.EMethod, extra);
-          return true;
+    if (state.addOpen) {
+      const uniqueExtras = extraDetails.filter((extra: any) => {
+        if (extra?.EMethod && extra?.EReason !== undefined) {
+          // Check if the EMethod is already in the map
+          if (!uniqueExtrasMap.has(extra.EMethod)) {
+            uniqueExtrasMap.set(extra.EMethod, extra);
+            return true;
+          }
         }
-      }
-      return false;
-    });
+        return false;
+      });
+    } else {
+      const uniqueExtras = extrasforedit.filter((extra: any) => {
+        if (extra?.EMethod && extra?.EReason !== undefined) {
+          // Check if the EMethod is already in the map
+          if (!uniqueExtrasMap.has(extra.EMethod)) {
+            uniqueExtrasMap.set(extra.EMethod, extra);
+            return true;
+          }
+        }
+        return false;
+      });
+    }
 
     if (values.operation === "save") {
       const updatedExtras = Array.from(uniqueExtrasMap.values());
@@ -678,7 +693,6 @@ function NewBusinessModal({
     },
   ]);
 
-  console.log(extras, "======", ilpfunds);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -942,6 +956,7 @@ function NewBusinessModal({
 
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
+                    inputProps={{ readOnly: state.editOpen || state.infoOpen }}
                     select
                     id="PProduct"
                     name="PProduct"
@@ -1847,8 +1862,8 @@ function NewBusinessModal({
         open={extraModalParam.open}
         handleClose={extraClose}
         data={extraModalParam.data}
-        extraDetails={extraDetails}
-        setextraDetails={setextraDetails}
+        extraDetails={state.addOpen ? extraDetails : extrasforedit}
+        setextraDetails={state.addOpen ? setextraDetails : setextrasforedit}
       />
     </div>
   );

@@ -444,6 +444,7 @@ function NewBusiness({
   //const interest = useRef<any>();
   const [interest, setinterest] = useState(0.0);
   const [funds, setfunds] = useState([]);
+  const [extraDetails, setextraDetails] = useState<any>([]);
 
   const getBenefitsByPolicies1 = (policyId: number) => {
     getBenefitsByPolicies(policyId)
@@ -451,6 +452,7 @@ function NewBusiness({
         setbenefitsByPoliciesData(resp.data?.Benefit);
         setinterest(resp.data?.Interest);
         setfunds(resp.data?.Funds);
+        setextraDetails(resp?.data?.Extra);
       })
       .catch((err) => err.message);
   };
@@ -657,6 +659,8 @@ function NewBusiness({
         setinterest={setinterest}
         funds={funds}
         setfunds={setfunds}
+        extrasforedit={extraDetails}
+        setextrasforedit={setextraDetails}
         setbenefitsData={
           state.addOpen ? setbenefitsData : setbenefitsByPoliciesData
         }

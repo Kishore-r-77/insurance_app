@@ -34,6 +34,7 @@ function ExtrasAdd({
       {
         EReason: "",
         EMethod: "",
+        FormData: businessDate,
         ToDate: "",
         ReasonDescription: "",
         EPrem: 0,
@@ -166,11 +167,10 @@ function ExtrasAdd({
     getBusinessDate,
   } = useBusinessDate();
 
-  // useEffect(() => {
-  //   getBusinessDate();
-  //   FromDate = businessDate;
-  //   return () => {};
-  // }, [state.addOpen]);
+  useEffect(() => {
+    getBusinessDate();
+    return () => {};
+  }, [open === true]);
 
   return (
     <CustomModal
@@ -383,7 +383,7 @@ function ExtrasAdd({
                     readOnly={true}
                     label="From Date"
                     inputFormat="DD/MM/YYYY"
-                    value={extra?.businessDate}
+                    value={businessDate}
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) => handleFromDate(date, index)}
@@ -403,16 +403,7 @@ function ExtrasAdd({
                     onChange={(
                       date: React.ChangeEvent<HTMLInputElement> | any
                     ) => handleToDate(date, index)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        error={open?.ToDate?.length === 0 ? true : false}
-                        required
-                        helperText={
-                          open?.ToDate?.length === 0 ? "Required" : null
-                        }
-                      />
-                    )}
+                    renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
               </FormControl>
