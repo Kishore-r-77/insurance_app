@@ -250,6 +250,7 @@ function NewBusiness({
       BSumAssured: 0,
       Interest: 0,
       BPrem: 0,
+      Extras: [],
     },
   ];
   const initialBenefitsValuesIlp = [
@@ -492,16 +493,6 @@ function NewBusiness({
     );
     return () => {};
   }, [state.addOpen === false]);
-
-  useEffect(() => {
-    setbenefitsData(
-      benefitsData.map((benefits) => ({
-        ...benefits,
-        BStartDate: moment(state.PRCD).format("YYYYMMDD"),
-      }))
-    );
-    return () => {};
-  }, [state.PRCD]);
 
   return (
     <div>
