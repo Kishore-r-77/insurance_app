@@ -10,7 +10,11 @@ export type ReceiptsStateType = {
   BankIFSC: string;
   AccCurry: string;
   AccAmount: string;
-  PolicyID: string;
+  ReceiptAmount: string;
+  ReceiptRefNo: string;
+  ReceiptDueDate: string;
+  ReceiptFor: string;
+  PayingAuthorityId: string;
   ReconciledDate: string;
   // *** Attention: Check the lookup table open below ***
   clientsOpen: boolean;

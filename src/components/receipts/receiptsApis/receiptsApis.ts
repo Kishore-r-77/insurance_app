@@ -54,14 +54,18 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
       DateOfCollection: moment(state.DateOfCollection)
         .format("YYYYMMDD")
         .toString(),
-
       ClientID: parseInt(state.ClientID),
       TypeOfReceipt: state.TypeOfReceipt,
       BankReferenceNo: state.BankReferenceNo,
       BankAccountNo: state.BankAccountNo,
       AccCurry: state.AccCurry,
       AccAmount: parseFloat(state.AccAmount),
-      PolicyID: parseInt(state.PolicyID),
+      ReceiptAmount: parseFloat(state.ReceiptAmount),
+      ReceiptRefNo: parseInt(state.ReceiptRefNo),
+      ReceiptDueDate: moment(state.ReceiptDueDate)
+        .format("YYYYMMDD")
+        .toString(),
+      ReceiptFor: state.ReceiptFor,
       BankIFSC: state.BankIFSC,
 
       // ReconciledDate: moment(state.ReconciledDate).format("YYYYMMDD").toString(),

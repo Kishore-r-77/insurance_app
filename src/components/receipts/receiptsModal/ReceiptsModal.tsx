@@ -155,14 +155,53 @@ function ReceiptsModal({
       .catch((err) => err);
   };
 
+  const p0050 = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    return axios.get(
+      `http://localhost:3000/api/v1/basicservices/paramItem?companyId=${companyId}&name=${name}&languageId=${languageId}&item=${item}`,
+      {
+        withCredentials: true,
+        params: {
+          companyId,
+          name,
+          languageId,
+          item,
+        },
+      }
+    );
+  };
+
+  const [receiptData, setReceiptData] = useState([]);
+  const getReceiptData = (
+    companyId: number,
+    name: string,
+    languageId: number,
+    item: string
+  ) => {
+    p0050(companyId, name, languageId, item)
+      .then((resp) => {
+        setReceiptData(resp.data.param.data.dataPairs);
+        return resp.data.param.data.dataPairs;
+      })
+      .catch((err) => err);
+  };
   useEffect(() => {
-    getPolicy(parseInt(state.PolicyID));
-    // getPFreq(companyId);
+    getReceiptData(companyId, "P0050", languageId, "ReceiptFor");
     return () => {};
-  }, [state.PolicyID]);
+  }, []);
 
   useEffect(() => {
-    getPolicy(parseInt(record.PolicyID));
+    getPolicy(parseInt(state.ReceiptRefNo));
+    // getPFreq(companyId);
+    return () => {};
+  }, [state.ReceiptRefNo]);
+
+  useEffect(() => {
+    getPolicy(parseInt(record.ReceiptRefNo));
     return () => {};
   }, [state.infoOpen]);
 
@@ -181,8 +220,8 @@ function ReceiptsModal({
 
   const policiesOpenFunc = (item: any) => {
     if (state.addOpen) {
-      state.PolicyID = item.ID;
-    } else record.PolicyID = item.ID;
+      state.ReceiptRefNo = item.ID;
+    } else record.ReceiptRefNo = item.ID;
     dispatch({ type: ACTIONS.POLICIESCLOSE });
   };
 
@@ -225,7 +264,7 @@ function ReceiptsModal({
   const [snapShot, setsnapShot] = useState([]);
 
   const getPolicySnapshot = () => {
-    return getPolicySnap(parseInt(state.PolicyID)).then((resp) => {
+    return getPolicySnap(parseInt(state.ReceiptRefNo)).then((resp) => {
       setsnapShot(resp.data.result);
     });
   };
@@ -352,71 +391,126 @@ function ReceiptsModal({
                     margin="dense"
                   />
                 </Grid2>
-
-                <Grid2 xs={8} md={6} lg={4}>
+                <Grid2 xs={12} md={12} lg={4}>
                   <TextField
-                    // InputProps={{
-                    //   readOnly: true,
-                    //   endAdornment: (
-                    //     <InputAdornment position="start">
-                    //       <AccountCircle />
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
-                    id="PolicyID"
-                    name="PolicyID"
-                    placeholder="Policy Number"
-                    label="Policy Number"
-                    // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.POLICIESOPEN })}
-                    value={state.addOpen ? state.PolicyID : record.PolicyID}
+                    select
+                    id="ReceiptFor"
+                    name="ReceiptFor"
+                    value={state.addOpen ? state.ReceiptFor : record.ReceiptFor}
+                    placeholder="Receipt For"
+                    label="Receipt For"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
                         payload: e.target.value,
-                        fieldName: "PolicyID",
+                        fieldName: "ReceiptFor",
                       })
                     }
                     fullWidth
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
-                  />
-
-                  {isShown && state.PolicyID ? (
-                    <HoverDetails data={snapShot} />
-                  ) : null}
+                  >
+                    {receiptData.map((val: any) => (
+                      <MenuItem value={val.code}>{val.description}</MenuItem>
+                    ))}
+                  </TextField>
                 </Grid2>
 
-                <Grid2 xs={8} md={6} lg={4}>
-                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        readOnly={state.infoOpen}
-                        label="Date Of Collection"
-                        inputFormat="DD/MM/YYYY"
-                        value={
-                          state.addOpen
-                            ? state.DateOfCollection
-                            : record.DateOfCollection
-                        }
-                        onChange={(
-                          date: React.ChangeEvent<HTMLInputElement> | any
-                        ) =>
-                          dispatch({
-                            type: state.addOpen
-                              ? ACTIONS.ONCHANGE
-                              : ACTIONS.EDITCHANGE,
-                            payload: date?.$d,
-                            fieldName: "DateOfCollection",
-                          })
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid2>
+                {state.ReceiptFor === "03" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: true }}
+                      id="ReceiptRefNo"
+                      name="ReceiptRefNo"
+                      placeholder="ReceiptRefNo"
+                      label="ReceiptRefNo"
+                      // Attention: *** Check the value details  ***
+                      //onClick={() => dispatch({ type: ACTIONS.CLIENTSOPEN })}
+                      value={state.addOpen ? state.ClientID : record.ClientID}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptRefNo",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: true }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : state.ReceiptFor === "01" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      // InputProps={{
+                      //   readOnly: true,
+                      //   endAdornment: (
+                      //     <InputAdornment position="start">
+                      //       <AccountCircle />
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
+                      id="ReceiptRefNo"
+                      name="ReceiptRefNo"
+                      placeholder="ReceiptRefNo"
+                      label="ReceiptRefNo"
+                      // Attention: *** Check the value details  ***
+                      onClick={() => dispatch({ type: ACTIONS.POLICIESOPEN })}
+                      value={
+                        state.addOpen ? state.ReceiptRefNo : record.ReceiptRefNo
+                      }
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptRefNo",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+
+                    {isShown && state.ReceiptRefNo ? (
+                      <HoverDetails data={snapShot} />
+                    ) : null}
+                  </Grid2>
+                ) : state.ReceiptFor === "02" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      id="ReceiptRefNo"
+                      name="ReceiptRefNo"
+                      onMouseEnter={() => handleHover()}
+                      onMouseOut={() => setisShown(false)}
+                      value={
+                        state.addOpen
+                          ? state.ReceiptRefNo
+                          : record.ReceiptRefNo
+                      }
+                      placeholder="ReceiptRefNo"
+                      label="ReceiptRefNo"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptRefNo",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : null}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
@@ -445,7 +539,6 @@ function ReceiptsModal({
                     ))}
                   </TextField>
                 </Grid2>
-
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     type="number"
@@ -469,6 +562,88 @@ function ReceiptsModal({
                     inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    type="number"
+                    id="ReceiptAmount"
+                    name="ReceiptAmount"
+                    onMouseEnter={() => handleHover()}
+                    onMouseOut={() => setisShown(false)}
+                    value={
+                      state.addOpen ? state.AccAmount : record.ReceiptAmount
+                    }
+                    placeholder="Receipt Amount"
+                    label="Receipt Amount"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ReceiptAmount",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: true }}
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Receipt DueDate"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen
+                            ? state.ReceiptDueDate
+                            : record.ReceiptDueDate
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date?.$d,
+                            fieldName: "ReceiptDueDate",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        readOnly={state.infoOpen}
+                        label="Date Of Collection"
+                        inputFormat="DD/MM/YYYY"
+                        value={
+                          state.addOpen
+                            ? state.DateOfCollection
+                            : record.DateOfCollection
+                        }
+                        onChange={(
+                          date: React.ChangeEvent<HTMLInputElement> | any
+                        ) =>
+                          dispatch({
+                            type: state.addOpen
+                              ? ACTIONS.ONCHANGE
+                              : ACTIONS.EDITCHANGE,
+                            payload: date?.$d,
+                            fieldName: "DateOfCollection",
+                          })
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Grid2>
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
