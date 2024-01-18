@@ -23,7 +23,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import CustomModal from "../../../utilities/modal/CustomModal";
@@ -707,7 +707,7 @@ function NewBusinessModal({
     }
   };
 
-  const [p0071Data, setP0071Data] = useState([]);
+  const [p0071Data, setP0071Data] = useState<any>([]);
 
   const getP0071 = () => {
     axios
@@ -734,12 +734,12 @@ function NewBusinessModal({
       });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getP0071();
   }, [bcoverage.current]);
 
   // Rest of your component code
-
+  console.log(p0071Data, "P0071");
   return (
     <div>
       <CustomFullModal
@@ -1442,7 +1442,7 @@ function NewBusinessModal({
                             display: "block",
                           }}
                         >
-                          {p0071Data.map((item: any, index: number) => (
+                          {/* {p0071Data.map((item: any, index: number) => (
                             <FormControlLabel
                               key={index}
                               control={
@@ -1456,7 +1456,7 @@ function NewBusinessModal({
                               }
                               label={item.benDataType}
                             />
-                          ))}
+                          ))} */}
                           <hr />
                         </span>
 
@@ -1467,37 +1467,10 @@ function NewBusinessModal({
                             justifyContent: "center",
                           }}
                         >
-                          {checkedItems.includes("Fund") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
-                                <Tooltip title="Funds">
-                                  <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() =>
-                                      ilpOpen({
-                                        benefitIndex: index,
-                                        fundData: benefits.IlpFunds,
-                                      })
-                                    }
-                                    style={{
-                                      maxWidth: "30px",
-                                      maxHeight: "30px",
-                                      minWidth: "30px",
-                                      minHeight: "30px",
-                                      // backgroundColor: "#191970",
-                                    }}
-                                  >
-                                    <CreditScoreIcon />
-                                  </Button>
-                                </Tooltip>
-                              </Grid2>
-                            </span>
-                          )}
-
-                          {checkedItems.includes("Extra") && (
-                            <span style={{ textAlign: "center" }}>
-                              <Grid2 xs={8} md={6} lg={4}>
+                                {item.manOrOpt === "M" ? <span>*</span> : null}
                                 <Tooltip title="Extras">
                                   <Button
                                     variant="contained"
@@ -1516,14 +1489,51 @@ function NewBusinessModal({
                                       // backgroundColor: "#191970",
                                     }}
                                   >
-                                    <PlaylistAddIcon />
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: item?.icon,
+                                      }}
+                                    />
                                   </Button>
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))}
 
-                          {checkedItems.includes("Annuity") && (
+                          {/* {p0071Data.map((item: any, index: number) => (
+                            <span style={{ textAlign: "center" }}>
+                              <Grid2 xs={8} md={6} lg={4}>
+                                {item.manOrOpt === "M" ? <span>*</span> : null}
+                                <Tooltip title="Funds">
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                      ilpOpen({
+                                        benefitIndex: index,
+                                        fundData: benefits.IlpFunds,
+                                      })
+                                    }
+                                    style={{
+                                      maxWidth: "30px",
+                                      maxHeight: "30px",
+                                      minWidth: "30px",
+                                      minHeight: "30px",
+                                      // backgroundColor: "#191970",
+                                    }}
+                                  >
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: item?.icon,
+                                      }}
+                                    />
+                                  </Button>
+                                </Tooltip>
+                              </Grid2>
+                            </span>
+                          ))} */}
+
+                          {/*{p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Annuity">
@@ -1544,9 +1554,9 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))}
 
-                          {checkedItems.includes("Hospital") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Hospital">
@@ -1567,9 +1577,9 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))}
 
-                          {checkedItems.includes("Disability") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Disability">
@@ -1590,9 +1600,9 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))}
 
-                          {checkedItems.includes("Funeral") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Funeral">
@@ -1613,7 +1623,7 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))} */}
                         </section>
                       </>
 
