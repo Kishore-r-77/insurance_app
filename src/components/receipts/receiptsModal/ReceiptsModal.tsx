@@ -28,12 +28,14 @@ import {
   getPoliciesByClient,
   getPolicyApi,
 } from "../../policy/policyApis/policyApis";
+import { getPayingAuthByClient } from "../../clientDetails/pAuthority/pauthApis/pAuthApis";
 import { AccountCircle } from "@mui/icons-material";
 import HoverDetails from "../../../utilities/HoverDetails/HoverDetails";
 import NewBusiness from "../../newBusiness/NewBusiness";
 import axios from "axios";
 import moment from "moment";
 import { getBusinessDateApi } from "../receiptsApis/receiptsApis";
+import PAuth from "../../clientDetails/pAuthority/Pauth";
 function ReceiptsModal({
   state,
   record,
@@ -42,7 +44,11 @@ function ReceiptsModal({
   handleFormSubmit,
   searchContent,
   handleSearchChange,
-}: ReceiptsModalType) {
+  payauthData,
+  setpayauthData,
+  currencyData,
+  setcurrencyData,
+}: any) {
   const addTitle: string = "Receipts Add";
   const editTitle: string = "Receipts Edit";
   const infoTitle: string = "Receipts Info";
@@ -55,6 +61,12 @@ function ReceiptsModal({
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+
+  const [payingauthpageNum, setpayingauthpageNum] = useState(1);
+  const [payingauthpageSize, setpayingauthpageSize] = useState(5);
+  const [payingauthtotalRecords, setpayingauthtotalRecords] = useState(0);
+  const [payingauthisLast, setpayingauthisLast] = useState(false);
+  const [payingauthfieldMap, setpayingauthfieldMap] = useState([]);
 
   const companyId = useAppSelector(
     (state) => state.users.user.message.companyId
@@ -113,6 +125,42 @@ function ReceiptsModal({
       .catch((err) => err.message);
   };
 
+  const getPayingAuthority = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/nbservices/paget/${state?.ReceiptRefNo}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setpayauthData(resp.data?.PayingAuthority);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    getPayingAuthority();
+
+    return () => {};
+  }, [state.ReceiptRefNo]);
+
+  const getCurrency = () => {
+    axios
+      .get(`http://localhost:3000/api/v1/acservices/cocurrname/${companyId}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        setcurrencyData(resp.data?.ShortName);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    getCurrency();
+
+    return () => {};
+  }, [state.ReceiptFor]);
   // old currency dropdown
 
   // const [aCur, setaCur] = useState([]);
@@ -217,6 +265,12 @@ function ReceiptsModal({
     } else record.ClientID = item.ID;
     dispatch({ type: ACTIONS.CLIENTSCLOSE });
   };
+  const payauthOpenFunc = (item: any) => {
+    if (state.addOpen) {
+      state.ReceiptRefNo = item.ID;
+    } else record.ReceiptRefNo = item.ID;
+    dispatch({ type: ACTIONS.PAYINGAUTHCLOSE });
+  };
 
   const policiesOpenFunc = (item: any) => {
     if (state.addOpen) {
@@ -261,6 +315,40 @@ function ReceiptsModal({
     return () => {};
   }, [state.ClientID]);
 
+  const [payingauthByClient, setpayingauthByClient] = useState();
+
+  const getPayingAuthByClient1 = (
+    payingauthpageNum: number,
+    payingauthpageSize: number,
+    searchContent: any
+  ) => {
+    return getPayingAuthByClient(
+      parseInt(state.ClientID),
+      payingauthpageNum,
+      payingauthpageSize,
+      searchContent,
+      state
+    )
+      .then((resp) => {
+        // ***  Attention : Check the API and modify it, if required  ***
+        setpayingauthByClient(resp.data["All PayingAuth"]);
+        setpayingauthtotalRecords(resp.data.paginationData.totalRecords);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setpayingauthisLast(resp.data["All PayingAuth"]?.length === 0);
+        setpayingauthfieldMap(resp.data["Field Map"]);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    getPayingAuthByClient1(
+      payingauthpageNum,
+      payingauthpageSize,
+      searchContent
+    );
+    return () => {};
+  }, [state.ReceiptRefNo]);
+
   const [snapShot, setsnapShot] = useState([]);
 
   const getPolicySnapshot = () => {
@@ -292,6 +380,8 @@ function ReceiptsModal({
             ? () => dispatch({ type: ACTIONS.CLIENTSCLOSE })
             : state.policiesOpen
             ? () => dispatch({ type: ACTIONS.POLICIESCLOSE })
+            : state.payingauthopen
+            ? () => dispatch({ type: ACTIONS.PAYINGAUTHCLOSE })
             : state.addOpen
             ? () => dispatch({ type: ACTIONS.ADDCLOSE })
             : // : state.editOpen
@@ -323,6 +413,16 @@ function ReceiptsModal({
                 searchContent={searchContent}
                 handleSearchChange={handleSearchChange}
                 receiptFieldMap={fieldMap}
+              />
+            ) : state.payingauthopen ? (
+              <PAuth
+                payauthLookup={state.payingauthopen}
+                modalFunc={payauthOpenFunc}
+                getByTable={payingauthByClient}
+                getByFunction={getPayingAuthByClient1}
+                searchContent={searchContent}
+                handleSearchChange={handleSearchChange}
+                payauthFieldMap={payingauthfieldMap}
               />
             ) : (
               <>
@@ -487,12 +587,9 @@ function ReceiptsModal({
                       type="number"
                       id="ReceiptRefNo"
                       name="ReceiptRefNo"
-                      onMouseEnter={() => handleHover()}
-                      onMouseOut={() => setisShown(false)}
+                      onClick={() => dispatch({ type: ACTIONS.PAYINGAUTHOPEN })}
                       value={
-                        state.addOpen
-                          ? state.ReceiptRefNo
-                          : record.ReceiptRefNo
+                        state.addOpen ? state.ReceiptRefNo : record.ReceiptRefNo
                       }
                       placeholder="ReceiptRefNo"
                       label="ReceiptRefNo"
@@ -510,13 +607,191 @@ function ReceiptsModal({
                       margin="dense"
                     />
                   </Grid2>
-                ) : null}
+                ) : (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      type="number"
+                      id="ReceiptRefNo"
+                      name="ReceiptRefNo"
+                      onMouseEnter={() => handleHover()}
+                      onMouseOut={() => setisShown(false)}
+                      value={
+                        state.addOpen ? state.ReceiptRefNo : record.ReceiptRefNo
+                      }
+                      placeholder="ReceiptRefNo"
+                      label="ReceiptRefNo"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptRefNo",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: true }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                )}
+                {state.ReceiptFor === "01" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      select
+                      id="ReceiptCurry"
+                      name="ReceiptCurry"
+                      value={
+                        state.addOpen ? state.ReceiptCurry : record.ReceiptCurry
+                      }
+                      placeholder="Receipt.Currency"
+                      label="Receipt.Currency"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptCurry",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    >
+                      {pRCurrData.map((val: any) => (
+                        <MenuItem key={val.Item} value={val.Item}>
+                          {val.Item}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                ) : state.ReceiptFor === "02" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      //select
+                      id="ReceiptCurry"
+                      name="ReceiptCurry"
+                      value={
+                        state.addOpen
+                          ? payauthData.PaCurrency
+                          : record.ReceiptCurry
+                      }
+                      placeholder="Receipt.Currency"
+                      label="Receipt.Currency"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptCurry",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    >
+                      {pRCurrData.map((val: any) => (
+                        <MenuItem key={val.Item} value={val.Item}>
+                          {val.Item}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                ) : state.ReceiptFor === "03" ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      //select
+                      id="ReceiptCurry"
+                      name="ReceiptCurry"
+                      value={state.addOpen ? currencyData : record.ReceiptCurry}
+                      placeholder="Receipt.Currency"
+                      label="Receipt.Currency"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptCurry",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: true }}
+                      margin="dense"
+                    >
+                      {/* {pRCurrData.map((val: any) => (
+                        <MenuItem key={val.Item} value={val.Item}>
+                          {val.Item}
+                        </MenuItem>
+                      ))} */}
+                    </TextField>
+                  </Grid2>
+                ) : (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      select
+                      id="ReceiptCurry"
+                      name="ReceiptCurry"
+                      value={
+                        state.addOpen ? state.ReceiptCurry : record.ReceiptCurry
+                      }
+                      placeholder="Receipt.Currency"
+                      label="Receipt.Currency"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ReceiptCurry",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: true }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                )}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
-                    select
+                    type="number"
+                    id="ReceiptAmount"
+                    name="ReceiptAmount"
+                    onMouseEnter={() => handleHover()}
+                    onMouseOut={() => setisShown(false)}
+                    value={
+                      state.addOpen ? state.ReceiptAmount : record.ReceiptAmount
+                    }
+                    placeholder="Receipt Amount"
+                    label="Receipt Amount"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "ReceiptAmount",
+                      })
+                    }
+                    fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
+                    margin="dense"
+                  />
+                </Grid2>
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    //select
                     id="AccCurry"
                     name="AccCurry"
-                    value={state.addOpen ? state.AccCurry : record.AccCurry}
+                    value={
+                      state.addOpen
+                        ? payauthData.PaCurrency ||
+                          state.AccCurry ||
+                          currencyData
+                        : record.AccCurry
+                    }
                     placeholder="Acc.Currency"
                     label="Acc.Currency"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -529,7 +804,7 @@ function ReceiptsModal({
                       })
                     }
                     fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
+                    inputProps={{ readOnly: true }}
                     margin="dense"
                   >
                     {pRCurrData.map((val: any) => (
@@ -546,7 +821,9 @@ function ReceiptsModal({
                     name="AccAmount"
                     onMouseEnter={() => handleHover()}
                     onMouseOut={() => setisShown(false)}
-                    value={state.addOpen ? state.AccAmount : record.AccAmount}
+                    value={
+                      state.addOpen ? state.ReceiptAmount : record.AccAmount
+                    }
                     placeholder="Accounting Amount"
                     label="Accounting Amount"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -556,32 +833,6 @@ function ReceiptsModal({
                           : ACTIONS.EDITCHANGE,
                         payload: e.target.value,
                         fieldName: "AccAmount",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    type="number"
-                    id="ReceiptAmount"
-                    name="ReceiptAmount"
-                    onMouseEnter={() => handleHover()}
-                    onMouseOut={() => setisShown(false)}
-                    value={
-                      state.addOpen ? state.AccAmount : record.ReceiptAmount
-                    }
-                    placeholder="Receipt Amount"
-                    label="Receipt Amount"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ReceiptAmount",
                       })
                     }
                     fullWidth

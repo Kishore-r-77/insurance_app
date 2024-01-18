@@ -111,6 +111,17 @@ function Receipts({ modalFunc }: any) {
           clientsOpen: false,
         };
 
+      case ACTIONS.PAYINGAUTHOPEN:
+        return {
+          ...state,
+          payingauthopen: true,
+        };
+      case ACTIONS.PAYINGAUTHCLOSE:
+        return {
+          ...state,
+          payingauthopen: false,
+        };
+
       // *** Attention: Check the Lookup Open /close ***
       case ACTIONS.POLICIESOPEN:
         return {
@@ -138,6 +149,8 @@ function Receipts({ modalFunc }: any) {
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
+  const [payauthData, setpayauthData] = useState<any>([]);
+  const [currencyData, setcurrencyData] = useState<any>([]);
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
@@ -154,7 +167,7 @@ function Receipts({ modalFunc }: any) {
 
   //Add Api
   const handleFormSubmit = () => {
-    return addApi(state, companyId)
+    return addApi(state, companyId, payauthData, currencyData)
       .then((resp) => {
         dispatch({ type: ACTIONS.ADDCLOSE });
         setNotify({
@@ -300,6 +313,10 @@ function Receipts({ modalFunc }: any) {
         ACTIONS={ACTIONS}
         searchContent={searchContent}
         handleSearchChange={handleSearchChange}
+        payauthData={payauthData}
+        setpayauthData={setpayauthData}
+        currencyData={currencyData}
+        setcurrencyData={setcurrencyData}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>

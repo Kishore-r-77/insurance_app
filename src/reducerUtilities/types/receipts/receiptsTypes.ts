@@ -9,6 +9,7 @@ export type ReceiptsStateType = {
   BankAccountNo: string;
   BankIFSC: string;
   AccCurry: string;
+  ReceiptCurry: string;
   AccAmount: string;
   ReceiptAmount: string;
   ReceiptRefNo: string;
@@ -19,6 +20,7 @@ export type ReceiptsStateType = {
   // *** Attention: Check the lookup table open below ***
   clientsOpen: boolean;
   policiesOpen: boolean;
+  payingauthopen: boolean;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
@@ -46,6 +48,8 @@ export type ActionConstantsType = {
   CLIENTSCLOSE: string;
   POLICIESOPEN: string;
   POLICIESCLOSE: string;
+  PAYINGAUTHOPEN: string;
+  PAYINGAUTHCLOSE: string;
 };
 export type ReceiptsModalType = {
   state: ReceiptsStateType;

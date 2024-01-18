@@ -19,6 +19,8 @@ export const ACTIONS = {
   CLIENTSCLOSE: "CLIENTSCLOSE",
   POLICIESOPEN: "POLICIESOPEN",
   POLICIESCLOSE: "POLICIESCLOSE",
+  PAYINGAUTHOPEN: "PAYINGAUTHOPEN",
+  PAYINGAUTHCLOSE: "PAYINGAUTHCLOSE",
 };
 
 //Initial State defined
@@ -34,6 +36,7 @@ export const initialValues: ReceiptsStateType = {
   BankAccountNo: "",
   BankIFSC: "",
   AccCurry: "",
+  ReceiptCurry: "",
   AccAmount: "",
   ReceiptAmount: "",
   ReceiptRefNo: "",
@@ -52,6 +55,7 @@ export const initialValues: ReceiptsStateType = {
   // *** Attention: Check initial value below ***
   clientsOpen: false,
   policiesOpen: false,
+  payingauthopen: false,
 };
 
 //Columns Defined to Pass into the Custom Table
@@ -90,8 +94,8 @@ export const columns = [
     dbField: "acc_curry",
   },
   {
-    field: "PolicyID",
-    header: "Policy Number",
-    dbField: "policy_id",
+    field: "ReceiptRefNo",
+    header: "ReceiptRefNo",
+    dbField: "receipt_ref_no",
   },
 ];

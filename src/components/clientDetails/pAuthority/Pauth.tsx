@@ -18,7 +18,17 @@ import Notification from "../../../utilities/Notification/Notification";
 import { pAStateType } from "../../../reducerUtilities/types/pa/paTypes";
 import PauthModal from "./pAuthModal/pAuthModal";
 
-function PAuth({ modalFunc, bankClntData, lookup }: any) {
+function PAuth({
+  bankClntData,
+  lookup,
+  payauthLookup,
+  modalFunc,
+  getByTable,
+  getByFunction,
+  searchContent,
+  handleSearchChange,
+  payauthFieldMap,
+}: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -207,8 +217,12 @@ function PAuth({ modalFunc, bankClntData, lookup }: any) {
 
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
-    getData();
-    return () => { };
+    if (payauthLookup) {
+      getByFunction(pageNum, pageSize, searchContent);
+    } else {
+      getData();
+    }
+    return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
   return (
@@ -217,45 +231,67 @@ function PAuth({ modalFunc, bankClntData, lookup }: any) {
         <span>
           <TextField
             select
-            value={state.searchCriteria}
+            value={
+              payauthLookup
+                ? searchContent.searchCriteria
+                : state.searchCriteria
+            }
             placeholder="Search Criteria"
             label="Search Criteria"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchCriteria",
-              })
+            onChange={
+              payauthLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchCriteria",
+                    })
             }
             style={{ width: "12rem" }}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {fieldMap.map((value: any) => (
-              <MenuItem key={value.fieldName} value={value.fieldName}>
-                {value.displayName}
-              </MenuItem>
-            ))}
+            {payauthLookup
+              ? payauthFieldMap?.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))
+              : fieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))}
           </TextField>
         </span>
         <span className={styles["text-fields"]}>
           <TextField
-            value={state.searchString}
+            value={
+              payauthLookup ? searchContent.searchCriteria : state.searchString
+            }
             placeholder="Search String"
             label="Search String"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchString",
-              })
+            onChange={
+              payauthLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchString",
+                    })
             }
             style={{ width: "12rem" }}
           />
           <Button
             variant="contained"
-            onClick={getData}
+            onClick={
+              payauthLookup
+                ? () => getByFunction(pageNum, pageSize, searchContent)
+                : getData
+            }
             color="primary"
             style={{
               marginTop: "0.5rem",
@@ -272,25 +308,29 @@ function PAuth({ modalFunc, bankClntData, lookup }: any) {
         </span>
 
         <h1>PayingAuthority</h1>
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
+        {payauthLookup ? null : (
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+          >
+            <AddBoxIcon />
+          </Button>
+        )}
       </header>
       <CustomTable
-        data={lookup ? bankClntData : data}
+        data={payauthLookup ? getByTable : data}
+        payauthLookup={payauthLookup}
+        dataIndex={data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}

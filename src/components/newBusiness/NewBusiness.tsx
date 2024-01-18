@@ -533,7 +533,7 @@ function NewBusiness({
               <em>None</em>
             </MenuItem>
             {receiptLookup
-              ? receiptFieldMap.map((value: any) => (
+              ? receiptFieldMap?.map((value: any) => (
                   <MenuItem key={value.fieldName} value={value.fieldName}>
                     {value.displayName}
                   </MenuItem>
