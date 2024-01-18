@@ -43,25 +43,33 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
   // handle checkbox function
   const [checkboxStates, setCheckboxStates] = useState<CheckedItems>([]);
 
-  const handleCheckboxClick = (index: number) => {
+  const handleCheckboxClick = (uniqueId: number) => {
     setCheckboxStates((prev) => {
       const updatedStates = { ...prev };
-      const currentState = updatedStates[index];
+      const currentState = updatedStates[uniqueId];
 
       switch (currentState) {
         case "D":
-          updatedStates[index] = "N";
+          updatedStates[uniqueId] = "N";
           break;
         case "N":
-          updatedStates[index] = "E";
+          updatedStates[uniqueId] = "E";
           break;
         default:
-          updatedStates[index] = "D";
+          updatedStates[uniqueId] = "D";
           break;
       }
       return updatedStates;
     });
   };
+  useEffect(() => {
+    setpabillsum((prevPabillsum: any) => ({
+      ...prevPabillsum,
+      DeductedCount: Object.values(checkboxStates).filter(
+        (state) => state === "D"
+      ).length,
+    }));
+  }, [checkboxStates]);
 
   // handle the change Function
   const [remarksValues, setRemarksValues] = useState<string[]>([]);
@@ -367,18 +375,7 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                             value={val?.NationalId}
                           />
                         </td>
-                        {/* <td>
-                                                <input
-                                                    className={styles["input-form"]}
-                                                    style={{
-                                                        position: "sticky",
-                                                        left: 0,
-                                                    }}
-                                                    type="checkbox"
-                                                    name="Select"
-                                                    //onChange={handleCheckboxClick}
-                                                />
-                                            </td> */}
+
                         <td className={styles["td-class"]}>
                           <input
                             className={styles["input-form"]}
