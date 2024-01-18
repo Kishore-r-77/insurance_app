@@ -738,8 +738,26 @@ function NewBusinessModal({
     getP0071();
   }, [bcoverage.current]);
 
-  // Rest of your component code
-  console.log(p0071Data, "P0071");
+  const iconSelect = (benDataType: any, benefits: any, index: number) => {
+    switch (benDataType) {
+      case "Extra":
+        {
+          extraOpen({
+            benefitIndex: index,
+            extraData: benefits.Extras,
+          });
+        }
+        break;
+      case "Fund":
+        {
+          ilpOpen({
+            benefitIndex: index,
+            fundData: benefits.IlpFunds,
+          });
+        }
+        break;
+    }
+  };
   return (
     <div>
       <CustomFullModal
@@ -1470,16 +1488,23 @@ function NewBusinessModal({
                           {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
-                                {item.manOrOpt === "M" ? <span>*</span> : null}
-                                <Tooltip title="Extras">
+                                {item.manOrOpt === "M" ? (
+                                  <span
+                                    style={{ display: "block", color: "red" }}
+                                  >
+                                    *
+                                  </span>
+                                ) : null}
+                                <Tooltip title={`${item.benDataType}`}>
                                   <Button
                                     variant="contained"
                                     color="success"
                                     onClick={() =>
-                                      extraOpen({
-                                        benefitIndex: index,
-                                        extraData: benefits.Extras,
-                                      })
+                                      iconSelect(
+                                        item.benDataType,
+                                        benefits,
+                                        index
+                                      )
                                     }
                                     style={{
                                       maxWidth: "30px",
