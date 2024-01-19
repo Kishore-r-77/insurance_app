@@ -44,7 +44,12 @@ export const getPolicySnap = (policyId: number) => {
   );
 };
 
-export const addApi = (state: ReceiptsStateType, companyId: number) => {
+export const addApi = (
+  state: ReceiptsStateType,
+  companyId: number,
+  payauthData: any,
+  currencyData: any
+) => {
   // Attention : Check and update the below API, if required
   return axios.post(
     `http://localhost:3000/api/v1/acservices/createreceipt`,
@@ -58,10 +63,12 @@ export const addApi = (state: ReceiptsStateType, companyId: number) => {
       TypeOfReceipt: state.TypeOfReceipt,
       BankReferenceNo: state.BankReferenceNo,
       BankAccountNo: state.BankAccountNo,
-      AccCurry: state.AccCurry,
-      AccAmount: parseFloat(state.AccAmount),
+      ReceiptCurry:
+        state.ReceiptCurry || payauthData.PaCurrency || currencyData,
+      AccCurry: state.ReceiptCurry || payauthData.PaCurrency || currencyData,
       ReceiptAmount: parseFloat(state.ReceiptAmount),
-      ReceiptRefNo: parseInt(state.ReceiptRefNo),
+      AccAmount: parseFloat(state.ReceiptAmount),
+      ReceiptRefNo: parseInt(state.ReceiptRefNo) || parseInt(state.ClientID),
       ReceiptDueDate: moment(state.ReceiptDueDate)
         .format("YYYYMMDD")
         .toString(),

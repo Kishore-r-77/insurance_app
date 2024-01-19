@@ -36,7 +36,7 @@ export const addApi = (state: pAStateType, companyId: number) => {
         state.EndDate?.length === 0
           ? ""
           : moment(state.EndDate).format("YYYYMMDD").toString(),
-      PaStatus: state.PaStatus
+      PaStatus: state.PaStatus,
       // AgencyID: parseInt(state.AgencyID),
     },
     {
@@ -63,7 +63,7 @@ export const editApi = (record: any) => {
         record.EndDate?.length === 0
           ? ""
           : moment(record.EndDate).format("YYYYMMDD").toString(),
-      PaStatus: record.PaStatus
+      PaStatus: record.PaStatus,
       // AgnecyID: parseInt(record.AgnecyID),
     },
     {
@@ -109,6 +109,29 @@ export const p0050 = (
         name,
         languageId,
         item,
+      },
+    }
+  );
+};
+
+export const getPayingAuthByClient = (
+  clientId: number,
+  pageNum: number,
+  pageSize: number,
+  searchContent: any,
+  state: any
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/nbservices/allpayauth/${clientId}`,
+    {
+      withCredentials: true,
+      params: {
+        pageNum: pageNum,
+        pageSize: pageSize,
+        searchString: searchContent?.searchString,
+        searchCriteria: searchContent?.searchCriteria,
+        sortColumn: state.sortColumn,
+        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
       },
     }
   );

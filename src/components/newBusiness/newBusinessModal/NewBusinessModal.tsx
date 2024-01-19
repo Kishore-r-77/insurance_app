@@ -1,18 +1,10 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import AssistWalkerIcon from "@mui/icons-material/AssistWalker";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import { TreeItem, TreeView } from "@mui/x-tree-view";
 import {
   Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
   MenuItem,
   TextField,
   Tooltip,
@@ -21,9 +13,10 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../redux/app/hooks";
 import CustomFullModal from "../../../utilities/modal/CustomFullModal";
 import CustomModal from "../../../utilities/modal/CustomModal";
@@ -36,18 +29,15 @@ import {
   extraParamItem,
   paramItem,
 } from "../../clientDetails/client/clientApis/clientApis";
-import { modifyPolicyWithBenefits } from "../newBusinessApis/newBusinessApis";
+import PAuth from "../../clientDetails/pAuthority/Pauth";
 import {
   createPoliciesWithBenefits,
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
-import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
-import styles from "./newBusinessModal.css";
-import YardIcon from "@mui/icons-material/Yard";
 import ExtrasAdd from "../extras/extrasAdd";
-import PauthModal from "../../clientDetails/pAuthority/pAuthModal/pAuthModal";
-import PAuth from "../../clientDetails/pAuthority/Pauth";
+import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
+import { modifyPolicyWithBenefits } from "../newBusinessApis/newBusinessApis";
 
 function NewBusinessModal({
   state,
@@ -562,6 +552,8 @@ function NewBusinessModal({
 
   const ilpOpen = (data: any) => {
     setilpModalParam((prev) => ({ ...prev, open: true, data }));
+    console.log(data, "data in ilpOpen");
+
     setbenefitIndex(data?.benefitIndex);
   };
 
@@ -595,6 +587,8 @@ function NewBusinessModal({
     }
     if (values.operation === "save") {
       const updatedIlpFunds = Array.from(uniqueFundsMap.values());
+      console.log(updatedIlpFunds, "updatedIlpFunds");
+      console.log(benefitsData, benefitIndex, "benefitsData");
       if (benefitsData[benefitIndex]) {
         benefitsData[benefitIndex].IlpFunds = updatedIlpFunds;
       }
@@ -707,7 +701,7 @@ function NewBusinessModal({
     }
   };
 
-  const [p0071Data, setP0071Data] = useState([]);
+  const [p0071Data, setP0071Data] = useState<any>([]);
 
   const getP0071 = () => {
     axios
@@ -734,12 +728,30 @@ function NewBusinessModal({
       });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getP0071();
   }, [bcoverage.current]);
 
-  // Rest of your component code
-
+  const iconSelect = (benDataType: any, benefits: any, index: number) => {
+    switch (benDataType) {
+      case "Extra":
+        {
+          extraOpen({
+            benefitIndex: index,
+            extraData: benefits.Extras,
+          });
+        }
+        break;
+      case "Fund":
+        {
+          ilpOpen({
+            benefitIndex: index,
+            fundData: benefits.IlpFunds,
+          });
+        }
+        break;
+    }
+  };
   return (
     <div>
       <CustomFullModal
@@ -1413,7 +1425,7 @@ function NewBusinessModal({
                 ) : null}
               </Grid2>
             </TreeItem>
-            {benefitsData?.map((benefits: any, index: number) => {
+            {benefitsData?.map((benefits: any, benfitIndex: number) => {
               bcoverage.current = benefits?.BCoverage;
 
               return (
@@ -1431,7 +1443,7 @@ function NewBusinessModal({
                   ) : null}
                   <div style={{ display: "flex" }}>
                     <TreeItem
-                      nodeId={(index + 2).toString()}
+                      nodeId={(benfitIndex + 2).toString()}
                       label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
                       style={{ minWidth: "95%", margin: "0px 1rem" }}
                     >
@@ -1442,21 +1454,6 @@ function NewBusinessModal({
                             display: "block",
                           }}
                         >
-                          {p0071Data.map((item: any, index: number) => (
-                            <FormControlLabel
-                              key={index}
-                              control={
-                                <Checkbox
-                                  checked={checkedItems.includes(
-                                    item.benDataType
-                                  )}
-                                  onChange={handleCheckboxChange}
-                                  name={item.benDataType}
-                                />
-                              }
-                              label={item.benDataType}
-                            />
-                          ))}
                           <hr />
                         </span>
 
@@ -1467,9 +1464,50 @@ function NewBusinessModal({
                             justifyContent: "center",
                           }}
                         >
-                          {checkedItems.includes("Fund") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
+                                {item.manOrOpt === "M" ? (
+                                  <span
+                                    style={{ display: "block", color: "red" }}
+                                  >
+                                    *
+                                  </span>
+                                ) : null}
+                                <Tooltip title={`${item.benDataType}`}>
+                                  <Button
+                                    variant="contained"
+                                    color="success"
+                                    onClick={() =>
+                                      iconSelect(
+                                        item.benDataType,
+                                        benefits,
+                                        benfitIndex
+                                      )
+                                    }
+                                    style={{
+                                      maxWidth: "30px",
+                                      maxHeight: "30px",
+                                      minWidth: "30px",
+                                      minHeight: "30px",
+                                      // backgroundColor: "#191970",
+                                    }}
+                                  >
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: item?.icon,
+                                      }}
+                                    />
+                                  </Button>
+                                </Tooltip>
+                              </Grid2>
+                            </span>
+                          ))}
+
+                          {/* {p0071Data.map((item: any, index: number) => (
+                            <span style={{ textAlign: "center" }}>
+                              <Grid2 xs={8} md={6} lg={4}>
+                                {item.manOrOpt === "M" ? <span>*</span> : null}
                                 <Tooltip title="Funds">
                                   <Button
                                     variant="contained"
@@ -1488,42 +1526,18 @@ function NewBusinessModal({
                                       // backgroundColor: "#191970",
                                     }}
                                   >
-                                    <CreditScoreIcon />
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: item?.icon,
+                                      }}
+                                    />
                                   </Button>
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))} */}
 
-                          {checkedItems.includes("Extra") && (
-                            <span style={{ textAlign: "center" }}>
-                              <Grid2 xs={8} md={6} lg={4}>
-                                <Tooltip title="Extras">
-                                  <Button
-                                    variant="contained"
-                                    color="success"
-                                    onClick={() =>
-                                      extraOpen({
-                                        benefitIndex: index,
-                                        extraData: benefits.Extras,
-                                      })
-                                    }
-                                    style={{
-                                      maxWidth: "30px",
-                                      maxHeight: "30px",
-                                      minWidth: "30px",
-                                      minHeight: "30px",
-                                      // backgroundColor: "#191970",
-                                    }}
-                                  >
-                                    <PlaylistAddIcon />
-                                  </Button>
-                                </Tooltip>
-                              </Grid2>
-                            </span>
-                          )}
-
-                          {checkedItems.includes("Annuity") && (
+                          {/*{p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Annuity">
@@ -1544,9 +1558,9 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))}
 
-                          {checkedItems.includes("Hospital") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Hospital">
@@ -1567,9 +1581,9 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))}
 
-                          {checkedItems.includes("Disability") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Disability">
@@ -1590,9 +1604,9 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))}
 
-                          {checkedItems.includes("Funeral") && (
+                          {p0071Data.map((item: any, index: number) => (
                             <span style={{ textAlign: "center" }}>
                               <Grid2 xs={8} md={6} lg={4}>
                                 <Tooltip title="Funeral">
@@ -1613,7 +1627,7 @@ function NewBusinessModal({
                                 </Tooltip>
                               </Grid2>
                             </span>
-                          )}
+                          ))} */}
                         </section>
                       </>
 
@@ -1639,14 +1653,16 @@ function NewBusinessModal({
                             InputLabelProps={{ shrink: true }}
                             value={
                               state.addOpen
-                                ? benefitClientId[index]
+                                ? benefitClientId[benfitIndex]
                                 : benefits.ClientID
                             }
                             // onClick={() =>
                             //   dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
                             // }
                             // value={benefits.ClientID}
-                            onClick={() => handleBenefitClientIdUpdate(index)}
+                            onClick={() =>
+                              handleBenefitClientIdUpdate(benfitIndex)
+                            }
                             // onChange={(
                             //   e: React.ChangeEvent<HTMLInputElement>
                             // ) => handleChange(e, index)}
@@ -1667,7 +1683,7 @@ function NewBusinessModal({
                                 inputFormat="DD/MM/YYYY"
                                 value={benefits?.BStartDate}
                                 onChange={(date) =>
-                                  handleBStartDate(date, index)
+                                  handleBStartDate(date, benfitIndex)
                                 }
                                 renderInput={(params) => (
                                   <TextField {...params} error={false} />
@@ -1686,7 +1702,7 @@ function NewBusinessModal({
                             label="b_coverage"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           >
@@ -1707,7 +1723,7 @@ function NewBusinessModal({
                             label="b_term"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           >
@@ -1730,7 +1746,7 @@ function NewBusinessModal({
                             label="bp_term"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           >
@@ -1753,7 +1769,7 @@ function NewBusinessModal({
                             label="b_sum_assured"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           ></TextField>
@@ -1772,7 +1788,7 @@ function NewBusinessModal({
                               onChange={
                                 state.addOpen
                                   ? (e: React.ChangeEvent<HTMLInputElement>) =>
-                                      handleChange(e, index)
+                                      handleChange(e, benfitIndex)
                                   : (e) => setinterest(e.target.value)
                               }
                               fullWidth
@@ -1799,7 +1815,7 @@ function NewBusinessModal({
                               label="Premium"
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
-                              ) => handleChange(e, index)}
+                              ) => handleChange(e, benfitIndex)}
                               fullWidth
                               margin="dense"
                             ></TextField>
@@ -1814,7 +1830,7 @@ function NewBusinessModal({
                         gap: "5px",
                       }}
                     >
-                      {benefitsData?.length - 1 === index &&
+                      {benefitsData?.length - 1 === benfitIndex &&
                         benefitsData?.length < 10 && (
                           <Button
                             variant="contained"
@@ -1834,7 +1850,7 @@ function NewBusinessModal({
                       {benefitsData?.length !== 1 && (
                         <Button
                           onClick={() =>
-                            handleBenefitsRemove(index, benefits.ID)
+                            handleBenefitsRemove(benfitIndex, benefits.ID)
                           }
                           variant="contained"
                           style={{
