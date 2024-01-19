@@ -7,6 +7,7 @@ function ReconcileFullModal({
   children,
   handleApproveSubmit,
   handleRejectSubmit,
+  state,
 }: any) {
   return (
     <div>
@@ -18,19 +19,13 @@ function ReconcileFullModal({
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cancel
+            {}
           </Button>
-          {/* <Button
-                        style={{
-                            backgroundColor: "red",
-                        }}
-                        variant="error"
-                        onClick={handleRejectSubmit}
-                    >
-                        Rejection
-                    </Button> */}
-          <Button variant="primary" onClick={handleApproveSubmit}>
-            Save
-          </Button>
+          {!state.infoOpen && ( // Render the "Save" button only if state.infoOpen is false
+            <Button variant="primary" onClick={handleApproveSubmit}>
+              Save
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </div>
