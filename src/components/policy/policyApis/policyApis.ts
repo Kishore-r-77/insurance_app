@@ -205,7 +205,7 @@ export const createPoliciesWithBenefits = (
       Benefits: data.map((benefits: any) => ({
         ...benefits,
         ClientID: +benefits.ClientID,
-        BStartDate: moment(benefits?.BStartDate).format("YYYYMMDD"),
+        BStartDate: moment(state.PRCD).format("YYYYMMDD"),
         BTerm: +benefits?.BTerm,
         BPTerm: +benefits?.BPTerm,
         BSumAssured: +benefits?.BSumAssured,
