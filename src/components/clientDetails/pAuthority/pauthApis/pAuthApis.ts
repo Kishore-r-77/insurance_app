@@ -37,6 +37,16 @@ export const addApi = (state: pAStateType, companyId: number) => {
           ? ""
           : moment(state.EndDate).format("YYYYMMDD").toString(),
       PaStatus: state.PaStatus,
+      ExtrationDay: state.ExtrationDay,
+      PayDay: state.PayDay,
+      PaToleranceAmt: +state.PaToleranceAmt,
+      PaCurrency: state.PaCurrency,
+      AddressID: state.AddressID,
+      PaPerson: state.PaPerson,
+      PaMobCode: state.PaMobCode,
+      PaMobMobile: state.PaMobMobile,
+      PaEmail: state.PaEmail,
+
       // AgencyID: parseInt(state.AgencyID),
     },
     {
@@ -64,6 +74,15 @@ export const editApi = (record: any) => {
           ? ""
           : moment(record.EndDate).format("YYYYMMDD").toString(),
       PaStatus: record.PaStatus,
+      ExtrationDay: record.ExtrationDay,
+      PayDay: record.PayDay,
+      PaToleranceAmt: record.PaToleranceAmt,
+      PaCurrency: +record.PaCurrency,
+      AddressID: record.AddressID,
+      PaPerson: record.PaPerson,
+      PaMobCode: record.PaMobCode,
+      PaMobMobile: record.PaMobMobile,
+      PaEmail: record.PaEmail,
       // AgnecyID: parseInt(record.AgnecyID),
     },
     {
@@ -109,29 +128,6 @@ export const p0050 = (
         name,
         languageId,
         item,
-      },
-    }
-  );
-};
-
-export const getPayingAuthByClient = (
-  clientId: number,
-  pageNum: number,
-  pageSize: number,
-  searchContent: any,
-  state: any
-) => {
-  return axios.get(
-    `http://localhost:3000/api/v1/nbservices/allpayauth/${clientId}`,
-    {
-      withCredentials: true,
-      params: {
-        pageNum: pageNum,
-        pageSize: pageSize,
-        searchString: searchContent?.searchString,
-        searchCriteria: searchContent?.searchCriteria,
-        sortColumn: state.sortColumn,
-        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
       },
     }
   );

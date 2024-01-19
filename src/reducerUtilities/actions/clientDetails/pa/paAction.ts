@@ -1,4 +1,3 @@
-
 import { pAStateType } from "../../../types/pa/paTypes";
 
 //Storing Actions into a Variable for Reducer
@@ -13,6 +12,8 @@ export const ACTIONS = {
   INFOCLOSE: "INFOCLOSE",
   CLIENTOPEN: "CLIENTOPEN",
   CLIENTCLOSE: "CLIENTCLOSE",
+  ADDRESSOPEN: "ADDRESSOPEN",
+  ADDRESSCLOSE: "ADDRESSCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
 };
@@ -26,10 +27,21 @@ export const initialValues: pAStateType = {
   StartDate: "",
   EndDate: "",
   PaStatus: "",
+  ExtrationDay: "",
+  PayDay: "",
+  PaToleranceAmt: "",
+  PaCurrency: "",
+  AddressID: "",
+  PaPerson: "",
+  PaMobCode: "",
+  PaMobMobile: "",
+  PaEmail: "",
+
   addOpen: false,
   editOpen: false,
   infoOpen: false,
   clientOpen: false,
+  addressOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",

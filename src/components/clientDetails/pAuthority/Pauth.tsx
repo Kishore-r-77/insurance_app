@@ -98,6 +98,16 @@ function PAuth({
           ...state,
           clientOpen: false,
         };
+      case ACTIONS.ADDRESSOPEN:
+        return {
+          ...state,
+          addressOpen: true,
+        };
+      case ACTIONS.ADDRESSCLOSE:
+        return {
+          ...state,
+          addressOpen: false,
+        };
 
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
