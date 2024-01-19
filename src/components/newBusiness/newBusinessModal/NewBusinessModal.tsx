@@ -1652,9 +1652,7 @@ function NewBusinessModal({
                             name="ClientID"
                             InputLabelProps={{ shrink: true }}
                             value={
-                              state.addOpen
-                                ? benefitClientId[benfitIndex]
-                                : benefits.ClientID
+                              state.addOpen ? state.ClientID : record?.ClientID
                             }
                             // onClick={() =>
                             //   dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
@@ -1681,7 +1679,9 @@ function NewBusinessModal({
                               <DesktopDatePicker
                                 label="b_start_date"
                                 inputFormat="DD/MM/YYYY"
-                                value={benefits?.BStartDate}
+                                value={
+                                  state.addOpen ? state.PRCD : record?.PRCD
+                                }
                                 onChange={(date) =>
                                   handleBStartDate(date, benfitIndex)
                                 }
