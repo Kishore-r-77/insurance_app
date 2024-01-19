@@ -132,3 +132,26 @@ export const p0050 = (
     }
   );
 };
+
+export const getPayingAuthByClient = (
+  clientId: number,
+  pageNum: number,
+  pageSize: number,
+  searchContent: any,
+  state: any
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/nbservices/allpayauth/${clientId}`,
+    {
+      withCredentials: true,
+      params: {
+        pageNum: pageNum,
+        pageSize: pageSize,
+        searchString: searchContent?.searchString,
+        searchCriteria: searchContent?.searchCriteria,
+        sortColumn: state.sortColumn,
+        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+      },
+    }
+  );
+};
