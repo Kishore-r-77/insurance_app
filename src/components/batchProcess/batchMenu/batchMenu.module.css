@@ -50,7 +50,8 @@ body {
 .batch,
 .premst,
 .receipt,
-.unitst {
+.unitst,
+.extract {
   padding: 1.5rem;
   border-radius: 12px; /* Slightly increased border radius for a softer look */
   color: #fff; /* White text color */
@@ -66,7 +67,8 @@ body {
 .batch:hover,
 .premst:hover,
 .receipt:hover,
-.unitst:hover {
+.unitst:hover,
+.extract:hover {
   background: linear-gradient(to right, #673ab7, #512da8);
   color: #fff;
   transform: scale(1.05);
@@ -87,4 +89,7 @@ body {
 
 .unitst {
   background: #ffb74d !important; /* Amber background for unitst */
+}
+.extract {
+  background: #9ff0c6 !important; /* Amber background for unitst */
 }

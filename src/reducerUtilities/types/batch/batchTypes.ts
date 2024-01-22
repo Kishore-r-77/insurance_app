@@ -15,6 +15,7 @@ export type BatchStateType = {
   batchOpen: boolean;
   premStOpen: boolean;
   receiptOpen: boolean;
+  extractionOpen: boolean;
   unitStOpen: boolean;
 };
 
@@ -28,6 +29,8 @@ export type ActionConstantsType = {
   RECEIPTCLOSE: string;
   UNITSTOPEN: string;
   UNITSTCLOSE: string;
+  EXTRACTOPEN: string;
+  EXTRACTCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
 };

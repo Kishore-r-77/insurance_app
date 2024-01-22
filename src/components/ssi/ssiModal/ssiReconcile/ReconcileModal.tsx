@@ -1,22 +1,9 @@
-import { FormControl, MenuItem, Paper, TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Paper, TextField } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { PaymentsModalType } from "../../../reducerUtilities/types/payments/paymentsTypes";
-import { useAppSelector } from "../../../../redux/app/hooks";
 import Notification from "../../../../utilities/Notification/Notification";
 import CustomModal from "../../../../utilities/modal/CustomModal";
-import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
-import Address from "../../../clientDetails/address/Address";
-import Client from "../../../clientDetails/client/Client";
-import Policy from "../../../policy/Policy";
-import {
-  getPoliciesByClient,
-  getPolicyApi,
-} from "../../../policy/policyApis/policyApis";
 // import { getAllApi, paramItem, q0005 } from "../paymentsApis/paymentsApis";
 import ReconcileFullModal from "./ReconcileFullModal";
 import styles from "./ssiModal.module.css";
@@ -26,7 +13,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Table } from "react-bootstrap";
 import moment from "moment";
-
+import InfoIcon from "@mui/icons-material/Info";
+import PayerauthModal from "../payerinfo/PayerauthModal";
 interface CheckedItems {
   [key: number]: "D" | "N" | "E";
 }
@@ -40,13 +28,21 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
     type: "",
   });
 
+  // payerinfo opening
+
+  const [payerinfo, setpayerinfo] = useState(false);
+
+  const payerinfoOpen = () => {
+    setpayerinfo(true);
+  };
+  const payerinfoClose = () => {
+    setpayerinfo(false);
+  };
+
   // handle checkbox function
   const [checkboxStates, setCheckboxStates] = useState<any>([]);
 
   const handleCheckboxClick = (uniqueId: number) => {
-    if (state.infoOpen) {
-      return;
-    }
     setCheckboxStates((prev: any) => {
       const updatedStates = { ...prev };
       const currentState = updatedStates[uniqueId];
@@ -191,7 +187,7 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
   const [regFlag, setRegFlag] = useState<any>({});
 
   const fetchData = async () => {
-    if (state.reconOpen || state.infoOpen) {
+    if (state.reconOpen) {
       // Initialize checkbox states based on regFlag
       setCheckboxStates(
         regFlag.reduce(
@@ -294,28 +290,26 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
   useEffect(() => {
     getPolBill();
     return () => {};
-  }, [state.reconOpen || state.infoOpen]);
+  }, [state.reconOpen]);
 
   useEffect(() => {
     fetchData();
-  }, [state.reconOpen || state.infoOpen, regFlag]);
+  }, [state.reconOpen, regFlag]);
 
   useEffect(() => {
     getPaBillSummary();
     getgabal();
     return () => {};
-  }, [state.reconOpen || state.infoOpen]);
+  }, [state.reconOpen]);
 
   return (
     <div className={styles.modal}>
       <ReconcileFullModal
         size={size}
-        open={state.reconOpen || state.infoOpen}
+        open={state.reconOpen}
         handleClose={
           state.reconOpen
             ? () => dispatch({ type: ACTIONS.APPROVECLOSE })
-            : state.infoOpen
-            ? () => dispatch({ type: ACTIONS.INFOCLOSE })
             : null
         }
         title={approvalTitle}
@@ -388,7 +382,7 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                 Reconciled Date :
                 {pabillsum.ReconciledDate === ""
                   ? ""
-                  : moment(pabillsum.DueDate).format("DD/MM/YYYY")}
+                  : moment(pabillsum.ReconciledDate).format("DD/MM/YYYY")}
               </div>
               <div style={{ marginRight: "100px" }}>
                 Reconciled By :{pabillsum.ReconciledBy}
@@ -407,6 +401,11 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                 {glbla.map((item: any) => (
                   <span key={item.ID}>{item.ContractAmount}</span>
                 ))}
+              </div>
+              <div>
+                <span className={styles.flexButtons}>
+                  <InfoIcon onClick={() => payerinfoOpen()} />
+                </span>
               </div>
             </div>
           </TreeItem>
@@ -535,11 +534,10 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                               className={styles["input-form"]}
                               type="text"
                               style={{ width: "100%" }}
-                              // value={val?.Remarks}
+                              // value={state.infoOpen ? val?.Remarks : undefined}
                               onChange={(e) =>
                                 handleRemarksChange(index, e.target.value)
                               }
-                              disabled={state.infoOpen}
                             />
                           </td>
                         </tr>
@@ -556,10 +554,15 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                   fullWidth
                   onChange={handlenotechnge}
                   rows={2}
-                  inputProps={{ readOnly: state.infoOpen }}
+                  // inputProps={{ readOnly: state.infoOpen }}
                   InputLabelProps={{ shrink: true }}
                 />
               </div>
+              <PayerauthModal
+                open={payerinfo}
+                handleClose={payerinfoClose}
+                record={record}
+              />
             </Paper>
           </TreeItem>
         </TreeView>

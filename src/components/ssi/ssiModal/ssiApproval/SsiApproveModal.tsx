@@ -1,23 +1,10 @@
-import { FormControl, MenuItem, Paper, TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Paper, TextField } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { PaymentsModalType } from "../../../reducerUtilities/types/payments/paymentsTypes";
-import { useAppSelector } from "../../../../redux/app/hooks";
 import Notification from "../../../../utilities/Notification/Notification";
 import CustomModal from "../../../../utilities/modal/CustomModal";
-import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
-import Address from "../../../clientDetails/address/Address";
-import Client from "../../../clientDetails/client/Client";
-import Policy from "../../../policy/Policy";
-import {
-  getPoliciesByClient,
-  getPolicyApi,
-} from "../../../policy/policyApis/policyApis";
-// import { getAllApi, paramItem, q0005 } from "../paymentsApis/paymentsApis";
+import InfoIcon from "@mui/icons-material/Info";
 
 import styles from "./ssiApproveModal.module.css";
 import { SsiModalType } from "../../../../reducerUtilities/types/ssi/ssiTypes";
@@ -27,6 +14,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Table } from "react-bootstrap";
 import moment from "moment";
 import SsiApproveFullModal from "./SsiApproveFullModal";
+import PayerauthModal from "../payerinfo/PayerauthModal";
 
 interface CheckedItems {
   [key: number]: "D" | "N" | "P";
@@ -173,7 +161,7 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
   }, [pabill]);
 
   const fetchData = async () => {
-    if (state.ssiapproveOpen) {
+    if (state.ssiapproveOpen || state.infoOpen) {
       // Initialize checkbox states based on regFlag
       setCheckboxStates(
         regFlag.reduce(
@@ -186,35 +174,46 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
       );
     }
   };
+  const [payerinfo, setpayerinfo] = useState(false);
+
+  const payerinfoOpen = () => {
+    setpayerinfo(true);
+  };
+  const payerinfoClose = () => {
+    setpayerinfo(false);
+  };
   useEffect(() => {
     getPolBill();
     return () => {};
-  }, [state.ssiapproveOpen]);
+  }, [state.ssiapproveOpen || state.infoOpen]);
 
   useEffect(() => {
     fetchData();
-  }, [state.ssiapproveOpen, regFlag]);
+  }, [state.ssiapproveOpen || state.infoOpen, regFlag]);
 
   useEffect(() => {
     getPaBillSummary();
     getgabal();
 
     return () => {};
-  }, [state.ssiapproveOpen]);
+  }, [state.ssiapproveOpen || state.infoOpen]);
 
   return (
     <div className={styles.modal}>
       <SsiApproveFullModal
         size={size}
-        open={state.ssiapproveOpen}
+        open={state.ssiapproveOpen || state.infoOpen}
         handleClose={
           state.ssiapproveOpen
             ? () => dispatch({ type: ACTIONS.SSIAPPROVECLOSE })
+            : state.infoOpen
+            ? () => dispatch({ type: ACTIONS.INFOCLOSE })
             : null
         }
         title={approvalTitle}
         ACTIONS={ACTIONS}
         handleApproveSubmit={ssiapprovalapi}
+        state={state}
       >
         <TreeView
           style={{ width: "100%", margin: "0px auto" }}
@@ -281,7 +280,7 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                 Reconciled Date :
                 {pabillsum.ReconciledDate === ""
                   ? ""
-                  : moment(pabillsum.DueDate).format("DD/MM/YYYY")}
+                  : moment(pabillsum.ReconciledDate).format("DD/MM/YYYY")}
               </div>
               <div style={{ marginRight: "100px" }}>
                 Reconciled By :{pabillsum.ReconciledBy}
@@ -300,6 +299,11 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                 {glbla.map((item: any) => (
                   <span key={item.ID}>{item.ContractAmount}</span>
                 ))}
+              </div>
+              <div>
+                <span className={styles.flexButtons}>
+                  <InfoIcon onClick={() => payerinfoOpen()} />
+                </span>
               </div>
             </div>
           </TreeItem>
@@ -440,9 +444,16 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   rows={2}
-                  inputProps={{ readOnly: state.ssiapproveOpen }}
+                  inputProps={{
+                    readOnly: state.ssiapproveOpen || state.infoOpen,
+                  }}
                 />
               </div>
+              <PayerauthModal
+                open={payerinfo}
+                handleClose={payerinfoClose}
+                record={record}
+              />
             </Paper>
           </TreeItem>
         </TreeView>
