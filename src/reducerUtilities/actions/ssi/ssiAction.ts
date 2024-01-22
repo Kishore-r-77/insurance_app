@@ -82,10 +82,32 @@ export const columns = [
     dbField: "pa_type",
   },
   {
+    field: "PaBillDueMonth",
+    header: "DueMonth",
+    dbField: "pa_bill_due_month",
+  },
+
+  {
+    field: "PaBillStatus",
+    header: "PaBillStatus",
+    dbField: "pa_bill_status",
+  },
+  {
+    field: "PaBillSeqNo",
+    header: "SeqNo",
+    dbField: "pa_bill_seq_no",
+  },
+
+  {
     field: "ExtractedDate",
     header: "Extracted Date",
     dbField: "extracted_date",
     type: "date",
+  },
+  {
+    field: "ExtractedCount",
+    header: "ExtractedCount",
+    dbField: "extracted_count",
   },
   {
     field: "ExtractedAmount",
