@@ -715,7 +715,6 @@ function NewBusinessModal({
         const data = resp.data?.param?.data?.p0071Array || [];
         setP0071Data(data);
 
-        // Extract default checked items based on 'manOrOpt' being 'M'
         const defaultChecked = data
           .filter((item: any) => item.manOrOpt === "M")
           .map((item: any) => item.benDataType);
@@ -724,14 +723,35 @@ function NewBusinessModal({
       })
       .catch((err) => {
         console.error("Error fetching data:", err.message);
-        // Handle error (show message, set an error state, etc.)
       });
   };
 
   useLayoutEffect(() => {
     getP0071();
   }, [bcoverage.current]);
-
+  const [selectedBillingType, setSelectedBillingType] = useState("");
+  const [P0055Data, setP0055Data] = useState<any>({});
+  // const authTableOpen = useRef(false);
+  const getP0055 = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/paramItem?companyId=1&name=P0055&languageId=1&item=${selectedBillingType}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        const data = resp.data?.param?.data;
+        setP0055Data(data);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err.message);
+      });
+  };
+  console.log(P0055Data, "P0055Data");
+  useEffect(() => {
+    getP0055();
+  }, [selectedBillingType]);
   const iconSelect = (benDataType: any, benefits: any, index: number) => {
     switch (benDataType) {
       case "Extra":
@@ -1354,24 +1374,27 @@ function NewBusinessModal({
                     }
                     placeholder="billing_type"
                     label="billing_type"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const selectedValue = e.target.value;
                       dispatch({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
+                        payload: selectedValue,
                         fieldName: "BillingType",
-                      })
-                    }
+                      });
+                      setSelectedBillingType(selectedValue);
+                    }}
                     fullWidth
                     margin="dense"
                   >
                     {billingData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      <MenuItem key={val.item} value={val.item}>
+                        {val.shortdesc}
+                      </MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
@@ -1395,34 +1418,39 @@ function NewBusinessModal({
                   />
                 </Grid2>
 
-                {state.BillingType || record.BillingType === "SSI" ? (
-                  <Grid2 xs={8} md={6} lg={4}>
-                    <TextField
-                      InputProps={{ readOnly: state.infoOpen }}
-                      id="PayingAuthority"
-                      onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
-                      name="PayingAuthority"
-                      value={
-                        state.addOpen
-                          ? state.PayingAuthority
-                          : record?.PayingAuthority
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{
+                      readOnly:
+                        state.infoOpen || P0055Data.payingAuthority === "Y",
+                    }}
+                    id="PayingAuthority"
+                    onClick={() => {
+                      if (P0055Data.payingAuthority === "Y") {
+                        dispatch({ type: ACTIONS.AUTHOPEN });
                       }
-                      onChange={(e) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: e.target.value,
-                          fieldName: "PayingAuthority",
-                        })
-                      }
-                      placeholder="paying_authority"
-                      label="paying_authority"
-                      fullWidth
-                      margin="dense"
-                    />
-                  </Grid2>
-                ) : null}
+                    }}
+                    name="PayingAuthority"
+                    value={
+                      state.addOpen
+                        ? state.PayingAuthority
+                        : record?.PayingAuthority
+                    }
+                    onChange={(e) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PayingAuthority",
+                      })
+                    }
+                    placeholder="paying_authority"
+                    label="paying_authority"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
               </Grid2>
             </TreeItem>
             {benefitsData?.map((benefits: any, benfitIndex: number) => {
