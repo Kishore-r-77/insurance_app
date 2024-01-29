@@ -48,6 +48,7 @@ import Profile from "./components/profile/Profile";
 import AboutPage from "./components/aboutPage/AboutPage";
 import PAuth from "./components/clientDetails/pAuthority/Pauth";
 import Ssi from "./components/ssi/Ssi";
+import ClientWork from "./components/clientPas/ClientWork";
 
 function App() {
   const { pathname } = useLocation();
@@ -110,6 +111,7 @@ function App() {
                   <Route path="/batchMenu" element={<BatchMenu />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/aboutPage" element={<AboutPage />} />
+                  <Route path="/clientWork" element={<ClientWork />} />
                 </Route>
                 {/* </Route> */}
               </Route>
