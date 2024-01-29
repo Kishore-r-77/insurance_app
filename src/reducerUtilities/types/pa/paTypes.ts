@@ -26,6 +26,7 @@ export type pAStateType = {
   sortColumn: string;
   sortAsc: boolean;
   sortDesc: boolean;
+  receiptOpen: boolean;
 };
 
 export type ActionConstantsType = {
