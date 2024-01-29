@@ -103,6 +103,11 @@ const routes = [
         name: "Paying Authority",
         icon: <ArrowRightAltIcon />,
       },
+      {
+        path: "/clientWork",
+        name: "Client Work",
+        icon: <ArrowRightAltIcon />,
+      },
     ],
   },
   {
@@ -394,7 +399,7 @@ const SideBar = ({ children }: any) => {
                   to={route.path}
                   key={index}
                   className="link"
-                //   activeClassName="active"
+                  //   activeClassName="active"
                 >
                   <div className="icon">{route.icon}</div>
                   <AnimatePresence>

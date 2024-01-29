@@ -45,10 +45,9 @@ function PauthModal({
     });
   };
 
-
   useEffect(() => {
     getCompanyData(companyId);
-    return () => { };
+    return () => {};
   }, []);
 
   // const [clientId, setClientId] = useState<any>("");
@@ -60,8 +59,6 @@ function PauthModal({
       // setClientId(item.ID)
     } else record.ClientID = item.ID;
     dispatch({ type: ACTIONS.CLIENTCLOSE });
-
-
   };
 
   const [paTypeData, setpaTypeData] = useState([]);
@@ -70,7 +67,6 @@ function PauthModal({
     name: string,
     languageId: number,
     item: string
-
   ) => {
     p0050(companyId, name, languageId, item)
       .then((resp) => {
@@ -99,9 +95,8 @@ function PauthModal({
     getCompanyData(companyId);
     getAccountType(companyId, "P0050", languageId, "PaType");
     getbankaccountstaus(companyId, "P0050", languageId, "PaStatus");
-    return () => { };
+    return () => {};
   }, []);
-
 
   return (
     <div className={styles.modal}>
@@ -110,27 +105,27 @@ function PauthModal({
           state.addOpen
             ? state.addOpen
             : state.editOpen
-              ? state.editOpen
-              : state.infoOpen
+            ? state.editOpen
+            : state.infoOpen
         }
         size={size}
         handleClose={
           state.clientOpen
             ? () => dispatch({ type: ACTIONS.CLIENTCLOSE })
             : state.addOpen
-              ? () => dispatch({ type: ACTIONS.ADDCLOSE })
-              : state.editOpen
-                ? () => dispatch({ type: ACTIONS.EDITCLOSE })
-                : () => dispatch({ type: ACTIONS.INFOCLOSE })
+            ? () => dispatch({ type: ACTIONS.ADDCLOSE })
+            : state.editOpen
+            ? () => dispatch({ type: ACTIONS.EDITCLOSE })
+            : () => dispatch({ type: ACTIONS.INFOCLOSE })
         }
         title={
           state.addOpen
             ? addTitle
             : state.editOpen
-              ? editTitle
-              : state.infoOpen
-                ? infoTitle
-                : null
+            ? editTitle
+            : state.infoOpen
+            ? infoTitle
+            : null
         }
         ACTIONS={ACTIONS}
         handleFormSubmit={() => handleFormSubmit()}
@@ -205,11 +200,7 @@ function PauthModal({
                     select
                     id="PaType"
                     name="PaType"
-                    value={
-                      state.addOpen
-                        ? state.PaType
-                        : record.PaType
-                    }
+                    value={state.addOpen ? state.PaType : record.PaType}
                     placeholder="PaType"
                     label="PaType"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -235,11 +226,7 @@ function PauthModal({
                     select
                     id="PaStatus"
                     name="PaStatus"
-                    value={
-                      state.addOpen
-                        ? state.PaStatus
-                        : record.PaStatus
-                    }
+                    value={state.addOpen ? state.PaStatus : record.PaStatus}
                     placeholder="PaStatus"
                     label="PaStatus"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

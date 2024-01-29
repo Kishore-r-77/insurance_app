@@ -2,51 +2,41 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useEffect, useReducer, useState } from "react";
+import CustomPagination from "../../utilities/Pagination/CustomPagination";
+import CustomTable from "../../utilities/Table/CustomTable";
+import { useAppSelector } from "../../redux/app/hooks";
+// ***  Attention : Check the import below and change it if required ***
+import { ClientWorkStateType } from "../../reducerUtilities/types/clientWork/clientWorkTypes";
+
 import {
   ACTIONS,
   columns,
   initialValues,
-} from "../../../reducerUtilities/actions/clientDetails/client/clientActions";
-import { ClientStateType } from "../../../reducerUtilities/types/client/clientTypes";
-import { useAppSelector } from "../../../redux/app/hooks";
-import CustomModal from "../../../utilities/modal/CustomModal";
-import CustomPagination from "../../../utilities/Pagination/CustomPagination";
-import Address from "../address/Address";
-import styles from "./client.module.css";
-import { addApi, deleteApi, editApi, getAllApi } from "./clientApis/clientApis";
-import { getAddressByClient } from "./clientApis/clientAddressApis";
-import ClientFullModal from "./clientFullModal/ClientFullModal";
-import ClientModal from "./clientModal/ClientModal";
-import ClientTable from "./clientTable/ClientTable";
-import Notification from "../../../utilities/Notification/Notification";
+} from "../../reducerUtilities/actions/clientWork/clientWorkActions";
+import styles from "./clientWork.module.css";
+import {
+  addApi,
+  deleteApi,
+  editApi,
+  getAllApi,
+} from "./clientWorkApis/clientWorkApis";
+import { useBusinessDate } from "../contexts/BusinessDateContext";
+import Notification from "../../utilities/Notification/Notification";
+import ClientWorkModal from "./clientWorkModal/ClientWorkModal";
 
-function Client({
-  modalFunc,
-  dataIndex,
-  lookup,
-  getByTable,
-  getByFunction,
-  receiptLookup,
-  searchContent,
-  handleSearchChange,
-  receiptFieldMap,
-}: any) {
+function ClientWork({ modalFunc }: any) {
   //data from getall api
   const [data, setData] = useState([]);
-
-  const size = "xl";
-
   //data got after rendering from table
   const [record, setRecord] = useState<any>({});
-
+  //Reducer Function to be used inside UserReducer hook
+  const { businessDate } = useBusinessDate();
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
-
-  //Reducer Function to be used inside UserReducer hook
-  const reducer = (state: ClientStateType, action: any) => {
+  const reducer = (state: ClientWorkStateType, action: any) => {
     switch (action.type) {
       case ACTIONS.ONCHANGE:
         return {
@@ -65,6 +55,7 @@ function Client({
       case ACTIONS.ADDOPEN:
         return {
           ...state,
+          StartDate: businessDate,
           addOpen: true,
         };
       case ACTIONS.EDITOPEN:
@@ -79,12 +70,6 @@ function Client({
         return {
           ...state,
           infoOpen: true,
-        };
-      case ACTIONS.ADDRESSOPEN:
-        setRecord(action.payload);
-        return {
-          ...state,
-          addressOpen: true,
         };
 
       case ACTIONS.ADDCLOSE:
@@ -104,11 +89,31 @@ function Client({
           ...state,
           infoOpen: false,
         };
-      case ACTIONS.ADDRESSCLOSE:
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.CLIENTOPEN:
         return {
           ...state,
-          addressOpen: false,
+          clientOpen: true,
         };
+      case ACTIONS.CLIENTCLOSE:
+        return {
+          ...state,
+          clientOpen: false,
+        };
+
+      // *** Attention: Check the Lookup Open /close ***
+      case ACTIONS.EMPLOYEROPEN:
+        return {
+          ...state,
+          employerOpen: true,
+        };
+      case ACTIONS.EMPLOYERCLOSE:
+        return {
+          ...state,
+          employerOpen: false,
+        };
+
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
         if (state.sortDesc) {
@@ -134,27 +139,23 @@ function Client({
     }
   };
 
-  const [clientType, setclientType] = useState(record.ClientType);
-  const handleradiochange = (event: any) => {
-    setclientType(event.target.value);
-  };
-
   //Creating useReducer Hook
   const [state, dispatch] = useReducer(reducer, initialValues);
-
   const [pageNum, setpageNum] = useState(1);
   const [pageSize, setpageSize] = useState(5);
   const [totalRecords, settotalRecords] = useState(0);
   const [isLast, setisLast] = useState(false);
   const [fieldMap, setfieldMap] = useState([]);
-
   //Get all Api
   const getData = () => {
     return getAllApi(pageNum, pageSize, state)
       .then((resp) => {
-        setData(resp.data["All Clients"]);
+        console.log(resp);
+        // ***  Attention : Check the API and modify it, if required  ***
+        setData(resp.data["All ClientWork"]);
         settotalRecords(resp.data.paginationData.totalRecords);
-        setisLast(resp.data["All Clients"]?.length === 0);
+        // ***  Attention : Check the API and modify it, if required   ***
+        setisLast(resp.data["All ClientWork"]?.length === 0);
         setfieldMap(resp.data["Field Map"]);
       })
       .catch((err) => console.log(err.message));
@@ -163,57 +164,58 @@ function Client({
     (state) => state.users.user.message.companyId
   );
   //Add Api
-  const handleFormSubmit = async () => {
-    const resp = addApi(state, companyId);
-
-    try {
-      dispatch({ type: ACTIONS.ADDCLOSE });
-      getData();
-      return resp;
-    } catch (err: any) {
-      err.message;
-    }
+  const handleFormSubmit = () => {
+    return addApi(state, companyId)
+      .then((resp) => {
+        console.log(resp);
+        dispatch({ type: ACTIONS.ADDCLOSE });
+        setNotify({
+          isOpen: true,
+          message: `Created record of id:${resp.data?.Created}`,
+          type: "success",
+        });
+        getData();
+      })
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err.response.data.error,
+          type: "error",
+        });
+      });
   };
 
   //Edit Api
   const editFormSubmit = async () => {
     editApi(record)
       .then((resp) => {
+        console.log(resp);
         dispatch({ type: ACTIONS.EDITCLOSE });
-        getData();
-      })
-      .catch((err) =>
         setNotify({
           isOpen: true,
-          message: err?.response?.data?.error,
+          message: `Modified record of id:${resp.data?.Modified}`,
+          type: "success",
+        });
+        getData();
+      })
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: err.response.data.error,
           type: "error",
-        })
-      );
+        });
+      });
   };
 
   //Hard Delete Api
   const hardDelete = async (id: number) => {
     deleteApi(id)
       .then((resp) => {
+        console.log(resp);
         getData();
       })
       .catch((err) => console.log(err.message));
   };
-
-  const [addressByClientData, setaddressByClientData] = useState([]);
-
-  const getAddressByClnt = (clientId: number) => {
-    getAddressByClient(clientId)
-      .then((resp) => {
-        setaddressByClientData(resp.data?.AddressByClientID);
-      })
-      .catch((err) => err.message);
-  };
-
-  useEffect(() => {
-    getAddressByClnt(record.ID);
-    return () => {};
-  }, [state.addressOpen]);
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
@@ -228,11 +230,7 @@ function Client({
 
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
-    if (receiptLookup) {
-      getByFunction(pageNum, pageSize, searchContent);
-    } else {
-      getData();
-    }
+    getData();
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
@@ -242,67 +240,45 @@ function Client({
         <span>
           <TextField
             select
-            value={
-              receiptLookup
-                ? searchContent?.searchCriteria
-                : state.searchCriteria
-            }
+            value={state.searchCriteria}
             placeholder="Search Criteria"
             label="Search Criteria"
-            onChange={
-              receiptLookup
-                ? (e) => handleSearchChange(e)
-                : (e) =>
-                    dispatch({
-                      type: ACTIONS.ONCHANGE,
-                      payload: e.target.value,
-                      fieldName: "searchCriteria",
-                    })
+            onChange={(e) =>
+              dispatch({
+                type: ACTIONS.ONCHANGE,
+                payload: e.target.value,
+                fieldName: "searchCriteria",
+              })
             }
             style={{ width: "12rem" }}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {receiptLookup
-              ? receiptFieldMap?.map((value: any) => (
-                  <MenuItem key={value.fieldName} value={value.fieldName}>
-                    {value.displayName}
-                  </MenuItem>
-                ))
-              : fieldMap.map((value: any) => (
-                  <MenuItem key={value.fieldName} value={value.fieldName}>
-                    {value.displayName}
-                  </MenuItem>
-                ))}
+            {fieldMap.map((value: any) => (
+              <MenuItem key={value.fieldName} value={value.fieldName}>
+                {value.displayName}
+              </MenuItem>
+            ))}
           </TextField>
         </span>
         <span className={styles["text-fields"]}>
           <TextField
-            value={
-              receiptLookup ? searchContent?.searchString : state.searchString
-            }
+            value={state.searchString}
             placeholder="Search String"
             label="Search String"
-            onChange={
-              receiptLookup
-                ? (e) => handleSearchChange(e)
-                : (e) =>
-                    dispatch({
-                      type: ACTIONS.ONCHANGE,
-                      payload: e.target.value,
-                      fieldName: "searchString",
-                    })
+            onChange={(e) =>
+              dispatch({
+                type: ACTIONS.ONCHANGE,
+                payload: e.target.value,
+                fieldName: "searchString",
+              })
             }
             style={{ width: "12rem" }}
           />
           <Button
             variant="contained"
-            onClick={
-              receiptLookup
-                ? () => getByFunction(pageNum, pageSize, searchContent)
-                : getData
-            }
+            onClick={getData}
             color="primary"
             style={{
               marginTop: "0.5rem",
@@ -317,31 +293,26 @@ function Client({
             <SearchIcon />
           </Button>
         </span>
-
-        <h1>Clients</h1>
-        {receiptLookup ? null : (
-          <Button
-            id={styles["add-btn"]}
-            style={{
-              marginTop: "1rem",
-              maxWidth: "40px",
-              maxHeight: "40px",
-              minWidth: "40px",
-              minHeight: "40px",
-              backgroundColor: "#0a3161",
-            }}
-            variant="contained"
-            color="primary"
-            onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-          >
-            <AddBoxIcon />
-          </Button>
-        )}
+        <h1>Client WorkDetails</h1>
+        <Button
+          id={styles["add-btn"]}
+          style={{
+            marginTop: "1rem",
+            maxWidth: "40px",
+            maxHeight: "40px",
+            minWidth: "40px",
+            minHeight: "40px",
+            backgroundColor: "#0a3161",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+        >
+          <AddBoxIcon />
+        </Button>
       </header>
-      <ClientTable
-        data={receiptLookup ? getByTable : data}
-        receiptLookup={receiptLookup}
-        dataIndex={dataIndex}
+      <CustomTable
+        data={data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
@@ -357,37 +328,15 @@ function Client({
         prevPage={prevPage}
         nexPage={nexPage}
       />
-      <ClientModal
+      <ClientWorkModal
         state={state}
         record={record}
-        setRecord={setRecord}
         dispatch={dispatch}
-        handleFormSubmit={editFormSubmit}
-        clientType={clientType}
-        handleradiochange={handleradiochange}
+        handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
       />
-      <ClientFullModal
-        state={state}
-        dispatch={dispatch}
-        ACTIONS={ACTIONS}
-        getData={getData}
-        notify={notify}
-        setNotify={setNotify}
-      />
-      <CustomModal
-        open={state.addressOpen}
-        size={size}
-        handleClose={() => dispatch({ type: ACTIONS.ADDRESSCLOSE })}
-      >
-        <Address
-          addressByClientData={addressByClientData}
-          lookup={state.addressOpen}
-        />
-      </CustomModal>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
 }
-
-export default Client;
+export default ClientWork;
