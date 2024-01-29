@@ -113,6 +113,49 @@ function PauthModal({
       .catch((err) => err);
   };
 
+  const [clntData, setClntData] = useState<any>([""]);
+  const [clntRecordData, setClntRecordData] = useState<any>([]);
+
+  // get client
+  const getClient = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/clientget/${state.ClientID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setClntData(resp.data?.Client);
+      });
+  };
+
+  useEffect(() => {
+    //getAddressByClient();
+    getClient();
+    return () => {};
+  }, [state.ClientID]);
+
+  //
+
+  const getClientRecord = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/clientget/${record?.ClientID}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        setClntRecordData(resp.data?.Client);
+      });
+  };
+  useEffect(() => {
+    getClientRecord();
+
+    return () => {};
+  }, [record?.ClientID]);
+
   useEffect(() => {
     getCompanyData(companyId);
     getAccountType(companyId, "P0050", languageId, "PaType");
@@ -176,29 +219,55 @@ function PauthModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
-                    id="ClientID"
-                    name="ClientID"
-                    value={state.addOpen ? state.ClientID : record.ClientID}
-                    placeholder="Client Id"
-                    label="Client Id"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ClientID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
+                {state.infoOpen ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: true }}
+                      // onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                      id="ClientID"
+                      name="ClientID"
+                      value={state.addOpen ? state.ClientID : record.ClientID}
+                      placeholder="Client Id"
+                      label="Client Id"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ClientID",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: true }}
+                      onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                      id="ClientID"
+                      name="ClientID"
+                      value={state.addOpen ? state.ClientID : record.ClientID}
+                      placeholder="Client Id"
+                      label="Client Id"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ClientID",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                )}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     // InputProps={{ readOnly: true }}
@@ -222,6 +291,7 @@ function PauthModal({
                     margin="dense"
                   />
                 </Grid2>
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     select
@@ -414,6 +484,7 @@ function PauthModal({
                       })
                     }
                     fullWidth
+                    inputProps={{ readOnly: state.infoOpen }}
                     margin="dense"
                   >
                     {pBillCurrData.map((val: any) => (
@@ -421,29 +492,56 @@ function PauthModal({
                     ))}
                   </TextField>
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
-                    id="AddressID"
-                    name="AddressID"
-                    value={state.addOpen ? state.AddressID : record.AddressID}
-                    placeholder="AddressID"
-                    label="AddressID"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "AddressID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
+                {state.infoOpen ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: true }}
+                      //onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
+                      id="AddressID"
+                      name="AddressID"
+                      value={state.addOpen ? state.AddressID : record.AddressID}
+                      placeholder="AddressID"
+                      label="AddressID"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "AddressID",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: true }}
+                      onClick={() => dispatch({ type: ACTIONS.ADDRESSOPEN })}
+                      id="AddressID"
+                      name="AddressID"
+                      value={state.addOpen ? state.AddressID : record.AddressID}
+                      placeholder="AddressID"
+                      label="AddressID"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "AddressID",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                )}
+
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="PaPerson"

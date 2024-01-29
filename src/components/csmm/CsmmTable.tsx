@@ -59,6 +59,7 @@ import PartSurrender from "./partSurrender/PartSurrender";
 import PremiumDirection from "./PremiumDirection/PremiumDirection";
 import NomineeModal from "../nominee/nomineeModel/NomineeModal";
 import ChangeAgencyModal from "./changeAgencyModal/ChangeAgencyModal";
+import BillTypeChangeModal from "./billTypeChange/BillTypeChangeModal";
 // import SaveFuneral from "./funeralModel/SaveFuneral";
 // import ApprovalFuneralModal from "./approvalFXModel/ApprovalFuneralModel";
 
@@ -217,18 +218,12 @@ function CsmmTable({
 
   const [nomineeClientOpen, setNomineeClientOpen] = useState(false);
 
-
   const handleNomineeClientOpen = () => {
     setNomineeClientOpen(true);
   };
   const handleNomineeClientClose = () => {
     setNomineeClientOpen(false);
   };
-
-  
-
-  
-  
 
   const getPayerByPolicy = (id: number) => {
     axios
@@ -572,6 +567,7 @@ function CsmmTable({
   const [isTranReversal, setIsTranReversal] = useState(false);
   const [isAdjPrem, setIsAdjPrem] = useState(false);
   const [isAgency, setIsAgency] = useState(false);
+  const [isBillType, setIsBillType] = useState(false);
   const [isTopup, setisTopup] = useState(false);
   const [isFundSwitch, setisFundSwitch] = useState(false);
 
@@ -607,19 +603,41 @@ function CsmmTable({
       invalidatca();
     }
   };
-  const[selectedAgencyId,SetselectedAgencyId]= useState("")
+  const [selectedAgencyId, SetselectedAgencyId] = useState("");
   const [agentClientData, SetagentClientData] = useState("");
-  const [agChange, setagChange] = useState<any>({NewAgent:"",TerminationReason:""});
+  const [agChange, setagChange] = useState<any>({
+    NewAgent: "",
+    TerminationReason: "",
+  });
   const agencyOpen = (policyId: number, value: any) => {
     setPolicyID(policyId);
     setIsAgency(true);
-   
   };
   const agencyClose = () => {
     setIsAgency(false);
-    SetselectedAgencyId("")
-    SetagentClientData("")
-    setagChange("")
+    SetselectedAgencyId("");
+    SetagentClientData("");
+    setagChange("");
+
+    if (isSave.current) {
+      invalidatca();
+    }
+  };
+
+  //
+  const [payingAuthorityId, SetpayingAuthorityId] = useState("");
+
+  const [billtypeChange, setbilltypeChange] = useState<any>({
+    NewBillType: "",
+    PayingAuthority: "",
+  });
+  const billTypeOpen = (policyId: number, value: any) => {
+    setPolicyID(policyId);
+    setIsBillType(true);
+  };
+  const billTypeClose = () => {
+    setIsBillType(false);
+    setbilltypeChange("");
 
     if (isSave.current) {
       invalidatca();
@@ -660,7 +678,7 @@ function CsmmTable({
   useEffect(() => {
     getPolEnq(PolicyID);
     return () => {};
-  }, [isAdjPrem, isPolRein, isTopup, isFundSwitch,isAgency]);
+  }, [isAdjPrem, isPolRein, isTopup, isFundSwitch, isAgency, isBillType]);
 
   const clientMenuClick = (value: any) => {
     switch (value.Action) {
@@ -712,6 +730,11 @@ function CsmmTable({
         break;
       case "AgencyChange":
         agencyOpen(policyId.current, value);
+        handleClose();
+        break;
+
+      case "BillTypeChange":
+        billTypeOpen(policyId.current, value);
         handleClose();
         break;
       case "Surrender":
@@ -1554,6 +1577,23 @@ function CsmmTable({
         data={polenqData}
         getData={getData}
       />
+
+      <BillTypeChangeModal
+        open={isBillType}
+        handleClose={billTypeClose}
+        completed={completed}
+        setcompleted={setcompleted}
+        func={func}
+        setfunc={setfunc}
+        data={polenqData}
+        getData={getData}
+        payingAuthorityId={payingAuthorityId}
+        SetpayingAuthorityId={SetpayingAuthorityId}
+        agentClientData={agentClientData}
+        SetagentClientData={SetagentClientData}
+        billtypeChange={billtypeChange}
+        setbilltypeChange={setbilltypeChange}
+      />
       <ChangeAgencyModal
         open={isAgency}
         handleClose={agencyClose}
@@ -1562,15 +1602,13 @@ function CsmmTable({
         func={func}
         setfunc={setfunc}
         data={polenqData}
-        getData={getData} 
-        selectedAgencyId={selectedAgencyId} 
+        getData={getData}
+        selectedAgencyId={selectedAgencyId}
         SetselectedAgencyId={SetselectedAgencyId}
         agentClientData={agentClientData}
         SetagentClientData={SetagentClientData}
         agChange={agChange}
         setagChange={setagChange}
-
-
       />
       <IlpTopupModal
         open={isTopup}
