@@ -1,22 +1,9 @@
-import { FormControl, MenuItem, Paper, TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Paper, TextField } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { PaymentsModalType } from "../../../reducerUtilities/types/payments/paymentsTypes";
-import { useAppSelector } from "../../../../redux/app/hooks";
 import Notification from "../../../../utilities/Notification/Notification";
 import CustomModal from "../../../../utilities/modal/CustomModal";
-import { getApi } from "../../../admin/companies/companiesApis/companiesApis";
-import Address from "../../../clientDetails/address/Address";
-import Client from "../../../clientDetails/client/Client";
-import Policy from "../../../policy/Policy";
-import {
-  getPoliciesByClient,
-  getPolicyApi,
-} from "../../../policy/policyApis/policyApis";
 // import { getAllApi, paramItem, q0005 } from "../paymentsApis/paymentsApis";
 import ReconcileFullModal from "./ReconcileFullModal";
 import styles from "./ssiModal.module.css";
@@ -26,13 +13,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Table } from "react-bootstrap";
 import moment from "moment";
-
+import InfoIcon from "@mui/icons-material/Info";
+import PayerauthModal from "../payerinfo/PayerauthModal";
 interface CheckedItems {
   [key: number]: "D" | "N" | "E";
 }
 
 function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
-  const approvalTitle: string = "Ssi Reconcile";
+  const approvalTitle: string = "SSI Reconciliation";
   const size: string = "xl";
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -40,11 +28,22 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
     type: "",
   });
 
+  // payerinfo opening
+
+  const [payerinfo, setpayerinfo] = useState(false);
+
+  const payerinfoOpen = () => {
+    setpayerinfo(true);
+  };
+  const payerinfoClose = () => {
+    setpayerinfo(false);
+  };
+
   // handle checkbox function
-  const [checkboxStates, setCheckboxStates] = useState<CheckedItems>([]);
+  const [checkboxStates, setCheckboxStates] = useState<any>([]);
 
   const handleCheckboxClick = (uniqueId: number) => {
-    setCheckboxStates((prev) => {
+    setCheckboxStates((prev: any) => {
       const updatedStates = { ...prev };
       const currentState = updatedStates[uniqueId];
 
@@ -62,14 +61,6 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
       return updatedStates;
     });
   };
-  useEffect(() => {
-    setpabillsum((prevPabillsum: any) => ({
-      ...prevPabillsum,
-      DeductedCount: Object.values(checkboxStates).filter(
-        (state) => state === "D"
-      ).length,
-    }));
-  }, [checkboxStates]);
 
   // handle the change Function
   const [remarksValues, setRemarksValues] = useState<string[]>([]);
@@ -80,6 +71,25 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
       updatedValues[index] = value;
       return updatedValues;
     });
+  };
+
+  const [glbla, setglbla] = useState<any>([0]);
+  const getgabal = () => {
+    return axios
+      .get(
+        `http://localhost:3000/api/v1/nbservices/glbalget/${record.PayingAuthorityID}`,
+        {
+          withCredentials: true,
+          params: {
+            pageSize: 1,
+            searchString: "PaDeposit",
+            searchCriteria: "gl_accountno",
+          },
+        }
+      )
+      .then((resp) => {
+        setglbla(resp.data?.History);
+      });
   };
 
   const [pabill, setPabill] = useState<any>([]);
@@ -141,6 +151,7 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
           PaBillDueMonth: record.PaBillDueMonth,
           ProcessFlag: record.PaBillStatus,
           Seqno: record.PaBillSeqNo,
+          Notes: notesupdate,
           PollBill: pabill.map((pollbill: any, index: number) => ({
             ...pollbill,
             ID: +pollbill.ID,
@@ -190,6 +201,88 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
     }
   };
 
+  // Notes handle change
+  const [notesupdate, setnotesupdate] = useState<any>(pabillsum.Notes);
+
+  const handlenotechnge = (e: any) => {
+    setnotesupdate(e.target.value);
+  };
+
+  useEffect(() => {
+    setnotesupdate(pabillsum.Notes);
+  }, [pabillsum.Notes, state.reconOpen]);
+
+  useEffect(() => {
+    setpabillsum((prevPabillsum: any) => ({
+      ...prevPabillsum,
+      DeductedCount: Object.values(checkboxStates).filter(
+        (state) => state === "D"
+      ).length,
+    }));
+  }, [checkboxStates]);
+  useEffect(() => {
+    setpabillsum((prevPabillsum: any) => ({
+      ...prevPabillsum,
+      NotDeductedCount: Object.values(checkboxStates).filter(
+        (state) => state === "N"
+      ).length,
+    }));
+  }, [checkboxStates]);
+
+  useEffect(() => {
+    setpabillsum((prevPabillsum: any) => ({
+      ...prevPabillsum,
+      UnReconciledCount: Object.values(checkboxStates).filter(
+        (state) => state === "E"
+      ).length,
+    }));
+  }, [checkboxStates]);
+
+  // check box count managed start
+
+  useEffect(() => {
+    const deductedAmount = pabill.reduce(
+      (sum: any, item: { Premium: any }, index: string | number) => {
+        return checkboxStates[index] === "D" ? sum + item.Premium : sum;
+      },
+      0
+    );
+
+    setpabillsum((prevPabillsum: any) => ({
+      ...prevPabillsum,
+      DeductedAmount: deductedAmount,
+    }));
+  }, [checkboxStates, pabill]);
+
+  useEffect(() => {
+    const notdeductedamount = pabill.reduce(
+      (sum: any, item: { Premium: any }, index: string | number) => {
+        return checkboxStates[index] === "N" ? sum + item.Premium : sum;
+      },
+      0
+    );
+
+    setpabillsum((prevPabillsum: any) => ({
+      ...prevPabillsum,
+      NotDeductedAmount: notdeductedamount,
+    }));
+  }, [checkboxStates, pabill]);
+
+  useEffect(() => {
+    const unreconciledAmount = pabill.reduce(
+      (sum: any, item: { Premium: any }, index: string | number) => {
+        return checkboxStates[index] === "E" ? sum + item.Premium : sum;
+      },
+      0
+    );
+
+    setpabillsum((prevPabillsum: any) => ({
+      ...prevPabillsum,
+      UnReconciledAmount: unreconciledAmount,
+    }));
+  }, [checkboxStates, pabill]);
+  //
+
   useEffect(() => {
     setRegFlag(pabill.map((val: any) => val.Reconflag));
   }, [pabill]);
@@ -205,7 +298,7 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
 
   useEffect(() => {
     getPaBillSummary();
-
+    getgabal();
     return () => {};
   }, [state.reconOpen]);
 
@@ -215,19 +308,21 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
         size={size}
         open={state.reconOpen}
         handleClose={
-          state.reconOpen ? () => dispatch({ type: ACTIONS.RECONCLOSE }) : null
+          state.reconOpen
+            ? () => dispatch({ type: ACTIONS.APPROVECLOSE })
+            : null
         }
         title={approvalTitle}
         ACTIONS={ACTIONS}
         handleApproveSubmit={reconcileApi}
-        // handleRejectSubmit={RejectSubmit}
+        state={state}
       >
         <TreeView
           style={{ width: "100%", margin: "0px auto" }}
           aria-label="file system navigator"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
-          defaultExpanded={["1"]}
+          defaultExpanded={["1", "2"]}
         >
           <TreeItem
             nodeId="1"
@@ -287,7 +382,7 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
                 Reconciled Date :
                 {pabillsum.ReconciledDate === ""
                   ? ""
-                  : moment(pabillsum.DueDate).format("DD/MM/YYYY")}
+                  : moment(pabillsum.ReconciledDate).format("DD/MM/YYYY")}
               </div>
               <div style={{ marginRight: "100px" }}>
                 Reconciled By :{pabillsum.ReconciledBy}
@@ -301,139 +396,173 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
               <div style={{ marginRight: "100px" }}>
                 Approved By :{pabillsum.ApprovedBy}
               </div>
+              <div style={{ marginRight: "100px" }}>
+                Available Deposit :
+                {glbla.map((item: any) => (
+                  <span key={item.ID}>{item.ContractAmount}</span>
+                ))}
+              </div>
+              <div>
+                <span className={styles.flexButtons}>
+                  <InfoIcon onClick={() => payerinfoOpen()} />
+                </span>
+              </div>
             </div>
           </TreeItem>
-          <TreeItem nodeId="1" label={`List of Policies`}>
+          <TreeItem
+            nodeId="2"
+            label={`List of Policies`}
+            style={{ margin: "5px" }}
+          >
             <Paper className={styles.paperStyle}>
-              <Table
-                striped
-                bordered
-                hover
-                style={{
-                  width: "100%",
-                  tableLayout: "fixed",
-                  position: "relative",
-                }}
-              >
-                <thead className={styles.header}>
-                  <tr>
-                    <th style={{ width: "100%" }}>ClientLongName</th>
-                    <th style={{ width: "100%" }}>ClientShortName</th>
-                    <th style={{ width: "100%" }}>DueDate</th>
-                    <th style={{ width: "100%" }}>ID</th>
-                    <th style={{ width: "100%" }}>National ID</th>
-                    <th style={{ width: "100%" }}>Policy No</th>
-                    <th style={{ width: "100%" }}>Premium</th>
-                    <th style={{ width: "100%" }}>ReconFlag</th>
-                    <th style={{ width: "100%" }}>CheckBox</th>
-                    <th style={{ width: "100%" }}>Remarks</th>
-                  </tr>
-                </thead>
-                {pabill?.map((val: any, index: number) => {
-                  return (
-                    <>
-                      <CustomModal size="xl"></CustomModal>
-                      <tr>
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={val?.ClientLongName}
-                          />
-                        </td>
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={val.ClientShortName}
-                          />
-                        </td>
-
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={moment(val?.DueDate).format("DD-MM-YYYY")}
-                          />
-                        </td>
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={val?.ID}
-                          />
-                        </td>
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={val?.NationalId}
-                          />
-                        </td>
-
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={val?.PolicyNo}
-                          />
-                        </td>
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={val?.Premium}
-                          />
-                        </td>
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            disabled
-                            value={val?.Reconflag}
-                          />
-                        </td>
-
-                        <td>
-                          <input
-                            className={styles["input-form"]}
-                            style={{
-                              position: "sticky",
-                              left: 0,
-                            }}
-                            type="checkbox"
-                            name={`Select-${index}`}
-                            checked={checkboxStates[index] === "D"}
-                            onChange={() => handleCheckboxClick(index)}
-                            ref={(input) => {
-                              if (input) {
-                                input.indeterminate =
-                                  checkboxStates[index] === "N";
+              <div style={{ height: "250px", overflowY: "auto" }}>
+                <Table
+                  striped
+                  bordered
+                  hover
+                  style={{
+                    width: "100%",
+                    tableLayout: "fixed",
+                    position: "relative",
+                  }}
+                >
+                  <thead className={styles.header}>
+                    <tr>
+                      <th style={{ width: "50%" }}>ID</th>
+                      <th style={{ width: "100%" }}>Policy No</th>
+                      <th style={{ width: "100%" }}>Name</th>
+                      <th style={{ width: "100%" }}>Emp Id</th>
+                      <th style={{ width: "100%" }}>Emp Designation</th>
+                      <th style={{ width: "120%" }}>Department & Location</th>
+                      <th style={{ width: "100%" }}>DueDate</th>
+                      <th style={{ width: "120%" }}>Premium Amount</th>
+                      <th style={{ width: "100%" }}>Reconcile</th>
+                      <th style={{ width: "100%" }}>Remarks</th>
+                    </tr>
+                  </thead>
+                  {pabill?.map((val: any, index: number) => {
+                    return (
+                      <>
+                        <CustomModal size="xl"></CustomModal>
+                        <tr>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val?.ID}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val?.PolicyNo}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val.ClientName}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val?.PayRollNumber}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val?.Designation}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val?.DepLocation}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={moment(val?.DueDate).format("DD-MM-YYYY")}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              disabled
+                              value={val?.Premium}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              className={styles["input-form"]}
+                              style={{
+                                // width: "100%",
+                                margin: "auto",
+                                display: "block",
+                              }}
+                              type="checkbox"
+                              name={`Select-${index}`}
+                              checked={checkboxStates[index] === "D"}
+                              onChange={() => handleCheckboxClick(index)}
+                              ref={(input) => {
+                                if (input) {
+                                  input.indeterminate =
+                                    checkboxStates[index] === "N";
+                                }
+                              }}
+                            />
+                          </td>
+                          <td className={styles["td-class"]}>
+                            <input
+                              className={styles["input-form"]}
+                              type="text"
+                              style={{ width: "100%" }}
+                              // value={state.infoOpen ? val?.Remarks : undefined}
+                              onChange={(e) =>
+                                handleRemarksChange(index, e.target.value)
                               }
-                            }}
-                          />
-                        </td>
-                        <td className={styles["td-class"]}>
-                          <input
-                            className={styles["input-form"]}
-                            type="text"
-                            onChange={(e) =>
-                              handleRemarksChange(index, e.target.value)
-                            }
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-              </Table>
+                            />
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </Table>
+              </div>
+              <div style={{ width: "30%", marginLeft: "auto" }}>
+                <TextField
+                  label="Notes"
+                  variant="outlined"
+                  value={notesupdate}
+                  fullWidth
+                  onChange={handlenotechnge}
+                  rows={2}
+                  // inputProps={{ readOnly: state.infoOpen }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </div>
+              <PayerauthModal
+                open={payerinfo}
+                handleClose={payerinfoClose}
+                record={record}
+              />
             </Paper>
           </TreeItem>
         </TreeView>

@@ -6,10 +6,21 @@ export type pAStateType = {
   StartDate: string;
   EndDate: string;
   PaStatus: string;
+  ExtrationDay: string;
+  PayDay: string;
+  PaToleranceAmt: string;
+  PaCurrency: string;
+  AddressID: string;
+  PaPerson: string;
+  PaMobCode: string;
+  PaMobMobile: string;
+  PaEmail: string;
+
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
   clientOpen: boolean;
+  addressOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
@@ -28,6 +39,8 @@ export type ActionConstantsType = {
   INFOCLOSE: string;
   CLIENTOPEN: string;
   CLIENTCLOSE: string;
+  ADDRESSOPEN: string;
+  ADDRESSCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
 };

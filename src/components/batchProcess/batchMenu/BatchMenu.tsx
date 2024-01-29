@@ -10,6 +10,8 @@ import PremiumStatementModal from "../premiumstateModal/PremstModal";
 import ReceiptModal from "../receiptModal/ReceiptModal";
 import { UnitStatementModal } from "../unitStProcess/unitModel/UnitStatementModal";
 import styles from "./batchMenu.module.css";
+import ExtraModal from "../../extra/extraModal/ExtraModal";
+import ExtractionModal from "../extractionModal/extractionModel/ExtractionModal";
 
 function BatchMenu() {
   const reducer = (state: BatchStateType, action: any) => {
@@ -63,6 +65,17 @@ function BatchMenu() {
           ...state,
           unitStOpen: false,
         };
+      case ACTIONS.EXTRACTOPEN:
+        return {
+          ...state,
+          extractionOpen: true,
+        };
+      case ACTIONS.EXTRACTCLOSE:
+        state = initialValues;
+        return {
+          ...state,
+          extractionFalse: false,
+        };
 
       default:
         return initialValues;
@@ -104,6 +117,13 @@ function BatchMenu() {
         >
           <h2>UnitStatement by Date</h2>
         </Paper>
+        <Paper
+          onClick={() => dispatch({ type: ACTIONS.EXTRACTOPEN })}
+          elevation={12}
+          className={`${styles["batch-menus"]} ${styles["extract"]}`}
+        >
+          <h2>Extraction by Date</h2>
+        </Paper>
       </span>
       <BatchModal state={state} dispatch={dispatch} ACTIONS={ACTIONS} />
       <PremiumStatementModal
@@ -113,6 +133,7 @@ function BatchMenu() {
       />
       <ReceiptModal state={state} dispatch={dispatch} ACTIONS={ACTIONS} />
       <UnitStatementModal state={state} dispatch={dispatch} ACTIONS={ACTIONS} />
+      <ExtractionModal state={state} dispatch={dispatch} ACTIONS={ACTIONS} />
     </div>
   );
 }

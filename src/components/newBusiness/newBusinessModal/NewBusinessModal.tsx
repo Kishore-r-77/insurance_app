@@ -1,18 +1,10 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import AssistWalkerIcon from "@mui/icons-material/AssistWalker";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import { TreeItem, TreeView } from "@mui/x-tree-view";
 import {
   Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
   MenuItem,
   TextField,
   Tooltip,
@@ -21,6 +13,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TreeItem, TreeView } from "@mui/x-tree-view";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -36,18 +29,15 @@ import {
   extraParamItem,
   paramItem,
 } from "../../clientDetails/client/clientApis/clientApis";
-import { modifyPolicyWithBenefits } from "../newBusinessApis/newBusinessApis";
+import PAuth from "../../clientDetails/pAuthority/Pauth";
 import {
   createPoliciesWithBenefits,
   extraParams,
 } from "../../policy/policyApis/policyApis";
 import { deleteApi } from "../../policy/policyModal/benefit/benefitApis/benefitApis";
-import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
-import styles from "./newBusinessModal.css";
-import YardIcon from "@mui/icons-material/Yard";
 import ExtrasAdd from "../extras/extrasAdd";
-import PauthModal from "../../clientDetails/pAuthority/pAuthModal/pAuthModal";
-import PAuth from "../../clientDetails/pAuthority/Pauth";
+import IlpFundsAdd from "../ilpFunds/IlpFundsAdd";
+import { modifyPolicyWithBenefits } from "../newBusinessApis/newBusinessApis";
 
 function NewBusinessModal({
   state,
@@ -562,6 +552,8 @@ function NewBusinessModal({
 
   const ilpOpen = (data: any) => {
     setilpModalParam((prev) => ({ ...prev, open: true, data }));
+    console.log(data, "data in ilpOpen");
+
     setbenefitIndex(data?.benefitIndex);
   };
 
@@ -595,6 +587,8 @@ function NewBusinessModal({
     }
     if (values.operation === "save") {
       const updatedIlpFunds = Array.from(uniqueFundsMap.values());
+      console.log(updatedIlpFunds, "updatedIlpFunds");
+      console.log(benefitsData, benefitIndex, "benefitsData");
       if (benefitsData[benefitIndex]) {
         benefitsData[benefitIndex].IlpFunds = updatedIlpFunds;
       }
@@ -721,7 +715,6 @@ function NewBusinessModal({
         const data = resp.data?.param?.data?.p0071Array || [];
         setP0071Data(data);
 
-        // Extract default checked items based on 'manOrOpt' being 'M'
         const defaultChecked = data
           .filter((item: any) => item.manOrOpt === "M")
           .map((item: any) => item.benDataType);
@@ -730,14 +723,35 @@ function NewBusinessModal({
       })
       .catch((err) => {
         console.error("Error fetching data:", err.message);
-        // Handle error (show message, set an error state, etc.)
       });
   };
 
   useLayoutEffect(() => {
     getP0071();
   }, [bcoverage.current]);
-
+  const [selectedBillingType, setSelectedBillingType] = useState("");
+  const [P0055Data, setP0055Data] = useState<any>({});
+  // const authTableOpen = useRef(false);
+  const getP0055 = () => {
+    axios
+      .get(
+        `http://localhost:3000/api/v1/basicservices/paramItem?companyId=1&name=P0055&languageId=1&item=${selectedBillingType}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        const data = resp.data?.param?.data;
+        setP0055Data(data);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err.message);
+      });
+  };
+  console.log(P0055Data, "P0055Data");
+  useEffect(() => {
+    getP0055();
+  }, [selectedBillingType]);
   const iconSelect = (benDataType: any, benefits: any, index: number) => {
     switch (benDataType) {
       case "Extra":
@@ -1360,24 +1374,27 @@ function NewBusinessModal({
                     }
                     placeholder="billing_type"
                     label="billing_type"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const selectedValue = e.target.value;
                       dispatch({
                         type: state.addOpen
                           ? ACTIONS.ONCHANGE
                           : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
+                        payload: selectedValue,
                         fieldName: "BillingType",
-                      })
-                    }
+                      });
+                      setSelectedBillingType(selectedValue);
+                    }}
                     fullWidth
                     margin="dense"
                   >
                     {billingData.map((val: any) => (
-                      <MenuItem value={val.item}>{val.shortdesc}</MenuItem>
+                      <MenuItem key={val.item} value={val.item}>
+                        {val.shortdesc}
+                      </MenuItem>
                     ))}
                   </TextField>
                 </Grid2>
-
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     InputProps={{ readOnly: true }}
@@ -1401,37 +1418,42 @@ function NewBusinessModal({
                   />
                 </Grid2>
 
-                {state.BillingType || record.BillingType === "SSI" ? (
-                  <Grid2 xs={8} md={6} lg={4}>
-                    <TextField
-                      InputProps={{ readOnly: state.infoOpen }}
-                      id="PayingAuthority"
-                      onClick={() => dispatch({ type: ACTIONS.AUTHOPEN })}
-                      name="PayingAuthority"
-                      value={
-                        state.addOpen
-                          ? state.PayingAuthority
-                          : record?.PayingAuthority
+                <Grid2 xs={8} md={6} lg={4}>
+                  <TextField
+                    InputProps={{
+                      readOnly:
+                        state.infoOpen || P0055Data.payingAuthority === "Y",
+                    }}
+                    id="PayingAuthority"
+                    onClick={() => {
+                      if (P0055Data.payingAuthority === "Y") {
+                        dispatch({ type: ACTIONS.AUTHOPEN });
                       }
-                      onChange={(e) =>
-                        dispatch({
-                          type: state.addOpen
-                            ? ACTIONS.ONCHANGE
-                            : ACTIONS.EDITCHANGE,
-                          payload: e.target.value,
-                          fieldName: "PayingAuthority",
-                        })
-                      }
-                      placeholder="paying_authority"
-                      label="paying_authority"
-                      fullWidth
-                      margin="dense"
-                    />
-                  </Grid2>
-                ) : null}
+                    }}
+                    name="PayingAuthority"
+                    value={
+                      state.addOpen
+                        ? state.PayingAuthority
+                        : record?.PayingAuthority
+                    }
+                    onChange={(e) =>
+                      dispatch({
+                        type: state.addOpen
+                          ? ACTIONS.ONCHANGE
+                          : ACTIONS.EDITCHANGE,
+                        payload: e.target.value,
+                        fieldName: "PayingAuthority",
+                      })
+                    }
+                    placeholder="paying_authority"
+                    label="paying_authority"
+                    fullWidth
+                    margin="dense"
+                  />
+                </Grid2>
               </Grid2>
             </TreeItem>
-            {benefitsData?.map((benefits: any, index: number) => {
+            {benefitsData?.map((benefits: any, benfitIndex: number) => {
               bcoverage.current = benefits?.BCoverage;
 
               return (
@@ -1449,7 +1471,7 @@ function NewBusinessModal({
                   ) : null}
                   <div style={{ display: "flex" }}>
                     <TreeItem
-                      nodeId={(index + 2).toString()}
+                      nodeId={(benfitIndex + 2).toString()}
                       label={state.addOpen ? `Benefits Add` : `Benefits Edit`}
                       style={{ minWidth: "95%", margin: "0px 1rem" }}
                     >
@@ -1460,21 +1482,6 @@ function NewBusinessModal({
                             display: "block",
                           }}
                         >
-                          {/* {p0071Data.map((item: any, index: number) => (
-                            <FormControlLabel
-                              key={index}
-                              control={
-                                <Checkbox
-                                  checked={checkedItems.includes(
-                                    item.benDataType
-                                  )}
-                                  onChange={handleCheckboxChange}
-                                  name={item.benDataType}
-                                />
-                              }
-                              label={item.benDataType}
-                            />
-                          ))} */}
                           <hr />
                         </span>
 
@@ -1503,7 +1510,7 @@ function NewBusinessModal({
                                       iconSelect(
                                         item.benDataType,
                                         benefits,
-                                        index
+                                        benfitIndex
                                       )
                                     }
                                     style={{
@@ -1524,131 +1531,6 @@ function NewBusinessModal({
                               </Grid2>
                             </span>
                           ))}
-
-                          {/* {p0071Data.map((item: any, index: number) => (
-                            <span style={{ textAlign: "center" }}>
-                              <Grid2 xs={8} md={6} lg={4}>
-                                {item.manOrOpt === "M" ? <span>*</span> : null}
-                                <Tooltip title="Funds">
-                                  <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() =>
-                                      ilpOpen({
-                                        benefitIndex: index,
-                                        fundData: benefits.IlpFunds,
-                                      })
-                                    }
-                                    style={{
-                                      maxWidth: "30px",
-                                      maxHeight: "30px",
-                                      minWidth: "30px",
-                                      minHeight: "30px",
-                                      // backgroundColor: "#191970",
-                                    }}
-                                  >
-                                    <div
-                                      dangerouslySetInnerHTML={{
-                                        __html: item?.icon,
-                                      }}
-                                    />
-                                  </Button>
-                                </Tooltip>
-                              </Grid2>
-                            </span>
-                          ))} */}
-
-                          {/*{p0071Data.map((item: any, index: number) => (
-                            <span style={{ textAlign: "center" }}>
-                              <Grid2 xs={8} md={6} lg={4}>
-                                <Tooltip title="Annuity">
-                                  <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => {}}
-                                    style={{
-                                      maxWidth: "30px",
-                                      maxHeight: "30px",
-                                      minWidth: "30px",
-                                      minHeight: "30px",
-                                      // backgroundColor: "#191970",
-                                    }}
-                                  >
-                                    <CalendarMonthIcon />
-                                  </Button>
-                                </Tooltip>
-                              </Grid2>
-                            </span>
-                          ))}
-
-                          {p0071Data.map((item: any, index: number) => (
-                            <span style={{ textAlign: "center" }}>
-                              <Grid2 xs={8} md={6} lg={4}>
-                                <Tooltip title="Hospital">
-                                  <Button
-                                    variant="contained"
-                                    color="error"
-                                    onClick={() => {}}
-                                    style={{
-                                      maxWidth: "30px",
-                                      minWidth: "30px",
-                                      maxHeight: "30px",
-                                      minHeight: "30px",
-                                      // backgroundColor: "#191970",
-                                    }}
-                                  >
-                                    <LocalHospitalIcon />
-                                  </Button>
-                                </Tooltip>
-                              </Grid2>
-                            </span>
-                          ))}
-
-                          {p0071Data.map((item: any, index: number) => (
-                            <span style={{ textAlign: "center" }}>
-                              <Grid2 xs={8} md={6} lg={4}>
-                                <Tooltip title="Disability">
-                                  <Button
-                                    variant="contained"
-                                    color="inherit"
-                                    onClick={() => {}}
-                                    style={{
-                                      maxWidth: "30px",
-                                      maxHeight: "30px",
-                                      minWidth: "30px",
-                                      minHeight: "30px",
-                                      // backgroundColor: "#191970",
-                                    }}
-                                  >
-                                    <AssistWalkerIcon />
-                                  </Button>
-                                </Tooltip>
-                              </Grid2>
-                            </span>
-                          ))}
-
-                          {p0071Data.map((item: any, index: number) => (
-                            <span style={{ textAlign: "center" }}>
-                              <Grid2 xs={8} md={6} lg={4}>
-                                <Tooltip title="Funeral">
-                                  <Button
-                                    variant="contained"
-                                    color="warning"
-                                    onClick={() => {}}
-                                    style={{
-                                      maxWidth: "30px",
-                                      maxHeight: "30px",
-                                      minWidth: "30px",
-                                      minHeight: "30px",
-                                      // backgroundColor: "#191970",
-                                    }}
-                                  >
-                                    <YardIcon />
-                                  </Button>
-                                </Tooltip>
-                              </Grid2>
-                            </span>
-                          ))} */}
                         </section>
                       </>
 
@@ -1673,15 +1555,15 @@ function NewBusinessModal({
                             name="ClientID"
                             InputLabelProps={{ shrink: true }}
                             value={
-                              state.addOpen
-                                ? benefitClientId[index]
-                                : benefits.ClientID
+                              state.addOpen ? state.ClientID : record?.ClientID
                             }
                             // onClick={() =>
                             //   dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
                             // }
                             // value={benefits.ClientID}
-                            onClick={() => handleBenefitClientIdUpdate(index)}
+                            onClick={() =>
+                              handleBenefitClientIdUpdate(benfitIndex)
+                            }
                             // onChange={(
                             //   e: React.ChangeEvent<HTMLInputElement>
                             // ) => handleChange(e, index)}
@@ -1700,9 +1582,11 @@ function NewBusinessModal({
                               <DesktopDatePicker
                                 label="b_start_date"
                                 inputFormat="DD/MM/YYYY"
-                                value={benefits?.BStartDate}
+                                value={
+                                  state.addOpen ? state.PRCD : record?.PRCD
+                                }
                                 onChange={(date) =>
-                                  handleBStartDate(date, index)
+                                  handleBStartDate(date, benfitIndex)
                                 }
                                 renderInput={(params) => (
                                   <TextField {...params} error={false} />
@@ -1721,7 +1605,7 @@ function NewBusinessModal({
                             label="b_coverage"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           >
@@ -1742,7 +1626,7 @@ function NewBusinessModal({
                             label="b_term"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           >
@@ -1765,7 +1649,7 @@ function NewBusinessModal({
                             label="bp_term"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           >
@@ -1788,7 +1672,7 @@ function NewBusinessModal({
                             label="b_sum_assured"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleChange(e, index)}
+                            ) => handleChange(e, benfitIndex)}
                             fullWidth
                             margin="dense"
                           ></TextField>
@@ -1807,7 +1691,7 @@ function NewBusinessModal({
                               onChange={
                                 state.addOpen
                                   ? (e: React.ChangeEvent<HTMLInputElement>) =>
-                                      handleChange(e, index)
+                                      handleChange(e, benfitIndex)
                                   : (e) => setinterest(e.target.value)
                               }
                               fullWidth
@@ -1834,7 +1718,7 @@ function NewBusinessModal({
                               label="Premium"
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
-                              ) => handleChange(e, index)}
+                              ) => handleChange(e, benfitIndex)}
                               fullWidth
                               margin="dense"
                             ></TextField>
@@ -1849,7 +1733,7 @@ function NewBusinessModal({
                         gap: "5px",
                       }}
                     >
-                      {benefitsData?.length - 1 === index &&
+                      {benefitsData?.length - 1 === benfitIndex &&
                         benefitsData?.length < 10 && (
                           <Button
                             variant="contained"
@@ -1869,7 +1753,7 @@ function NewBusinessModal({
                       {benefitsData?.length !== 1 && (
                         <Button
                           onClick={() =>
-                            handleBenefitsRemove(index, benefits.ID)
+                            handleBenefitsRemove(benfitIndex, benefits.ID)
                           }
                           variant="contained"
                           style={{
