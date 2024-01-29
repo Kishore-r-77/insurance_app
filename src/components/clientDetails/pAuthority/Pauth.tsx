@@ -17,6 +17,7 @@ import { useAppSelector } from "../../../redux/app/hooks";
 import Notification from "../../../utilities/Notification/Notification";
 import { pAStateType } from "../../../reducerUtilities/types/pa/paTypes";
 import PauthModal from "./pAuthModal/pAuthModal";
+import ReceiptPaAuth from "./receipt/ReceiptPaAuth";
 
 function PAuth({
   bankClntData,
@@ -70,6 +71,12 @@ function PAuth({
           ...state,
           infoOpen: true,
         };
+      case ACTIONS.RECEIPTOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          receiptOpen: true,
+        };
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
@@ -87,6 +94,11 @@ function PAuth({
         return {
           ...state,
           infoOpen: false,
+        };
+      case ACTIONS.RECEIPTCLOSE:
+        return {
+          ...state,
+          receiptOpen: false,
         };
       case ACTIONS.CLIENTOPEN:
         return {
@@ -346,6 +358,7 @@ function PAuth({
         ACTIONS={ACTIONS}
         dispatch={dispatch}
         hardDelete={hardDelete}
+        showReceipt={true}
       />
       <CustomPagination
         pageNum={pageNum}
@@ -362,6 +375,13 @@ function PAuth({
         dispatch={dispatch}
         handleFormSubmit={state.addOpen ? handleFormSubmit : editFormSubmit}
         ACTIONS={ACTIONS}
+      />
+      <ReceiptPaAuth
+        state={state}
+        record={record}
+        dispatch={dispatch}
+        ACTIONS={ACTIONS}
+        handleFormSubmit={handleFormSubmit}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>

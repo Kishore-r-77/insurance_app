@@ -16,6 +16,8 @@ export const ACTIONS = {
   ADDRESSCLOSE: "ADDRESSCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
+  RECEIPTOPEN: "RECEIPTOPEN",
+  RECEIPTCLOSE: "RECEIPTCLOSE",
 };
 
 //Initial State defined
@@ -47,6 +49,7 @@ export const initialValues: pAStateType = {
   sortColumn: "",
   sortAsc: false,
   sortDesc: false,
+  receiptOpen: false,
 };
 
 //Columns Defined to Pass into the Custom Table

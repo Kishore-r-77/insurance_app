@@ -9,6 +9,7 @@ import moment from "moment";
 import { useState } from "react";
 import Table from "react-bootstrap/Table";
 import styles from "./clientTable.module.css";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
 function ClientTable({
   data,
@@ -19,6 +20,7 @@ function ClientTable({
   sortParam,
   hardDelete,
   modalFunc,
+  showReceipt,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -148,6 +150,16 @@ function ClientTable({
                           dispatch({ type: ACTIONS.INFOOPEN, payload: row })
                         }
                       />
+                      {showReceipt && (
+                        <ReceiptLongIcon
+                          onClick={() =>
+                            dispatch({
+                              type: ACTIONS.RECEIPTOPEN,
+                              payload: row,
+                            })
+                          }
+                        />
+                      )}
                     </span>
                   </td>
                 </>

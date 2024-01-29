@@ -19,6 +19,7 @@ import ClientFullModal from "./clientFullModal/ClientFullModal";
 import ClientModal from "./clientModal/ClientModal";
 import ClientTable from "./clientTable/ClientTable";
 import Notification from "../../../utilities/Notification/Notification";
+import ReceiptClient from "./receiptclient/ReceiptClient";
 
 function Client({
   modalFunc,
@@ -80,6 +81,12 @@ function Client({
           ...state,
           infoOpen: true,
         };
+      case ACTIONS.RECEIPTOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          receiptOpen: true,
+        };
       case ACTIONS.ADDRESSOPEN:
         setRecord(action.payload);
         return {
@@ -103,6 +110,11 @@ function Client({
         return {
           ...state,
           infoOpen: false,
+        };
+      case ACTIONS.RECEIPTCLOSE:
+        return {
+          ...state,
+          receiptOpen: false,
         };
       case ACTIONS.ADDRESSCLOSE:
         return {
@@ -347,6 +359,7 @@ function Client({
         ACTIONS={ACTIONS}
         dispatch={dispatch}
         hardDelete={hardDelete}
+        showReceipt={true}
       />
       <CustomPagination
         pageNum={pageNum}
@@ -385,6 +398,13 @@ function Client({
           lookup={state.addressOpen}
         />
       </CustomModal>
+      <ReceiptClient
+        state={state}
+        record={record}
+        dispatch={dispatch}
+        ACTIONS={ACTIONS}
+        handleFormSubmit={handleFormSubmit}
+      />
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
