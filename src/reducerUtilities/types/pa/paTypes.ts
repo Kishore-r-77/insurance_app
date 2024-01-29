@@ -44,6 +44,8 @@ export type ActionConstantsType = {
   ADDRESSCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
+  RECEIPTOPEN: string;
+  RECEIPTCLOSE: string;
 };
 
 export type PauthType = {
