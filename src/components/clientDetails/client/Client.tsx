@@ -19,8 +19,19 @@ import ClientFullModal from "./clientFullModal/ClientFullModal";
 import ClientModal from "./clientModal/ClientModal";
 import ClientTable from "./clientTable/ClientTable";
 import Notification from "../../../utilities/Notification/Notification";
+import ReceiptClient from "./receiptclient/ReceiptClient";
 
-function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
+function Client({
+  modalFunc,
+  dataIndex,
+  lookup,
+  getByTable,
+  getByFunction,
+  receiptLookup,
+  searchContent,
+  handleSearchChange,
+  receiptFieldMap,
+}: any) {
   //data from getall api
   const [data, setData] = useState([]);
 
@@ -70,6 +81,12 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
           ...state,
           infoOpen: true,
         };
+      case ACTIONS.RECEIPTOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          receiptOpen: true,
+        };
       case ACTIONS.ADDRESSOPEN:
         setRecord(action.payload);
         return {
@@ -93,6 +110,11 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
         return {
           ...state,
           infoOpen: false,
+        };
+      case ACTIONS.RECEIPTCLOSE:
+        return {
+          ...state,
+          receiptOpen: false,
         };
       case ACTIONS.ADDRESSCLOSE:
         return {
@@ -218,7 +240,11 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
 
   //UseEffect Function to render data on Screen Based on Dependencies
   useEffect(() => {
-    getData();
+    if (receiptLookup) {
+      getByFunction(pageNum, pageSize, searchContent);
+    } else {
+      getData();
+    }
     return () => {};
   }, [pageNum, pageSize, state.sortAsc, state.sortDesc]);
 
@@ -228,45 +254,67 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
         <span>
           <TextField
             select
-            value={state.searchCriteria}
+            value={
+              receiptLookup
+                ? searchContent?.searchCriteria
+                : state.searchCriteria
+            }
             placeholder="Search Criteria"
             label="Search Criteria"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchCriteria",
-              })
+            onChange={
+              receiptLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchCriteria",
+                    })
             }
             style={{ width: "12rem" }}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {fieldMap.map((value: any) => (
-              <MenuItem key={value.fieldName} value={value.fieldName}>
-                {value.displayName}
-              </MenuItem>
-            ))}
+            {receiptLookup
+              ? receiptFieldMap?.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))
+              : fieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))}
           </TextField>
         </span>
         <span className={styles["text-fields"]}>
           <TextField
-            value={state.searchString}
+            value={
+              receiptLookup ? searchContent?.searchString : state.searchString
+            }
             placeholder="Search String"
             label="Search String"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchString",
-              })
+            onChange={
+              receiptLookup
+                ? (e) => handleSearchChange(e)
+                : (e) =>
+                    dispatch({
+                      type: ACTIONS.ONCHANGE,
+                      payload: e.target.value,
+                      fieldName: "searchString",
+                    })
             }
             style={{ width: "12rem" }}
           />
           <Button
             variant="contained"
-            onClick={getData}
+            onClick={
+              receiptLookup
+                ? () => getByFunction(pageNum, pageSize, searchContent)
+                : getData
+            }
             color="primary"
             style={{
               marginTop: "0.5rem",
@@ -283,31 +331,35 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
         </span>
 
         <h1>Clients</h1>
-        <Button
-          id={styles["add-btn"]}
-          style={{
-            marginTop: "1rem",
-            maxWidth: "40px",
-            maxHeight: "40px",
-            minWidth: "40px",
-            minHeight: "40px",
-            backgroundColor: "#0a3161",
-          }}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
-        >
-          <AddBoxIcon />
-        </Button>
+        {receiptLookup ? null : (
+          <Button
+            id={styles["add-btn"]}
+            style={{
+              marginTop: "1rem",
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+              backgroundColor: "#0a3161",
+            }}
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch({ type: ACTIONS.ADDOPEN })}
+          >
+            <AddBoxIcon />
+          </Button>
+        )}
       </header>
       <ClientTable
-        data={lookup ? getByTable : data}
+        data={receiptLookup ? getByTable : data}
+        receiptLookup={receiptLookup}
         dataIndex={dataIndex}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}
         dispatch={dispatch}
         hardDelete={hardDelete}
+        showReceipt={true}
       />
       <CustomPagination
         pageNum={pageNum}
@@ -346,6 +398,13 @@ function Client({ modalFunc, dataIndex, lookup, getByTable }: any) {
           lookup={state.addressOpen}
         />
       </CustomModal>
+      <ReceiptClient
+        state={state}
+        record={record}
+        dispatch={dispatch}
+        ACTIONS={ACTIONS}
+        handleFormSubmit={handleFormSubmit}
+      />
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );

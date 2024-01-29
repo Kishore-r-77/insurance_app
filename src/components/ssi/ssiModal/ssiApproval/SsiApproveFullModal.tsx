@@ -8,6 +8,7 @@ function SsiApproveFullModal({
   children,
   handleApproveSubmit,
   handleRejectSubmit,
+  state,
 }: any) {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -36,9 +37,11 @@ function SsiApproveFullModal({
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleApproveWithConfirmation}>
-            Approve
-          </Button>
+          {!state.infoOpen && ( // Render the "Save" button only if state.infoOpen is false
+            <Button variant="primary" onClick={handleApproveWithConfirmation}>
+              Approve
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
 

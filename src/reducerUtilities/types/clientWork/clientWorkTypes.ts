@@ -1,32 +1,25 @@
-export type pAStateType = {
+export type ClientWorkStateType = {
   CompanyID: string;
   ClientID: string;
-  PaName: string;
-  PaType: string;
+  EmployerID: string;
+  PayRollNumber: string;
+  Designation: string;
+  Department: string;
+  Location: string;
   StartDate: string;
   EndDate: string;
-  PaStatus: string;
-  ExtrationDay: string;
-  PayDay: string;
-  PaToleranceAmt: string;
-  PaCurrency: string;
-  AddressID: string;
-  PaPerson: string;
-  PaMobCode: string;
-  PaMobMobile: string;
-  PaEmail: string;
-
+  WorkType: string;
+  // *** Attention: Check the lookup table open below ***
+  clientOpen: boolean;
+  employerOpen: boolean;
   addOpen: boolean;
   editOpen: boolean;
   infoOpen: boolean;
-  clientOpen: boolean;
-  addressOpen: boolean;
   searchString: string;
   searchCriteria: string;
   sortColumn: string;
   sortAsc: boolean;
   sortDesc: boolean;
-  receiptOpen: boolean;
 };
 
 export type ActionConstantsType = {
@@ -38,18 +31,16 @@ export type ActionConstantsType = {
   ADDCLOSE: string;
   EDITCLOSE: string;
   INFOCLOSE: string;
-  CLIENTOPEN: string;
-  CLIENTCLOSE: string;
-  ADDRESSOPEN: string;
-  ADDRESSCLOSE: string;
   SORT_ASC: string;
   SORT_DESC: string;
-  RECEIPTOPEN: string;
-  RECEIPTCLOSE: string;
+  // *** Attention: Check the Lookup table Open/close below ***
+  CLIENTOPEN: string;
+  CLIENTCLOSE: string;
+  EMPLOYEROPEN: string;
+  EMPLOYERCLOSE: string;
 };
-
-export type PauthType = {
-  state: pAStateType;
+export type ClientWorkModalType = {
+  state: ClientWorkStateType;
   record: any;
   dispatch: React.Dispatch<any>;
   handleFormSubmit: () => Promise<void>;

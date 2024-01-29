@@ -11,6 +11,8 @@ export const ACTIONS = {
   RECEIPTCLOSE: "RECEIPTCLOSE",
   UNITSTOPEN: "UNITSTOPEN",
   UNITSTCLOSE: "UNITSTCLOSE",
+  EXTRACTOPEN: "EXTRACTOPEN",
+  EXTRACTCLOSE: "EXTRACTCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
 };
@@ -35,6 +37,7 @@ export const initialValues: BatchStateType = {
   premStOpen: false,
   receiptOpen: false,
   unitStOpen: false,
+  extractionOpen: false,
 };
 
 //Columns Defined to Pass into the Custom Table

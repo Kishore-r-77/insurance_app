@@ -9,7 +9,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import moment from "moment";
 import { useState } from "react";
-
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 function CustomTable({
   data,
   dataIndex,
@@ -20,6 +20,7 @@ function CustomTable({
   hardDelete,
   modalFunc,
   showClone,
+  showReceipt,
 }: any) {
   const [sort, setsort] = useState(
     sortParam && sortParam.fieldName
@@ -138,6 +139,13 @@ function CustomTable({
                       dispatch({ type: ACTIONS.INFOOPEN, payload: row })
                     }
                   />
+                  {showReceipt && (
+                    <ReceiptLongIcon
+                      onClick={() =>
+                        dispatch({ type: ACTIONS.RECEIPTOPEN, payload: row })
+                      }
+                    />
+                  )}
                   {showClone && (
                     <ContentCopyIcon
                       onClick={() =>

@@ -19,7 +19,27 @@ export const getAllApi = (
     },
   });
 };
-
+export const getAllClientByClientType = (
+  pageNum: number,
+  pageSize: number,
+  searchContent: any,
+  state: any
+) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/getallclientbyclienttype`,
+    {
+      withCredentials: true,
+      params: {
+        pageNum: pageNum,
+        pageSize: pageSize,
+        searchString: searchContent?.searchString,
+        searchCriteria: searchContent?.searchCriteria,
+        sortColumn: state.sortColumn,
+        sortDirection: state.sortAsc ? "asc" : state.sortDesc ? "desc" : null,
+      },
+    }
+  );
+};
 export const paramItem = (
   companyId: number,
   name: string,

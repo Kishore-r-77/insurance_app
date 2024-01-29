@@ -638,6 +638,7 @@ function ReceiptsModal({
                 {state.ReceiptFor === "01" ? (
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
+                      InputLabelProps={{ shrink: true }}
                       select
                       id="ReceiptCurry"
                       name="ReceiptCurry"
@@ -669,6 +670,7 @@ function ReceiptsModal({
                 ) : state.ReceiptFor === "02" ? (
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
+                      InputLabelProps={{ shrink: true }}
                       //select
                       id="ReceiptCurry"
                       name="ReceiptCurry"
@@ -702,6 +704,7 @@ function ReceiptsModal({
                 ) : state.ReceiptFor === "03" ? (
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
+                      InputLabelProps={{ shrink: true }}
                       //select
                       id="ReceiptCurry"
                       name="ReceiptCurry"
@@ -731,6 +734,7 @@ function ReceiptsModal({
                 ) : (
                   <Grid2 xs={8} md={6} lg={4}>
                     <TextField
+                      InputLabelProps={{ shrink: true }}
                       select
                       id="ReceiptCurry"
                       name="ReceiptCurry"
@@ -780,7 +784,7 @@ function ReceiptsModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                {/* <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     //select
                     id="AccCurry"
@@ -813,8 +817,8 @@ function ReceiptsModal({
                       </MenuItem>
                     ))}
                   </TextField>
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
+                </Grid2> */}
+                {/* <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     type="number"
                     id="AccAmount"
@@ -839,7 +843,7 @@ function ReceiptsModal({
                     inputProps={{ readOnly: true }}
                     margin="dense"
                   />
-                </Grid2>
+                </Grid2> */}
                 <Grid2 xs={8} md={6} lg={4}>
                   <FormControl style={{ marginTop: "0.5rem" }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
