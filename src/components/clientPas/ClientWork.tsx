@@ -193,7 +193,7 @@ function ClientWork({ modalFunc }: any) {
         dispatch({ type: ACTIONS.EDITCLOSE });
         setNotify({
           isOpen: true,
-          message: `Modified record of id:${resp.data?.Modified}`,
+          message: `Modified record of id:${resp.data?.outputs?.ID}`,
           type: "success",
         });
         getData();
