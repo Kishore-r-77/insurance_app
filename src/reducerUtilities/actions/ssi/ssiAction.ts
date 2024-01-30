@@ -73,12 +73,12 @@ export const columns = [
 
   {
     field: "PaName",
-    header: "PayerName",
+    header: "Pa Name",
     dbField: "pa_name",
   },
   {
     field: "PaType",
-    header: "PayerType",
+    header: "PaType",
     dbField: "pa_type",
   },
   {
@@ -96,6 +96,12 @@ export const columns = [
     field: "PaBillSeqNo",
     header: "SeqNo",
     dbField: "pa_bill_seq_no",
+  },
+
+  {
+    field: "PayingAuthorityID",
+    header: "Pa Id",
+    dbField: "paying_authority_id",
   },
 
   {

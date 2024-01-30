@@ -117,6 +117,12 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
       });
   };
 
+  useEffect(() => {
+    setPabill([]);
+
+    return () => {};
+  }, [state.reconOpen === false]);
+
   const [pabillsum, setpabillsum] = useState<any>({});
   const getPaBillSummary = () => {
     axios

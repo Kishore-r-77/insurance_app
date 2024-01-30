@@ -89,9 +89,9 @@ export const columns = [
     dbField: "type_of_receipt",
   },
   {
-    field: "AccCurry",
-    header: "Acc.Currency",
-    dbField: "acc_curry",
+    field: "ReceiptFor",
+    header: "Receipt For",
+    dbField: "receipt_for",
   },
   {
     field: "ReceiptRefNo",

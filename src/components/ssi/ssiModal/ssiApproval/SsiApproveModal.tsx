@@ -198,6 +198,12 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
     return () => {};
   }, [state.ssiapproveOpen || state.infoOpen]);
 
+  useEffect(() => {
+    setPabill([]);
+
+    return () => {};
+  }, [state.ssiapproveOpen === false]);
+
   return (
     <div className={styles.modal}>
       <SsiApproveFullModal
