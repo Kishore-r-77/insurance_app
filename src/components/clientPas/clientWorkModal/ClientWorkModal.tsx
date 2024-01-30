@@ -168,7 +168,7 @@ function ClientWorkModal({
             : null
         }
         ACTIONS={ACTIONS}
-        handleFormSubmit={() => handleFormSubmit()}
+        handleFormSubmit={state.infoOpen ? null : () => handleFormSubmit()}
       >
         <form>
           <Grid2 container spacing={2}>
@@ -199,54 +199,110 @@ function ClientWorkModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="ClientID"
-                    name="ClientID"
-                    placeholder="Client ID"
-                    label="Client ID"
-                    // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
-                    value={state.addOpen ? state.ClientID : record.ClientID}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "ClientID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
-                <Grid2 xs={8} md={6} lg={4}>
-                  <TextField
-                    InputProps={{ readOnly: true }}
-                    id="EmployerID"
-                    name="EmployerID"
-                    placeholder="EmployerID"
-                    label="EmployerID"
-                    // Attention: *** Check the value details  ***
-                    onClick={() => dispatch({ type: ACTIONS.EMPLOYEROPEN })}
-                    value={state.addOpen ? state.EmployerID : record.EmployerID}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "EmployerID",
-                      })
-                    }
-                    fullWidth
-                    inputProps={{ readOnly: state.infoOpen }}
-                    margin="dense"
-                  />
-                </Grid2>
+                {state.infoOpen ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: true }}
+                      id="ClientID"
+                      name="ClientID"
+                      placeholder="Client ID"
+                      label="Client ID"
+                      // Attention: *** Check the value details  ***
+                      //onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                      value={state.addOpen ? state.ClientID : record.ClientID}
+                      // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      //   dispatch({
+                      //     type: state.addOpen
+                      //       ? ACTIONS.ONCHANGE
+                      //       : ACTIONS.EDITCHANGE,
+                      //     payload: e.target.value,
+                      //     fieldName: "ClientID",
+                      //   })
+                      // }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      InputProps={{ readOnly: true }}
+                      id="ClientID"
+                      name="ClientID"
+                      placeholder="Client ID"
+                      label="Client ID"
+                      // Attention: *** Check the value details  ***
+                      onClick={() => dispatch({ type: ACTIONS.CLIENTOPEN })}
+                      value={state.addOpen ? state.ClientID : record.ClientID}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "ClientID",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                )}
+                {state.infoOpen ? (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      id="EmployerID"
+                      name="EmployerID"
+                      placeholder="EmployerID"
+                      label="EmployerID"
+                      // Attention: *** Check the value details  ***
+                      //onClick={() => dispatch({ type: ACTIONS.EMPLOYEROPEN })}
+                      value={
+                        state.addOpen ? state.EmployerID : record.EmployerID
+                      }
+                      // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      //   dispatch({
+                      //     type: state.addOpen
+                      //       ? ACTIONS.ONCHANGE
+                      //       : ACTIONS.EDITCHANGE,
+                      //     payload: e.target.value,
+                      //     fieldName: "EmployerID",
+                      //   })
+                      // }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                ) : (
+                  <Grid2 xs={8} md={6} lg={4}>
+                    <TextField
+                      id="EmployerID"
+                      name="EmployerID"
+                      placeholder="EmployerID"
+                      label="EmployerID"
+                      // Attention: *** Check the value details  ***
+                      onClick={() => dispatch({ type: ACTIONS.EMPLOYEROPEN })}
+                      value={
+                        state.addOpen ? state.EmployerID : record.EmployerID
+                      }
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "EmployerID",
+                        })
+                      }
+                      fullWidth
+                      inputProps={{ readOnly: state.infoOpen }}
+                      margin="dense"
+                    />
+                  </Grid2>
+                )}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="PayRollNumber"
@@ -270,32 +326,61 @@ function ClientWorkModal({
                     margin="dense"
                   />
                 </Grid2>
-                <Grid2 xs={12} md={12} lg={4}>
-                  <TextField
-                    select
-                    id="WorkType"
-                    name="WorkType"
-                    placeholder="Work Type"
-                    label="Work Type"
-                    fullWidth
-                    value={state.addOpen ? state.WorkType : record.WorkType}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch({
-                        type: state.addOpen
-                          ? ACTIONS.ONCHANGE
-                          : ACTIONS.EDITCHANGE,
-                        payload: e.target.value,
-                        fieldName: "WorkType",
-                      })
-                    }
-                    margin="dense"
-                    InputLabelProps={{ shrink: true }}
-                  >
-                    {worktypeData.map((val: any) => (
-                      <MenuItem value={val.code}>{val.description}</MenuItem>
-                    ))}
-                  </TextField>
-                </Grid2>
+                {state.infoOpen ? (
+                  <Grid2 xs={12} md={12} lg={4}>
+                    <TextField
+                      //select
+                      id="WorkType"
+                      name="WorkType"
+                      placeholder="Work Type"
+                      label="Work Type"
+                      fullWidth
+                      value={state.addOpen ? state.WorkType : record.WorkType}
+                      // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      //   dispatch({
+                      //     type: state.addOpen
+                      //       ? ACTIONS.ONCHANGE
+                      //       : ACTIONS.EDITCHANGE,
+                      //     payload: e.target.value,
+                      //     fieldName: "WorkType",
+                      //   })
+                      // }
+                      margin="dense"
+                      InputLabelProps={{ shrink: true }}
+                    >
+                      {worktypeData.map((val: any) => (
+                        <MenuItem value={val.code}>{val.description}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                ) : (
+                  <Grid2 xs={12} md={12} lg={4}>
+                    <TextField
+                      select
+                      id="WorkType"
+                      name="WorkType"
+                      placeholder="Work Type"
+                      label="Work Type"
+                      fullWidth
+                      value={state.addOpen ? state.WorkType : record.WorkType}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        dispatch({
+                          type: state.addOpen
+                            ? ACTIONS.ONCHANGE
+                            : ACTIONS.EDITCHANGE,
+                          payload: e.target.value,
+                          fieldName: "WorkType",
+                        })
+                      }
+                      margin="dense"
+                      InputLabelProps={{ shrink: true }}
+                    >
+                      {worktypeData.map((val: any) => (
+                        <MenuItem value={val.code}>{val.description}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid2>
+                )}
                 <Grid2 xs={8} md={6} lg={4}>
                   <TextField
                     id="Designation"
