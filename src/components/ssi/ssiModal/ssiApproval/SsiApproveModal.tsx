@@ -65,7 +65,12 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
         console.log(resp.data);
       })
       .catch((err) => {
-        console.error(err);
+        dispatch({ type: ACTIONS.SSIAPPROVECLOSE });
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
 
