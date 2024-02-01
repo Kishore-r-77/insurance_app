@@ -114,7 +114,7 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
             ID: +pollbill.ID,
             PolicyID: +pollbill?.PolicyNo,
             PaidToDate: moment(pollbill?.DueDate).format("YYYYMMDD"),
-            //InstalmentPrem: +pollbill?.Premium,
+            InstalmentPrem: +pollbill?.Premium,
             ProcessFlag: checkboxStates[index],
             Remarks: remarksValues[index],
           })),
