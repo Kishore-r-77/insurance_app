@@ -299,9 +299,10 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
   }, [pabill]);
 
   useEffect(() => {
-    getPolBill();
-    return () => {};
-  }, [state.reconOpen]);
+    if (state.reconOpen) {
+      getPolBill();
+    }
+  }, [state.reconOpen ]);
 
   useEffect(() => {
     fetchData();

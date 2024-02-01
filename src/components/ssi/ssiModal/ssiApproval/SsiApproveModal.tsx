@@ -66,6 +66,7 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
       })
       .catch((err) => {
         dispatch({ type: ACTIONS.SSIAPPROVECLOSE });
+        dispatch({ type: ACTIONS.INFOCLOSE });
         setNotify({
           isOpen: true,
           message: err?.response?.data?.error,
@@ -188,9 +189,10 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
     setpayerinfo(false);
   };
   useEffect(() => {
-    getPolBill();
-    return () => {};
-  }, [state.ssiapproveOpen || state.infoOpen]);
+    if (state.ssiapproveOpen || state.infoOpen) {
+      getPolBill();
+    }
+  }, [state.ssiapproveOpen|| state.infoOpen]);
 
   useEffect(() => {
     fetchData();
