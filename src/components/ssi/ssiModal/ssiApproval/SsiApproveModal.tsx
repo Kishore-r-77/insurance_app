@@ -65,7 +65,13 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
         console.log(resp.data);
       })
       .catch((err) => {
-        console.error(err);
+        dispatch({ type: ACTIONS.SSIAPPROVECLOSE });
+        dispatch({ type: ACTIONS.INFOCLOSE });
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
 
@@ -108,7 +114,7 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
             ID: +pollbill.ID,
             PolicyID: +pollbill?.PolicyNo,
             PaidToDate: moment(pollbill?.DueDate).format("YYYYMMDD"),
-            //InstalmentPrem: +pollbill?.Premium,
+            InstalmentPrem: +pollbill?.Premium,
             ProcessFlag: checkboxStates[index],
             Remarks: remarksValues[index],
           })),
@@ -183,9 +189,10 @@ function SsiApproveModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
     setpayerinfo(false);
   };
   useEffect(() => {
-    getPolBill();
-    return () => {};
-  }, [state.ssiapproveOpen || state.infoOpen]);
+    if (state.ssiapproveOpen || state.infoOpen) {
+      getPolBill();
+    }
+  }, [state.ssiapproveOpen|| state.infoOpen]);
 
   useEffect(() => {
     fetchData();

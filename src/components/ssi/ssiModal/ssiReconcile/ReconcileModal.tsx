@@ -113,7 +113,12 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
         setPabill(resp.data?.PollBill);
       })
       .catch((err) => {
-        console.error(err);
+        dispatch({ type: ACTIONS.RECONCLOSE });
+        setNotify({
+          isOpen: true,
+          message: err?.response?.data?.error,
+          type: "error",
+        });
       });
   };
 
@@ -294,9 +299,10 @@ function ReconcileModal({ state, record, dispatch, ACTIONS }: SsiModalType) {
   }, [pabill]);
 
   useEffect(() => {
-    getPolBill();
-    return () => {};
-  }, [state.reconOpen]);
+    if (state.reconOpen) {
+      getPolBill();
+    }
+  }, [state.reconOpen ]);
 
   useEffect(() => {
     fetchData();
