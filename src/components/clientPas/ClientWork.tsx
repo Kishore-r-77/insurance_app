@@ -24,7 +24,7 @@ import { useBusinessDate } from "../contexts/BusinessDateContext";
 import Notification from "../../utilities/Notification/Notification";
 import ClientWorkModal from "./clientWorkModal/ClientWorkModal";
 
-function ClientWork({ modalFunc }: any) {
+function ClientWork({ modalFunc, clientworkByClientData, lookup }: any) {
   //data from getall api
   const [data, setData] = useState([]);
   //data got after rendering from table
@@ -237,63 +237,69 @@ function ClientWork({ modalFunc }: any) {
   return (
     <div>
       <header className={styles.flexStyle}>
-        <span>
-          <TextField
-            select
-            value={state.searchCriteria}
-            placeholder="Search Criteria"
-            label="Search Criteria"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchCriteria",
-              })
-            }
-            style={{ width: "12rem" }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {fieldMap.map((value: any) => (
-              <MenuItem key={value.fieldName} value={value.fieldName}>
-                {value.displayName}
-              </MenuItem>
-            ))}
-          </TextField>
-        </span>
-        <span className={styles["text-fields"]}>
-          <TextField
-            value={state.searchString}
-            placeholder="Search String"
-            label="Search String"
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.ONCHANGE,
-                payload: e.target.value,
-                fieldName: "searchString",
-              })
-            }
-            style={{ width: "12rem" }}
-          />
-          <Button
-            variant="contained"
-            onClick={getData}
-            color="primary"
-            style={{
-              marginTop: "0.5rem",
-              maxWidth: "40px",
-              maxHeight: "40px",
-              minWidth: "40px",
-              minHeight: "40px",
-              backgroundColor: "#0a3161",
-              marginLeft: "10px",
-            }}
-          >
-            <SearchIcon />
-          </Button>
-        </span>
-        <h1>Client WorkDetails</h1>
+        {lookup ? null : (
+          <>
+            <span>
+              <TextField
+                select
+                value={state.searchCriteria}
+                placeholder="Search Criteria"
+                label="Search Criteria"
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "searchCriteria",
+                  })
+                }
+                style={{ width: "12rem" }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {fieldMap.map((value: any) => (
+                  <MenuItem key={value.fieldName} value={value.fieldName}>
+                    {value.displayName}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </span>
+            <span className={styles["text-fields"]}>
+              <TextField
+                value={state.searchString}
+                placeholder="Search String"
+                label="Search String"
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTIONS.ONCHANGE,
+                    payload: e.target.value,
+                    fieldName: "searchString",
+                  })
+                }
+                style={{ width: "12rem" }}
+              />
+              <Button
+                variant="contained"
+                onClick={getData}
+                color="primary"
+                style={{
+                  marginTop: "0.5rem",
+                  maxWidth: "40px",
+                  maxHeight: "40px",
+                  minWidth: "40px",
+                  minHeight: "40px",
+                  backgroundColor: "#0a3161",
+                  marginLeft: "10px",
+                }}
+              >
+                <SearchIcon />
+              </Button>
+            </span>
+          </>
+        )}
+        <h1 style={lookup ? { textAlign: "center" } : {}}>
+          Client WorkDetails
+        </h1>
         <Button
           id={styles["add-btn"]}
           style={{
@@ -312,7 +318,7 @@ function ClientWork({ modalFunc }: any) {
         </Button>
       </header>
       <CustomTable
-        data={data}
+        data={lookup ? clientworkByClientData : data}
         modalFunc={modalFunc}
         columns={columns}
         ACTIONS={ACTIONS}

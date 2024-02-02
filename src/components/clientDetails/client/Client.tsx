@@ -20,6 +20,8 @@ import ClientModal from "./clientModal/ClientModal";
 import ClientTable from "./clientTable/ClientTable";
 import Notification from "../../../utilities/Notification/Notification";
 import ReceiptClient from "./receiptclient/ReceiptClient";
+import ClientWork from "../../clientPas/ClientWork";
+import { getClientWorkByClient } from "../../clientPas/clientWorkApis/clientWorkApis";
 
 function Client({
   modalFunc,
@@ -93,6 +95,12 @@ function Client({
           ...state,
           addressOpen: true,
         };
+      case ACTIONS.CLIENTWORKOPEN:
+        setRecord(action.payload);
+        return {
+          ...state,
+          clientworkOpen: true,
+        };
 
       case ACTIONS.ADDCLOSE:
         state = initialValues;
@@ -120,6 +128,11 @@ function Client({
         return {
           ...state,
           addressOpen: false,
+        };
+      case ACTIONS.CLIENTWORKCLOSE:
+        return {
+          ...state,
+          clientworkOpen: false,
         };
       case ACTIONS.SORT_ASC:
         const asc = !state.sortAsc;
@@ -226,6 +239,21 @@ function Client({
     getAddressByClnt(record.ID);
     return () => {};
   }, [state.addressOpen]);
+
+  const [clientworkByClientData, setclientworkByClientData] = useState([]);
+
+  const getClientWorkByClnt = (clientId: number) => {
+    getClientWorkByClient(clientId)
+      .then((resp) => {
+        setclientworkByClientData(resp.data?.ClientWorkByClientID);
+      })
+      .catch((err) => err.message);
+  };
+
+  useEffect(() => {
+    getClientWorkByClnt(record.ID);
+    return () => {};
+  }, [state.clientworkOpen]);
 
   const nexPage = () => {
     setpageNum((prev) => prev + 1);
@@ -396,6 +424,16 @@ function Client({
         <Address
           addressByClientData={addressByClientData}
           lookup={state.addressOpen}
+        />
+      </CustomModal>
+      <CustomModal
+        open={state.clientworkOpen}
+        size={size}
+        handleClose={() => dispatch({ type: ACTIONS.CLIENTWORKCLOSE })}
+      >
+        <ClientWork
+          clientworkByClientData={clientworkByClientData}
+          lookup={state.clientworkOpen}
         />
       </CustomModal>
       <ReceiptClient

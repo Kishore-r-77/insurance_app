@@ -12,6 +12,8 @@ export const ACTIONS = {
   INFOCLOSE: "INFOCLOSE",
   ADDRESSOPEN: "ADDRESSOPEN",
   ADDRESSCLOSE: "ADDRESSCLOSE",
+  CLIENTWORKOPEN: "CLIENTWORKOPEN",
+  CLIENTWORKCLOSE: "CLIENTWORKCLOSE",
   SORT_ASC: "SORT_ASC",
   SORT_DESC: "SORT_DESC",
   RECEIPTOPEN: "RECEIPTOPEN",
@@ -40,6 +42,7 @@ export const initialValues: ClientStateType = {
   editOpen: false,
   infoOpen: false,
   addressOpen: false,
+  clientworkOpen: false,
   searchString: "",
   searchCriteria: "",
   sortColumn: "",
@@ -51,7 +54,7 @@ export const initialValues: ClientStateType = {
 //Columns Defined to Pass into the Custom Table
 export const columns = [
   { field: "ID", header: "ID", dbField: "id" },
-  { field: "CompanyID", header: "Company ID", dbField: "company_id" },
+  // { field: "CompanyID", header: "Company ID", dbField: "company_id" },
   {
     field: "ClientShortName",
     header: "Client Short Name",

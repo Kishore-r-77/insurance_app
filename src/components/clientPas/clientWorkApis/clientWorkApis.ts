@@ -110,3 +110,12 @@ export const deleteApi = (id: number) => {
     }
   );
 };
+
+export const getClientWorkByClient = (clientId: number) => {
+  return axios.get(
+    `http://localhost:3000/api/v1/basicservices/clientworkgetbyclient/${clientId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};

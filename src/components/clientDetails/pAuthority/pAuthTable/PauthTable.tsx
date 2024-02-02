@@ -1,6 +1,5 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import BusinessIcon from "@mui/icons-material/Business";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -8,11 +7,10 @@ import { IconButton, Paper } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
 import Table from "react-bootstrap/Table";
-import styles from "./clientTable.module.css";
+import styles from "./pAuthTable.module.css";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import WorkIcon from "@mui/icons-material/Work";
 
-function ClientTable({
+function PauthTable({
   data,
   dataIndex,
   columns,
@@ -99,8 +97,6 @@ function ClientTable({
             )}
             {modalFunc ? null : (
               <>
-                <th className={styles.header}>Client Work</th>
-                <th className={styles.header}>Address</th>
                 <th className={styles.header}>Receipt</th>
                 <th className={styles.header}>Actions</th>
               </>
@@ -126,26 +122,6 @@ function ClientTable({
               })}
               {modalFunc ? null : (
                 <>
-                  <td>
-                    <WorkIcon
-                      onClick={() =>
-                        dispatch({
-                          type: ACTIONS.CLIENTWORKOPEN,
-                          payload: row,
-                        })
-                      }
-                    />
-                  </td>
-                  <td>
-                    <BusinessIcon
-                      onClick={() =>
-                        dispatch({
-                          type: ACTIONS.ADDRESSOPEN,
-                          payload: row,
-                        })
-                      }
-                    />
-                  </td>
                   <td>
                     {" "}
                     {showReceipt && (
@@ -188,4 +164,4 @@ function ClientTable({
   );
 }
 
-export default ClientTable;
+export default PauthTable;

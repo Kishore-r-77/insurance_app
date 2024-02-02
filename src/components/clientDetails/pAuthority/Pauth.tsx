@@ -18,6 +18,7 @@ import Notification from "../../../utilities/Notification/Notification";
 import { pAStateType } from "../../../reducerUtilities/types/pa/paTypes";
 import PauthModal from "./pAuthModal/pAuthModal";
 import ReceiptPaAuth from "./receipt/ReceiptPaAuth";
+import PauthTable from "./pAuthTable/PauthTable";
 
 function PAuth({
   bankClntData,
@@ -349,7 +350,7 @@ function PAuth({
           </Button>
         )}
       </header>
-      <CustomTable
+      <PauthTable
         data={payauthLookup ? getByTable : data}
         payauthLookup={payauthLookup}
         dataIndex={data}
