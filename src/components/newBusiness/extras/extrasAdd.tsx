@@ -408,7 +408,7 @@ function ExtrasAdd({
                 </LocalizationProvider>
               </FormControl>
             </Grid2>
-            <Grid2 xs={8} md={6} lg={4}>
+            {/* <Grid2 xs={8} md={6} lg={4}>
               <TextField
                 //InputProps={{
                 //startAdornment: (
@@ -427,7 +427,7 @@ function ExtrasAdd({
                 margin="dense"
                 InputLabelProps={{ shrink: true }}
               />
-            </Grid2>
+            </Grid2> */}
             {extraDetails?.length - 1 === index &&
               extraDetails?.length < 10 && (
                 <IconButton onClick={handleAddExtras}>

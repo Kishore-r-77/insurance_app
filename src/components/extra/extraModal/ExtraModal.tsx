@@ -728,11 +728,7 @@ function ExtraModal({
                         readOnly={state.infoOpen}
                         label="To Date"
                         inputFormat="DD/MM/YYYY"
-                        value={
-                          benefitState.BPremCessDate || state.addOpen
-                            ? state.ToDate
-                            : record.ToDate
-                        }
+                        value={state.addOpen ? state.ToDate : record?.ToDate}
                         onChange={(
                           date: React.ChangeEvent<HTMLInputElement> | any
                         ) =>

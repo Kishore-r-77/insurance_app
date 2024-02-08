@@ -214,6 +214,8 @@ function NewBusinessModal({
 
   useEffect(() => {
     getPFreq(companyId, record.PProduct, record?.PRCD);
+    getPContractCurr(companyId, record.PProduct, record.PRCD);
+    getPBillCurr(companyId, record.PProduct, record.PRCD);
     return () => {};
   }, [state.editOpen && record.PProduct]);
 
