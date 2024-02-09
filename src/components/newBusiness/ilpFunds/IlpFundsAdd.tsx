@@ -72,9 +72,7 @@ function IlpFundsAdd({
     });
 
     // Log the totalFundPercentage.current after the state has been updated
-    useEffect(() => {
-      console.log(totalFundPercentage.current, "totalFundPercentage");
-    }, [totalFundPercentage.current]);
+    useEffect(() => {}, [totalFundPercentage.current]);
   };
 
   const fundPercentageValidation = () => {
@@ -149,7 +147,6 @@ function IlpFundsAdd({
     getFundCode(companyId, "P0050", languageId, "ILP1FUNDCODE");
     return () => {};
   }, []);
-  console.log(fundDetails, "FUND");
 
   return (
     <CustomModal

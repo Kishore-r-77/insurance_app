@@ -250,7 +250,20 @@ function NewBusiness({
       BSumAssured: 0,
       Interest: 0,
       BPrem: 0,
-      Extras: [],
+      Extras: [
+        {
+          EReason: "",
+          EMethod: "",
+          ToDate: "",
+          ReasonDescription: "",
+          EPrem: 0,
+          EPercentage: 0,
+          EAmt: 0,
+          ETerm: 0,
+          EAge: 0,
+          EMillie: 0,
+        },
+      ],
     },
   ];
   const initialBenefitsValuesIlp = [
@@ -264,7 +277,20 @@ function NewBusiness({
       Interest: 0,
       BPrem: 0,
       IlpFunds: [],
-      Extras: [],
+      Extras: [
+        {
+          EReason: "",
+          EMethod: "",
+          ToDate: "",
+          ReasonDescription: "",
+          EPrem: 0,
+          EPercentage: 0,
+          EAmt: 0,
+          ETerm: 0,
+          EAge: 0,
+          EMillie: 0,
+        },
+      ],
     },
   ];
 

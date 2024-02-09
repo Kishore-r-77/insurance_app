@@ -214,8 +214,6 @@ function NewBusinessModal({
 
   useEffect(() => {
     getPFreq(companyId, record.PProduct, record?.PRCD);
-    getPContractCurr(companyId, record.PProduct, record.PRCD);
-    getPBillCurr(companyId, record.PProduct, record.PRCD);
     return () => {};
   }, [state.editOpen && record.PProduct]);
 
@@ -243,8 +241,8 @@ function NewBusinessModal({
     setbenefitsData([
       ...benefitsData,
       state.PProduct === "ILP"
-        ? initialBenefitsValuesIlp
-        : initialBenefitsValues,
+        ? initialBenefitsValuesIlp[0]
+        : initialBenefitsValues[0],
     ]);
   };
 
@@ -554,8 +552,6 @@ function NewBusinessModal({
 
   const ilpOpen = (data: any) => {
     setilpModalParam((prev) => ({ ...prev, open: true, data }));
-    console.log(data, "data in ilpOpen");
-
     setbenefitIndex(data?.benefitIndex);
   };
 
@@ -589,8 +585,7 @@ function NewBusinessModal({
     }
     if (values.operation === "save") {
       const updatedIlpFunds = Array.from(uniqueFundsMap.values());
-      console.log(updatedIlpFunds, "updatedIlpFunds");
-      console.log(benefitsData, benefitIndex, "benefitsData");
+
       if (benefitsData[benefitIndex]) {
         benefitsData[benefitIndex].IlpFunds = updatedIlpFunds;
       }
@@ -606,8 +601,6 @@ function NewBusinessModal({
     }
   };
 
-  console.log(funds, "FUND");
-
   const [extraDetails, setextraDetails] = useState(initialExtraValues);
 
   const extraOpen = (data: any) => {
@@ -617,46 +610,44 @@ function NewBusinessModal({
 
   const extraClose = (values: any) => {
     setextraModalParam((prev) => ({ ...prev, open: false }));
+
     const uniqueExtrasMap: Map<string, any> = new Map();
 
-    // Filter out duplicates based on FundCode
-    if (state.addOpen) {
-      const uniqueExtras = extraDetails.filter((extra: any) => {
-        if (extra?.EMethod && extra?.EReason !== undefined) {
-          // Check if the EMethod is already in the map
-          if (!uniqueExtrasMap.has(extra.EMethod)) {
-            uniqueExtrasMap.set(extra.EMethod, extra);
-            return true;
+    let updatedBenefitsData = benefitsData.map((benefit: any) => {
+      if (benefit.Index === benefitIndex) {
+        benefit.Extras.forEach((extra: any) => {
+          if (extra?.EMethod && extra?.EReason !== undefined) {
+            if (!uniqueExtrasMap.has(extra.EMethod)) {
+              uniqueExtrasMap.set(extra.EMethod, extra);
+            }
           }
-        }
-        return false;
-      });
-    } else {
-      const uniqueExtras = extrasforedit.filter((extra: any) => {
-        if (extra?.EMethod && extra?.EReason !== undefined) {
-          // Check if the EMethod is already in the map
-          if (!uniqueExtrasMap.has(extra.EMethod)) {
-            uniqueExtrasMap.set(extra.EMethod, extra);
-            return true;
-          }
-        }
-        return false;
-      });
-    }
+        });
+        return {
+          ...benefit,
+          Extras: Array.from(uniqueExtrasMap.values()),
+        };
+      }
+      return benefit;
+    });
 
     if (values.operation === "save") {
-      const updatedExtras = Array.from(uniqueExtrasMap.values());
-      if (benefitsData[benefitIndex]) {
-        benefitsData[benefitIndex].Extras = updatedExtras;
-      }
+      updatedBenefitsData = updatedBenefitsData.map((benefit: any) => {
+        if (benefit.Index === benefitIndex) {
+          return {
+            ...benefit,
+            Extras: Array.from(uniqueExtrasMap.values()),
+          };
+        }
+        return benefit;
+      });
+
+      setbenefitsData(updatedBenefitsData);
+
       setNotify({
         isOpen: true,
         message: "Successfully Captured Extras",
         type: "success",
       });
-    }
-    if (values.operation === "cancel") {
-      setextraDetails(initialExtraValues);
     }
   };
 
@@ -750,7 +741,6 @@ function NewBusinessModal({
         console.error("Error fetching data:", err.message);
       });
   };
-  console.log(P0055Data, "P0055Data");
   useEffect(() => {
     getP0055();
   }, [selectedBillingType]);
@@ -1790,8 +1780,9 @@ function NewBusinessModal({
         open={extraModalParam.open}
         handleClose={extraClose}
         data={extraModalParam.data}
-        extraDetails={state.addOpen ? extraDetails : extrasforedit}
-        setextraDetails={state.addOpen ? setextraDetails : setextrasforedit}
+        benefitsData={state.addOpen ? benefitsData : extrasforedit}
+        setbenefitsData={state.addOpen ? setbenefitsData : setextrasforedit}
+        benefitIndex={benefitIndex}
       />
     </div>
   );
