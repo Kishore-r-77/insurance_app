@@ -534,20 +534,7 @@ function NewBusinessModal({
       FundPercentage: 0,
     },
   ];
-  const initialExtraValues = [
-    {
-      EReason: "",
-      EMethod: "",
-      ToDate: "",
-      ReasonDescription: "",
-      EPrem: 0,
-      EPercentage: 0,
-      EAmt: 0,
-      ETerm: 0,
-      EAge: 0,
-      EMillie: 0,
-    },
-  ];
+
   const [fundDetails, setfundDetails] = useState(initialFundValues);
 
   const ilpOpen = (data: any) => {
@@ -600,8 +587,6 @@ function NewBusinessModal({
       totalFundPercentage.current = 0;
     }
   };
-
-  const [extraDetails, setextraDetails] = useState(initialExtraValues);
 
   const extraOpen = (data: any) => {
     setextraModalParam((prev) => ({ ...prev, open: true, data }));
@@ -657,7 +642,7 @@ function NewBusinessModal({
       "0": "",
     });
     setfundDetails(initialFundValues);
-    setextraDetails(initialExtraValues);
+
     return () => {};
   }, [state.addOpen === false]);
 
@@ -1549,16 +1534,9 @@ function NewBusinessModal({
                             value={
                               state.addOpen ? state.ClientID : record?.ClientID
                             }
-                            // onClick={() =>
-                            //   dispatch({ type: ACTIONS.BENEFITCLIENTOPEN })
-                            // }
-                            // value={benefits.ClientID}
                             onClick={() =>
                               handleBenefitClientIdUpdate(benfitIndex)
                             }
-                            // onChange={(
-                            //   e: React.ChangeEvent<HTMLInputElement>
-                            // ) => handleChange(e, index)}
                             placeholder="client_id"
                             label="client_id"
                             fullWidth
